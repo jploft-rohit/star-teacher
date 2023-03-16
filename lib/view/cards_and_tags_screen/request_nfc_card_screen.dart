@@ -1,0 +1,104 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/custom_app_bar.dart';
+import 'package:staff_app/Utility/custom_button.dart';
+import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/view/cards_and_tags_screen/card_tag_ctrl.dart';
+import 'package:staff_app/view/cards_and_tags_screen/nfc_cart_screen.dart';
+import 'package:staff_app/view/shop_screen/cart/cart_view.dart';
+
+class RequestNFCCardScreen extends StatefulWidget {
+  const RequestNFCCardScreen({Key? key}) : super(key: key);
+
+  @override
+  State<RequestNFCCardScreen> createState() => _RequestNFCCardScreenState();
+}
+
+class _RequestNFCCardScreenState extends State<RequestNFCCardScreen> {
+  CardTagCtrl controller = Get.put(CardTagCtrl());
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: appBarWithAction(context, "Request Card & Tags", [
+        Padding(
+          padding: EdgeInsets.only(right: 10.0),
+          child: SvgPicture.asset("assets/images/notification.svg"),
+        )
+      ]),
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          children: [
+            GridView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
+              itemCount: controller.shopStarShopList.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisExtent: 24.h,
+                  mainAxisSpacing: 3.h,
+                  crossAxisSpacing: 3.h),
+              itemBuilder: (context, index) => Container(
+                margin: EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: kElevationToShadow[2],
+                    color: CustomColors.white),
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        width: double.infinity,
+                        height: 15.h,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.asset(
+                            controller.shopStarShopList[index]['image']!,
+                            fit: BoxFit.fill,
+                          ),
+                        )),
+                    addText(
+                        controller.shopStarShopList[index]['name']!,
+                        16.sp,
+                        CustomColors.textBlackColor,
+                        FontWeight.w400),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        addText(
+                            controller.shopStarShopList[index]['price']!,
+                            15.sp,
+                            CustomColors.primaryColor,
+                            FontWeight.w400),
+                        CustomButton(
+                            btnHeight: 20,
+                            btnWidth: 60,
+                            text: "+Add",
+                            onPressed: () {})
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 5.h,
+            ),
+            CustomButton(text: "Add To Cart", onPressed: (){
+              Get.to(NFCCartScreen());
+            }),
+          ],
+        ),
+      ),
+    );
+  }
+}

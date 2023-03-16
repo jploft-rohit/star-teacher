@@ -1,0 +1,114 @@
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/custom_button.dart';
+import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/custom_text_field.dart';
+import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/account_activation_screen/account_activation_screen.dart';
+import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/route_manager/route_name.dart';
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController mobileCtrl = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: CustomColors.backgroundColor,
+        body: SingleChildScrollView(
+          child: SafeArea(
+            child: Stack(
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height*0.17,
+                  alignment: Alignment.center,
+                  child: Text(translate(context).login, style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: 21.sp),),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.15),
+                  decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25),
+                      ),
+                      color: Colors.white
+                  ),
+                  padding: const EdgeInsets.all(25),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: MediaQuery.of(context).size.height*0.05,),
+                      Text(translate(context).welcome,style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 21.sp),),
+                      SizedBox(height: 0.5.h,),
+                      Text(translate(context).please_login_to_your_account,style: Style.montserratRegularStyle().copyWith(color: const Color(0xff6B6B6B), fontSize: 16.sp),),
+                      SizedBox(height: 10.h,),
+                      CustomTextField(
+                        controller: mobileCtrl,
+                        hintText: "05x-xxxxxxxxx",
+                        textInputType: TextInputType.phone,
+                        fillColor: const Color(0xffFCFCFC),
+                        borderRadius: 5.0,
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                          child: SvgPicture.asset(mobileSvg),
+                        ),
+                      ),
+                      SizedBox(height: 5.h,),
+                      Center(
+                        child: CustomButton(text: translate(context).sent_otp_btn_txt, onPressed: (){
+                          Get.toNamed(otpScreenRoute);
+                        }),
+                      ),
+                      SizedBox(height: 10.h,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text("-------------------  "),
+                          Text(translate(context).or.toUpperCase(), style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp),),
+                          const Text("  -------------------"),
+                        ],
+                      ),
+                      SizedBox(height: 6.h,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          SvgPicture.asset(faceScanSvg),
+                          SizedBox(height: MediaQuery.of(context).size.height*0.10,child: const VerticalDivider(width: 2,thickness: 1,color: Color(0xFFD9D9D9),),),
+                          SvgPicture.asset(fingerprintScanSvg),
+                        ],
+                      ),
+                      SizedBox(height: 5.h,),
+                      Center(
+                        child: RichText(
+                          text: TextSpan(
+                            text: '${translate(context).dont_have_account} ',
+                            style: Style.montserratBoldStyle().copyWith(color: const Color(0xff7C7C7C), fontSize: 16.sp),
+                            children: <TextSpan>[
+                              TextSpan(text: ' ${translate(context).create_account}', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 16.sp), recognizer: TapGestureRecognizer()..onTap = (){
+                                Get.to(const AccountActivationScreen());
+                              }),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        )
+    );
+  }
+}

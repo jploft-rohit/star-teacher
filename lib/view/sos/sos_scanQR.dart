@@ -1,0 +1,166 @@
+import 'dart:io';
+import 'dart:ui';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/custom_app_bar.dart';
+import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/language_classes/language_constants.dart';
+
+class ScanQrCodeScreen extends StatefulWidget {
+  const ScanQrCodeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ScanQrCodeScreen> createState() => _ScanQrCodeScreenState();
+}
+
+class _ScanQrCodeScreenState extends State<ScanQrCodeScreen> {
+
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  bool? flashOn = false;
+  Barcode? result;
+  QRViewController? controller;
+
+  @override
+  void reassemble() {
+    super.reassemble();
+    if (Platform.isAndroid && controller!=null) {
+      controller!.pauseCamera();
+    } else if (Platform.isIOS && controller!=null) {
+      controller!.resumeCamera();
+    }
+  }
+  _onQRViewCreated(QRViewController controller) {
+    this.controller = controller;
+    controller.scannedDataStream.listen((scanData) {
+      setState(() {
+        result = scanData;
+        controller.dispose();
+        // Get.toNamed(MyRouter.addItemOneScreen);
+        print("object::"+result!.code.toString());
+      });
+    });
+    controller.pauseCamera();
+    controller.resumeCamera();
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    controller?.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    var size = MediaQuery.of(context).size;
+    return SafeArea(
+      child: Scaffold(
+          backgroundColor: CustomColors.white,
+          // backgroundColor: CustomColors.white,
+          appBar: appBarWithAction(context, translate(context).qr_scanner, [
+            const Padding(
+              padding: EdgeInsets.only(right: 10.0),
+              child: Icon(
+                Icons.notifications_none,
+                color: Colors.black,
+                size: 35.0,
+              ),
+            )
+          ]),
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // SizedBox(height: size.height*0.25,),
+                Stack(
+                  children: [
+                    Container(
+                      height: 230,
+                      width: 230,
+                      margin: EdgeInsets.all(5),
+                      // padding: EdgeInsets.all(30),
+                      // decoration: BoxDecoration(
+                      //     image: DecorationImage(
+                      //     image: AssetImage(Assets.imagesScannerBorder))
+                    // ),
+                      child: QRView(
+                        key: qrKey,
+                        // overlayMargin: EdgeInsets.all(10.0),
+
+                        onQRViewCreated: _onQRViewCreated,
+                        overlay: QrScannerOverlayShape(
+                            borderColor: CustomColors.primaryColor,
+                            borderRadius: 12,
+                            borderLength: 30,
+                            borderWidth: 10,
+                            // borderRadius: 20.0,
+                            // borderLength: 0.0,
+                            // borderWidth: 0.0,
+                            // cutOutSize: 250,
+                            overlayColor: CustomColors.white
+                        ),
+                      ),
+                    ),
+                    // Positioned(
+                    //     bottom: 0,top: 0,left: 0,right: 0,
+                    //     child: SvgPicture.asset(Assets.imagesSosScanSuccess,width: 230,))
+                  ],
+                ),
+                SizedBox(height: 5.0.h),
+                Container(
+                  height: 46,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: CustomColors.borderColor),
+                    borderRadius: BorderRadius.circular(10.0)
+                  ),
+                  margin: const EdgeInsets.symmetric(horizontal: 32),
+                  // padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  child: Row(
+                    children: [
+                      Container(
+                        height: 12.w,width: 12.w,
+                          padding: EdgeInsets.symmetric(horizontal: 13.sp),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            border: Border.all(color: CustomColors.primaryColor),
+                          ),
+                        child: SvgPicture.asset(
+                          girlSvg
+                        ),),
+                      SizedBox(width: 1.5.h),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Sania",style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp, color: CustomColors.textBlackColor),),
+                          Text("#455285",style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp, color: CustomColors.primaryColor),),
+                        ],
+                      ),
+                      const Spacer(),
+                      Icon(
+                        CupertinoIcons.delete,
+                        color: CustomColors.primaryColor,
+                        size: 18.sp,
+                      ),
+                      SizedBox(width: 1.4.h),
+
+                    ],
+                  ),
+
+                )
+                // SizedBox(height: 40.h,),
+
+              ],
+            ),
+          )
+      ),
+    );
+  }
+
+}

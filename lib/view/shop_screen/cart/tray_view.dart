@@ -1,0 +1,292 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/custom_app_bar.dart';
+import 'package:staff_app/Utility/custom_button.dart';
+import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/custom_text_field.dart';
+import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/view/shop_screen/shop_screen_ctrl.dart';
+
+class TrayView extends StatefulWidget {
+  const TrayView({super.key});
+
+  @override
+  State<TrayView> createState() => _TrayViewState();
+}
+
+class _TrayViewState extends State<TrayView> {
+  ShopScreenCtrl controller = Get.find<ShopScreenCtrl>();
+  
+  @override
+  void initState() {
+    controller.selectedWeekDays = RxList.filled(controller.weekList.length, false);
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: appBarWithAction(context, "Tray", [
+        Padding(
+          padding: EdgeInsets.only(right: 10.0),
+          child: SvgPicture.asset("assets/images/notification.svg"),
+        )
+      ]),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  addText('First Break Items', 16.sp,
+                      CustomColors.textBlackColor, FontWeight.w700),
+                  CustomButton(
+                      btnHeight: 22,
+                      btnWidth: 85,
+                      text: "Add item",
+                      onPressed: () {})
+                ],
+              ),
+              SizedBox(height: 2.h),
+              ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                itemCount: 1,
+                itemBuilder: (context, index) => buildCartCard(
+                    'assets/images/image 19.png', 'Mango Juice', '4 AED', '2'),
+              ),
+              SizedBox(height: 1.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  addText('Second Break Items', 16.sp,
+                      CustomColors.textBlackColor, FontWeight.w700),
+                  CustomButton(
+                      btnHeight: 22,
+                      btnWidth: 85,
+                      text: "Add item",
+                      textSize: 16.sp,
+                      onPressed: () {})
+                ],
+              ),
+              SizedBox(height: 2.h),
+              ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.zero,
+                  shrinkWrap: true,
+                  itemCount: 1,
+                  itemBuilder: (context, index) => buildCartCard(
+                      'assets/images/image 21.png', 'Lunch', '13 AED', '2')),
+              SizedBox(height: 1.h),
+              Divider(),
+              SizedBox(height: 2.h),
+              addText('Order Type', 16.sp,
+                  CustomColors.textBlackColor, FontWeight.w700),
+              SizedBox(height: 1.5.h),
+              Obx(() => Row(
+                    children: [
+                      radioButton(() {
+                        controller.thisWeekSelected();
+                      }, controller.isThisWeek.value, 'This Week'),
+                      SizedBox(width: 2.h),
+                      radioButton(() {
+                        controller.everyWeekSelected();
+                      }, controller.isEveryWeek.value, 'Every Week')
+                    ],
+                  )),
+              SizedBox(height: 2.h),
+              Padding(
+                padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: CustomColors.white,
+                    boxShadow: kElevationToShadow[2],
+                    borderRadius: BorderRadius.circular(13),
+                    border: Border.all(color: CustomColors.borderColor),
+                  ),
+                  padding: EdgeInsets.all(15),
+                  child: GridView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    padding: EdgeInsets.zero,
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3, mainAxisExtent: 2.8.h),
+                    itemBuilder: (context, index) => Obx(
+                      () => Row(
+                        children: [
+                          iconButton(() {
+                            controller.selectedWeekDays[index] =
+                                !controller.selectedWeekDays[index];
+                          },
+                              controller.selectedWeekDays[index]
+                                  ? "assets/images/checkBoxFilled.svg"
+                                  : "assets/images/checkBoxUnfilled.svg"),
+                          SizedBox(width: 0.5.h),
+                          addText(
+                              controller.weekList[index],
+                              14.sp,
+                              CustomColors.textBlackColor,
+                              FontWeight.w400)
+                        ],
+                      ),
+                    ),
+                    itemCount: controller.weekList.length,
+                  ),
+                ),
+              ),
+              SizedBox(height: 2.h),
+              addText('Serving', 16.sp,
+                  CustomColors.textBlackColor, FontWeight.w700),
+              SizedBox(height: 1.5.h),
+              Obx(() => Row(
+                children: [
+                  radioButton(() {
+                    controller.thisWeekSelected();
+                  }, controller.isThisWeek.value, 'Collecting'),
+                  SizedBox(width: 2.h),
+                  radioButton(() {
+                    controller.everyWeekSelected();
+                  }, controller.isEveryWeek.value, 'Deliver')
+                ],
+              )),
+              SizedBox(height: 2.h),
+              Container(
+                decoration: BoxDecoration(
+                  color: CustomColors.white,
+                  borderRadius: BorderRadius.circular(13),
+                  border: Border.all(color: CustomColors.borderColor),
+                ),
+                padding: EdgeInsets.all(15),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: CustomTextField(
+                        controller: TextEditingController(),
+                        hintText: "10:30 AM",
+                        fillColor: CustomColors.txtFieldTextColor,
+                        borderRadius: 5.0,
+                        suffixIcon: Padding(
+                          padding: const EdgeInsetsDirectional.only(end: 10.0),
+                          child: SvgPicture.asset("assets/images/time_icon1.svg"),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 3.w,
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: CustomTextField(
+                        controller: TextEditingController(),
+                        hintText: "Location",
+                        fillColor: CustomColors.txtFieldTextColor,
+                        borderRadius: 5.0,
+                        suffixIcon: Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 2.h),
+              detailRow('Sub Total', '17 AED'),
+              SizedBox(height: 1.h),
+              detailRow('Taxes (5%)', '2 AED'),
+              SizedBox(height: 1.h),
+              detailRow('Grand Total', '19 AED'),
+              Divider(),
+              addText(
+                  'Note: \n1-Order can be cancelled before 24 hours of serving.\n2-Amount will be deduct from the wallet when order is served',
+                  13.sp,
+                  CustomColors.textLightGreyColor,
+                  FontWeight.w400),
+              SizedBox(height: 3.h),
+              Center(
+                child: CustomButton(text: "Schedule Order", onPressed: (){})
+              ),
+              SizedBox(height: 3.h),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildCartCard(image, name, price, quantity) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+      child: Container(
+        margin: EdgeInsets.only(bottom: 1.5.h),
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+            color: CustomColors.white,
+            boxShadow: kElevationToShadow[2],
+            borderRadius: BorderRadius.circular(20)),
+        child: Row(
+          children: [
+            Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                // width: double.infinity,
+                height: 10.h,
+                width: 10.h,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.asset(
+                    image,
+                    fit: BoxFit.fill,
+                  ),
+                )),
+            SizedBox(width: 2.h),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  addText(name, 16.sp, CustomColors.textBlackColor,
+                      FontWeight.w400),
+                  SizedBox(height: 0.5.h),
+                  addText(price, 14.sp,
+                      CustomColors.primaryColor, FontWeight.w700),
+                  SizedBox(height: 1.h),
+                  Row(
+                    children: [
+                      SvgPicture.asset(
+                        "assets/images/delete 4.svg",
+                        color: CustomColors.textRedColor,
+                        height: 2.h,
+                      ),
+                      SizedBox(width: 1.h),
+                      addText('Remove', 14.sp,
+                          CustomColors.textRedColor, FontWeight.w400)
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(width: 2.h),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget detailRow(title, body) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        addText(title, 15.sp, CustomColors.textBlackColor,
+            FontWeight.w400),
+        addText(body, 15.sp, CustomColors.primaryColor,
+            FontWeight.w700),
+      ],
+    );
+  }
+}
