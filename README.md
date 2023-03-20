@@ -20,5 +20,5 @@ samples, guidance on mobile development, and a full API reference.
 // Git Commands
 # git add .
 # git commit -m ""
-# git 
+# git push -u origin branch_name
 
