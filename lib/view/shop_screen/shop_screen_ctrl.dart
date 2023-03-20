@@ -5,6 +5,8 @@ class ShopScreenCtrl extends GetxController{
   final selectedIndex1 = 0.obs;
   var isThisWeek = false.obs;
   var isEveryWeek = true.obs;
+  var collecting = true.obs;
+  var deliver = false.obs;
   var selectedWeekDays = [];
   var weekList = [
     'Monday',
@@ -125,6 +127,16 @@ class ShopScreenCtrl extends GetxController{
   everyWeekSelected() {
     isThisWeek.value = false;
     isEveryWeek.value = true;
+  }
+
+  collectingSelected() {
+    collecting.value = true;
+    deliver.value = false;
+  }
+
+  deliverSelected() {
+    collecting.value = false;
+    deliver.value = true;
   }
 
   var isHomeDelivery = true.obs;

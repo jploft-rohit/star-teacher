@@ -10,6 +10,7 @@ import 'package:staff_app/view/class_schedule_screen/class_schedule_screen.dart'
 import 'package:staff_app/view/complaints_report_screen/Complaints_report_screen.dart';
 import 'package:staff_app/view/feedback_help_screen/feedback_help_screen.dart';
 import 'package:staff_app/view/leave_request_screen/early_leave_screen.dart';
+import 'package:staff_app/view/leave_request_screen/leave_permission_screen.dart';
 import 'package:staff_app/view/leave_request_screen/leave_request_screen.dart';
 import 'package:staff_app/view/my_profile_screen/medical_report_view/medical_report_view.dart';
 import 'package:staff_app/view/notification_setting_screen/notification_setting_screen.dart';
@@ -34,7 +35,7 @@ class _AccountViewState extends State<AccountView> {
       translate(context).class_schedule,
       translate(context).attendance,
       translate(context).performance,
-      translate(context).early_leave_permissions,
+      "Early Leave",
       translate(context).leave_request,
       translate(context).online_class_request,
       translate(context).medical_records,
@@ -45,42 +46,45 @@ class _AccountViewState extends State<AccountView> {
       translate(context).location,
       translate(context).wallet,
       translate(context).transportation,
+      "Leave Permission",
     ];
     return Scaffold(
       body: ListView.builder(
-        itemCount: 14,
+        itemCount: list.length,
         padding: EdgeInsets.zero,
         itemBuilder: (context, index) {
           return InkWell(
             onTap: (){
               if(index == 0){
-                Get.to(ClassScheduleScreen());
+                Get.to(const ClassScheduleScreen());
               } else if(index == 1){
-                Get.to(AttendanceScreen());
+                Get.to(const AttendanceScreen());
               } else if(index == 2){
                 Get.to(PerformanceScreen(index: 1,));
               } else if(index == 3){
-                Get.to(EarlyLeaveScreen());
+                Get.to(const EarlyLeaveScreen());
               } else if(index == 4){
-                Get.to(LeaveRequestScreen());
+                Get.to(const LeaveRequestScreen());
               } else if(index == 5){
                 Get.to(RequestOnlineClassesDetail());
               } else if(index == 6){
-                Get.to(MedicalReportView());
+                Get.to(const MedicalReportView());
               } else if(index == 7){
-                Get.to(NotificationSettingScreen());
+                Get.to(const NotificationSettingScreen());
               } else if(index == 8){
-                Get.to(ComplaintsReportScreen());
+                Get.to(const ComplaintsReportScreen());
               } else if(index == 9){
-                Get.to(FeedbackHelpScreen());
+                Get.to(const FeedbackHelpScreen());
               } else if(index == 10){
-                Get.to(CardsAndTagsScreen());
+                Get.to(const CardsAndTagsScreen());
               } else if(index == 11){
-                Get.to(LocationScreen());
+                Get.to(const LocationScreen());
               } else if(index == 12){
-                Get.to(WalletView());
+                Get.to(const WalletView());
               } else if(index == 13){
-                Get.to(TransportationScreen());
+                Get.to(const TransportationScreen());
+              } else if(index == 14){
+                Get.to(const LeavePermissionScreen());
               }
             },
             child: buildTile(list[index]),
@@ -91,7 +95,7 @@ class _AccountViewState extends State<AccountView> {
   }
   Widget buildTile(String title) {
     return Container(
-      margin: EdgeInsets.only(bottom: 8.0),
+      margin: const EdgeInsets.only(bottom: 8.0),
       padding: EdgeInsets.all(14.sp),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),

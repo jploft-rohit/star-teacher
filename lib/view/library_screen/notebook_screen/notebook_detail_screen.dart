@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/custom_dialogs.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -26,7 +27,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
       backgroundColor: Colors.white,
       appBar: appBarWithAction(context, "Notebook", [
         Padding(
-          padding: EdgeInsets.only(right: 10.0),
+          padding: const EdgeInsets.only(right: 10.0),
           child: SvgPicture.asset("assets/images/notification.svg"),
         )
       ]),
@@ -35,11 +36,11 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
         children: [
           FloatingActionButton.small(
             onPressed: (){
-              Get.to(AddNoteScreen());
+              Get.to(const AddNoteScreen());
             },
             backgroundColor: CustomColors.backgroundColor,
             shape: RoundedRectangleBorder(
-                side: BorderSide(
+                side: const BorderSide(
                     color: CustomColors.primaryColor
                 ),
                 borderRadius: BorderRadius.circular(50.0)
@@ -70,7 +71,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                     Row(
                       children: [
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15.0),
                               border: Border.all(color: CustomColors.primaryColor)
@@ -195,11 +196,11 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
               ),
               ListView.builder(
                 itemCount: 2,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: EdgeInsets.only(bottom: 10.0),
+                    padding: const EdgeInsets.only(bottom: 10.0),
                     child: Card(
                       elevation: 3.0,
                       shape: RoundedRectangleBorder(
@@ -221,17 +222,22 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                                 ),
                                 Row(
                                   children: [
-                                    Icon(
-                                      CupertinoIcons.delete,
-                                      color: CustomColors.primaryColor,
-                                      size: 18.sp,
+                                    GestureDetector(
+                                      onTap: (){
+                                        CustomDialogs().showConfirmationDialog(title: "Are you sure you want to\ndelete this Note?");
+                                      },
+                                      child: Icon(
+                                        CupertinoIcons.delete,
+                                        color: CustomColors.primaryColor,
+                                        size: 18.sp,
+                                      ),
                                     ),
                                     SizedBox(
                                       width: 5.w,
                                     ),
                                     InkWell(
                                       onTap: (){
-
+                                        Get.to(const AddNoteScreen(isUpdating: true,));
                                       },
                                       child: Image.asset(editPng, color: CustomColors.primaryColor,height: 18.sp,),
                                     ),
@@ -239,7 +245,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                                 ),
                               ],
                             ),
-                            Divider(),
+                            const Divider(),
                             Row(
                               children: [
                                 buildInfoItems("Grade", "5th"),
@@ -261,20 +267,19 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                                 buildInfoItems("Date", "07/07/2022"),
                               ],
                             ),
-                            Divider(),
+                            const Divider(),
                             buildInfoItems("Description", "This star has good dance skills, so I recommend extra classes for her to improve more."),
-                            Divider(),
+                            const Divider(),
                             buildInfoItems("Teacher", "Ovaish Khan"),
-                            Divider(),
+                            const Divider(),
                             buildInfoItems("Subject", "Science"),
-                            Divider(),
-                            buildInfoItems("Comment", "Lorem Ipsum is simply dummy text..."),
-                            Divider(),
-                            buildInfoItems("Recommendation", "Dance"),
-
-                            SizedBox(
-                              height: 1.h,
-                            ),
+                            // const Divider(),
+                            // buildInfoItems("Comment", "Lorem Ipsum is simply dummy text..."),
+                            // const Divider(),
+                            // buildInfoItems("Recommendation", "Dance"),
+                            // SizedBox(
+                            //   height: 1.h,
+                            // ),
                           ],
                         ),
                       ),

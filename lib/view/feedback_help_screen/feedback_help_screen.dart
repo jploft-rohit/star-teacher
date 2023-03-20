@@ -33,7 +33,7 @@ class _FeedbackHelpScreenState extends State<FeedbackHelpScreen> with TickerProv
     return Scaffold(
       appBar: appBarWithAction(context, "Feedback & Help", [
         Padding(
-          padding: EdgeInsets.only(right: 10.0),
+          padding: const EdgeInsets.only(right: 10.0),
           child: SvgPicture.asset("assets/images/notification.svg"),
         )
       ]),
@@ -45,13 +45,13 @@ class _FeedbackHelpScreenState extends State<FeedbackHelpScreen> with TickerProv
               showGeneralDialog(
                 context: context,
                 pageBuilder:  (context, animation, secondaryAnimation) {
-                  return tabCtrl?.index == 2 ? AddFeedbackView() : AddHelpView();
+                  return tabCtrl?.index == 2 ? const AddFeedbackView() : const AddHelpView();
                 },
               );
             },
             backgroundColor: CustomColors.backgroundColor,
             shape: RoundedRectangleBorder(
-                side: BorderSide(
+                side: const BorderSide(
                     color: CustomColors.primaryColor
                 ),
                 borderRadius: BorderRadius.circular(50.0)
@@ -70,7 +70,7 @@ class _FeedbackHelpScreenState extends State<FeedbackHelpScreen> with TickerProv
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.only(left: 8.0, right: 8.0),
+              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
               decoration: BoxDecoration(
                 color: CustomColors.backgroundColor,
                 borderRadius: BorderRadius.circular(5.0),
@@ -96,11 +96,11 @@ class _FeedbackHelpScreenState extends State<FeedbackHelpScreen> with TickerProv
             Expanded(
               child: TabBarView(
                 controller: tabCtrl,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 children: [
-                  AllFeedbackHelpView(),
-                  HelpView(),
-                  FeedbackView(),
+                  const AllFeedbackHelpView(),
+                  const HelpView(),
+                  const FeedbackView(),
                 ],
               ),
             )
@@ -120,7 +120,7 @@ class _FeedbackHelpScreenState extends State<FeedbackHelpScreen> with TickerProv
         controller: tabCtrl,
         isScrollable: false,
         padding: const EdgeInsets.all(4),
-        labelPadding: EdgeInsets.only(left: 10, right: 10),
+        labelPadding: const EdgeInsets.only(left: 10, right: 10),
         indicator: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
             color: CustomColors.backgroundColor,
@@ -129,13 +129,13 @@ class _FeedbackHelpScreenState extends State<FeedbackHelpScreen> with TickerProv
         labelColor: CustomColors.primaryColor,
         unselectedLabelColor: Colors.black,
         tabs:  [
-          Tab(
+          const Tab(
             text: 'All',
           ),
-          Tab(
+          const Tab(
             text: 'Help',
           ),
-          Tab(
+          const Tab(
             text: 'Feedback',
           ),
         ],

@@ -176,7 +176,7 @@ class _StarEvaluationScreenState extends State<StarEvaluationScreen> with Ticker
                   BehaviourView(),
                   AssesmentView(),
                   TeacherView(),
-                  StarView(),
+                  // StarView(),
                 ],
               ),
             )
@@ -219,9 +219,9 @@ class _StarEvaluationScreenState extends State<StarEvaluationScreen> with Ticker
           Tab(
             text: translate(context).teacher,
           ),
-          Tab(
-            text: translate(context).stars,
-          ),
+          // Tab(
+          //   text: translate(context).stars,
+          // ),
         ],
       ),
     );

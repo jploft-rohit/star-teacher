@@ -38,6 +38,7 @@ class MyApp extends StatefulWidget {
   //   state?.setLocale(newLocale);
   // }
 
+  @override
   State<MyApp> createState() => _MyAppState();
 }
 

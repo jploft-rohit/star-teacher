@@ -16,5 +16,9 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 // Command to Generate the Localization File.
-// flutter gen-l10n
+#  flutter gen-l10n
+// Git Commands
+# git add .
+# git commit -m ""
+# git push -u origin branch_name
 

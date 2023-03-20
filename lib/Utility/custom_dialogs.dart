@@ -110,4 +110,42 @@ class CustomDialogs {
       },
     );
   }
+  showConfirmationDialog({Function()? onClose,String? title,Function()? onLeftButtonPressed, String? leftButtonTitle,Function()? onRightButtonPressed, String? rightButtonTitle}){
+    double btnHeight = 30;
+    double btnWidth = getWidth(Get.context!) * 50 / 180;
+    showGeneralDialog(
+        context: Get.context!,
+        barrierDismissible: true,
+        barrierLabel: "",
+        pageBuilder: (context,a1,a2){
+          return Dialog(
+            // insetPadding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+
+                Align(
+                  alignment: Alignment.topRight,
+                  child: GestureDetector(onTap: onClose ?? (){Get.back();},
+                      child: const Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Icon(Icons.close_rounded),
+                      )),
+                ),
+                    Text(title??"",textAlign: TextAlign.center,style: const TextStyle(fontWeight: FontWeight.w500,fontSize: 15)),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                  CustomButton(text: leftButtonTitle??"Cancel", onPressed: onLeftButtonPressed ?? (){Get.back();},btnHeight: btnHeight,btnWidth: btnWidth,),
+                  const SizedBox(width: 20),
+                  CustomButton(text: rightButtonTitle??"Proceed", onPressed: onRightButtonPressed ?? (){Get.back();},btnHeight: btnHeight,btnWidth: btnWidth,),
+                ],),
+                const SizedBox(height: 20),
+              ],
+            ),
+          );
+    });
+  }
 }

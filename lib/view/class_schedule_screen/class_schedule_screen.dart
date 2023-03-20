@@ -21,8 +21,8 @@ class ClassScheduleScreen extends StatefulWidget {
 class _ClassScheduleScreenState extends State<ClassScheduleScreen> {
   int index = 0;
   List<Widget> screenList = [
-    DayScheduleView(),
-    WeekScheduleView(),
+    const DayScheduleView(),
+    const WeekScheduleView(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class _ClassScheduleScreenState extends State<ClassScheduleScreen> {
       backgroundColor: Colors.white,
       appBar: appBarWithAction(context, translate(context).schedule, [
         Padding(
-          padding: EdgeInsets.only(right: 10.0),
+          padding: const EdgeInsets.only(right: 10.0),
           child: SvgPicture.asset("assets/images/notification.svg"),
         )
       ]),
@@ -112,7 +112,7 @@ class _ClassScheduleScreenState extends State<ClassScheduleScreen> {
                 height: 2.h,
               ),
               Container(
-                padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 decoration: BoxDecoration(
                   color: CustomColors.backgroundColor,
                   borderRadius: BorderRadius.circular(5.0),

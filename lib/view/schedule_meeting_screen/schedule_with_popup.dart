@@ -45,13 +45,13 @@ class _ScheduleWithPopupState extends State<ScheduleWithPopup> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(""),
-                    Text("Schedule With", style: Style.montserratBoldStyle().copyWith(fontSize: 17.sp, color: Colors.black),),
+                    const Text(""),
+                    Text("Select Role", style: Style.montserratBoldStyle().copyWith(fontSize: 17.sp, color: Colors.black),),
                     InkWell(
                       onTap: (){
                         Get.back();
                       },
-                      child: Icon(Icons.close, color: Colors.black,),)
+                      child: const Icon(Icons.close, color: Colors.black,),)
                   ],
                 ),
                 SizedBox(
@@ -79,8 +79,8 @@ class _ScheduleWithPopupState extends State<ScheduleWithPopup> {
                                     width: 2.w,
                                   ),
                                   Text("Grade 3", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                                  Spacer(),
-                                  Icon(
+                                  const Spacer(),
+                                  const Icon(
                                     Icons.arrow_drop_down,
                                   )
                                 ],
@@ -103,17 +103,17 @@ class _ScheduleWithPopupState extends State<ScheduleWithPopup> {
                                     width: 2.w,
                                   ),
                                   Text("H1", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                                  Spacer(),
-                                  Icon(
+                                  const Spacer(),
+                                  const Icon(
                                     Icons.arrow_drop_down,
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
                           ),
                         ],
                       ),
-                      Divider(height: 0.0,),
+                      const Divider(height: 0.0,),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10.0,),
                         child: Row(
@@ -123,22 +123,22 @@ class _ScheduleWithPopupState extends State<ScheduleWithPopup> {
                               width: 2.w,
                             ),
                             Text("Term 1", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                            Spacer(),
-                            Icon(
+                            const Spacer(),
+                            const Icon(
                               Icons.arrow_drop_down,
                             )
                           ],
                         ),
                       ),
-                      Divider(height: 0.0,),
+                      const Divider(height: 0.0,),
                       CustomTextField(
                         controller: searchCtrl,
                         hintText: translate(context).search_by_id,
                         borderColor: Colors.transparent,
                         hintTextColor: CustomColors.textLightGreyColor,
-                        contentPadding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                        contentPadding: const EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
+                        prefixIcon: const Padding(
+                          padding: EdgeInsets.only(left: 10.0, right: 10.0),
                           child: Icon(
                             Icons.search,
                           ),
@@ -152,7 +152,7 @@ class _ScheduleWithPopupState extends State<ScheduleWithPopup> {
                 ),
                 ListView.builder(
                   shrinkWrap: true,
-                  itemCount: 5,
+                  itemCount: roleNames.length,
                   padding: EdgeInsets.zero,
                   itemBuilder: (context, index) {
                     return Padding(
@@ -163,6 +163,7 @@ class _ScheduleWithPopupState extends State<ScheduleWithPopup> {
                           setState(() {});
                         },
                         child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
                           decoration: BoxDecoration(
                               color: selectedFMOPos == index ? CustomColors.backgroundColor : Colors.transparent,
                               borderRadius: BorderRadius.circular(15.0),
@@ -175,26 +176,12 @@ class _ScheduleWithPopupState extends State<ScheduleWithPopup> {
                             children: [
                               Row(
                                 children: [
-                                  Container(
-                                    padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: CustomColors.primaryColor
-                                      ),
-                                      borderRadius: BorderRadius.circular(15.0),
-                                    ),
-                                    child: SvgPicture.asset(manSvg,height: 30,),
-                                  ),
                                   Padding(
                                     padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 10.sp),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text("Abdul Khan", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
-                                        SizedBox(
-                                          height: .5.h,
-                                        ),
-                                        Text("#562665", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                                        Text(roleNames[index], style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
                                       ],
                                     ),
                                   ),
@@ -257,4 +244,9 @@ class _ScheduleWithPopupState extends State<ScheduleWithPopup> {
       ),
     );
   }
+  List<String> roleNames = [
+    'Teacher',
+    'Stars',
+    'Parents',
+  ];
 }

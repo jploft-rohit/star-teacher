@@ -47,7 +47,7 @@ class _ChatingScreenState extends State<ChatingScreen> {
                     children: [
                       Container(
                         height: 60,
-                        padding: EdgeInsets.only(left: 15.0, right: 15.0),
+                        padding: const EdgeInsets.only(left: 15.0, right: 15.0),
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(15.0),
@@ -77,35 +77,35 @@ class _ChatingScreenState extends State<ChatingScreen> {
                   ),
                   Row(
                     children: [
+                      // InkWell(
+                      //   onTap: (){
+                      //
+                      //   },
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.only(bottom: 5.0),
+                      //     child: InkWell(
+                      //       onTap: (){
+                      //         Get.to(ScheduleMeetingScreen());
+                      //       },
+                      //       child: Column(
+                      //         mainAxisAlignment: MainAxisAlignment.end,
+                      //         children: [
+                      //           SvgPicture.asset("assets/images/calender_chat.svg"),
+                      //           SizedBox(
+                      //             height: .5.h,
+                      //           ),
+                      //           Text("Schedule\nMeeting", style: Style.montserratBoldStyle().copyWith(fontSize:  12.sp, color: CustomColors.primaryColor, fontWeight: FontWeight.w700),textAlign: TextAlign.center,)
+                      //         ],
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                      // SizedBox(
+                      //   width: 2.w,
+                      // ),
                       InkWell(
                         onTap: (){
-
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 5.0),
-                          child: InkWell(
-                            onTap: (){
-                              Get.to(ScheduleMeetingScreen());
-                            },
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                SvgPicture.asset("assets/images/calender_chat.svg"),
-                                SizedBox(
-                                  height: .5.h,
-                                ),
-                                Text("Schedule\nMeeting", style: Style.montserratBoldStyle().copyWith(fontSize:  12.sp, color: CustomColors.primaryColor, fontWeight: FontWeight.w700),textAlign: TextAlign.center,)
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 2.w,
-                      ),
-                      InkWell(
-                        onTap: (){
-                          Get.to(VideoCallScreen());
+                          Get.to(const VideoCallScreen());
                         },
                         child: SvgPicture.asset("assets/images/video.svg", height: 25.0,),
                       ),
@@ -114,7 +114,7 @@ class _ChatingScreenState extends State<ChatingScreen> {
                       ),
                       InkWell(
                         onTap: (){
-                          Get.to(AudioCallScreen());
+                          Get.to(const AudioCallScreen());
                         },
                         child: SvgPicture.asset("assets/images/phone.svg", height: 22.0),
                       ),
@@ -142,20 +142,26 @@ class _ChatingScreenState extends State<ChatingScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              constraints: BoxConstraints(minWidth: 40.w, maxWidth: 80.w),
-                              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: CustomColors.darkShadowColor.withOpacity(0.5),
-                                      blurRadius: 8.0,
-                                    )
-                                  ]
-                              ),
-                              child: Text(ctrl.chatList[index]['msg'], style: Style.montserratMediumStyle().copyWith(fontSize:16.sp, color: CustomColors.textBlackColor, fontWeight: FontWeight.w400),textAlign: TextAlign.center,),
+                            Row(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(right: 2.w),
+                                  constraints: BoxConstraints(minWidth: 40.w, maxWidth: 80.w),
+                                  padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(5.0),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: CustomColors.darkShadowColor.withOpacity(0.5),
+                                          blurRadius: 8.0,
+                                        )
+                                      ]
+                                  ),
+                                  child: Text(ctrl.chatList[index]['msg'], style: Style.montserratMediumStyle().copyWith(fontSize:16.sp, color: CustomColors.textBlackColor, fontWeight: FontWeight.w400),textAlign: TextAlign.center,),
+                                ),
+                                const Icon(Icons.translate_rounded,size: 18,)
+                              ],
                             ),
                             SizedBox(
                               height: .8.h,
@@ -171,7 +177,7 @@ class _ChatingScreenState extends State<ChatingScreen> {
                           children: [
                             Container(
                               constraints: BoxConstraints(minWidth: 40.w, maxWidth: 80.w),
-                              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                              padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                               decoration: BoxDecoration(
                                   color: CustomColors.backgroundColor,
                                   borderRadius: BorderRadius.circular(5.0),
@@ -208,8 +214,8 @@ class _ChatingScreenState extends State<ChatingScreen> {
                         controller: msgCtrl,
                         hintText: "Message",
                         borderColor: Colors.transparent,
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        prefixIcon: const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.0),
                           child: Icon(
                             Icons.emoji_emotions_outlined,
                             color: CustomColors.textLightGreyColor,
@@ -229,7 +235,7 @@ class _ChatingScreenState extends State<ChatingScreen> {
                             ],
                           ),
                         ),
-                        fillColor: Color(0xffF4F4F4),
+                        fillColor: const Color(0xffF4F4F4),
                         borderRadius: 50.0,
                         hintTextColor: CustomColors.textLightGreyColor,
                       ),
@@ -243,7 +249,7 @@ class _ChatingScreenState extends State<ChatingScreen> {
                           {
                             "msg": msgCtrl.text.toString().trim(),
                             "type":ctrl.chatList.last['type'] == "1" ? "0" : "1",
-                            "date":"${DateFormat('hh:mm a').format(DateTime.now())}"
+                            "date":DateFormat('hh:mm a').format(DateTime.now())
                           },
                         );
                         ctrl.update();
@@ -251,7 +257,7 @@ class _ChatingScreenState extends State<ChatingScreen> {
                         setState(() {});
                       },
                       child: Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: CustomColors.backgroundColor,

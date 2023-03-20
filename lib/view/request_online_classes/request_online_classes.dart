@@ -35,7 +35,7 @@ class _RequestOnlineClassesState extends State<RequestOnlineClasses> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.screenBackgroundColor,
-      appBar: appBarWithAction(context, widget.isUpdating ? translate(context).update_class_request : translate(context).online_class_request, [
+      appBar: appBarWithAction(context, widget.isUpdating ? "Online Class Edit" : translate(context).online_class_request, [
         Padding(
           padding: const EdgeInsets.only(right: 10.0),
           child: SvgPicture.asset("assets/images/notification.svg"),

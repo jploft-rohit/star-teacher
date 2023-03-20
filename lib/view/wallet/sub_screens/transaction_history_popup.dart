@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/wallet/wallet_controller.dart';
@@ -41,13 +42,13 @@ class _TransactionHistoryPopupState extends State<TransactionHistoryPopup> {
                         onTap: (){
                           Get.back();
                         },
-                        child: Icon(
+                        child: const Icon(
                             Icons.close
                         ),
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 5),
+                      padding: const EdgeInsets.only(top: 5),
                       child: Center(
                         child: addText(translate(context).transaction_history, 18,
                             Colors.black, FontWeight.w700),

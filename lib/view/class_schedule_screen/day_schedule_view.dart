@@ -25,7 +25,7 @@ class _DayScheduleViewState extends State<DayScheduleView> {
               height: 20.0,
               child: PageView.builder(
                 itemCount: 3,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
                   return Center(child: Text("Monday, 22/05/2022", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp),));
@@ -36,9 +36,9 @@ class _DayScheduleViewState extends State<DayScheduleView> {
               left: 0.0,
               child: IconButton(
                 onPressed: (){},
-                visualDensity: VisualDensity(horizontal: -4,vertical: -4),
+                visualDensity: const VisualDensity(horizontal: -4,vertical: -4),
                 padding: EdgeInsets.zero,
-                constraints: BoxConstraints(maxHeight: 10),
+                constraints: const BoxConstraints(maxHeight: 10),
                 icon: Icon(
                   Icons.arrow_back_ios,
                   size: 18.sp,
@@ -50,9 +50,9 @@ class _DayScheduleViewState extends State<DayScheduleView> {
               right: 0.0,
               child: IconButton(
                 onPressed: (){},
-                visualDensity: VisualDensity(horizontal: -4,vertical: -4),
+                visualDensity: const VisualDensity(horizontal: -4,vertical: -4),
                 padding: EdgeInsets.zero,
-                constraints: BoxConstraints(maxHeight: 10),
+                constraints: const BoxConstraints(maxHeight: 10),
                 icon: Icon(
                   Icons.arrow_forward_ios,
                   size: 18.sp,
@@ -65,17 +65,17 @@ class _DayScheduleViewState extends State<DayScheduleView> {
         SizedBox(
           height: 2.h,
         ),
-        CustomButton(text: translate(context).leave_request.toUpperCase(), onPressed: (){
-          showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation) {
-            return NotifyAuthorityPopup();
-          },);
-        },borderRadius: 5.0,btnHeight: 35,textSize: 16.sp,btnWidth: 40.w,),
+        // CustomButton(text: translate(context).leave_request.toUpperCase(), onPressed: (){
+        //   showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation) {
+        //     return const NotifyAuthorityPopup();
+        //   },);
+        // },borderRadius: 5.0,btnHeight: 35,textSize: 16.sp,btnWidth: 40.w,),
         SizedBox(
           height: 3.h,
         ),
         ListView.builder(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           itemCount: 3,
           itemBuilder: (context, index) {
             return Padding(
@@ -154,9 +154,12 @@ class _DayScheduleViewState extends State<DayScheduleView> {
                           SizedBox(
                             height: 1.h,
                           ),
-                          Align(
-                              alignment: AlignmentDirectional.centerEnd,
-                              child: CustomButton(text: translate(context).notify_admin, onPressed: (){},borderRadius: 5.0,btnHeight: 30,textSize: 14.sp,btnWidth: 30.w,)),
+                          Align(alignment: AlignmentDirectional.centerEnd,
+                                child: CustomButton(text: translate(context).notify_admin, onPressed: (){
+                                  showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation) {
+                                    return const NotifyAuthorityPopup();
+                                  },);
+                                },borderRadius: 5.0,btnHeight: 30,textSize: 14.sp,btnWidth: 30.w,)),
                         ],
                       ),
                     ),

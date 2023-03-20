@@ -212,8 +212,8 @@ class _ChooseMeetingDateTimePopupState extends State<ChooseMeetingDateTimePopup>
                       ),
 
                       onFormatChanged: (CalendarFormat _format) {
-                        controller.format = _format;
-                        controller.update();
+                        // controller.format = _format;
+                        // controller.update();
                       },
                       //Day Changed on select
                       onDaySelected:

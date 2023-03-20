@@ -27,7 +27,7 @@ class _WalletViewState extends State<WalletView> {
       backgroundColor: CustomColors.white,
       appBar: appBarWithAction(context, translate(context).wallet, [
         Padding(
-          padding: EdgeInsets.only(right: 10.0),
+          padding: const EdgeInsets.only(right: 10.0),
           child: SvgPicture.asset("assets/images/notification.svg"),
         )
       ]),
@@ -52,16 +52,16 @@ class _WalletViewState extends State<WalletView> {
             ),
             Expanded(
               child: SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   child: Obx(
                     () => Column(
                       children: [
                         controller.isPurachses.value
-                            ? PurchasesView()
-                            : SizedBox.shrink(),
+                            ? const PurchasesView()
+                            : const SizedBox.shrink(),
                         controller.isEvents.value
-                            ? EventsView()
-                            : SizedBox.shrink(),
+                            ? const EventsView()
+                            : const SizedBox.shrink(),
                       ],
                     ),
                   )),

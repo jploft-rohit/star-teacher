@@ -33,7 +33,7 @@ class _SOSViewState extends State<SOSView> {
       // backgroundColor: CustomColors.white,
       appBar: appBarWithAction(context, "SOS", [
         Padding(
-          padding: EdgeInsets.only(right: 10.0),
+          padding: const EdgeInsets.only(right: 10.0),
           child: SvgPicture.asset("assets/images/notification.svg"),
         )
       ]),
@@ -44,7 +44,7 @@ class _SOSViewState extends State<SOSView> {
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 decoration: BoxDecoration(
                   color: CustomColors.backgroundColor,
                   borderRadius: BorderRadius.circular(5.0),
@@ -179,7 +179,7 @@ class _SOSViewState extends State<SOSView> {
                 },
                 child: Obx(() {
                   return AnimatedContainer(
-                    duration: Duration(milliseconds: 200),
+                    duration: const Duration(milliseconds: 200),
                     curve: Curves.easeIn,
                     height: 40,
                     // padding: const EdgeInsets.symmetric(horizontal: 9),
@@ -269,12 +269,12 @@ class _SOSViewState extends State<SOSView> {
             child: Text(translate(context).stars,style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp, color: CustomColors.textBlackColor),),),
         SizedBox(height: 2.h,),
          Container(
-           margin: EdgeInsets.only(left: 5.0,right: 5.0),
+           margin: const EdgeInsets.only(left: 5.0,right: 5.0),
            decoration: BoxDecoration(
              color: Colors.white,
              borderRadius: BorderRadius.circular(15.0),
              boxShadow: [
-               BoxShadow(
+               const BoxShadow(
                  color: CustomColors.shadowColor,
                  blurRadius: 5,
                  spreadRadius: 5,
@@ -285,7 +285,7 @@ class _SOSViewState extends State<SOSView> {
              physics: const ScrollPhysics(),
              shrinkWrap: true,
             itemCount: 3,
-            separatorBuilder: (BuildContext context, int index) => Divider(height: 1),
+            separatorBuilder: (BuildContext context, int index) => const Divider(height: 1),
             itemBuilder: (BuildContext context, int index) {
             return InkWell(
               onTap: (){
@@ -311,7 +311,7 @@ class _SOSViewState extends State<SOSView> {
                     SizedBox(width: 0.5.h),
                     Text('Sania Khan (#455285)',style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: CustomColors.textBlackColor),),
                     const Spacer(),
-                    Icon(
+                    const Icon(
                       CupertinoIcons.delete,
                       color: CustomColors.primaryColor,
                       size: 15.0,
@@ -337,10 +337,12 @@ class _SOSViewState extends State<SOSView> {
             child: Padding(
               padding: const EdgeInsets.only(right: 10.0),
               child: SvgPicture.asset(controller.selectedFMOPos.value==0?nfcSvg:barcodeSvg,color: CustomColors.primaryColor,),
-            )) : SizedBox(),),
+            )) : const SizedBox(),),
         SizedBox(height: 2.h,),
         CustomButton(text: translate(context).notify.toUpperCase(), onPressed: (){
-          Get.to(FireReportedView());
+          // if (controller.selectedPos.value == 1) {
+          //   Get.to(const FireReportedView());
+          // }
         }),
         SizedBox(height: 2.h,),
       ],
@@ -353,8 +355,8 @@ class _SOSViewState extends State<SOSView> {
         CustomTextField(
           controller: controller.classroomCtrl,
           hintText: translate(context).classroom_1_f1,
-          prefixIcon: Padding(
-          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+          prefixIcon: const Padding(
+          padding: EdgeInsets.only(left: 10.0, right: 10.0),
           child: Icon(
             Icons.search,
             color: Colors.black,
@@ -368,7 +370,7 @@ class _SOSViewState extends State<SOSView> {
 
         SizedBox(height: 2.h,),
         CustomButton(text: translate(context).notify.toUpperCase(), onPressed: (){
-          Get.to(FireReportedView());
+          Get.to(const FireReportedView());
         }),
         SizedBox(height: 2.h,),
       ],
@@ -416,12 +418,12 @@ class _SOSViewState extends State<SOSView> {
         ),
         SizedBox(height: 2.h,),
         Container(
-          margin: EdgeInsets.only(left: 5.0,right: 5.0),
+          margin: const EdgeInsets.only(left: 5.0,right: 5.0),
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(15.0),
               boxShadow: [
-                BoxShadow(
+                const BoxShadow(
                   color: CustomColors.shadowColor,
                   blurRadius: 5,
                   spreadRadius: 5,
@@ -432,7 +434,7 @@ class _SOSViewState extends State<SOSView> {
             physics: const ScrollPhysics(),
             shrinkWrap: true,
             itemCount: 1,
-            separatorBuilder: (BuildContext context, int index) => Divider(height: 1),
+            separatorBuilder: (BuildContext context, int index) => const Divider(height: 1),
             itemBuilder: (BuildContext context, int index) {
               return InkWell(
                 onTap: (){
@@ -445,7 +447,7 @@ class _SOSViewState extends State<SOSView> {
                       SizedBox(width: 0.5.h),
                       Text('Sania Khan (#455285)',style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: CustomColors.textBlackColor),),
                       const Spacer(),
-                      Icon(
+                      const Icon(
                         CupertinoIcons.delete,
                         color: CustomColors.primaryColor,
                         size: 15.0,
@@ -464,7 +466,7 @@ class _SOSViewState extends State<SOSView> {
         CustomTextField(prefixIcon: Padding(
           padding: const EdgeInsets.only(left: 10.0, right: 10.0),
           child: SvgPicture.asset("assets/images/circle2017.svg"),
-        ),controller: controller.searchCtrl, hintText:translate(context).select_location_LAB_H2, suffixIcon: controller.selectedFMOPos.value==2?SizedBox.shrink(): Padding(
+        ),controller: controller.searchCtrl, hintText:translate(context).select_location_LAB_H2, suffixIcon: controller.selectedFMOPos.value==2?const SizedBox.shrink(): Padding(
           padding: const EdgeInsets.only(left: 10.0, right: 10.0),
           child: SizedBox(
               height: 26,
@@ -474,7 +476,7 @@ class _SOSViewState extends State<SOSView> {
 
         SizedBox(height: 2.h,),
         CustomButton(text: translate(context).notify.toUpperCase(), onPressed: (){
-          Get.to(FireReportedView());
+          // Get.to(const FireReportedView());
         }),
         SizedBox(height: 2.h,),
       ],
@@ -507,12 +509,12 @@ class _SOSViewState extends State<SOSView> {
         SizedBox(height: 2.h,),
 
         Container(
-          margin: EdgeInsets.only(left: 5.0,right: 5.0),
+          margin: const EdgeInsets.only(left: 5.0,right: 5.0),
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(15.0),
               boxShadow: [
-                BoxShadow(
+                const BoxShadow(
                   color: CustomColors.shadowColor,
                   blurRadius: 5,
                   spreadRadius: 5,
@@ -523,7 +525,7 @@ class _SOSViewState extends State<SOSView> {
             physics: const ScrollPhysics(),
             shrinkWrap: true,
             itemCount: 2,
-            separatorBuilder: (BuildContext context, int index) => Divider(height: 1),
+            separatorBuilder: (BuildContext context, int index) => const Divider(height: 1),
             itemBuilder: (BuildContext context, int index) {
               return InkWell(
                 onTap: (){
@@ -549,7 +551,7 @@ class _SOSViewState extends State<SOSView> {
                       SizedBox(width: 0.5.h),
                       Text('Sania Khan (#455285)',style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: CustomColors.textBlackColor),),
                       const Spacer(),
-                      Icon(
+                      const Icon(
                         CupertinoIcons.delete,
                         color: CustomColors.primaryColor,
                         size: 15.0,
@@ -587,7 +589,7 @@ class _SOSViewState extends State<SOSView> {
             )),),
         SizedBox(height: 2.h,),
         CustomButton(text: translate(context).notify.toUpperCase(), onPressed: (){
-          Get.to(FireReportedView());
+          // Get.to(const FireReportedView());
         }),
         SizedBox(height: 2.h,),
       ],

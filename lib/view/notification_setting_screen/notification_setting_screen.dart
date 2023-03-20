@@ -65,7 +65,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
     return Scaffold(
       appBar: appBarWithAction(context, translate(context).notification_settings, [
         Padding(
-          padding: EdgeInsets.only(right: 10.0),
+          padding: const EdgeInsets.only(right: 10.0),
           child: SvgPicture.asset("assets/images/notification.svg"),
         )
       ]),
@@ -169,7 +169,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
   Widget buildTile(int index){
     return Column(
       children: [
-        Divider(
+        const Divider(
           color: CustomColors.borderColor,
           thickness: 1.0,
         ),
@@ -180,13 +180,13 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
             CustomSwitch(
               key: GlobalKey(),
               value: list[index]['isSelected'],
-              enableColor: CustomColors.primaryColor,
-              enableSwitchColor: CustomColors.white,
+              enableColor: CustomColors.backgroundColor,
+              enableSwitchColor: CustomColors.primaryColor,
               disableColor: CustomColors.textLightGreyColor,
-              width: 45,
-              height: 22,
+              width: 35,
+              height: 20,
               switchHeight: 20,
-              switchWidth: 20,
+              switchWidth: 15,
               onChanged: (bool value) {
                 list[index]['isSelected'] = !list[index]['isSelected'];
                 setState(() {});
@@ -199,7 +199,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
   Widget buildTile1(int index){
     return Column(
       children: [
-        Divider(
+        const Divider(
           color: CustomColors.borderColor,
           thickness: 1.0,
         ),
@@ -213,10 +213,10 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
               enableColor: CustomColors.backgroundColor,
               enableSwitchColor: CustomColors.primaryColor,
               disableColor: CustomColors.textLightGreyColor,
-              width: 45,
-              height: 22,
+              width: 35,
+              height: 20,
               switchHeight: 20,
-              switchWidth: 20,
+              switchWidth: 15,
               onChanged: (bool value) {
                 list1[index]['isSelected'] = !list1[index]['isSelected'];
                 setState(() {});

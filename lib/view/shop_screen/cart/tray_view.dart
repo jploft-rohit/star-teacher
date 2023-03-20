@@ -7,6 +7,7 @@ import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/shop_screen/shop_screen_ctrl.dart';
 
 class TrayView extends StatefulWidget {
@@ -30,14 +31,14 @@ class _TrayViewState extends State<TrayView> {
       backgroundColor: Colors.white,
       appBar: appBarWithAction(context, "Tray", [
         Padding(
-          padding: EdgeInsets.only(right: 10.0),
+          padding: const EdgeInsets.only(right: 10.0),
           child: SvgPicture.asset("assets/images/notification.svg"),
         )
       ]),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -55,7 +56,7 @@ class _TrayViewState extends State<TrayView> {
               ),
               SizedBox(height: 2.h),
               ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 padding: EdgeInsets.zero,
                 shrinkWrap: true,
                 itemCount: 1,
@@ -78,14 +79,14 @@ class _TrayViewState extends State<TrayView> {
               ),
               SizedBox(height: 2.h),
               ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   padding: EdgeInsets.zero,
                   shrinkWrap: true,
                   itemCount: 1,
                   itemBuilder: (context, index) => buildCartCard(
                       'assets/images/image 21.png', 'Lunch', '13 AED', '2')),
               SizedBox(height: 1.h),
-              Divider(),
+              const Divider(),
               SizedBox(height: 2.h),
               addText('Order Type', 16.sp,
                   CustomColors.textBlackColor, FontWeight.w700),
@@ -111,9 +112,9 @@ class _TrayViewState extends State<TrayView> {
                     borderRadius: BorderRadius.circular(13),
                     border: Border.all(color: CustomColors.borderColor),
                   ),
-                  padding: EdgeInsets.all(15),
+                  padding: const EdgeInsets.all(15),
                   child: GridView.builder(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     padding: EdgeInsets.zero,
                     shrinkWrap: true,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -148,51 +149,55 @@ class _TrayViewState extends State<TrayView> {
               Obx(() => Row(
                 children: [
                   radioButton(() {
-                    controller.thisWeekSelected();
-                  }, controller.isThisWeek.value, 'Collecting'),
+                    controller.collectingSelected();
+                  }, controller.collecting.value, 'Collecting'),
                   SizedBox(width: 2.h),
                   radioButton(() {
-                    controller.everyWeekSelected();
-                  }, controller.isEveryWeek.value, 'Deliver')
+                    controller.deliverSelected();
+                  }, controller.deliver.value, 'Deliver')
                 ],
               )),
               SizedBox(height: 2.h),
-              Container(
-                decoration: BoxDecoration(
-                  color: CustomColors.white,
-                  borderRadius: BorderRadius.circular(13),
-                  border: Border.all(color: CustomColors.borderColor),
-                ),
-                padding: EdgeInsets.all(15),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: CustomTextField(
-                        controller: TextEditingController(),
-                        hintText: "10:30 AM",
-                        fillColor: CustomColors.txtFieldTextColor,
-                        borderRadius: 5.0,
-                        suffixIcon: Padding(
-                          padding: const EdgeInsetsDirectional.only(end: 10.0),
-                          child: SvgPicture.asset("assets/images/time_icon1.svg"),
+              Obx(()=>Visibility(
+                  visible: controller.deliver.value,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: CustomColors.white,
+                      borderRadius: BorderRadius.circular(13),
+                      border: Border.all(color: CustomColors.borderColor),
+                    ),
+                    padding: const EdgeInsets.all(15),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: CustomTextField(
+                            controller: TextEditingController(),
+                            hintText: "10:30 AM",
+                            fillColor: CustomColors.txtFieldTextColor,
+                            borderRadius: 5.0,
+                            suffixIcon: Padding(
+                              padding: const EdgeInsetsDirectional.only(end: 10.0),
+                              child: SvgPicture.asset("assets/images/time_icon1.svg"),
+                            ),
+                          ),
                         ),
-                      ),
+                        SizedBox(
+                          width: 3.w,
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: CustomTextField(
+                            controller: TextEditingController(),
+                            hintText: "Location",
+                            fillColor: CustomColors.txtFieldTextColor,
+                            borderRadius: 5.0,
+                            suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      width: 3.w,
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: CustomTextField(
-                        controller: TextEditingController(),
-                        hintText: "Location",
-                        fillColor: CustomColors.txtFieldTextColor,
-                        borderRadius: 5.0,
-                        suffixIcon: Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
               SizedBox(height: 2.h),
@@ -201,7 +206,7 @@ class _TrayViewState extends State<TrayView> {
               detailRow('Taxes (5%)', '2 AED'),
               SizedBox(height: 1.h),
               detailRow('Grand Total', '19 AED'),
-              Divider(),
+              const Divider(),
               addText(
                   'Note: \n1-Order can be cancelled before 24 hours of serving.\n2-Amount will be deduct from the wallet when order is served',
                   13.sp,
@@ -209,7 +214,52 @@ class _TrayViewState extends State<TrayView> {
                   FontWeight.w400),
               SizedBox(height: 3.h),
               Center(
-                child: CustomButton(text: "Schedule Order", onPressed: (){})
+                child: CustomButton(text: "Schedule Order", onPressed: (){
+                  showGeneralDialog(context: context, pageBuilder: (context,a1,a2){
+                    return Scaffold(
+                      backgroundColor: Colors.transparent,
+                      body: Container(
+                        width: double.infinity,
+                        margin: const EdgeInsets.symmetric(horizontal: 20,vertical: 120),
+                        decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(25)),
+                            color: Colors.white
+                        ),
+                        padding: const EdgeInsets.all(25),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SizedBox(height: MediaQuery.of(context).size.height*0.03,),
+                              Text("Are you sure you want to schedule this order?",style: Style.montserratRegularStyle().copyWith(color: Colors.black, fontSize: 17.sp, height: 1.5,fontWeight: FontWeight.w600),),
+                              SizedBox(height: 7.h,),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Center(
+                                      child: CustomButton(text: translate(context).cancel, onPressed: (){
+                                        Navigator.pop(context);
+                                      }),
+                                    ),
+                                  ),
+                                  SizedBox(width: 3.w),
+                                  Expanded(
+                                    child: Center(
+                                      child: CustomButton(text: translate(context).proceed, onPressed: (){
+                                        Navigator.pop(context);
+                                      }),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  });
+                })
               ),
               SizedBox(height: 3.h),
             ],
@@ -224,7 +274,7 @@ class _TrayViewState extends State<TrayView> {
       padding: const EdgeInsets.only(left: 4.0, right: 4.0),
       child: Container(
         margin: EdgeInsets.only(bottom: 1.5.h),
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
             color: CustomColors.white,
             boxShadow: kElevationToShadow[2],

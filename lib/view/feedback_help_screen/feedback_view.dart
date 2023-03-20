@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/custom_dialogs.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -26,7 +27,7 @@ class _FeedbackViewState extends State<FeedbackView> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: 1,
+      itemCount: 3,
       shrinkWrap: true,
       itemBuilder: (context, index) {
         return Card(
@@ -43,10 +44,15 @@ class _FeedbackViewState extends State<FeedbackView> {
                     addText("Can improve the Speed", 16.sp, CustomColors.textBlackColor, FontWeight.w700),
                     Row(
                       children: [
-                        Icon(
-                          CupertinoIcons.delete,
-                          color: CustomColors.primaryColor,
-                          size: 18.sp,
+                        GestureDetector(
+                          onTap: (){
+                            CustomDialogs().showConfirmationDialog(title: "Are you sure you want to\ndelete this Feedback?");
+                          },
+                          child: Icon(
+                            CupertinoIcons.delete,
+                            color: CustomColors.primaryColor,
+                            size: 18.sp,
+                          ),
                         ),
                         SizedBox(
                           width: 5.w,
@@ -62,6 +68,18 @@ class _FeedbackViewState extends State<FeedbackView> {
                   ],
                 ),
                 Divider(),
+                Row(
+                  children: [
+                    SvgPicture.asset("assets/images/user 1.svg"),
+                    SizedBox(
+                      width: 2.w,
+                    ),
+                    addText("Star :", 15.sp, CustomColors.textBlackColor, FontWeight.w400),
+                    const SizedBox(width: 3),
+                    addText("Najma Suheil", 15.sp, CustomColors.primaryColor, FontWeight.w600),
+                  ],
+                ),
+                const Divider(),
                 Row(
                   children: [
                     SvgPicture.asset("assets/images/Vector (1).svg"),
@@ -121,50 +139,50 @@ class _FeedbackViewState extends State<FeedbackView> {
                   ],
                 ),
                 Divider(),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SvgPicture.asset("assets/images/chat_img.svg"),
-                    SizedBox(
-                      width: 2.w,
-                    ),
-                    Flexible(child: buildInfoItems("Revert", "Thanks for your feedback, the support team will solve the issue and update you."))
-                  ],
-                ),
-                SizedBox(
-                  height: 1.h,
-                ),
-                Divider(),
-                SizedBox(
-                  height: 1.h,
-                ),
-                Row(
-                  children: [
-                    Flexible(
-                      flex: 1,
-                      child: CustomButton(text: "ESCALATE", onPressed: (){}, btnHeight: 35, boxShadow: [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 16.sp,),
-                    ),
-                    SizedBox(
-                      width: 2.w,
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: CustomButton(text: "COMMENTS", onPressed: (){
-
-                      }, btnHeight: 35, boxShadow: [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 16.sp,),
-                    ),
-                    SizedBox(
-                      width: 2.w,
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: CustomButton(text: "ACCEPT", onPressed: (){}, btnHeight: 35, borderRadius: 10.0,textSize: 16.sp,),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
+                // Row(
+                //   crossAxisAlignment: CrossAxisAlignment.start,
+                //   children: [
+                //     SvgPicture.asset("assets/images/chat_img.svg"),
+                //     SizedBox(
+                //       width: 2.w,
+                //     ),
+                //     Flexible(child: buildInfoItems("Revert", "Thanks for your feedback, the support team will solve the issue and update you."))
+                //   ],
+                // ),
+                // SizedBox(
+                //   height: 1.h,
+                // ),
+                // Divider(),
+                // SizedBox(
+                //   height: 1.h,
+                // ),
+                // Row(
+                //   children: [
+                //     Flexible(
+                //       flex: 1,
+                //       child: CustomButton(text: "ESCALATE", onPressed: (){}, btnHeight: 35, boxShadow: [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 16.sp,),
+                //     ),
+                //     SizedBox(
+                //       width: 2.w,
+                //     ),
+                //     Flexible(
+                //       flex: 1,
+                //       child: CustomButton(text: "COMMENTS", onPressed: (){
+                //
+                //       }, btnHeight: 35, boxShadow: [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 16.sp,),
+                //     ),
+                //     SizedBox(
+                //       width: 2.w,
+                //     ),
+                //     Flexible(
+                //       flex: 1,
+                //       child: CustomButton(text: "ACCEPT", onPressed: (){}, btnHeight: 35, borderRadius: 10.0,textSize: 16.sp,),
+                //     ),
+                //   ],
+                // ),
+                // SizedBox(
+                //   height: 2.h,
+                // ),
 
                 StepProgressView(
                   width: MediaQuery.of(context).size.width,

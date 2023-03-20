@@ -61,6 +61,7 @@ class _StarRatingPopupState extends State<StarRatingPopup> {
                       child: InkWell(
                         onTap: (){
                           ctrl.selectedIndex.value = 0;
+                          setState(() {});
                         },
                         child: Container(
                           height: 40.0,
@@ -94,6 +95,7 @@ class _StarRatingPopupState extends State<StarRatingPopup> {
                       child: InkWell(
                         onTap: (){
                           ctrl.selectedIndex.value = 1;
+                          setState(() {});
                         },
                         child: Container(
                           height: 40.0,
@@ -155,13 +157,13 @@ class _StarRatingPopupState extends State<StarRatingPopup> {
                               children: [
                                 Icon(
                                   CupertinoIcons.star_fill,
-                                  color: CustomColors.primaryColor,
+                                  color: ctrl.selectedIndex.value == 0 ? CustomColors.primaryColor : Colors.grey.shade500,
                                   size: 22.sp,
                                 ),
                                 Positioned(
                                   top: 10.0,
                                   left: 10.0,
-                                  child: addText("${ctrl.ratingList[index]['rating']}", 13.sp, CustomColors.white, FontWeight.w400),)
+                                  child: addText(ctrl.selectedIndex.value == 0 ? "2" : "-2", 13.sp, CustomColors.white, FontWeight.w400),)
                               ],
                             ),
                           ),

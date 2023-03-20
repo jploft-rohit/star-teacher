@@ -626,5 +626,7 @@
  "requested_to": "Requested To",
  "delegated_functions": "Delegated Functions",
  "reject_reason": "Reject Reason",
+ "add_medical_record": "Add Medical Record",
+ "proceed": "Proceed",
  "book_issue_request" : "Book Issue Request"
 }

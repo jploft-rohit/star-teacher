@@ -8,7 +8,11 @@ import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/view/assignments_screen/assignment_screen.dart';
+import 'package:staff_app/view/library_screen/notebook_screen/notebook_screen.dart';
 import 'package:staff_app/view/search_screen/search_screen_ctrl.dart';
+import 'package:staff_app/view/star_attendance_screen/star_attendance_screen.dart';
+import 'package:staff_app/view/star_evaluation_screen/star_evaluation_screen.dart';
 
 import '../Dashboard_screen/dashboard_screen_ctrl.dart';
 
@@ -34,7 +38,7 @@ class _SearchScreenState extends State<SearchScreen> {
     return Scaffold(
       appBar: appBarWithAction(context, translate(context).search, [
         Padding(
-          padding: EdgeInsets.only(right: 10.0),
+          padding: const EdgeInsets.only(right: 10.0),
           child: SvgPicture.asset("assets/images/notification.svg"),
         )
       ],onPressed: (){
@@ -99,7 +103,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             ),
                           );
                         }),
-                      )) : SizedBox();
+                      )) : const SizedBox();
             }),
             SizedBox(
               height: 2.h,
@@ -114,7 +118,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   borderColor: CustomColors.borderColor,
                   controller: searchCtrl,
                   hintText: translate(context).search,
-                  suffixIcon: controller.selectedFMOPos.value == 2 ? SizedBox() : Padding(
+                  suffixIcon: controller.selectedFMOPos.value == 2 ? const SizedBox() : Padding(
                     padding: const EdgeInsetsDirectional.only(end: 10.0),
                     child: SvgPicture.asset(controller.fmoImageList[controller.selectedFMOPos.value]),
                   ),
@@ -132,7 +136,20 @@ class _SearchScreenState extends State<SearchScreen> {
               itemCount: 4,
               shrinkWrap: true,
               itemBuilder: (context, index) {
-                return buildTile(list[index]);
+                return GestureDetector(onTap: (){
+                  if(index == 0){
+                    Get.to(const StarAttendanceScreen());
+                  }
+                  if(index == 1){
+                    Get.to(const StarEvaluationScreen());
+                  }
+                  if(index == 2){
+                    Get.to(const AssignmentScreen());
+                  }
+                  if(index == 3){
+                    Get.to(const NoteBookScreen());
+                  }
+                },child: buildTile(list[index]));
               },
             )
           ],
@@ -143,7 +160,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   Widget buildTile(String title) {
     return Container(
-      margin: EdgeInsets.only(bottom: 8.0),
+      margin: const EdgeInsets.only(bottom: 8.0),
       padding: EdgeInsets.all(14.sp),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.0),

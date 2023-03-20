@@ -79,55 +79,60 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
                 itemCount: 2,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return Card(
-                    elevation: 3.0,
-                    margin: const EdgeInsets.only(bottom: 15.0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0)
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(15.sp),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              addText("Title: ", 15.sp, CustomColors.textBlackColor, FontWeight.w700),
-                              addText("Found a book in the computer lab.", 15.sp, CustomColors.primaryColor, FontWeight.w700),
-                            ],
-                          ),
-                          const Divider(),
-                          buildInfoItems("Found Date", "28-June-2022"),
-                          const Divider(),
-                          buildInfoItems("Where", "In Computer Lab"),
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                          Container(
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0)
+                  return GestureDetector(
+                    onTap: (){
+                      Get.to(const ReportLostFoundScreen(isUpdating: true,));
+                    },
+                    child: Card(
+                      elevation: 3.0,
+                      margin: const EdgeInsets.only(bottom: 15.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(15.sp),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                addText("Title: ", 15.sp, CustomColors.textBlackColor, FontWeight.w700),
+                                addText("Found a book in the computer lab.", 15.sp, CustomColors.primaryColor, FontWeight.w700),
+                              ],
                             ),
-                            child: Image.asset("assets/images/Rectangle 360.png"),
-                          ),
-                          SizedBox(
-                            height: 1.5.h,
-                          ),
-                          Center(
-                            child: CustomButton(
-                              text: "Request for Return",
-                              onPressed: (){
-                                showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation){
-                                  return ConfirmationDialog(msg: "Return request is successfully sent", isShowBtn: true,btnText: "OK",);
-                                });
-                              },
-                              borderRadius: 50.0,
-                              btnHeight: 30.0,
-                              btnWidth: 40.w,
-                              textSize: 15.sp,
+                            const Divider(),
+                            buildInfoItems("Found Date", "28-June-2022"),
+                            const Divider(),
+                            buildInfoItems("Where", "In Computer Lab"),
+                            SizedBox(
+                              height: 2.h,
                             ),
-                          ),
-                        ],
+                            Container(
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0)
+                              ),
+                              child: Image.asset("assets/images/Rectangle 360.png"),
+                            ),
+                            SizedBox(
+                              height: 1.5.h,
+                            ),
+                            Center(
+                              child: CustomButton(
+                                text: "Request for Return",
+                                onPressed: (){
+                                  showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation){
+                                    return ConfirmationDialog(msg: "Return request is successfully sent", isShowBtn: true,btnText: "OK",);
+                                  });
+                                },
+                                borderRadius: 50.0,
+                                btnHeight: 30.0,
+                                btnWidth: 40.w,
+                                textSize: 15.sp,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );
