@@ -37,7 +37,7 @@ class _HomeClassScheduleScreenState extends State<HomeClassScheduleScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWithAction(context, translate(context).schedule, [
+      appBar: appBarWithAction(context, widget.index == 0 ? "Classes Taken" : "This Week", [
         Padding(
           padding: const EdgeInsets.only(right: 10.0),
           child: SvgPicture.asset("assets/images/notification.svg"),
@@ -48,78 +48,78 @@ class _HomeClassScheduleScreenState extends State<HomeClassScheduleScreen> {
           padding: EdgeInsets.all(15.sp),
           child: Column(
             children: [
-              Row(
-                children: [
-                  Flexible(
-                    flex: 1,
-                    child: InkWell(
-                      onTap: (){
-                        index = 0;
-                        setState(() {});
-                      },
-                      child: Container(
-                        height: 40.0,
-                        width: getWidth(context) * 50 / 100,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            color: index == 0 ? CustomColors.backgroundColor : CustomColors.screenBackgroundColor,
-                            border: Border.all(
-                                color: index == 0 ? Colors.transparent : CustomColors.txtFiledBorderColor
-                            ),
-                            boxShadow: [
-                              if(index == 0)
-                                const BoxShadow(
-                                    color: CustomColors.darkShadowColor,
-                                    spreadRadius: 1.0,
-                                    blurRadius: 2.0,
-                                    offset: Offset(0, 3)
-                                )
-                            ],
-                            borderRadius: BorderRadius.circular(15.sp)
-                        ),
-                        child: Text(translate(context).classes_taken, style: Style.montserratBoldStyle().copyWith(color: index == 0 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: 16.sp),),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 2.w,
-                  ),
-                  Flexible(
-                    flex: 1,
-                    child: InkWell(
-                      onTap: (){
-                        index = 1;
-                        setState(() {});
-                      },
-                      child: Container(
-                        height: 40.0,
-                        width: getWidth(context) * 50 / 100,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            color: index == 1 ? CustomColors.backgroundColor : CustomColors.screenBackgroundColor,
-                            border: Border.all(
-                                color: index == 1 ? Colors.transparent : CustomColors.txtFiledBorderColor
-                            ),
-                            boxShadow: [
-                              if(index == 1)
-                                const BoxShadow(
-                                    color: CustomColors.darkShadowColor,
-                                    spreadRadius: 1.0,
-                                    blurRadius: 2.0,
-                                    offset: Offset(0, 3)
-                                )
-                            ],
-                            borderRadius: BorderRadius.circular(15.sp)
-                        ),
-                        child: Text(translate(context).week, style: Style.montserratBoldStyle().copyWith(color: index == 1 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: 16.sp),),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 2.h,
-              ),
+              // Row(
+              //   children: [
+              //     Flexible(
+              //       flex: 1,
+              //       child: InkWell(
+              //         onTap: (){
+              //           index = 0;
+              //           setState(() {});
+              //         },
+              //         child: Container(
+              //           height: 40.0,
+              //           width: getWidth(context) * 50 / 100,
+              //           alignment: Alignment.center,
+              //           decoration: BoxDecoration(
+              //               color: index == 0 ? CustomColors.backgroundColor : CustomColors.screenBackgroundColor,
+              //               border: Border.all(
+              //                   color: index == 0 ? Colors.transparent : CustomColors.txtFiledBorderColor
+              //               ),
+              //               boxShadow: [
+              //                 if(index == 0)
+              //                   const BoxShadow(
+              //                       color: CustomColors.darkShadowColor,
+              //                       spreadRadius: 1.0,
+              //                       blurRadius: 2.0,
+              //                       offset: Offset(0, 3)
+              //                   )
+              //               ],
+              //               borderRadius: BorderRadius.circular(15.sp)
+              //           ),
+              //           child: Text(translate(context).classes_taken, style: Style.montserratBoldStyle().copyWith(color: index == 0 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: 16.sp),),
+              //         ),
+              //       ),
+              //     ),
+              //     SizedBox(
+              //       width: 2.w,
+              //     ),
+              //     Flexible(
+              //       flex: 1,
+              //       child: InkWell(
+              //         onTap: (){
+              //           index = 1;
+              //           setState(() {});
+              //         },
+              //         child: Container(
+              //           height: 40.0,
+              //           width: getWidth(context) * 50 / 100,
+              //           alignment: Alignment.center,
+              //           decoration: BoxDecoration(
+              //               color: index == 1 ? CustomColors.backgroundColor : CustomColors.screenBackgroundColor,
+              //               border: Border.all(
+              //                   color: index == 1 ? Colors.transparent : CustomColors.txtFiledBorderColor
+              //               ),
+              //               boxShadow: [
+              //                 if(index == 1)
+              //                   const BoxShadow(
+              //                       color: CustomColors.darkShadowColor,
+              //                       spreadRadius: 1.0,
+              //                       blurRadius: 2.0,
+              //                       offset: Offset(0, 3)
+              //                   )
+              //               ],
+              //               borderRadius: BorderRadius.circular(15.sp)
+              //           ),
+              //           child: Text(translate(context).week, style: Style.montserratBoldStyle().copyWith(color: index == 1 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: 16.sp),),
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // SizedBox(
+              //   height: 2.h,
+              // ),
               Container(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 decoration: BoxDecoration(

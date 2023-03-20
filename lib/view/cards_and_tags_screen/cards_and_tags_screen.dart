@@ -36,7 +36,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
     return Scaffold(
       appBar: appBarWithAction(context, translate(context).card_tags, [
         Padding(
-          padding: EdgeInsets.only(right: 10.0),
+          padding: const EdgeInsets.only(right: 10.0),
           child: SvgPicture.asset("assets/images/notification.svg"),
         )
       ]),
@@ -55,7 +55,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
                   )
                 ),
                 child: ListTile(
-                  visualDensity: VisualDensity(horizontal: -4),
+                  visualDensity: const VisualDensity(horizontal: -4),
                   contentPadding: EdgeInsets.only(left: 10.sp, right: 10.sp, top: 10.sp, bottom: 10.sp),
                   leading: Container(
                     height: double.infinity,
@@ -72,19 +72,19 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       buildInfoItems(translate(context).name, "Rahish"),
-                      SizedBox(
+                      const SizedBox(
                         height: 2.0,
                       ),
                       buildInfoItems(translate(context).id, "#78656"),
-                      SizedBox(
+                      const SizedBox(
                         height: 2.0,
                       ),
                       buildInfoItems(translate(context).designation, "Head Master"),
-                      SizedBox(
+                      const SizedBox(
                         height: 2.0,
                       ),
                       buildInfoItems(translate(context).subject, "Maths"),
-                      SizedBox(
+                      const SizedBox(
                         height: 2.0,
                       ),
                     ],
@@ -105,7 +105,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
               ),
               InkWell(
                 onTap: (){
-                  Get.to(RequestNFCCardScreen());
+                  Get.to(const RequestNFCCardScreen());
                 },
                 child: buildTile(translate(context).request_cards_tags),),
               InkWell(
@@ -159,7 +159,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
               ListView.builder(
                 itemCount: 2,
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 15.0),
@@ -189,7 +189,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
                               buildInfoItems(translate(context).deactivation_card_no, "4587  9857  4587  6521"),
                             ],
                           ),
-                          Divider(
+                          const Divider(
                             color: CustomColors.borderColor,
                             thickness: 1.0,
                           ),
@@ -203,7 +203,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
                               Flexible(child: Text("Lorem Ipsum is simply dummy text", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),maxLines: 1, overflow: TextOverflow.ellipsis,)),
                             ],
                           ),
-                          Divider(
+                          const Divider(
                             color: CustomColors.borderColor,
                             thickness: 1.0,
                           ),
@@ -240,7 +240,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
                               ),
                             ],
                           ),
-                          Divider(
+                          const Divider(
                             color: CustomColors.borderColor,
                             thickness: 1.0,
                           ),
@@ -266,7 +266,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
 
   Widget buildTile(String title) {
     return Container(
-      margin: EdgeInsets.only(bottom: 8.0),
+      margin: const EdgeInsets.only(bottom: 8.0),
       padding: EdgeInsets.all(14.sp),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),
@@ -287,7 +287,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
   }
   Widget buildCardTile(String title, String heading, isEnable ,Function(bool) onChanged){
      return Container(
-      margin: EdgeInsets.only(bottom: 8.0),
+      margin: const EdgeInsets.only(bottom: 8.0),
       padding: EdgeInsets.all(14.sp),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
@@ -305,7 +305,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
             width: 1.w,
           ),
           buildInfoItems(title, heading),
-          Spacer(),
+          const Spacer(),
           Row(
             children: [
               Text("Off", style: Style.montserratRegularStyle().copyWith(fontSize: 15.sp),),

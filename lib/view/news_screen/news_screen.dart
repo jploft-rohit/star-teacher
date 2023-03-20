@@ -67,7 +67,7 @@ class _NewsScreenState extends State<NewsScreen> {
                     padding: const EdgeInsets.only(bottom: 15.0),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: index == 0 ? const Color(0xFFF8F4E9) : const Color(0xffF5F5F5),
                         borderRadius: BorderRadius.circular(8.0),
                         boxShadow: const [
                           BoxShadow(

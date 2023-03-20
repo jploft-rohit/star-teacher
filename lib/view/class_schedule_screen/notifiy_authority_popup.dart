@@ -61,13 +61,13 @@ class _NotifyAuthorityPopupState extends State<NotifyAuthorityPopup> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(""),
+                    const Text(""),
                     Text(translate(context).notify_admin, style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: Colors.black),),
                     InkWell(
                       onTap: (){
                         Get.back();
                       },
-                      child: Icon(Icons.close, color: Colors.black,),)
+                      child: const Icon(Icons.close, color: Colors.black,),)
                   ],
                 ),
                   SizedBox(
@@ -87,7 +87,7 @@ class _NotifyAuthorityPopupState extends State<NotifyAuthorityPopup> {
                           setState(() {});
                         },
                         child: Container(
-                          margin: EdgeInsets.only(bottom: 8.0),
+                          margin: const EdgeInsets.only(bottom: 8.0),
                           padding: EdgeInsets.all(14.sp),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8.0),
@@ -98,9 +98,9 @@ class _NotifyAuthorityPopupState extends State<NotifyAuthorityPopup> {
                             children: [
                               Text(list[index]['title'], style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: 17.sp),),
                               Checkbox(
-                                visualDensity: VisualDensity(vertical: -4),
+                                visualDensity: const VisualDensity(vertical: -4),
                                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                side: BorderSide(color: Colors.transparent),
+                                side: const BorderSide(color: Colors.transparent),
                                 activeColor: CustomColors.primaryColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(50.0),
@@ -129,7 +129,7 @@ class _NotifyAuthorityPopupState extends State<NotifyAuthorityPopup> {
                   child: CustomButton(text: translate(context).submit_btn_txt, onPressed: (){
                       Get.back();
                       showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation) {
-                        return RescheduleClassPopup();
+                        return const RescheduleClassPopup();
                       },);
                   }, btnWidth: 30.w,borderRadius: 50.0,btnHeight: 40,),
                 ),

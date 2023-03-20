@@ -174,7 +174,7 @@ class _EarlyLeaveScreenState extends State<EarlyLeaveScreen> {
               height: 10.h,
             ),
             CustomButton(text: translate(context).submit_btn_txt, onPressed: (){
-              Get.to(LeavePermissionScreen());
+              Get.back();
             })
           ],
         ),

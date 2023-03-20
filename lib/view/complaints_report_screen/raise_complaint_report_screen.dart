@@ -22,7 +22,7 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
       backgroundColor: Colors.white,
       appBar: appBarWithAction(context, "Raise Complaint & report", [
         Padding(
-          padding: EdgeInsets.only(right: 10.0),
+          padding: const EdgeInsets.only(right: 10.0),
           child: SvgPicture.asset("assets/images/notification.svg"),
         )
       ]),
@@ -32,7 +32,7 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 decoration: BoxDecoration(
                   color: CustomColors.backgroundColor,
                   borderRadius: BorderRadius.circular(5.0),
@@ -49,14 +49,14 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                 ),
               ),
               SizedBox(
-                height: 1.h,
+                height: 2.h,
               ),
               CustomTextField(
                 controller: TextEditingController(),
                 fillColor: CustomColors.txtFieldTextColor,
                 hintText: "Select complaint or report",
                 borderRadius: 5.0,
-                suffixIcon: Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
+                suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
               ),
               SizedBox(
                 height: 2.h,
@@ -66,7 +66,7 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                 fillColor: CustomColors.txtFieldTextColor,
                 hintText: "Complaint for",
                 borderRadius: 5.0,
-                suffixIcon: Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
+                suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
               ),
               SizedBox(
                 height: 2.h,
@@ -76,7 +76,7 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                 fillColor: CustomColors.txtFieldTextColor,
                 hintText: "Select Role",
                 borderRadius: 5.0,
-                suffixIcon: Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
+                suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
               ),
               SizedBox(
                 height: 2.h,
@@ -89,13 +89,13 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                   showGeneralDialog(
                     context: context,
                     pageBuilder:  (context, animation, secondaryAnimation) {
-                      return SelectPersonPopup();
+                      return const SelectPersonPopup();
                     },
                   );
                 },
                 hintText: "Select person",
                 borderRadius: 5.0,
-                suffixIcon: Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
+                suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
               ),
               SizedBox(
                 height: 2.h,
@@ -105,20 +105,20 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                 hintText: "Complaint type",
                 fillColor: CustomColors.txtFieldTextColor,
                 borderRadius: 5.0,
-                suffixIcon: Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
+                suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
               ),
               SizedBox(
                 height: 2.h,
               ),
-              CustomTextField(
-                controller: TextEditingController(),
-                hintText: "Title of complain or report",
-                fillColor: CustomColors.txtFieldTextColor,
-                borderRadius: 5.0,
-              ),
-              SizedBox(
-                height: 2.h,
-              ),
+              // CustomTextField(
+              //   controller: TextEditingController(),
+              //   hintText: "Title of complain or report",
+              //   fillColor: CustomColors.txtFieldTextColor,
+              //   borderRadius: 5.0,
+              // ),
+              // SizedBox(
+              //   height: 2.h,
+              // ),
               CustomTextField(
                 controller: TextEditingController(),
                 maxLine: 4,

@@ -42,7 +42,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
       backgroundColor: CustomColors.white,
       appBar: appBarWithAction(context, translate(context).my_profile,[
         Padding(
-          padding: EdgeInsets.only(right: 10.0),
+          padding: const EdgeInsets.only(right: 10.0),
           child: SvgPicture.asset("assets/images/notification.svg"),
         )
       ],onPressed: (){
@@ -95,7 +95,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
           SizedBox(height: 3.h,),
           InkWell(
             onTap: (){
-              Get.to(MyProfileView());
+              Get.to(const MyProfileView());
             },
             child: Row(
               children: [
@@ -130,7 +130,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
                     ),
                   ],
                 ),
-                Spacer(),
+                const Spacer(),
                 InkWell(
                   onTap: (){
                     showScanQrDialogue(context, false);
@@ -143,7 +143,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
           Row(
             children: [
               Flexible(flex: 1,child: CustomButton(text: translate(context).print_QR,  textSize: 15.sp,onPressed: (){
-                Get.to(PrintQrScreen());
+                Get.to(const PrintQrScreen());
               },btnHeight: 30,),),
               SizedBox(
                 width: 2.w,
@@ -160,8 +160,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
           Expanded(
             child: TabBarView(
               controller: controller,
-              physics: NeverScrollableScrollPhysics(),
-              children: [
+              physics: const NeverScrollableScrollPhysics(),
+              children: const [
                 AccountView(),
                 DetailView(),
                 StatisticsView(),
@@ -185,7 +185,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
         controller: controller,
         isScrollable: false,
         padding: const EdgeInsets.all(4),
-        labelPadding: EdgeInsets.only(left: 0, right: 0),
+        labelPadding: const EdgeInsets.only(left: 0, right: 0),
         indicator: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
             color: CustomColors.backgroundColor,

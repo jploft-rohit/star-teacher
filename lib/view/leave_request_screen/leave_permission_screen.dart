@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
@@ -26,7 +27,7 @@ class _LeavePermissionScreenState extends State<LeavePermissionScreen> {
       backgroundColor: Colors.white,
       appBar: appBarWithAction(context, translate(context).leave_permission, [
         Padding(
-          padding: EdgeInsets.only(right: 10.0),
+          padding: const EdgeInsets.only(right: 10.0),
           child: SvgPicture.asset("assets/images/notification.svg"),
         )
       ]),
@@ -35,7 +36,7 @@ class _LeavePermissionScreenState extends State<LeavePermissionScreen> {
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.only(left: 8.0, right: 8.0),
+              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
               decoration: BoxDecoration(
                 color: CustomColors.backgroundColor,
                 borderRadius: BorderRadius.circular(5.0),
@@ -80,7 +81,7 @@ class _LeavePermissionScreenState extends State<LeavePermissionScreen> {
                             hintText: "dd/mm/yyyy",
                             fillColor: CustomColors.txtFieldTextColor,
                             borderRadius: 5.0,
-                            suffixIcon: Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
+                            suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
                           ),
                         )
                       ],
@@ -204,7 +205,9 @@ class _LeavePermissionScreenState extends State<LeavePermissionScreen> {
             SizedBox(
               height: 10.h,
             ),
-            CustomButton(text: translate(context).submit_btn_txt, onPressed: (){})
+            CustomButton(text: translate(context).submit_btn_txt, onPressed: (){
+              Get.back();
+            })
           ],
         ),
       ),

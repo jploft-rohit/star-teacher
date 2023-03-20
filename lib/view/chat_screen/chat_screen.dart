@@ -40,7 +40,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
       backgroundColor: Colors.white,
       appBar: appBarWithAction(context, "Chats", [
         Padding(
-          padding: EdgeInsets.only(right: 10.0),
+          padding: const EdgeInsets.only(right: 10.0),
           child: SvgPicture.asset("assets/images/notification.svg"),
         )
       ], onPressed: (){
@@ -72,22 +72,22 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                           width: 2.w,
                         ),
                         Text("School", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                        Spacer(),
-                        Icon(
+                        const Spacer(),
+                        const Icon(
                           Icons.arrow_drop_down,
                         )
                       ],
                     ),
                   ),
-                  Divider(height: 0.0,),
+                  const Divider(height: 0.0,),
                   CustomTextField(
                     controller: TextEditingController(),
                     hintText: translate(context).search_by_id,
                     borderColor: Colors.transparent,
                     hintTextColor: CustomColors.textLightGreyColor,
-                    contentPadding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                    contentPadding: const EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
+                    prefixIcon: const Padding(
+                      padding: EdgeInsets.only(left: 10.0, right: 10.0),
                       child: Icon(
                         Icons.search,
                       ),
@@ -105,7 +105,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
             ),
             Expanded(
               child: TabBarView(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 controller: tabCtrl,
                 children: [
                   buildStarView(),
@@ -148,7 +148,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
           Stack(
             alignment: Alignment.center,
             children: [
-              Tab(
+              const Tab(
                 text: 'Stars',
               ),
               // Align(
@@ -171,17 +171,17 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
           Stack(
             alignment: Alignment.center,
             children: [
-              Tab(
+              const Tab(
                 text: 'Parents',
               ),
               Align(
                 alignment: AlignmentDirectional.topEnd,
                 child: Padding(
-                  padding: EdgeInsetsDirectional.only(start: 60.0),
+                  padding: const EdgeInsetsDirectional.only(start: 60.0),
                   child: Container(
                     height: 15.0,
-                    padding: EdgeInsets.all(2.0),
-                    decoration: BoxDecoration(
+                    padding: const EdgeInsets.all(2.0),
+                    decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: CustomColors.primaryColor
                     ),
@@ -194,7 +194,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
           Stack(
             alignment: Alignment.center,
             children: [
-              Tab(
+              const Tab(
                 text: 'Staff',
               ),
               // Align(
@@ -217,17 +217,17 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
           Stack(
             alignment: Alignment.center,
             children: [
-              Tab(
+              const Tab(
                 text: 'Admins',
               ),
               Align(
                 alignment: AlignmentDirectional.topEnd,
                 child: Padding(
-                  padding: EdgeInsetsDirectional.only(start: 60.0),
+                  padding: const EdgeInsetsDirectional.only(start: 60.0),
                   child: Container(
                     height: 15.0,
-                    padding: EdgeInsets.all(2.0),
-                    decoration: BoxDecoration(
+                    padding: const EdgeInsets.all(2.0),
+                    decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: CustomColors.primaryColor
                     ),
@@ -342,7 +342,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                             children: [
                               Container(
                                 height: 70,
-                                padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                                padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15.0),
                                     border: Border.all(color: CustomColors.primaryColor)
@@ -385,7 +385,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                             padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                             child: InkWell(
                               onTap: (){
-                                Get.to(ChatingScreen());
+                                Get.to(const ChatingScreen());
                               },
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -405,11 +405,11 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                     Align(
                       alignment: AlignmentDirectional.topEnd,
                       child: Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: CustomColors.primaryColor,
                         ),
-                        padding: EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
                         child: addText("5", 13.sp, CustomColors.white, FontWeight.w700),
                       ),
                     )
@@ -417,7 +417,8 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                 ),
               );
             },
-          ) : ListView.builder(
+          ) :
+          ListView.builder(
             itemCount: 3,
             shrinkWrap: true,
             itemBuilder: (context, index) {
@@ -439,7 +440,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                             children: [
                               Container(
                                 height: 70,
-                                padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                                padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15.0),
                                     border: Border.all(color: CustomColors.primaryColor)
@@ -482,11 +483,26 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                               ),
                             ],
                           ),
+                          InkWell(
+                            onTap: (){
+                              Get.to(const ScheduleMeetingScreen());
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset("assets/images/calender_chat.svg"),
+                                SizedBox(
+                                  height: .5.h,
+                                ),
+                                Text("Schedule\nMeeting", style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: CustomColors.textBlackColor,),textAlign: TextAlign.center,),
+                              ],
+                            ),
+                          ),
                           Padding(
-                            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                            padding: const EdgeInsets.only(right: 10),
                             child: InkWell(
                               onTap: (){
-                                Get.to(ChatingScreen());
+                                Get.to(const ChatingScreen());
                               },
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -506,11 +522,11 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                     Align(
                       alignment: AlignmentDirectional.topEnd,
                       child: Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: CustomColors.primaryColor,
                         ),
-                        padding: EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
                         child: addText("5", 13.sp, CustomColors.white, FontWeight.w700),
                       ),
                     )
@@ -601,7 +617,8 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
         ),
 
         Obx(() {
-          return controller.selectedIndex1.value == 1 ? ListView.builder(
+          return controller.selectedIndex1.value == 1 ?
+          ListView.builder(
             itemCount: 2,
             shrinkWrap: true,
             itemBuilder: (context, index) {
@@ -623,7 +640,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                             children: [
                               Container(
                                 height: 70,
-                                padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                                padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15.0),
                                     border: Border.all(color: CustomColors.primaryColor)
@@ -663,7 +680,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                             padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                             child: InkWell(
                               onTap: (){
-                                Get.to(ChatingScreen());
+                                Get.to(const ChatingScreen());
                               },
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -683,11 +700,11 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                     Align(
                       alignment: AlignmentDirectional.topEnd,
                       child: Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: CustomColors.primaryColor,
                         ),
-                        padding: EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
                         child: addText("5", 13.sp, CustomColors.white, FontWeight.w700),
                       ),
                     )
@@ -695,7 +712,8 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                 ),
               );
             },
-          ) : ListView.builder(
+          ) :
+          ListView.builder(
             itemCount: 3,
             shrinkWrap: true,
             itemBuilder: (context, index) {
@@ -717,7 +735,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                             children: [
                               Container(
                                 height: 70,
-                                padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                                padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15.0),
                                     border: Border.all(color: CustomColors.primaryColor)
@@ -752,11 +770,26 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                               ),
                             ],
                           ),
+                          InkWell(
+                            onTap: (){
+                              Get.to(const ScheduleMeetingScreen());
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset("assets/images/calender_chat.svg"),
+                                SizedBox(
+                                  height: .5.h,
+                                ),
+                                Text("Schedule\nMeeting", style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: CustomColors.textBlackColor,),textAlign: TextAlign.center,),
+                              ],
+                            ),
+                          ),
                           Padding(
-                            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                            padding: const EdgeInsets.only(right: 10.0),
                             child: InkWell(
                               onTap: (){
-                                Get.to(ChatingScreen());
+                                Get.to(const ChatingScreen());
                               },
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -776,11 +809,11 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                     Align(
                       alignment: AlignmentDirectional.topEnd,
                       child: Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: CustomColors.primaryColor,
                         ),
-                        padding: EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
                         child: addText("5", 13.sp, CustomColors.white, FontWeight.w700),
                       ),
                     )
@@ -871,7 +904,8 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
         ),
 
         Obx(() {
-          return controller.selectedIndex2.value == 1 ? ListView.builder(
+          return controller.selectedIndex2.value == 1 ?
+          ListView.builder(
             itemCount: 2,
             shrinkWrap: true,
             itemBuilder: (context, index) {
@@ -893,7 +927,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                             children: [
                               Container(
                                 height: 70,
-                                padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                                padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15.0),
                                     border: Border.all(color: CustomColors.primaryColor)
@@ -933,7 +967,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                             padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                             child: InkWell(
                               onTap: (){
-                                Get.to(ChatingScreen());
+                                Get.to(const ChatingScreen());
                               },
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -954,11 +988,11 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                       right: 0.0,
                       top: 0.0,
                       child: Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: CustomColors.primaryColor,
                         ),
-                        padding: EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
                         child: addText("5", 13.sp, CustomColors.white, FontWeight.w700),
                       ),
                     )
@@ -966,7 +1000,8 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                 ),
               );
             },
-          ) : ListView.builder(
+          ) :
+          ListView.builder(
             itemCount: 3,
             shrinkWrap: true,
             itemBuilder: (context, index) {
@@ -988,7 +1023,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                             children: [
                               Container(
                                 height: 70,
-                                padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                                padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15.0),
                                     border: Border.all(color: CustomColors.primaryColor)
@@ -1023,11 +1058,26 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                               ),
                             ],
                           ),
+                          InkWell(
+                            onTap: (){
+                              Get.to(const ScheduleMeetingScreen());
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset("assets/images/calender_chat.svg"),
+                                SizedBox(
+                                  height: .5.h,
+                                ),
+                                Text("Schedule\nMeeting", style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: CustomColors.textBlackColor,),textAlign: TextAlign.center,),
+                              ],
+                            ),
+                          ),
                           Padding(
-                            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                            padding: const EdgeInsets.only(right: 10.0),
                             child: InkWell(
                               onTap: (){
-                                Get.to(ChatingScreen());
+                                Get.to(const ChatingScreen());
                               },
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -1047,11 +1097,11 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                     Align(
                       alignment: AlignmentDirectional.topEnd,
                       child: Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: CustomColors.primaryColor,
                         ),
-                        padding: EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
                         child: addText("5", 13.sp, CustomColors.white, FontWeight.w700),
                       ),
                     )
@@ -1087,7 +1137,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                       children: [
                         Container(
                           height: 70,
-                          padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15.0),
                               border: Border.all(color: CustomColors.primaryColor)
@@ -1120,7 +1170,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                         children: [
                           InkWell(
                             onTap: (){
-                              Get.to(ScheduleMeetingScreen());
+                              Get.to(const ScheduleMeetingScreen());
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -1138,7 +1188,7 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                           ),
                           InkWell(
                             onTap: (){
-                              Get.to(ChatingScreen());
+                              Get.to(const ChatingScreen());
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -1161,11 +1211,11 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                 right: 0.0,
                 top: 0.0,
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                     color: CustomColors.primaryColor,
                   ),
-                  padding: EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(5),
                   child: addText("5", 13.sp, CustomColors.white, FontWeight.w700),
                 ),
               )

@@ -40,9 +40,9 @@ class _AssignedToMeViewState extends State<AssignedToMeView> with TickerProvider
           Expanded(
             child: TabBarView(
               controller: tabCtrl,
-              physics: NeverScrollableScrollPhysics(),
-              children: [
-                Container(),
+              physics: const NeverScrollableScrollPhysics(),
+              children: const [
+                AssesmentView(),
                 AwarenesCoursesView(),
                 AssesmentView(),
                 SurveyView()

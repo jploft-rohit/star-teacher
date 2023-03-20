@@ -96,7 +96,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
     return Scaffold(
       appBar: appBarWithAction(context, translate(context).medical_records, [
         Padding(
-          padding: EdgeInsets.only(right: 10.0),
+          padding: const EdgeInsets.only(right: 10.0),
           child: SvgPicture.asset("assets/images/notification.svg"),
         )
       ]),
@@ -108,13 +108,13 @@ class _MedicalReportViewState extends State<MedicalReportView> {
               showGeneralDialog(
                 context: context,
                 pageBuilder:  (context, animation, secondaryAnimation) {
-                  return AddMedicalFilePopup();
+                  return const AddMedicalFilePopup();
                 },
               );
             },
             backgroundColor: CustomColors.backgroundColor,
             shape: RoundedRectangleBorder(
-                side: BorderSide(
+                side: const BorderSide(
                     color: CustomColors.primaryColor
                 ),
                 borderRadius: BorderRadius.circular(50.0)
@@ -125,7 +125,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
               color: CustomColors.primaryColor,
             ),
           ),
-          Text(translate(context).add_health_files, style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),textAlign: TextAlign.center,)
+          Text(translate(context).add_medical_record, style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),textAlign: TextAlign.center,)
         ],
       ),
       body: Padding(
@@ -163,13 +163,13 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text('Nawaz Alam', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),),
-                                Divider(
+                                const Divider(
                                   color: Color(0xffEBEBEB),
                                   height: 5.0,
                                   thickness: 1.0,
                                 ),
                                 Text('#632541', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),),
-                                Divider(
+                                const Divider(
                                   color: Color(0xffEBEBEB),
                                   height: 5.0,
                                   thickness: 1.0,
@@ -987,715 +987,730 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 1.h,),
-                    Text(translate(context).do_you_want_to_use_school_canteen_services, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
-                    SizedBox(height: 1.h,),
-                    Align(
-                      alignment: AlignmentDirectional.topStart,
-                      child: SizedBox(
-                        height: 4.h,
-                        child: ListView.builder(
-                          itemCount: yesNoList.length,
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return GestureDetector (
-                              onTap: (){
-                                allergicSelectedPos = index;
-                                setState(() {});
-                              },
-                              child: Container(
-                                height: 4.h,
-                                width: 20.w,
-                                margin: const EdgeInsets.only(right: 10),
-                                decoration: allergicSelectedPos == index ? getPrimaryDecoration() : getEditTextDecoration(),
-                                child: Center(child: Text(yesNoList[index], style: Style.montserratRegularStyle().copyWith(color: allergicSelectedPos == index ? CustomColors.primaryColor : CustomColors.borderColor, fontSize: 15.sp),)),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 100.w,
+                          margin: const EdgeInsets.symmetric(vertical: 20),
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: CustomColors.primaryColor),
+                            color: CustomColors.white,
+                            borderRadius: BorderRadius.circular(10.0),
+                          ), child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(translate(context).are_you_allergic_to_any_food,style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                            SizedBox(height: 1.h,),
+                            SizedBox(
+                              height: 4.h,
+                              child: ListView.builder(
+                                itemCount: yesNoList.length,
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  return GestureDetector (
+                                    onTap: (){
+                                      useCanteenServicesPos = index;
+                                      setState(() {});
+                                    },
+                                    child: Container(
+                                      height: 4.h,
+                                      width: 20.w,
+                                      margin: const EdgeInsets.only(right: 10),
+                                      decoration: useCanteenServicesPos == index ? getPrimaryDecoration() : getEditTextDecoration(),
+                                      child: Center(child: Text(yesNoList[index], style: Style.montserratRegularStyle().copyWith(color: useCanteenServicesPos == index ? CustomColors.primaryColor : CustomColors.borderColor, fontSize: 15.sp),)),
+                                    ),
+                                  );
+                                },
                               ),
+                            ),
+                            SizedBox(height: 1.h,),
+                            Visibility(
+                              visible: useCanteenServicesPos == 0,
+                              child: ListView.builder(
+                                itemCount: allergyFoodList.length,
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (_, int index) {
+                                  return CheckboxListTile(
+                                    contentPadding: EdgeInsets.zero,
+                                    visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
+                                    activeColor: CustomColors.backgroundColor,
+                                    checkColor: CustomColors.primaryColor,
+                                    dense: true,
+                                    checkboxShape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(2.0),
+                                    ),
+                                    side: MaterialStateBorderSide.resolveWith(
+                                          (states) => const BorderSide(width: 1.0, color: CustomColors.primaryColor,),
+                                    ),
+                                    title: Text(allergyFoodList[index],style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
+                                    value: selectedAllergicFoodList.contains(allergyFoodList[index]),
+                                    onChanged: (_) {
+                                      if (selectedAllergicFoodList.contains(allergyFoodList[index])) {
+                                        selectedAllergicFoodList.remove(allergyFoodList[index]);  // unselect
+                                      } else {
+                                        selectedAllergicFoodList.add(allergyFoodList[index]); // select
+                                      }
+                                      setState(() {});
+                                    },
+                                    controlAffinity: ListTileControlAffinity.leading,
+                                  );
+                                },
+                              ),
+                            ),
+
+                            Visibility(
+                              visible: useCanteenServicesPos == 0,
+                              child: Center(child: GestureDetector(
+                                onTap: () {
+
+                                },
+                                child: buildSaveButton(),
+                              )),
+                            )
+                          ],
+                        ),
+                        ),
+
+                        //medical History
+                        Align(
+                            alignment: AlignmentDirectional.topStart,
+                            child: Text(translate(context).medical_history,style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),)),
+
+                        const Divider(
+                          color: CustomColors.borderColor,
+                          thickness: 1.0,
+                        ),
+
+
+                        Container(
+                          color: Colors.white,
+                          child: Table(
+                            columnWidths: const {
+                              0: FlexColumnWidth(3),
+                              1: FlexColumnWidth(1),
+                              2: FlexColumnWidth(1),
+                              3: FlexColumnWidth(2),
+                            },
+                            children: [
+                              TableRow(
+                                  children: [
+                                    Center(child: Text(translate(context).infectious_diseases,style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
+                                    Center(child: Text(translate(context).yes.toUpperCase(),style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
+                                    Center(child: Text(translate(context).no.toUpperCase(),style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
+                                    Center(child: Text(translate(context).details.toUpperCase(),style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
+                                  ]),
+                            ],
+                          ),
+                        ),
+
+
+                        SizedBox(height: 2.h,),
+
+                        GetBuilder<MedicalReportViewCtrl>(
+                          builder: (controller) {
+                            return ListView.builder(
+                              itemCount: controller.infectiousDiseaseList.length,
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  color: Colors.white,
+                                  child: Table(
+                                    border: TableBorder.all(color: CustomColors.borderColor.withOpacity(0.5),width: 1),
+                                    columnWidths: const {
+                                      0: FlexColumnWidth(3),
+                                      1: FlexColumnWidth(1),
+                                      2: FlexColumnWidth(1),
+                                      3: FlexColumnWidth(2),
+                                    },
+                                    children: [
+                                      TableRow(
+                                          children: [
+                                            Padding(
+                                              padding:  EdgeInsets.symmetric(vertical: 2.h,horizontal: 1.w),
+                                              child: Text(controller.infectiousDiseaseList[index]['title'], style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
+                                            ),
+                                            Padding(
+                                              padding:  EdgeInsets.symmetric(vertical: 0.h),
+                                              child: Radio(
+                                                  toggleable: true,
+                                                  activeColor: CustomColors.primaryColor, fillColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
+                                                  focusColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
+                                                  overlayColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
+                                                  value: index,
+                                                  groupValue: controller.infectiousDiseaseList[index]['isSelected'],
+                                                  onChanged: (index1) {
+                                                    controller.infectiousDiseaseList[index]['isSelected1'] = -1;
+                                                    controller.infectiousDiseaseList[index]['isSelected'] = int.tryParse(index1.toString()) ?? 0;
+                                                    controller.update();
+                                                  }),
+                                            ),
+                                            Padding(
+                                              padding:  EdgeInsets.symmetric(vertical: 0.h),
+                                              child: SizedBox(
+                                                width : 10.w,
+                                                child: Radio(
+                                                  activeColor: CustomColors.primaryColor,
+                                                  fillColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
+                                                  focusColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
+                                                  overlayColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
+                                                  toggleable: true,
+                                                  value: index, groupValue: controller.infectiousDiseaseList[index]['isSelected1'],
+                                                  onChanged: (index1) {
+                                                    print("adfasf1: $index1");
+                                                    controller.infectiousDiseaseList[index]['isSelected'] = -1;
+                                                    controller.infectiousDiseaseList[index]['isSelected1'] = int.tryParse(index1.toString()) ?? 0;
+                                                    controller.update();
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                            controller.infectiousDiseaseList[index]['isSelected'] >= 0 ?
+                                            Padding(
+                                              padding:  EdgeInsets.symmetric(vertical: 2.h,horizontal: 2.w),
+                                              child: SvgPicture.asset(uploadDocSvg,),
+                                            ) : const SizedBox(),
+                                          ]),
+                                    ],
+                                  ),
+                                );
+                              },
                             );
                           },
                         ),
-                      ),
-                    ),
-                    Visibility(
-                      visible: allergicSelectedPos == 0,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 100.w,
-                            margin: const EdgeInsets.symmetric(vertical: 20),
-                            padding: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: CustomColors.primaryColor),
-                              color: CustomColors.white,
-                              borderRadius: BorderRadius.circular(10.0),
-                            ), child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+
+                        SizedBox(height: 2.h,),
+
+                        Center(
+                          child: GestureDetector(
+                            onTap: (){},
+                            child: buildSaveButton(),
+                          ),
+                        ),
+
+                        const Divider(
+                          color: CustomColors.borderColor,
+                          thickness: 1.0,
+                        ),
+                        SizedBox(height: 2.h,),
+                        Container(
+                          color: Colors.white,
+                          child: Table(
+                            columnWidths: const {
+                              0: FlexColumnWidth(3),
+                              1: FlexColumnWidth(1),
+                              2: FlexColumnWidth(1),
+                              3: FlexColumnWidth(2),
+                            },
                             children: [
-                              Text(translate(context).are_you_allergic_to_any_food,style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
-                              SizedBox(height: 1.h,),
-                              SizedBox(
-                                height: 4.h,
-                                child: ListView.builder(
-                                  itemCount: yesNoList.length,
-                                  scrollDirection: Axis.horizontal,
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    return GestureDetector (
-                                      onTap: (){
-                                        useCanteenServicesPos = index;
-                                        setState(() {});
-                                      },
-                                      child: Container(
-                                        height: 4.h,
-                                        width: 20.w,
-                                        margin: const EdgeInsets.only(right: 10),
-                                        decoration: useCanteenServicesPos == index ? getPrimaryDecoration() : getEditTextDecoration(),
-                                        child: Center(child: Text(yesNoList[index], style: Style.montserratRegularStyle().copyWith(color: useCanteenServicesPos == index ? CustomColors.primaryColor : CustomColors.borderColor, fontSize: 15.sp),)),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                              SizedBox(height: 1.h,),
-                              Visibility(
-                                visible: useCanteenServicesPos == 0,
-                                child: ListView.builder(
-                                  itemCount: allergyFoodList.length,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemBuilder: (_, int index) {
-                                    return CheckboxListTile(
-                                      contentPadding: EdgeInsets.zero,
-                                      visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
-                                      activeColor: CustomColors.backgroundColor,
-                                      checkColor: CustomColors.primaryColor,
-                                      dense: true,
-                                      checkboxShape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(2.0),
-                                      ),
-                                      side: MaterialStateBorderSide.resolveWith(
-                                            (states) => const BorderSide(width: 1.0, color: CustomColors.primaryColor,),
-                                      ),
-                                      title: Text(allergyFoodList[index],style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
-                                      value: selectedAllergicFoodList.contains(allergyFoodList[index]),
-                                      onChanged: (_) {
-                                        if (selectedAllergicFoodList.contains(allergyFoodList[index])) {
-                                          selectedAllergicFoodList.remove(allergyFoodList[index]);  // unselect
-                                        } else {
-                                          selectedAllergicFoodList.add(allergyFoodList[index]); // select
-                                        }
-                                        setState(() {});
-                                      },
-                                      controlAffinity: ListTileControlAffinity.leading,
-                                    );
-                                  },
-                                ),
-                              ),
-
-                              Visibility(
-                                visible: useCanteenServicesPos == 0,
-                                child: Center(child: GestureDetector(
-                                  onTap: () {
-
-                                  },
-                                  child: buildSaveButton(),
-                                )),
-                              )
+                              TableRow(children: [
+                                Center(child: Text(translate(context).disease_condition,style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
+                                Center(child: Text(translate(context).yes.toUpperCase(),style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
+                                Center(child: Text(translate(context).no.toUpperCase(),style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
+                                Center(child: Text(translate(context).details.toUpperCase(),style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
+                              ]),
                             ],
                           ),
-                          ),
+                        ),
 
-                          //medical History
-                          Align(
-                              alignment: AlignmentDirectional.topStart,
-                              child: Text(translate(context).medical_history,style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),)),
+                        SizedBox(height: 2.h,),
 
-                          Divider(
-                            color: CustomColors.borderColor,
-                            thickness: 1.0,
-                          ),
-
-
-                          Container(
-                            color: Colors.white,
-                            child: Table(
-                              columnWidths: const {
-                                0: FlexColumnWidth(3),
-                                1: FlexColumnWidth(1),
-                                2: FlexColumnWidth(1),
-                                3: FlexColumnWidth(2),
-                              },
-                              children: [
-                                TableRow(
+                        GetBuilder<MedicalReportViewCtrl>(
+                          builder: (controller) {
+                            return ListView.builder(
+                              itemCount: controller.diseaseConditionList.length,
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  color: Colors.white,
+                                  child: Table(
+                                    border: TableBorder.all(color: CustomColors.borderColor.withOpacity(0.5),width: 1),
+                                    columnWidths: const {
+                                      0: FlexColumnWidth(3),
+                                      1: FlexColumnWidth(1),
+                                      2: FlexColumnWidth(1),
+                                      3: FlexColumnWidth(2),
+                                    },
                                     children: [
-                                      Center(child: Text(translate(context).infectious_diseases,style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
-                                      Center(child: Text(translate(context).yes.toUpperCase(),style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
-                                      Center(child: Text(translate(context).no.toUpperCase(),style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
-                                      Center(child: Text(translate(context).details.toUpperCase(),style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
-                                    ]),
-                              ],
-                            ),
-                          ),
-
-
-                          SizedBox(height: 2.h,),
-
-                          GetBuilder<MedicalReportViewCtrl>(
-                            builder: (controller) {
-                              return ListView.builder(
-                                itemCount: controller.infectiousDiseaseList.length,
-                                scrollDirection: Axis.vertical,
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  return Container(
-                                    color: Colors.white,
-                                    child: Table(
-                                      border: TableBorder.all(color: CustomColors.borderColor.withOpacity(0.5),width: 1),
-                                      columnWidths: const {
-                                        0: FlexColumnWidth(3),
-                                        1: FlexColumnWidth(1),
-                                        2: FlexColumnWidth(1),
-                                        3: FlexColumnWidth(2),
-                                      },
-                                      children: [
-                                        TableRow(
-                                            children: [
-                                              Padding(
-                                                padding:  EdgeInsets.symmetric(vertical: 2.h,horizontal: 1.w),
-                                                child: Text(controller.infectiousDiseaseList[index]['title'], style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
-                                              ),
-                                              Padding(
-                                                padding:  EdgeInsets.symmetric(vertical: 0.h),
-                                                child: Radio(
-                                                    toggleable: true,
-                                                    activeColor: CustomColors.primaryColor, fillColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-                                                    focusColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-                                                    overlayColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-                                                    value: index,
-                                                    groupValue: controller.infectiousDiseaseList[index]['isSelected'],
-                                                    onChanged: (index1) {
-                                                      controller.infectiousDiseaseList[index]['isSelected1'] = -1;
-                                                      controller.infectiousDiseaseList[index]['isSelected'] = int.tryParse(index1.toString()) ?? 0;
-                                                      controller.update();
-                                                    }),
-                                              ),
-                                              Padding(
-                                                padding:  EdgeInsets.symmetric(vertical: 0.h),
-                                                child: SizedBox(
-                                                  width : 10.w,
-                                                  child: Radio(
-                                                    activeColor: CustomColors.primaryColor,
-                                                    fillColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-                                                    focusColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-                                                    overlayColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-                                                    toggleable: true,
-                                                    value: index, groupValue: controller.infectiousDiseaseList[index]['isSelected1'],
-                                                    onChanged: (index1) {
-                                                      print("adfasf1: $index1");
-                                                      controller.infectiousDiseaseList[index]['isSelected'] = -1;
-                                                      controller.infectiousDiseaseList[index]['isSelected1'] = int.tryParse(index1.toString()) ?? 0;
-                                                      controller.update();
-                                                    },
-                                                  ),
-                                                ),
-                                              ),
-                                              controller.infectiousDiseaseList[index]['isSelected'] >= 0 ?
-                                              Padding(
-                                                padding:  EdgeInsets.symmetric(vertical: 2.h,horizontal: 2.w),
-                                                child: SvgPicture.asset(uploadDocSvg,),
-                                              ) : SizedBox(),
-                                            ]),
-                                      ],
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                          ),
-
-                          SizedBox(height: 2.h,),
-
-                          Center(
-                            child: GestureDetector(
-                              onTap: (){},
-                              child: buildSaveButton(),
-                            ),
-                          ),
-
-                          Divider(
-                            color: CustomColors.borderColor,
-                            thickness: 1.0,
-                          ),
-                          SizedBox(height: 2.h,),
-                          Container(
-                            color: Colors.white,
-                            child: Table(
-                              columnWidths: const {
-                                0: FlexColumnWidth(3),
-                                1: FlexColumnWidth(1),
-                                2: FlexColumnWidth(1),
-                                3: FlexColumnWidth(2),
-                              },
-                              children: [
-                                TableRow(children: [
-                                  Center(child: Text(translate(context).disease_condition,style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
-                                  Center(child: Text(translate(context).yes.toUpperCase(),style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
-                                  Center(child: Text(translate(context).no.toUpperCase(),style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
-                                  Center(child: Text(translate(context).details.toUpperCase(),style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
-                                ]),
-                              ],
-                            ),
-                          ),
-
-                          SizedBox(height: 2.h,),
-
-                          GetBuilder<MedicalReportViewCtrl>(
-                            builder: (controller) {
-                              return ListView.builder(
-                                itemCount: controller.diseaseConditionList.length,
-                                scrollDirection: Axis.vertical,
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  return Container(
-                                    color: Colors.white,
-                                    child: Table(
-                                      border: TableBorder.all(color: CustomColors.borderColor.withOpacity(0.5),width: 1),
-                                      columnWidths: const {
-                                        0: FlexColumnWidth(3),
-                                        1: FlexColumnWidth(1),
-                                        2: FlexColumnWidth(1),
-                                        3: FlexColumnWidth(2),
-                                      },
-                                      children: [
-                                        TableRow(
-                                            children: [
-                                              Padding(
-                                                padding:  EdgeInsets.symmetric(vertical: 2.h,horizontal: 1.w),
-                                                child: Text(controller.diseaseConditionList[index]['title'],style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
-                                              ),
-                                              Padding(
-                                                padding:  EdgeInsets.symmetric(vertical: 0.h),
-                                                child: Radio(
-                                                    toggleable: true,
-                                                    activeColor: CustomColors.primaryColor, fillColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-                                                    focusColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-                                                    overlayColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-                                                    value: index, groupValue: controller.diseaseConditionList[index]['isSelected'],
-                                                    onChanged: (index1) {
-                                                      controller.diseaseConditionList[index]['isSelected1'] = -1;
-                                                      controller.diseaseConditionList[index]['isSelected'] = int.tryParse(index1.toString()) ?? 0;
-                                                      controller.update();
-                                                    }),
-                                              ),
-                                              Padding(
-                                                padding:  EdgeInsets.symmetric(vertical: 0.h),
-                                                child: SizedBox(
-                                                  width : 10.w,
-                                                  child: Radio(
-                                                      activeColor: CustomColors.primaryColor, fillColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-                                                      focusColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-                                                      overlayColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-                                                      toggleable: true,
-                                                      value: index, groupValue: controller.diseaseConditionList[index]['isSelected1'], onChanged: (index1) {
-                                                    controller.diseaseConditionList[index]['isSelected'] = -1;
-                                                    controller.diseaseConditionList[index]['isSelected1'] = int.tryParse(index1.toString()) ?? 0;
+                                      TableRow(
+                                          children: [
+                                            Padding(
+                                              padding:  EdgeInsets.symmetric(vertical: 2.h,horizontal: 1.w),
+                                              child: Text(controller.diseaseConditionList[index]['title'],style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
+                                            ),
+                                            Padding(
+                                              padding:  EdgeInsets.symmetric(vertical: 0.h),
+                                              child: Radio(
+                                                  toggleable: true,
+                                                  activeColor: CustomColors.primaryColor, fillColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
+                                                  focusColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
+                                                  overlayColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
+                                                  value: index, groupValue: controller.diseaseConditionList[index]['isSelected'],
+                                                  onChanged: (index1) {
+                                                    controller.diseaseConditionList[index]['isSelected1'] = -1;
+                                                    controller.diseaseConditionList[index]['isSelected'] = int.tryParse(index1.toString()) ?? 0;
                                                     controller.update();
                                                   }),
-                                                ),
+                                            ),
+                                            Padding(
+                                              padding:  EdgeInsets.symmetric(vertical: 0.h),
+                                              child: SizedBox(
+                                                width : 10.w,
+                                                child: Radio(
+                                                    activeColor: CustomColors.primaryColor, fillColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
+                                                    focusColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
+                                                    overlayColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
+                                                    toggleable: true,
+                                                    value: index, groupValue: controller.diseaseConditionList[index]['isSelected1'], onChanged: (index1) {
+                                                  controller.diseaseConditionList[index]['isSelected'] = -1;
+                                                  controller.diseaseConditionList[index]['isSelected1'] = int.tryParse(index1.toString()) ?? 0;
+                                                  controller.update();
+                                                }),
                                               ),
-                                              controller.diseaseConditionList[index]['isSelected'] >= 0 ?
-                                              Padding(
-                                                padding:  EdgeInsets.symmetric(vertical: 2.h,horizontal: 2.w),
-                                                child: SvgPicture.asset(uploadDocSvg,),
-                                              ) : SizedBox(),
-                                            ]),
-                                      ],
+                                            ),
+                                            controller.diseaseConditionList[index]['isSelected'] >= 0 ?
+                                            Padding(
+                                              padding:  EdgeInsets.symmetric(vertical: 2.h,horizontal: 2.w),
+                                              child: SvgPicture.asset(uploadDocSvg,),
+                                            ) : const SizedBox(),
+                                          ]),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                        SizedBox(height: 2.h,),
+
+                        Center(
+                          child: GestureDetector(
+                            onTap: (){},
+                            child: buildSaveButton(),
+                          ),
+                        ),
+                        SizedBox(height: 2.h,),
+                        Align(
+                          alignment: AlignmentDirectional.topStart,
+                          child: Text('${translate(context).history_of} :',style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),),
+                        ),
+                        Row(
+                          children: [
+
+                            Expanded(
+                                flex: 3,
+                                child: Text('${translate(context).blood_transfusion} :',style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),)),
+
+                            Flexible(
+                              flex: 2,
+                              child: RadioButton(
+                                  description: translate(Get.context!).yes,
+                                  value: translate(Get.context!).yes,
+                                  groupValue: bloodTransfusionValue,
+                                  fillColor: CustomColors.primaryColor,
+                                  activeColor: CustomColors.primaryColor,
+                                  onChanged: (value) {
+                                    bloodTransfusionValue = value.toString();
+                                    setState(() {});
+                                  }
+                              ),
+                            ),
+
+                            Flexible(
+                              flex: 2,
+                              child: RadioButton(
+                                  description: translate(Get.context!).no,
+                                  value: translate(Get.context!).no,
+                                  groupValue: bloodTransfusionValue,
+                                  fillColor: CustomColors.primaryColor,
+                                  activeColor: CustomColors.primaryColor,
+                                  onChanged: (value) {
+                                    bloodTransfusionValue = value.toString();
+                                    setState(() {});
+                                  }
+                              ),
+                            ),
+                            SizedBox(
+                              width: 2.w,
+                            ),
+                            SvgPicture.asset(uploadDocSvg,color: bloodTransfusionValue == translate(Get.context!).no ? CustomColors.white : null,),
+                          ],
+                        ),
+                        Divider(
+                          color: CustomColors.borderColor.withOpacity(0.5),
+                          thickness: 2,
+                          height: 1.h,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                                flex: 3,
+                                child: Text('${translate(context).hospitalization} :',style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),)),
+                            Flexible(
+                              flex: 2,
+                              child: RadioButton(
+                                  description: translate(Get.context!).yes,
+                                  value: translate(Get.context!).yes,
+                                  groupValue: hospitalizationValue,
+                                  fillColor: CustomColors.primaryColor,
+                                  activeColor: CustomColors.primaryColor,
+                                  onChanged: (value) {
+                                    hospitalizationValue = value.toString();
+                                    setState(() {});
+                                  }
+                              ),
+                            ),
+
+                            Flexible(
+                              flex: 2,
+                              child:RadioButton(
+                                  description: translate(Get.context!).no,
+                                  value: translate(Get.context!).no,
+                                  groupValue: hospitalizationValue,
+                                  fillColor: CustomColors.primaryColor,
+                                  activeColor: CustomColors.primaryColor,
+                                  onChanged: (value) {
+                                    hospitalizationValue = value.toString();
+                                    setState(() {});
+                                  }
+                              ),
+                            ),
+                            // Spacer(),
+                            SizedBox(
+                              width: 2.w,
+                            ),
+                            SvgPicture.asset(uploadDocSvg,color: hospitalizationValue == translate(Get.context!).no ? CustomColors.white : null,),
+
+
+                          ],
+                        ),
+                        Divider(
+                          color: CustomColors.borderColor.withOpacity(0.5),
+                          thickness: 2,
+                          height: 1.h,
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Flexible(
+                                flex: 1,
+                                child: Container(
+                                    margin: EdgeInsets.only(top: 1.5.h),
+                                    child: Text('${translate(context).currently_using} :',style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),))),
+                            Flexible(
+                              flex: 1,
+                              child: ListView.builder(
+                                itemCount: currentlyUsingList.length,
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (_, int index) {
+                                  return CheckboxListTile(
+                                    contentPadding: EdgeInsets.zero,
+                                    visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                    activeColor: CustomColors.backgroundColor,
+                                    checkColor: CustomColors.primaryColor,
+                                    dense: true,
+                                    checkboxShape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(2.0),
+                                    ),
+                                    side: MaterialStateBorderSide.resolveWith(
+                                          (states) => const BorderSide(width: 1.0, color: CustomColors.primaryColor,),
+                                    ),
+                                    title: Text(currentlyUsingList[index],style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                                    value: selectedCurrentlyUsingList.contains(currentlyUsingList[index]),
+                                    onChanged: (_) {
+                                      if (selectedCurrentlyUsingList.contains(currentlyUsingList[index])) {
+                                        selectedCurrentlyUsingList.remove(currentlyUsingList[index]);  // unselect
+                                      } else {
+                                        selectedCurrentlyUsingList.add(currentlyUsingList[index]); // select
+                                      }
+                                      setState(() {});
+                                    },
+                                    controlAffinity: ListTileControlAffinity.leading,
+                                  );
+                                },
+                              ),)
+                          ],
+                        ),
+
+                        const Divider(
+                          color: CustomColors.borderColor,
+                          thickness: 1.0,
+                        ),
+                        Center(
+                          child: GestureDetector(
+                            onTap: (){},
+                            child: buildSaveButton(),
+                          ),
+                        ),
+                        SizedBox(height: 3.h,),
+                        Align(
+                          alignment: AlignmentDirectional.topStart,
+                          child: Text('${translate(context).family_history} :', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),),
+                        ),
+                        SizedBox(height: 1.h,),
+                        Text('Heart Disease/Diabetes/Hypertension/Mental Disorder/Stroke/Tuberculosis. Others, specify', style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp, fontWeight: FontWeight.w500),),
+                        SizedBox(height: 1.h,),
+
+                        Container(
+                          height: 10.h,
+                          decoration: getEditTextDecoration(),
+                          child: CustomTextField(controller: familyHistoryController, hintText: "My grandfather has diabetes", borderColor: Colors.transparent,hintTxtSize: 15.sp,),
+                        ),
+                        SizedBox(height: 1.h,),
+                        Center(
+                          child: GestureDetector(
+                            onTap: (){},
+                            child: buildSaveButton(),
+                          ),
+                        ),
+                        SizedBox(height: 2.h,),
+                        // // Align(alignment: Alignment.topLeft,
+                        // //   child: Text('Medical Examination Consent', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),),),
+                        // // Divider(
+                        // //   color: CustomColors.borderColor,
+                        // //   thickness: 1.0,
+                        // // ),
+                        // SizedBox(height: 2.h,),
+                        // Align(
+                        //   alignment: Alignment.topRight,
+                        //   child: GestureDetector(
+                        //     onTap: () {
+                        //
+                        //     },
+                        //     child: buildSaveButton(),
+                        //   ),
+                        // ),
+
+                        Align(
+                            alignment: AlignmentDirectional.topStart,
+                            child: Text(translate(context).medical_examination_consent, style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),)),
+                        SizedBox(height: 1.h,),
+                        Text(medicalExaminationConsent, style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                        const Divider(
+                          color: CustomColors.borderColor,
+                          thickness: 1.0,
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Checkbox(
+                              checkColor: Colors.white,
+                              activeColor: CustomColors.primaryColor,
+                              value: isConsentChecked,
+
+                              visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                              side: const BorderSide(color: CustomColors.primaryColor),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(3),
+                              ),
+                              onChanged: (bool? value) {
+                                isConsentChecked = value!;
+                              },
+                            ),
+
+                            Text(translate(context).i_agree_to_attend_the_school_examination, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),)
+                          ],
+                        ),
+                        SizedBox(height: 1.h,),
+                        Center(
+                          child: GestureDetector(
+                            onTap: (){},
+                            child: buildSaveButton(),
+                          ),
+                        ),
+                        SizedBox(height: 2.h,),
+                        Align(
+                            alignment: AlignmentDirectional.topStart,
+                            child: Text(translate(context).medication_policy, style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),)),
+                        const Divider(
+                          color: CustomColors.borderColor,
+                          thickness: 1.0,
+                        ),
+                        SizedBox(height: 1.h,),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Checkbox(
+                              checkColor: Colors.white,
+                              activeColor: CustomColors.primaryColor,
+                              value: isMedicationPolicyChecked,
+
+                              visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                              side: const BorderSide(color: CustomColors.primaryColor),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(3),
+                              ),
+                              onChanged: (bool? value) {
+                                isMedicationPolicyChecked = value!;
+                                setState(() {});
+                              },
+                            ),
+
+                            Text(translate(context).i_agree_with, style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
+
+                          ],
+                        ),
+
+                        SizedBox(height: 1.h,),
+                        Text(medicationPolicy, style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                        SizedBox(height: 1.h,),
+                        Container(
+                          width: 100.w,
+                          margin: const EdgeInsets.symmetric(vertical: 20),
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: CustomColors.primaryColor),
+                              color: CustomColors.white,
+                              boxShadow: [getBoxShadow()],
+                              borderRadius: BorderRadius.circular(15.0)
+                          ), child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(translate(context).are_you_allergic_to_any_medication, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
+                            SizedBox(height: 1.h,),
+                            SizedBox(
+                              height: 4.h,
+                              child: ListView.builder(
+                                itemCount: yesNoList.length,
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                    onTap: (){
+                                      allergicMedicationSelectedPos = index;
+                                      setState(() {});
+                                    },
+                                    child: Container(
+                                      height: 4.h,
+                                      width: 20.w,
+                                      margin: const EdgeInsets.only(right: 10),
+                                      decoration: allergicMedicationSelectedPos == index ? getPrimaryDecoration() : getEditTextDecoration(),
+                                      child: Center(child: Text(yesNoList[index], style: Style.montserratBoldStyle().copyWith(color: allergicMedicationSelectedPos == index ? CustomColors.primaryColor : CustomColors.borderColor, fontSize: 15.sp),)),
                                     ),
                                   );
                                 },
-                              );
+                              ),
+                            ),
+                            SizedBox(height: 1.h,),
+                            CustomTextField(controller: allergicMedicineController, hintText: translate(context).type_here),
+                          ],
+                        ),
+                        ),
+                        Center(
+                          child: GestureDetector(
+                            onTap: () {
+
                             },
+                            child: buildSaveButton(),
                           ),
-                          SizedBox(height: 2.h,),
+                        ),
 
-                          Center(
-                            child: GestureDetector(
-                              onTap: (){},
-                              child: buildSaveButton(),
-                            ),
-                          ),
-                          SizedBox(height: 2.h,),
-                          Align(
+
+
+
+                        SizedBox(height: 2.h,),
+
+                        Align(
                             alignment: AlignmentDirectional.topStart,
-                            child: Text('${translate(context).history_of} :',style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),),
-                          ),
-                          Row(
-                            children: [
+                            child: Text(translate(context).sickness_exclusion_policy, style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),)),
+                        const Divider(
+                          color: CustomColors.borderColor,
+                          thickness: 1.0,
+                        ),
+                        SizedBox(height: 1.h,),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Checkbox(
+                              checkColor: Colors.white,
+                              activeColor: CustomColors.primaryColor,
+                              value: isSicknessPolicyChecked,
 
-                              Expanded(
-                                  flex: 3,
-                                  child: Text('${translate(context).blood_transfusion} :',style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),)),
-
-                              Flexible(
-                                flex: 2,
-                                child: RadioButton(
-                                    description: translate(Get.context!).yes,
-                                    value: translate(Get.context!).yes,
-                                    groupValue: bloodTransfusionValue,
-                                    fillColor: CustomColors.primaryColor,
-                                    activeColor: CustomColors.primaryColor,
-                                    onChanged: (value) {
-                                      bloodTransfusionValue = value.toString();
-                                      setState(() {});
-                                    }
-                                ),
+                              visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                              side: const BorderSide(color: CustomColors.primaryColor),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(3),
                               ),
-
-                              Flexible(
-                                flex: 2,
-                                child: RadioButton(
-                                    description: translate(Get.context!).no,
-                                    value: translate(Get.context!).no,
-                                    groupValue: bloodTransfusionValue,
-                                    fillColor: CustomColors.primaryColor,
-                                    activeColor: CustomColors.primaryColor,
-                                    onChanged: (value) {
-                                      bloodTransfusionValue = value.toString();
-                                      setState(() {});
-                                    }
-                                ),
-                              ),
-                              SizedBox(
-                                width: 2.w,
-                              ),
-                              SvgPicture.asset(uploadDocSvg,color: bloodTransfusionValue == translate(Get.context!).no ? CustomColors.white : null,),
-                            ],
-                          ),
-                          Divider(
-                            color: CustomColors.borderColor.withOpacity(0.5),
-                            thickness: 2,
-                            height: 1.h,
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                  flex: 3,
-                                  child: Text('${translate(context).hospitalization} :',style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),)),
-                              Flexible(
-                                flex: 2,
-                                child: RadioButton(
-                                    description: translate(Get.context!).yes,
-                                    value: translate(Get.context!).yes,
-                                    groupValue: hospitalizationValue,
-                                    fillColor: CustomColors.primaryColor,
-                                    activeColor: CustomColors.primaryColor,
-                                    onChanged: (value) {
-                                      hospitalizationValue = value.toString();
-                                      setState(() {});
-                                    }
-                                ),
-                              ),
-
-                              Flexible(
-                                flex: 2,
-                                child:RadioButton(
-                                    description: translate(Get.context!).no,
-                                    value: translate(Get.context!).no,
-                                    groupValue: hospitalizationValue,
-                                    fillColor: CustomColors.primaryColor,
-                                    activeColor: CustomColors.primaryColor,
-                                    onChanged: (value) {
-                                      hospitalizationValue = value.toString();
-                                      setState(() {});
-                                    }
-                                ),
-                              ),
-                              // Spacer(),
-                              SizedBox(
-                                width: 2.w,
-                              ),
-                              SvgPicture.asset(uploadDocSvg,color: hospitalizationValue == translate(Get.context!).no ? CustomColors.white : null,),
-
-
-                            ],
-                          ),
-                          Divider(
-                            color: CustomColors.borderColor.withOpacity(0.5),
-                            thickness: 2,
-                            height: 1.h,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Flexible(
-                                  flex: 1,
-                                  child: Container(
-                                      margin: EdgeInsets.only(top: 1.5.h),
-                                      child: Text('${translate(context).currently_using} :',style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),))),
-                              Flexible(
-                                flex: 1,
-                                child: ListView.builder(
-                                  itemCount: currentlyUsingList.length,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemBuilder: (_, int index) {
-                                    return CheckboxListTile(
-                                      contentPadding: EdgeInsets.zero,
-                                      visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                      activeColor: CustomColors.backgroundColor,
-                                      checkColor: CustomColors.primaryColor,
-                                      dense: true,
-                                      checkboxShape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(2.0),
-                                      ),
-                                      side: MaterialStateBorderSide.resolveWith(
-                                            (states) => const BorderSide(width: 1.0, color: CustomColors.primaryColor,),
-                                      ),
-                                      title: Text(currentlyUsingList[index],style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
-                                      value: selectedCurrentlyUsingList.contains(currentlyUsingList[index]),
-                                      onChanged: (_) {
-                                        if (selectedCurrentlyUsingList.contains(currentlyUsingList[index])) {
-                                          selectedCurrentlyUsingList.remove(currentlyUsingList[index]);  // unselect
-                                        } else {
-                                          selectedCurrentlyUsingList.add(currentlyUsingList[index]); // select
-                                        }
-                                        setState(() {});
-                                      },
-                                      controlAffinity: ListTileControlAffinity.leading,
-                                    );
-                                  },
-                                ),)
-                            ],
-                          ),
-
-                          Divider(
-                            color: CustomColors.borderColor,
-                            thickness: 1.0,
-                          ),
-                          Center(
-                            child: GestureDetector(
-                              onTap: (){},
-                              child: buildSaveButton(),
-                            ),
-                          ),
-                          SizedBox(height: 3.h,),
-                          Align(
-                            alignment: AlignmentDirectional.topStart,
-                            child: Text('${translate(context).family_history} :', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),),
-                          ),
-                          SizedBox(height: 1.h,),
-                          Text('Heart Disease/Diabetes/Hypertension/Mental Disorder/Stroke/Tuberculosis. Others, specify', style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp, fontWeight: FontWeight.w500),),
-                          SizedBox(height: 1.h,),
-
-                          Container(
-                            height: 10.h,
-                            decoration: getEditTextDecoration(),
-                            child: CustomTextField(controller: familyHistoryController, hintText: "My grandfather has diabetes", borderColor: Colors.transparent,hintTxtSize: 15.sp,),
-                          ),
-                          SizedBox(height: 1.h,),
-                          Center(
-                            child: GestureDetector(
-                              onTap: (){},
-                              child: buildSaveButton(),
-                            ),
-                          ),
-                          SizedBox(height: 2.h,),
-                          // // Align(alignment: Alignment.topLeft,
-                          // //   child: Text('Medical Examination Consent', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),),),
-                          // // Divider(
-                          // //   color: CustomColors.borderColor,
-                          // //   thickness: 1.0,
-                          // // ),
-                          // SizedBox(height: 2.h,),
-                          // Align(
-                          //   alignment: Alignment.topRight,
-                          //   child: GestureDetector(
-                          //     onTap: () {
-                          //
-                          //     },
-                          //     child: buildSaveButton(),
-                          //   ),
-                          // ),
-
-                          Align(
-                              alignment: AlignmentDirectional.topStart,
-                              child: Text(translate(context).medical_examination_consent, style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),)),
-                          SizedBox(height: 1.h,),
-                          Text(medicalExaminationConsent, style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
-                          Divider(
-                            color: CustomColors.borderColor,
-                            thickness: 1.0,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Checkbox(
-                                checkColor: Colors.white,
-                                activeColor: CustomColors.primaryColor,
-                                value: isConsentChecked,
-
-                                visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                side: const BorderSide(color: CustomColors.primaryColor),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(3),
-                                ),
-                                onChanged: (bool? value) {
-                                  isConsentChecked = value!;
-                                },
-                              ),
-
-                              Text(translate(context).i_agree_to_attend_the_school_examination, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),)
-                            ],
-                          ),
-                          SizedBox(height: 1.h,),
-                          Center(
-                            child: GestureDetector(
-                              onTap: (){},
-                              child: buildSaveButton(),
-                            ),
-                          ),
-                          SizedBox(height: 2.h,),
-                          Align(
-                              alignment: AlignmentDirectional.topStart,
-                              child: Text(translate(context).medication_policy, style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),)),
-                          Divider(
-                            color: CustomColors.borderColor,
-                            thickness: 1.0,
-                          ),
-                          SizedBox(height: 1.h,),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Checkbox(
-                                checkColor: Colors.white,
-                                activeColor: CustomColors.primaryColor,
-                                value: isMedicationPolicyChecked,
-
-                                visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                side: const BorderSide(color: CustomColors.primaryColor),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(3),
-                                ),
-                                onChanged: (bool? value) {
-                                  isMedicationPolicyChecked = value!;
-                                  setState(() {});
-                                },
-                              ),
-
-                              Text(translate(context).i_agree_with, style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
-
-                            ],
-                          ),
-
-                          SizedBox(height: 1.h,),
-                          Text(medicationPolicy, style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
-                          SizedBox(height: 1.h,),
-                          Container(
-                            width: 100.w,
-                            margin: const EdgeInsets.symmetric(vertical: 20),
-                            padding: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: CustomColors.primaryColor),
-                                color: CustomColors.white,
-                                boxShadow: [getBoxShadow()],
-                                borderRadius: BorderRadius.circular(15.0)
-                            ), child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(translate(context).are_you_allergic_to_any_medication, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
-                              SizedBox(height: 1.h,),
-                              SizedBox(
-                                height: 4.h,
-                                child: ListView.builder(
-                                  itemCount: yesNoList.length,
-                                  scrollDirection: Axis.horizontal,
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    return GestureDetector(
-                                      onTap: (){
-                                        allergicMedicationSelectedPos = index;
-                                        setState(() {});
-                                      },
-                                      child: Container(
-                                        height: 4.h,
-                                        width: 20.w,
-                                        margin: const EdgeInsets.only(right: 10),
-                                        decoration: allergicMedicationSelectedPos == index ? getPrimaryDecoration() : getEditTextDecoration(),
-                                        child: Center(child: Text(yesNoList[index], style: Style.montserratBoldStyle().copyWith(color: allergicMedicationSelectedPos == index ? CustomColors.primaryColor : CustomColors.borderColor, fontSize: 15.sp),)),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                              SizedBox(height: 1.h,),
-                              CustomTextField(controller: allergicMedicineController, hintText: translate(context).type_here),
-                            ],
-                          ),
-                          ),
-                          Center(
-                            child: GestureDetector(
-                              onTap: () {
-
+                              onChanged: (bool? value) {
+                                isSicknessPolicyChecked = value!;
                               },
-                              child: buildSaveButton(),
                             ),
+
+                            Text(translate(context).i_agree_to, style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
+                          ],
+                        ),
+                        SizedBox(height: 1.h,),
+                        Text(sicknessPolicy, style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                        SizedBox(height: 2.h,),
+                        Container(
+                          width: 100.w,
+                          margin: const EdgeInsets.symmetric(vertical: 20),
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: CustomColors.primaryColor),
+                              color: CustomColors.white,
+                              boxShadow: [getBoxShadow()],
+                              borderRadius: BorderRadius.circular(15.0)
                           ),
-
-
-
-
-                          SizedBox(height: 2.h,),
-
-                          Align(
-                              alignment: AlignmentDirectional.topStart,
-                              child: Text(translate(context).sickness_exclusion_policy, style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),)),
-                          Divider(
-                            color: CustomColors.borderColor,
-                            thickness: 1.0,
-                          ),
-                          SizedBox(height: 1.h,),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.start,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Checkbox(
-                                checkColor: Colors.white,
-                                activeColor: CustomColors.primaryColor,
-                                value: isSicknessPolicyChecked,
-
-                                visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                side: const BorderSide(color: CustomColors.primaryColor),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(3),
+                              Text(translate(context).do_you_want_to_use_school_canteen_services, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                              SizedBox(height: 2.h,),
+                              Align(
+                                alignment: AlignmentDirectional.topStart,
+                                child: SizedBox(
+                                  height: 4.h,
+                                  child: ListView.builder(
+                                    itemCount: yesNoList.length,
+                                    scrollDirection: Axis.horizontal,
+                                    shrinkWrap: true,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      return GestureDetector (
+                                        onTap: (){
+                                          allergicSelectedPos = index;
+                                          setState(() {});
+                                        },
+                                        child: Container(
+                                          height: 4.h,
+                                          width: 20.w,
+                                          margin: const EdgeInsets.only(right: 10),
+                                          decoration: allergicSelectedPos == index ? getPrimaryDecoration() : getEditTextDecoration(),
+                                          child: Center(child: Text(yesNoList[index], style: Style.montserratRegularStyle().copyWith(color: allergicSelectedPos == index ? CustomColors.primaryColor : CustomColors.borderColor, fontSize: 15.sp),)),
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
-                                onChanged: (bool? value) {
-                                  isSicknessPolicyChecked = value!;
-                                },
                               ),
-
-                              Text(translate(context).i_agree_to, style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
                             ],
                           ),
-                          SizedBox(height: 1.h,),
-                          Text(sicknessPolicy, style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
-                          SizedBox(height: 2.h,),
-                          Center(
-                            child: GestureDetector(
-                              onTap: (){},
-                              child: buildSaveButton(),
-                            ),
+                        ),
+                        SizedBox(height: 4.h,),
+                        Center(
+                          child: GestureDetector(
+                            onTap: (){},
+                            child: buildSaveButton(),
                           ),
-                          SizedBox(height: 2.h,),
-                        ],
-                      ),
-                    )
+                        ),
+                        SizedBox(height: 2.h,),
+                      ],
+                    ),
+                    SizedBox(height: 1.h,),
                   ],
                 )
               ],
@@ -1834,7 +1849,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        translate(context).medical_survey, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp),),
+                        translate(context).medical_records, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp),),
 
                       Icon(isShowMedicalRecord ? Icons.keyboard_arrow_down :CupertinoIcons.forward, size:isShowMedicalRecord? 25 : 20,color: CustomColors.primaryColor,),
 
@@ -1859,7 +1874,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                               Container(
                                 width: Get.width,
                                 height: 1,
-                                margin: EdgeInsets.only(top: 8, bottom: 8),
+                                margin: const EdgeInsets.only(top: 8, bottom: 8),
                                 color: CustomColors.borderColor,
                               ),
                               Row(
@@ -1875,7 +1890,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                               Container(
                                 width: Get.width,
                                 height: 1,
-                                margin: EdgeInsets.only(top: 8, bottom: 8),
+                                margin: const EdgeInsets.only(top: 8, bottom: 8),
                                 color: CustomColors.borderColor,
                               ),
                               Row(
@@ -1891,7 +1906,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                               Container(
                                 width: Get.width,
                                 height: 1,
-                                margin: EdgeInsets.only(top: 8, bottom: 8),
+                                margin: const EdgeInsets.only(top: 8, bottom: 8),
                                 color: CustomColors.borderColor,
                               ),
                               InkWell(
@@ -1918,7 +1933,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                                 },
                                               );
                                             },child: Icon(Icons.remove_red_eye_outlined,color: CustomColors.primaryColor,size: 20.sp,)),
-                                        SizedBox(width: 10,),
+                                        const SizedBox(width: 10,),
                                         Icon(Icons.download_for_offline,color: CustomColors.primaryColor,size: 20.sp,)
                                       ],
                                     ),

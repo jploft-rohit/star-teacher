@@ -19,7 +19,7 @@ class AddToDoNote extends StatefulWidget {
 }
 
 class _AddToDoNoteState extends State<AddToDoNote> {
-  NotebookScreenCtrl ctrl = Get.find<NotebookScreenCtrl>();
+  NotebookScreenCtrl ctrl = Get.put(NotebookScreenCtrl());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,7 +65,7 @@ class _AddToDoNoteState extends State<AddToDoNote> {
             SizedBox(
               height: 1.h,
             ),
-            Obx(() => InkWell(
+            InkWell(
               onTap: (){
                 ctrl.isChecked.value = !ctrl.isChecked.value;
               },
@@ -128,7 +128,7 @@ class _AddToDoNoteState extends State<AddToDoNote> {
                   addText("Set Reminder", 14.sp, CustomColors.textBlackColor, FontWeight.w400)
                 ],
               ),
-            )),
+            ),
             SizedBox(
               height: 5.h,
             ),

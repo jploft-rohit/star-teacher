@@ -91,7 +91,7 @@ class _ComplaintsReportScreenState extends State<ComplaintsReportScreen> with Ti
             Expanded(
               child: TabBarView(
                 controller: tabCtrl,
-                children: [
+                children: const [
                   AllComplaintsView(),
                   ComplaintsView(),
                   ReportView(),

@@ -94,7 +94,7 @@ class _RulesScreenState extends State<RulesScreen> {
                           checkColor: Colors.white,
                           activeColor: CustomColors.primaryColor,
                           value: isRulesChecked,
-                          side: BorderSide(color: CustomColors.primaryColor),
+                          side: const BorderSide(color: CustomColors.primaryColor),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(3),
                           ),
@@ -119,6 +119,6 @@ class _RulesScreenState extends State<RulesScreen> {
     return Text(text, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 17.sp, height: 1.5),);
   }
   Widget buildSubtitle(String text){
-    return Text(text, style: Style.montserratMediumStyle().copyWith(color: Color(0xff454545), fontSize: 15.sp, height: 1.5),);
+    return Text(text, style: Style.montserratMediumStyle().copyWith(color: const Color(0xff454545), fontSize: 15.sp, height: 1.5),);
   }
 }

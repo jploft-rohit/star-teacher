@@ -27,7 +27,7 @@ class _ShopViewState extends State<ShopView> {
       backgroundColor: CustomColors.white,
       appBar: appBarWithAction(context, "Shop", [
         Padding(
-          padding: EdgeInsets.only(right: 10.0),
+          padding: const EdgeInsets.only(right: 10.0),
           child: SvgPicture.asset("assets/images/notification.svg"),
         )
       ]),
@@ -35,12 +35,12 @@ class _ShopViewState extends State<ShopView> {
             () => controller.selectedIndex.value == 0
             ? shopFloatingButton(() {
           if (controller.selectedIndex1.value == 2) {
-            Get.to(TrayView());
+            Get.to(const TrayView());
           } else {
-            Get.to(CartView());
+            Get.to(const CartView());
           }
         })
-            : SizedBox.shrink(),
+            : const SizedBox.shrink(),
       ),
       body: Padding(
         padding: EdgeInsets.all(15.sp),
@@ -115,7 +115,7 @@ class _ShopViewState extends State<ShopView> {
             ),
             SizedBox(height:2.h),
             Container(
-              padding: EdgeInsets.only(left: 8.0, right: 8.0),
+              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
               decoration: BoxDecoration(
                 color: CustomColors.backgroundColor,
                 borderRadius: BorderRadius.circular(5.0),
@@ -134,12 +134,12 @@ class _ShopViewState extends State<ShopView> {
             SizedBox(height:1.h),
             Expanded(
               child: SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 child: Obx(() => Column(
                   children: [
                     controller.selectedIndex.value == 0
-                        ? ShopDetailView()
-                        : OrderView(),
+                        ? const ShopDetailView()
+                        : const OrderView(),
                     // controller.isWeek.value
                     //     ? WeekShopView()
                     //     : SizedBox.shrink()
@@ -160,8 +160,8 @@ class _ShopViewState extends State<ShopView> {
         InkWell(
           onTap: onTap,
           child: Container(
-            margin: EdgeInsets.all(2),
-            padding: EdgeInsets.all(12),
+            margin: const EdgeInsets.all(2),
+            padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: CustomColors.backgroundColor,
@@ -170,8 +170,8 @@ class _ShopViewState extends State<ShopView> {
           ),
         ),
         Container(
-          padding: EdgeInsets.all(5),
-          decoration: BoxDecoration(
+          padding: const EdgeInsets.all(5),
+          decoration: const BoxDecoration(
             shape: BoxShape.circle,
             color: CustomColors.primaryColor,
           ),

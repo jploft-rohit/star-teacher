@@ -12,6 +12,7 @@ import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/route_manager/route_name.dart';
 import 'package:staff_app/view/add_family_member/add_family_member.dart';
+import 'package:staff_app/view/add_family_member/family_details_screen.dart';
 import 'package:staff_app/view/my_profile_screen/my_profile_view/my_profile_view.dart';
 import 'package:staff_app/view/salary_slip_screen/salary_slip_poup.dart';
 
@@ -485,56 +486,61 @@ class _DetailViewState extends State<DetailView> {
   }
 
   Widget buildFamilyItem(int index,BuildContext context){
-    return Container(
-      width: 100.w,
-      margin:  const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.symmetric(vertical: 15),
-      decoration: BoxDecoration(
-          color: CustomColors.white,
-          border: Border.all(color: CustomColors.borderColor,width: 2),
-          borderRadius: BorderRadius.circular(20.0)),
-      child: Padding(
-          padding:
-          const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      buildInfoItems(translate(context).name, 'Salma Khan'),
-                      SizedBox(
-                        height: 1.h,
-                      ),
-                      buildInfoItems(translate(context).relation, 'Mother'),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      GestureDetector(onTap: (){
-                        Get.to(const AddFamilyMemberScreen(isUpdating: true));
-                      },
-                        child: Image.asset(editPng, color: CustomColors.primaryColor,height: 17.sp,),
-                      ),
-                      const SizedBox(width: 20,),
-                      GestureDetector(onTap: (){
-                        showDeleteDialog(context, index);
-                      },
-                        child: Icon(
-                          CupertinoIcons.delete,
-                          color: CustomColors.primaryColor,
-                          size: 17.sp,
+    return GestureDetector(
+      onTap: (){
+        Get.to(const FamilyDetailsScreen());
+      },
+      child: Container(
+        width: 100.w,
+        margin:  const EdgeInsets.only(bottom: 10),
+        padding: const EdgeInsets.symmetric(vertical: 15),
+        decoration: BoxDecoration(
+            color: CustomColors.white,
+            border: Border.all(color: CustomColors.borderColor,width: 2),
+            borderRadius: BorderRadius.circular(20.0)),
+        child: Padding(
+            padding:
+            const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        buildInfoItems(translate(context).name, 'Salma Khan'),
+                        SizedBox(
+                          height: 1.h,
                         ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ],
-          ),
+                        buildInfoItems(translate(context).relation, 'Mother'),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        GestureDetector(onTap: (){
+                          Get.to(const AddFamilyMemberScreen(isUpdating: true));
+                        },
+                          child: Image.asset(editPng, color: CustomColors.primaryColor,height: 17.sp,),
+                        ),
+                        const SizedBox(width: 20,),
+                        GestureDetector(onTap: (){
+                          showDeleteDialog(context, index);
+                        },
+                          child: Icon(
+                            CupertinoIcons.delete,
+                            color: CustomColors.primaryColor,
+                            size: 17.sp,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ],
+            ),
+        ),
       ),
     );
   }

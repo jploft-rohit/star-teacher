@@ -46,7 +46,7 @@ class _AddMedicalFilePopupState extends State<AddMedicalFilePopup> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(""),
-                    Text(translate(context).add_medical_files, style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: Colors.black),),
+                    Text(translate(context).add_medical_record, style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: Colors.black),),
                     InkWell(
                       onTap: (){
                         Navigator.pop(context);

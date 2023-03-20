@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/custom_dialogs.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -26,7 +27,7 @@ class _AllFeedbackHelpViewState extends State<AllFeedbackHelpView> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: 1,
+      itemCount: 3,
       shrinkWrap: true,
       itemBuilder: (context, index) {
         return Card(
@@ -43,10 +44,15 @@ class _AllFeedbackHelpViewState extends State<AllFeedbackHelpView> {
                     addText("App is not working", 16.sp, CustomColors.textBlackColor, FontWeight.w700),
                     Row(
                       children: [
-                        Icon(
-                          CupertinoIcons.delete,
-                          color: CustomColors.primaryColor,
-                          size: 18.sp,
+                        GestureDetector(
+                          onTap: (){
+                            CustomDialogs().showConfirmationDialog(title: "Are you sure you want to\ndelete this Help?");
+                          },
+                          child: Icon(
+                            CupertinoIcons.delete,
+                            color: CustomColors.primaryColor,
+                            size: 18.sp,
+                          ),
                         ),
                         SizedBox(
                           width: 5.w,
@@ -61,7 +67,19 @@ class _AllFeedbackHelpViewState extends State<AllFeedbackHelpView> {
                     ),
                   ],
                 ),
-                Divider(),
+                const Divider(),
+                Row(
+                  children: [
+                    SvgPicture.asset("assets/images/user 1.svg"),
+                    SizedBox(
+                      width: 2.w,
+                    ),
+                    addText("Star :", 15.sp, CustomColors.textBlackColor, FontWeight.w400),
+                    const SizedBox(width: 3),
+                    addText("Najma Suheil", 15.sp, CustomColors.primaryColor, FontWeight.w600),
+                  ],
+                ),
+                const Divider(),
                 Row(
                   children: [
                     SvgPicture.asset("assets/images/Vector (1).svg"),
@@ -87,7 +105,7 @@ class _AllFeedbackHelpViewState extends State<AllFeedbackHelpView> {
                     addText("09:13pm", 15.sp, CustomColors.textBlackColor, FontWeight.w400),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -98,7 +116,7 @@ class _AllFeedbackHelpViewState extends State<AllFeedbackHelpView> {
                     Flexible(child: buildInfoItems("Type", "Help"))
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -109,7 +127,7 @@ class _AllFeedbackHelpViewState extends State<AllFeedbackHelpView> {
                     Flexible(child: buildInfoItems("Help for", "App not working"))
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -120,55 +138,54 @@ class _AllFeedbackHelpViewState extends State<AllFeedbackHelpView> {
                     Flexible(child: buildInfoItems("Message", "Hi, I'm facing some issues with the application's speed..it's not working as fast as I expect."))
                   ],
                 ),
-                Divider(),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SvgPicture.asset("assets/images/chat_img.svg"),
-                    SizedBox(
-                      width: 2.w,
-                    ),
-                    Flexible(child: buildInfoItems("Revert", "Thanks for your feedback, the support team will solve the issue and update you."))
-                  ],
-                ),
-                SizedBox(
-                  height: 1.h,
-                ),
-                Divider(),
-                SizedBox(
-                  height: 1.h,
-                ),
-                Row(
-                  children: [
-                    Flexible(
-                      flex: 1,
-                      child: CustomButton(text: "ESCALATE", onPressed: (){}, btnHeight: 35, boxShadow: [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 16.sp,),
-                    ),
-                    SizedBox(
-                      width: 2.w,
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: CustomButton(text: "COMMENTS", onPressed: (){
-
-                      }, btnHeight: 35, boxShadow: [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 16.sp,),
-                    ),
-                    SizedBox(
-                      width: 2.w,
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: CustomButton(text: "ACCEPT", onPressed: (){}, btnHeight: 35, borderRadius: 10.0,textSize: 16.sp,),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-
+                const Divider(),
+                // Row(
+                //   crossAxisAlignment: CrossAxisAlignment.start,
+                //   children: [
+                //     SvgPicture.asset("assets/images/chat_img.svg"),
+                //     SizedBox(
+                //       width: 2.w,
+                //     ),
+                //     Flexible(child: buildInfoItems("Revert", "Thanks for your feedback, the support team will solve the issue and update you."))
+                //   ],
+                // ),
+                // SizedBox(
+                //   height: 1.h,
+                // ),
+                // const Divider(),
+                // SizedBox(
+                //   height: 1.h,
+                // ),
+                // Row(
+                //   children: [
+                //     Flexible(
+                //       flex: 1,
+                //       child: CustomButton(text: "ESCALATE", onPressed: (){}, btnHeight: 35, boxShadow: [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 16.sp,),
+                //     ),
+                //     SizedBox(
+                //       width: 2.w,
+                //     ),
+                //     Flexible(
+                //       flex: 1,
+                //       child: CustomButton(text: "COMMENTS", onPressed: (){
+                //
+                //       }, btnHeight: 35, boxShadow: [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 16.sp,),
+                //     ),
+                //     SizedBox(
+                //       width: 2.w,
+                //     ),
+                //     Flexible(
+                //       flex: 1,
+                //       child: CustomButton(text: "ACCEPT", onPressed: (){}, btnHeight: 35, borderRadius: 10.0,textSize: 16.sp,),
+                //     ),
+                //   ],
+                // ),
+                // SizedBox(
+                //   height: 2.h,
+                // ),
                 StepProgressView(
                   width: MediaQuery.of(context).size.width,
-                  curStep: 2,
+                  curStep: index+1,
                   color: CustomColors.primaryColor,
                   titles: pendingMeetingdates,
                   statuses: heading,

@@ -129,12 +129,6 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     },
                     child: buildTile(translate(context).star_rewards),
                   ),
-                  InkWell(
-                    onTap: (){
-                      Get.to(const LostAndFoundScreen());
-                    },
-                    child: buildTile(translate(context).lost_found),
-                  ),
                 ]),
                 buildExpensionTile(translate(context).roles_delegation, [
                   InkWell(
@@ -172,6 +166,11 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     Get.to(const ScheduleMeetingScreen());
                   },
                   child: buildTile1(translate(context).schedule_meeting),),
+                InkWell(
+                  onTap: (){
+                    Get.to(const LostAndFoundScreen());
+                  },
+                  child: buildTile1(translate(context).lost_found),),
                 InkWell(
                   onTap: (){
                     Get.to(const FeedbackHelpScreen());

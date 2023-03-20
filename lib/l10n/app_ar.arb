@@ -342,5 +342,7 @@
   "requested_to": "طلب إلى",
   "delegated_functions": "المهام المفوضة",
   "reject_reason": "رفض السبب",
+  "add_medical_record": "أضف السجل الطبي",
+  "proceed": "يتابع",
   "upload_photo": "حمل الصورة"
 }

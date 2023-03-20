@@ -44,7 +44,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
         ),
         Expanded(
           child: TabBarView(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             controller: tabCtrl,
             children: [
               buildPendingView(),
@@ -109,7 +109,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 addText("Share your feedback for Grade H Stars", 16.sp, CustomColors.textBlackColor, FontWeight.w700),
-                Divider(),
+                const Divider(),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -120,7 +120,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                     Flexible(child: buildInfoItems(translate(context).description, "Please upload the feedback of all the stars in suggested class into the excel worksheet."))
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -131,7 +131,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                     Flexible(child: buildInfoItems(translate(context).assigned_by, "Rashid Khan (Admin)"))
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -142,7 +142,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                     Flexible(child: buildInfoItems(translate(context).assign_type, "Course"))
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -177,7 +177,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                     )
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -202,7 +202,45 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                     ),
                   ],
                 ),
-                Divider(),
+                const Divider(),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     Row(
+                //       children: [
+                //         SvgPicture.asset("assets/images/Vector (1).svg"),
+                //         SizedBox(
+                //           width: 2.w,
+                //         ),
+                //         buildInfoItems(translate(context).due_date, "01/03/2022")
+                //       ],
+                //     ),
+                //     Container(height: 20.0,width: 1, color: CustomColors.borderColor,),
+                //     Row(
+                //       children: [
+                //         SvgPicture.asset("assets/images/time_icon.svg"),
+                //         SizedBox(
+                //           width: 2.w,
+                //         ),
+                //         buildInfoItems(translate(context).due_time, "9:30 AM")
+                //       ],
+                //     ),
+                //   ],
+                // ),
+                // SizedBox(
+                //   height: 3.h,
+                // ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset("assets/images/document 1.svg"),
+                    SizedBox(
+                      width: 2.w,
+                    ),
+                    Flexible(child: buildInfoItems(translate(context).total_question, "5"))
+                  ],
+                ),
+                const Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -212,7 +250,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                         SizedBox(
                           width: 2.w,
                         ),
-                        buildInfoItems(translate(context).due_date, "01/03/2022")
+                        buildInfoItems(translate(context).total_stars, "15")
                       ],
                     ),
                     Container(height: 20.0,width: 1, color: CustomColors.borderColor,),
@@ -222,32 +260,42 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                         SizedBox(
                           width: 2.w,
                         ),
-                        buildInfoItems(translate(context).due_time, "9:30 AM")
+                        buildInfoItems(translate(context).stars_earned, "8")
                       ],
                     ),
+                    const SizedBox.shrink(),
+                    const SizedBox.shrink(),
                   ],
                 ),
+                const Divider(),
+                // Row(
+                //   children: [
+                //     Flexible(
+                //       flex: 1,
+                //       child: CustomButton(text: translate(context).set_reminder.toUpperCase(), onPressed: (){
+                //         Get.to(const AddTaskOrReminderScreen());
+                //       }, btnHeight: 35, boxShadow: [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 16.sp,),
+                //     ),
+                //     SizedBox(
+                //       width: 2.w,
+                //     ),
+                //     Flexible(
+                //       flex: 1,
+                //       child: CustomButton(text: translate(context).start.toUpperCase(), onPressed: (){
+                //         Get.to(const StartPendingAssignment());
+                //       }, btnHeight: 35, borderRadius: 10.0,textSize: 16.sp,),
+                //     ),
+                //   ],
+                // ),
                 SizedBox(
-                  height: 3.h,
+                  height: 1.h,
                 ),
-                Row(
-                  children: [
-                    Flexible(
-                      flex: 1,
-                      child: CustomButton(text: translate(context).set_reminder.toUpperCase(), onPressed: (){
-                        Get.to(AddTaskOrReminderScreen());
-                      }, btnHeight: 35, boxShadow: [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 16.sp,),
-                    ),
-                    SizedBox(
-                      width: 2.w,
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: CustomButton(text: translate(context).start.toUpperCase(), onPressed: (){
-                        Get.to(StartPendingAssignment());
-                      }, btnHeight: 35, borderRadius: 10.0,textSize: 16.sp,),
-                    ),
-                  ],
+                StepProgressView(
+                  width: MediaQuery.of(context).size.width,
+                  curStep: 3,
+                  color: CustomColors.primaryColor,
+                  titles: pendingMeetingdates,
+                  statuses: heading,
                 ),
                 SizedBox(
                   height: 2.h,
@@ -275,7 +323,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 addText("Share your feedback for Grade H Stars", 16.sp, CustomColors.textBlackColor, FontWeight.w700),
-                Divider(),
+                const Divider(),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -286,7 +334,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                     Flexible(child: buildInfoItems(translate(context).description, "Please upload the feedback of all the stars in suggested class into the excel worksheet."))
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -297,7 +345,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                     Flexible(child: buildInfoItems(translate(context).assigned_by, "Rashid Khan (Admin)"))
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -308,7 +356,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                     Flexible(child: buildInfoItems(translate(context).assign_type, "Course"))
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -343,7 +391,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                     )
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -368,7 +416,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                     ),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -379,7 +427,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                     Flexible(child: buildInfoItems(translate(context).total_question, "5"))
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     Row(
@@ -401,7 +449,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                     buildInfoItems(translate(context).stars_earned, "8"),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 StepProgressView(
                   width: MediaQuery.of(context).size.width,
                   curStep: 3,
@@ -435,7 +483,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 addText("Share your feedback for Grade H Stars", 16.sp, CustomColors.textBlackColor, FontWeight.w700),
-                Divider(),
+                const Divider(),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -446,7 +494,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                     Flexible(child: buildInfoItems(translate(context).description, "Please upload the feedback of all the stars in suggested class into the excel worksheet."))
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -457,7 +505,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                     Flexible(child: buildInfoItems(translate(context).assigned_by, "Rashid Khan (Admin)"))
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -468,7 +516,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                     Flexible(child: buildInfoItems(translate(context).assign_type, "Course"))
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -503,7 +551,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                     )
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -528,7 +576,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                     ),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

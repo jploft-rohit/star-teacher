@@ -1,6 +1,15 @@
 import 'package:get/get.dart';
+import 'package:staff_app/api_response/models/notes_model.dart';
 
 class NotebookScreenCtrl extends GetxController{
+
+  List<NotesModel> unDoneNotesList = <NotesModel>[
+    NotesModel("To Do List", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s", false),
+    NotesModel("Things to Purchase", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s", false),
+    NotesModel("Home Work", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s", false),
+    NotesModel("To be learn", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s", false),
+  ].obs;
+  List<NotesModel> doneNotesList = <NotesModel>[].obs;
   final selectedIndex = 0.obs;
   final selectedIndex1 = 0.obs;
   final selectedIndex3 = 0.obs;

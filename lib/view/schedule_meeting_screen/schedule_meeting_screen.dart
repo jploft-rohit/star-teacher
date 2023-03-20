@@ -58,7 +58,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
     return Scaffold(
       appBar: appBarWithAction(context, translate(context).schedule_meeting, [
         Padding(
-          padding: EdgeInsets.only(right: 10.0),
+          padding: const EdgeInsets.only(right: 10.0),
           child: SvgPicture.asset("assets/images/notification.svg"),
         )
       ]),
@@ -67,11 +67,11 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
         children: [
           FloatingActionButton.small(
             onPressed: (){
-              Get.to(CreateMeetingScreen());
+              Get.to(const CreateMeetingScreen());
             },
             backgroundColor: CustomColors.backgroundColor,
             shape: RoundedRectangleBorder(
-                side: BorderSide(
+                side: const BorderSide(
                     color: CustomColors.primaryColor
                 ),
                 borderRadius: BorderRadius.circular(50.0)
@@ -90,7 +90,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.only(left: 8.0, right: 8.0),
+              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
               decoration: BoxDecoration(
                 color: CustomColors.backgroundColor,
                 borderRadius: BorderRadius.circular(5.0),
@@ -115,7 +115,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
             ),
             Expanded(
               child: TabBarView(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 controller: tabCtrl,
                 children: [
                   buildPendingView(),
@@ -152,9 +152,9 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
             boxShadow: [getBoxShadow()]
         ),
         labelColor: CustomColors.primaryColor,
-        labelPadding: EdgeInsets.symmetric(horizontal: 5.0),
+        labelPadding: const EdgeInsets.symmetric(horizontal: 5.0),
         unselectedLabelColor: Colors.black,
-        tabs:  [
+        tabs:  const [
           Tab(
             text: 'Pending',
           ),
@@ -175,7 +175,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
     return ListView.builder(
       itemCount: 1,
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         return Card(
           shape: RoundedRectangleBorder(
@@ -195,7 +195,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                     buildInfoItems("Schedule Date", "01/03/2022"),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     SvgPicture.asset("assets/images/time_icon.svg"),
@@ -205,7 +205,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                     buildInfoItems("Time Slot", "08:00 AM - 08:10 AM"),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     SvgPicture.asset("assets/images/family_img.svg"),
@@ -215,7 +215,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                     buildInfoItems("Meeting with", "Mohammad Usman"),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     SvgPicture.asset("assets/images/hat 1.svg"),
@@ -225,7 +225,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                     buildInfoItems("Designation", "Teacher Admin"),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -245,12 +245,12 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                     CustomButton(text: "Reminder", onPressed: (){}, btnHeight: 22,btnWidth: 22.w,textSize: 14.sp,),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     Flexible(
                       flex: 1,
-                      child: CustomButton(text: "RESCHEDULE", onPressed: (){}, btnHeight: 35, boxShadow: [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 15.sp,),
+                      child: CustomButton(text: "RESCHEDULE", onPressed: (){}, btnHeight: 35, boxShadow: const [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 15.sp,),
                     ),
                     SizedBox(
                       width: 2.w,
@@ -259,7 +259,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                       flex: 1,
                       child: CustomButton(text: "CANCEL", onPressed: (){
 
-                      }, btnHeight: 35, boxShadow: [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 15.sp,),
+                      }, btnHeight: 35, boxShadow: const [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 15.sp,),
                     ),
                     SizedBox(
                       width: 2.w,
@@ -291,7 +291,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
     return ListView.builder(
       itemCount: 1,
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         return Card(
           shape: RoundedRectangleBorder(
@@ -311,7 +311,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                     buildInfoItems("Schedule Date", "01/03/2022"),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     SvgPicture.asset("assets/images/time_icon.svg"),
@@ -321,7 +321,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                     buildInfoItems("Time Slot", "08:00 AM - 08:10 AM"),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     SvgPicture.asset("assets/images/family_img.svg"),
@@ -331,7 +331,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                     buildInfoItems("Meeting with", "Mohammad Usman"),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     SvgPicture.asset("assets/images/hat 1.svg"),
@@ -341,7 +341,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                     buildInfoItems("Designation", "Teacher Admin"),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -361,7 +361,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                     CustomButton(text: "Start", onPressed: (){}, btnHeight: 22,btnWidth: 22.w,textSize: 14.sp,),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     Flexible(
@@ -384,10 +384,10 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                         showGeneralDialog(
                           context: context,
                           pageBuilder:  (context, animation, secondaryAnimation) {
-                            return MeetingCancelReasonPopup();
+                            return const MeetingCancelReasonPopup();
                           },
                         );
-                      }, btnHeight: 35, boxShadow: [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 15.sp,),
+                      }, btnHeight: 35, boxShadow: const [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 15.sp,),
                     ),
                   ],
                 ),
@@ -412,7 +412,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
     return ListView.builder(
       itemCount: 1,
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         return Card(
           shape: RoundedRectangleBorder(
@@ -432,7 +432,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                     buildInfoItems("Schedule Date", "01/03/2022"),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     SvgPicture.asset("assets/images/time_icon.svg"),
@@ -442,7 +442,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                     buildInfoItems("Time Slot", "08:00 AM - 08:10 AM"),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     SvgPicture.asset("assets/images/family_img.svg"),
@@ -452,7 +452,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                     buildInfoItems("Meeting with", "Mohammad Usman"),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     SvgPicture.asset("assets/images/hat 1.svg"),
@@ -462,7 +462,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                     buildInfoItems("Designation", "Teacher Admin"),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     SvgPicture.asset("assets/images/Group (1).svg"),
@@ -476,7 +476,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                     SvgPicture.asset("assets/images/chat_img.svg"),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -488,36 +488,36 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                     Image.asset(editPng, color: CustomColors.primaryColor, height: 18.sp,)
                   ],
                 ),
-                Divider(),
-                Row(
-                  children: [
-                    Flexible(
-                      flex: 1,
-                      child: CustomButton(text: "RESCHEDULE", onPressed: (){
-                        showGeneralDialog(
-                          context: context,
-                          pageBuilder:  (context, animation, secondaryAnimation) {
-                            return ChooseMeetingDateTimePopup(title: "Reschedule",);
-                          },
-                        );
-                      }, btnHeight: 35, borderRadius: 10.0,textSize: 15.sp,),
-                    ),
-                    SizedBox(
-                      width: 2.w,
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: CustomButton(text: "CANCEL", onPressed: (){
-                        showGeneralDialog(
-                          context: context,
-                          pageBuilder:  (context, animation, secondaryAnimation) {
-                            return MeetingCancelReasonPopup();
-                          },
-                        );
-                      }, btnHeight: 35, boxShadow: [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 15.sp,),
-                    ),
-                  ],
-                ),
+                const Divider(),
+                // Row(
+                //   children: [
+                //     Flexible(
+                //       flex: 1,
+                //       child: CustomButton(text: "RESCHEDULE", onPressed: (){
+                //         showGeneralDialog(
+                //           context: context,
+                //           pageBuilder:  (context, animation, secondaryAnimation) {
+                //             return ChooseMeetingDateTimePopup(title: "Reschedule",);
+                //           },
+                //         );
+                //       }, btnHeight: 35, borderRadius: 10.0,textSize: 15.sp,),
+                //     ),
+                //     SizedBox(
+                //       width: 2.w,
+                //     ),
+                //     Flexible(
+                //       flex: 1,
+                //       child: CustomButton(text: "CANCEL", onPressed: (){
+                //         showGeneralDialog(
+                //           context: context,
+                //           pageBuilder:  (context, animation, secondaryAnimation) {
+                //             return const MeetingCancelReasonPopup();
+                //           },
+                //         );
+                //       }, btnHeight: 35, boxShadow: const [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 15.sp,),
+                //     ),
+                //   ],
+                // ),
                 SizedBox(
                   height: 2.h,
                 ),
@@ -539,7 +539,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
     return ListView.builder(
       itemCount: 1,
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         return Card(
           shape: RoundedRectangleBorder(
@@ -560,7 +560,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                     buildInfoItems("Schedule Date", "01/03/2022"),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     SvgPicture.asset("assets/images/time_icon.svg"),
@@ -570,7 +570,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                     buildInfoItems("Time Slot", "08:00 AM - 08:10 AM"),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     SvgPicture.asset("assets/images/family_img.svg"),
@@ -580,7 +580,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                     buildInfoItems("Meeting with", "Mohammad Usman"),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     SvgPicture.asset("assets/images/hat 1.svg"),
@@ -590,7 +590,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                     buildInfoItems("Designation", "Teacher Admin"),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     SvgPicture.asset("assets/images/Group (1).svg"),
@@ -604,7 +604,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                     SvgPicture.asset("assets/images/chat_img.svg"),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -619,7 +619,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                     Image.asset(editPng, color: CustomColors.primaryColor, height: 17.sp,)
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 if(isTap)
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -665,7 +665,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                   ],
                 ),
                 if(isTap)
-                Divider(),
+                const Divider(),
                 if(!isTap)
                 CustomButton(
                     btnHeight: 20,
