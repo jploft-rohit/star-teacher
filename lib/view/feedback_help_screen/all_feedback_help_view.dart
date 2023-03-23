@@ -160,14 +160,14 @@ class _AllFeedbackHelpViewState extends State<AllFeedbackHelpView> {
                 //   children: [
                 //     Flexible(
                 //       flex: 1,
-                //       child: CustomButton(text: "ESCALATE", onPressed: (){}, btnHeight: 35, boxShadow: [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 16.sp,),
+                //       child: BaseButton(text: "ESCALATE", onPressed: (){}, btnHeight: 35, boxShadow: [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 16.sp,),
                 //     ),
                 //     SizedBox(
                 //       width: 2.w,
                 //     ),
                 //     Flexible(
                 //       flex: 1,
-                //       child: CustomButton(text: "COMMENTS", onPressed: (){
+                //       child: BaseButton(text: "COMMENTS", onPressed: (){
                 //
                 //       }, btnHeight: 35, boxShadow: [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 16.sp,),
                 //     ),
@@ -176,7 +176,7 @@ class _AllFeedbackHelpViewState extends State<AllFeedbackHelpView> {
                 //     ),
                 //     Flexible(
                 //       flex: 1,
-                //       child: CustomButton(text: "ACCEPT", onPressed: (){}, btnHeight: 35, borderRadius: 10.0,textSize: 16.sp,),
+                //       child: BaseButton(text: "ACCEPT", onPressed: (){}, btnHeight: 35, borderRadius: 10.0,textSize: 16.sp,),
                 //     ),
                 //   ],
                 // ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -71,19 +72,19 @@ class _AddNewRewardPopupState extends State<AddNewRewardPopup> {
                     Row(
                       children: [
                         Expanded(
-                          child: CustomButton(text: translate(context).yes, onPressed: (){
+                          child: BaseButton(title: translate(context).yes, onPressed: (){
                             Get.to(RewardView());
-                          }, btnHeight: 35.0,borderRadius: 50.0, borderColor: CustomColors.borderColor,boxShadow: [], btnColor: CustomColors.white, textColor: CustomColors.textLightGreyColor,),
+                          }, isActive: false),
                         ),
                         SizedBox(width: 2.w),
                         Expanded(
-                          child: CustomButton(text: translate(context).no, onPressed: (){}, btnHeight: 35.0,borderRadius: 50.0),
+                          child: BaseButton(title: translate(context).no, onPressed: (){}),
                         ),
                         SizedBox(width: 2.w),
                         Expanded(
-                          child: CustomButton(text: translate(context).reward_photo, onPressed: (){
+                          child: BaseButton(title: translate(context).reward_photo, onPressed: (){
                             Get.to(RewardImageScreen());
-                          }, btnHeight: 35.0,borderRadius: 50.0, borderColor: CustomColors.borderColor,boxShadow: [], textSize: 15.sp,btnColor: CustomColors.white, textColor: CustomColors.textLightGreyColor),
+                          },isActive: false, textSize: 15.sp),
                         ),
                       ],
                     ),

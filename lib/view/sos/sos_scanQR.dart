@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
@@ -63,16 +64,7 @@ class _ScanQrCodeScreenState extends State<ScanQrCodeScreen> {
       child: Scaffold(
           backgroundColor: CustomColors.white,
           // backgroundColor: CustomColors.white,
-          appBar: appBarWithAction(context, translate(context).qr_scanner, [
-            const Padding(
-              padding: EdgeInsets.only(right: 10.0),
-              child: Icon(
-                Icons.notifications_none,
-                color: Colors.black,
-                size: 35.0,
-              ),
-            )
-          ]),
+          appBar: BaseAppBar(title: translate(context).qr_scanner),
           body: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

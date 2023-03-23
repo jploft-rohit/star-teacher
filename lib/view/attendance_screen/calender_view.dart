@@ -4,6 +4,10 @@ import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_tab_bar.dart';
+import 'package:staff_app/Utility/base_tab_button.dart';
+import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
@@ -18,8 +22,17 @@ class CalenderView extends StatefulWidget {
   State<CalenderView> createState() => _CalenderViewState();
 }
 
-class _CalenderViewState extends State<CalenderView> {
+class _CalenderViewState extends State<CalenderView> with SingleTickerProviderStateMixin{
+  late TabController tabController;
   AttendanceScreenCtrl controller = Get.find<AttendanceScreenCtrl>();
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(length: 3, vsync: this)..addListener(() {
+      setState(() {});
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final calendarCarouselNoHeader = CalendarCarousel<Event>(
@@ -108,196 +121,98 @@ class _CalenderViewState extends State<CalenderView> {
       },
     );
 
-
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: appBarWithAction(context, translate(context).calender, [
-        Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
-      body: Padding(
-        padding: EdgeInsets.all(20.sp),
-        child: Column(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15.0),
-                  border: Border.all(
-                      color: CustomColors.borderColor
-                  )
-              ),
-              child: ListTile(
-                visualDensity: VisualDensity(horizontal: -4),
-                contentPadding: EdgeInsets.only(left: 10.sp, right: 10.sp, top: 15.sp, bottom: 15.sp),
-                leading: Container(
-                  height: double.infinity,
-                  padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: CustomColors.primaryColor
-                    ),
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: BaseAppBar(title: translate(context).calender),
+        body: Padding(
+          padding: EdgeInsets.all(20.sp),
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  child: SvgPicture.asset(manSvg),
+                    border: Border.all(
+                        color: CustomColors.borderColor
+                    )
                 ),
-                title: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Nawaj Alam", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
-                    SizedBox(
-                      height: 2.0,
-                    ),
-                    Text("#12344534", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
-                    SizedBox(
-                      height: 2.0,
-                    ),
-                    Text("English Teacher", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
-                  ],
-                ),
-                trailing: SvgPicture.asset(qrCodeSvg),
-              ),
-            ),
-            SizedBox(
-              height: 1.5.h,
-            ),
-            Row(
-              children: [
-                Obx(() => Flexible(
-                  flex: 1,
-                  child: InkWell(
-                    onTap: (){
-                      controller.selectedIndex.value = 0;
-                    },
-                    child: Container(
-                      height: 40.0,
-                      width: getWidth(context) * 50 / 100,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: controller.selectedIndex.value == 0 ? CustomColors.backgroundColor : CustomColors.screenBackgroundColor,
-                          border: Border.all(
-                              color: controller.selectedIndex.value == 0 ? Colors.transparent : CustomColors.txtFiledBorderColor
-                          ),
-                          boxShadow: [
-                            if(controller.selectedIndex.value == 0)
-                              const BoxShadow(
-                                  color: CustomColors.darkShadowColor,
-                                  spreadRadius: 1.0,
-                                  blurRadius: 2.0,
-                                  offset: Offset(0, 3)
-                              )
-                          ],
-                          borderRadius: BorderRadius.circular(15.sp)
+                child: ListTile(
+                  visualDensity: VisualDensity(horizontal: -4),
+                  contentPadding: EdgeInsets.only(left: 10.sp, right: 10.sp, top: 15.sp, bottom: 15.sp),
+                  leading: Container(
+                    height: double.infinity,
+                    padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: CustomColors.primaryColor
                       ),
-                      child: Text(translate(context).present, style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex.value == 0 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: 16.sp),),
+                      borderRadius: BorderRadius.circular(15.0),
                     ),
+                    child: SvgPicture.asset(manSvg),
                   ),
-                )),
-                SizedBox(
-                  width: 2.w,
-                ),
-                Obx(() => Flexible(
-                  flex: 1,
-                  child: InkWell(
-                    onTap: (){
-                      controller.selectedIndex.value = 1;
-                    },
-                    child: Container(
-                      height: 40.0,
-                      width: getWidth(context) * 50 / 100,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: controller.selectedIndex.value == 1 ? CustomColors.backgroundColor : CustomColors.screenBackgroundColor,
-                          border: Border.all(
-                              color: controller.selectedIndex.value == 1 ? Colors.transparent : CustomColors.txtFiledBorderColor
-                          ),
-                          boxShadow: [
-                            if(controller.selectedIndex.value == 1)
-                              const BoxShadow(
-                                  color: CustomColors.darkShadowColor,
-                                  spreadRadius: 1.0,
-                                  blurRadius: 2.0,
-                                  offset: Offset(0, 3)
-                              )
-                          ],
-                          borderRadius: BorderRadius.circular(15.sp)
-                      ),
-                      child: Text(translate(context).absent, style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex.value == 1 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: 16.sp),),
-                    ),
-                  ),
-                )),
-                SizedBox(
-                  width: 2.w,
-                ),
-                Obx(() => Flexible(
-                  flex: 1,
-                  child: InkWell(
-                    onTap: (){
-                      controller.selectedIndex.value = 2;
-                    },
-                    child: Container(
-                      height: 40.0,
-                      width: getWidth(context) * 50 / 100,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: controller.selectedIndex.value == 2 ? CustomColors.backgroundColor : CustomColors.screenBackgroundColor,
-                          border: Border.all(
-                              color: controller.selectedIndex.value == 2 ? Colors.transparent : CustomColors.txtFiledBorderColor
-                          ),
-                          boxShadow: [
-                            if(controller.selectedIndex.value == 2)
-                              const BoxShadow(
-                                  color: CustomColors.darkShadowColor,
-                                  spreadRadius: 1.0,
-                                  blurRadius: 2.0,
-                                  offset: Offset(0, 3)
-                              )
-                          ],
-                          borderRadius: BorderRadius.circular(15.sp)
-                      ),
-                      child: Text(translate(context).late, style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex.value == 2 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: 16.sp),),
-                    ),
-                  ),
-                )),
-              ],
-            ),
-            SizedBox(
-              height: 2.h,
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 20.sp),
-              decoration: BoxDecoration(
-                  color: const Color(0xFF0F8F8F8),
-                  borderRadius: BorderRadius.circular(10.0)),
-              // child: _calendarCarouselNoHeader,
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 3.h,
-                  ),
-                  Row(
+                  title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      buildColors(CustomColors.textLightGreyColor, translate(context).absent),
+                      Text("Nawaj Alam", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
                       SizedBox(
-                        width: 6.w,
+                        height: 2.0,
                       ),
-                      buildColors(CustomColors.lightBlueColor, translate(context).late),
+                      Text("#12344534", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
                       SizedBox(
-                        width: 6.w,
+                        height: 2.0,
                       ),
-                      buildColors(CustomColors.primaryColor, translate(context).holiday),
+                      Text("English Teacher", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
                     ],
                   ),
-                  calendarCarouselNoHeader
-                ],
+                  trailing: SvgPicture.asset(qrCodeSvg),
+                ),
               ),
-            ),
-            SizedBox(
-              height: 2.h,
-            ),
-          ],
+              SizedBox(
+                height: 1.5.h,
+              ),
+              BaseToggleTabBar(controller: tabController,tabs: [
+                BaseTabButton(title: translate(context).present, isSelected: tabController.index == 0),
+                BaseTabButton(title: translate(context).absent, isSelected: tabController.index == 1),
+                BaseTabButton(title: translate(context).late, isSelected: tabController.index == 2),
+              ]),
+              SizedBox(
+                height: 2.h,
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 20.sp),
+                decoration: BoxDecoration(
+                    color: const Color(0xFF0F8F8F8),
+                    borderRadius: BorderRadius.circular(10.0)),
+                // child: _calendarCarouselNoHeader,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 3.h,
+                    ),
+                    Row(
+                      children: [
+                        buildColors(CustomColors.textLightGreyColor, translate(context).absent),
+                        SizedBox(
+                          width: 6.w,
+                        ),
+                        buildColors(CustomColors.lightBlueColor, translate(context).late),
+                        SizedBox(
+                          width: 6.w,
+                        ),
+                        buildColors(CustomColors.primaryColor, translate(context).holiday),
+                      ],
+                    ),
+                    calendarCarouselNoHeader
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 2.h,
+              ),
+            ],
+          ),
         ),
       ),
     );

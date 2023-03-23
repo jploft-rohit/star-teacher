@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/shop_screen/cart/cart_card_detail.dart';
 import 'package:staff_app/view/shop_screen/shop_screen_ctrl.dart';
@@ -23,16 +26,11 @@ class _CartViewState extends State<CartView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.white,
-      appBar: appBarWithAction(context, "Cart", [
-        Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: const BaseAppBar(title: "Cart"),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -40,7 +38,7 @@ class _CartViewState extends State<CartView> {
                   CustomColors.textBlackColor, FontWeight.w400),
               SizedBox(height: 2.h),
               ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 padding: EdgeInsets.zero,
                 shrinkWrap: true,
                 itemCount: 2,
@@ -49,7 +47,7 @@ class _CartViewState extends State<CartView> {
               ),
               SizedBox(height:2.h),
               Container(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(color: CustomColors.borderColor)),
@@ -60,7 +58,7 @@ class _CartViewState extends State<CartView> {
                       padding: const EdgeInsets.symmetric(horizontal: 4),
                       child: addText(
                           'Select shipping',
-                          15.sp,
+                          radioButtonTitleTs,
                           CustomColors.textBlackColor,
                           FontWeight.w400),
                     ),
@@ -93,11 +91,11 @@ class _CartViewState extends State<CartView> {
               detailRow('Grand Total', '168 AED'),
               SizedBox(height:3.h),
               Center(
-                child: CustomButton(text: "Proceed To Pay", onPressed: (){
+                child: BaseButton(title: "Proceed To Pay", onPressed: (){
                   showGeneralDialog(
                     context: context,
                     pageBuilder:  (context, animation, secondaryAnimation) {
-                      return CartCardDetail();
+                      return const CartCardDetail();
                     },
                   );
                 }),
@@ -113,7 +111,7 @@ class _CartViewState extends State<CartView> {
   Widget buildCartCard(image, name, price, quantity) {
     return Container(
       margin: EdgeInsets.only(bottom: 1.5.h),
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
           color: CustomColors.white,
           boxShadow: kElevationToShadow[2],
@@ -150,7 +148,7 @@ class _CartViewState extends State<CartView> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 6),
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
                       decoration: BoxDecoration(
                           boxShadow: kElevationToShadow[1],
                           borderRadius: BorderRadius.circular(30),
@@ -180,7 +178,7 @@ class _CartViewState extends State<CartView> {
                     ),
                     SizedBox(
                       height: 2.h,
-                      child: VerticalDivider(
+                      child: const VerticalDivider(
                         color: CustomColors.borderColor,
                         thickness: 1.5,
                       ),

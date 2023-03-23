@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_floating_action_button.dart';
+import 'package:staff_app/Utility/base_tab_bar.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/complaints_report_screen/add_comment_popup.dart';
@@ -31,41 +35,17 @@ class _ComplaintsReportScreenState extends State<ComplaintsReportScreen> with Ti
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWithAction(context, translate(context).complaints_reports, [
-        Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
-      floatingActionButton: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FloatingActionButton.small(
-            onPressed: (){
-              Get.to(RaiseComplaintReportScreen());
-            },
-            backgroundColor: CustomColors.backgroundColor,
-            shape: RoundedRectangleBorder(
-                side: BorderSide(
-                    color: CustomColors.primaryColor
-                ),
-                borderRadius: BorderRadius.circular(50.0)
-            ),
-            child: Icon(
-              Icons.add,
-              size: 25.sp,
-              color: CustomColors.primaryColor,
-            ),
-          ),
-          Text(translate(context).complain_or_report, style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),textAlign: TextAlign.center,)
-        ],
+      appBar: BaseAppBar(title: translate(context).complaints_reports),
+      floatingActionButton: BaseFloatingActionButton(
+        onTap: () {Get.to(const RaiseComplaintReportScreen());},
+        title: translate(context).complain_or_report,
       ),
       body: Padding(
         padding: EdgeInsets.all(15.sp),
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.only(left: 8.0, right: 8.0),
+              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
               decoration: BoxDecoration(
                 color: CustomColors.backgroundColor,
                 borderRadius: BorderRadius.circular(5.0),
@@ -104,36 +84,19 @@ class _ComplaintsReportScreenState extends State<ComplaintsReportScreen> with Ti
     );
   }
   Widget buildTabBar() {
-    return Container(
-      height: 40,
-      decoration: BoxDecoration(
-          color: const Color(0xFFEEEEEE),
-          borderRadius: BorderRadius.circular(8.0)
-      ),
-      child: TabBar(
-        controller: tabCtrl,
-        isScrollable: false,
-        padding: const EdgeInsets.all(4),
-        labelPadding: EdgeInsets.only(left: 10, right: 10),
-        indicator: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: CustomColors.backgroundColor,
-            boxShadow: [getBoxShadow()]
+    return BaseTabBar(
+      controller: tabCtrl,
+      tabs:  [
+        Tab(
+          text: translate(context).all,
         ),
-        labelColor: CustomColors.primaryColor,
-        unselectedLabelColor: Colors.black,
-        tabs:  [
-          Tab(
-            text: translate(context).all,
-          ),
-          Tab(
-            text: translate(context).complaints,
-          ),
-          Tab(
-            text: translate(context).reports,
-          ),
-        ],
-      ),
+        Tab(
+          text: translate(context).complaints,
+        ),
+        Tab(
+          text: translate(context).reports,
+        ),
+      ],
     );
   }
 }

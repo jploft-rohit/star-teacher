@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
@@ -21,42 +22,44 @@ class _EventsViewState extends State<EventsView> {
   WalletController controller = Get.find<WalletController>();
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(height: 2.h),
-        topLabel(translate(context).action_required, () {}),
-        SizedBox(height: 1.h),
-        ListView.builder(
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          padding: EdgeInsets.zero,
-          itemBuilder: (context, index) => buildActionRequiredEventCard(
-              controller.actionRequiredEventsList[index]['day']!,
-              controller.actionRequiredEventsList[index]['month']!,
-              controller.actionRequiredEventsList[index]['title']!,
-              controller.actionRequiredEventsList[index]['totalcost']!,
-              controller.actionRequiredEventsList[index]['eventcost']!,
-              controller.actionRequiredEventsList[index]['starbudget']!),
-          itemCount: controller.actionRequiredEventsList.length,
-        ),
-        Divider(),
-        topLabel("Events", () {Get.to(EventScreen());}),
-        SizedBox(height: 1.h),
-        ListView.builder(
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          padding: EdgeInsets.zero,
-          itemBuilder: (context, index) => buildEventCard(
-              index,
-              controller.eventsList[index]['day']!,
-              controller.eventsList[index]['month']!,
-              controller.eventsList[index]['title']!,
-              controller.eventsList[index]['totalcost']!,
-              controller.eventsList[index]['eventcost']!,
-              controller.eventsList[index]['starbudget']!),
-          itemCount: controller.eventsList.length,
-        ),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SizedBox(height: 2.h),
+          topLabel(translate(context).action_required, () {}),
+          SizedBox(height: 1.h),
+          ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            itemBuilder: (context, index) => buildActionRequiredEventCard(
+                controller.actionRequiredEventsList[index]['day']!,
+                controller.actionRequiredEventsList[index]['month']!,
+                controller.actionRequiredEventsList[index]['title']!,
+                controller.actionRequiredEventsList[index]['totalcost']!,
+                controller.actionRequiredEventsList[index]['eventcost']!,
+                controller.actionRequiredEventsList[index]['starbudget']!),
+            itemCount: controller.actionRequiredEventsList.length,
+          ),
+          Divider(),
+          topLabel("Events", () {Get.to(EventScreen());}),
+          SizedBox(height: 1.h),
+          ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            itemBuilder: (context, index) => buildEventCard(
+                index,
+                controller.eventsList[index]['day']!,
+                controller.eventsList[index]['month']!,
+                controller.eventsList[index]['title']!,
+                controller.eventsList[index]['totalcost']!,
+                controller.eventsList[index]['eventcost']!,
+                controller.eventsList[index]['starbudget']!),
+            itemCount: controller.eventsList.length,
+          ),
+        ],
+      ),
     );
   }
 
@@ -167,9 +170,8 @@ class _EventsViewState extends State<EventsView> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CustomButton(
-                        btnHeight: 20,
-                        text: translate(context).accept,
+                    BaseButton(
+                        title: translate(context).accept,
                         textSize: 12,
                         onPressed: () {}),
                     SizedBox(
@@ -179,14 +181,10 @@ class _EventsViewState extends State<EventsView> {
                     SizedBox(
                       height: 2,
                     ),
-                    CustomButton(
-                        boxShadow: [],
-                        btnColor: CustomColors.txtFieldTextColor,
-                        borderColor: CustomColors.borderColor,
-                        btnHeight: 20,
+                    BaseButton(
+                        isActive: false,
                         textSize: 12,
-                        textColor: CustomColors.textLightGreyColor,
-                        text: translate(context).reject,
+                        title: translate(context).reject,
                         onPressed: () {}),
                   ],
                 ),
@@ -303,7 +301,7 @@ class _EventsViewState extends State<EventsView> {
                         FontWeight.w700),
                     SizedBox(height: .5.h),
                     // controller.eventsList[index]['status'] == 'Accepted'
-                    //     ? CustomButton(
+                    //     ? BaseButton(
                     //         color: CustomColors.white,
                     //         shadow: [],
                     //         borderRadius: BorderRadius.circular(8),

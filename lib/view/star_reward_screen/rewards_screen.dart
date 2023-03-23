@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_floating_action_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/star_reward_screen/add_new_reward_popup.dart';
@@ -24,37 +27,13 @@ class _RewardsScreenState extends State<RewardsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWithAction(context, translate(context).rewards, [
-        Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
-      floatingActionButton: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FloatingActionButton.small(
-            onPressed: (){
-              Get.to(CreateRewardScreen());
-            },
-            backgroundColor: CustomColors.backgroundColor,
-            shape: RoundedRectangleBorder(
-                side: BorderSide(
-                    color: CustomColors.primaryColor
-                ),
-                borderRadius: BorderRadius.circular(50.0)
-            ),
-            child: Icon(
-              Icons.add,
-              size: 25.sp,
-              color: CustomColors.primaryColor,
-            ),
-          ),
-          Text(translate(context).add_new, style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),)
-        ],
+      appBar: BaseAppBar(title: translate(context).rewards),
+      floatingActionButton: BaseFloatingActionButton(
+        onTap: () {Get.to(const CreateRewardScreen());},
+        title: translate(context).add_new,
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
         width: 100.w,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,7 +46,7 @@ class _RewardsScreenState extends State<RewardsScreen> {
               alignment: Alignment.centerRight,
               children: [
                 Container(
-                  margin: EdgeInsets.only(right: 10),
+                  margin: const EdgeInsets.only(right: 10),
                   width: 100.w,
                   decoration: BoxDecoration(
                     boxShadow: kElevationToShadow[1],
@@ -81,9 +60,9 @@ class _RewardsScreenState extends State<RewardsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
-                            margin: EdgeInsets.only(
+                            margin: const EdgeInsets.only(
                                 top: 10, left: 10, bottom: 10),
-                            padding: EdgeInsets.symmetric(horizontal:12, vertical:8),
+                            padding: const EdgeInsets.symmetric(horizontal:12, vertical:8),
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(15),
@@ -109,7 +88,7 @@ class _RewardsScreenState extends State<RewardsScreen> {
                   ),
                 ),
                 Container(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: CustomColors.backgroundColor,
@@ -121,7 +100,7 @@ class _RewardsScreenState extends State<RewardsScreen> {
                     decoration: BoxDecoration(
                         color: CustomColors.primaryColor,
                         borderRadius: BorderRadius.circular(7)),
-                    padding: EdgeInsets.all(6),
+                    padding: const EdgeInsets.all(6),
                     margin: EdgeInsets.only(bottom: 8.5.h),
                     child: addText('41', 14.sp,
                         CustomColors.white, FontWeight.w500),
@@ -144,11 +123,11 @@ class _RewardsScreenState extends State<RewardsScreen> {
                   children: [
                     SizedBox(height:3.h),
                     GridView.builder(
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       padding: EdgeInsets.zero,
                       itemCount: controller.rewardsList.length,
                       shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           mainAxisExtent: 140,
                           mainAxisSpacing: 15,
@@ -167,7 +146,7 @@ class _RewardsScreenState extends State<RewardsScreen> {
                           children: [
                             Container(
                               width: double.infinity,
-                              margin: EdgeInsets.only(right: 15, left: 10),
+                              margin: const EdgeInsets.only(right: 15, left: 10),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(40),
                                 boxShadow: kElevationToShadow[4],
@@ -206,7 +185,7 @@ class _RewardsScreenState extends State<RewardsScreen> {
                                     ],
                                   ),
                                   Container(
-                                    padding: EdgeInsets.all(6),
+                                    padding: const EdgeInsets.all(6),
                                     decoration: BoxDecoration(
                                         boxShadow: kElevationToShadow[1],
                                         border: Border.all(

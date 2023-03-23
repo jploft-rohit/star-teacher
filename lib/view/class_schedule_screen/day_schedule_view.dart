@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -65,7 +66,7 @@ class _DayScheduleViewState extends State<DayScheduleView> {
         SizedBox(
           height: 2.h,
         ),
-        // CustomButton(text: translate(context).leave_request.toUpperCase(), onPressed: (){
+        // BaseButton(text: translate(context).leave_request.toUpperCase(), onPressed: (){
         //   showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation) {
         //     return const NotifyAuthorityPopup();
         //   },);
@@ -155,11 +156,11 @@ class _DayScheduleViewState extends State<DayScheduleView> {
                             height: 1.h,
                           ),
                           Align(alignment: AlignmentDirectional.centerEnd,
-                                child: CustomButton(text: translate(context).notify_admin, onPressed: (){
+                                child: BaseButton(title: translate(context).notify_admin, onPressed: (){
                                   showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation) {
                                     return const NotifyAuthorityPopup();
                                   },);
-                                },borderRadius: 5.0,btnHeight: 30,textSize: 14.sp,btnWidth: 30.w,)),
+                                },textSize: 14.sp,btnWidth: 30.w,)),
                         ],
                       ),
                     ),

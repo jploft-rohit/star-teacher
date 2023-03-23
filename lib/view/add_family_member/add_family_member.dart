@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 
@@ -38,12 +41,7 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWithAction(context, widget.isUpdating ? translate(context).update_family_member : translate(context).add_family_member, [
-        Padding(
-          padding: const EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: BaseAppBar(title: widget.isUpdating ? translate(context).update_family_member : translate(context).add_family_member),
       body: Padding(
         padding: EdgeInsets.all(20.sp),
         child: Column(
@@ -53,27 +51,26 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
               children: [
                 Flexible(
                   flex: 1,
-                  child: Text(translate(context).name, style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: CustomColors.textBlackColor),),
+                  child: Text(translate(context).name, style: Style.montserratBoldStyle().copyWith(fontSize: textFormFieldLabelTs, color: CustomColors.textBlackColor),),
                 ),
                 Flexible(
                   flex: 3,
-                  child: Container(
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(calenderDateSvg, color: Colors.white,),
-                        SizedBox(
-                          width: 2.w,
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(calenderDateSvg, color: Colors.white,),
+                      SizedBox(
+                        width: 2.w,
+                      ),
+                      Expanded(
+                        child: CustomTextField(
+                          controller: nameController,
+                          fillColor: CustomColors.txtFieldTextColor,
+                          hintText: translate(context).type_here,
+                          borderRadius: 5.0,
+                          hintTxtSize: textFormFieldHintTs,
                         ),
-                        Expanded(
-                          child: CustomTextField(
-                            controller: nameController,
-                            fillColor: CustomColors.txtFieldTextColor,
-                            hintText: translate(context).type_here,
-                            borderRadius: 5.0,
-                          ),
-                        )
-                      ],
-                    ),
+                      )
+                    ],
                   ),
                 )
               ],
@@ -86,7 +83,7 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
               children: [
                 Flexible(
                   flex: 1,
-                  child: Text(translate(context).relation, style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: CustomColors.textBlackColor),),
+                  child: Text(translate(context).relation, style: Style.montserratBoldStyle().copyWith(fontSize: textFormFieldLabelTs, color: CustomColors.textBlackColor),),
                 ),
                 Flexible(
                   flex: 3,
@@ -104,6 +101,7 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
                             hintText: translate(context).choose,
                             fillColor: CustomColors.txtFieldTextColor,
                             borderRadius: 5.0,
+                            hintTxtSize: textFormFieldHintTs,
                             suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
                           ),
                         )
@@ -121,7 +119,7 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
               children: [
                 Flexible(
                   flex: 1,
-                  child: Text("DOB", style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: CustomColors.textBlackColor),),
+                  child: Text("DOB", style: Style.montserratBoldStyle().copyWith(fontSize: textFormFieldLabelTs, color: CustomColors.textBlackColor),),
                 ),
                 Flexible(
                   flex: 3,
@@ -136,6 +134,7 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
                           child: CustomTextField(
                             controller: dobController,
                             readOnly: true,
+                            hintTxtSize: textFormFieldHintTs,
                             onTap: (){
                               selectDate(context);
                             },
@@ -158,7 +157,7 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
               children: [
                 Flexible(
                   flex: 1,
-                  child: Text(translate(context).mobile_no, style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: CustomColors.textBlackColor),),
+                  child: Text(translate(context).mobile_no, style: Style.montserratBoldStyle().copyWith(fontSize: textFormFieldLabelTs, color: CustomColors.textBlackColor),),
                 ),
                 Flexible(
                   flex: 3,
@@ -175,6 +174,7 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
                             fillColor: CustomColors.txtFieldTextColor,
                             hintText: "9867145250",
                             borderRadius: 5.0,
+                            hintTxtSize: textFormFieldHintTs,
                           ),
                         )
                       ],
@@ -191,7 +191,7 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
               children: [
                 Flexible(
                   flex: 1,
-                  child: Text(translate(context).upload_id, style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: CustomColors.textBlackColor),),
+                  child: Text(translate(context).upload_id, style: Style.montserratBoldStyle().copyWith(fontSize: textFormFieldLabelTs, color: CustomColors.textBlackColor),),
                 ),
                 Flexible(
                   flex: 3,
@@ -208,6 +208,7 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
                             hintText: translate(context).upload_id,
                             fillColor: CustomColors.txtFieldTextColor,
                             borderRadius: 5.0,
+                            hintTxtSize: textFormFieldHintTs,
                             suffixIcon: Padding(
                               padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                               child: SvgPicture.asset("assets/images/upload_icon.svg",),
@@ -228,7 +229,7 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
               children: [
                 Flexible(
                   flex: 1,
-                  child: Text(translate(context).id_expiry_date, style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: CustomColors.textBlackColor),),
+                  child: Text(translate(context).id_expiry_date, style: Style.montserratBoldStyle().copyWith(fontSize: textFormFieldLabelTs, color: CustomColors.textBlackColor),),
                 ),
                 Flexible(
                   flex: 3,
@@ -246,6 +247,7 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
                               selectDate(context);
                             },
                             readOnly: true,
+                            hintTxtSize: textFormFieldHintTs,
                             hintText: "dd/mm/yyyy",
                             fillColor: CustomColors.txtFieldTextColor,
                             borderRadius: 5.0,
@@ -258,7 +260,7 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
               ],
             ),
             const Spacer(),
-            CustomButton(text: translate(context).submit_btn_txt, onPressed: (){
+            BaseButton(title: translate(context).submit_btn_txt, onPressed: (){
               Get.back();
             })
           ],

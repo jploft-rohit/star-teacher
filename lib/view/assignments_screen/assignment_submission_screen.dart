@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
@@ -35,19 +37,14 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWithAction(context, translate(context).submission, [
-        Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: BaseAppBar(title: translate(context).submission),
       body: Padding(
         padding: EdgeInsets.all(15.sp),
         child: PageView.builder(
           itemCount: ctrl.mcqList.length,
           controller: controller,
           scrollDirection: Axis.horizontal,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, pageIndex) {
             return SingleChildScrollView(
               child: Column(
@@ -185,7 +182,7 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                     ListView.builder(
                     itemCount: ctrl.mcqList[pageIndex]['ans'].length,
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () async {
@@ -195,7 +192,7 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                         },
                         child: Container(
                           padding: EdgeInsets.all(15.sp),
-                          margin: EdgeInsets.only(bottom: 10.0,left: 5.0,right: 5.0),
+                          margin: const EdgeInsets.only(bottom: 10.0,left: 5.0,right: 5.0),
                           decoration: BoxDecoration(
                             color: selectedFMOPos == index ? CustomColors.backgroundColor : CustomColors.white,
                             borderRadius: BorderRadius.circular(15.0),
@@ -249,12 +246,12 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                     },
                   ),
                   if(ctrl.mcqList[pageIndex]['type'] == "write")
-                    CustomTextField(controller: TextEditingController(), hintText: translate(context).write_your_answer_here, maxLine: 3,fillColor: Color(0xffF8F8F8),),
+                    CustomTextField(controller: TextEditingController(), hintText: translate(context).write_your_answer_here, maxLine: 3,fillColor: const Color(0xffF8F8F8),),
                   if(ctrl.mcqList[pageIndex]['type'] == "download")
                     CustomTextField(
                       controller: TextEditingController(),
                       hintText: "filename.jpeg",
-                      fillColor: Color(0xffF8F8F8),
+                      fillColor: const Color(0xffF8F8F8),
                       suffixIcon: Padding(
                         padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                         child: Container(
@@ -288,7 +285,7 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                   if(ctrl.mcqList[pageIndex]['type'] == "audio")
                     Container(
                       padding: EdgeInsets.all(10.sp),
-                      margin: EdgeInsets.only(bottom: 10.0,left: 5.0,right: 5.0),
+                      margin: const EdgeInsets.only(bottom: 10.0,left: 5.0,right: 5.0),
                       decoration: BoxDecoration(
                           color: CustomColors.white,
                           borderRadius: BorderRadius.circular(10.0),
@@ -298,12 +295,12 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.play_arrow_rounded,
                             color: CustomColors.primaryColor,
                           ),
                           SvgPicture.asset("assets/images/audio_wave_img.svg"),
-                          SizedBox.shrink()
+                          const SizedBox.shrink()
                         ],
                       ),
                     ),
@@ -339,11 +336,11 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                             width: 35.0,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                              color: Color(0xffFCFCFC),
+                              color: const Color(0xffFCFCFC),
                               borderRadius: BorderRadius.circular(8.0),
                               border: Border.all(color: CustomColors.borderColor)
                             ),
-                            child: addText("1", 15.sp, Color(0xff7B8D9E), FontWeight.w400),
+                            child: addText("1", 15.sp, const Color(0xff7B8D9E), FontWeight.w400),
                           ),
                           SizedBox(
                             width: 2.w,
@@ -353,11 +350,11 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                             width: 35.0,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                                color: Color(0xffFCFCFC),
+                                color: const Color(0xffFCFCFC),
                                 borderRadius: BorderRadius.circular(8.0),
                                 border: Border.all(color: CustomColors.borderColor)
                             ),
-                            child: addText("2", 15.sp, Color(0xff7B8D9E), FontWeight.w400),
+                            child: addText("2", 15.sp, const Color(0xff7B8D9E), FontWeight.w400),
                           ),
                           SizedBox(
                             width: 2.w,
@@ -367,11 +364,11 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                             width: 35.0,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                                color: Color(0xffFCFCFC),
+                                color: const Color(0xffFCFCFC),
                                 borderRadius: BorderRadius.circular(8.0),
                                 border: Border.all(color: CustomColors.borderColor)
                             ),
-                            child: addText("3", 15.sp, Color(0xff7B8D9E), FontWeight.w400),
+                            child: addText("3", 15.sp, const Color(0xff7B8D9E), FontWeight.w400),
                           ),
                         ],
                       )
@@ -380,10 +377,10 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                   SizedBox(
                     height: 3.h,
                   ),
-                  CustomButton(text: ctrl.mcqList.length -1 != pageIndex ? translate(context).next_btn_txt : translate(context).finish.toUpperCase(), onPressed: (){
+                  BaseButton(title: ctrl.mcqList.length -1 != pageIndex ? translate(context).next_btn_txt : translate(context).finish.toUpperCase(), onPressed: (){
                     if(ctrl.mcqList.length -1 != pageIndex){
                       print("object");
-                      controller.animateToPage(pageIndex + 1, duration: Duration(milliseconds: 500), curve: Curves.easeIn);
+                      controller.animateToPage(pageIndex + 1, duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
                     }else{
                       Get.back();
                     }

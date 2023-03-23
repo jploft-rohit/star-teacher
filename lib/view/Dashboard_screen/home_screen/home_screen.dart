@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -37,38 +38,9 @@ class _HomeScreenState extends State<HomeScreen> {
       extendBody: true,
       backgroundColor: Colors.white,
       drawer: const DrawerScreen(),
-      appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: Colors.transparent,
-        leading: InkWell(
-          onTap: (){
-            _key.currentState?.openDrawer();
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: SvgPicture.asset(drawerSvg),
-          ),
-        ),
-        actions: [
-          InkWell(
-            onTap: (){
-              Get.to(const SOSView());
-            },
-            child: SvgPicture.asset(sosSvg),
-          ),
-          SizedBox(
-            width: 2.w,
-          ),
-          InkWell(
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const NotificationScreen()));
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(right: 10.0),
-              child: SvgPicture.asset("assets/images/notification.svg"),
-            )
-          )
-        ],
+      appBar: BaseAppBar(
+        onDrawerPressed: (){_key.currentState?.openDrawer();},
+        showSos: true,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -150,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ListView.builder(
                 shrinkWrap: true,
                 itemCount: 3,
-                padding: EdgeInsets.only(left: 10),
+                padding: const EdgeInsets.only(left: 10),
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   return Stack(
@@ -235,7 +207,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     children: [
                                       GestureDetector(
                                         onTap: (){
-                                          Get.to(StarAttendanceScreen());
+                                          Get.to(const StarAttendanceScreen());
                                         },
                                         child: Row(
                                           children: [
@@ -396,7 +368,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Get.to(const StarView());
                           },
                           child: Container(
-                            padding: EdgeInsets.all(3),
+                            padding: const EdgeInsets.all(3),
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 shape: BoxShape.circle,

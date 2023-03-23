@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_tab_button.dart';
+import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -17,56 +20,46 @@ class WalletView extends StatefulWidget {
   State<WalletView> createState() => _WalletViewState();
 }
 
-class _WalletViewState extends State<WalletView> {
+class _WalletViewState extends State<WalletView> with SingleTickerProviderStateMixin{
 
   WalletController controller = Get.put(WalletController());
-  
+  late TabController tabController;
+
+  @override
+  void initState() {
+    tabController = TabController(length: 2, vsync: this)..addListener(() {
+      setState(() {});
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: CustomColors.white,
-      appBar: appBarWithAction(context, translate(context).wallet, [
-        Padding(
-          padding: const EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            Obx(
-              () => walletToogleButton(
-                  () {
-                    controller.purchasesSelected();
-                  },
-                  controller.isPurachses.value,
-                  () {
-                    controller.eventsSelected();
-                  },
-                  controller.isEvents.value,
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        backgroundColor: CustomColors.white,
+        appBar: BaseAppBar(title: translate(context).wallet),
+        body: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            children: [
+              BaseToggleTabBar(controller: tabController, tabs: [
+                BaseTabButton(title: translate(context).purchase, isSelected: tabController.index == 0),
+                BaseTabButton(title: translate(context).event, isSelected: tabController.index == 1)
+              ]),
+              SizedBox(
+                height: 2.h,
               ),
-            ),
-            SizedBox(
-              height: 2.h,
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Obx(
-                    () => Column(
-                      children: [
-                        controller.isPurachses.value
-                            ? const PurchasesView()
-                            : const SizedBox.shrink(),
-                        controller.isEvents.value
-                            ? const EventsView()
-                            : const SizedBox.shrink(),
-                      ],
-                    ),
-                  )),
-            )
-          ],
+              Expanded(
+                child: TabBarView(
+                  controller: tabController,
+                    children: [
+                      const PurchasesView(),
+                      const EventsView()
+                ]),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/Utility/base_tab_bar.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/library_screen/notebook_screen/notebook_screen.dart';
 
@@ -29,12 +33,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWithAction(context, "Library", [
-        Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: const BaseAppBar(title: "Library"),
       body: Padding(
         padding: EdgeInsets.all(15.sp),
         child: Column(
@@ -46,7 +45,6 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
             Expanded(
               child: TabBarView(
                 controller: tabCtrl,
-                physics: NeverScrollableScrollPhysics(),
                 children: [
                   buildAssessmentView(),
                   buildCoursesView(),
@@ -60,40 +58,19 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
     );
   }
   Widget buildTabBar() {
-    return Container(
-      height: 35,
-      width: 100.w,
-      decoration: BoxDecoration(
-          color: const Color(0xFFEEEEEE),
-          borderRadius: BorderRadius.circular(10.0)
-      ),
-      child: TabBar(
-        controller: tabCtrl,
-        isScrollable: false,
-        labelStyle: Style.montserratRegularStyle().copyWith(fontSize: 12),
-        onTap: (value){
-
-        },
-        padding: const EdgeInsets.all(4),
-        indicator: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: CustomColors.backgroundColor,
-            boxShadow: [getBoxShadow()]
+    return BaseTabBar(
+      controller: tabCtrl,
+      tabs:  const [
+        Tab(
+          text: 'Assessments',
         ),
-        labelColor: CustomColors.primaryColor,
-        unselectedLabelColor: Colors.black,
-        tabs:  [
-          Tab(
-            text: 'Assessments',
-          ),
-          Tab(
-            text: 'Courses',
-          ),
-          Tab(
-            text: 'Worksheets',
-          ),
-        ],
-      ),
+        Tab(
+          text: 'Courses',
+        ),
+        Tab(
+          text: 'Worksheets',
+        ),
+      ],
     );
   }
 
@@ -122,8 +99,8 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                             width: 2.w,
                           ),
                           Text("School", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          Spacer(),
-                          Icon(
+                          const Spacer(),
+                          const Icon(
                             Icons.arrow_drop_down,
                           )
                         ],
@@ -146,8 +123,8 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                             width: 2.w,
                           ),
                           Text("Terms 1", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          Spacer(),
-                          Icon(
+                          const Spacer(),
+                          const Icon(
                             Icons.arrow_drop_down,
                           )
                         ],
@@ -156,7 +133,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                   ),
                 ],
               ),
-              Divider(height: 0.0,),
+              const Divider(height: 0.0,),
               Row(
                 children: [
                   Flexible(
@@ -170,8 +147,8 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                             width: 2.w,
                           ),
                           Text("Grade 3", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          Spacer(),
-                          Icon(
+                          const Spacer(),
+                          const Icon(
                             Icons.arrow_drop_down,
                           )
                         ],
@@ -194,8 +171,8 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                             width: 2.w,
                           ),
                           Text("Math", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          Spacer(),
-                          Icon(
+                          const Spacer(),
+                          const Icon(
                             Icons.arrow_drop_down,
                           )
                         ],
@@ -204,7 +181,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                   ),
                 ],
               ),
-              Divider(height: 0.0,),
+              const Divider(height: 0.0,),
               Row(
                 children: [
                   Flexible(
@@ -218,8 +195,8 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                             width: 2.w,
                           ),
                           Text("Gender", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          Spacer(),
-                          Icon(
+                          const Spacer(),
+                          const Icon(
                             Icons.arrow_drop_down,
                           )
                         ],
@@ -242,8 +219,8 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                             width: 2.w,
                           ),
                           Text("Ahmed", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          Spacer(),
-                          Icon(
+                          const Spacer(),
+                          const Icon(
                             Icons.arrow_drop_down,
                           )
                         ],
@@ -277,7 +254,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                     ],
                   ),
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     Row(
@@ -307,7 +284,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                     ),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     Row(
@@ -337,7 +314,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                     ),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     Row(
@@ -367,7 +344,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                     ),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -382,10 +359,10 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                     ),
                     Container(height: 20.0,width: 1, color: CustomColors.borderColor,),
 
-                    CustomButton(text: "Reuse", onPressed: (){}, btnHeight: 22,btnWidth: 20.w,textSize: 14.sp,),
+                    BaseButton(title: "Reuse", onPressed: (){}, btnWidth: 20.w,textSize: 14.sp,),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     SvgPicture.asset("assets/images/document 1.svg"),
@@ -435,8 +412,8 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                             width: 2.w,
                           ),
                           Text("School", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          Spacer(),
-                          Icon(
+                          const Spacer(),
+                          const Icon(
                             Icons.arrow_drop_down,
                           )
                         ],
@@ -459,8 +436,8 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                             width: 2.w,
                           ),
                           Text("Terms 1", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          Spacer(),
-                          Icon(
+                          const Spacer(),
+                          const Icon(
                             Icons.arrow_drop_down,
                           )
                         ],
@@ -469,7 +446,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                   ),
                 ],
               ),
-              Divider(height: 0.0,),
+              const Divider(height: 0.0,),
               Row(
                 children: [
                   Flexible(
@@ -483,8 +460,8 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                             width: 2.w,
                           ),
                           Text("Grade 3", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          Spacer(),
-                          Icon(
+                          const Spacer(),
+                          const Icon(
                             Icons.arrow_drop_down,
                           )
                         ],
@@ -507,8 +484,8 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                             width: 2.w,
                           ),
                           Text("Math", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          Spacer(),
-                          Icon(
+                          const Spacer(),
+                          const Icon(
                             Icons.arrow_drop_down,
                           )
                         ],
@@ -517,7 +494,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                   ),
                 ],
               ),
-              Divider(height: 0.0,),
+              const Divider(height: 0.0,),
               Row(
                 children: [
                   Flexible(
@@ -531,8 +508,8 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                             width: 2.w,
                           ),
                           Text("Gender", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          Spacer(),
-                          Icon(
+                          const Spacer(),
+                          const Icon(
                             Icons.arrow_drop_down,
                           )
                         ],
@@ -555,8 +532,8 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                             width: 2.w,
                           ),
                           Text("Ahmed", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          Spacer(),
-                          Icon(
+                          const Spacer(),
+                          const Icon(
                             Icons.arrow_drop_down,
                           )
                         ],
@@ -590,7 +567,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                     ],
                   ),
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     Row(
@@ -620,7 +597,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                     ),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     Row(
@@ -650,7 +627,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                     ),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     Row(
@@ -680,7 +657,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                     ),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -695,10 +672,10 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                     ),
                     Container(height: 20.0,width: 1, color: CustomColors.borderColor,),
 
-                    CustomButton(text: "Reuse", onPressed: (){}, btnHeight: 22,btnWidth: 20.w,textSize: 14.sp,),
+                    BaseButton(title: "Reuse", onPressed: (){}, btnWidth: 20.w,textSize: 14.sp,),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     SvgPicture.asset("assets/images/document 1.svg"),
@@ -748,8 +725,8 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                             width: 2.w,
                           ),
                           Text("School", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          Spacer(),
-                          Icon(
+                          const Spacer(),
+                          const Icon(
                             Icons.arrow_drop_down,
                           )
                         ],
@@ -772,8 +749,8 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                             width: 2.w,
                           ),
                           Text("Terms 1", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          Spacer(),
-                          Icon(
+                          const Spacer(),
+                          const Icon(
                             Icons.arrow_drop_down,
                           )
                         ],
@@ -782,7 +759,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                   ),
                 ],
               ),
-              Divider(height: 0.0,),
+              const Divider(height: 0.0,),
               Row(
                 children: [
                   Flexible(
@@ -796,8 +773,8 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                             width: 2.w,
                           ),
                           Text("Grade 3", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          Spacer(),
-                          Icon(
+                          const Spacer(),
+                          const Icon(
                             Icons.arrow_drop_down,
                           )
                         ],
@@ -820,8 +797,8 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                             width: 2.w,
                           ),
                           Text("Math", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          Spacer(),
-                          Icon(
+                          const Spacer(),
+                          const Icon(
                             Icons.arrow_drop_down,
                           )
                         ],
@@ -830,7 +807,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                   ),
                 ],
               ),
-              Divider(height: 0.0,),
+              const Divider(height: 0.0,),
               Row(
                 children: [
                   Flexible(
@@ -844,8 +821,8 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                             width: 2.w,
                           ),
                           Text("Gender", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          Spacer(),
-                          Icon(
+                          const Spacer(),
+                          const Icon(
                             Icons.arrow_drop_down,
                           )
                         ],
@@ -868,8 +845,8 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                             width: 2.w,
                           ),
                           Text("Ahmed", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          Spacer(),
-                          Icon(
+                          const Spacer(),
+                          const Icon(
                             Icons.arrow_drop_down,
                           )
                         ],
@@ -903,7 +880,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                     ],
                   ),
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     Row(
@@ -933,7 +910,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                     ),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     Row(
@@ -963,7 +940,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                     ),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     Row(
@@ -993,7 +970,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                     ),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -1008,12 +985,12 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                     ),
                     Container(height: 20.0,width: 1, color: CustomColors.borderColor,),
 
-                    CustomButton(text: "Reuse", onPressed: (){
-                      Get.to(NoteBookScreen());
-                    }, btnHeight: 22,btnWidth: 20.w,textSize: 14.sp,),
+                    BaseButton(title: "Reuse", onPressed: (){
+                      Get.to(const NoteBookScreen());
+                    },btnWidth: 20.w,textSize: 14.sp,),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   children: [
                     SvgPicture.asset("assets/images/document 1.svg"),

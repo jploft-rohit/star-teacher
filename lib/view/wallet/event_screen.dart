@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
@@ -21,12 +22,7 @@ class _EventScreenState extends State<EventScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWithAction(context, "Events", [
-        Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: const BaseAppBar(title: "Events"),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(15.sp),
@@ -34,7 +30,7 @@ class _EventScreenState extends State<EventScreen> {
             children: [
               topLabel(translate(context).upcoming, () {}),
               ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
                 itemBuilder: (context, index) => buildEventCard(
@@ -47,13 +43,13 @@ class _EventScreenState extends State<EventScreen> {
                     controller.eventsList[index]['starbudget']!),
                 itemCount: controller.eventsList.length,
               ),
-              Divider(
+              const Divider(
                 color: CustomColors.borderColor,
                 height: 0.0,
               ),
               topLabel(translate(context).concluded, () {}),
               ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
                 itemBuilder: (context, index) => buildEventCard(
@@ -185,7 +181,7 @@ class _EventScreenState extends State<EventScreen> {
                         FontWeight.w700),
                     SizedBox(height: .5.h),
                     // controller.eventsList[index]['status'] == 'Accepted'
-                    //     ? CustomButton(
+                    //     ? BaseButton(
                     //         color: CustomColors.white,
                     //         shadow: [],
                     //         borderRadius: BorderRadius.circular(8),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
@@ -119,7 +120,7 @@ class _HomeWeekScheduleViewState extends State<HomeWeekScheduleView> {
                         ],
                       ),
                       const SizedBox(height: 4),
-                      CustomButton(text: "Completed", onPressed: (){},textSize: 8,btnWidth: 50,btnHeight: 14,)
+                      BaseButton(title: "Completed", onPressed: (){},textSize: 8,btnWidth: 50,)
                     ],
                   ),
                 ),

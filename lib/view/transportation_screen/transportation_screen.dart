@@ -2,12 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/Utility/base_tab_button.dart';
+import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/view/chat_screen/chat_screen.dart';
+import 'package:staff_app/view/chat_screen/chating_screen.dart';
 import 'package:staff_app/view/rating_screens/driver_rating_screen.dart';
 import 'package:staff_app/view/transportation_screen/bus_arriving_soon_screen.dart';
 import 'package:staff_app/view/transportation_screen/location_screen.dart';
@@ -21,17 +28,21 @@ class TransportationScreen extends StatefulWidget {
   State<TransportationScreen> createState() => _TransportationScreenState();
 }
 
-class _TransportationScreenState extends State<TransportationScreen> {
+class _TransportationScreenState extends State<TransportationScreen> with SingleTickerProviderStateMixin{
   TransportationScreenCtrl controller = Get.put(TransportationScreenCtrl());
+  late TabController tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(length: 2, vsync: this)..addListener(() {
+      setState(() {});
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWithAction(context, translate(context).transportation, [
-        Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: BaseAppBar(title: translate(context).transportation),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(15.sp),
@@ -102,73 +113,10 @@ class _TransportationScreenState extends State<TransportationScreen> {
               SizedBox(
                 height: 1.h,
               ),
-              Row(
-                children: [
-                  Obx(() => Flexible(
-                    flex: 1,
-                    child: InkWell(
-                      onTap: (){
-                        controller.selectedIndex.value = 0;
-                      },
-                      child: Container(
-                        height: 40.0,
-                        width: getWidth(context) * 50 / 100,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            color: controller.selectedIndex.value == 0 ? CustomColors.backgroundColor : CustomColors.screenBackgroundColor,
-                            border: Border.all(
-                                color: controller.selectedIndex.value == 0 ? Colors.transparent : CustomColors.txtFiledBorderColor
-                            ),
-                            boxShadow: [
-                              if(controller.selectedIndex.value == 0)
-                                const BoxShadow(
-                                    color: CustomColors.darkShadowColor,
-                                    spreadRadius: 1.0,
-                                    blurRadius: 2.0,
-                                    offset: Offset(0, 3)
-                                )
-                            ],
-                            borderRadius: BorderRadius.circular(15.sp)
-                        ),
-                        child: Text(translate(context).departure_information, style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex.value == 0 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: 16.sp),),
-                      ),
-                    ),
-                  )),
-                  SizedBox(
-                    width: 2.w,
-                  ),
-                  Obx(() => Flexible(
-                    flex: 1,
-                    child: InkWell(
-                      onTap: (){
-                        controller.selectedIndex.value = 1;
-                      },
-                      child: Container(
-                        height: 40.0,
-                        width: getWidth(context) * 50 / 100,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            color: controller.selectedIndex.value == 1 ? CustomColors.backgroundColor : CustomColors.screenBackgroundColor,
-                            border: Border.all(
-                                color: controller.selectedIndex.value == 1 ? Colors.transparent : CustomColors.txtFiledBorderColor
-                            ),
-                            boxShadow: [
-                              if(controller.selectedIndex.value == 1)
-                                const BoxShadow(
-                                    color: CustomColors.darkShadowColor,
-                                    spreadRadius: 1.0,
-                                    blurRadius: 2.0,
-                                    offset: Offset(0, 3)
-                                )
-                            ],
-                            borderRadius: BorderRadius.circular(15.sp)
-                        ),
-                        child: Text(translate(context).return_information, style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex.value == 1 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: 16.sp),),
-                      ),
-                    ),
-                  )),
-                ],
-              ),
+              BaseToggleTabBar(controller: tabController, tabs: [
+                BaseTabButton(title: translate(context).departure_information, isSelected: tabController.index == 0),
+                BaseTabButton(title: translate(context).return_information, isSelected: tabController.index == 1)
+              ]),
               SizedBox(
                 height: 2.h,
               ),
@@ -254,22 +202,27 @@ class _TransportationScreenState extends State<TransportationScreen> {
                           ),
                         ),
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Color(0xffF8F8F8),
-                        ),
-                        padding: EdgeInsets.only(left: 15, right: 15),
-                        alignment: Alignment.center,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(chatSvg1),
-                            SizedBox(
-                              height: 1.h,
-                            ),
-                            Text(translate(context).chat, style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
-                          ],
+                      GestureDetector(
+                        onTap: (){
+                          Get.to(ChatingScreen());
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Color(0xffF8F8F8),
+                          ),
+                          padding: EdgeInsets.only(left: 15, right: 15),
+                          alignment: Alignment.center,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(chatSvg1),
+                              SizedBox(
+                                height: 1.h,
+                              ),
+                              Text(translate(context).chat, style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -291,27 +244,27 @@ class _TransportationScreenState extends State<TransportationScreen> {
                 children: [
                   Flexible(
                     flex: 1,
-                    child: CustomButton(text: translate(context).driver.toUpperCase(), onPressed: (){
+                    child: BaseButton(title: translate(context).driver.toUpperCase(), onPressed: (){
                       Get.to(DriverRatingScreen(title: "Driver"));
-                    }, borderRadius: 10.0,btnHeight: 40,textSize: 15.sp),
+                    }, textSize: 15.sp),
                   ),
                   SizedBox(
                     width: 1.w,
                   ),
                   Flexible(
                     flex: 1,
-                    child: CustomButton(text: translate(context).bus.toUpperCase(), onPressed: (){
+                    child: BaseButton(title: translate(context).bus.toUpperCase(), onPressed: (){
                       Get.to(DriverRatingScreen(title: "Bus"));
-                    }, borderRadius: 10.0,btnHeight: 40, textSize: 15.sp),
+                    }, textSize: 15.sp),
                   ),
                   SizedBox(
                     width: 1.w,
                   ),
                   Flexible(
                     flex: 1,
-                    child: CustomButton(text: translate(context).supervisor.toUpperCase(), onPressed: (){
+                    child: BaseButton(title: translate(context).supervisor.toUpperCase(), onPressed: (){
                       Get.to(DriverRatingScreen(title: "Staff"));
-                    }, borderRadius: 10.0,btnHeight: 40,textSize: 15.sp,),
+                    },textSize: 15.sp,),
                   ),
                 ],
               ),

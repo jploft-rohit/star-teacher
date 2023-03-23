@@ -1,11 +1,12 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/curved_navigation_bar/curved_navigation_bar.dart';
+import 'dart:io' show Platform;
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/Dashboard_screen/dashboard_screen_ctrl.dart';
@@ -21,6 +22,7 @@ class DashboardScreen extends GetView<DashboardScreenCtrl>{
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      bottom: Platform.isIOS?false:true,
       child: Scaffold(
         extendBody: true,
         backgroundColor: CustomColors.white,
@@ -33,6 +35,7 @@ class DashboardScreen extends GetView<DashboardScreenCtrl>{
               // animationCurve: Curves.easeInOut,
               index: 2,
               color: CustomColors.backgroundColor,
+              height: Platform.isIOS?85.0:75.0,
               items: <Widget>[
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 8),
@@ -80,7 +83,7 @@ class DashboardScreen extends GetView<DashboardScreenCtrl>{
               },
             ),
             Positioned(
-              bottom: 5,
+              bottom: (Platform.isIOS?15.0:5.0),
               left: 0,
               right: 0,
               child: Padding(
@@ -88,14 +91,14 @@ class DashboardScreen extends GetView<DashboardScreenCtrl>{
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text('${translate(context).task}',style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: 16.sp),),
+                    Text('${translate(context).task}',style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: bottomNavigationBarTs),),
                     Padding(
                       padding: const EdgeInsetsDirectional.only(start: 8),
-                      child: Text('${translate(context).search}',style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: 16.sp),),
+                      child: Text('${translate(context).search}',style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: bottomNavigationBarTs),),
                     ),
-                    Text(translate(context).home,style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: 16.sp),),
-                    Text(translate(context).chats,style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: 16.sp),),
-                    Text('${translate(context).account}',style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: 16.sp),),
+                    Text(translate(context).home,style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: bottomNavigationBarTs),),
+                    Text(translate(context).chats,style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: bottomNavigationBarTs),),
+                    Text('${translate(context).account}',style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: bottomNavigationBarTs),),
                   ],
                 ),
               ),

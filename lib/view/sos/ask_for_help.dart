@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
@@ -44,16 +46,7 @@ class _AskForHelpViewState extends State<AskForHelpView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-        appBar: appBarWithAction(context, translate(context).ask_for_help, [
-          const Padding(
-            padding: EdgeInsets.only(right: 10.0),
-            child: Icon(
-              Icons.notifications_none,
-              color: Colors.black,
-              size: 35.0,
-            ),
-          )
-        ]),
+        appBar: BaseAppBar(title: translate(context).ask_for_help),
         body: Container(
             padding: EdgeInsets.all(15.sp),
             child: ListView(
@@ -140,7 +133,7 @@ class _AskForHelpViewState extends State<AskForHelpView> {
                 ),
                 SizedBox(height: 2.0.h),
                 Center(
-                  child: CustomButton(text: translate(context).notify.toUpperCase(), onPressed: (){
+                  child: BaseButton(title: translate(context).notify.toUpperCase(), onPressed: (){
                     Get.back();
                   })
                 )

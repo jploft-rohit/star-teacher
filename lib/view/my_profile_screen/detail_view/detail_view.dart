@@ -4,10 +4,12 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/route_manager/route_name.dart';
@@ -92,7 +94,7 @@ class _DetailViewState extends State<DetailView> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20, vertical: 2),
                           child: Center(
-                            child: Text(translate(context).edit, style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp)),
+                            child: Text(translate(context).edit, style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: mediumButtonTs)),
                           ),
                         ),
                       ),
@@ -588,7 +590,7 @@ class _DetailViewState extends State<DetailView> {
                     SizedBox(height: 2.h ,),
                     Align(
                       alignment: Alignment.center,
-                      child: CustomButton(text: translate(context).delete.toUpperCase(), onPressed: () {Get.back();},),
+                      child: BaseButton(title: translate(context).delete.toUpperCase(), onPressed: () {Get.back();},),
                     )
 
                   ],

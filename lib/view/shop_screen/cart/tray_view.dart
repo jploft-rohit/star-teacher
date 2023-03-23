@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/shop_screen/shop_screen_ctrl.dart';
@@ -29,12 +32,7 @@ class _TrayViewState extends State<TrayView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWithAction(context, "Tray", [
-        Padding(
-          padding: const EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: const BaseAppBar(title: "Tray"),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
@@ -47,10 +45,9 @@ class _TrayViewState extends State<TrayView> {
                 children: [
                   addText('First Break Items', 16.sp,
                       CustomColors.textBlackColor, FontWeight.w700),
-                  CustomButton(
-                      btnHeight: 22,
+                  BaseButton(
                       btnWidth: 85,
-                      text: "Add item",
+                      title: "Add item",
                       onPressed: () {})
                 ],
               ),
@@ -69,10 +66,9 @@ class _TrayViewState extends State<TrayView> {
                 children: [
                   addText('Second Break Items', 16.sp,
                       CustomColors.textBlackColor, FontWeight.w700),
-                  CustomButton(
-                      btnHeight: 22,
+                  BaseButton(
                       btnWidth: 85,
-                      text: "Add item",
+                      title: "Add item",
                       textSize: 16.sp,
                       onPressed: () {})
                 ],
@@ -88,7 +84,7 @@ class _TrayViewState extends State<TrayView> {
               SizedBox(height: 1.h),
               const Divider(),
               SizedBox(height: 2.h),
-              addText('Order Type', 16.sp,
+              addText('Order Type', radioButtonTitleTs,
                   CustomColors.textBlackColor, FontWeight.w700),
               SizedBox(height: 1.5.h),
               Obx(() => Row(
@@ -143,7 +139,7 @@ class _TrayViewState extends State<TrayView> {
                 ),
               ),
               SizedBox(height: 2.h),
-              addText('Serving', 16.sp,
+              addText('Serving', radioButtonTitleTs,
                   CustomColors.textBlackColor, FontWeight.w700),
               SizedBox(height: 1.5.h),
               Obx(() => Row(
@@ -214,7 +210,7 @@ class _TrayViewState extends State<TrayView> {
                   FontWeight.w400),
               SizedBox(height: 3.h),
               Center(
-                child: CustomButton(text: "Schedule Order", onPressed: (){
+                child: BaseButton(title: "Schedule Order", onPressed: (){
                   showGeneralDialog(context: context, pageBuilder: (context,a1,a2){
                     return Scaffold(
                       backgroundColor: Colors.transparent,
@@ -238,7 +234,7 @@ class _TrayViewState extends State<TrayView> {
                                 children: [
                                   Expanded(
                                     child: Center(
-                                      child: CustomButton(text: translate(context).cancel, onPressed: (){
+                                      child: BaseButton(title: translate(context).cancel, onPressed: (){
                                         Navigator.pop(context);
                                       }),
                                     ),
@@ -246,7 +242,7 @@ class _TrayViewState extends State<TrayView> {
                                   SizedBox(width: 3.w),
                                   Expanded(
                                     child: Center(
-                                      child: CustomButton(text: translate(context).proceed, onPressed: (){
+                                      child: BaseButton(title: translate(context).proceed, onPressed: (){
                                         Navigator.pop(context);
                                       }),
                                     ),

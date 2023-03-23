@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 
 import 'images_icon_path.dart';
@@ -66,9 +68,9 @@ Widget buildInfoItems(String title,String description, [icon]) {
   return RichText(
     text: TextSpan(
       text: '$title : ',
-      style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),
+      style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: textFormFieldLabelTs),
       children: <TextSpan>[
-        TextSpan(text: description, style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp, height: 1.2)),
+        TextSpan(text: description, style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: textFormFieldHintTs, height: 1.2)),
       ],
     ),
   );
@@ -99,7 +101,7 @@ Widget walletToogleButton(
                         color: isPurchases
                             ? Colors.transparent
                             : CustomColors.borderColor)),
-                child: Text(translate(Get.context!).purchase, style: Style.montserratBoldStyle().copyWith(color: isPurchases ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: 16.sp),),
+                child: Text(translate(Get.context!).purchase, style: Style.montserratBoldStyle().copyWith(color: isPurchases ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
               ),
               // Container(
               //   alignment: Alignment.center,
@@ -136,7 +138,7 @@ Widget walletToogleButton(
                         color: isEvents
                             ? Colors.transparent
                             : CustomColors.borderColor)),
-                child: Text(translate(Get.context!).event, style: Style.montserratBoldStyle().copyWith(color: isEvents ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: 16.sp),),
+                child: Text(translate(Get.context!).event, style: Style.montserratBoldStyle().copyWith(color: isEvents ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
               ),
               Container(
                 alignment: Alignment.center,
@@ -174,7 +176,7 @@ Widget purchasesToogleButton(onTap1, isTransaction, onTap2, isTopup) {
                     : CustomColors.txtFieldTextColor,
                 borderRadius: BorderRadius.circular(8),
                 boxShadow: isTransaction ? kElevationToShadow[3] : null),
-            child: Text(translate(Get.context!).transaction, style: Style.montserratBoldStyle().copyWith(color: isTransaction ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: 16.sp),),
+            child: Text(translate(Get.context!).transaction, style: Style.montserratBoldStyle().copyWith(color: isTransaction ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
           ),
         ),
       ),
@@ -196,7 +198,7 @@ Widget purchasesToogleButton(onTap1, isTransaction, onTap2, isTopup) {
                     color: isTopup
                         ? Colors.transparent
                         : CustomColors.borderColor)),
-            child: Text(translate(Get.context!).top_up_record, style: Style.montserratBoldStyle().copyWith(color: isTopup ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: 16.sp),),
+            child: Text(translate(Get.context!).top_up_record, style: Style.montserratBoldStyle().copyWith(color: isTopup ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
           ),
         ),
       ),
@@ -271,7 +273,7 @@ Widget radioButton(onTap, value, label) {
       iconButton(
           onTap, value ? "assets/images/Group 7585.svg" : "assets/images/Ellipse 33.svg"),
       SizedBox(width: 0.5.h),
-      addText(label, 14.sp, CustomColors.textBlackColor,
+      addText(label, radioButtonTitleTs, CustomColors.textBlackColor,
           FontWeight.w400),
     ],
   );
@@ -287,8 +289,7 @@ Text addAlignedText(
           fontFamily: 'Arial'));
 }
 Text addText(String text, double size, Color color, FontWeight fontWeight) {
-  return Text(text.tr,
-      style: TextStyle(color: color, fontSize: size, fontWeight: fontWeight, fontFamily: "Arial"));
+  return Text(text.tr, style: TextStyle(color: color, fontSize: size, fontWeight: fontWeight, fontFamily: "Arial"));
 }
 showNFCDialog(BuildContext context,String image){
 
@@ -427,7 +428,7 @@ void showScanQrDialogue(BuildContext context, bool isShowButton) {
                         fit: BoxFit.scaleDown,
                       ),
                       SizedBox(height:1.h),
-                      if(isShowButton) CustomButton(text: "PRINT QR", onPressed: (){})
+                      if(isShowButton) BaseButton(title: "PRINT QR", onPressed: (){})
                     ],
                   ),
                 ),

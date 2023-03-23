@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -42,7 +43,7 @@ class _BusAtDoorPopupState extends State<BusAtDoorPopup> {
                 SizedBox(
                   height: 2.h,
                 ),
-                CustomButton(text: translate(context).acknowledge, onPressed: (){Get.back();})
+                BaseButton(title: translate(context).acknowledge, onPressed: (){Get.back();})
               ],
             ),
           ),

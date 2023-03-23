@@ -2,6 +2,8 @@ import 'package:dashed_rect/dashed_rect.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
@@ -24,14 +26,9 @@ class _CreateRewardScreenState extends State<CreateRewardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.white,
-      appBar: appBarWithAction(context, translate(context).create_reward, [
-        Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: BaseAppBar(title: translate(context).create_reward),
       body: Container(
-        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
         width: 100.w,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,7 +45,7 @@ class _CreateRewardScreenState extends State<CreateRewardScreen> {
                     ),
                     height: 200,
                     child: DashedRect(
-                      color: Color(0xFFD2D2D2),
+                      color: const Color(0xFFD2D2D2),
                       strokeWidth: 1.0,
                       gap: 5.0,
                       child: Column(
@@ -72,7 +69,7 @@ class _CreateRewardScreenState extends State<CreateRewardScreen> {
                     ),
                     height: 200,
                     child: DashedRect(
-                      color: Color(0xFFD2D2D2),
+                      color: const Color(0xFFD2D2D2),
                       strokeWidth: 1.0,
                       gap: 5.0,
                       child: Column(
@@ -93,18 +90,18 @@ class _CreateRewardScreenState extends State<CreateRewardScreen> {
             CustomTextField(controller: rewardTitleCtrl, hintText: translate(context).reward_title, borderRadius: 10.0,),
             SizedBox(height:2.h),
             CustomTextField(controller: pointValueCtrl, hintText: translate(context).points_value, borderRadius: 10.0,suffixIcon: Container(
-              padding: EdgeInsets.all(1),
+              padding: const EdgeInsets.all(1),
               width: 30,
               child: Column(
                 children: [
                   Expanded(
                     child: Container(
-                      margin: EdgeInsets.only(left: 10, top: 1),
-                      decoration: BoxDecoration(
+                      margin: const EdgeInsets.only(left: 10, top: 1),
+                      decoration: const BoxDecoration(
                           color: Color(0xffD7DEEA),
                           borderRadius:
                           BorderRadius.only(topRight: Radius.circular(10))),
-                      child: Icon(
+                      child: const Icon(
                         Icons.keyboard_arrow_up_outlined,
                         color: CustomColors.textBlackColor,
                       ),
@@ -113,12 +110,12 @@ class _CreateRewardScreenState extends State<CreateRewardScreen> {
                   SizedBox(height: 0.1.h),
                   Expanded(
                     child: Container(
-                      margin: EdgeInsets.only(left: 10, bottom: 1),
-                      decoration: BoxDecoration(
+                      margin: const EdgeInsets.only(left: 10, bottom: 1),
+                      decoration: const BoxDecoration(
                           color: Color(0xffD7DEEA),
                           borderRadius: BorderRadius.only(
                               bottomRight: Radius.circular(10))),
-                      child: Icon(
+                      child: const Icon(
                         Icons.keyboard_arrow_down_outlined,
                         color: CustomColors.textBlackColor,
                       ),
@@ -128,7 +125,7 @@ class _CreateRewardScreenState extends State<CreateRewardScreen> {
               ),
             ),),
             SizedBox(height:3.h),
-            CustomButton(text: translate(context).create.toUpperCase(), onPressed: (){
+            BaseButton(title: translate(context).create.toUpperCase(), onPressed: (){
 
             })
           ],

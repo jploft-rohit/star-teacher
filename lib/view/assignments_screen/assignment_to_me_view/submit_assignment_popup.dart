@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
@@ -55,9 +56,9 @@ class _SubmitAssignmentPopupState extends State<SubmitAssignmentPopup> {
                   height: 2.h,
                 ),
                 Center(
-                  child: CustomButton(text: "YES", onPressed: (){
+                  child: BaseButton(title: "YES", onPressed: (){
                     Get.back();
-                  }, btnWidth: 25.w,borderRadius: 50.0,btnHeight: 35,),
+                  }, btnWidth: 25.w),
                 ),
               ],
             ),

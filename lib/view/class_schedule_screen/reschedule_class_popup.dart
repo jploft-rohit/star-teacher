@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
@@ -194,9 +195,9 @@ class _RescheduleClassPopupState extends State<RescheduleClassPopup> {
                 ),
 
                 Center(
-                  child: CustomButton(text: "SUBMIT", onPressed: (){
+                  child: BaseButton(title: "SUBMIT", onPressed: (){
                       Get.back();
-                  }, btnWidth: 30.w,borderRadius: 50.0,btnHeight: 40,),
+                  }, btnWidth: 30.w),
                 ),
               ],
             ),

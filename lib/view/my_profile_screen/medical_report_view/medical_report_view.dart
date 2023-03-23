@@ -4,10 +4,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_floating_action_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/my_profile_screen/medical_report_view/add_medical_file_popup.dart';
@@ -94,39 +97,17 @@ class _MedicalReportViewState extends State<MedicalReportView> {
       translate(context).tomato,
     ];
     return Scaffold(
-      appBar: appBarWithAction(context, translate(context).medical_records, [
-        Padding(
-          padding: const EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
-      floatingActionButton: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FloatingActionButton.small(
-            onPressed: (){
-              showGeneralDialog(
-                context: context,
-                pageBuilder:  (context, animation, secondaryAnimation) {
-                  return const AddMedicalFilePopup();
-                },
-              );
+      appBar: BaseAppBar(title: translate(context).medical_records),
+      floatingActionButton: BaseFloatingActionButton(
+        onTap: () {
+          showGeneralDialog(
+            context: context,
+            pageBuilder:  (context, animation, secondaryAnimation) {
+              return const AddMedicalFilePopup();
             },
-            backgroundColor: CustomColors.backgroundColor,
-            shape: RoundedRectangleBorder(
-                side: const BorderSide(
-                    color: CustomColors.primaryColor
-                ),
-                borderRadius: BorderRadius.circular(50.0)
-            ),
-            child: Icon(
-              Icons.add,
-              size: 25.sp,
-              color: CustomColors.primaryColor,
-            ),
-          ),
-          Text(translate(context).add_medical_record, style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),textAlign: TextAlign.center,)
-        ],
+          );
+        },
+        title: translate(context).add_medical_record,
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -1134,7 +1115,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                           children: [
                                             Padding(
                                               padding:  EdgeInsets.symmetric(vertical: 2.h,horizontal: 1.w),
-                                              child: Text(controller.infectiousDiseaseList[index]['title'], style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
+                                              child: Text(controller.infectiousDiseaseList[index]['title'], style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: radioButtonTitleTs),),
                                             ),
                                             Padding(
                                               padding:  EdgeInsets.symmetric(vertical: 0.h),
@@ -1244,7 +1225,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                           children: [
                                             Padding(
                                               padding:  EdgeInsets.symmetric(vertical: 2.h,horizontal: 1.w),
-                                              child: Text(controller.diseaseConditionList[index]['title'],style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
+                                              child: Text(controller.diseaseConditionList[index]['title'],style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: radioButtonTitleTs),),
                                             ),
                                             Padding(
                                               padding:  EdgeInsets.symmetric(vertical: 0.h),
@@ -1307,7 +1288,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
 
                             Expanded(
                                 flex: 3,
-                                child: Text('${translate(context).blood_transfusion} :',style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),)),
+                                child: Text('${translate(context).blood_transfusion} :',style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: radioButtonTitleTs),)),
 
                             Flexible(
                               flex: 2,
@@ -1353,7 +1334,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                           children: [
                             Expanded(
                                 flex: 3,
-                                child: Text('${translate(context).hospitalization} :',style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),)),
+                                child: Text('${translate(context).hospitalization} :',style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: radioButtonTitleTs),)),
                             Flexible(
                               flex: 2,
                               child: RadioButton(

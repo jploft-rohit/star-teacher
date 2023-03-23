@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/otp_txt_field.dart';
@@ -90,7 +91,7 @@ class _OTPScreenState extends State<OTPScreen> {
                       ),
                       SizedBox(height: 10.h,),
                       Center(
-                        child: CustomButton(text: translate(context).submit_btn_txt, onPressed: (){
+                        child: BaseButton(title: translate(context).submit_btn_txt, onPressed: (){
                           Get.offAllNamed(chooseLoginTypeScreenRoute);
                         }),
                       ),

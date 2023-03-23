@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_floating_action_button.dart';
+import 'package:staff_app/Utility/base_tab_button.dart';
+import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:autoscale_tabbarview/autoscale_tabbarview.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/sos/help_detail_popup.dart';
@@ -19,108 +24,99 @@ class SOSWardenView extends StatefulWidget {
   State<SOSWardenView> createState() => _SOSWardenViewState();
 }
 
-class _SOSWardenViewState extends State<SOSWardenView> {
+class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProviderStateMixin {
   SosWardenController controller = Get.put(SosWardenController());
+  late TabController tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(length: 2, vsync: this)..addListener(() {
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: CustomColors.white,
-      // backgroundColor: CustomColors.white,
-      appBar: appBarWithAction(context, "SOS", [
-        Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                    color: CustomColors.backgroundColor,
-                    borderRadius: BorderRadius.circular(4),
-                    border: Border.all(color: CustomColors.backgroundColor)),
-                padding: EdgeInsets.all(10),
-                // margin: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Assembly Point 1',style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp, color: CustomColors.textBlackColor),),
-                    // iconButton(() {}, Assets.imagesDropDownArrow)
-                  ],
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        backgroundColor: CustomColors.white,
+        // backgroundColor: CustomColors.white,
+        appBar: const BaseAppBar(title: "SOS"),
+        body: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      color: CustomColors.backgroundColor,
+                      borderRadius: BorderRadius.circular(4),
+                      border: Border.all(color: CustomColors.backgroundColor)),
+                  padding: const EdgeInsets.all(10),
+                  // margin: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Assembly Point 1',style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp, color: CustomColors.textBlackColor),),
+                      // iconButton(() {}, Assets.imagesDropDownArrow)
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(height: 1.8.h,),
-              Text(translate(context).you_are_a_warden,style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: CustomColors.textBlackColor),),
-              SizedBox(height: 1.3.h,),
-              Container(
-                width: double.infinity,
-                // margin: const EdgeInsets.fromLTRB(20.0,10.0,20.0,0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.0),
-                  color: CustomColors.textRedColor,
+                SizedBox(height: 1.8.h,),
+                Text(translate(context).you_are_a_warden,style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: CustomColors.textBlackColor),),
+                SizedBox(height: 1.3.h,),
+                Container(
+                  width: double.infinity,
+                  // margin: const EdgeInsets.fromLTRB(20.0,10.0,20.0,0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20.0),
+                    color: CustomColors.textRedColor,
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 4.0.h),
+                      SvgPicture.asset(emergencySvg,height: 70,width: 70,),
+                      SizedBox(height: 2.0.h),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12.sp),
+                        child: Text(translate(context).fire_emergency,style: Style.montserratBoldStyle().copyWith(fontSize: 25.sp, color: CustomColors.white),),
+                      ),
+                      SizedBox(height: 1.3.h),
+                    ],
+                  ),
                 ),
-                child: Column(
-                  children: [
-                    SizedBox(height: 4.0.h),
-                    SvgPicture.asset(emergencySvg,height: 70,width: 70,),
-                    SizedBox(height: 2.0.h),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12.sp),
-                      child: Text(translate(context).fire_emergency,style: Style.montserratBoldStyle().copyWith(fontSize: 25.sp, color: CustomColors.white),),
-                    ),
-                    SizedBox(height: 1.3.h),
-                  ],
+                SizedBox(
+                  height: 2.2.h,
                 ),
-              ),
-              SizedBox(
-                height: 2.2.h,
-              ),
-              buildGrids(),
-              SizedBox(
-                height: 2.2.h,
-              ),
-              // view grid of NFC Scanner and Hand
-              Obx(() => (controller.selectedPos.value == 0 ||
-                  controller.selectedPos.value == 1)
-                  ? SizedBox(
-                // height: 100,
-                  child: buildFightMedicalAndOther(context))
-                  : const SizedBox.shrink()),
-              SizedBox(
-                height: 2.2.h,
-              ),
-              // views of NFC Scanner and Hand contect
-              Obx(() => (controller.selectedPos.value == 0 )
-                  ? buildNfcScannerAndHand(context)
-                  : buildNfcScannerAndHandForNeedHelp(context)),
-            ],
+                buildGrids(),
+                SizedBox(
+                  height: 2.2.h,
+                ),
+                // view grid of NFC Scanner and Hand
+                Obx(() => (controller.selectedPos.value == 0 ||
+                    controller.selectedPos.value == 1)
+                    ? SizedBox(
+                  // height: 100,
+                    child: buildFightMedicalAndOther(context))
+                    : const SizedBox.shrink()),
+                SizedBox(
+                  height: 2.2.h,
+                ),
+                // views of NFC Scanner and Hand contect
+                Obx(() => (controller.selectedPos.value == 0 )
+                    ? buildNfcScannerAndHand(context)
+                    : buildNfcScannerAndHandForNeedHelp(context)),
+              ],
+            ),
           ),
         ),
-      ),
-      floatingActionButton: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FloatingActionButton.small(
-            onPressed: (){},
-            backgroundColor: CustomColors.backgroundColor,
-            shape: RoundedRectangleBorder(
-                side: BorderSide(
-                    color: CustomColors.primaryColor
-                ),
-                borderRadius: BorderRadius.circular(50.0)
-            ),
-            child: Icon(
-              Icons.add,
-              size: 25.sp,
-              color: CustomColors.primaryColor,
-            ),
-          ),
-          Text(translate(context).need_help, style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),)
-        ],
+        floatingActionButton: BaseFloatingActionButton(
+          onTap: () {  },
+          title: translate(context).need_help,
+        ),
       ),
     );
   }
@@ -265,9 +261,9 @@ class _SOSWardenViewState extends State<SOSWardenView> {
         CustomTextField(controller: controller.searchCtrl, hintText: translate(context).search_by_id,
           borderRadius: 15.0,
           hintTextColor: CustomColors.textLightGreyColor,
-          contentPadding: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 10.0, right: 10.0),
-          prefixIcon: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          contentPadding: const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 10.0, right: 10.0),
+          prefixIcon: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.0),
           child: Icon(
             Icons.search,
             color: Color(0xff777777),
@@ -278,10 +274,10 @@ class _SOSWardenViewState extends State<SOSWardenView> {
             Expanded(
               child: CustomTextField(controller: controller.searchCtrl,
                 borderRadius: 15.0,
-                contentPadding: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 10.0, right: 10.0),
+                contentPadding: const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 10.0, right: 10.0),
                 hintTextColor: CustomColors.textLightGreyColor,
-                hintText: translate(context).search_by_id, prefixIcon: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                hintText: translate(context).search_by_id, prefixIcon: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.0),
                 child: Icon(
                   Icons.search,
                   color: Color(0xff777777),
@@ -295,125 +291,128 @@ class _SOSWardenViewState extends State<SOSWardenView> {
         SizedBox(
           height: 2.h,
         ),
-        Row(
-          children: [
-            Obx(() {
-              return Flexible(
-                flex: 1,
-                child: InkWell(
-                  onTap: (){
-                    controller.selectedNFCTabPos.value = 0;
-                  },
-                  child: Container(
-                    height: 40.0,
-                    width: getWidth(context) * 50 / 100,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        color: controller.selectedNFCTabPos.value == 0 ? CustomColors.backgroundColor : CustomColors.screenBackgroundColor,
-                        border: Border.all(
-                            color: controller.selectedNFCTabPos.value == 0 ? Colors.transparent : CustomColors.txtFiledBorderColor
-                        ),
-                        boxShadow: [
-                          if(controller.selectedNFCTabPos.value == 0)
-                            const BoxShadow(
-                                color: CustomColors.darkShadowColor,
-                                spreadRadius: 1.0,
-                                blurRadius: 2.0,
-                                offset: Offset(0, 3)
-                            )
-                        ],
-                        borderRadius: BorderRadius.circular(15.sp)
-                    ),
-                    child: Text(translate(context).remaining, style: Style.montserratBoldStyle().copyWith(color: controller.selectedNFCTabPos.value == 0 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: 16.sp),),
-                  ),
-                ),
-              );
-            }),
-            SizedBox(
-              width: 2.w,
-            ),
-            Obx(() {
-              return Flexible(
-                flex: 1,
-                child: InkWell(
-                  onTap: (){
-                    controller.selectedNFCTabPos.value = 1;
-                  },
-                  child: Container(
-                    height: 40.0,
-                    width: getWidth(context) * 50 / 100,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        color: controller.selectedNFCTabPos.value == 1 ? CustomColors.backgroundColor : CustomColors.screenBackgroundColor,
-                        border: Border.all(
-                            color: controller.selectedNFCTabPos.value == 1 ? Colors.transparent : CustomColors.txtFiledBorderColor
-                        ),
-                        boxShadow: [
-                          if(controller.selectedNFCTabPos.value == 1)
-                            const BoxShadow(
-                                color: CustomColors.darkShadowColor,
-                                spreadRadius: 1.0,
-                                blurRadius: 2.0,
-                                offset: Offset(0, 3)
-                            )
-                        ],
-                        borderRadius: BorderRadius.circular(15.sp)
-                    ),
-                    child: Text(translate(context).stamped, style: Style.montserratBoldStyle().copyWith(color: controller.selectedNFCTabPos.value == 1 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: 16.sp),),
-                  ),
-                ),
-              );
-            }),
-          ],
-        ),
+        BaseToggleTabBar(controller: tabController, tabs: [
+          BaseTabButton(title: translate(context).remaining, isSelected: tabController.index == 0),
+          BaseTabButton(title: translate(context).stamped, isSelected: tabController.index == 1),
+        ]),
         SizedBox(
           height: 1.8.h,
         ),
-        Obx(() => controller.selectedNFCTabPos.value == 0
-            ? ListView.builder(
-            shrinkWrap: true,
-            physics: const ScrollPhysics(),
-            itemCount: controller.mapRemaining.length,
-            itemBuilder: (_, int remItemIndex){
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 10.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.0),
-                      border: Border.all(
-                          color: CustomColors.borderColor
-                      )
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                              color: CustomColors.primaryColor
-                          ),
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: SvgPicture.asset(manSvg),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(10.sp),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(controller.mapRemaining[remItemIndex]['title'] ?? "", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
-                            SizedBox(
-                              height: .5.h,
+        AutoScaleTabBarView(
+            controller: tabController,
+            children: [
+          ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: controller.mapRemaining.length,
+              itemBuilder: (_, int remItemIndex){
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 10.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        border: Border.all(
+                            color: CustomColors.borderColor
+                        )
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: CustomColors.primaryColor
                             ),
-                            Text(controller.mapRemaining[remItemIndex]['id'] ?? "", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          child: SvgPicture.asset(manSvg),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(10.sp),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(controller.mapRemaining[remItemIndex]['title'] ?? "", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                              SizedBox(
+                                height: .5.h,
+                              ),
+                              Text(controller.mapRemaining[remItemIndex]['id'] ?? "", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                            ],
+                          ),
+                        ),
+                        // const Spacer(),
+                        controller.selectedFMOPos.value == 2 ? Padding(
+                          padding: const EdgeInsets.only(right: 10.0),
+                          child: Container(
+                            width: 75,
+                            height: 21,
+                            // padding: EdgeInsets.symmetric(vertical: 0, horizontal: 4),
+                            decoration: BoxDecoration(
+                                color: CustomColors.backgroundColor,
+                                boxShadow: [getBoxShadow()],
+                                border: Border.all(color: CustomColors.borderColor, width: 1.5),
+                                borderRadius: BorderRadius.circular(30.0)),
+                            child: Center(child: Text(translate(context).stamp, style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp),)),
+                          ),
+                        ): const SizedBox()
+                      ],
+                    ),
+                  ),
+                );
+              }),
+          ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: controller.mapRemaining.length,
+              itemBuilder: (_, int remItemIndex){
+                return controller.selectedFMOPos.value==2?Padding(
+                  padding: const EdgeInsets.only(bottom: 10.0),
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(10,10,10,10),
+                    margin: const EdgeInsets.only(bottom: 10),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        border: Border.all(color: CustomColors.borderColor)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                border: Border.all(color: CustomColors.primaryColor),
+                              ),
+                              child: SvgPicture.asset(manSvg,),
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Nawaz Alam', style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp)),
+                                SizedBox(height: 0.4.h),
+                                Text('#632541', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp)),
+                                SizedBox(height: 0.4.h),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 0),
+                                  child: Row(
+                                    children: [
+                                      SvgPicture.asset(locationSvg),
+                                      Text('${controller.mapRemaining[remItemIndex]['assembly no']}', style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
                           ],
                         ),
-                      ),
-                      Spacer(),
-                      controller.selectedFMOPos.value == 2 ? Padding(
-                        padding: const EdgeInsets.only(right: 10.0),
-                        child: Container(
-                          width: 75,
+                        // const Spacer(),
+                        Container(
+                          width: 82,
                           height: 21,
                           // padding: EdgeInsets.symmetric(vertical: 0, horizontal: 4),
                           decoration: BoxDecoration(
@@ -421,144 +420,77 @@ class _SOSWardenViewState extends State<SOSWardenView> {
                               boxShadow: [getBoxShadow()],
                               border: Border.all(color: CustomColors.borderColor, width: 1.5),
                               borderRadius: BorderRadius.circular(30.0)),
-                          child: Center(child: Text(translate(context).stamp, style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp),)),
-                        ),
-                      ): SizedBox()
-                    ],
+                          child: Center(child: Text(translate(context).change_Status, style: Style.montserratRegularStyle().copyWith(fontSize: 12.sp),)),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              );
-            })
-            : ListView.builder(
-            shrinkWrap: true,
-            physics: const ScrollPhysics(),
-            itemCount: controller.mapRemaining.length,
-            itemBuilder: (_, int remItemIndex){
-              return controller.selectedFMOPos.value==2?Padding(
-                padding: const EdgeInsets.only(bottom: 10.0),
-                child: Container(
-                  padding: const EdgeInsets.fromLTRB(10,10,10,10),
-                  margin: EdgeInsets.only(bottom: 10),
+                ):Container(
+                  height: 46,
+                  margin: const EdgeInsets.only(bottom: 8.0),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.0),
+                      borderRadius: BorderRadius.circular(10.0),
                       border: Border.all(color: CustomColors.borderColor)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              border: Border.all(color: CustomColors.primaryColor),
-                            ),
-                            child: SvgPicture.asset(manSvg,),
-                          ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                  child: IntrinsicHeight(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          flex: 1,
+                          child: Row(
                             children: [
-                              Text('Nawaz Alam', style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp)),
-                              SizedBox(height: 0.4.h),
-                              Text('#632541', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp)),
-                              SizedBox(height: 0.4.h),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 0),
-                                child: Row(
-                                  children: [
-                                    SvgPicture.asset(locationSvg),
-                                    Text('${controller.mapRemaining[remItemIndex]['assembly no']}', style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
-
-                                  ],
+                              Container(
+                                height: 50,
+                                //width: 46,
+                                padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  border: Border.all(color: CustomColors.primaryColor),
                                 ),
-                              )
+                                child: SvgPicture.asset(
+                                  manSvg,
+                                ),),
+                              SizedBox(width: 1.5.h),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(controller.mapRemaining[remItemIndex]['title'] ?? "", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                                  SizedBox(
+                                    height: .5.h,
+                                  ),
+                                  Text(controller.mapRemaining[remItemIndex]['id'] ?? "", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                                ],
+                              ),
                             ],
                           ),
-                        ],
-                      ),
-                      // const Spacer(),
-                      Container(
-                        width: 82,
-                        height: 21,
-                        // padding: EdgeInsets.symmetric(vertical: 0, horizontal: 4),
-                        decoration: BoxDecoration(
-                            color: CustomColors.backgroundColor,
-                            boxShadow: [getBoxShadow()],
-                            border: Border.all(color: CustomColors.borderColor, width: 1.5),
-                            borderRadius: BorderRadius.circular(30.0)),
-                        child: Center(child: Text(translate(context).change_Status, style: Style.montserratRegularStyle().copyWith(fontSize: 12.sp),)),
-                      )
-                    ],
-                  ),
-                ),
-              ):Container(
-                height: 46,
-                margin: const EdgeInsets.only(bottom: 8.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-              border: Border.all(color: CustomColors.borderColor)),
-                child: IntrinsicHeight(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        flex: 1,
-                        child: Row(
-                          children: [
-                            Container(
-                              height: 50,
-                              //width: 46,
-                              padding: EdgeInsets.symmetric(horizontal: 10.sp),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                border: Border.all(color: CustomColors.primaryColor),
+                        ),
+                        SizedBox(
+                          height: 2.1.h,
+                          child: const VerticalDivider(color: CustomColors.borderColor,),
+                        ),
+                        SizedBox(
+                          width: 5.w,
+                        ),
+                        Flexible(
+                          flex: 1,
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(locationSvg),
+                              SizedBox(
+                                width: 1.w,
                               ),
-                              child: SvgPicture.asset(
-                                manSvg,
-                              ),),
-                            SizedBox(width: 1.5.h),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(controller.mapRemaining[remItemIndex]['title'] ?? "", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
-                                SizedBox(
-                                  height: .5.h,
-                                ),
-                                Text(controller.mapRemaining[remItemIndex]['id'] ?? "", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
-                              ],
-                            ),
-                          ],
+                              Text('${controller.mapRemaining[remItemIndex]['assembly no']}', style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                            ],
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 2.1.h,
-                        child: VerticalDivider(color: CustomColors.borderColor,),
-                      ),
-                      SizedBox(
-                        width: 5.w,
-                      ),
-                      Flexible(
-                        flex: 1,
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(locationSvg),
-                            SizedBox(
-                              width: 1.w,
-                            ),
-                            Text('${controller.mapRemaining[remItemIndex]['assembly no']}', style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
-                          ],
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
 
-              );
-            })),
+                );
+              })
+        ]),
       ],
     );
   }
@@ -568,10 +500,10 @@ class _SOSWardenViewState extends State<SOSWardenView> {
       children: [
         CustomTextField(controller: controller.searchCtrl, hintText: translate(context).search_by_id,
           borderRadius: 15.0,
-          contentPadding: EdgeInsets.only(top: 10.0, bottom: 10.0, left: 10.0, right: 10.0),
+          contentPadding: const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 10.0, right: 10.0),
           hintTextColor: CustomColors.textLightGreyColor,
-          prefixIcon: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          prefixIcon: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.0),
           child: Icon(
             Icons.search,
             color: Color(0xff777777),
@@ -590,7 +522,7 @@ class _SOSWardenViewState extends State<SOSWardenView> {
                   showGeneralDialog(
                     context: context,
                     pageBuilder: (context, animation, secondaryAnimation) {
-                      return HelpDetailPopup();
+                      return const HelpDetailPopup();
                     },
                   );
                 },
@@ -638,7 +570,7 @@ class _SOSWardenViewState extends State<SOSWardenView> {
                         ),
                         SizedBox(
                           height: 2.1.h,
-                          child: VerticalDivider(color: CustomColors.borderColor,),
+                          child: const VerticalDivider(color: CustomColors.borderColor,),
                         ),
                         SizedBox(
                           width: 10.w,

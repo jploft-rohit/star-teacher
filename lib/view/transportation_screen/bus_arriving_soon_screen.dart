@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
@@ -37,12 +39,7 @@ class _BusArrivingSoonScreenState extends State<BusArrivingSoonScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWithAction(context, translate(context).bus_arriving_soon, [
-        Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: BaseAppBar(title: translate(context).bus_arriving_soon),
       body: Padding(
         padding: EdgeInsets.all(20.sp),
         child: Column(
@@ -105,7 +102,7 @@ class _BusArrivingSoonScreenState extends State<BusArrivingSoonScreen> {
             SizedBox(
               height: 3.h,
             ),
-            Center(child: CustomButton(text: translate(context).notify.toUpperCase(), onPressed: (){}, borderRadius: 10.0,))
+            Center(child: BaseButton(title: translate(context).notify.toUpperCase(), onPressed: (){}))
           ],
         ),
       ),

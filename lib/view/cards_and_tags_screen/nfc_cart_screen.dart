@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
@@ -25,12 +27,7 @@ class _NFCCartScreenState extends State<NFCCartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.white,
-      appBar: appBarWithAction(context, "Cart", [
-        Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: BaseAppBar(title: "Cart"),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
@@ -97,7 +94,7 @@ class _NFCCartScreenState extends State<NFCCartScreen> {
               Row(
                 children: [
                   Expanded(
-                    child: CustomButton(text: "PROCEED TO PAY", onPressed: (){
+                    child: BaseButton(title: "PROCEED TO PAY", onPressed: (){
                       showGeneralDialog(
                         context: context,
                         pageBuilder:  (context, animation, secondaryAnimation) {
@@ -110,7 +107,7 @@ class _NFCCartScreenState extends State<NFCCartScreen> {
                     width: 4.w,
                   ),
                   Expanded(
-                    child: CustomButton(text: "WALLET PAY", onPressed: (){
+                    child: BaseButton(title: "WALLET PAY", onPressed: (){
                       showGeneralDialog(
                         context: context,
                         pageBuilder:  (context, animation, secondaryAnimation) {

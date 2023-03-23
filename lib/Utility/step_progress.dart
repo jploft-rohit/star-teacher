@@ -3,6 +3,8 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/utility.dart';
 
+import 'sizes.dart';
+
 class MySeparator extends StatelessWidget {
   const MySeparator({Key? key, this.height = 1, this.color = Colors.black})
       : super(key: key);
@@ -87,9 +89,9 @@ class StepProgressView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              child: Text(_statuses[i], style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: textSize ?? 14.sp),textAlign: TextAlign.center,),
               height: 25,
               alignment: Alignment.center,
+              child: Text(_statuses[i], style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: textSize ?? stepperTitleTs),textAlign: TextAlign.center,),
             ),
             const SizedBox(
               height: 5,
@@ -129,7 +131,7 @@ class StepProgressView extends StatelessWidget {
             ),
             Row(
                     children: [
-                      Text(_titles.elementAt(i), style: Style.montserratBoldStyle().copyWith(color: CustomColors.textLightGreyColor, fontSize: textSize ?? 13.sp),textAlign: TextAlign.center,),
+                      Text(_titles.elementAt(i), style: Style.montserratBoldStyle().copyWith(color: CustomColors.textLightGreyColor, fontSize: textSize ?? stepperSubTitleTs),textAlign: TextAlign.center,),
                     ],
                   )
           ],

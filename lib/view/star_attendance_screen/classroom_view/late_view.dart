@@ -22,6 +22,7 @@ class _PresentViewState extends State<LateView> {
     return ListView.builder(
       itemCount: 5,
       shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.only(bottom: 15.0),

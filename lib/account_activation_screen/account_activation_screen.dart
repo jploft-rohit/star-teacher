@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/route_manager/route_name.dart';
@@ -67,7 +69,7 @@ class _AccountActivationScreenState extends State<AccountActivationScreen> {
                         SizedBox(height: 2.h,),
                         buildInputField(translate(context).employee_id, employeeIdController),
                         SizedBox(height: 4.h,),
-                        CustomButton(text: translate(context).submit_btn_txt, onPressed: () {_showActivationDialogue(context);},)
+                        BaseButton(title: translate(context).submit_btn_txt, onPressed: () {_showActivationDialogue(context);},)
                       ],
                     ),
                   ))
@@ -85,9 +87,9 @@ class _AccountActivationScreenState extends State<AccountActivationScreen> {
               child: AlertDialog(
                 shape: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16.0),
-                  borderSide: BorderSide(color: Colors.transparent)
+                  borderSide: const BorderSide(color: Colors.transparent)
                 ),
-                insetPadding: EdgeInsets.only(left: 15, right: 15.0),
+                insetPadding: const EdgeInsets.only(left: 15, right: 15.0),
                 content: SizedBox(
                   width: 100.w,
                   child: Column(
@@ -95,7 +97,7 @@ class _AccountActivationScreenState extends State<AccountActivationScreen> {
                     children: [
                       Text(translate(context).account_activation_popup_txt,style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: CustomColors.textBlackColor, height: 1.5),textAlign: TextAlign.center,),
                       const SizedBox(height: 20,),
-                      CustomButton(btnWidth: 30.w, btnHeight: 35.0, text: translate(context).ok, onPressed: () {Get.toNamed(ruleScreenRoute);},)
+                      BaseButton(btnWidth: 30.w, title: translate(context).ok, onPressed: () {Get.toNamed(ruleScreenRoute);},textSize: mediumButtonTs,)
                     ],
                   ),
                 ),
@@ -121,7 +123,7 @@ class _AccountActivationScreenState extends State<AccountActivationScreen> {
           width: 60.w,
           child: CustomTextField(controller: controller,
             hintTxtSize: 15.sp,
-            fillColor: Color(0xffFCFCFC),
+            fillColor: const Color(0xffFCFCFC),
             hintText: translate(context).type_here,borderRadius: 4,),
         )
       ],
@@ -142,15 +144,15 @@ class _AccountActivationScreenState extends State<AccountActivationScreen> {
               child: CustomTextField(
                 controller: controller,
                 hintText: translate(context).type_here,
-                fillColor: Color(0xffFCFCFC),
+                fillColor: const Color(0xffFCFCFC),
                 borderRadius: 4.0,
                 hintTxtSize: 15.sp,
                 suffixIcon: Container(
-                  margin: EdgeInsets.only(left: 10.0, right: 10.0),
-                  padding: EdgeInsets.all(4.0),
+                  margin: const EdgeInsets.only(left: 10.0, right: 10.0),
+                  padding: const EdgeInsets.all(4.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5.0),
-                    color: Color(0xff4C4C4C)
+                    color: const Color(0xff4C4C4C)
                   ),
                   child: Text(translate(context).sent_otp_btn_txt, style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp,color: CustomColors.white),),
                 ),
@@ -164,7 +166,7 @@ class _AccountActivationScreenState extends State<AccountActivationScreen> {
 
             Text(translate(context).otp_sent1, style: Style.montserratBoldStyle().copyWith(color: Colors.green, fontSize: 14.sp),),
             const SizedBox(width: 5,),
-            Text(translate(context).resend, style: Style.montserratBoldStyle().copyWith(color: Color(0xffD77502), fontSize: 14.sp, decoration: TextDecoration.underline),)
+            Text(translate(context).resend, style: Style.montserratBoldStyle().copyWith(color: const Color(0xffD77502), fontSize: 14.sp, decoration: TextDecoration.underline),)
 
 
           ],

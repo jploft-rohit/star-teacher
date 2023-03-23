@@ -9,9 +9,9 @@ class StarAttendanceScreenCtrl extends GetxController{
   final selectedIndex = 0.obs;
 
   List<Widget> list = [
-    ClassRoomView(),
-    ClassRoomView(),
-    ClassRoomView(),
+    const ClassRoomView(),
+    const ClassRoomView(),
+    const ClassRoomView(),
   ];
   List<Map<String, dynamic>> reasonList = [
     {
@@ -47,7 +47,7 @@ class StarAttendanceScreenCtrl extends GetxController{
     },
     {
       "title" : translate(Get.context!).late,
-      "color" : Color(0xffEC9C00),
+      "color" : const Color(0xffEC9C00),
       "isSelected" : true
     },
     {

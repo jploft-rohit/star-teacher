@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_tab_bar.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -40,12 +43,7 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWithAction(context, translate(context).activation_request, [
-        Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: BaseAppBar(title: translate(context).activation_request),
       body: Padding(
         padding: EdgeInsets.all(15.sp),
         child: Column(
@@ -76,13 +74,13 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
 
                           children: [
                             Text('Nawaz Alam', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),),
-                            Divider(
+                            const Divider(
                               color: CustomColors.borderColor,
                               height: 8.0,
                               thickness: 1.0,
                             ),
                             Text('#632541', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),),
-                            Divider(
+                            const Divider(
                               color: CustomColors.borderColor,
                               height: 8.0,
                               thickness: 1.0,
@@ -125,7 +123,7 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                   SizedBox(
                     height: 1.h,
                   ),
-                  Divider(),
+                  const Divider(),
                   Row(
                     children: [
                       Expanded(
@@ -161,7 +159,7 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
             Expanded(
               child: TabBarView(
                 controller: controller,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 children: [
                   buildPendingView(),
                   buildCompletedView(),
@@ -174,33 +172,16 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
     );
   }
   Widget buildTabBar() {
-    return Container(
-      height: 40,
-      decoration: BoxDecoration(
-          color: const Color(0xFFEEEEEE),
-          borderRadius: BorderRadius.circular(8.0)
-      ),
-      child: TabBar(
-        controller: controller,
-        isScrollable: false,
-        padding: const EdgeInsets.all(4),
-        labelPadding: EdgeInsets.only(left: 10, right: 10),
-        indicator: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: CustomColors.backgroundColor,
-            boxShadow: [getBoxShadow()]
+    return BaseTabBar(
+      controller: controller,
+      tabs:  [
+        Tab(
+          text: translate(context).pending,
         ),
-        labelColor: CustomColors.primaryColor,
-        unselectedLabelColor: Colors.black,
-        tabs:  [
-          Tab(
-            text: translate(context).pending,
-          ),
-          Tab(
-            text: translate(context).completed,
-          ),
-        ],
-      ),
+        Tab(
+          text: translate(context).completed,
+        ),
+      ],
     );
   }
 
@@ -238,7 +219,7 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                   ),
                 ],
               ),
-              Divider(),
+              const Divider(),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -249,7 +230,7 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                   Flexible(child: buildInfoItems(translate(context).deactivation_reason, "Suspected to have Covid-19 symptoms and is deactivated for the awareness of the students."))
                 ],
               ),
-              Divider(),
+              const Divider(),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -260,7 +241,7 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                   Flexible(child: buildInfoItems(translate(context).required_evidence, "1. RT- PCR Report"))
                 ],
               ),
-              Divider(),
+              const Divider(),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -271,7 +252,7 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                   Flexible(child: buildInfoItems(translate(context).due_date, "12/07/2022"))
                 ],
               ),
-              Divider(),
+              const Divider(),
               Text(translate(context).activation, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),),
               SizedBox(
                 height: 1.h,
@@ -301,7 +282,7 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                   ),
                 ],
               ),
-              Divider(),
+              const Divider(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -317,13 +298,13 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                               },
                             );
                           },child: Icon(Icons.remove_red_eye_outlined,color: CustomColors.primaryColor,size: 20.sp,)),
-                      SizedBox(width: 10,),
+                      const SizedBox(width: 10,),
                       Icon(Icons.download_for_offline,color: CustomColors.primaryColor,size: 20.sp,)
                     ],
                   ),
                 ],
               ),
-              Divider(),
+              const Divider(),
               StepProgressView(
                 width: MediaQuery.of(context).size.width,
                 curStep: 2,
@@ -371,7 +352,7 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                   ),
                 ],
               ),
-              Divider(),
+              const Divider(),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -382,7 +363,7 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                   Flexible(child: buildInfoItems(translate(context).deactivation_reason, "Suspected to have Covid-19 symptoms and is deactivated for the awareness of the students."))
                 ],
               ),
-              Divider(),
+              const Divider(),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -393,7 +374,7 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                   Flexible(child: buildInfoItems(translate(context).required_evidence, "1. RT- PCR Report"))
                 ],
               ),
-              Divider(),
+              const Divider(),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -404,7 +385,7 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                   Flexible(child: buildInfoItems(translate(context).due_date, "12/07/2022"))
                 ],
               ),
-              Divider(),
+              const Divider(),
               Text(translate(context).activation, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),),
               SizedBox(
                 height: 1.h,
@@ -434,7 +415,7 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                   ),
                 ],
               ),
-              Divider(),
+              const Divider(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -449,13 +430,13 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                           },
                         );
                       },child: Icon(Icons.remove_red_eye_outlined,color: CustomColors.primaryColor,size: 20.sp,)),
-                      SizedBox(width: 10,),
+                      const SizedBox(width: 10,),
                       Icon(Icons.download_for_offline,color: CustomColors.primaryColor,size: 20.sp,)
                     ],
                   ),
                 ],
               ),
-              Divider(),
+              const Divider(),
               StepProgressView(
                 width: MediaQuery.of(context).size.width,
                 curStep: 3,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
@@ -22,19 +24,14 @@ class _CreateMeetingScreenState extends State<CreateMeetingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWithAction(context, "Schedule Meeting", [
-        Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: const BaseAppBar(title: "Schedule Meeting"),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(15.sp),
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 decoration: BoxDecoration(
                   color: CustomColors.backgroundColor,
                   borderRadius: BorderRadius.circular(5.0),
@@ -61,13 +58,13 @@ class _CreateMeetingScreenState extends State<CreateMeetingScreen> {
                   showGeneralDialog(
                     context: context,
                     pageBuilder:  (context, animation, secondaryAnimation) {
-                      return ScheduleWithPopup();
+                      return const ScheduleWithPopup();
                     },
                   );
                 },
                 borderRadius: 5.0,
-                suffixIcon: Padding(
-                  padding: const EdgeInsetsDirectional.only(end: 15.0),
+                suffixIcon: const Padding(
+                  padding: EdgeInsetsDirectional.only(end: 15.0),
                   child: Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
                 ),
               ),
@@ -83,12 +80,12 @@ class _CreateMeetingScreenState extends State<CreateMeetingScreen> {
                   showGeneralDialog(
                     context: context,
                     pageBuilder:  (context, animation, secondaryAnimation) {
-                      return ScheduleWithPopup1();
+                      return const ScheduleWithPopup1();
                     },
                   );
                 },
-                suffixIcon: Padding(
-                  padding: const EdgeInsetsDirectional.only(end: 15.0),
+                suffixIcon: const Padding(
+                  padding: EdgeInsetsDirectional.only(end: 15.0),
                   child: Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
                 ),
               ),
@@ -99,8 +96,8 @@ class _CreateMeetingScreenState extends State<CreateMeetingScreen> {
                 controller: TextEditingController(),
                 hintText: "Meeting type",
                 borderRadius: 5.0,
-                suffixIcon: Padding(
-                  padding: const EdgeInsetsDirectional.only(end: 15.0),
+                suffixIcon: const Padding(
+                  padding: EdgeInsetsDirectional.only(end: 15.0),
                   child: Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
                 ),
               ),
@@ -158,7 +155,7 @@ class _CreateMeetingScreenState extends State<CreateMeetingScreen> {
                       );
                     },
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 3.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 3.0),
                       decoration: BoxDecoration(
                           color: CustomColors.backgroundColor,
                           borderRadius: BorderRadius.circular(50.0),
@@ -172,7 +169,7 @@ class _CreateMeetingScreenState extends State<CreateMeetingScreen> {
               SizedBox(
                 height: 5.h,
               ),
-              CustomButton(text: "SUBMIT", onPressed: (){})
+              BaseButton(title: "SUBMIT", onPressed: (){})
             ],
           ),
         ),

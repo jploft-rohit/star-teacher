@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/transportation_screen/deactivation_detail_screen.dart';
@@ -49,7 +51,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(""),
+                    const Text(""),
                     Flexible(child: Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: Text(translate(context).are_you_sure_you_want_to_notify_the_school_administration, style: Style.montserratBoldStyle().copyWith(fontSize: 17.sp, color: Colors.black),textAlign: TextAlign.center,),
@@ -58,7 +60,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                       onTap: (){
                         Get.back();
                       },
-                      child: Icon(Icons.close, color: Colors.black,),)
+                      child: const Icon(Icons.close, color: Colors.black,),)
                   ],
                 ),
                 SizedBox(
@@ -181,7 +183,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(translate(context).from, style: Style.montserratMediumStyle().copyWith(fontSize: 15.sp),),
+                          Text(translate(context).from, style: Style.montserratMediumStyle().copyWith(fontSize: textFormFieldLabelTs),),
                           SizedBox(
                             height: .5.h,
                           ),
@@ -192,7 +194,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                             onTap: (){
                               selectDate(context);
                             },
-                            hintTxtSize: 14.sp,
+                            hintTxtSize: textFormFieldHintTs,
                             borderRadius: 5.0,
                             suffixIcon: Padding(
                               padding: const EdgeInsets.only(left: 10.0, right: 10.0),
@@ -210,7 +212,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(translate(context).to, style: Style.montserratMediumStyle().copyWith(fontSize: 15.sp),),
+                          Text(translate(context).to, style: Style.montserratMediumStyle().copyWith(fontSize: textFormFieldLabelTs),),
                           SizedBox(
                             height: .5.h,
                           ),
@@ -222,7 +224,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                             onTap: (){
                               selectDate(context);
                             },
-                            hintTxtSize: 14.sp,
+                            hintTxtSize: textFormFieldHintTs,
                             suffixIcon: Padding(
                               padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                               child: SvgPicture.asset(calenderDateSvg,),
@@ -240,7 +242,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                 SizedBox(
                   height: 2.h,
                 ),
-                Divider(),
+                const Divider(),
                 SizedBox(
                   height: 1.h,
                 ),
@@ -361,7 +363,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(translate(context).from, style: Style.montserratMediumStyle().copyWith(fontSize: 15.sp),),
+                            Text(translate(context).from, style: Style.montserratMediumStyle().copyWith(fontSize: textFormFieldLabelTs),),
                             SizedBox(
                               height: .5.h,
                             ),
@@ -369,7 +371,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                               controller: startDateCtrl1,
                               hintText: "dd/mm/yyyy",
                               borderRadius: 5.0,
-                              hintTxtSize: 14.sp,
+                              hintTxtSize: textFormFieldHintTs,
                               readOnly: true,
                               onTap: (){
                                 selectDate(context);
@@ -390,7 +392,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(translate(context).to, style: Style.montserratMediumStyle().copyWith(fontSize: 15.sp),),
+                            Text(translate(context).to, style: Style.montserratMediumStyle().copyWith(fontSize: textFormFieldLabelTs),),
                             SizedBox(
                               height: .5.h,
                             ),
@@ -398,7 +400,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                               controller: endDateCtrl1,
                               hintText: "dd/mm/yyyy",
                               borderRadius: 5.0,
-                              hintTxtSize: 14.sp,
+                              hintTxtSize: textFormFieldHintTs,
                               readOnly: true,
                               onTap: (){
                                 selectDate(context);
@@ -421,10 +423,10 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                     height: 2.h,
                   ),
                 Center(
-                  child: CustomButton(text: translate(context).notify, onPressed: (){
+                  child: BaseButton(title: translate(context).notify, onPressed: (){
                     Get.back();
-                    Get.to(DeactivationDetailScreen());
-                  }, btnWidth: 30.w,borderRadius: 50.0,btnHeight: 40,),
+                    Get.to(const DeactivationDetailScreen());
+                  }, btnWidth: 30.w),
                 ),
               ],
             ),
