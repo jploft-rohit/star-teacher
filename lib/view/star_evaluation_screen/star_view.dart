@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
@@ -26,12 +28,7 @@ class _StarViewState extends State<StarView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWithAction(context, "Star Evaluation", [
-        Padding(
-          padding: const EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: const BaseAppBar(title: "Star Evaluation"),
       body: Padding(
         padding: const EdgeInsets.all(15),
         child: Column(
@@ -172,11 +169,11 @@ class _StarViewState extends State<StarView> {
                       value: ctrl.isChecked.value,
                       visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                       side: MaterialStateBorderSide.resolveWith(
-                            (states) => BorderSide(width: 1.0, color: CustomColors.primaryColor),
+                            (states) => const BorderSide(width: 1.0, color: CustomColors.primaryColor),
                       ),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(3),
-                          side: BorderSide(color: CustomColors.primaryColor)
+                          side: const BorderSide(color: CustomColors.primaryColor)
                       ),
                       onChanged: (bool? value) {
                         ctrl.isChecked.value = value!;
@@ -286,26 +283,26 @@ class _StarViewState extends State<StarView> {
                 );
               },
             ),
-            Spacer(),
+            const Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                CustomButton(text: translate(context).give_stars.toUpperCase(), onPressed: (){
+                BaseButton(title: translate(context).give_stars.toUpperCase(), onPressed: (){
                   showGeneralDialog(
                     context: context,
                     pageBuilder: (context, animation, secondaryAnimation) {
-                      return StarRatingPopup();
+                      return const StarRatingPopup();
                     },
                   );
-                }, btnWidth: 40.w, btnHeight: 30,),
-                CustomButton(text: translate(context).record_needs.toUpperCase(), onPressed: (){
+                }, btnWidth: 40.w),
+                BaseButton(title: translate(context).record_needs.toUpperCase(), onPressed: (){
                   showGeneralDialog(
                     context: context,
                     pageBuilder: (context, animation, secondaryAnimation) {
                       return SuccessDialogScreen(msg: translate(context).points_added_successfully,);
                     },
                   );
-                },btnHeight: 30,btnWidth: 40.w,),
+                },btnWidth: 40.w,),
               ],
             ),
             SizedBox(

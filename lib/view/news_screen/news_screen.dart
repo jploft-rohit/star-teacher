@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
@@ -20,12 +22,7 @@ class _NewsScreenState extends State<NewsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWithAction(context, "News", [
-        Padding(
-          padding: const EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: BaseAppBar(title: "News"),
       body: Padding(
         padding: EdgeInsets.all(15.sp),
         child: Column(
@@ -104,15 +101,15 @@ class _NewsScreenState extends State<NewsScreen> {
                             ),
                             if(index == 0)
                               Center(
-                                child: CustomButton(text: "AGREED", onPressed: (){
+                                child: BaseButton(title: "AGREED", onPressed: (){
 
-                                }, btnHeight: 35, borderRadius: 10.0, textSize: 17.sp,btnWidth: 35.w,),
+                                },textSize: 17.sp,btnWidth: 35.w,),
                               ),
                             if(index == 1)
                             Center(
-                              child: CustomButton(text: "Acknowledge", onPressed: (){
+                              child: BaseButton(title: "Acknowledge", onPressed: (){
 
-                              }, btnHeight: 35, boxShadow: const [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 17.sp,),
+                              }, isActive: false, textSize: 17.sp,),
                             ),
                           ],
                         ),

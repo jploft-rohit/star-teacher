@@ -3,17 +3,20 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_floating_action_button.dart';
+import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_dialogs.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/library_screen/notebook_screen/add_todo_note.dart';
 import 'package:staff_app/view/library_screen/notebook_screen/notebook_detail_screen.dart';
 import 'package:staff_app/view/library_screen/notebook_screen/notebook_screen_ctrl.dart';
-import 'package:staff_app/view/star_attendance_screen/classroom_view/confirmation_popup.dart';
 
 class NoteBookScreen extends StatefulWidget {
   const NoteBookScreen({Key? key}) : super(key: key);
@@ -22,125 +25,115 @@ class NoteBookScreen extends StatefulWidget {
   State<NoteBookScreen> createState() => _NoteBookScreenState();
 }
 
-class _NoteBookScreenState extends State<NoteBookScreen> {
+class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProviderStateMixin{
   NotebookScreenCtrl notesController = Get.put(NotebookScreenCtrl());
+  late TabController tabController;
+
+  @override
+  void initState() {
+    tabController = TabController(length: 2, vsync: this)..addListener(() {
+      setState(() {});
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: appBarWithAction(context, "Notebook", [
-        Padding(
-          padding: const EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
-      floatingActionButton: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FloatingActionButton.small(
-            onPressed: (){
-              Get.to(const AddToDoNote());
-            },
-            backgroundColor: CustomColors.backgroundColor,
-            shape: RoundedRectangleBorder(
-                side: const BorderSide(
-                    color: CustomColors.primaryColor
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: const BaseAppBar(title: "Notebook"),
+        floatingActionButton: BaseFloatingActionButton(
+          onTap: () {Get.to(const AddToDoNote());},
+          title: 'Add Note',
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(15.sp),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Obx(() => Flexible(
+                      flex: 1,
+                      child: InkWell(
+                        onTap: (){
+                          notesController.selectedIndex.value = 0;
+                        },
+                        child: Container(
+                          height: 40.0,
+                          width: getWidth(context) * 50 / 100,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              color: notesController.selectedIndex.value == 0 ? CustomColors.backgroundColor : CustomColors.screenBackgroundColor,
+                              border: Border.all(
+                                  color: notesController.selectedIndex.value == 0 ? Colors.transparent : CustomColors.txtFiledBorderColor
+                              ),
+                              boxShadow: [
+                                if(notesController.selectedIndex.value == 0)
+                                  const BoxShadow(
+                                      color: CustomColors.darkShadowColor,
+                                      spreadRadius: 1.0,
+                                      blurRadius: 2.0,
+                                      offset: Offset(0, 3)
+                                  )
+                              ],
+                              borderRadius: BorderRadius.circular(15.sp)
+                          ),
+                          child: Text("Stars", style: Style.montserratBoldStyle().copyWith(color: notesController.selectedIndex.value == 0 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
+                        ),
+                      ),
+                    )),
+                    SizedBox(
+                      width: 2.w,
+                    ),
+                    Obx(() => Flexible(
+                      flex: 1,
+                      child: InkWell(
+                        onTap: (){
+                          notesController.selectedIndex.value = 1;
+                        },
+                        child: Container(
+                          height: 40.0,
+                          width: getWidth(context) * 50 / 100,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              color: notesController.selectedIndex.value == 1 ? CustomColors.backgroundColor : CustomColors.screenBackgroundColor,
+                              border: Border.all(
+                                  color: notesController.selectedIndex.value == 1 ? Colors.transparent : CustomColors.txtFiledBorderColor
+                              ),
+                              boxShadow: [
+                                if(notesController.selectedIndex.value == 1)
+                                  const BoxShadow(
+                                      color: CustomColors.darkShadowColor,
+                                      spreadRadius: 1.0,
+                                      blurRadius: 2.0,
+                                      offset: Offset(0, 3)
+                                  )
+                              ],
+                              borderRadius: BorderRadius.circular(15.sp)
+                          ),
+                          child: Text("My Notes", style: Style.montserratBoldStyle().copyWith(color: notesController.selectedIndex.value == 1 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
+                        ),
+                      ),
+                    ),
+                    ),
+                  ],
                 ),
-                borderRadius: BorderRadius.circular(50.0)
+                SizedBox(
+                  height: 2.h,
+                ),
+                // if(notesController.selectedIndex.value == 0) ...[
+                //   buildStarsView(),
+                // ] else ...[
+                //   buildNotesView()
+                // ]
+                Obx((){
+                  return notesController.selectedIndex.value == 0 ? buildStarsView() :buildNotesView();
+                })
+              ],
             ),
-            child: Icon(
-              Icons.add,
-              size: 25.sp,
-              color: CustomColors.primaryColor,
-            ),
-          ),
-          Text("Add Note", style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),)
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(15.sp),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Obx(() => Flexible(
-                    flex: 1,
-                    child: InkWell(
-                      onTap: (){
-                        notesController.selectedIndex.value = 0;
-                      },
-                      child: Container(
-                        height: 40.0,
-                        width: getWidth(context) * 50 / 100,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            color: notesController.selectedIndex.value == 0 ? CustomColors.backgroundColor : CustomColors.screenBackgroundColor,
-                            border: Border.all(
-                                color: notesController.selectedIndex.value == 0 ? Colors.transparent : CustomColors.txtFiledBorderColor
-                            ),
-                            boxShadow: [
-                              if(notesController.selectedIndex.value == 0)
-                                const BoxShadow(
-                                    color: CustomColors.darkShadowColor,
-                                    spreadRadius: 1.0,
-                                    blurRadius: 2.0,
-                                    offset: Offset(0, 3)
-                                )
-                            ],
-                            borderRadius: BorderRadius.circular(15.sp)
-                        ),
-                        child: Text("Stars", style: Style.montserratBoldStyle().copyWith(color: notesController.selectedIndex.value == 0 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: 16.sp),),
-                      ),
-                    ),
-                  )),
-                  SizedBox(
-                    width: 2.w,
-                  ),
-                  Obx(() => Flexible(
-                    flex: 1,
-                    child: InkWell(
-                      onTap: (){
-                        notesController.selectedIndex.value = 1;
-                      },
-                      child: Container(
-                        height: 40.0,
-                        width: getWidth(context) * 50 / 100,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            color: notesController.selectedIndex.value == 1 ? CustomColors.backgroundColor : CustomColors.screenBackgroundColor,
-                            border: Border.all(
-                                color: notesController.selectedIndex.value == 1 ? Colors.transparent : CustomColors.txtFiledBorderColor
-                            ),
-                            boxShadow: [
-                              if(notesController.selectedIndex.value == 1)
-                                const BoxShadow(
-                                    color: CustomColors.darkShadowColor,
-                                    spreadRadius: 1.0,
-                                    blurRadius: 2.0,
-                                    offset: Offset(0, 3)
-                                )
-                            ],
-                            borderRadius: BorderRadius.circular(15.sp)
-                        ),
-                        child: Text("My Notes", style: Style.montserratBoldStyle().copyWith(color: notesController.selectedIndex.value == 1 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: 16.sp),),
-                      ),
-                    ),
-                  )),
-                ],
-              ),
-              SizedBox(
-                height: 2.h,
-              ),
-              // if(notesController.selectedIndex.value == 0) ...[
-              //   buildStarsView(),
-              // ] else ...[
-              //   buildNotesView()
-              // ]
-              Obx((){
-                return notesController.selectedIndex.value == 0 ? buildStarsView() :buildNotesView();
-              })
-            ],
           ),
         ),
       ),

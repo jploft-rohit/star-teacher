@@ -22,6 +22,7 @@ class _PresentViewState extends State<AbsentView> {
     return ListView.builder(
       itemCount: 5,
       shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.only(bottom: 15.0),
@@ -45,7 +46,6 @@ class _PresentViewState extends State<AbsentView> {
                         padding: const EdgeInsets.fromLTRB(12.0,8,8,8),
                         child: Row(
                           children: [
-
                             Row(
                               children: [
                                 Container(

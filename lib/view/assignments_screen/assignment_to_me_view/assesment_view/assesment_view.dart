@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_tab_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -44,7 +46,6 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
         ),
         Expanded(
           child: TabBarView(
-            physics: const NeverScrollableScrollPhysics(),
             controller: tabCtrl,
             children: [
               buildPendingView(),
@@ -57,40 +58,19 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
     );
   }
   Widget buildTabBar() {
-    return Container(
-      height: 35,
-      width: 100.w,
-      decoration: BoxDecoration(
-          color: const Color(0xFFEEEEEE),
-          borderRadius: BorderRadius.circular(10.0)
-      ),
-      child: TabBar(
-        controller: tabCtrl,
-        isScrollable: false,
-        labelStyle: Style.montserratRegularStyle().copyWith(fontSize: 12),
-        onTap: (value){
-
-        },
-        padding: const EdgeInsets.all(4),
-        indicator: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: CustomColors.backgroundColor,
-            boxShadow: [getBoxShadow()]
+    return BaseTabBar(
+      controller: tabCtrl,
+      tabs:  [
+        Tab(
+          text: translate(context).pending,
         ),
-        labelColor: CustomColors.primaryColor,
-        unselectedLabelColor: Colors.black,
-        tabs:  [
-          Tab(
-            text: translate(context).pending,
-          ),
-          Tab(
-            text: translate(context).done,
-          ),
-          Tab(
-            text: translate(context).expired,
-          ),
-        ],
-      ),
+        Tab(
+          text: translate(context).done,
+        ),
+        Tab(
+          text: translate(context).expired,
+        ),
+      ],
     );
   }
 
@@ -272,7 +252,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                 //   children: [
                 //     Flexible(
                 //       flex: 1,
-                //       child: CustomButton(text: translate(context).set_reminder.toUpperCase(), onPressed: (){
+                //       child: BaseButton(text: translate(context).set_reminder.toUpperCase(), onPressed: (){
                 //         Get.to(const AddTaskOrReminderScreen());
                 //       }, btnHeight: 35, boxShadow: [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 16.sp,),
                 //     ),
@@ -281,7 +261,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                 //     ),
                 //     Flexible(
                 //       flex: 1,
-                //       child: CustomButton(text: translate(context).start.toUpperCase(), onPressed: (){
+                //       child: BaseButton(text: translate(context).start.toUpperCase(), onPressed: (){
                 //         Get.to(const StartPendingAssignment());
                 //       }, btnHeight: 35, borderRadius: 10.0,textSize: 16.sp,),
                 //     ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -52,7 +53,7 @@ class _ChooseLoginTypeScreenState extends State<ChooseLoginTypeScreen> {
                 child: Column(
                   children: [
                     Expanded(child: buildGrids()),
-                    CustomButton(text: translate(context).next_btn_txt, onPressed: () {Get.offAllNamed(dashboardScreenRoute);},btnWidth: Get.width * 30 /100,),
+                    BaseButton(title: translate(context).next_btn_txt, onPressed: () {Get.offAllNamed(dashboardScreenRoute);},btnWidth: Get.width * 30 /100,),
                     const SizedBox(height: 20,),
                   ],
                 ),

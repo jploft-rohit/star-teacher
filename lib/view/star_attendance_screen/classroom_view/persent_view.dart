@@ -24,6 +24,7 @@ class _PresentViewState extends State<PresentView> {
     return ListView.builder(
       itemCount: 5,
       shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.only(bottom: 15.0),
@@ -42,7 +43,7 @@ class _PresentViewState extends State<PresentView> {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(12.0,8,8,8),
                         child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
                               border: Border.all(
@@ -101,8 +102,8 @@ class _PresentViewState extends State<PresentView> {
                           ],
                         ),
                       ),
-                      Spacer(),
-                      VerticalDivider(
+                      const Spacer(),
+                      const VerticalDivider(
                         color: Colors.green,
                       ),
                       Padding(
@@ -111,7 +112,7 @@ class _PresentViewState extends State<PresentView> {
                           children: [
                             SvgPicture.asset(chatSvg1,),
                             SizedBox(height:.5.h),
-                            Text(translate(context).chat_with_parents,style: Style.montserratRegularStyle().copyWith(fontSize: 13.sp, color: Color(0xff686868), ),textAlign: TextAlign.center,),
+                            Text(translate(context).chat_with_parents,style: Style.montserratRegularStyle().copyWith(fontSize: 13.sp, color: const Color(0xff686868), ),textAlign: TextAlign.center,),
                           ],
                         ),
                       )
@@ -126,7 +127,7 @@ class _PresentViewState extends State<PresentView> {
                     Get.to(PerformanceScreen(index: 2,));
                   },
                   child: Container(
-                    padding: EdgeInsets.all(3),
+                    padding: const EdgeInsets.all(3),
                     decoration: BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,

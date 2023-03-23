@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
@@ -89,10 +90,9 @@ class _CanteenEveryWeekOrderViewState extends State<CanteenEveryWeekOrderView> {
               top: 10,
               child: Row(
                 children: [
-                  CustomButton(
-                      btnHeight: 22,
+                  BaseButton(
                       btnWidth: 65,
-                      text: "Cancel",
+                      title: "Cancel",
                       textSize: 15.sp,
                       onPressed: () {
                         showGeneralDialog(
@@ -127,7 +127,7 @@ class _CanteenEveryWeekOrderViewState extends State<CanteenEveryWeekOrderView> {
           //     top: 10,
           //     child: Row(
           //       children: [
-          //         CustomButton(
+          //         BaseButton(
           //             height: 22,
           //             width: 110,
           //             child: addText(

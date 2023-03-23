@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/star_attendance_screen/star_attendance_screen_ctrl.dart';
@@ -44,13 +46,13 @@ class _ChangeStatusPopupState extends State<ChangeStatusPopup> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(""),
+                    const Text(""),
                     Text(translate(context).change_Status, style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: Colors.black),),
                     InkWell(
                       onTap: (){
                         Get.back();
                       },
-                      child: Icon(Icons.close, color: Colors.black,),)
+                      child: const Icon(Icons.close, color: Colors.black,),)
                   ],
                 ),
                 if(!widget.isFromLateView)...[
@@ -105,7 +107,7 @@ class _ChangeStatusPopupState extends State<ChangeStatusPopup> {
                           setState(() {});
                         },
                         child: Container(
-                          margin: EdgeInsets.only(bottom: 8.0),
+                          margin: const EdgeInsets.only(bottom: 8.0),
                           padding: EdgeInsets.all(14.sp),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8.0),
@@ -116,9 +118,9 @@ class _ChangeStatusPopupState extends State<ChangeStatusPopup> {
                             children: [
                               Text(controller.reasonList[index]['title'], style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: 17.sp),),
                               Checkbox(
-                                visualDensity: VisualDensity(vertical: -4),
+                                visualDensity: const VisualDensity(vertical: -4),
                                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                side: BorderSide(color: Colors.transparent),
+                                side: const BorderSide(color: Colors.transparent),
                                 activeColor: CustomColors.primaryColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(50.0),
@@ -154,7 +156,7 @@ class _ChangeStatusPopupState extends State<ChangeStatusPopup> {
                         child: Row(
                           children: [
                             Container(
-                              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
                                   border: Border.all(
@@ -187,11 +189,11 @@ class _ChangeStatusPopupState extends State<ChangeStatusPopup> {
                                             setState(() {});
                                           },
                                             fillColor: MaterialStateColor.resolveWith((states) => controller.statusList[index]['color']),
-                                            visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                                            visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                                             activeColor: controller.statusList[index]['color'],
                                           ),
                                         ),
-                                        Text(controller.statusList[index]['title'], style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: controller.statusList[index]['color'])),
+                                        Text(controller.statusList[index]['title'], style: Style.montserratBoldStyle().copyWith(fontSize: radioButtonTitleTs, color: controller.statusList[index]['color'])),
                                       ],
                                     );
                                   }),
@@ -208,9 +210,9 @@ class _ChangeStatusPopupState extends State<ChangeStatusPopup> {
                   height: 2.h,
                 ),
                 Center(
-                  child: CustomButton(text: translate(Get.context!).submit_btn_txt, onPressed: (){
+                  child: BaseButton(title: translate(Get.context!).submit_btn_txt, onPressed: (){
                     Get.back();
-                  }, btnWidth: 35.w,borderRadius: 50.0,btnHeight: 40,),
+                  }, btnWidth: 35.w),
                 ),
               ],
             ),

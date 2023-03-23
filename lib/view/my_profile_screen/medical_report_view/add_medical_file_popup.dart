@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
@@ -81,7 +82,7 @@ class _AddMedicalFilePopupState extends State<AddMedicalFilePopup> {
                   },
                   hintText: "dd/mm/yyyy", suffixIcon: Padding(
                   padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                  child: SvgPicture.asset(calenderDateSvg,),
+                  child: SvgPicture.asset(calenderDateSvg),
                 ),),
                 SizedBox(
                   height: 1.h,
@@ -96,7 +97,7 @@ class _AddMedicalFilePopupState extends State<AddMedicalFilePopup> {
                 SizedBox(
                   height: 3.h,
                 ),
-                CustomButton(text: translate(context).submit_btn_txt, onPressed: (){
+                BaseButton(title: translate(context).submit_btn_txt, onPressed: (){
                   Get.back();
                 }, btnWidth: 40.w,)
               ],

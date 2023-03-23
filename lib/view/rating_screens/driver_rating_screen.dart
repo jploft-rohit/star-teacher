@@ -4,6 +4,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
@@ -28,12 +30,7 @@ class _DriverRatingScreenState extends State<DriverRatingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWithAction(context, "${widget.title} Rating", [
-        Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: BaseAppBar(title: "${widget.title} Rating"),
       body: Padding(
         padding: EdgeInsets.all(20.sp),
         child: Column(
@@ -104,17 +101,17 @@ class _DriverRatingScreenState extends State<DriverRatingScreen> {
               itemCount: 5,
               itemSize: 22.sp,
               ratingWidget: RatingWidget(
-                full: Icon(
+                full: const Icon(
                   CupertinoIcons.star_fill,
                   color: CustomColors.primaryColor,
                 ),
                 half: SvgPicture.asset('assets/images/full_rating_img.svg'),
-                empty: Icon(
+                empty: const Icon(
                   CupertinoIcons.star_fill,
                   color: CustomColors.borderColor,
                 ),
               ),
-              itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+              itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
               onRatingUpdate: (rating) {
                 print(rating);
                 ctrl.totalRating.value = rating;
@@ -124,7 +121,7 @@ class _DriverRatingScreenState extends State<DriverRatingScreen> {
               height: 2.h,
             ),
             Obx((){
-              return ctrl.totalRating.value < 3.0 ? addText(translate(context).note_Comment_is_mandatory_if_you_rate_minimum, 13.sp, CustomColors.textLightGreyColor, FontWeight.w400) : SizedBox();
+              return ctrl.totalRating.value < 3.0 ? addText(translate(context).note_Comment_is_mandatory_if_you_rate_minimum, 13.sp, CustomColors.textLightGreyColor, FontWeight.w400) : const SizedBox();
             }),
             SizedBox(
               height: 2.h,
@@ -142,11 +139,11 @@ class _DriverRatingScreenState extends State<DriverRatingScreen> {
                   value: ctrl.isChecked.value,
                   visualDensity: const VisualDensity(horizontal: -4),
                   side: MaterialStateBorderSide.resolveWith(
-                        (states) => BorderSide(width: 1.0, color: CustomColors.primaryColor),
+                        (states) => const BorderSide(width: 1.0, color: CustomColors.primaryColor),
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(3),
-                    side: BorderSide(color: CustomColors.primaryColor)
+                    side: const BorderSide(color: CustomColors.primaryColor)
                   ),
                   onChanged: (bool? value) {
                     ctrl.isChecked.value = value!;
@@ -161,7 +158,7 @@ class _DriverRatingScreenState extends State<DriverRatingScreen> {
             SizedBox(
               height: 2.h,
             ),
-            CustomButton(text: translate(context).send.toUpperCase(), onPressed: (){}, btnWidth: 28.w,borderRadius: 50.0,),
+            BaseButton(title: translate(context).send.toUpperCase(), onPressed: (){}, btnWidth: 28.w),
           ],
         ),
       ),

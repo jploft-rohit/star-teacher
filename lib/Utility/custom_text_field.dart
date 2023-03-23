@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/sizes.dart';
 
 class CustomTextField extends StatelessWidget {
   TextEditingController controller;
@@ -38,18 +39,18 @@ class CustomTextField extends StatelessWidget {
       textInputAction: textInputAction,
       keyboardType: textInputType,
       inputFormatters: textInputFormatter,
-      style: TextStyle(color: txtColor ?? Colors.black),
+      style: TextStyle(color: txtColor ?? Colors.black,fontSize: textFormFieldHintTs),
       decoration: InputDecoration(
         contentPadding: contentPadding ?? EdgeInsets.only(top: 16.sp, bottom: 16.sp, left: 10.0, right: 10.0),
         isDense: true,
         hintMaxLines: 2,
-        border: new OutlineInputBorder(
-            borderSide: new BorderSide(color: CustomColors.txtFiledBorderColor)),
+        border: const OutlineInputBorder(
+            borderSide: BorderSide(color: CustomColors.txtFiledBorderColor)),
         hintText: hintText,
         errorText: errorText,
-        suffixIconConstraints: BoxConstraints(maxHeight: 45),
-        prefixIconConstraints: BoxConstraints(maxHeight: 45),
-        hintStyle: TextStyle(color: hintTextColor ?? Colors.black,fontSize: hintTxtSize ?? 16.sp),
+        suffixIconConstraints: const BoxConstraints(maxHeight: 45),
+        prefixIconConstraints: const BoxConstraints(maxHeight: 45),
+        hintStyle: TextStyle(color: hintTextColor ?? Colors.black,fontSize: hintTxtSize ?? textFormFieldHintTs),
         filled: true,
         suffixIcon: suffixIcon,
         prefixIcon: prefixIcon,

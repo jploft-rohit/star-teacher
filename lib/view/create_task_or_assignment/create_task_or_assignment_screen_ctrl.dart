@@ -8,9 +8,9 @@ class CreateTaskOrAssignmentScreenCtrl extends GetxController{
   final selectedIndex = 0.obs;
 
   List<Widget> screens = [
-    CreateTaskStaffView(),
-    CreateTaskStarView(),
-    CreateTaskParentView(),
+    const CreateTaskStaffView(),
+    const CreateTaskStarView(),
+    const CreateTaskParentView(),
   ];
 
   final isChecked = false.obs;

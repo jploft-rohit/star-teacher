@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_floating_action_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_dialogs.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/library_screen/notebook_screen/add_note_screen.dart';
 import 'package:staff_app/view/library_screen/notebook_screen/notebook_screen_ctrl.dart';
@@ -25,34 +28,10 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWithAction(context, "Notebook", [
-        Padding(
-          padding: const EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
-      floatingActionButton: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FloatingActionButton.small(
-            onPressed: (){
-              Get.to(const AddNoteScreen());
-            },
-            backgroundColor: CustomColors.backgroundColor,
-            shape: RoundedRectangleBorder(
-                side: const BorderSide(
-                    color: CustomColors.primaryColor
-                ),
-                borderRadius: BorderRadius.circular(50.0)
-            ),
-            child: Icon(
-              Icons.add,
-              size: 25.sp,
-              color: CustomColors.primaryColor,
-            ),
-          ),
-          Text("Add Note", style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),)
-        ],
+      appBar: const BaseAppBar(title: "Notebook"),
+      floatingActionButton: BaseFloatingActionButton(
+        onTap: () {Get.to(const AddNoteScreen());},
+        title: 'Add Note',
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -152,7 +131,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                             ],
                             borderRadius: BorderRadius.circular(15.sp)
                         ),
-                        child: Text("Has Talent", style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex1.value == 0 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: 16.sp),),
+                        child: Text("Has Talent", style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex1.value == 0 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
                       ),
                     ),
                   )),
@@ -185,7 +164,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                             ],
                             borderRadius: BorderRadius.circular(15.sp)
                         ),
-                        child: Text("Need Improvement", style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex1.value == 1 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: 16.sp),),
+                        child: Text("Need Improvement", style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex1.value == 1 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
                       ),
                     ),
                   )),

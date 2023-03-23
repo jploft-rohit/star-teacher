@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_tab_bar.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/star_evaluation_screen/assesment_view.dart';
@@ -30,12 +33,7 @@ class _StarEvaluationScreenState extends State<StarEvaluationScreen> with Ticker
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWithAction(context, translate(context).star_evaluation, [
-        Padding(
-          padding: const EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: BaseAppBar(title: translate(context).star_evaluation),
       body: Padding(
         padding: EdgeInsets.all(15.sp),
         child: Column(
@@ -176,7 +174,6 @@ class _StarEvaluationScreenState extends State<StarEvaluationScreen> with Ticker
                   BehaviourView(),
                   AssesmentView(),
                   TeacherView(),
-                  // StarView(),
                 ],
               ),
             )
@@ -186,44 +183,22 @@ class _StarEvaluationScreenState extends State<StarEvaluationScreen> with Ticker
     );
   }
   Widget buildTabBar() {
-    return Container(
-      height: 40,
-      width: 100.w,
-      decoration: BoxDecoration(
-          color: const Color(0xFFEEEEEE),
-          borderRadius: BorderRadius.circular(8.0)
-      ),
-      child: TabBar(
-        controller: tabCtrl,
-        isScrollable: false,
-        padding: const EdgeInsets.all(4),
-        labelPadding: EdgeInsets.zero,
-        indicatorWeight: 0.0,
-
-        indicator: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: CustomColors.backgroundColor,
-            boxShadow: [getBoxShadow()]
+    return BaseTabBar(
+      controller: tabCtrl,
+      tabs:  [
+        Tab(
+          text: translate(context).behaviour,
         ),
-        labelColor: CustomColors.primaryColor,
-        indicatorPadding: EdgeInsets.zero,
-        labelStyle: Style.montserratMediumStyle().copyWith(fontSize: 15.sp),
-        unselectedLabelColor: Colors.black,
-        tabs:  [
-          Tab(
-            text: translate(context).behaviour,
-          ),
-          Tab(
-            text: translate(context).assessment,
-          ),
-          Tab(
-            text: translate(context).teacher,
-          ),
-          // Tab(
-          //   text: translate(context).stars,
-          // ),
-        ],
-      ),
+        Tab(
+          text: translate(context).assessment,
+        ),
+        Tab(
+          text: translate(context).teacher,
+        ),
+        // Tab(
+        //   text: translate(context).stars,
+        // ),
+      ],
     );
   }
 }

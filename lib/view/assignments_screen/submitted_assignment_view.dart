@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_floating_action_button.dart';
+import 'package:staff_app/Utility/base_tab_bar.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -37,34 +41,10 @@ class _SubmittedAssignmentViewState extends State<SubmittedAssignmentView> with 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWithAction(context, translate(context).submitted_assignments, [
-        Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
-      floatingActionButton: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FloatingActionButton.small(
-            onPressed: (){
-
-            },
-            backgroundColor: CustomColors.backgroundColor,
-            shape: RoundedRectangleBorder(
-                side: BorderSide(
-                    color: CustomColors.primaryColor
-                ),
-                borderRadius: BorderRadius.circular(50.0)
-            ),
-            child: Icon(
-              Icons.add,
-              size: 25.sp,
-              color: CustomColors.primaryColor,
-            ),
-          ),
-          Text(translate(context).create_task, style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),)
-        ],
+      appBar: BaseAppBar(title: translate(context).submitted_assignments),
+      floatingActionButton: BaseFloatingActionButton(
+        onTap: () {  },
+        title: translate(context).create_task,
       ),
       body: Padding(
         padding: EdgeInsets.all(15.sp),
@@ -81,7 +61,7 @@ class _SubmittedAssignmentViewState extends State<SubmittedAssignmentView> with 
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     addText("Assignment Title", 16.sp, CustomColors.textBlackColor, FontWeight.w700),
-                    Divider(),
+                    const Divider(),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -92,7 +72,7 @@ class _SubmittedAssignmentViewState extends State<SubmittedAssignmentView> with 
                         Flexible(child: buildInfoItems(translate(context).description, "Please upload the feedback of all the stars in suggested class into the excel worksheet."))
                       ],
                     ),
-                    Divider(),
+                    const Divider(),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -141,7 +121,6 @@ class _SubmittedAssignmentViewState extends State<SubmittedAssignmentView> with 
             Expanded(
               child: TabBarView(
                 controller: tabCtrl,
-                physics: NeverScrollableScrollPhysics(),
                 children: [
                   pendingView(),
                   completedView()
@@ -154,39 +133,16 @@ class _SubmittedAssignmentViewState extends State<SubmittedAssignmentView> with 
     );
   }
   Widget buildTabBar() {
-    return Container(
-      height: 30,
-      width: 100.w,
-      decoration: BoxDecoration(
-          color: CustomColors.white,
-          boxShadow: [
-            getBoxShadow()
-          ],
-          borderRadius: BorderRadius.circular(8.0)
-      ),
-      child: TabBar(
-        controller: tabCtrl,
-        isScrollable: false,
-        onTap: (value){
-
-        },
-        padding: const EdgeInsets.all(2),
-        indicator: BoxDecoration(
-            borderRadius: BorderRadius.circular(8.0),
-            color: CustomColors.backgroundColor,
-            boxShadow: [getBoxShadow()]
+    return BaseTabBar(
+      controller: tabCtrl,
+      tabs:  [
+        Tab(
+          text: translate(context).pending,
         ),
-        labelColor: CustomColors.primaryColor,
-        unselectedLabelColor: Color(0xff424242),
-        tabs:  [
-          Tab(
-            text: translate(context).pending,
-          ),
-          Tab(
-            text: translate(context).completed,
-          ),
-        ],
-      ),
+        Tab(
+          text: translate(context).completed,
+        ),
+      ],
     );
   }
   Widget pendingView(){
@@ -196,11 +152,11 @@ class _SubmittedAssignmentViewState extends State<SubmittedAssignmentView> with 
       itemBuilder: (context, index) {
         return InkWell(
           onTap: (){
-            Get.to(AssignmentSubmissionScreen());
+            Get.to(const AssignmentSubmissionScreen());
           },
           child: Card(
             elevation: 3.0,
-            margin: EdgeInsets.only(bottom: 15.0),
+            margin: const EdgeInsets.only(bottom: 15.0),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0)
             ),
@@ -239,7 +195,7 @@ class _SubmittedAssignmentViewState extends State<SubmittedAssignmentView> with 
                       ),
                     ],
                   ),
-                  Divider(),
+                  const Divider(),
                   StepProgressView(
                     width: MediaQuery.of(context).size.width,
                     curStep: 2,
@@ -262,7 +218,7 @@ class _SubmittedAssignmentViewState extends State<SubmittedAssignmentView> with 
       itemBuilder: (context, index) {
         return Card(
           elevation: 3.0,
-          margin: EdgeInsets.only(bottom: 15.0),
+          margin: const EdgeInsets.only(bottom: 15.0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0)
           ),
@@ -301,7 +257,7 @@ class _SubmittedAssignmentViewState extends State<SubmittedAssignmentView> with 
                     ),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 StepProgressView(
                   width: MediaQuery.of(context).size.width,
                   curStep: 3,

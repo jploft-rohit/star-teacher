@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
@@ -66,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       SizedBox(height: 5.h,),
                       Center(
-                        child: CustomButton(text: translate(context).sent_otp_btn_txt, onPressed: (){
+                        child: BaseButton(title: translate(context).sent_otp_btn_txt, onPressed: (){
                           Get.toNamed(otpScreenRoute);
                         }),
                       ),

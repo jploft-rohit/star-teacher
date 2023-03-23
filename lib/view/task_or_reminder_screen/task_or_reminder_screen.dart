@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/Utility/base_floating_action_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/Dashboard_screen/dashboard_screen_ctrl.dart';
 import 'package:staff_app/view/salary_slip_screen/salary_slip_poup.dart';
@@ -28,13 +32,8 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: appBarWithAction(context, translate(context).task_or_reminder, [
-          Padding(
-            padding: EdgeInsets.only(right: 10.0),
-            child: SvgPicture.asset("assets/images/notification.svg"),
-          )
-        ],
-          onPressed: (){
+        appBar: BaseAppBar(title: translate(context).task_or_reminder,
+          onBackPressed: (){
           if(widget.isFromBtmBar){
             ctrl.bottomNavigationKey.currentState?.setPage(2);
           }else{
@@ -42,28 +41,9 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
           }
           }
         ),
-        floatingActionButton: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            FloatingActionButton.small(
-              onPressed: (){
-                Get.to(AddTaskOrReminderScreen());
-              },
-              backgroundColor: CustomColors.backgroundColor,
-              shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                      color: CustomColors.primaryColor
-                  ),
-                  borderRadius: BorderRadius.circular(50.0)
-              ),
-              child: Icon(
-                Icons.add,
-                size: 25.sp,
-                color: CustomColors.primaryColor,
-              ),
-            ),
-            Text(translate(context).add_task, style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),)
-          ],
+        floatingActionButton: BaseFloatingActionButton(
+          onTap: () {Get.to(const AddTaskOrReminderScreen());},
+          title: translate(context).add_task,
         ),
         body: ListView.builder(
           itemCount: 3,
@@ -103,7 +83,7 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
               addText("Submit your daily log", 16.sp, CustomColors.textBlackColor, FontWeight.w700)
             ],
           ),
-          Divider(),
+          const Divider(),
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -113,7 +93,7 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
                   CustomColors.textBlackColor, FontWeight.w400),
             ],
           ),
-          Divider(),
+          const Divider(),
           Row(
             children: [
               SvgPicture.asset("assets/images/reminder 1.svg"),
@@ -131,7 +111,7 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
               ),
             ],
           ),
-          Divider(),
+          const Divider(),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -158,30 +138,23 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
                     return OpenPdfPopup(title: "");
                   },
                 );
-              },child: Icon(Icons.remove_red_eye_outlined,color: CustomColors.primaryColor,)),
+              },child: const Icon(Icons.remove_red_eye_outlined,color: CustomColors.primaryColor,)),
             ],
           ),
-          Divider(),
+          const Divider(),
           Row(
             children: [
               SizedBox(width:3.h),
               Expanded(
-                child: CustomButton(
-                    boxShadow: [],
-                    btnColor: CustomColors.white,
-                    borderColor: CustomColors.borderColor,
-                    borderRadius: 8,
-                    btnHeight: 35,
-                    text: translate(context).edit.toUpperCase(),
-                    textColor: CustomColors.textLightGreyColor,
-                    onPressed: () {}),
+                child: BaseButton(
+                    isActive: false,
+                    title: translate(context).edit.toUpperCase(),
+                    onPressed: () {Get.to(const AddTaskOrReminderScreen(isUpdating: true));}),
               ),
               SizedBox(width:2.h),
               Expanded(
-                child: CustomButton(
-                    borderRadius: 8,
-                    btnHeight: 35,
-                    text: translate(context).delete.toUpperCase(),
+                child: BaseButton(
+                    title: translate(context).delete.toUpperCase(),
                     onPressed: () {
                       showGeneralDialog(
                         context: context,

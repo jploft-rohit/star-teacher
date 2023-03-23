@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
@@ -192,15 +193,15 @@ class _TeacherViewState extends State<TeacherView> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            CustomButton(text: translate(context).save.toUpperCase(), onPressed: (){}, btnWidth: 30.w, btnHeight: 30,),
-            CustomButton(text: translate(context).submit_for_review.toUpperCase(), onPressed: (){
+            BaseButton(title: translate(context).save.toUpperCase(), onPressed: (){}, btnWidth: 30.w),
+            BaseButton(title: translate(context).submit_for_review.toUpperCase(), onPressed: (){
               showGeneralDialog(
                 context: context,
                 pageBuilder: (context, animation, secondaryAnimation) {
                   return MarkSelectedPopup(isShowCount: false,);
                 },
               );
-            },btnHeight: 30,),
+            }),
           ],
         ),
         SizedBox(

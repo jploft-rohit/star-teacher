@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/otp_txt_field.dart';
@@ -65,7 +66,7 @@ class CustomDialogs {
                   ),
                   SizedBox(height: 10.h,),
                   Center(
-                    child: CustomButton(text: translate(context).submit_btn_txt, onPressed: (){
+                    child: BaseButton(title: translate(context).submit_btn_txt, onPressed: (){
                       Navigator.pop(context);
                     }),
                   ),
@@ -120,30 +121,33 @@ class CustomDialogs {
         pageBuilder: (context,a1,a2){
           return Dialog(
             // insetPadding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 6),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
 
-                Align(
-                  alignment: Alignment.topRight,
-                  child: GestureDetector(onTap: onClose ?? (){Get.back();},
-                      child: const Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Icon(Icons.close_rounded),
-                      )),
-                ),
-                    Text(title??"",textAlign: TextAlign.center,style: const TextStyle(fontWeight: FontWeight.w500,fontSize: 15)),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                  CustomButton(text: leftButtonTitle??"Cancel", onPressed: onLeftButtonPressed ?? (){Get.back();},btnHeight: btnHeight,btnWidth: btnWidth,),
-                  const SizedBox(width: 20),
-                  CustomButton(text: rightButtonTitle??"Proceed", onPressed: onRightButtonPressed ?? (){Get.back();},btnHeight: btnHeight,btnWidth: btnWidth,),
-                ],),
-                const SizedBox(height: 20),
-              ],
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: GestureDetector(onTap: onClose ?? (){Get.back();},
+                        child: const Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Icon(Icons.close_rounded),
+                        )),
+                  ),
+                      Text(title??"",textAlign: TextAlign.center,style: const TextStyle(fontWeight: FontWeight.w500,fontSize: 15)),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                    BaseButton(title: leftButtonTitle??"Cancel", onPressed: onLeftButtonPressed ?? (){Get.back();},btnWidth: btnWidth,),
+                    const SizedBox(width: 20),
+                    BaseButton(title: rightButtonTitle??"Proceed", onPressed: onRightButtonPressed ?? (){Get.back();},btnWidth: btnWidth,),
+                  ],),
+                  const SizedBox(height: 20),
+                ],
+              ),
             ),
           );
     });

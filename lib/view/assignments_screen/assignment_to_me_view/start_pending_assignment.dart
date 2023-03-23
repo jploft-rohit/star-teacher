@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
@@ -26,12 +28,7 @@ class _StartPendingAssignmentState extends State<StartPendingAssignment> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWithAction(context, "Assignment", [
-        Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: const BaseAppBar(title: "Assignment"),
       body: Padding(
         padding: EdgeInsets.all(15.sp),
         child: PageView.builder(
@@ -194,7 +191,7 @@ class _StartPendingAssignmentState extends State<StartPendingAssignment> {
                   SizedBox(
                     height: 3.h,
                   ),
-                  CustomButton(text: ctrl.pendingAssignmentList.length -1 != pageIndex ? "NEXT" : "Submit", onPressed: (){
+                  BaseButton(title: ctrl.pendingAssignmentList.length -1 != pageIndex ? "NEXT" : "Submit", onPressed: (){
                     if(ctrl.pendingAssignmentList.length -1 != pageIndex){
                       print("object");
                       controller.animateToPage(pageIndex + 1, duration: Duration(milliseconds: 500), curve: Curves.easeIn);

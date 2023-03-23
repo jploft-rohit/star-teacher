@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
@@ -26,7 +27,7 @@ class _ShopOrderViewState extends State<ShopOrderView> {
         child: Column(
           children: [
             ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: 2,
               padding: EdgeInsets.zero,
@@ -43,7 +44,7 @@ class _ShopOrderViewState extends State<ShopOrderView> {
   Widget buildCanteenThisWeekOrderBox(context, index) {
     return Container(
       alignment: Alignment.topLeft,
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 2),
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 2),
       width: 100.w,
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
       decoration: BoxDecoration(
@@ -65,9 +66,9 @@ class _ShopOrderViewState extends State<ShopOrderView> {
               detailRow('Order Id : ', '#45689'),
               detailRow('Order Total : ', '130 AED'),
               detailRow('Order Date : ', '28/06/2022'),
-              Divider(),
+              const Divider(),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: StepProgressView(
                   width: MediaQuery.of(context).size.width,
                   curStep: index.isEven ? 3 : 2,
@@ -87,10 +88,9 @@ class _ShopOrderViewState extends State<ShopOrderView> {
               top: 10,
               child: Row(
                 children: [
-                  CustomButton(
-                      btnHeight: 22,
+                  BaseButton(
                       btnWidth: 65,
-                      text: "Cancel",
+                      title: "Cancel",
                       textSize: 15.sp,
                       onPressed: () {showGeneralDialog(
                         context: context,
@@ -104,7 +104,10 @@ class _ShopOrderViewState extends State<ShopOrderView> {
                             return ConfirmationDialog(isShowBtn: true,msg: "Order Canceled, refund will be\nupdated to your account within\n3-5 business days",btnText: "Ok",);
                           },
                         );
-                      });}),
+                       },
+                      );
+                     },
+                  ),
                   SizedBox(width: 1.h),
                   InkWell(
                     onTap: (){
@@ -123,7 +126,7 @@ class _ShopOrderViewState extends State<ShopOrderView> {
           //     top: 10,
           //     child: Row(
           //       children: [
-          //         CustomButton(
+          //         BaseButton(
           //             height: 22,
           //             width: 65,
           //             child: addText('Return', getNormalTextFontSIze() - 2,

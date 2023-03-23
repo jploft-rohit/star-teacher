@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_floating_action_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/awareness_courses_screen/start_quiz_popup.dart';
@@ -27,34 +30,10 @@ class _AwarenessCoursesScreenState extends State<AwarenessCoursesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWithAction(context, "Awareness & Courses", [
-        Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
-      floatingActionButton: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FloatingActionButton.small(
-            onPressed: (){
-
-            },
-            backgroundColor: CustomColors.backgroundColor,
-            shape: RoundedRectangleBorder(
-                side: BorderSide(
-                    color: CustomColors.primaryColor
-                ),
-                borderRadius: BorderRadius.circular(50.0)
-            ),
-            child: Icon(
-              Icons.add,
-              size: 25.sp,
-              color: CustomColors.primaryColor,
-            ),
-          ),
-          Text("Create\nAwareness\n& Course", style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),textAlign: TextAlign.center,)
-        ],
+      appBar: const BaseAppBar(title: "Awareness & Courses"),
+      floatingActionButton: BaseFloatingActionButton(
+        onTap: () {},
+        title: 'Create\nAwareness\n& Course',
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

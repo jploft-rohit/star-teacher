@@ -3,14 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/request_online_classes/request_online_classes.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/confirmation_popup.dart';
+
+import '../../Utility/base_floating_action_button.dart';
 
 class RequestOnlineClassesDetail extends StatelessWidget {
   RequestOnlineClassesDetail({Key? key}) : super(key: key);
@@ -26,35 +30,11 @@ class RequestOnlineClassesDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.screenBackgroundColor,
-      floatingActionButton: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FloatingActionButton.small(
-            onPressed: (){
-              Get.to(const RequestOnlineClasses());
-            },
-            backgroundColor: CustomColors.backgroundColor,
-            shape: RoundedRectangleBorder(
-              side: const BorderSide(
-                color: CustomColors.primaryColor
-              ),
-              borderRadius: BorderRadius.circular(50.0)
-            ),
-            child: Icon(
-              Icons.add,
-              size: 25.sp,
-              color: CustomColors.primaryColor,
-            ),
-          ),
-          Text(translate(context).add_request, style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),)
-        ],
+      floatingActionButton: BaseFloatingActionButton(
+        onTap: () {Get.to(const RequestOnlineClasses());},
+        title: translate(context).add_request,
       ),
-      appBar: appBarWithAction(context, translate(context).online_class_request, [
-        Padding(
-          padding: const EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: BaseAppBar(title: translate(context).online_class_request),
       body: Padding(
         padding: EdgeInsets.all(20.sp),
         child: Column(

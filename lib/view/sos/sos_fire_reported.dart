@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
@@ -53,25 +54,9 @@ class _FireReportedViewState extends State<FireReportedView> {
               child: Text(translate(context).fire_reported_at_please_report_to_assembly_point_for_evacuation, style: Style.montserratBoldStyle().copyWith(fontSize: 19.sp, color: CustomColors.white, height: 1.3),textAlign: TextAlign.center,),
             ),
             SizedBox(height: 5.h),
-            CustomButton(text: translate(context).reached.toUpperCase(), onPressed: (){Get.off(SOSWardenView());},
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
-                    spreadRadius: 1.0,
-                    blurRadius: 2.0,
-                    offset: Offset(0, 3)
-                )
-              ],
-            ),
+            BaseButton(title: translate(context).reached.toUpperCase(), onPressed: (){Get.off(SOSWardenView());}),
             SizedBox(height: 3.7.h),
-            CustomButton(text: translate(context).help_me.toUpperCase(), onPressed: (){Get.off(AskForHelpView());},boxShadow: [
-              BoxShadow(
-                  color: Colors.black.withOpacity(0.3),
-                  spreadRadius: 1.0,
-                  blurRadius: 2.0,
-                  offset: Offset(0, 3)
-              )
-            ],),
+            BaseButton(title: translate(context).help_me.toUpperCase(), onPressed: (){Get.off(AskForHelpView());}),
             SizedBox(height: 2.8.h),
             Text('${translate(context).reported_by}: Ahmed (Teacher)', style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: CustomColors.white),),
             SizedBox(height: 3.h),

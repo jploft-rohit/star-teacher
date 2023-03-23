@@ -5,29 +5,24 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/assignments_screen/assignment_screen.dart';
-import 'package:staff_app/view/complaints_report_screen/Complaints_report_screen.dart';
-import 'package:staff_app/view/create_task_or_assignment/create_task_or_assignment.dart';
 import 'package:staff_app/view/delegation/delegation_screen.dart';
 import 'package:staff_app/view/feedback_help_screen/feedback_help_screen.dart';
 import 'package:staff_app/view/library_record/library_record_view.dart';
 import 'package:staff_app/view/library_screen/library_screen.dart';
-import 'package:staff_app/view/library_screen/notebook_screen/notebook_detail_screen.dart';
 import 'package:staff_app/view/library_screen/notebook_screen/notebook_screen.dart';
 import 'package:staff_app/view/lost_or_found_screen/lost_or_found_view.dart';
 import 'package:staff_app/view/my_profile_screen/my_profile_screen.dart';
-import 'package:staff_app/view/request_online_classes/request_online_classes.dart';
 import 'package:staff_app/view/schedule_meeting_screen/schedule_meeting_screen.dart';
 import 'package:staff_app/view/shop_screen/shop_screen.dart';
 import 'package:staff_app/view/star_attendance_screen/star_attendance_screen.dart';
 import 'package:staff_app/view/star_evaluation_screen/star_evaluation_screen.dart';
 import 'package:staff_app/view/star_reward_screen/star_reward_screen.dart';
 import 'package:staff_app/view/task_or_reminder_screen/task_or_reminder_screen.dart';
-import 'package:staff_app/view/wating_area_screen/wating_area_screen.dart';
 
-import '../task_or_reminder_screen/add_task_or_reminder_screen.dart';
 
 class DrawerScreen extends StatefulWidget {
   const DrawerScreen({Key? key}) : super(key: key);
@@ -194,7 +189,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(text, style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: 17.sp),),
+            Text(text, style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: drawerSubHeadingTs)),
             Icon(CupertinoIcons.arrow_up_right, color: CustomColors.primaryColor,size: 17.sp,),
           ],
         ),
@@ -229,7 +224,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent,visualDensity: const VisualDensity(vertical: -2, horizontal: -4)),
       child: ExpansionTile(
         initiallyExpanded: false,
-        title: Text(title, style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: 20.sp),),
+        title: Text(title, style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: drawerHeadingTs),),
         iconColor: CustomColors.primaryColor,
         // onExpansionChanged: (value){
         //   isOpen = value;

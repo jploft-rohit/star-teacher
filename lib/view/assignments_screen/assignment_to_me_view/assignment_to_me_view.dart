@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_tab_bar.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/assignments_screen/assignment_screen_ctrl.dart';
 import 'package:staff_app/view/assignments_screen/assignment_to_me_view/assesment_view/assesment_view.dart';
@@ -40,7 +42,6 @@ class _AssignedToMeViewState extends State<AssignedToMeView> with TickerProvider
           Expanded(
             child: TabBarView(
               controller: tabCtrl,
-              physics: const NeverScrollableScrollPhysics(),
               children: const [
                 AssesmentView(),
                 AwarenesCoursesView(),
@@ -54,44 +55,22 @@ class _AssignedToMeViewState extends State<AssignedToMeView> with TickerProvider
     );
   }
   Widget buildTabBar() {
-    return Container(
-      height: 35,
-      width: 100.w,
-      decoration: BoxDecoration(
-          color: CustomColors.white,
-          boxShadow: [getBoxShadow()],
-          borderRadius: BorderRadius.circular(10.0)
-      ),
-      child: TabBar(
-        controller: tabCtrl,
-        isScrollable: true,
-        onTap: (index){
-          ctrl.tabIndex.value = index;
-        },
-        padding: const EdgeInsets.all(2),
-        indicator: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: CustomColors.backgroundColor,
-            boxShadow: [getBoxShadow()]
+    return BaseTabBar(
+      controller: tabCtrl,
+      tabs:  [
+        Tab(
+          text: translate(context).worksheet,
         ),
-        labelColor: CustomColors.primaryColor,
-        labelStyle: Style.montserratRegularStyle().copyWith(fontSize: 11),
-        unselectedLabelColor: Colors.black,
-        tabs:  [
-          Tab(
-            text: translate(context).worksheet,
-          ),
-          Tab(
-            text: translate(context).awareness_courses,
-          ),
-          Tab(
-            text: translate(context).assessment,
-          ),
-          Tab(
-            text: translate(context).survey,
-          ),
-        ],
-      ),
+        Tab(
+          text: translate(context).awareness_courses,
+        ),
+        Tab(
+          text: translate(context).assessment,
+        ),
+        Tab(
+          text: translate(context).survey,
+        ),
+      ],
     );
   }
 }

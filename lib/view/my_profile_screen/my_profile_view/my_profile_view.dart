@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
@@ -52,12 +54,7 @@ class _MyProfileViewState extends State<MyProfileView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.backgroundColor,
-      appBar: appBarWithAction(context, "", [
-        Padding(
-          padding: const EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: const BaseAppBar(),
       body: SafeArea(
           bottom: false,
           child: Column(
@@ -118,7 +115,7 @@ class _MyProfileViewState extends State<MyProfileView> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 25.0),
-                                child: CustomButton(text: translate(context).change,textSize: 11,btnHeight: 20, onPressed: () {
+                                child: BaseButton(title: translate(context).change,textSize: 11, onPressed: () {
                                   CustomDialogs().showOtpDialog();
                                 },btnWidth: 70,),
                               )
@@ -208,7 +205,7 @@ class _MyProfileViewState extends State<MyProfileView> {
                               iconButton(() {}, uploadDocSvg)),
                           Text("${translate(context).upload_your_doc_till} 25 July, 2022", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textRedColor, fontSize: 14.sp),),
                           SizedBox(height: 3.0.h),
-                          CustomButton(text: translate(context).save, onPressed: (){}),
+                          BaseButton(title: translate(context).save, onPressed: (){}),
                           SizedBox(height: 3.0.h),
                         ],
                       ),

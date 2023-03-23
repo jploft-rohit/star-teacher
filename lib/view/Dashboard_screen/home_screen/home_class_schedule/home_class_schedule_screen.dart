@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/Dashboard_screen/home_screen/home_class_schedule/home_day_schedule_view.dart';
@@ -37,12 +39,7 @@ class _HomeClassScheduleScreenState extends State<HomeClassScheduleScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWithAction(context, widget.index == 0 ? "Classes Taken" : "This Week", [
-        Padding(
-          padding: const EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: BaseAppBar(title: widget.index == 0 ? "Classes Taken" : "This Week"),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(15.sp),
@@ -132,7 +129,7 @@ class _HomeClassScheduleScreenState extends State<HomeClassScheduleScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("UAE Public School", style: Style.montserratRegularStyle().copyWith(color: Colors.black, fontSize: 16.sp),),
+                    Text("UAE Public School", style: Style.montserratRegularStyle().copyWith(color: Colors.black, fontSize: headingDropDownTs),),
                     const Icon(Icons.arrow_drop_down, color: Color(0xffC4C4C4),size: 35.0,)
                   ],
                 ),

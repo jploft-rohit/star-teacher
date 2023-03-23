@@ -2,6 +2,8 @@ import 'package:dashed_rect/dashed_rect.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
@@ -21,12 +23,7 @@ class _RewardImageScreenState extends State<RewardImageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.white,
-      appBar: appBarWithAction(context, translate(context).reward_image, [
-        Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: BaseAppBar(title: translate(context).reward_image),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
         width: 100.w,
@@ -90,7 +87,7 @@ class _RewardImageScreenState extends State<RewardImageScreen> {
             addText(translate(context).note_add_photo_of_the_reward,
                 15.sp, CustomColors.textBlackColor, FontWeight.w400),
             SizedBox(height:3.h),
-            CustomButton(text: translate(context).submit_btn_txt, onPressed: (){
+            BaseButton(title: translate(context).submit_btn_txt, onPressed: (){
               showGeneralDialog(
                 context: context,
                 pageBuilder:  (context, animation, secondaryAnimation) {

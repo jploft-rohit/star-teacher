@@ -1,13 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/custom_dialogs.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/complaints_report_screen/add_comment_popup.dart';
+
+import 'raise_complaint_report_screen.dart';
 
 class ReportView extends StatefulWidget {
   const ReportView({Key? key}) : super(key: key);
@@ -44,17 +48,24 @@ class _ReportViewState extends State<ReportView> {
                     addText("Behavior is not good", 16.sp, CustomColors.textBlackColor, FontWeight.w700),
                     Row(
                       children: [
-                        Icon(
-                          CupertinoIcons.delete,
-                          color: CustomColors.primaryColor,
-                          size: 18.sp,
+                        GestureDetector(
+                          onTap: (){
+                            CustomDialogs().showConfirmationDialog(
+                              title: "Are you sure you want to delete this Report?",
+                            );
+                          },
+                          child: Icon(
+                            CupertinoIcons.delete,
+                            color: CustomColors.primaryColor,
+                            size: 18.sp,
+                          ),
                         ),
                         SizedBox(
                           width: 5.w,
                         ),
                         InkWell(
                           onTap: (){
-
+                            Get.to(RaiseComplaintReportScreen(isUpdating: true));
                           },
                           child: Image.asset(editPng, color: CustomColors.primaryColor,height: 18.sp,),
                         ),
@@ -165,14 +176,14 @@ class _ReportViewState extends State<ReportView> {
                 //   children: [
                 //     Flexible(
                 //       flex: 1,
-                //       child: CustomButton(text: "ESCALATE", onPressed: (){}, btnHeight: 35, boxShadow: [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 16.sp,),
+                //       child: BaseButton(text: "ESCALATE", onPressed: (){}, btnHeight: 35, boxShadow: [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 16.sp,),
                 //     ),
                 //     SizedBox(
                 //       width: 2.w,
                 //     ),
                 //     Flexible(
                 //       flex: 1,
-                //       child: CustomButton(text: "COMMENTS", onPressed: (){
+                //       child: BaseButton(text: "COMMENTS", onPressed: (){
                 //         showGeneralDialog(
                 //           context: context,
                 //           pageBuilder:  (context, animation, secondaryAnimation) {
@@ -186,7 +197,7 @@ class _ReportViewState extends State<ReportView> {
                 //     ),
                 //     Flexible(
                 //       flex: 1,
-                //       child: CustomButton(text: "ACCEPT", onPressed: (){}, btnHeight: 35, borderRadius: 10.0,textSize: 16.sp,),
+                //       child: BaseButton(text: "ACCEPT", onPressed: (){}, btnHeight: 35, borderRadius: 10.0,textSize: 16.sp,),
                 //     ),
                 //   ],
                 // ),

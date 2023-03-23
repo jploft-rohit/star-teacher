@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -273,7 +274,7 @@ class _ChooseLangaugeScreenState extends State<ChooseLangaugeScreen> {
                     SizedBox(height: MediaQuery.of(context).size.height*0.07,),
                     Align(
                       alignment: Alignment.topCenter,
-                      child: CustomButton(text: translate(context).continue_btn_txt, onPressed: (){
+                      child: BaseButton(title: translate(context).continue_btn_txt, onPressed: (){
                         Get.offAllNamed(loginScreenRoute);
                       })
                     ),

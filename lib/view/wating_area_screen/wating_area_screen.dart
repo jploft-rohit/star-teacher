@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/wating_area_screen/star_called_popup.dart';
 import 'package:staff_app/view/wating_area_screen/star_detaching_popup.dart';
@@ -28,12 +31,7 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWithAction(context, "Waiting Area", [
-        Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: BaseAppBar(title: "Waiting Area"),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(15.sp),
@@ -200,7 +198,7 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                               ],
                               borderRadius: BorderRadius.circular(15.sp)
                           ),
-                          child: Text("Remaining", style: Style.montserratBoldStyle().copyWith(color: index == 0 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: 16.sp),),
+                          child: Text("Remaining", style: Style.montserratBoldStyle().copyWith(color: index == 0 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
                         ),
                       ),
                     ),
@@ -234,7 +232,7 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                               ],
                               borderRadius: BorderRadius.circular(15.sp)
                           ),
-                          child: Text("Stamped", style: Style.montserratBoldStyle().copyWith(color: index == 1 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: 16.sp),),
+                          child: Text("Stamped", style: Style.montserratBoldStyle().copyWith(color: index == 1 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
                         ),
                       ),
                     ),
@@ -420,10 +418,9 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                                     SizedBox(
                                       height: .5.h,
                                     ),
-                                    CustomButton(
-                                      text: "CHANGE STATUS",
+                                    BaseButton(
+                                      title: "CHANGE STATUS",
                                       onPressed: (){},
-                                      btnHeight: 20.0,
                                       btnWidth: 105.0,
                                       textSize: 14.sp,
                                     ),

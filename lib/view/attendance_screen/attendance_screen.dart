@@ -1,10 +1,17 @@
+import 'package:autoscale_tabbarview/autoscale_tabbarview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_floating_action_button.dart';
+import 'package:staff_app/Utility/base_tab_bar.dart';
+import 'package:staff_app/Utility/base_tab_button.dart';
+import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/attendance_screen/attendance_screen_ctrl.dart';
@@ -14,6 +21,9 @@ import 'package:staff_app/view/attendance_screen/attendance_screen_view/on_time_
 import 'package:staff_app/view/attendance_screen/attendance_screen_view/persent_screen_view.dart';
 import 'package:staff_app/view/attendance_screen/attendance_screen_view/transportation_late_view.dart';
 import 'package:staff_app/view/attendance_screen/calender_view.dart';
+import 'package:staff_app/view/attendance_screen/tab_views/classroom_view.dart';
+import 'package:staff_app/view/attendance_screen/tab_views/online_view.dart';
+import 'package:staff_app/view/attendance_screen/tab_views/transportation_view.dart';
 
 class AttendanceScreen extends StatefulWidget {
   const AttendanceScreen({Key? key}) : super(key: key);
@@ -24,41 +34,26 @@ class AttendanceScreen extends StatefulWidget {
 
 class _AttendanceScreenState extends State<AttendanceScreen> with TickerProviderStateMixin {
   AttendanceScreenCtrl controller = Get.put(AttendanceScreenCtrl());
-
+  late TabController tabController,tabController2;
+  
   @override
   void initState() {
-    controller.tabCtrl = TabController(length: 3, vsync: this);
-    controller.tabCtrl1 = TabController(length: 2, vsync: this);
+    tabController = TabController(length: 3, vsync: this)..addListener(() {
+      controller.selectedIndex.value = tabController.index;
+      setState(() {});
+    });
+    tabController2 = TabController(length: 3, vsync: this)..addListener(() {
+      setState(() {});
+    });
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWithAction(context, translate(context).attendance, [
-        Padding(
-          padding: const EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
-      floatingActionButton: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FloatingActionButton.small(
-            onPressed: (){
-              // controller.isShowCalender.value = true;
-              Get.to(const CalenderView());
-            },
-            backgroundColor: CustomColors.backgroundColor,
-            shape: RoundedRectangleBorder(
-                side: const BorderSide(
-                    color: CustomColors.primaryColor
-                ),
-                borderRadius: BorderRadius.circular(50.0)
-            ),
-            child: SvgPicture.asset(calenderDateSvg, color: CustomColors.primaryColor,),
-          ),
-          Text(translate(context).view_on_calender, style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),)
-        ],
+      appBar: BaseAppBar(title: translate(context).attendance),
+      floatingActionButton: BaseFloatingActionButton(
+        onTap: () {Get.to(const CalenderView());},
+        title: translate(context).view_on_calender,
       ),
       body: Padding(
         padding: EdgeInsets.all(20.sp),
@@ -106,261 +101,62 @@ class _AttendanceScreenState extends State<AttendanceScreen> with TickerProvider
             SizedBox(
               height: 1.5.h,
             ),
-            Row(
-              children: [
-                Obx(() => Flexible(
-                  flex: 1,
-                  child: InkWell(
-                    onTap: (){
-                      controller.selectedIndex.value = 0;
-                    },
-                    child: Container(
-                      height: 40.0,
-                      width: getWidth(context) * 50 / 100,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: controller.selectedIndex.value == 0 ? CustomColors.backgroundColor : CustomColors.screenBackgroundColor,
-                          border: Border.all(
-                              color: controller.selectedIndex.value == 0 ? Colors.transparent : CustomColors.txtFiledBorderColor
-                          ),
-                          boxShadow: [
-                            if(controller.selectedIndex.value == 0)
-                              const BoxShadow(
-                                  color: CustomColors.darkShadowColor,
-                                  spreadRadius: 1.0,
-                                  blurRadius: 2.0,
-                                  offset: Offset(0, 3)
-                              )
-                          ],
-                          borderRadius: BorderRadius.circular(15.sp)
-                      ),
-                      child: Text(translate(context).classroom, style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex.value == 0 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: 16.sp),),
-                    ),
-                  ),
-                )),
-                SizedBox(
-                  width: 2.w,
-                ),
-                Obx(() => Flexible(
-                  flex: 1,
-                  child: InkWell(
-                    onTap: (){
-                      controller.selectedIndex.value = 1;
-                    },
-                    child: Container(
-                      height: 40.0,
-                      width: getWidth(context) * 50 / 100,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: controller.selectedIndex.value == 1 ? CustomColors.backgroundColor : CustomColors.screenBackgroundColor,
-                          border: Border.all(
-                              color: controller.selectedIndex.value == 1 ? Colors.transparent : CustomColors.txtFiledBorderColor
-                          ),
-                          boxShadow: [
-                            if(controller.selectedIndex.value == 1)
-                              const BoxShadow(
-                                  color: CustomColors.darkShadowColor,
-                                  spreadRadius: 1.0,
-                                  blurRadius: 2.0,
-                                  offset: Offset(0, 3)
-                              )
-                          ],
-                          borderRadius: BorderRadius.circular(15.sp)
-                      ),
-                      child: Text(translate(context).online, style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex.value == 1 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: 16.sp),),
-                    ),
-                  ),
-                )),
-                SizedBox(
-                  width: 2.w,
-                ),
-                Obx(() => Flexible(
-                  flex: 1,
-                  child: InkWell(
-                    onTap: (){
-                      controller.selectedIndex.value = 2;
-                    },
-                    child: Container(
-                      height: 40.0,
-                      width: getWidth(context) * 50 / 100,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: controller.selectedIndex.value == 2 ? CustomColors.backgroundColor : CustomColors.screenBackgroundColor,
-                          border: Border.all(
-                              color: controller.selectedIndex.value == 2 ? Colors.transparent : CustomColors.txtFiledBorderColor
-                          ),
-                          boxShadow: [
-                            if(controller.selectedIndex.value == 2)
-                              const BoxShadow(
-                                  color: CustomColors.darkShadowColor,
-                                  spreadRadius: 1.0,
-                                  blurRadius: 2.0,
-                                  offset: Offset(0, 3)
-                              )
-                          ],
-                          borderRadius: BorderRadius.circular(15.sp)
-                      ),
-                      child: Text(translate(context).transportation, style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex.value == 2 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: 16.sp),),
-                    ),
-                  ),
-                )),
-              ],
-            ),
+            BaseToggleTabBar(controller: tabController, tabs: [
+              BaseTabButton(title: translate(context).classroom, isSelected: tabController.index == 0),
+              BaseTabButton(title: translate(context).online, isSelected: tabController.index == 1),
+              BaseTabButton(title: translate(context).transportation, isSelected: tabController.index == 2)
+            ]),
             SizedBox(
               height: 2.h,
             ),
-            Stack(
-              children: [
-                SizedBox(
-                  height: 20.0,
-                  child: PageView.builder(
-                    itemCount: 3,
-                    physics: const NeverScrollableScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return Center(child: Text("Monday, 22/05/2022", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp),));
-                    },
-                  ),
-                ),
-                Positioned(
-                  left: 0.0,
-                  child: IconButton(
-                    onPressed: (){},
-                    visualDensity: const VisualDensity(horizontal: -4,vertical: -4),
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(maxHeight: 10),
-                    icon: Icon(
-                      Icons.arrow_back_ios,
-                      size: 18.sp,
-                      color: CustomColors.primaryColor,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: 0.0,
-                  child: IconButton(
-                    onPressed: (){},
-                    visualDensity: const VisualDensity(horizontal: -4,vertical: -4),
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(maxHeight: 10),
-                    icon: Icon(
-                      Icons.arrow_forward_ios,
-                      size: 18.sp,
-                      color: CustomColors.primaryColor,
-                    ),
-                  ),
-                )
-              ],
-            ),
-            SizedBox(
-              height: 2.h,
-            ),
-            Obx(() {
-              return controller.selectedIndex.value ==0 || controller.selectedIndex.value == 1 ? Expanded(
-                child: Column(
-                  children: [
-                    buildTabBar(),
-                    SizedBox(
-                      height: 2.h,
-                    ),
-                    Expanded(
-                      child: TabBarView(
-                        controller: controller.tabCtrl,
-                        physics: const NeverScrollableScrollPhysics(),
-                        children: const [
-                          AttendancePresentView(),
-                          AttendanceAbsentView(),
-                          AttendanceLateView()
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ) : Expanded(child: Column(
+            Expanded(
+              child: TabBarView(
+                controller: tabController,
                 children: [
-                  buildTransportationTabBar(),
-                  SizedBox(
-                    height: 2.h,
-                  ),
-                  Expanded(
-                    child: TabBarView(
-                      controller: controller.tabCtrl1,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: const [
-                        OnTimeView(),
-                        TransportationLateView(),
-                      ],
-                    ),
-                  )
+                  ClassRoomTab(),
+                  OnlineTab(),
+                  TransportationTab()
                 ],
-              ));
-            }),
+              ),
+            )
           ],
         ),
       ),
     );
   }
+  @override
+  void dispose() {
+    tabController.dispose();
+    tabController2.dispose();
+    super.dispose();
+  }
   Widget buildTabBar() {
-    return Container(
-      height: 40,
-      width: Get.width,
-      decoration: BoxDecoration(
-          color: const Color(0xFFEEEEEE),
-          borderRadius: BorderRadius.circular(8.0)
-      ),
-      child: TabBar(
-        controller: controller.tabCtrl,
-        padding: const EdgeInsets.all(4),
-        labelPadding: const EdgeInsets.only(left: 10, right: 10),
-        indicator: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: CustomColors.backgroundColor,
-            boxShadow: [getBoxShadow()]
+    return BaseTabBar(
+      controller: tabController2,
+      tabs:  [
+        Tab(
+          text: translate(context).present,
         ),
-        labelColor: CustomColors.primaryColor,
-        unselectedLabelColor: Colors.black,
-        tabs:  [
-          Tab(
-            text: translate(context).present,
-          ),
-          Tab(
-            text: translate(context).absent,
-          ),
-          Tab(
-            text: translate(context).late,
-          ),
-        ],
-      ),
+        Tab(
+          text: translate(context).absent,
+        ),
+        Tab(
+          text: translate(context).late,
+        ),
+      ],
     );
   }
   Widget buildTransportationTabBar() {
-    return Container(
-      height: 40,
-      width: Get.width,
-      decoration: BoxDecoration(
-          color: const Color(0xFFEEEEEE),
-          borderRadius: BorderRadius.circular(8.0)
-      ),
-      child: TabBar(
-        controller: controller.tabCtrl1,
-        padding: const EdgeInsets.all(4),
-        labelPadding: const EdgeInsets.only(left: 10, right: 10),
-        indicator: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: CustomColors.backgroundColor,
-            boxShadow: [getBoxShadow()]
+    return BaseTabBar(
+      controller: tabController2,
+      tabs:  [
+        Tab(
+          text: translate(context).on_time,
         ),
-        labelColor: CustomColors.primaryColor,
-        unselectedLabelColor: Colors.black,
-        tabs:  [
-          Tab(
-            text: translate(context).on_time,
-          ),
-          Tab(
-            text: translate(context).late,
-          ),
-        ],
-      ),
+        Tab(
+          text: translate(context).late,
+        ),
+      ],
     );
   }
 }

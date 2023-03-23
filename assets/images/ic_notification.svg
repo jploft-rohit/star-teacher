@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg2298"
+   xml:space="preserve"
+   width="682.66669"
+   height="682.66669"
+   viewBox="0 0 682.66669 682.66669"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+     id="defs2302"><clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath2312"><path
+         d="M 0,512 H 512 V 0 H 0 Z"
+         id="path2310" /></clipPath></defs><g
+     id="g2304"
+     transform="matrix(1.3333333,0,0,-1.3333333,0,682.66667)"><g
+       id="g2306"><g
+         id="g2308"
+         clip-path="url(#clipPath2312)"><g
+           id="g2314"
+           transform="translate(285.9502,467)"><path
+             d="m 0,0 c 0,-16.568 -13.432,-30 -30,-30 -16.569,0 -30,13.432 -30,30 0,16.568 13.431,30 30,30 C -13.432,30 0,16.568 0,0 Z"
+             style="fill:none;stroke:#000000;stroke-width:30;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+             id="path2316" /></g><g
+           id="g2318"
+           transform="translate(405.9502,198.541)"><path
+             d="m 0,0 v 88.459 c 0,82.843 -67.157,150 -150,150 -82.843,0 -150,-67.157 -150,-150 V 0 c 0,-20.556 -11.614,-39.348 -30,-48.541 -18.386,-9.193 -30,-27.985 -30,-48.541 v -26.459 H 60 v 26.459 C 60,-76.526 48.386,-57.734 30,-48.541 11.614,-39.348 0,-20.556 0,0 Z"
+             style="fill:none;stroke:#000000;stroke-width:30;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+             id="path2320" /></g><g
+           id="g2322"
+           transform="translate(298.3896,75)"><path
+             d="m 0,0 c 1.658,-4.692 2.561,-9.74 2.561,-15 0,-24.853 -20.148,-45 -45,-45 -24.853,0 -45,20.147 -45,45 0,5.26 0.902,10.308 2.56,15"
+             style="fill:none;stroke:#000000;stroke-width:30;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+             id="path2324" /></g></g></g></g></svg>

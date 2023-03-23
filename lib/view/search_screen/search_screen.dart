@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
@@ -36,14 +38,10 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWithAction(context, translate(context).search, [
-        Padding(
-          padding: const EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ],onPressed: (){
-        ctrl.bottomNavigationKey.currentState?.setPage(2);
-      }),
+      appBar: BaseAppBar(title: translate(context).search,
+          onBackPressed: (){
+             ctrl.bottomNavigationKey.currentState?.setPage(2);
+          }),
       body: Padding(
         padding: EdgeInsets.all(20.sp),
         child: Column(
@@ -159,24 +157,9 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Widget buildTile(String title) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 8.0),
-      padding: EdgeInsets.all(14.sp),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0),
-        border: Border.all(color: CustomColors.primaryColor)
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(title, style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: 17.sp),),
-          Icon(
-            Icons.arrow_forward,
-            color: CustomColors.primaryColor,
-            size: 20.sp,
-          )
-        ],
-      ),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 7),
+      child: BaseButton(title: title, onPressed: (){},showNextIcon: true,),
     );
   }
 }

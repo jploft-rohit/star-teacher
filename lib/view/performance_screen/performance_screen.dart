@@ -4,8 +4,11 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_tab_bar.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/performance_screen/performance_screen_ctrl.dart';
@@ -32,12 +35,7 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWithAction(context, translate(context).performance, [
-        Padding(
-          padding: const EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: BaseAppBar(title: translate(context).performance),
       body: Padding(
         padding: EdgeInsets.all(15.sp),
         child: Column(
@@ -202,43 +200,22 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
     );
   }
   Widget buildTabBar() {
-    return Container(
-      height: 40,
-      width: 100.w,
-      decoration: BoxDecoration(
-          color: const Color(0xFFEEEEEE),
-          borderRadius: BorderRadius.circular(8.0)
-      ),
-      child: TabBar(
-        controller: tabCtrl,
-        isScrollable: false,
-        onTap: (value){
-          controller.selectedTab.value = value;
-        },
-        padding: const EdgeInsets.all(4),
-        indicator: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: CustomColors.backgroundColor,
-            boxShadow: [getBoxShadow()]
+    return BaseTabBar(
+      controller: tabCtrl,
+      tabs:  [
+        Tab(
+          text: translate(context).management,
         ),
-        labelColor: CustomColors.primaryColor,
-        labelPadding: EdgeInsets.zero,
-        unselectedLabelColor: Colors.black,
-        tabs:  [
-          Tab(
-            text: translate(context).management,
-          ),
-          Tab(
-            text: translate(context).staff,
-          ),
-          Tab(
-            text: translate(context).stars,
-          ),
-          Tab(
-            text: translate(context).parents,
-          ),
-        ],
-      ),
+        Tab(
+          text: translate(context).staff,
+        ),
+        Tab(
+          text: translate(context).stars,
+        ),
+        Tab(
+          text: translate(context).parents,
+        ),
+      ],
     );
   }
   Widget tabBarViews(){

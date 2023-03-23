@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
@@ -127,10 +128,8 @@ class _AssesmentViewState extends State<AssesmentView> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            CustomButton(text: translate(context).save, onPressed: (){}, btnWidth: 30.w, btnHeight: 30,),
-            CustomButton(text: translate(context).submit_for_review.toUpperCase(), onPressed: (){
-
-            }, btnHeight: 30,),
+            BaseButton(title: translate(context).save, onPressed: (){}, btnWidth: 30.w),
+            BaseButton(title: translate(context).submit_for_review.toUpperCase(), onPressed: (){}),
           ],
         ),
         SizedBox(

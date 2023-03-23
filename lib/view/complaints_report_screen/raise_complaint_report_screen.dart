@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
@@ -9,23 +11,32 @@ import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/complaints_report_screen/select_person_popup.dart';
 
 class RaiseComplaintReportScreen extends StatefulWidget {
-  const RaiseComplaintReportScreen({Key? key}) : super(key: key);
+  final bool isUpdating;
+  const RaiseComplaintReportScreen({Key? key, this.isUpdating = false}) : super(key: key);
 
   @override
   State<RaiseComplaintReportScreen> createState() => _RaiseComplaintReportScreenState();
 }
 
 class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen> {
+  TextEditingController complaintOrReportController = TextEditingController();
+  TextEditingController complaintForController = TextEditingController();
+  TextEditingController roleController = TextEditingController();
+  TextEditingController personController = TextEditingController();
+  TextEditingController typeController = TextEditingController();
+  TextEditingController messageController = TextEditingController();
+  TextEditingController uploadController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    setData();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWithAction(context, "Raise Complaint & report", [
-        Padding(
-          padding: const EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: const BaseAppBar(title: "Raise Complaint & report"),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(15.sp),
@@ -52,37 +63,40 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                 height: 2.h,
               ),
               CustomTextField(
-                controller: TextEditingController(),
+                controller: complaintOrReportController,
                 fillColor: CustomColors.txtFieldTextColor,
                 hintText: "Select complaint or report",
                 borderRadius: 5.0,
+                readOnly: true,
                 suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
               ),
               SizedBox(
                 height: 2.h,
               ),
               CustomTextField(
-                controller: TextEditingController(),
+                controller: complaintForController,
                 fillColor: CustomColors.txtFieldTextColor,
                 hintText: "Complaint for",
                 borderRadius: 5.0,
+                readOnly: true,
                 suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
               ),
               SizedBox(
                 height: 2.h,
               ),
               CustomTextField(
-                controller: TextEditingController(),
+                controller: roleController,
                 fillColor: CustomColors.txtFieldTextColor,
                 hintText: "Select Role",
                 borderRadius: 5.0,
+                readOnly: true,
                 suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
               ),
               SizedBox(
                 height: 2.h,
               ),
               CustomTextField(
-                controller: TextEditingController(),
+                controller: personController,
                 fillColor: CustomColors.txtFieldTextColor,
                 readOnly: true,
                 onTap: (){
@@ -101,10 +115,11 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                 height: 2.h,
               ),
               CustomTextField(
-                controller: TextEditingController(),
+                controller: typeController,
                 hintText: "Complaint type",
                 fillColor: CustomColors.txtFieldTextColor,
                 borderRadius: 5.0,
+                readOnly: true,
                 suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
               ),
               SizedBox(
@@ -120,7 +135,7 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
               //   height: 2.h,
               // ),
               CustomTextField(
-                controller: TextEditingController(),
+                controller: messageController,
                 maxLine: 4,
                 hintText: "Message",
                 borderRadius: 8.0,
@@ -129,7 +144,8 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                 height: 2.h,
               ),
               CustomTextField(
-                controller: TextEditingController(),
+                readOnly: true,
+                controller: uploadController,
                 hintText: "Upload file or Photo",
                 fillColor: CustomColors.txtFieldTextColor,
                 borderRadius: 5.0,
@@ -141,11 +157,23 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
               SizedBox(
                 height: 2.h,
               ),
-              CustomButton(text: "SUBMIT", onPressed: (){})
+              BaseButton(title: "SUBMIT", onPressed: (){})
             ],
           ),
         ),
       ),
     );
+  }
+
+  setData(){
+    if(widget.isUpdating){
+      complaintOrReportController.text = "Complaint";
+      complaintForController.text = "Bus Driver";
+      roleController.text = "Bus Driver";
+      personController.text = "Ibrahim Khan";
+      typeController.text = "Bullying";
+      messageController.text = "Behavior of the driver are not good with me please take some action or ask him to understand the concern.";
+      uploadController.text = "doc.pdf";
+    }
   }
 }

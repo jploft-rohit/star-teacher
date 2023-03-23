@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
@@ -150,9 +151,8 @@ class _TransactionHistoryPopupState extends State<TransactionHistoryPopup> {
                   ],
                 ),
                 SizedBox(height: 2.h),
-                CustomButton(
-                  text: translate(context).print_receipt.toUpperCase(),
-                  btnHeight: 35,
+                BaseButton(
+                  title: translate(context).print_receipt.toUpperCase(),
                   btnWidth: 40.w,
                   textSize: 16.sp,
                   onPressed: (){},

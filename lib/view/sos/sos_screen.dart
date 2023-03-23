@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
@@ -31,12 +33,7 @@ class _SOSViewState extends State<SOSView> {
     return Scaffold(
       backgroundColor: CustomColors.white,
       // backgroundColor: CustomColors.white,
-      appBar: appBarWithAction(context, "SOS", [
-        Padding(
-          padding: const EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: const BaseAppBar(title: "SOS"),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
@@ -339,7 +336,7 @@ class _SOSViewState extends State<SOSView> {
               child: SvgPicture.asset(controller.selectedFMOPos.value==0?nfcSvg:barcodeSvg,color: CustomColors.primaryColor,),
             )) : const SizedBox(),),
         SizedBox(height: 2.h,),
-        CustomButton(text: translate(context).notify.toUpperCase(), onPressed: (){
+        BaseButton(title: translate(context).notify.toUpperCase(), onPressed: (){
           // if (controller.selectedPos.value == 1) {
           //   Get.to(const FireReportedView());
           // }
@@ -369,7 +366,7 @@ class _SOSViewState extends State<SOSView> {
         ),
 
         SizedBox(height: 2.h,),
-        CustomButton(text: translate(context).notify.toUpperCase(), onPressed: (){
+        BaseButton(title: translate(context).notify.toUpperCase(), onPressed: (){
           Get.to(const FireReportedView());
         }),
         SizedBox(height: 2.h,),
@@ -475,7 +472,7 @@ class _SOSViewState extends State<SOSView> {
         )),
 
         SizedBox(height: 2.h,),
-        CustomButton(text: translate(context).notify.toUpperCase(), onPressed: (){
+        BaseButton(title: translate(context).notify.toUpperCase(), onPressed: (){
           // Get.to(const FireReportedView());
         }),
         SizedBox(height: 2.h,),
@@ -588,7 +585,7 @@ class _SOSViewState extends State<SOSView> {
                 controller.selectedFMOPos.value==0?nfcSvg:barcodeSvg, color: CustomColors.primaryColor,),
             )),),
         SizedBox(height: 2.h,),
-        CustomButton(text: translate(context).notify.toUpperCase(), onPressed: (){
+        BaseButton(title: translate(context).notify.toUpperCase(), onPressed: (){
           // Get.to(const FireReportedView());
         }),
         SizedBox(height: 2.h,),

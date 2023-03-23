@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
@@ -38,12 +40,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWithAction(context, widget.isUpdating ? "Edit Note" : "Add Note", [
-        Padding(
-          padding: const EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: BaseAppBar(title: widget.isUpdating ? "Edit Note" : "Add Note"),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(15.sp),
@@ -200,7 +197,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
               SizedBox(height: 2.h),
               CustomTextField(controller: commentController, hintText: "Comment", borderRadius: 5.0,fillColor: CustomColors.txtFieldTextColor),
               SizedBox(height: 2.h),
-              CustomButton(text: widget.isUpdating ? "UPDATE" : "SUBMIT", onPressed: (){
+              BaseButton(title: widget.isUpdating ? "UPDATE" : "SUBMIT", onPressed: (){
                 Navigator.pop(context);
               })
             ],

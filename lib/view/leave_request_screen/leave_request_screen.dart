@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_floating_action_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -52,34 +55,10 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWithAction(context, translate(context).leave_request, [
-        Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
-      floatingActionButton: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FloatingActionButton.small(
-            onPressed: (){
-              Get.to(AddLeaveRequestView());
-            },
-            backgroundColor: CustomColors.backgroundColor,
-            shape: RoundedRectangleBorder(
-                side: BorderSide(
-                    color: CustomColors.primaryColor
-                ),
-                borderRadius: BorderRadius.circular(50.0)
-            ),
-            child: Icon(
-              Icons.add,
-              size: 25.sp,
-              color: CustomColors.primaryColor,
-            ),
-          ),
-          Text(translate(context).leave_request, style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),)
-        ],
+      appBar: BaseAppBar(title: translate(context).leave_request),
+      floatingActionButton: BaseFloatingActionButton(
+        onTap: () {Get.to(const AddLeaveRequestView());},
+        title: translate(context).leave_request,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -87,7 +66,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 decoration: BoxDecoration(
                   color: CustomColors.backgroundColor,
                   borderRadius: BorderRadius.circular(5.0),
@@ -128,7 +107,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                   // ),
                   Expanded(
                     child: Container(
-                      padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
+                      padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
                       decoration: BoxDecoration(
                         color: CustomColors.backgroundColor,
                         borderRadius: BorderRadius.circular(5.0),
@@ -142,8 +121,8 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                             isDense: true,
                             value: initialLeaveType,
                             alignment: Alignment.centerLeft,
-                            hint: Text("Leave Type",style: TextStyle(color: Colors.black),),
-                            icon: Icon(Icons.arrow_drop_down, color: Color(0xffC4C4C4),),
+                            hint: const Text("Leave Type",style: TextStyle(color: Colors.black),),
+                            icon: const Icon(Icons.arrow_drop_down, color: Color(0xffC4C4C4),),
                             items: leaveTypeDropdownData.map((String leave) {
                               return DropdownMenuItem(
                                 value: leave,
@@ -166,13 +145,13 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                         showGeneralDialog(
                           context: context,
                           pageBuilder:  (context, animation, secondaryAnimation) {
-                            return LeaveBalancePopup();
+                            return const LeaveBalancePopup();
                           },
                         );
                       },
                       child: Container(
                         width: 50.w,
-                        padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 9.0, bottom: 9.0),
+                        padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 9.0, bottom: 9.0),
                         decoration: BoxDecoration(
                           color: CustomColors.backgroundColor,
                           borderRadius: BorderRadius.circular(5.0),
@@ -191,7 +170,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
               ),
               ListView.builder(
                 itemCount: 2,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   return Padding(
@@ -234,7 +213,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                                   ),
                                   InkWell(
                                     onTap: (){
-                                      Get.to(EarlyLeaveScreen());
+                                      Get.to(const EarlyLeaveScreen());
                                     },
                                     child: Image.asset(editPng, color: CustomColors.primaryColor,height: 18.sp,),
                                   ),
@@ -246,14 +225,14 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                                       showGeneralDialog(
                                         context: context,
                                         pageBuilder:  (context, animation, secondaryAnimation) {
-                                          return UploadEvidencePopup();
+                                          return const UploadEvidencePopup();
                                         },
                                       );
                                     },
                                     child: Column(
                                       children: [
                                         SvgPicture.asset(uploadDocSvg),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 2.0,
                                         ),
                                         Text(translate(context).upload_evidence1, style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: 13.sp),textAlign: TextAlign.center,)
@@ -264,7 +243,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                               )
                             ],
                           ),
-                          Divider(
+                          const Divider(
                             color: CustomColors.borderColor,
                             thickness: 1.0,
                           ),
@@ -289,7 +268,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                               Text("05/03/2022", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
                             ],
                           ),
-                          Divider(
+                          const Divider(
                             color: CustomColors.borderColor,
                             thickness: 1.0,
                           ),
@@ -303,7 +282,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                               Text("Lorem Ipsum is simply dummy text...", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),maxLines: 1, overflow: TextOverflow.ellipsis,),
                             ],
                           ),
-                          Divider(
+                          const Divider(
                             color: CustomColors.borderColor,
                             thickness: 1.0,
                           ),
@@ -317,7 +296,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                               Text("Ok I will talk to her...", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),maxLines: 1, overflow: TextOverflow.ellipsis,),
                             ],
                           ),
-                          Divider(
+                          const Divider(
                             color: CustomColors.borderColor,
                             thickness: 1.0,
                           ),
@@ -342,7 +321,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                               Icon(Icons.download_for_offline,color: CustomColors.primaryColor,size: 20.sp,)
                             ],
                           ),
-                          Divider(
+                          const Divider(
                             color: CustomColors.borderColor,
                             thickness: 1.0,
                           ),

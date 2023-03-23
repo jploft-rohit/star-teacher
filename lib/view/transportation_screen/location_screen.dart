@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
@@ -36,12 +38,7 @@ class _LocationScreenState extends State<LocationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWithAction(context, translate(context).location, [
-        Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: BaseAppBar(title: translate(context).location),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(15.sp),
@@ -92,15 +89,15 @@ class _LocationScreenState extends State<LocationScreen> {
               SizedBox(height: 3.h,),
               Row(
                 children: [
-                  Flexible(flex: 1,child: CustomButton(text: translate(context).print_QR,  textSize: 15.sp,onPressed: (){
+                  Flexible(flex: 1,child: BaseButton(title: translate(context).print_QR,  textSize: 15.sp,onPressed: (){
                     Get.to(PrintQrScreen());
-                  },btnHeight: 30,),),
+                  },),),
                   SizedBox(
                     width: 2.w,
                   ),
-                  Flexible(flex: 1,child: CustomButton(text: translate(context).programme_NFC, textSize: 15.sp, onPressed: (){
+                  Flexible(flex: 1,child: BaseButton(title: translate(context).programme_NFC, textSize: 15.sp, onPressed: (){
                     showNFCDialog(context,"");
-                  },btnHeight: 30,)),
+                  })),
                 ],
               ),
               SizedBox(height: 2.h,),

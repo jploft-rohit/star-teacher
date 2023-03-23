@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
@@ -96,10 +97,9 @@ class _CartCardDetailState extends State<CartCardDetail> {
                   height: 2.h,
                 ),
                 Center(
-                  child: CustomButton(
-                    text: "PAY",
+                  child: BaseButton(
+                    title: "PAY",
                     btnWidth: 100.w,
-                    borderRadius: 15.0,
                     onPressed: (){
                       Get.back();
                       showGeneralDialog(

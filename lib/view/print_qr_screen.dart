@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 
 class PrintQrScreen extends StatefulWidget {
@@ -17,8 +18,7 @@ class _PrintQrScreenState extends State<PrintQrScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: appBarWithAction(context, "QR Code", [
-      ]),
+      appBar: const BaseAppBar(title: "QR Code"),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: SizedBox(
@@ -33,7 +33,7 @@ class _PrintQrScreenState extends State<PrintQrScreen> {
                 fit: BoxFit.scaleDown,
               ),
               SizedBox(height:5.h),
-              CustomButton(text: "PRINT QR", onPressed: (){})
+              BaseButton(title: "PRINT QR", onPressed: (){})
             ],
           ),
         ),

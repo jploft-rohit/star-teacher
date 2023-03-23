@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
@@ -8,23 +10,30 @@ import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/utility.dart';
 
 class AddHelpView extends StatefulWidget {
-  const AddHelpView({Key? key}) : super(key: key);
+  final bool isUpdating;
+  const AddHelpView({Key? key, this.isUpdating = false}) : super(key: key);
 
   @override
   State<AddHelpView> createState() => _AddHelpViewState();
 }
 
 class _AddHelpViewState extends State<AddHelpView> {
+  TextEditingController helpController = TextEditingController();
+  TextEditingController helpOptionController = TextEditingController();
+  TextEditingController titleController = TextEditingController();
+  TextEditingController messageController = TextEditingController();
+  TextEditingController uploadFilePhotoController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    setData();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWithAction(context, "Feedback & Help", [
-        Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: BaseAppBar(title: widget.isUpdating ? "Edit Feedback & Help" : "Feedback & Help"),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(15.sp),
@@ -107,11 +116,18 @@ class _AddHelpViewState extends State<AddHelpView> {
               SizedBox(
                 height: 3.h,
               ),
-              CustomButton(text: "SUBMIT", onPressed: (){})
+              BaseButton(title: "SUBMIT", onPressed: (){})
             ],
           ),
         ),
       ),
     );
+  }
+  setData(){
+    // if(widget.isUpdating){
+    //   helpController.text = "Help";
+    //   helpOptionController.text = "Hello";
+    //   titleController.text = "Hello";
+    // }
   }
 }

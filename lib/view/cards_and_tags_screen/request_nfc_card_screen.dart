@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
@@ -22,12 +24,7 @@ class _RequestNFCCardScreenState extends State<RequestNFCCardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWithAction(context, "Request Card & Tags", [
-        Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: const BaseAppBar(title: "Request Card & Tags"),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Column(
@@ -79,10 +76,9 @@ class _RequestNFCCardScreenState extends State<RequestNFCCardScreen> {
                             15.sp,
                             CustomColors.primaryColor,
                             FontWeight.w400),
-                        CustomButton(
-                            btnHeight: 20,
+                        BaseButton(
                             btnWidth: 60,
-                            text: "+Add",
+                            title: "+Add",
                             onPressed: () {})
                       ],
                     ),
@@ -93,7 +89,7 @@ class _RequestNFCCardScreenState extends State<RequestNFCCardScreen> {
             SizedBox(
               height: 5.h,
             ),
-            CustomButton(text: "Add To Cart", onPressed: (){
+            BaseButton(title: "Add To Cart", onPressed: (){
               Get.to(NFCCartScreen());
             }),
           ],

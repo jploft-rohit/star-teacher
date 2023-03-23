@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/utility.dart';
 
@@ -55,9 +56,9 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
                 ),
                 if(widget.isShowBtn)
                 Center(
-                  child: CustomButton(text: widget.btnText ?? "Yes", onPressed: (){
+                  child: BaseButton(title: widget.btnText ?? "Yes", onPressed: (){
                     Get.back(result: true);
-                  }, btnWidth: 30.w,borderRadius: 50.0,btnHeight: 35,),
+                  }, btnWidth: 30.w),
                 ),
               ],
             ),

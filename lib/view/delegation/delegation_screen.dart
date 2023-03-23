@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
@@ -31,12 +33,7 @@ class _DelegationScreenState extends State<DelegationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWithAction(context, translate(context).roles_delegation, [
-        Padding(
-          padding: const EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: BaseAppBar(title: translate(context).roles_delegation),
       body: Padding(
         padding: EdgeInsets.all(15.sp),
         child: Column(
@@ -143,7 +140,7 @@ class _DelegationScreenState extends State<DelegationScreen> {
                           child: Row(
                             children: [
                               Expanded(
-                                child: CustomButton(text: translate(context).reject.toUpperCase(), onPressed: (){
+                                child: BaseButton(title: translate(context).reject.toUpperCase(), onPressed: (){
                                   showGeneralDialog(
                                       context: context,
                                       pageBuilder: (ctx,a,b){
@@ -167,21 +164,18 @@ class _DelegationScreenState extends State<DelegationScreen> {
                                               const SizedBox(height: 10),
                                               CustomTextField(controller: reasonController, hintText: translate(context).type_here,maxLine: 5,),
                                               const SizedBox(height: 16),
-                                              CustomButton(text: translate(context).submit_btn_txt, onPressed: (){
-                                                Navigator.pop(context);
-                                              },btnHeight: 5.h,btnWidth: 30.w),
+                                              BaseButton(title: translate(context).submit_btn_txt, onPressed: (){Navigator.pop(context);}),
                                             ],
                                           ),
                                         ),
                                       );
                                   });
                                 },
-                                  borderRadius: 10.0,btnHeight: 4.5.h),
+                                ),
                               ),
                               SizedBox(width: 4.w),
                               Expanded(
-                                child: CustomButton(text: translate(context).accept.toUpperCase(), onPressed: (){},
-                                    borderRadius: 10.0,btnHeight: 4.5.h),
+                                child: BaseButton(title: translate(context).accept.toUpperCase(), onPressed: (){}),
                               ),
                             ],
                           ),

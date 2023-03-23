@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
@@ -41,7 +42,7 @@ class _UploadEvidencePopupState extends State<UploadEvidencePopup> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(""),
+                    const Text(""),
                     Text(translate(context).upload_evidence, style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: Colors.black),),
                     InkWell(
                       onTap: (){
@@ -55,13 +56,11 @@ class _UploadEvidencePopupState extends State<UploadEvidencePopup> {
                   height: 3.h,
                 ),
                 CustomTextField(controller: titleCtrl,
-                    hintTxtSize: 15.sp,
                     hintText: translate(context).reason),
                 SizedBox(
                   height: 1.h,
                 ),
                 CustomTextField(controller: titleCtrl,
-                  hintTxtSize: 15.sp,
                   readOnly: true,
                   onTap: (){
                     selectDate(context);
@@ -74,7 +73,6 @@ class _UploadEvidencePopupState extends State<UploadEvidencePopup> {
                   height: 1.h,
                 ),
                 CustomTextField(controller: titleCtrl,
-                  hintTxtSize: 15.sp,
                   readOnly: true,
                   onTap: (){
                     selectDate(context);
@@ -87,15 +85,15 @@ class _UploadEvidencePopupState extends State<UploadEvidencePopup> {
                   height: 1.h,
                 ),
                 CustomTextField(controller: titleCtrl,
-                  hintTxtSize: 15.sp,
-                  hintText: translate(context).upload_file, suffixIcon: Padding(
+                  hintText: translate(context).upload_file,
+                  suffixIcon: Padding(
                   padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                   child: SvgPicture.asset("assets/images/upload_icon.svg",),
                 ),),
                 SizedBox(
                   height: 3.h,
                 ),
-                CustomButton(text: translate(context).submit_btn_txt, onPressed: (){
+                BaseButton(title: translate(context).submit_btn_txt, onPressed: (){
                   Get.back();
                 }, btnWidth: 40.w,)
               ],

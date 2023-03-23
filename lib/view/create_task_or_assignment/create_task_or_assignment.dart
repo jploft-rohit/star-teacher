@@ -2,10 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_tab_button.dart';
+import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/create_task_or_assignment/create_task_or_assignment_screen_ctrl.dart';
+import 'package:staff_app/view/create_task_or_assignment/parent_view.dart';
+import 'package:staff_app/view/create_task_or_assignment/staff_view.dart';
+import 'package:staff_app/view/create_task_or_assignment/star_view.dart';
 
 class CreateTaskOrAssignmentScreen extends StatefulWidget {
   const CreateTaskOrAssignmentScreen({Key? key}) : super(key: key);
@@ -14,25 +22,31 @@ class CreateTaskOrAssignmentScreen extends StatefulWidget {
   State<CreateTaskOrAssignmentScreen> createState() => _CreateTaskOrAssignmentScreenState();
 }
 
-class _CreateTaskOrAssignmentScreenState extends State<CreateTaskOrAssignmentScreen> {
+class _CreateTaskOrAssignmentScreenState extends State<CreateTaskOrAssignmentScreen> with SingleTickerProviderStateMixin{
   CreateTaskOrAssignmentScreenCtrl controller = Get.put(CreateTaskOrAssignmentScreenCtrl());
+  late TabController tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(length: 3, vsync: this)..addListener(() {
+      controller.selectedIndex.value = tabController.index;
+      setState(() {});
+    });
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: appBarWithAction(context, "Create Task & Assignments", [
-        Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
-      body: SingleChildScrollView(
-        child: Padding(
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: const BaseAppBar(title: "Create Task & Assignments"),
+        body: Padding(
           padding: EdgeInsets.all(15.sp),
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 decoration: BoxDecoration(
                   color: CustomColors.backgroundColor,
                   borderRadius: BorderRadius.circular(5.0),
@@ -51,110 +65,23 @@ class _CreateTaskOrAssignmentScreenState extends State<CreateTaskOrAssignmentScr
               SizedBox(
                 height: 2.h,
               ),
-              Row(
-                children: [
-                  Obx(() => Flexible(
-                    flex: 1,
-                    child: InkWell(
-                      onTap: (){
-                        controller.selectedIndex.value = 0;
-                      },
-                      child: Container(
-                        height: 40.0,
-                        width: getWidth(context) * 50 / 100,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            color: controller.selectedIndex.value == 0 ? CustomColors.backgroundColor : CustomColors.screenBackgroundColor,
-                            border: Border.all(
-                                color: controller.selectedIndex.value == 0 ? Colors.transparent : CustomColors.txtFiledBorderColor
-                            ),
-                            boxShadow: [
-                              if(controller.selectedIndex.value == 0)
-                                const BoxShadow(
-                                    color: CustomColors.darkShadowColor,
-                                    spreadRadius: 1.0,
-                                    blurRadius: 2.0,
-                                    offset: Offset(0, 3)
-                                )
-                            ],
-                            borderRadius: BorderRadius.circular(15.sp)
-                        ),
-                        child: Text("Staff", style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex.value == 0 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: 16.sp),),
-                      ),
-                    ),
-                  )),
-                  SizedBox(
-                    width: 2.w,
-                  ),
-                  Obx(() => Flexible(
-                    flex: 1,
-                    child: InkWell(
-                      onTap: (){
-                        controller.selectedIndex.value = 1;
-                      },
-                      child: Container(
-                        height: 40.0,
-                        width: getWidth(context) * 50 / 100,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            color: controller.selectedIndex.value == 1 ? CustomColors.backgroundColor : CustomColors.screenBackgroundColor,
-                            border: Border.all(
-                                color: controller.selectedIndex.value == 1 ? Colors.transparent : CustomColors.txtFiledBorderColor
-                            ),
-                            boxShadow: [
-                              if(controller.selectedIndex.value == 1)
-                                const BoxShadow(
-                                    color: CustomColors.darkShadowColor,
-                                    spreadRadius: 1.0,
-                                    blurRadius: 2.0,
-                                    offset: Offset(0, 3)
-                                )
-                            ],
-                            borderRadius: BorderRadius.circular(15.sp)
-                        ),
-                        child: Text("Stars", style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex.value == 1 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: 16.sp),),
-                      ),
-                    ),
-                  )),
-                  SizedBox(
-                    width: 2.w,
-                  ),
-                  Obx(() => Flexible(
-                    flex: 1,
-                    child: InkWell(
-                      onTap: (){
-                        controller.selectedIndex.value = 2;
-                      },
-                      child: Container(
-                        height: 40.0,
-                        width: getWidth(context) * 50 / 100,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            color: controller.selectedIndex.value == 2 ? CustomColors.backgroundColor : CustomColors.screenBackgroundColor,
-                            border: Border.all(
-                                color: controller.selectedIndex.value == 2 ? Colors.transparent : CustomColors.txtFiledBorderColor
-                            ),
-                            boxShadow: [
-                              if(controller.selectedIndex.value == 2)
-                                const BoxShadow(
-                                    color: CustomColors.darkShadowColor,
-                                    spreadRadius: 1.0,
-                                    blurRadius: 2.0,
-                                    offset: Offset(0, 3)
-                                )
-                            ],
-                            borderRadius: BorderRadius.circular(15.sp)
-                        ),
-                        child: Text("Parents", style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex.value == 2 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: 16.sp),),
-                      ),
-                    ),
-                  )),
-                ],
-              ),
+              BaseToggleTabBar(controller: tabController, tabs: [
+                BaseTabButton(title: translate(context).staff, isSelected: tabController.index == 0),
+                BaseTabButton(title: translate(context).stars, isSelected: tabController.index == 1),
+                BaseTabButton(title: translate(context).parents, isSelected: tabController.index == 2),
+              ]),
               SizedBox(
                 height: 2.h,
               ),
-              Obx(() => controller.screens[controller.selectedIndex.value]),
+              Expanded(
+                child: TabBarView(
+                  controller: tabController,
+                    children: [
+                  const CreateTaskStaffView(),
+                  const CreateTaskStarView(),
+                  const CreateTaskParentView(),
+                ]),
+              ),
             ],
           ),
         ),

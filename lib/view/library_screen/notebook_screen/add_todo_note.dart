@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
@@ -24,12 +26,7 @@ class _AddToDoNoteState extends State<AddToDoNote> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWithAction(context, "Add Note", [
-        Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: BaseAppBar(title: "Add Note"),
       body: Padding(
         padding: EdgeInsets.all(15.sp),
         child: Column(
@@ -132,7 +129,7 @@ class _AddToDoNoteState extends State<AddToDoNote> {
             SizedBox(
               height: 5.h,
             ),
-            Center(child: CustomButton(text: "SUBMIT", onPressed: (){
+            Center(child: BaseButton(title: "SUBMIT", onPressed: (){
               Get.back();
             }))
           ],

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
@@ -21,12 +23,7 @@ class _NotifyAuthorityForBusScreenState extends State<NotifyAuthorityForBusScree
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWithAction(context, translate(context).notify_authority, [
-        Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: BaseAppBar(title: translate(context).notify_authority),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(15.sp),
@@ -92,14 +89,14 @@ class _NotifyAuthorityForBusScreenState extends State<NotifyAuthorityForBusScree
               SizedBox(
                 height: 3.h,
               ),
-              Center(child: CustomButton(text: "SUBMIT", onPressed: (){
+              Center(child: BaseButton(title: "SUBMIT", onPressed: (){
                 showGeneralDialog(
                   context: context,
                   pageBuilder: (context, animation, secondaryAnimation) {
                     return NotifySchoolAdministratorPopup();
                   },
                 );
-              }, btnWidth: 30.w, borderRadius: 15.0,))
+              }, btnWidth: 30.w))
             ],
           ),
         ),

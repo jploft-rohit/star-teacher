@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
@@ -145,20 +146,20 @@ class _ClinicVisitRequestState extends State<ClinicVisitRequest> {
                   children: [
                     Expanded(
                       child: Center(
-                        child: CustomButton(text: translate(context).reschedule_caps, onPressed: (){
+                        child: BaseButton(title: translate(context).reschedule_caps, onPressed: (){
                           Get.back();
                           showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation) {
                             return const RescheduleVisitRequestPopup();
                           },);
-                        }, btnWidth: 45.w,borderRadius: 50.0,btnHeight: 40,),
+                        }, btnWidth: 45.w,),
                       ),
                     ),
                     SizedBox(width: 4.w),
                     Expanded(
                       child: Center(
-                        child: CustomButton(text: translate(context).acknowledge, onPressed: (){
+                        child: BaseButton(title: translate(context).acknowledge, onPressed: (){
                           Get.back();
-                        }, btnWidth: 45.w,borderRadius: 50.0,btnHeight: 40,),
+                        }, btnWidth: 45.w),
                       ),
                     ),
                   ],

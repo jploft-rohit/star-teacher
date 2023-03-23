@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
@@ -107,9 +108,8 @@ class _TopupYourFamilyPopupState extends State<TopupYourFamilyPopup> {
                   height: 5.h,
                 ),
                 Center(
-                  child: CustomButton(
-                    text: "${translate(context).top_up.toUpperCase()} 1,000 AED",
-                    btnHeight: 35,
+                  child: BaseButton(
+                    title: "${translate(context).top_up.toUpperCase()} 1,000 AED",
                     btnWidth: 50.w,
                     textSize: 16.sp,
                     onPressed: (){

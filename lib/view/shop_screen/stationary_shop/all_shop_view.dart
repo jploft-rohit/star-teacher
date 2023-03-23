@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
@@ -83,16 +84,22 @@ class _StationaryShopAllViewState extends State<StationaryShopAllView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          addText(
-                              controller.shopStationaryList[index]['price']!,
-                              15.sp,
-                              CustomColors.primaryColor,
-                              FontWeight.w400),
-                          CustomButton(
-                              btnHeight: 20,
-                              btnWidth: 60,
-                              text: "+Add",
-                              onPressed: () {})
+                          Expanded(
+                            flex: 1,
+                            child: addText(
+                                controller.shopStationaryList[index]['price']!,
+                                15.sp,
+                                CustomColors.primaryColor,
+                                FontWeight.w400),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: BaseButton(
+                                verticalPadding: 0,
+                                removeHorizontalPadding: false,
+                                title: "+Add",
+                                onPressed: () {}),
+                          )
                         ],
                       ),
                     ],

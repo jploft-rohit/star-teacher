@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/Utility/base_tab_bar.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/Dashboard_screen/dashboard_screen_ctrl.dart';
@@ -40,12 +44,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.white,
-      appBar: appBarWithAction(context, translate(context).my_profile,[
-        Padding(
-          padding: const EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ],onPressed: (){
+      appBar: BaseAppBar(title: translate(context).my_profile,onBackPressed: (){
         if(widget.isFromDrawer){
           Navigator.pop(context);
         }else{
@@ -142,15 +141,15 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
           SizedBox(height: 2.h,),
           Row(
             children: [
-              Flexible(flex: 1,child: CustomButton(text: translate(context).print_QR,  textSize: 15.sp,onPressed: (){
+              Flexible(flex: 1,child: BaseButton(title: translate(context).print_QR,  textSize: mediumButtonTs,onPressed: (){
                 Get.to(const PrintQrScreen());
-              },btnHeight: 30,),),
+              })),
               SizedBox(
                 width: 2.w,
               ),
-              Flexible(flex: 1,child: CustomButton(text: translate(context).programme_NFC, textSize: 15.sp, onPressed: (){
+              Flexible(flex: 1,child: BaseButton(title: translate(context).programme_NFC, textSize: mediumButtonTs, onPressed: (){
                 showNFCDialog(context,"");
-              },btnHeight: 30,)),
+              })),
             ],
           ),
           SizedBox(height: 2.h,),
@@ -175,39 +174,22 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
     );
   }
   Widget buildTabBar() {
-    return Container(
-      height: 40,
-      decoration: BoxDecoration(
-          color: const Color(0xFFEEEEEE),
-          borderRadius: BorderRadius.circular(8.0)
-      ),
-      child: TabBar(
-        controller: controller,
-        isScrollable: false,
-        padding: const EdgeInsets.all(4),
-        labelPadding: const EdgeInsets.only(left: 0, right: 0),
-        indicator: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: CustomColors.backgroundColor,
-            boxShadow: [getBoxShadow()]
+    return BaseTabBar(
+      controller: controller,
+      tabs:  [
+        Tab(
+          text: translate(context).account,
         ),
-        labelColor: CustomColors.primaryColor,
-        unselectedLabelColor: Colors.black,
-        tabs:  [
-          Tab(
-            text: translate(context).account,
-          ),
-          Tab(
-            text: translate(context).details,
-          ),
-          Tab(
-            text: translate(context).statistics,
-          ),
-          Tab(
-            text: translate(context).school,
-          ),
-        ],
-      ),
+        Tab(
+          text: translate(context).details,
+        ),
+        Tab(
+          text: translate(context).statistics,
+        ),
+        Tab(
+          text: translate(context).school,
+        ),
+      ],
     );
   }
 }

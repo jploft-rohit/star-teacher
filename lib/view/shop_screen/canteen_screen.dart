@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
@@ -84,10 +85,9 @@ class _CanteenShopAllViewState extends State<CanteenShopAllView> {
                             15.sp,
                             CustomColors.primaryColor,
                             FontWeight.w400),
-                        CustomButton(
-                            btnHeight: 20,
+                        BaseButton(
                             btnWidth: 60,
-                            text: "+Add",
+                            title: "+Add",
                             onPressed: () {})
                       ],
                     ),

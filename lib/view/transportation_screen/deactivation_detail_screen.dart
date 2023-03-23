@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
@@ -25,12 +27,7 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWithAction(context, translate(context).deactivation_details, [
-        Padding(
-          padding: EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
+      appBar: BaseAppBar(title: translate(context).deactivation_details),
       body: Padding(
         padding: EdgeInsets.all(15.sp),
         child: Column(
@@ -62,13 +59,13 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
 
                           children: [
                             Text('Nawaz Alam', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),),
-                            Divider(
+                            const Divider(
                               color: CustomColors.borderColor,
                               height: 8.0,
                               thickness: 1.0,
                             ),
                             Text('#632541', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),),
-                            Divider(
+                            const Divider(
                               color: CustomColors.borderColor,
                               height: 8.0,
                               thickness: 1.0,
@@ -111,7 +108,7 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
                   SizedBox(
                     height: 1.h,
                   ),
-                  Divider(),
+                  const Divider(),
                   Row(
                     children: [
                       Expanded(
@@ -156,7 +153,7 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
             SizedBox(
               height: 2.h,
             ),
-            Divider(),
+            const Divider(),
             SizedBox(
               height: 1.h,
             ),
@@ -188,8 +185,8 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
                         height: 1.h,
                       ),
                       CustomTextField(controller: dateCtrl,
-                        contentPadding: EdgeInsets.only(top: 8.0, bottom: 8.0, left: 10.0, right: 10.0),
-                        hintText: "Health Certificate for 23/04/2022 Reason: Absent", borderRadius: 3.0, hintTxtSize: 13.sp,suffixIcon: Padding(
+                        contentPadding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 10.0, right: 10.0),
+                        hintText: "Health Certificate for 23/04/2022 Reason: Absent", borderRadius: 3.0, suffixIcon: Padding(
                         padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                         child: SvgPicture.asset("assets/images/tick_img.svg"),
                       ),),
@@ -209,7 +206,7 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
                   child: Column(
                     children: [
                       Text("Medical_Sania.jpeg", style: Style.montserratMediumStyle().copyWith(fontSize: 14.sp),),
-                      Text("${translate(context).photo_uploaded}\n132KB", style: Style.montserratMediumStyle().copyWith(fontSize: 14.sp, color: Color(0xff1C6BA4)),textAlign: TextAlign.center,),
+                      Text("${translate(context).photo_uploaded}\n132KB", style: Style.montserratMediumStyle().copyWith(fontSize: 14.sp, color: const Color(0xff1C6BA4)),textAlign: TextAlign.center,),
                     ],
                   ),
                 )
@@ -218,14 +215,14 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
             SizedBox(
               height: 3.h,
             ),
-            Center(child: CustomButton(text: translate(context).request_for_activation, onPressed: (){
+            Center(child: BaseButton(title: translate(context).request_for_activation, onPressed: (){
               showGeneralDialog(
                 context: context,
                 pageBuilder: (context, animation, secondaryAnimation) {
                   return ConfirmationDialog(msg: translate(context).your_request_for_account_activation_sent_to_School_admin_will_be_notified_soon,isShowBtn: false,);
                 },
               ).then((value){
-                Get.to(ActivationRequestDetailScreen());
+                Get.to(const ActivationRequestDetailScreen());
               });
             }, btnWidth: 70.w,))
           ],

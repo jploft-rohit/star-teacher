@@ -3,11 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/Utility/base_floating_action_button.dart';
+import 'package:staff_app/Utility/base_tab_bar.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/schedule_meeting_screen/choose_meeting_date_time_popup.dart';
@@ -56,34 +61,10 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWithAction(context, translate(context).schedule_meeting, [
-        Padding(
-          padding: const EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
-      floatingActionButton: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FloatingActionButton.small(
-            onPressed: (){
-              Get.to(const CreateMeetingScreen());
-            },
-            backgroundColor: CustomColors.backgroundColor,
-            shape: RoundedRectangleBorder(
-                side: const BorderSide(
-                    color: CustomColors.primaryColor
-                ),
-                borderRadius: BorderRadius.circular(50.0)
-            ),
-            child: Icon(
-              Icons.add,
-              size: 25.sp,
-              color: CustomColors.primaryColor,
-            ),
-          ),
-          Text("Schedule\nMeeting", style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),textAlign: TextAlign.center,)
-        ],
+      appBar: BaseAppBar(title: translate(context).schedule_meeting),
+      floatingActionButton: BaseFloatingActionButton(
+        onTap: () {Get.to(const CreateMeetingScreen());},
+        title: 'Schedule\nMeeting',
       ),
       body: Padding(
         padding: EdgeInsets.all(15.sp),
@@ -115,7 +96,6 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
             ),
             Expanded(
               child: TabBarView(
-                physics: const NeverScrollableScrollPhysics(),
                 controller: tabCtrl,
                 children: [
                   buildPendingView(),
@@ -131,44 +111,22 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
     );
   }
   Widget buildTabBar() {
-    return Container(
-      height: 35,
-      width: 100.w,
-      decoration: BoxDecoration(
-          color: const Color(0xFFEEEEEE),
-          borderRadius: BorderRadius.circular(10.0)
-      ),
-      child: TabBar(
-        controller: tabCtrl,
-        isScrollable: false,
-        labelStyle: Style.montserratRegularStyle().copyWith(fontSize: 12),
-        onTap: (value){
-
-        },
-        padding: const EdgeInsets.all(4),
-        indicator: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: CustomColors.backgroundColor,
-            boxShadow: [getBoxShadow()]
+    return BaseTabBar(
+      controller: tabCtrl,
+      tabs:  const [
+        Tab(
+          text: 'Pending',
         ),
-        labelColor: CustomColors.primaryColor,
-        labelPadding: const EdgeInsets.symmetric(horizontal: 5.0),
-        unselectedLabelColor: Colors.black,
-        tabs:  const [
-          Tab(
-            text: 'Pending',
-          ),
-          Tab(
-            text: 'Planned',
-          ),
-          Tab(
-            text: 'Cancelled',
-          ),
-          Tab(
-            text: 'Completed',
-          ),
-        ],
-      ),
+        Tab(
+          text: 'Planned',
+        ),
+        Tab(
+          text: 'Cancelled',
+        ),
+        Tab(
+          text: 'Completed',
+        ),
+      ],
     );
   }
   Widget buildPendingView(){
@@ -242,7 +200,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                         SvgPicture.asset("assets/images/chat_img.svg"),
                       ],
                     ),
-                    CustomButton(text: "Reminder", onPressed: (){}, btnHeight: 22,btnWidth: 22.w,textSize: 14.sp,),
+                    BaseButton(title: "Reminder", onPressed: (){}, btnWidth: 22.w,textSize: smallButtonTs,verticalPadding: 1.h),
                   ],
                 ),
                 const Divider(),
@@ -250,23 +208,21 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                   children: [
                     Flexible(
                       flex: 1,
-                      child: CustomButton(text: "RESCHEDULE", onPressed: (){}, btnHeight: 35, boxShadow: const [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 15.sp,),
+                      child: BaseButton(removeHorizontalPadding: true,title: "RESCHEDULE", onPressed: (){}, isActive: false, textSize: 15.sp),
                     ),
                     SizedBox(
                       width: 2.w,
                     ),
                     Flexible(
                       flex: 1,
-                      child: CustomButton(text: "CANCEL", onPressed: (){
-
-                      }, btnHeight: 35, boxShadow: const [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 15.sp,),
+                      child: BaseButton(title: "CANCEL", onPressed: (){}, isActive: false, textSize: 15.sp,),
                     ),
                     SizedBox(
                       width: 2.w,
                     ),
                     Flexible(
                       flex: 1,
-                      child: CustomButton(text: "ACCEPT", onPressed: (){}, btnHeight: 35, borderRadius: 10.0,textSize: 15.sp,),
+                      child: BaseButton(title: "ACCEPT", onPressed: (){}, textSize: 15.sp),
                     ),
                   ],
                 ),
@@ -358,7 +314,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                         SvgPicture.asset("assets/images/chat_img.svg"),
                       ],
                     ),
-                    CustomButton(text: "Start", onPressed: (){}, btnHeight: 22,btnWidth: 22.w,textSize: 14.sp,),
+                    BaseButton(title: "Start", onPressed: (){}, btnWidth: 22.w,textSize: smallButtonTs,verticalPadding: 1.h),
                   ],
                 ),
                 const Divider(),
@@ -366,28 +322,28 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                   children: [
                     Flexible(
                       flex: 1,
-                      child: CustomButton(text: "RESCHEDULE", onPressed: (){
+                      child: BaseButton(title: "RESCHEDULE", onPressed: (){
                         showGeneralDialog(
                           context: context,
                           pageBuilder:  (context, animation, secondaryAnimation) {
                             return ChooseMeetingDateTimePopup(title: "Reschedule",);
                           },
                         );
-                      }, btnHeight: 35, borderRadius: 10.0,textSize: 15.sp,),
+                      }, textSize: 15.sp,),
                     ),
                     SizedBox(
                       width: 2.w,
                     ),
                     Flexible(
                       flex: 1,
-                      child: CustomButton(text: "CANCEL", onPressed: (){
+                      child: BaseButton(title: "CANCEL", onPressed: (){
                         showGeneralDialog(
                           context: context,
                           pageBuilder:  (context, animation, secondaryAnimation) {
                             return const MeetingCancelReasonPopup();
                           },
                         );
-                      }, btnHeight: 35, boxShadow: const [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 15.sp,),
+                      }, isActive: false, textSize: 15.sp,),
                     ),
                   ],
                 ),
@@ -493,7 +449,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                 //   children: [
                 //     Flexible(
                 //       flex: 1,
-                //       child: CustomButton(text: "RESCHEDULE", onPressed: (){
+                //       child: BaseButton(title: "RESCHEDULE", onPressed: (){
                 //         showGeneralDialog(
                 //           context: context,
                 //           pageBuilder:  (context, animation, secondaryAnimation) {
@@ -507,7 +463,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                 //     ),
                 //     Flexible(
                 //       flex: 1,
-                //       child: CustomButton(text: "CANCEL", onPressed: (){
+                //       child: BaseButton(title: "CANCEL", onPressed: (){
                 //         showGeneralDialog(
                 //           context: context,
                 //           pageBuilder:  (context, animation, secondaryAnimation) {
@@ -667,15 +623,16 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                 if(isTap)
                 const Divider(),
                 if(!isTap)
-                CustomButton(
-                    btnHeight: 20,
-                    text: "ADD RATING",
+                BaseButton(
+                    title: "ADD RATING",
                     btnWidth: 22.w,
-                    textSize: 10,
+                    verticalPadding: 1.h,
+                    textSize: smallButtonTs,
                     onPressed: () {
                       isTap = true;
                       setState(() {});
-                    }),
+                    },
+                ),
                 SizedBox(
                   height: 1.5.h,
                 ),
@@ -684,7 +641,6 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                   curStep: 4,
                   height: 20,
                   btnWidth: 20,
-                  textSize: 13.sp,
                   color: CustomColors.primaryColor,
                   titles: pendingMeetingdates2,
                   statuses: heading2,

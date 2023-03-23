@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/Utility/base_floating_action_button.dart';
 import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/lost_or_found_screen/report_lost_found_screen.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/confirmation_popup.dart';
@@ -20,34 +24,10 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWithAction(context, "Lost & Found", [
-        Padding(
-          padding: const EdgeInsets.only(right: 10.0),
-          child: SvgPicture.asset("assets/images/notification.svg"),
-        )
-      ]),
-      floatingActionButton: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FloatingActionButton.small(
-            onPressed: (){
-              Get.to(const ReportLostFoundScreen());
-            },
-            backgroundColor: CustomColors.backgroundColor,
-            shape: RoundedRectangleBorder(
-                side: const BorderSide(
-                    color: CustomColors.primaryColor
-                ),
-                borderRadius: BorderRadius.circular(50.0)
-            ),
-            child: Icon(
-              Icons.add,
-              size: 25.sp,
-              color: CustomColors.primaryColor,
-            ),
-          ),
-          Text("Report Lost\nItem", style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),textAlign: TextAlign.center,)
-        ],
+      appBar: const BaseAppBar(title: "Lost & Found"),
+      floatingActionButton: BaseFloatingActionButton(
+        onTap: () {Get.to(const ReportLostFoundScreen());},
+        title: 'Report Lost\nItem',
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -96,8 +76,8 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
                           children: [
                             Row(
                               children: [
-                                addText("Title: ", 15.sp, CustomColors.textBlackColor, FontWeight.w700),
-                                addText("Found a book in the computer lab.", 15.sp, CustomColors.primaryColor, FontWeight.w700),
+                                addText("Title: ", 16.sp, CustomColors.textBlackColor, FontWeight.w700),
+                                addText("Found a book in the computer lab.", 16.sp, CustomColors.primaryColor, FontWeight.w700),
                               ],
                             ),
                             const Divider(),
@@ -118,15 +98,13 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
                               height: 1.5.h,
                             ),
                             Center(
-                              child: CustomButton(
-                                text: "Request for Return",
+                              child: BaseButton(
+                                title: "Request for Return",
                                 onPressed: (){
                                   showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation){
                                     return ConfirmationDialog(msg: "Return request is successfully sent", isShowBtn: true,btnText: "OK",);
                                   });
                                 },
-                                borderRadius: 50.0,
-                                btnHeight: 30.0,
                                 btnWidth: 40.w,
                                 textSize: 15.sp,
                               ),
