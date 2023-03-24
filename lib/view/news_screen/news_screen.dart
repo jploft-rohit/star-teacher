@@ -103,7 +103,7 @@ class _NewsScreenState extends State<NewsScreen> {
                               Center(
                                 child: BaseButton(title: "AGREED", onPressed: (){
 
-                                },textSize: 17.sp,btnWidth: 35.w,),
+                                },textSize: 17.sp),
                               ),
                             if(index == 1)
                             Center(

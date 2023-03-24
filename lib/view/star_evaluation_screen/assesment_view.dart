@@ -6,6 +6,7 @@ import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/star_evaluation_screen/mark_selected_popup.dart';
@@ -128,8 +129,9 @@ class _AssesmentViewState extends State<AssesmentView> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            BaseButton(title: translate(context).save, onPressed: (){}, btnWidth: 30.w),
-            BaseButton(title: translate(context).submit_for_review.toUpperCase(), onPressed: (){}),
+            Expanded(flex: 2,child: BaseButton(btnType: mediumButton,title: translate(context).save, onPressed: (){}, btnWidth: 30.w)),
+            SizedBox(width: 3.5.w),
+            Expanded(flex: 4,child: BaseButton(btnType: mediumButton,title: translate(context).submit_for_review.toUpperCase(), onPressed: (){})),
           ],
         ),
         SizedBox(

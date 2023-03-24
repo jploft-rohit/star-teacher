@@ -274,7 +274,7 @@ class _ChooseLangaugeScreenState extends State<ChooseLangaugeScreen> {
                     SizedBox(height: MediaQuery.of(context).size.height*0.07,),
                     Align(
                       alignment: Alignment.topCenter,
-                      child: BaseButton(title: translate(context).continue_btn_txt, onPressed: (){
+                      child: BaseButton(btnType: "large",title: translate(context).continue_btn_txt, onPressed: (){
                         Get.offAllNamed(loginScreenRoute);
                       })
                     ),

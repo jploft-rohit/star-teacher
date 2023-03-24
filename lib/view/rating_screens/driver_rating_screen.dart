@@ -11,6 +11,7 @@ import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/rating_screens/rating_screen_ctrl.dart';
@@ -158,7 +159,7 @@ class _DriverRatingScreenState extends State<DriverRatingScreen> {
             SizedBox(
               height: 2.h,
             ),
-            BaseButton(title: translate(context).send.toUpperCase(), onPressed: (){}, btnWidth: 28.w),
+            BaseButton(btnType: mediumButton, borderRadius: 100,title: translate(context).send.toUpperCase(), onPressed: (){}),
           ],
         ),
       ),

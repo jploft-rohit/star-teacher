@@ -428,7 +428,7 @@ void showScanQrDialogue(BuildContext context, bool isShowButton) {
                         fit: BoxFit.scaleDown,
                       ),
                       SizedBox(height:1.h),
-                      if(isShowButton) BaseButton(title: "PRINT QR", onPressed: (){})
+                      if(isShowButton) BaseButton(btnType: dialogButton,title: "PRINT QR", onPressed: (){})
                     ],
                   ),
                 ),

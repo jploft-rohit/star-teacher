@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 
 class ConfirmationDialog extends StatefulWidget {
@@ -56,7 +57,7 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
                 ),
                 if(widget.isShowBtn)
                 Center(
-                  child: BaseButton(title: widget.btnText ?? "Yes", onPressed: (){
+                  child: BaseButton(btnType: dialogButton,title: widget.btnText ?? "Yes", onPressed: (){
                     Get.back(result: true);
                   }, btnWidth: 30.w),
                 ),

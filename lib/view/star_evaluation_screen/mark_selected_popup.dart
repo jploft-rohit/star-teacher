@@ -8,6 +8,8 @@ import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 
+import '../../Utility/sizes.dart';
+
 class MarkSelectedPopup extends StatefulWidget {
   bool isShowCount;
   MarkSelectedPopup({Key? key, required this.isShowCount}) : super(key: key);
@@ -128,9 +130,9 @@ class _MarkSelectedPopupState extends State<MarkSelectedPopup> {
                   height: 2.h,
                 ),
                 Center(
-                  child: BaseButton(title: translate(context).save, onPressed: (){
+                  child: BaseButton(btnType: dialogButton,title: translate(context).save, onPressed: (){
                     Get.back();
-                  }, btnWidth: 30.w,isActive: false),
+                  }, btnWidth: 30.w),
                 ),
               ],
             ),

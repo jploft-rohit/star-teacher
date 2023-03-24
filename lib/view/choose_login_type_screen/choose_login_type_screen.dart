@@ -53,7 +53,7 @@ class _ChooseLoginTypeScreenState extends State<ChooseLoginTypeScreen> {
                 child: Column(
                   children: [
                     Expanded(child: buildGrids()),
-                    BaseButton(title: translate(context).next_btn_txt, onPressed: () {Get.offAllNamed(dashboardScreenRoute);},btnWidth: Get.width * 30 /100,),
+                    BaseButton(title: translate(context).next_btn_txt, onPressed: () {Get.offAllNamed(dashboardScreenRoute);}),
                     const SizedBox(height: 20,),
                   ],
                 ),

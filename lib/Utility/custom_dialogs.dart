@@ -5,6 +5,7 @@ import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/otp_txt_field.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 
@@ -66,7 +67,7 @@ class CustomDialogs {
                   ),
                   SizedBox(height: 10.h,),
                   Center(
-                    child: BaseButton(title: translate(context).submit_btn_txt, onPressed: (){
+                    child: BaseButton(btnType: dialogButton,title: translate(context).submit_btn_txt, onPressed: (){
                       Navigator.pop(context);
                     }),
                   ),
@@ -141,9 +142,9 @@ class CustomDialogs {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                    BaseButton(title: leftButtonTitle??"Cancel", onPressed: onLeftButtonPressed ?? (){Get.back();},btnWidth: btnWidth,),
+                    BaseButton(btnType: dialogButton,title: leftButtonTitle??"Cancel", onPressed: onLeftButtonPressed ?? (){Get.back();}),
                     const SizedBox(width: 20),
-                    BaseButton(title: rightButtonTitle??"Proceed", onPressed: onRightButtonPressed ?? (){Get.back();},btnWidth: btnWidth,),
+                    BaseButton(btnType: dialogButton,title: rightButtonTitle??"Proceed", onPressed: onRightButtonPressed ?? (){Get.back();}),
                   ],),
                   const SizedBox(height: 20),
                 ],

@@ -31,4 +31,13 @@ double chattingMessagesTs = 15.sp; // Chatting Text Size - w400
 double chattingDateTimeTs = 14.sp; // Chatting Date Text Size - w400
 /// Base Button Sizes
 double baseButtonRadius = 10;
+/// Base Button Types
+const String smallButton = "small";
+const String mediumButton = "medium";
+const String mediumLargeButton = "mediumlarge";
+const String largeButton = "large";
+const String toggleButton = "toggle";
+const String toggleLargeButton = "togglelarge";
+const String buttonIcon = "iconButton";
+const String dialogButton = "dialogButton";
 

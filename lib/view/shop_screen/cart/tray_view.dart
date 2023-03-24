@@ -242,7 +242,7 @@ class _TrayViewState extends State<TrayView> {
                                   SizedBox(width: 3.w),
                                   Expanded(
                                     child: Center(
-                                      child: BaseButton(title: translate(context).proceed, onPressed: (){
+                                      child: BaseButton(btnType: dialogButton,title: translate(context).proceed, onPressed: (){
                                         Navigator.pop(context);
                                       }),
                                     ),

@@ -43,7 +43,7 @@ class _BusAtDoorPopupState extends State<BusAtDoorPopup> {
                 SizedBox(
                   height: 2.h,
                 ),
-                BaseButton(title: translate(context).acknowledge, onPressed: (){Get.back();})
+                BaseButton(borderRadius: 100,title: translate(context).acknowledge, onPressed: (){Get.back();})
               ],
             ),
           ),

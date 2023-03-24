@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
-import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/attendance_screen/attendance_screen.dart';
 import 'package:staff_app/view/cards_and_tags_screen/cards_and_tags_screen.dart';
@@ -88,30 +85,10 @@ class _AccountViewState extends State<AccountView> {
                 Get.to(const LeavePermissionScreen());
               }
             },
-            child: buildTile(list[index]),
+            child: Padding(padding: EdgeInsets.only(bottom: 6),
+            child: BaseButton(title: list[index], onPressed: null,btnType: "iconButton")),
           );
         },
-      ),
-    );
-  }
-  Widget buildTile(String title) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 8.0),
-      padding: EdgeInsets.all(14.sp),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.0),
-          border: Border.all(color: CustomColors.primaryColor)
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(title, style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: largeButtonTs),),
-          Icon(
-            Icons.arrow_forward,
-            color: CustomColors.primaryColor,
-            size: 20.sp,
-          )
-        ],
       ),
     );
   }

@@ -5,6 +5,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/star_reward_screen/reward_image_screen.dart';
@@ -72,19 +73,19 @@ class _AddNewRewardPopupState extends State<AddNewRewardPopup> {
                     Row(
                       children: [
                         Expanded(
-                          child: BaseButton(title: translate(context).yes, onPressed: (){
+                          child: BaseButton(btnType: dialogButton,title: translate(context).yes, onPressed: (){
                             Get.to(RewardView());
                           }, isActive: false),
                         ),
                         SizedBox(width: 2.w),
                         Expanded(
-                          child: BaseButton(title: translate(context).no, onPressed: (){}),
+                          child: BaseButton(btnType: dialogButton,title: translate(context).no, onPressed: (){}),
                         ),
                         SizedBox(width: 2.w),
                         Expanded(
-                          child: BaseButton(title: translate(context).reward_photo, onPressed: (){
+                          child: BaseButton(btnType: dialogButton,title: translate(context).reward_photo, onPressed: (){
                             Get.to(RewardImageScreen());
-                          },isActive: false, textSize: 15.sp),
+                          },isActive: false,removeHorizontalPadding: true),
                         ),
                       ],
                     ),

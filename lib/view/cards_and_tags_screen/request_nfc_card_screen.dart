@@ -77,7 +77,6 @@ class _RequestNFCCardScreenState extends State<RequestNFCCardScreen> {
                             CustomColors.primaryColor,
                             FontWeight.w400),
                         BaseButton(
-                            btnWidth: 60,
                             title: "+Add",
                             onPressed: () {})
                       ],

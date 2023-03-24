@@ -97,7 +97,7 @@ class _AccountActivationScreenState extends State<AccountActivationScreen> {
                     children: [
                       Text(translate(context).account_activation_popup_txt,style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: CustomColors.textBlackColor, height: 1.5),textAlign: TextAlign.center,),
                       const SizedBox(height: 20,),
-                      BaseButton(btnWidth: 30.w, title: translate(context).ok, onPressed: () {Get.toNamed(ruleScreenRoute);},textSize: mediumButtonTs,)
+                      BaseButton(btnType: dialogButton,title: translate(context).ok, onPressed: () {Get.toNamed(ruleScreenRoute);},textSize: mediumButtonTs,)
                     ],
                   ),
                 ),

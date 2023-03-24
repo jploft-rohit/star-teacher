@@ -7,6 +7,7 @@ import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 
@@ -108,9 +109,9 @@ class _ReasonPopupState extends State<ReasonPopup> {
                 ),
                 Divider(),
                 Center(
-                  child: BaseButton(title: translate(context).submit_btn_txt, onPressed: (){
+                  child: BaseButton(btnType: dialogButton,title: translate(context).submit_btn_txt, onPressed: (){
                     Get.back();
-                  }, btnWidth: 30.w),
+                  }),
                 ),
               ],
             ),

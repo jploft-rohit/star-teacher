@@ -86,7 +86,6 @@ class _CanteenShopAllViewState extends State<CanteenShopAllView> {
                             CustomColors.primaryColor,
                             FontWeight.w400),
                         BaseButton(
-                            btnWidth: 60,
                             title: "+Add",
                             onPressed: () {})
                       ],

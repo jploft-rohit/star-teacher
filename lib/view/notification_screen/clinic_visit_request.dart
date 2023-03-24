@@ -146,20 +146,20 @@ class _ClinicVisitRequestState extends State<ClinicVisitRequest> {
                   children: [
                     Expanded(
                       child: Center(
-                        child: BaseButton(title: translate(context).reschedule_caps, onPressed: (){
+                        child: BaseButton(borderRadius: 100,title: translate(context).reschedule_caps, onPressed: (){
                           Get.back();
                           showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation) {
                             return const RescheduleVisitRequestPopup();
                           },);
-                        }, btnWidth: 45.w,),
+                        }),
                       ),
                     ),
                     SizedBox(width: 4.w),
                     Expanded(
                       child: Center(
-                        child: BaseButton(title: translate(context).acknowledge, onPressed: (){
+                        child: BaseButton(borderRadius: 100,title: translate(context).acknowledge, onPressed: (){
                           Get.back();
-                        }, btnWidth: 45.w),
+                        }),
                       ),
                     ),
                   ],

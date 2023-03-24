@@ -6,6 +6,7 @@ import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 
 class StarCalledPopup extends StatefulWidget {
@@ -120,7 +121,7 @@ class _StarCalledPopupState extends State<StarCalledPopup> {
                   height: 2.h,
                 ),
                 Center(
-                  child: BaseButton(title: "OK", onPressed: (){
+                  child: BaseButton(btnType: dialogButton,title: "OK", onPressed: (){
                       Get.back();
                   }, btnWidth: 30.w),
                 ),

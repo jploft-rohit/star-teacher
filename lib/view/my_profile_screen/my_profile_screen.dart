@@ -141,15 +141,15 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
           SizedBox(height: 2.h,),
           Row(
             children: [
-              Flexible(flex: 1,child: BaseButton(title: translate(context).print_QR,  textSize: mediumButtonTs,onPressed: (){
+              Expanded(flex: 3,child: BaseButton(title: translate(context).print_QR,  textSize: mediumButtonTs,onPressed: (){
                 Get.to(const PrintQrScreen());
-              })),
+              },borderRadius: 100,verticalPadding: 1.h,)),
               SizedBox(
-                width: 2.w,
+                width: 3.w,
               ),
-              Flexible(flex: 1,child: BaseButton(title: translate(context).programme_NFC, textSize: mediumButtonTs, onPressed: (){
+              Expanded(flex: 4,child: BaseButton(title: translate(context).programme_NFC, textSize: mediumButtonTs, onPressed: (){
                 showNFCDialog(context,"");
-              })),
+              },borderRadius: 100,verticalPadding: 1.h)),
             ],
           ),
           SizedBox(height: 2.h,),

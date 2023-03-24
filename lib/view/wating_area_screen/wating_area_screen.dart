@@ -419,6 +419,7 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                                       height: .5.h,
                                     ),
                                     BaseButton(
+                                      btnType: dialogButton,
                                       title: "CHANGE STATUS",
                                       onPressed: (){},
                                       btnWidth: 105.0,

@@ -200,7 +200,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                         SvgPicture.asset("assets/images/chat_img.svg"),
                       ],
                     ),
-                    BaseButton(title: "Reminder", onPressed: (){}, btnWidth: 22.w,textSize: smallButtonTs,verticalPadding: 1.h),
+                    BaseButton(title: "Reminder", onPressed: (){}, textSize: smallButtonTs,verticalPadding: 1.h),
                   ],
                 ),
                 const Divider(),
@@ -314,7 +314,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                         SvgPicture.asset("assets/images/chat_img.svg"),
                       ],
                     ),
-                    BaseButton(title: "Start", onPressed: (){}, btnWidth: 22.w,textSize: smallButtonTs,verticalPadding: 1.h),
+                    BaseButton(title: "Start", onPressed: (){}, textSize: smallButtonTs,verticalPadding: 1.h),
                   ],
                 ),
                 const Divider(),
@@ -625,7 +625,6 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                 if(!isTap)
                 BaseButton(
                     title: "ADD RATING",
-                    btnWidth: 22.w,
                     verticalPadding: 1.h,
                     textSize: smallButtonTs,
                     onPressed: () {

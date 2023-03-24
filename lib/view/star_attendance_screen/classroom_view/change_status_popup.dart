@@ -210,7 +210,7 @@ class _ChangeStatusPopupState extends State<ChangeStatusPopup> {
                   height: 2.h,
                 ),
                 Center(
-                  child: BaseButton(title: translate(Get.context!).submit_btn_txt, onPressed: (){
+                  child: BaseButton(btnType: dialogButton,title: translate(Get.context!).submit_btn_txt, onPressed: (){
                     Get.back();
                   }, btnWidth: 35.w),
                 ),

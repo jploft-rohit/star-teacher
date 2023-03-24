@@ -359,7 +359,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                     ),
                     Container(height: 20.0,width: 1, color: CustomColors.borderColor,),
 
-                    BaseButton(title: "Reuse", onPressed: (){}, btnWidth: 20.w,textSize: 14.sp,),
+                    BaseButton(title: "Reuse", onPressed: (){}, textSize: 14.sp,),
                   ],
                 ),
                 const Divider(),
@@ -672,7 +672,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                     ),
                     Container(height: 20.0,width: 1, color: CustomColors.borderColor,),
 
-                    BaseButton(title: "Reuse", onPressed: (){}, btnWidth: 20.w,textSize: 14.sp,),
+                    BaseButton(title: "Reuse", onPressed: (){}, textSize: 14.sp,),
                   ],
                 ),
                 const Divider(),
@@ -987,7 +987,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
 
                     BaseButton(title: "Reuse", onPressed: (){
                       Get.to(const NoteBookScreen());
-                    },btnWidth: 20.w,textSize: 14.sp,),
+                    }, textSize: 14.sp,),
                   ],
                 ),
                 const Divider(),

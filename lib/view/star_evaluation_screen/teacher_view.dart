@@ -193,15 +193,17 @@ class _TeacherViewState extends State<TeacherView> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            BaseButton(title: translate(context).save.toUpperCase(), onPressed: (){}, btnWidth: 30.w),
-            BaseButton(title: translate(context).submit_for_review.toUpperCase(), onPressed: (){
-              showGeneralDialog(
-                context: context,
-                pageBuilder: (context, animation, secondaryAnimation) {
-                  return MarkSelectedPopup(isShowCount: false,);
-                },
-              );
-            }),
+            Expanded(flex: 2,child: BaseButton(title: translate(context).save.toUpperCase(), onPressed: (){}, btnWidth: 30.w)),
+            SizedBox(width: 3.5.w),
+            Expanded(flex: 4,child: BaseButton(title: translate(context).submit_for_review.toUpperCase(), onPressed: (){
+                showGeneralDialog(
+                  context: context,
+                  pageBuilder: (context, animation, secondaryAnimation) {
+                    return MarkSelectedPopup(isShowCount: false,);
+                  },
+                );
+              }),
+            ),
           ],
         ),
         SizedBox(

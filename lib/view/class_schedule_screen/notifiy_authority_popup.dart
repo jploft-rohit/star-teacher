@@ -7,6 +7,7 @@ import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/class_schedule_screen/reschedule_class_popup.dart';
@@ -127,7 +128,7 @@ class _NotifyAuthorityPopupState extends State<NotifyAuthorityPopup> {
                 ),
 
                 Center(
-                  child: BaseButton(title: translate(context).submit_btn_txt, onPressed: (){
+                  child: BaseButton(borderRadius: 100,btnType: mediumButton,title: translate(context).submit_btn_txt, onPressed: (){
                     print((list.length-3).toString());
                       Get.back();
                       if (list.last['isSelected']) {
@@ -135,7 +136,7 @@ class _NotifyAuthorityPopupState extends State<NotifyAuthorityPopup> {
                           return const RescheduleClassPopup();
                         },);
                       }
-                  }, btnWidth: 30.w),
+                  }),
                 ),
               ],
             ),
