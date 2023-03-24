@@ -59,7 +59,7 @@ class _MeetingCancelReasonPopupState extends State<MeetingCancelReasonPopup> {
                 Center(
                   child: BaseButton(title: "SUBMIT", onPressed: (){
                     Get.back();
-                  }, btnWidth: 25.w),
+                  }),
                 ),
               ],
             ),

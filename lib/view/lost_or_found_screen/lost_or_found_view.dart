@@ -105,7 +105,6 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
                                     return ConfirmationDialog(msg: "Return request is successfully sent", isShowBtn: true,btnText: "OK",);
                                   });
                                 },
-                                btnWidth: 40.w,
                                 textSize: 15.sp,
                               ),
                             ),

@@ -423,7 +423,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                     height: 2.h,
                   ),
                 Center(
-                  child: BaseButton(title: translate(context).notify, onPressed: (){
+                  child: BaseButton(btnType: dialogButton,title: translate(context).notify, onPressed: (){
                     Get.back();
                     Get.to(const DeactivationDetailScreen());
                   }, btnWidth: 30.w),

@@ -120,7 +120,7 @@ class _HomeWeekScheduleViewState extends State<HomeWeekScheduleView> {
                         ],
                       ),
                       const SizedBox(height: 4),
-                      BaseButton(title: "Completed", onPressed: (){},textSize: 8,btnWidth: 50,)
+                      BaseButton(title: "Completed", onPressed: (){},textSize: 8,)
                     ],
                   ),
                 ),

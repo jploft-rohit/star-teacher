@@ -150,7 +150,7 @@ class _RescheduleVisitRequestPopupState extends State<RescheduleVisitRequestPopu
                 Center(
                   child: BaseButton(title: "SUBMIT", onPressed: (){
                       Get.back();
-                  }, btnWidth: 30.w),
+                  }),
                 ),
               ],
             ),

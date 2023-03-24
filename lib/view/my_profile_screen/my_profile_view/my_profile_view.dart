@@ -9,6 +9,7 @@ import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_dialogs.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/map_screen.dart';
@@ -115,9 +116,9 @@ class _MyProfileViewState extends State<MyProfileView> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 25.0),
-                                child: BaseButton(title: translate(context).change,textSize: 11, onPressed: () {
+                                child: BaseButton(btnType: smallButton,borderRadius: 100,title: translate(context).change,textSize: 11, onPressed: () {
                                   CustomDialogs().showOtpDialog();
-                                },btnWidth: 70,),
+                                }),
                               )
                             ],
                           ),

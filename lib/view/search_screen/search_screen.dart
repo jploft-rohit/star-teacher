@@ -8,6 +8,7 @@ import 'package:staff_app/Utility/custom_app_bar.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/assignments_screen/assignment_screen.dart';
@@ -159,7 +160,7 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget buildTile(String title) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 7),
-      child: BaseButton(title: title, onPressed: (){},showNextIcon: true,),
+      child: BaseButton(btnType: buttonIcon,title: title, onPressed: (){},showNextIcon: true,),
     );
   }
 }

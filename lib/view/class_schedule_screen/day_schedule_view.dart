@@ -4,6 +4,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/class_schedule_screen/notifiy_authority_popup.dart';
@@ -156,11 +157,11 @@ class _DayScheduleViewState extends State<DayScheduleView> {
                             height: 1.h,
                           ),
                           Align(alignment: AlignmentDirectional.centerEnd,
-                                child: BaseButton(title: translate(context).notify_admin, onPressed: (){
+                                child: BaseButton(verticalPadding: 1.h,removeHorizontalPadding: true,btnType: mediumLargeButton,title: translate(context).notify_admin, onPressed: (){
                                   showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation) {
                                     return const NotifyAuthorityPopup();
-                                  },);
-                                },textSize: 14.sp,btnWidth: 30.w,)),
+                                  });
+                                },textSize: 14.sp)),
                         ],
                       ),
                     ),

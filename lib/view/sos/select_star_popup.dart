@@ -7,6 +7,7 @@ import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 
@@ -226,7 +227,7 @@ class _SelectStarPopupState extends State<SelectStarPopup> {
                   height: 2.h,
                 ),
                 Center(
-                  child: BaseButton(title: "CONTINUE", onPressed: (){
+                  child: BaseButton(btnType: dialogButton,title: "CONTINUE", onPressed: (){
                     Get.back();
                   }, btnWidth: 35.w),
                 ),

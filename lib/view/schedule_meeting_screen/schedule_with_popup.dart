@@ -236,7 +236,7 @@ class _ScheduleWithPopupState extends State<ScheduleWithPopup> {
                 Center(
                   child: BaseButton(title: "SAVE", onPressed: (){
                     Get.back();
-                  }, btnWidth: 25.w),
+                  }),
                 ),
               ],
             ),

@@ -206,7 +206,7 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                 Center(
                   child: BaseButton(title: "SAVE", onPressed: (){
                     Get.back();
-                  }, btnWidth: 25.w),
+                  }),
                 ),
               ],
             ),

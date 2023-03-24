@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 
@@ -58,9 +59,9 @@ class _StartQuizPopupState extends State<StartQuizPopup> {
                 SizedBox(
                   height: 2.h,
                 ),
-                BaseButton(title: translate(context).start.toUpperCase(), onPressed: (){
+                BaseButton(btnType: dialogButton,title: translate(context).start.toUpperCase(), onPressed: (){
                   Get.back();
-                }, btnWidth: 35.w),
+                }),
               ],
             ),
           ),

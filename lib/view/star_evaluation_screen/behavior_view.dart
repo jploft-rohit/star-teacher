@@ -6,6 +6,7 @@ import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/star_evaluation_screen/mark_selected_popup.dart';
@@ -219,15 +220,15 @@ class _BehaviourViewState extends State<BehaviourView> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            BaseButton(title: translate(context).save, onPressed: (){}, btnWidth: 30.w),
-            BaseButton(title: translate(context).next_btn_txt, onPressed: (){
+            BaseButton(btnType: mediumLargeButton,title: translate(context).save, onPressed: (){}, btnWidth: 30.w),
+            BaseButton(btnType: mediumLargeButton,title: translate(context).next_btn_txt, onPressed: (){
               showGeneralDialog(
                 context: context,
                 pageBuilder: (context, animation, secondaryAnimation) {
                   return MarkSelectedPopup(isShowCount: true,);
                 },
               );
-            }, btnWidth: 30.w),
+            }),
           ],
         ),
         SizedBox(

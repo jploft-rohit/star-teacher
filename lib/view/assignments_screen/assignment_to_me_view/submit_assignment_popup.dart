@@ -5,6 +5,7 @@ import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/custom_button.dart';
 import 'package:staff_app/Utility/custom_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 
 class SubmitAssignmentPopup extends StatefulWidget {
@@ -56,9 +57,9 @@ class _SubmitAssignmentPopupState extends State<SubmitAssignmentPopup> {
                   height: 2.h,
                 ),
                 Center(
-                  child: BaseButton(title: "YES", onPressed: (){
+                  child: BaseButton(btnType: dialogButton,title: "YES", onPressed: (){
                     Get.back();
-                  }, btnWidth: 25.w),
+                  }),
                 ),
               ],
             ),

@@ -58,7 +58,7 @@ class _AddCommentPopupState extends State<AddCommentPopup> {
                 Center(
                   child: BaseButton(title: "SUBMIT", onPressed: (){
                     Get.back();
-                  }, btnWidth: 25.w),
+                  }),
                 ),
               ],
             ),

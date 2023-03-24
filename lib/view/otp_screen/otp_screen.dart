@@ -91,7 +91,7 @@ class _OTPScreenState extends State<OTPScreen> {
                       ),
                       SizedBox(height: 10.h,),
                       Center(
-                        child: BaseButton(title: translate(context).submit_btn_txt, onPressed: (){
+                        child: BaseButton(btnType: "large",title: translate(context).submit_btn_txt, onPressed: (){
                           Get.offAllNamed(chooseLoginTypeScreenRoute);
                         }),
                       ),

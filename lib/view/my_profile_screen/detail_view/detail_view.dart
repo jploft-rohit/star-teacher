@@ -590,7 +590,7 @@ class _DetailViewState extends State<DetailView> {
                     SizedBox(height: 2.h ,),
                     Align(
                       alignment: Alignment.center,
-                      child: BaseButton(title: translate(context).delete.toUpperCase(), onPressed: () {Get.back();},),
+                      child: BaseButton(borderRadius: 100,btnType: mediumLargeButton,title: translate(context).delete.toUpperCase(), onPressed: () {Get.back();},),
                     )
 
                   ],

@@ -129,7 +129,6 @@ class _WalletPayPopupState extends State<WalletPayPopup> {
                 Center(
                   child: BaseButton(
                     title: "PAY",
-                    btnWidth: 25.w,
                     onPressed: (){
                       Get.back();
                       showGeneralDialog(
