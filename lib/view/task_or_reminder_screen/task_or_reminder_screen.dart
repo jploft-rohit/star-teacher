@@ -5,8 +5,8 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/base_floating_action_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
+
+
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -15,7 +15,7 @@ import 'package:staff_app/view/salary_slip_screen/salary_slip_poup.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/confirmation_popup.dart';
 import 'package:staff_app/view/task_or_reminder_screen/add_task_or_reminder_screen.dart';
 
-import '../../Utility/custom_colors.dart';
+import '../../Utility/base_colors.dart';
 import '../../Utility/utility.dart';
 
 class TaskOrReminderScreen extends StatefulWidget {
@@ -62,9 +62,9 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
       width: 100.w,
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
       decoration: BoxDecoration(
-        color: CustomColors.white,
+        color: BaseColors.white,
         borderRadius: BorderRadius.circular(13),
-        border: Border.all(color: CustomColors.backgroundColor),
+        border: Border.all(color: BaseColors.backgroundColor),
         boxShadow: [
           BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 3)
         ],
@@ -80,7 +80,7 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
               SizedBox(
                 width: 2.w,
               ),
-              addText("Submit your daily log", 16.sp, CustomColors.textBlackColor, FontWeight.w700)
+              addText("Submit your daily log", 16.sp, BaseColors.textBlackColor, FontWeight.w700)
             ],
           ),
           const Divider(),
@@ -90,7 +90,7 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
               SvgPicture.asset("assets/images/time_icon.svg"),
               SizedBox(width: 1.h),
               addText('09:13pm', 15.sp,
-                  CustomColors.textBlackColor, FontWeight.w400),
+                  BaseColors.textBlackColor, FontWeight.w400),
             ],
           ),
           const Divider(),
@@ -103,9 +103,9 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
               RichText(
                 text: TextSpan(
                   text: '${translate(context).remind_star} : ',
-                  style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),
+                  style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),
                   children: <TextSpan>[
-                    TextSpan(text: "Daily", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp, height: 1.2)),
+                    TextSpan(text: "Daily", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp, height: 1.2)),
                   ],
                 ),
               ),
@@ -120,9 +120,9 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
               RichText(
                 text: TextSpan(
                   text: '${translate(context).file} : ',
-                  style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),
+                  style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),
                   children: <TextSpan>[
-                    TextSpan(text: "Str_task.file", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp, height: 1.2)),
+                    TextSpan(text: "Str_task.file", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp, height: 1.2)),
                   ],
                 ),
               ),
@@ -138,7 +138,7 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
                     return OpenPdfPopup(title: "");
                   },
                 );
-              },child: const Icon(Icons.remove_red_eye_outlined,color: CustomColors.primaryColor,)),
+              },child: const Icon(Icons.remove_red_eye_outlined,color: BaseColors.primaryColor,)),
             ],
           ),
           const Divider(),

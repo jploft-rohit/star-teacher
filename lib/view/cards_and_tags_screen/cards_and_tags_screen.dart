@@ -4,9 +4,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
-import 'package:staff_app/Utility/custom_switch.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/Utility/base_switch.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -47,7 +47,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(15.0),
                   border: Border.all(
-                    color: CustomColors.borderColor
+                    color: BaseColors.borderColor
                   )
                 ),
                 child: ListTile(
@@ -58,7 +58,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
                     padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
                     decoration: BoxDecoration(
                       border: Border.all(
-                          color: CustomColors.primaryColor
+                          color: BaseColors.primaryColor
                       ),
                       borderRadius: BorderRadius.circular(15.0),
                     ),
@@ -95,7 +95,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
               SizedBox(
                 height: 3.h,
               ),
-              Text("${translate(context).select_options} : ", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp),),
+              Text("${translate(context).select_options} : ", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),),
               SizedBox(
                 height: 1.h,
               ),
@@ -112,7 +112,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
               SizedBox(
                 height: 1.h,
               ),
-              Text("${translate(context).linked_card_tag} :", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp),),
+              Text("${translate(context).linked_card_tag} :", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),),
               SizedBox(
                 height: 1.h,
               ),
@@ -148,7 +148,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
               SizedBox(
                 height: 1.h,
               ),
-              Text("${translate(context).requests} : ", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp),),
+              Text("${translate(context).requests} : ", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),),
               SizedBox(
                 height: 1.h,
               ),
@@ -166,7 +166,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
                         borderRadius: BorderRadius.circular(10.0),
                         boxShadow: const [
                           BoxShadow(
-                              color: CustomColors.darkShadowColor,
+                              color: BaseColors.darkShadowColor,
                               spreadRadius: 1.0,
                               blurRadius: 2.0,
                               offset: Offset(0, 3)
@@ -186,7 +186,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
                             ],
                           ),
                           const Divider(
-                            color: CustomColors.borderColor,
+                            color: BaseColors.borderColor,
                             thickness: 1.0,
                           ),
                           Row(
@@ -195,12 +195,12 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
                               SizedBox(
                                 width: 2.w,
                               ),
-                              Text("${translate(context).reason} : ", style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
-                              Flexible(child: Text("Lorem Ipsum is simply dummy text", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),maxLines: 1, overflow: TextOverflow.ellipsis,)),
+                              Text("${translate(context).reason} : ", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
+                              Flexible(child: Text("Lorem Ipsum is simply dummy text", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),maxLines: 1, overflow: TextOverflow.ellipsis,)),
                             ],
                           ),
                           const Divider(
-                            color: CustomColors.borderColor,
+                            color: BaseColors.borderColor,
                             thickness: 1.0,
                           ),
                           Row(
@@ -220,7 +220,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
                               Container(
                                 height: 20.0,
                                 width: 1.0,
-                                color: CustomColors.borderColor,
+                                color: BaseColors.borderColor,
                               ),
                               SizedBox(
                                 width: 10.w,
@@ -237,13 +237,13 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
                             ],
                           ),
                           const Divider(
-                            color: CustomColors.borderColor,
+                            color: BaseColors.borderColor,
                             thickness: 1.0,
                           ),
                           StepProgressView(
                             width: MediaQuery.of(context).size.width,
                             curStep: 1,
-                            color: CustomColors.primaryColor,
+                            color: BaseColors.primaryColor,
                             titles: pendingMeetingdates,
                             statuses: heading,
                           ),
@@ -266,15 +266,15 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
       padding: EdgeInsets.all(14.sp),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),
-          border: Border.all(color: CustomColors.primaryColor)
+          border: Border.all(color: BaseColors.primaryColor)
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(title, style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: 17.sp),),
+          Text(title, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 17.sp),),
           Icon(
             Icons.arrow_forward,
-            color: CustomColors.primaryColor,
+            color: BaseColors.primaryColor,
             size: 20.sp,
           )
         ],
@@ -287,7 +287,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
       padding: EdgeInsets.all(14.sp),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
-          color: CustomColors.white,
+          color: BaseColors.white,
           boxShadow: [
             getBoxShadow()
           ]
@@ -308,12 +308,12 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
               SizedBox(
                 width: 1.w,
               ),
-              CustomSwitch(
+              BaseSwitch(
                 key: GlobalKey(),
                 value: isEnable,
-                enableColor: CustomColors.backgroundColor,
-                enableSwitchColor: CustomColors.primaryColor,
-                disableColor: CustomColors.textLightGreyColor,
+                enableColor: BaseColors.backgroundColor,
+                enableSwitchColor: BaseColors.primaryColor,
+                disableColor: BaseColors.textLightGreyColor,
                 width: 35,
                 height: 20,
                 switchHeight: 20,

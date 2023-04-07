@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_floating_action_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -50,7 +50,7 @@ class _RewardsScreenState extends State<RewardsScreen> {
                   width: 100.w,
                   decoration: BoxDecoration(
                     boxShadow: kElevationToShadow[1],
-                    color: CustomColors.white,
+                    color: BaseColors.white,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Row(
@@ -67,7 +67,7 @@ class _RewardsScreenState extends State<RewardsScreen> {
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(15),
                                 border: Border.all(
-                                    color: CustomColors.primaryColor)),
+                                    color: BaseColors.primaryColor)),
                             child: SvgPicture.asset(
                               girlSvg,
                             ),
@@ -78,9 +78,9 @@ class _RewardsScreenState extends State<RewardsScreen> {
                       Expanded(
                         child: Row(
                           children: [
-                            addText("Sania", 16.sp, CustomColors.textBlackColor, FontWeight.w700),
+                            addText("Sania", 16.sp, BaseColors.textBlackColor, FontWeight.w700),
                             SizedBox(width: 1.w),
-                            addText("#632541", 16.sp, CustomColors.primaryColor, FontWeight.w700),
+                            addText("#632541", 16.sp, BaseColors.primaryColor, FontWeight.w700),
                           ],
                         ),
                       ),
@@ -91,30 +91,30 @@ class _RewardsScreenState extends State<RewardsScreen> {
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: CustomColors.backgroundColor,
+                        color: BaseColors.backgroundColor,
                         boxShadow: kElevationToShadow[3]),
                     child: SvgPicture.asset(cupIcon)),
                 Align(
                   alignment: Alignment.topRight,
                   child: Container(
                     decoration: BoxDecoration(
-                        color: CustomColors.primaryColor,
+                        color: BaseColors.primaryColor,
                         borderRadius: BorderRadius.circular(7)),
                     padding: const EdgeInsets.all(6),
                     margin: EdgeInsets.only(bottom: 8.5.h),
                     child: addText('41', 14.sp,
-                        CustomColors.white, FontWeight.w500),
+                        BaseColors.white, FontWeight.w500),
                   ),
                 )
               ],
             ),
             addText('${translate(context).select_a_reward}:', 17.sp,
-                CustomColors.primaryColor, FontWeight.w700),
+                BaseColors.primaryColor, FontWeight.w700),
             SizedBox(height: 0.5.h),
             addText(
                 translate(context).reward_star_by_redeeming_real_life_rewards,
                 15.sp,
-                CustomColors.textBlackColor,
+                BaseColors.textBlackColor,
                 FontWeight.w400),
             Expanded(
               child: SingleChildScrollView(
@@ -150,7 +150,7 @@ class _RewardsScreenState extends State<RewardsScreen> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(40),
                                 boxShadow: kElevationToShadow[4],
-                                color: CustomColors.backgroundColor,
+                                color: BaseColors.backgroundColor,
                               ),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -163,7 +163,7 @@ class _RewardsScreenState extends State<RewardsScreen> {
                                   addText(
                                       controller.rewardsList[index]['title']!,
                                       15.sp,
-                                      CustomColors.primaryColor,
+                                      BaseColors.primaryColor,
                                       FontWeight.w700)
                                 ],
                               ),
@@ -175,12 +175,12 @@ class _RewardsScreenState extends State<RewardsScreen> {
                                   Stack(
                                     alignment: Alignment.center,
                                     children: [
-                                      Icon(CupertinoIcons.star_fill, color: CustomColors.primaryColor,size: 26.sp,),
+                                      Icon(CupertinoIcons.star_fill, color: BaseColors.primaryColor,size: 26.sp,),
                                       addText(
                                           controller.rewardsList[index]
                                           ['value']!,
                                           13.sp,
-                                          CustomColors.white,
+                                          BaseColors.white,
                                           FontWeight.w700)
                                     ],
                                   ),
@@ -189,10 +189,10 @@ class _RewardsScreenState extends State<RewardsScreen> {
                                     decoration: BoxDecoration(
                                         boxShadow: kElevationToShadow[1],
                                         border: Border.all(
-                                            color: CustomColors.primaryColor),
+                                            color: BaseColors.primaryColor),
                                         shape: BoxShape.circle,
                                         color:
-                                        CustomColors.backgroundColor),
+                                        BaseColors.backgroundColor),
                                     child:
                                     SvgPicture.asset("assets/images/edit_icon.svg"),
                                   ),

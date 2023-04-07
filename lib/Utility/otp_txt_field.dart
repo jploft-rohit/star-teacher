@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 
 class OTPInputBox extends StatefulWidget {
   final TextEditingController controller;
@@ -39,18 +39,18 @@ class _OTPInputBoxState extends State<OTPInputBox> {
           contentPadding: EdgeInsets.symmetric(vertical: 18),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(5),
-            borderSide: BorderSide(color: widget.controller.text.isEmpty ?  CustomColors.txtFiledBorderColor : CustomColors.primaryColor, width: 1),
+            borderSide: BorderSide(color: widget.controller.text.isEmpty ?  BaseColors.txtFiledBorderColor : BaseColors.primaryColor, width: 1),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(5),
-            borderSide: BorderSide(color: widget.controller.text.isEmpty ?  CustomColors.txtFiledBorderColor : CustomColors.primaryColor, width: 1),
+            borderSide: BorderSide(color: widget.controller.text.isEmpty ?  BaseColors.txtFiledBorderColor : BaseColors.primaryColor, width: 1),
           ),
 
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(5),
-            borderSide: BorderSide(color: widget.controller.text.isEmpty ?  CustomColors.txtFiledBorderColor : CustomColors.primaryColor, width: 1)
+            borderSide: BorderSide(color: widget.controller.text.isEmpty ?  BaseColors.txtFiledBorderColor : BaseColors.primaryColor, width: 1)
           ),
-          fillColor: widget.controller.text.toString().trim().isEmpty ? Colors.transparent : CustomColors.backgroundColor,
+          fillColor: widget.controller.text.toString().trim().isEmpty ? Colors.transparent : BaseColors.backgroundColor,
           filled: true,
           errorBorder: outlineInputBorder.copyWith(
             borderSide: const BorderSide(color: Colors.red),

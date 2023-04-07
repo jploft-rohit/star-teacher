@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/utility.dart';
 
 class SuccessDialogScreen extends StatefulWidget {
@@ -56,7 +56,7 @@ class _SuccessDialogScreenState extends State<SuccessDialogScreen> {
                     SizedBox(
                       height: 2.h,
                     ),
-                    Text(widget.msg,style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor,fontSize: 17.sp),textAlign: TextAlign.center,),
+                    Text(widget.msg,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor,fontSize: 17.sp),textAlign: TextAlign.center,),
                   ],
                 ),
               ],

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_tab_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/assignments_screen/assignment_screen_ctrl.dart';
@@ -32,26 +32,24 @@ class _AssignedToMeViewState extends State<AssignedToMeView> with TickerProvider
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: [
-          buildTabBar(),
-          SizedBox(
-            height: 1.h,
+    return Column(
+      children: [
+        buildTabBar(),
+        SizedBox(
+          height: 1.h,
+        ),
+        Expanded(
+          child: TabBarView(
+            controller: tabCtrl,
+            children: const [
+              AssesmentView(),
+              AwarenesCoursesView(),
+              AssesmentView(),
+              SurveyView()
+            ],
           ),
-          Expanded(
-            child: TabBarView(
-              controller: tabCtrl,
-              children: const [
-                AssesmentView(),
-                AwarenesCoursesView(),
-                AssesmentView(),
-                SurveyView()
-              ],
-            ),
-          )
-        ],
-      ),
+        )
+      ],
     );
   }
   Widget buildTabBar() {

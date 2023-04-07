@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 
@@ -55,7 +55,7 @@ class _StarDetachingPopupState extends State<StarDetachingPopup> {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15.0),
                       border: Border.all(
-                          color: index == null ? CustomColors.borderColor : index == 0 ? Colors.green : Colors.red
+                          color: index == null ? BaseColors.borderColor : index == 0 ? Colors.green : Colors.red
                       )
                   ),
                   child: Row(
@@ -64,7 +64,7 @@ class _StarDetachingPopupState extends State<StarDetachingPopup> {
                         padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
                         decoration: BoxDecoration(
                           border: Border.all(
-                              color: CustomColors.primaryColor
+                              color: BaseColors.primaryColor
                           ),
                           borderRadius: BorderRadius.circular(15.0),
                         ),
@@ -75,15 +75,15 @@ class _StarDetachingPopupState extends State<StarDetachingPopup> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Abdul Khan", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                            Text("Abdul Khan", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                             SizedBox(
                               height: .5.h,
                             ),
-                            Text("#632541", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                            Text("#632541", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                             SizedBox(
                               height: .5.h,
                             ),
-                            Text("Called from Gate 2", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                            Text("Called from Gate 2", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                           ],
                         ),
                       ),
@@ -93,10 +93,10 @@ class _StarDetachingPopupState extends State<StarDetachingPopup> {
                 SizedBox(
                   height: 2.h,
                 ),
-                Text( index == null ? "Scan the Guardian Card or NFC to Handover the star to Guardians." : index == 0 ? "Star has been successfully handover to the authorized Guardian." : "Unauthorized Guardian Do not allow to Pickup", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp, height: 1.5),textAlign: TextAlign.center,),
+                Text( index == null ? "Scan the Guardian Card or NFC to Handover the star to Guardians." : index == 0 ? "Star has been successfully handover to the authorized Guardian." : "Unauthorized Guardian Do not allow to Pickup", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp, height: 1.5),textAlign: TextAlign.center,),
                 if(index == null || index == 0)
                 Divider(
-                  color: CustomColors.borderColor,
+                  color: BaseColors.borderColor,
                   thickness: 1.0,
                 ),
                 SizedBox(
@@ -114,7 +114,7 @@ class _StarDetachingPopupState extends State<StarDetachingPopup> {
                       child: Container(
                         padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 0.0,),
                         decoration: BoxDecoration(
-                          color: CustomColors.backgroundColor,
+                          color: BaseColors.backgroundColor,
                           borderRadius: BorderRadius.circular(8.0),
                           boxShadow: [
                             getBoxShadow()
@@ -142,9 +142,9 @@ class _StarDetachingPopupState extends State<StarDetachingPopup> {
                       child: Container(
                         padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 0.0,),
                         decoration: BoxDecoration(
-                          color: CustomColors.white,
+                          color: BaseColors.white,
                             borderRadius: BorderRadius.circular(8.0),
-                            border: Border.all(color: CustomColors.borderColor)
+                            border: Border.all(color: BaseColors.borderColor)
                         ),
                         child: Row(
                           children: [

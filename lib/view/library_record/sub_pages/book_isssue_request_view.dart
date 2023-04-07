@@ -6,9 +6,9 @@ import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/base_tab_button.dart';
 import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -34,13 +34,18 @@ class _BookIssueViewState extends State<BookIssueView> with SingleTickerProvider
     });
     super.initState();
   }
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
-        backgroundColor: CustomColors.white,
+        backgroundColor: BaseColors.white,
         appBar: const BaseAppBar(title: "Book Issue Request"),
         body: Container(
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -52,7 +57,7 @@ class _BookIssueViewState extends State<BookIssueView> with SingleTickerProvider
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.0),
                   border: Border.all(
-                      color: CustomColors.borderColor
+                      color: BaseColors.borderColor
                   ),
                 ),
                 child: Column(
@@ -81,7 +86,7 @@ class _BookIssueViewState extends State<BookIssueView> with SingleTickerProvider
                         Container(
                           width: 1,
                           height: 25,
-                          color: CustomColors.borderColor,
+                          color: BaseColors.borderColor,
                         ),
                         Flexible(
                           flex: 1,
@@ -129,7 +134,7 @@ class _BookIssueViewState extends State<BookIssueView> with SingleTickerProvider
                         Container(
                           width: 1,
                           height: 25,
-                          color: CustomColors.borderColor,
+                          color: BaseColors.borderColor,
                         ),
                         Flexible(
                           flex: 1,
@@ -156,7 +161,7 @@ class _BookIssueViewState extends State<BookIssueView> with SingleTickerProvider
                     CustomTextField(
                       controller: TextEditingController(),
                       hintText: translate(context).search_by_id,
-                      hintTextColor: CustomColors.textLightGreyColor,
+                      hintTextColor: BaseColors.textLightGreyColor,
                       borderColor: Colors.transparent,
                       contentPadding: const EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
                       prefixIcon: const Padding(
@@ -215,9 +220,9 @@ class _BookIssueViewState extends State<BookIssueView> with SingleTickerProvider
                       top: 5, bottom: 5, right: 5, left: 13),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(21),
-                      border: Border.all(color: controller.selectedIndex.value == index ? CustomColors.primaryColor : Colors.transparent),
+                      border: Border.all(color: controller.selectedIndex.value == index ? BaseColors.primaryColor : Colors.transparent),
                       boxShadow: kElevationToShadow[2],
-                      color: CustomColors.white),
+                      color: BaseColors.white),
                   padding: const EdgeInsets.all(10),
                   child: Row(
                     children: [
@@ -236,12 +241,12 @@ class _BookIssueViewState extends State<BookIssueView> with SingleTickerProvider
                             addText(
                                 'General Knowledge by Dr. Rafiq',
                                 16.sp,
-                                CustomColors.textBlackColor,
+                                BaseColors.textBlackColor,
                                 FontWeight.w500),
                             SizedBox(height: 0.5.h),
                             Text(
                               'General Knowledge is the High Score Series Book to acquire latest knowledge about the Current Affairs, History, Geography',
-                              style: Style.montserratMediumStyle().copyWith(fontSize: 14.sp, fontWeight: FontWeight.w400, color: CustomColors.textLightGreyColor),)
+                              style: Style.montserratMediumStyle().copyWith(fontSize: 14.sp, fontWeight: FontWeight.w400, color: BaseColors.textLightGreyColor),)
                           ],
                         ),
                       ),
@@ -254,14 +259,14 @@ class _BookIssueViewState extends State<BookIssueView> with SingleTickerProvider
                     shape: BoxShape.circle,
                     color:
                     controller.selectedIndex.value == index
-                        ? CustomColors.primaryColor
-                        : CustomColors.greyColor,
+                        ? BaseColors.primaryColor
+                        : BaseColors.greyColor,
                     boxShadow: [getBoxShadow()],
                     border: Border.all(
-                        color: CustomColors.white, width: 2)),
+                        color: BaseColors.white, width: 2)),
                 child: const Icon(
                   Icons.check,
-                  color: CustomColors.white,
+                  color: BaseColors.white,
                   size: 20,
                 ),
               ))
@@ -291,16 +296,16 @@ class _BookIssueViewState extends State<BookIssueView> with SingleTickerProvider
                   border: Border.all(
                       color: istypeA
                           ? Colors.transparent
-                          : CustomColors.borderColor),
+                          : BaseColors.borderColor),
                   color: istypeA
-                      ? CustomColors.backgroundColor
-                      : CustomColors.white,
+                      ? BaseColors.backgroundColor
+                      : BaseColors.white,
                   borderRadius: BorderRadius.circular(8),
                   boxShadow: istypeA ? kElevationToShadow[3] : null),
               child: istypeA
                   ? addText(
-                  'Type A', toggleButtonTs, CustomColors.primaryColor, FontWeight.w700)
-                  : addText('Type A', toggleButtonTs, CustomColors.textLightGreyColor, FontWeight.w400),
+                  'Type A', toggleButtonTs, BaseColors.primaryColor, FontWeight.w700)
+                  : addText('Type A', toggleButtonTs, BaseColors.textLightGreyColor, FontWeight.w400),
             ),
           ),
         ),
@@ -315,17 +320,17 @@ class _BookIssueViewState extends State<BookIssueView> with SingleTickerProvider
               decoration: BoxDecoration(
                   boxShadow: istypeB ? kElevationToShadow[3] : null,
                   color: istypeB
-                      ? CustomColors.backgroundColor
-                      : CustomColors.white,
+                      ? BaseColors.backgroundColor
+                      : BaseColors.white,
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
                       color: istypeB
                           ? Colors.transparent
-                          : CustomColors.borderColor)),
+                          : BaseColors.borderColor)),
               child: istypeB
                   ? addText(
-                  'Type B', toggleButtonTs, CustomColors.primaryColor, FontWeight.w700)
-                  : addText('Type B', toggleButtonTs, CustomColors.textLightGreyColor, FontWeight.w400),
+                  'Type B', toggleButtonTs, BaseColors.primaryColor, FontWeight.w700)
+                  : addText('Type B', toggleButtonTs, BaseColors.textLightGreyColor, FontWeight.w400),
             ),
           ),
         ),
@@ -340,17 +345,17 @@ class _BookIssueViewState extends State<BookIssueView> with SingleTickerProvider
               decoration: BoxDecoration(
                   boxShadow: istypeC ? kElevationToShadow[3] : null,
                   color: istypeC
-                      ? CustomColors.backgroundColor
-                      : CustomColors.white,
+                      ? BaseColors.backgroundColor
+                      : BaseColors.white,
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
                       color: istypeC
                           ? Colors.transparent
-                          : CustomColors.borderColor)),
+                          : BaseColors.borderColor)),
               child: istypeC
                   ? addText(
-                  'Type C', toggleButtonTs, CustomColors.primaryColor, FontWeight.w700)
-                  : addText('Type C', toggleButtonTs, CustomColors.textLightGreyColor, FontWeight.w400),
+                  'Type C', toggleButtonTs, BaseColors.primaryColor, FontWeight.w700)
+                  : addText('Type C', toggleButtonTs, BaseColors.textLightGreyColor, FontWeight.w400),
             ),
           ),
         ),
@@ -365,17 +370,17 @@ class _BookIssueViewState extends State<BookIssueView> with SingleTickerProvider
               decoration: BoxDecoration(
                   boxShadow: istypeD ? kElevationToShadow[3] : null,
                   color: istypeD
-                      ? CustomColors.backgroundColor
-                      : CustomColors.white,
+                      ? BaseColors.backgroundColor
+                      : BaseColors.white,
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
                       color: istypeD
                           ? Colors.transparent
-                          : CustomColors.borderColor)),
+                          : BaseColors.borderColor)),
               child: istypeD
                   ? addText(
-                  'Type D', toggleButtonTs, CustomColors.primaryColor, FontWeight.w700)
-                  : addText('Type D', toggleButtonTs, CustomColors.textLightGreyColor, FontWeight.w400),
+                  'Type D', toggleButtonTs, BaseColors.primaryColor, FontWeight.w700)
+                  : addText('Type D', toggleButtonTs, BaseColors.textLightGreyColor, FontWeight.w400),
             ),
           ),
         ),

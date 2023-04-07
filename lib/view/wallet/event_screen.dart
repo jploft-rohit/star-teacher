@@ -3,8 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -18,7 +17,7 @@ class EventScreen extends StatefulWidget {
 }
 
 class _EventScreenState extends State<EventScreen> {
-  WalletController controller = Get.find<WalletController>();
+  WalletController controller = Get.put(WalletController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +43,7 @@ class _EventScreenState extends State<EventScreen> {
                 itemCount: controller.eventsList.length,
               ),
               const Divider(
-                color: CustomColors.borderColor,
+                color: BaseColors.borderColor,
                 height: 0.0,
               ),
               topLabel(translate(context).concluded, () {}),
@@ -74,9 +73,9 @@ class _EventScreenState extends State<EventScreen> {
       margin: EdgeInsets.only(bottom: 1.5.h),
       height: 38.sp,
       decoration: BoxDecoration(
-          color: CustomColors.white,
+          color: BaseColors.white,
           boxShadow: kElevationToShadow[2],
-          border: Border.all(color: CustomColors.greyColor, width: 0.5),
+          border: Border.all(color: BaseColors.greyColor, width: 0.5),
           borderRadius: BorderRadius.circular(10)),
       child: Row(
         children: [
@@ -84,17 +83,17 @@ class _EventScreenState extends State<EventScreen> {
             flex: 2,
             child: Container(
               decoration: BoxDecoration(
-                  color: CustomColors.backgroundColor,
-                  border: Border.all(color: CustomColors.primaryColor),
+                  color: BaseColors.backgroundColor,
+                  border: Border.all(color: BaseColors.primaryColor),
                   borderRadius: BorderRadius.circular(10)),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   addText(day, 22.sp,
-                      CustomColors.primaryColor, FontWeight.w700),
+                      BaseColors.primaryColor, FontWeight.w700),
                   addText(month, 18.sp,
-                      CustomColors.primaryColor, FontWeight.w400),
+                      BaseColors.primaryColor, FontWeight.w400),
                 ],
               ),
             ),
@@ -112,13 +111,13 @@ class _EventScreenState extends State<EventScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       addText(title, 15.sp,
-                          CustomColors.textBlackColor, FontWeight.w700),
+                          BaseColors.textBlackColor, FontWeight.w700),
                       Row(
                         children: [
                           addText('${translate(context).total_cost} : ', 14.sp,
-                              CustomColors.primaryColor, FontWeight.w700),
+                              BaseColors.primaryColor, FontWeight.w700),
                           addText(totalcost, 14.sp,
-                              CustomColors.textBlackColor, FontWeight.w700),
+                              BaseColors.textBlackColor, FontWeight.w700),
                         ],
                       ),
                     ],
@@ -130,9 +129,9 @@ class _EventScreenState extends State<EventScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           addText(eventcost, 15.sp,
-                              CustomColors.textBlackColor, FontWeight.w400),
+                              BaseColors.textBlackColor, FontWeight.w400),
                           addText(translate(context).event_cost, 13.sp,
-                              CustomColors.greyColor, FontWeight.w700),
+                              BaseColors.greyColor, FontWeight.w700),
                         ],
                       ),
                       SizedBox(
@@ -151,11 +150,11 @@ class _EventScreenState extends State<EventScreen> {
                                 width: 1.w,
                               ),
                               addText(starbudget, 15.sp,
-                                  CustomColors.textBlackColor, FontWeight.w400),
+                                  BaseColors.textBlackColor, FontWeight.w400),
                             ],
                           ),
                           addText(translate(context).star_budget, 13.sp,
-                              CustomColors.greyColor, FontWeight.w700),
+                              BaseColors.greyColor, FontWeight.w700),
                         ],
                       ),
                       SizedBox(width: 0.5.h),
@@ -176,8 +175,8 @@ class _EventScreenState extends State<EventScreen> {
                         controller.eventsList[index]['status']!,
                         15.sp,
                         controller.eventsList[index]['status'] == 'Accepted'
-                            ? CustomColors.green
-                            : CustomColors.textRedColor,
+                            ? BaseColors.green
+                            : BaseColors.textRedColor,
                         FontWeight.w700),
                     SizedBox(height: .5.h),
                     // controller.eventsList[index]['status'] == 'Accepted'
@@ -192,7 +191,7 @@ class _EventScreenState extends State<EventScreen> {
                     addText(
                         controller.eventsList[index]['event']!,
                         14.sp,
-                        CustomColors.textBlackColor,
+                        BaseColors.textBlackColor,
                         FontWeight.w400),
                   ],
                 ),
@@ -205,9 +204,9 @@ class _EventScreenState extends State<EventScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: Style.montserratBoldStyle().copyWith(fontSize: 17.sp, color: CustomColors.textBlackColor),),
+        Text(label, style: Style.montserratBoldStyle().copyWith(fontSize: 17.sp, color: BaseColors.textBlackColor),),
         TextButton(
-            child: Text(translate(context).view_all, style: Style.montserratRegularStyle().copyWith(fontSize: 15.sp, color: CustomColors.textLightGreyColor, decoration: TextDecoration.underline),),
+            child: Text(translate(context).view_all, style: Style.montserratRegularStyle().copyWith(fontSize: 15.sp, color: BaseColors.textLightGreyColor, decoration: TextDecoration.underline),),
             onPressed: onTap),
       ],
     );

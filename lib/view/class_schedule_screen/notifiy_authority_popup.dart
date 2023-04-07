@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -93,17 +93,17 @@ class _NotifyAuthorityPopupState extends State<NotifyAuthorityPopup> {
                           padding: EdgeInsets.all(14.sp),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8.0),
-                              border: Border.all(color: CustomColors.primaryColor)
+                              border: Border.all(color: BaseColors.primaryColor)
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(list[index]['title'], style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: 17.sp),),
+                              Text(list[index]['title'], style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 17.sp),),
                               Checkbox(
                                 visualDensity: const VisualDensity(vertical: -4),
                                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                 side: const BorderSide(color: Colors.transparent),
-                                activeColor: CustomColors.primaryColor,
+                                activeColor: BaseColors.primaryColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(50.0),
                                 ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 
@@ -123,9 +123,9 @@ class _LeaveBalancePopupState extends State<LeaveBalancePopup> {
                     children: [
                       TableRow(
                           children: [
-                            Text(translate(context).leave_type,style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
-                            Text(translate(context).allocated,style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
-                            Text(translate(context).balance,style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
+                            Text(translate(context).leave_type,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
+                            Text(translate(context).allocated,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
+                            Text(translate(context).balance,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
                           ]),
 
                     ],
@@ -155,7 +155,7 @@ class _LeaveBalancePopupState extends State<LeaveBalancePopup> {
                                   children: [
                                     Row(
                                       children: [
-                                        Text(leaveBalanceList[index]['title'], style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
+                                        Text(leaveBalanceList[index]['title'], style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
                                         SizedBox(
                                           width: 2.w,
                                         ),
@@ -237,8 +237,8 @@ class _LeaveBalancePopupState extends State<LeaveBalancePopup> {
                                         )
                                       ],
                                     ),
-                                    Text(leaveBalanceList[index]['balance'], style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
-                                    Text(leaveBalanceList[index]['balance'], style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
+                                    Text(leaveBalanceList[index]['balance'], style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
+                                    Text(leaveBalanceList[index]['balance'], style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
                                   ]),
                             ],
                           ),

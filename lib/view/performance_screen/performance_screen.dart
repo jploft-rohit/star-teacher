@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_tab_bar.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -45,7 +45,7 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 18.sp),
                 decoration: BoxDecoration(
-                  color: CustomColors.backgroundColor,
+                  color: BaseColors.backgroundColor,
                   borderRadius: BorderRadius.circular(15.0),
                   boxShadow: [
                     BoxShadow(
@@ -58,11 +58,11 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
                 ),
                 child: Column(
                   children: [
-                    addText(translate(context).average_rating, 15.sp, CustomColors.primaryColor, FontWeight.w400),
+                    addText(translate(context).average_rating, 15.sp, BaseColors.primaryColor, FontWeight.w400),
                     SizedBox(
                       height: 1.h,
                     ),
-                    addText("4.3", 20.sp, CustomColors.textBlackColor, FontWeight.w700),
+                    addText("4.3", 20.sp, BaseColors.textBlackColor, FontWeight.w700),
                     SizedBox(
                       height: 1.h,
                     ),
@@ -92,10 +92,10 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
                       itemSize: 28,
                       itemBuilder: (context, _) => const Icon(
                         CupertinoIcons.star_fill,
-                        color: CustomColors.primaryColor,
+                        color: BaseColors.primaryColor,
                       ),
                       unratedColor:
-                      CustomColors.primaryColor.withOpacity(
+                      BaseColors.primaryColor.withOpacity(
                         0.3,
                       ),
                       onRatingUpdate: (rating) {
@@ -120,7 +120,7 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    addText("${translate(context).filter_by}:", 16.sp, CustomColors.textBlackColor, FontWeight.w700),
+                    addText("${translate(context).filter_by}:", 16.sp, BaseColors.textBlackColor, FontWeight.w700),
                     SizedBox(
                       width: 2.w,
                     ),
@@ -142,14 +142,14 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
                                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                    color: controller.selectedIndex.value == index ? CustomColors.backgroundColor : CustomColors.screenBackgroundColor,
+                                    color: controller.selectedIndex.value == index ? BaseColors.backgroundColor : BaseColors.screenBackgroundColor,
                                     border: Border.all(
-                                        color: controller.selectedIndex.value == index ? Colors.transparent : CustomColors.txtFiledBorderColor
+                                        color: controller.selectedIndex.value == index ? Colors.transparent : BaseColors.txtFiledBorderColor
                                     ),
                                     boxShadow: [
                                       if(controller.selectedIndex.value == index)
                                         const BoxShadow(
-                                            color: CustomColors.darkShadowColor,
+                                            color: BaseColors.darkShadowColor,
                                             spreadRadius: 1.0,
                                             blurRadius: 2.0,
                                             offset: Offset(0, 3)
@@ -159,13 +159,13 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
                                 ),
                                 child: Row(
                                   children: [
-                                    Text("${index + 1}", style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 17.sp),),
+                                    Text("${index + 1}", style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 17.sp),),
                                     SizedBox(
                                       width: 1.w,
                                     ),
                                     Icon(
                                       CupertinoIcons.star_fill,
-                                      color: CustomColors.primaryColor,
+                                      color: BaseColors.primaryColor,
                                       size: 18.sp,
                                     ),
                                   ],
@@ -228,7 +228,7 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
           margin: const EdgeInsets.only(bottom: 10.0),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
-              border: Border.all(color: CustomColors.borderColor)
+              border: Border.all(color: BaseColors.borderColor)
           ),
           child: Column(
             children: [
@@ -244,7 +244,7 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
                     ratingWidget: RatingWidget(
                       full: Icon(
                         CupertinoIcons.star_fill,
-                        color: controller.ratingList[index] >= 3.0 ? CustomColors.primaryColor : CustomColors.halfRatingColor,
+                        color: controller.ratingList[index] >= 3.0 ? BaseColors.primaryColor : BaseColors.halfRatingColor,
                       ),
                       half: SvgPicture.asset('assets/images/full_rating_img.svg'),
                       empty: SvgPicture.asset('assets/images/full_rating_img.svg'),
@@ -259,10 +259,10 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
                       padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0, bottom: 5.0),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(50),
-                          color: CustomColors.backgroundColor,
-                          border: Border.all(color: CustomColors.primaryColor)
+                          color: BaseColors.backgroundColor,
+                          border: Border.all(color: BaseColors.primaryColor)
                       ),
-                      child: addText(controller.ratingList[index] < 3.0 ? "Performance not good" : "Good behaviour", 14.sp, CustomColors.primaryColor, FontWeight.w400),
+                      child: addText(controller.ratingList[index] < 3.0 ? "Performance not good" : "Good behaviour", 14.sp, BaseColors.primaryColor, FontWeight.w400),
                     ),
                 ],
               ),
@@ -275,7 +275,7 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
                   SizedBox(
                     width: 1.w,
                   ),
-                  addText("10:25pm", 15.sp, CustomColors.textBlackColor, FontWeight.w400),
+                  addText("10:25pm", 15.sp, BaseColors.textBlackColor, FontWeight.w400),
                   SizedBox(
                     width: 10.w,
                   ),
@@ -283,11 +283,11 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
                   SizedBox(
                     width: 1.w,
                   ),
-                  addText("Nora", 15.sp, CustomColors.textBlackColor, FontWeight.w400),
+                  addText("Nora", 15.sp, BaseColors.textBlackColor, FontWeight.w400),
                   SizedBox(
                     width: 1.w,
                   ),
-                  addText("(Security Staff)", 13.sp, CustomColors.primaryColor, FontWeight.w400)
+                  addText("(Security Staff)", 13.sp, BaseColors.primaryColor, FontWeight.w400)
                 ],
               )
             ],

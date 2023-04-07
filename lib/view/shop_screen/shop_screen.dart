@@ -6,8 +6,8 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_tab_button.dart';
 import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -38,11 +38,16 @@ class _ShopViewState extends State<ShopView> with SingleTickerProviderStateMixin
     super.initState();
   }
   @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: CustomColors.white,
+        backgroundColor: BaseColors.white,
         appBar: const BaseAppBar(title: "Shop"),
         floatingActionButton: Obx(
               () => controller.selectedIndex.value == 0
@@ -67,10 +72,10 @@ class _ShopViewState extends State<ShopView> with SingleTickerProviderStateMixin
               Container(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 decoration: BoxDecoration(
-                  color: CustomColors.backgroundColor,
+                  color: BaseColors.backgroundColor,
                   borderRadius: BorderRadius.circular(5.0),
                   border: Border.all(
-                      color: CustomColors.borderColor
+                      color: BaseColors.borderColor
                   ),
                 ),
                 child: Row(
@@ -108,8 +113,8 @@ class _ShopViewState extends State<ShopView> with SingleTickerProviderStateMixin
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: CustomColors.backgroundColor,
-                border: Border.all(color: CustomColors.primaryColor)),
+                color: BaseColors.backgroundColor,
+                border: Border.all(color: BaseColors.primaryColor)),
             child: SvgPicture.asset('assets/images/shopping-cart 1.svg'),
           ),
         ),
@@ -117,10 +122,10 @@ class _ShopViewState extends State<ShopView> with SingleTickerProviderStateMixin
           padding: const EdgeInsets.all(5),
           decoration: const BoxDecoration(
             shape: BoxShape.circle,
-            color: CustomColors.primaryColor,
+            color: BaseColors.primaryColor,
           ),
           child: addText(
-              '3', 12.sp, CustomColors.white, FontWeight.w400),
+              '3', 12.sp, BaseColors.white, FontWeight.w400),
         )
       ],
     );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/classroom_view.dart';
@@ -42,7 +42,7 @@ class StarAttendanceScreenCtrl extends GetxController{
   List<Map<String, dynamic>> statusList = [
     {
       "title" : translate(Get.context!).present,
-      "color" : CustomColors.green,
+      "color" : BaseColors.green,
       "isSelected" : true
     },
     {
@@ -52,7 +52,7 @@ class StarAttendanceScreenCtrl extends GetxController{
     },
     {
       "title" : translate(Get.context!).absent,
-      "color" : CustomColors.textRedColor,
+      "color" : BaseColors.textRedColor,
       "isSelected" : true
     },
   ];

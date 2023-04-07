@@ -5,8 +5,8 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_floating_action_button.dart';
 import 'package:staff_app/Utility/base_tab_bar.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -47,10 +47,10 @@ class _ComplaintsReportScreenState extends State<ComplaintsReportScreen> with Ti
             Container(
               padding: const EdgeInsets.only(left: 8.0, right: 8.0),
               decoration: BoxDecoration(
-                color: CustomColors.backgroundColor,
+                color: BaseColors.backgroundColor,
                 borderRadius: BorderRadius.circular(5.0),
                 border: Border.all(
-                    color: CustomColors.borderColor
+                    color: BaseColors.borderColor
                 ),
               ),
               child: Row(

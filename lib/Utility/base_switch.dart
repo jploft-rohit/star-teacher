@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 
-class CustomSwitch extends StatefulWidget {
+class BaseSwitch extends StatefulWidget {
   final bool value;
   final Color enableColor;
   final Color enableSwitchColor;
@@ -12,7 +12,7 @@ class CustomSwitch extends StatefulWidget {
   final double switchWidth;
   final ValueChanged<bool> onChanged;
 
-  const CustomSwitch({
+  const BaseSwitch({
     required Key key,
     required this.value,
     required this.enableColor,
@@ -26,10 +26,10 @@ class CustomSwitch extends StatefulWidget {
       : super(key: key);
 
   @override
-  _CustomSwitchState createState() => _CustomSwitchState();
+  _BaseSwitchState createState() => _BaseSwitchState();
 }
 
-class _CustomSwitchState extends State<CustomSwitch>
+class _BaseSwitchState extends State<BaseSwitch>
     with SingleTickerProviderStateMixin {
   late Animation _circleAnimation;
   late AnimationController _animationController;
@@ -71,7 +71,7 @@ class _CustomSwitchState extends State<CustomSwitch>
             height: widget.height ?? 24.0,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8.0),
-              border: widget.value ? Border.all(color: CustomColors.primaryColor) : null,
+              border: widget.value ? Border.all(color: BaseColors.primaryColor) : null,
               color: _circleAnimation.value ==  Alignment.centerLeft ? widget.disableColor : widget.enableColor,),
             child: Padding(padding: const EdgeInsets.only(top: 2.0, bottom: 2.0, right: 2.0, left: 2.0),
               child:  Container(
@@ -81,7 +81,7 @@ class _CustomSwitchState extends State<CustomSwitch>
                   height: widget.switchHeight ?? 20.0,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5.0),
-                    color: widget.value ? widget.enableSwitchColor : CustomColors.white,
+                    color: widget.value ? widget.enableSwitchColor : BaseColors.white,
                   ),
                 ),
               ),

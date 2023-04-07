@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -26,10 +26,10 @@ class _AttendanceLateViewState extends State<AttendanceLateView> {
           return Padding(
             padding: const EdgeInsets.only(bottom: 10.0),
             child: Container(
-              height: 95,
+              height: 11.6.h,
               clipBehavior: Clip.antiAliasWithSaveLayer,
               decoration: BoxDecoration(
-                  color: CustomColors.white,
+                  color: BaseColors.white,
                   borderRadius: BorderRadius.circular(15.0),
                   boxShadow: [
                     getBoxShadow()
@@ -46,7 +46,7 @@ class _AttendanceLateViewState extends State<AttendanceLateView> {
                         children: [
                           Row(
                             children: [
-                              SvgPicture.asset(calenderDateSvg, color: CustomColors.primaryColor,height: 13),
+                              SvgPicture.asset(calenderDateSvg, color: BaseColors.primaryColor,height: 13),
                               SizedBox(
                                 width: 2.w,
                               ),
@@ -96,7 +96,7 @@ class _AttendanceLateViewState extends State<AttendanceLateView> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(translate(context).late, style: Style.montserratBoldStyle().copyWith(color: CustomColors.white, fontSize: 15.sp),),
+                        Text(translate(context).late, style: Style.montserratBoldStyle().copyWith(color: BaseColors.white, fontSize: 15.sp),),
                         SizedBox(
                           height: 1.h,
                         ),
@@ -112,7 +112,7 @@ class _AttendanceLateViewState extends State<AttendanceLateView> {
                           child: Container(
                             padding: EdgeInsets.only(left: 8.0, right: 8.0, bottom: 5, top: 5),
                             decoration: BoxDecoration(
-                                color: CustomColors.white,
+                                color: BaseColors.white,
                                 borderRadius: BorderRadius.circular(5.0),
                                 boxShadow: [
                                   getBoxShadow()

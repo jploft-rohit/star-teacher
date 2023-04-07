@@ -7,9 +7,9 @@ import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/base_floating_action_button.dart';
 import 'package:staff_app/Utility/base_tab_bar.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -20,6 +20,7 @@ import 'package:staff_app/view/schedule_meeting_screen/create_meeting_screen.dar
 import 'package:staff_app/view/schedule_meeting_screen/meeting_cancel_reason_popup.dart';
 import 'package:staff_app/view/schedule_meeting_screen/schedule_meeting_screen_ctrl.dart';
 import 'package:staff_app/view/schedule_meeting_screen/schedule_with_popup.dart';
+import 'package:staff_app/view/task_or_reminder_screen/add_task_or_reminder_screen.dart';
 
 import '../../language_classes/language_constants.dart';
 
@@ -73,10 +74,10 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
             Container(
               padding: const EdgeInsets.only(left: 8.0, right: 8.0),
               decoration: BoxDecoration(
-                color: CustomColors.backgroundColor,
+                color: BaseColors.backgroundColor,
                 borderRadius: BorderRadius.circular(5.0),
                 border: Border.all(
-                    color: CustomColors.borderColor
+                    color: BaseColors.borderColor
                 ),
               ),
               child: Row(
@@ -187,20 +188,25 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset("assets/images/Group (1).svg"),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        buildInfoItems("Meeting Type", "Audio Call"),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        SvgPicture.asset("assets/images/chat_img.svg"),
-                      ],
+                    Expanded(
+                      flex: 2,
+                      child: Row(
+                        children: [
+                          SvgPicture.asset("assets/images/Group (1).svg"),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          buildInfoItems("Meeting Type", "Audio Call"),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          SvgPicture.asset("assets/images/chat_img.svg"),
+                        ],
+                      ),
                     ),
-                    BaseButton(title: "Reminder", onPressed: (){}, textSize: smallButtonTs,verticalPadding: 1.h),
+                    Expanded(flex: 1,child: BaseButton(title: "Reminder", onPressed: (){
+                      Get.to(AddTaskOrReminderScreen());
+                    }, textSize: smallButtonTs,verticalPadding: 1.h)),
                   ],
                 ),
                 const Divider(),
@@ -232,7 +238,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                 StepProgressView(
                   width: MediaQuery.of(context).size.width,
                   curStep: 1,
-                  color: CustomColors.primaryColor,
+                  color: BaseColors.primaryColor,
                   titles: pendingMeetingdates,
                   statuses: heading,
                 ),
@@ -301,20 +307,23 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset("assets/images/Group (1).svg"),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        buildInfoItems("Meeting Type", "Audio Call"),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        SvgPicture.asset("assets/images/chat_img.svg"),
-                      ],
+                    Expanded(
+                      flex: 2,
+                      child: Row(
+                        children: [
+                          SvgPicture.asset("assets/images/Group (1).svg"),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          buildInfoItems("Meeting Type", "Audio Call"),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          SvgPicture.asset("assets/images/chat_img.svg"),
+                        ],
+                      ),
                     ),
-                    BaseButton(title: "Start", onPressed: (){}, textSize: smallButtonTs,verticalPadding: 1.h),
+                    Expanded(child: BaseButton(title: "Start", onPressed: (){}, textSize: smallButtonTs,verticalPadding: 1.h)),
                   ],
                 ),
                 const Divider(),
@@ -353,7 +362,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                 StepProgressView(
                   width: MediaQuery.of(context).size.width,
                   curStep: 1,
-                  color: CustomColors.primaryColor,
+                  color: BaseColors.primaryColor,
                   titles: pendingMeetingdates,
                   statuses: heading,
                 ),
@@ -441,7 +450,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                       width: 2.w,
                     ),
                     Flexible(child: buildInfoItems("Reason", "This concern can be solved VIA chat, therefore, an appointment is not needed.")),
-                    Image.asset(editPng, color: CustomColors.primaryColor, height: 18.sp,)
+                    Image.asset(editPng, color: BaseColors.primaryColor, height: 18.sp,)
                   ],
                 ),
                 const Divider(),
@@ -480,7 +489,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                 StepProgressView(
                   width: MediaQuery.of(context).size.width,
                   curStep: 2,
-                  color: CustomColors.primaryColor,
+                  color: BaseColors.primaryColor,
                   titles: pendingMeetingdates1,
                   statuses: heading1,
                 ),
@@ -572,7 +581,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                     SizedBox(
                       width: 2.w,
                     ),
-                    Image.asset(editPng, color: CustomColors.primaryColor, height: 17.sp,)
+                    Image.asset(editPng, color: BaseColors.primaryColor, height: 17.sp,)
                   ],
                 ),
                 const Divider(),
@@ -580,10 +589,10 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Feedback: ",style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                    Text("Feedback: ",style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                     Icon(
                       CupertinoIcons.star_fill,
-                      color: CustomColors.primaryColor,
+                      color: BaseColors.primaryColor,
                       size: 16.sp,
                     ),
                     SizedBox(
@@ -591,7 +600,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                     ),
                     Icon(
                       CupertinoIcons.star_fill,
-                      color: CustomColors.primaryColor,
+                      color: BaseColors.primaryColor,
                       size: 16.sp,
                     ),
                     SizedBox(
@@ -599,7 +608,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                     ),
                     Icon(
                       CupertinoIcons.star_fill,
-                      color: CustomColors.primaryColor,
+                      color: BaseColors.primaryColor,
                       size: 16.sp,
                     ),
                     SizedBox(
@@ -607,7 +616,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                     ),
                     Icon(
                       CupertinoIcons.star_fill,
-                      color: CustomColors.primaryColor,
+                      color: BaseColors.primaryColor,
                       size: 16.sp,
                     ),
                     SizedBox(
@@ -615,7 +624,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                     ),
                     Icon(
                       CupertinoIcons.star_fill,
-                      color: CustomColors.primaryColor,
+                      color: BaseColors.primaryColor,
                       size: 16.sp,
                     ),
                   ],
@@ -640,7 +649,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                   curStep: 4,
                   height: 20,
                   btnWidth: 20,
-                  color: CustomColors.primaryColor,
+                  color: BaseColors.primaryColor,
                   titles: pendingMeetingdates2,
                   statuses: heading2,
                 ),

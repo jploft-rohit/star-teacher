@@ -8,8 +8,8 @@ import 'package:staff_app/Utility/base_floating_action_button.dart';
 import 'package:staff_app/Utility/base_tab_bar.dart';
 import 'package:staff_app/Utility/base_tab_button.dart';
 import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -48,6 +48,12 @@ class _AttendanceScreenState extends State<AttendanceScreen> with TickerProvider
     super.initState();
   }
   @override
+  void dispose() {
+    tabController.dispose();
+    tabController2.dispose();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(title: translate(context).attendance),
@@ -64,7 +70,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> with TickerProvider
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(15.0),
                   border: Border.all(
-                      color: CustomColors.borderColor
+                      color: BaseColors.borderColor
                   )
               ),
               child: ListTile(
@@ -75,7 +81,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> with TickerProvider
                   padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
                   decoration: BoxDecoration(
                     border: Border.all(
-                        color: CustomColors.primaryColor
+                        color: BaseColors.primaryColor
                     ),
                     borderRadius: BorderRadius.circular(15.0),
                   ),
@@ -84,15 +90,15 @@ class _AttendanceScreenState extends State<AttendanceScreen> with TickerProvider
                 title: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Nawaj Alam", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                    Text("Nawaj Alam", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                     const SizedBox(
                       height: 2.0,
                     ),
-                    Text("#12344534", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                    Text("#12344534", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                     const SizedBox(
                       height: 2.0,
                     ),
-                    Text("English Teacher", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                    Text("English Teacher", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                   ],
                 ),
                 trailing: SvgPicture.asset(qrCodeSvg),
@@ -123,12 +129,6 @@ class _AttendanceScreenState extends State<AttendanceScreen> with TickerProvider
         ),
       ),
     );
-  }
-  @override
-  void dispose() {
-    tabController.dispose();
-    tabController2.dispose();
-    super.dispose();
   }
   Widget buildTabBar() {
     return BaseTabBar(

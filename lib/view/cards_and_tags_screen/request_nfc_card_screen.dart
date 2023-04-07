@@ -4,9 +4,10 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/cards_and_tags_screen/card_tag_ctrl.dart';
 import 'package:staff_app/view/cards_and_tags_screen/nfc_cart_screen.dart';
@@ -44,7 +45,7 @@ class _RequestNFCCardScreenState extends State<RequestNFCCardScreen> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: kElevationToShadow[2],
-                    color: CustomColors.white),
+                    color: BaseColors.white),
                 padding: EdgeInsets.all(10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,7 +67,7 @@ class _RequestNFCCardScreenState extends State<RequestNFCCardScreen> {
                     addText(
                         controller.shopStarShopList[index]['name']!,
                         16.sp,
-                        CustomColors.textBlackColor,
+                        BaseColors.textBlackColor,
                         FontWeight.w400),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -74,9 +75,10 @@ class _RequestNFCCardScreenState extends State<RequestNFCCardScreen> {
                         addText(
                             controller.shopStarShopList[index]['price']!,
                             15.sp,
-                            CustomColors.primaryColor,
+                            BaseColors.primaryColor,
                             FontWeight.w400),
                         BaseButton(
+                          btnType: smallButton,
                             title: "+Add",
                             onPressed: () {})
                       ],

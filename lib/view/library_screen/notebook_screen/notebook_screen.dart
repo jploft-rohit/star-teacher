@@ -6,9 +6,9 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_floating_action_button.dart';
 import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
-import 'package:staff_app/Utility/custom_dialogs.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/Utility/base_dialogs.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -36,6 +36,11 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
     });
     super.initState();
   }
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,10 +49,10 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: const BaseAppBar(title: "Notebook"),
-        floatingActionButton: BaseFloatingActionButton(
-          onTap: () {Get.to(const AddToDoNote());},
-          title: 'Add Note',
-        ),
+        // floatingActionButton: BaseFloatingActionButton(
+        //   onTap: () {Get.to(const AddToDoNote());},
+        //   title: 'Add Note',
+        // ),
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(15.sp),
@@ -66,14 +71,14 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
                           width: getWidth(context) * 50 / 100,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                              color: notesController.selectedIndex.value == 0 ? CustomColors.backgroundColor : CustomColors.screenBackgroundColor,
+                              color: notesController.selectedIndex.value == 0 ? BaseColors.backgroundColor : BaseColors.screenBackgroundColor,
                               border: Border.all(
-                                  color: notesController.selectedIndex.value == 0 ? Colors.transparent : CustomColors.txtFiledBorderColor
+                                  color: notesController.selectedIndex.value == 0 ? Colors.transparent : BaseColors.txtFiledBorderColor
                               ),
                               boxShadow: [
                                 if(notesController.selectedIndex.value == 0)
                                   const BoxShadow(
-                                      color: CustomColors.darkShadowColor,
+                                      color: BaseColors.darkShadowColor,
                                       spreadRadius: 1.0,
                                       blurRadius: 2.0,
                                       offset: Offset(0, 3)
@@ -81,7 +86,7 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
                               ],
                               borderRadius: BorderRadius.circular(15.sp)
                           ),
-                          child: Text("Stars", style: Style.montserratBoldStyle().copyWith(color: notesController.selectedIndex.value == 0 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
+                          child: Text("Stars", style: Style.montserratBoldStyle().copyWith(color: notesController.selectedIndex.value == 0 ? BaseColors.primaryColor : BaseColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
                         ),
                       ),
                     )),
@@ -99,14 +104,14 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
                           width: getWidth(context) * 50 / 100,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                              color: notesController.selectedIndex.value == 1 ? CustomColors.backgroundColor : CustomColors.screenBackgroundColor,
+                              color: notesController.selectedIndex.value == 1 ? BaseColors.backgroundColor : BaseColors.screenBackgroundColor,
                               border: Border.all(
-                                  color: notesController.selectedIndex.value == 1 ? Colors.transparent : CustomColors.txtFiledBorderColor
+                                  color: notesController.selectedIndex.value == 1 ? Colors.transparent : BaseColors.txtFiledBorderColor
                               ),
                               boxShadow: [
                                 if(notesController.selectedIndex.value == 1)
                                   const BoxShadow(
-                                      color: CustomColors.darkShadowColor,
+                                      color: BaseColors.darkShadowColor,
                                       spreadRadius: 1.0,
                                       blurRadius: 2.0,
                                       offset: Offset(0, 3)
@@ -114,7 +119,7 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
                               ],
                               borderRadius: BorderRadius.circular(15.sp)
                           ),
-                          child: Text("My Notes", style: Style.montserratBoldStyle().copyWith(color: notesController.selectedIndex.value == 1 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
+                          child: Text("My Notes", style: Style.montserratBoldStyle().copyWith(color: notesController.selectedIndex.value == 1 ? BaseColors.primaryColor : BaseColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
                         ),
                       ),
                     ),
@@ -147,7 +152,7 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15.0),
             border: Border.all(
-                color: CustomColors.borderColor
+                color: BaseColors.borderColor
             ),
           ),
           child: Column(
@@ -176,7 +181,7 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
                   Container(
                     width: 1,
                     height: 25,
-                    color: CustomColors.borderColor,
+                    color: BaseColors.borderColor,
                   ),
                   Flexible(
                     flex: 1,
@@ -221,7 +226,7 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
                 controller: TextEditingController(),
                 hintText: translate(context).search_by_id,
                 borderColor: Colors.transparent,
-                hintTextColor: CustomColors.textLightGreyColor,
+                hintTextColor: BaseColors.textLightGreyColor,
                 contentPadding: const EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
                 prefixIcon: const Padding(
                   padding: EdgeInsets.only(left: 10.0, right: 10.0),
@@ -250,7 +255,7 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
                 margin: const EdgeInsets.only(bottom: 10.0),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20.0),
-                    border: Border.all(color: CustomColors.borderColor)
+                    border: Border.all(color: BaseColors.borderColor)
                 ),
                 child: Row(
                   children: [
@@ -258,7 +263,7 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
                       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15.0),
-                          border: Border.all(color: CustomColors.primaryColor)
+                          border: Border.all(color: BaseColors.primaryColor)
                       ),
                       child: SvgPicture.asset(girlSvg, height: 6.h,),
                     ),
@@ -268,34 +273,34 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Sania", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),),
+                        Text("Sania", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                         SizedBox(
                           height: .2.h,
                         ),
                         Container(
                           width: 30.w,
                           height: 1,
-                          color: CustomColors.borderColor,
+                          color: BaseColors.borderColor,
                         ),
                         SizedBox(
                           height: .2.h,
                         ),
-                        Text("#562665", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                        Text("#562665", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                         SizedBox(
                           height: .2.h,
                         ),
                         Container(
                           width: 30.w,
                           height: 1,
-                          color: CustomColors.borderColor,
+                          color: BaseColors.borderColor,
                         ),
                         SizedBox(
                           height: .2.h,
                         ),
                         Row(
                           children: [
-                            Text("Last Comment Date : ", style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
-                            Text("25/07/2022", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                            Text("Last Comment Date : ", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
+                            Text("25/07/2022", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                           ],
                         ),
                         SizedBox(
@@ -304,15 +309,15 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
                         Container(
                           width: 30.w,
                           height: 1,
-                          color: CustomColors.borderColor,
+                          color: BaseColors.borderColor,
                         ),
                         SizedBox(
                           height: .2.h,
                         ),
                         Row(
                           children: [
-                            Text("Total Notes : ", style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
-                            Text("35", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                            Text("Total Notes : ", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
+                            Text("35", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                           ],
                         ),
                       ],
@@ -358,7 +363,7 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Expanded(child: Text(notesController.unDoneNotesList[index].heading,style: TextStyle(fontSize: 15.sp,color: CustomColors.textBlackColor,fontWeight: FontWeight.w700),overflow: TextOverflow.ellipsis)),
+                              Expanded(child: Text(notesController.unDoneNotesList[index].heading,style: TextStyle(fontSize: 15.sp,color: BaseColors.textBlackColor,fontWeight: FontWeight.w700),overflow: TextOverflow.ellipsis)),
                               Row(
                                 children: [
                                   const SizedBox(width: 1),
@@ -367,10 +372,10 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
                                     width: 10,
                                     child: Checkbox(
                                       checkColor: Colors.white,
-                                      activeColor: CustomColors.primaryColor,
+                                      activeColor: BaseColors.primaryColor,
                                       value: notesController.unDoneNotesList[index].isTaskDone,
                                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                      side: const BorderSide(color: CustomColors.primaryColor),
+                                      side: const BorderSide(color: BaseColors.primaryColor),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(3),
                                       ),
@@ -391,7 +396,7 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
                                     width: 2.w,
                                   ),
                                   GestureDetector(onTap: (){
-                                    CustomDialogs().showConfirmationDialog(
+                                    BaseDialogs().showConfirmationDialog(
                                       title: "Are you sure you want to delete this Note?",
                                       onRightButtonPressed: (){
                                         notesController.unDoneNotesList.removeAt(index);
@@ -413,7 +418,7 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
                               SizedBox(
                                 width: 2.w,
                               ),
-                              addText("Hang washing", 14.sp, CustomColors.textBlackColor, FontWeight.w400),
+                              addText("Hang washing", 14.sp, BaseColors.textBlackColor, FontWeight.w400),
                             ],
                           ),
                           SizedBox(
@@ -425,7 +430,7 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
                               SizedBox(
                                 width: 2.w,
                               ),
-                              addText("Hang washing", 14.sp, CustomColors.textBlackColor, FontWeight.w400),
+                              addText("Hang washing", 14.sp, BaseColors.textBlackColor, FontWeight.w400),
                             ],
                           ),
                           SizedBox(
@@ -437,7 +442,7 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
                               SizedBox(
                                 width: 2.w,
                               ),
-                              addText("Hang washing", 14.sp, CustomColors.textBlackColor, FontWeight.w400),
+                              addText("Hang washing", 14.sp, BaseColors.textBlackColor, FontWeight.w400),
                             ],
                           ),
                           SizedBox(
@@ -484,7 +489,7 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Expanded(child: Text(notesController.unDoneNotesList[index].heading,style: TextStyle(fontSize: 15.sp,color: CustomColors.textBlackColor,fontWeight: FontWeight.w700),overflow: TextOverflow.ellipsis)),
+                              Expanded(child: Text(notesController.unDoneNotesList[index].heading,style: TextStyle(fontSize: 15.sp,color: BaseColors.textBlackColor,fontWeight: FontWeight.w700),overflow: TextOverflow.ellipsis)),
                               Row(
                                 children: [
                                   const SizedBox(width: 1),
@@ -493,10 +498,10 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
                                     width: 10,
                                     child: Checkbox(
                                       checkColor: Colors.white,
-                                      activeColor: CustomColors.primaryColor,
+                                      activeColor: BaseColors.primaryColor,
                                       value: notesController.doneNotesList[index].isTaskDone,
                                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                      side: const BorderSide(color: CustomColors.primaryColor),
+                                      side: const BorderSide(color: BaseColors.primaryColor),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(3),
                                       ),
@@ -530,7 +535,7 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
                               SizedBox(
                                 width: 2.w,
                               ),
-                              addText("Hang washing", 14.sp, CustomColors.textBlackColor, FontWeight.w400),
+                              addText("Hang washing", 14.sp, BaseColors.textBlackColor, FontWeight.w400),
                             ],
                           ),
                           SizedBox(
@@ -542,7 +547,7 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
                               SizedBox(
                                 width: 2.w,
                               ),
-                              addText("Hang washing", 14.sp, CustomColors.textBlackColor, FontWeight.w400),
+                              addText("Hang washing", 14.sp, BaseColors.textBlackColor, FontWeight.w400),
                             ],
                           ),
                           SizedBox(
@@ -554,7 +559,7 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
                               SizedBox(
                                 width: 2.w,
                               ),
-                              addText("Hang washing", 14.sp, CustomColors.textBlackColor, FontWeight.w400),
+                              addText("Hang washing", 14.sp, BaseColors.textBlackColor, FontWeight.w400),
                             ],
                           ),
                           SizedBox(

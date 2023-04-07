@@ -6,13 +6,13 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/base_tab_button.dart';
 import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
+
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/star_evaluation_screen/star_evaluation_screen_ctrl.dart';
 
-import '../../Utility/custom_colors.dart';
+import '../../Utility/base_colors.dart';
 
 class StarRatingPopup extends StatefulWidget {
   const StarRatingPopup({Key? key}) : super(key: key);
@@ -31,6 +31,11 @@ class _StarRatingPopupState extends State<StarRatingPopup> with SingleTickerProv
     tabController = TabController(length: 2, vsync: this)..addListener(() {
       setState(() {});
     });
+  }
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {
@@ -107,13 +112,13 @@ class _StarRatingPopupState extends State<StarRatingPopup> with SingleTickerProv
                                 children: [
                                   Icon(
                                     CupertinoIcons.star_fill,
-                                    color: tabController.index == 0 ? CustomColors.primaryColor : Colors.grey.shade500,
+                                    color: tabController.index == 0 ? BaseColors.primaryColor : Colors.grey.shade500,
                                     size: 22.sp,
                                   ),
                                   Positioned(
                                     top: 10.0,
                                     left: 10.0,
-                                    child: addText(tabController.index == 0 ? "2" : "-2", 13.sp, CustomColors.white, FontWeight.w400),)
+                                    child: addText(tabController.index == 0 ? "2" : "-2", 13.sp, BaseColors.white, FontWeight.w400),)
                                 ],
                               ),
                             ),

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/otp_txt_field.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/route_manager/route_name.dart';
@@ -36,7 +38,7 @@ class _OTPScreenState extends State<OTPScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: CustomColors.backgroundColor,
+        backgroundColor: BaseColors.backgroundColor,
         body: SingleChildScrollView(
           child: SafeArea(
             child: Stack(
@@ -44,7 +46,7 @@ class _OTPScreenState extends State<OTPScreen> {
                 Container(
                   height: MediaQuery.of(context).size.height*0.17,
                   alignment: Alignment.center,
-                  child: Text(translate(context).sms_verification, style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: 21.sp),),
+                  child: Text(translate(context).sms_verification, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: onBoardingHeadingTs),),
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width,
@@ -61,30 +63,61 @@ class _OTPScreenState extends State<OTPScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(height: MediaQuery.of(context).size.height*0.05,),
-                      Text(translate(context).otp_sent,style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 21.sp),),
+                      Text(translate(context).otp_sent,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: onBoardingTitleTs),),
                       SizedBox(height: 0.5.h,),
-                      Text(translate(context).enter_4_digit_otp,style: Style.montserratRegularStyle().copyWith(color: const Color(0xff6B6B6B), fontSize: 16.sp, height: 1.5),),
+                      Text(translate(context).enter_4_digit_otp,style: Style.montserratRegularStyle().copyWith(color: const Color(0xff6B6B6B), fontSize: onBoardingSubTitleTs, height: 1.5),),
                       SizedBox(height: 0.5.h,),
-                      Text("05xx-xxxxxxxx",style: Style.montserratRegularStyle().copyWith(color: const Color(0xff6B6B6B), fontSize: 16.sp, height: 1.5),),
+                      Text("05xx-xxxxxxxx",style: Style.montserratRegularStyle().copyWith(color: const Color(0xff6B6B6B), fontSize: onBoardingSubTitleTs, height: 1.5),),
                       SizedBox(height: 0.5.h,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          OTPInputBox(controller: _first, autoFocus: true, size: MediaQuery.of(context).size),
-                          OTPInputBox(
-                              controller: _second, autoFocus: false, size: MediaQuery.of(context).size),
-                          OTPInputBox(controller: _third, autoFocus: false, size: MediaQuery.of(context).size),
-                          OTPInputBox(controller: _forth, autoFocus: false, size: MediaQuery.of(context).size),
-                        ],
+                      PinCodeTextField(
+                        textStyle:
+                        TextStyle(color: BaseColors.primaryColor),
+                        length: 4, autoFocus: true,
+                        keyboardType: TextInputType.number,
+                        obscureText: false,
+                        cursorColor: Colors.black,
+                        animationType: AnimationType.fade,
+                        pinTheme: PinTheme(
+                          shape: PinCodeFieldShape.box,
+                          borderRadius: BorderRadius.circular(5),
+                          fieldHeight: 72,
+                          inactiveColor: BaseColors.borderColor,
+                          fieldWidth: 65,
+                          borderWidth: 1,
+                          disabledColor: BaseColors.borderColor,
+                          activeColor: BaseColors.primaryColor,
+                          selectedFillColor: Colors.white,
+                          inactiveFillColor: Colors.white,
+                          selectedColor: BaseColors.borderColor,
+                          activeFillColor: BaseColors.primaryColorLight,
+                        ),
+                        animationDuration:
+                        const Duration(milliseconds: 300),
+                        // backgroundColor: Colors.blue.shade50,
+                        enableActiveFill: true,
+                        // controller: textEditingController,
+                        onCompleted: (v) {
+                          debugPrint("Completed");
+                        },
+                        onChanged: (value) {
+                          debugPrint(value);
+                          // setState(() {
+                          //   currentText = value;
+                          // });
+                        },
+                        beforeTextPaste: (text) {
+                          return true;
+                        },
+                        appContext: context,
                       ),
                       SizedBox(height: 5.h,),
                       Center(
                         child: RichText(
                           text: TextSpan(
                             text: ' ${translate(context).didnt_recive_otp}',
-                            style: Style.montserratBoldStyle().copyWith(color: const Color(0xff7C7C7C), fontSize: 16.sp),
+                            style: Style.montserratBoldStyle().copyWith(color: const Color(0xff7C7C7C), fontSize: onBoardingSubTitleTs),
                             children: <TextSpan>[
-                              TextSpan(text: ' ${translate(context).sent_again}', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 16.sp)),
+                              TextSpan(text: ' ${translate(context).sent_again}', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: onBoardingSubTitleTs)),
                             ],
                           ),
                         ),
@@ -95,7 +128,7 @@ class _OTPScreenState extends State<OTPScreen> {
                           Get.offAllNamed(chooseLoginTypeScreenRoute);
                         }),
                       ),
-                      SizedBox(height: 10.h,),
+                      SizedBox(height: 10.h),
                     ],
                   ),
                 )

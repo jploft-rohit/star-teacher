@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -44,7 +44,7 @@ class _TrayViewState extends State<TrayView> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   addText('First Break Items', 16.sp,
-                      CustomColors.textBlackColor, FontWeight.w700),
+                      BaseColors.textBlackColor, FontWeight.w700),
                   BaseButton(
                       btnWidth: 85,
                       title: "Add item",
@@ -65,7 +65,7 @@ class _TrayViewState extends State<TrayView> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   addText('Second Break Items', 16.sp,
-                      CustomColors.textBlackColor, FontWeight.w700),
+                      BaseColors.textBlackColor, FontWeight.w700),
                   BaseButton(
                       btnWidth: 85,
                       title: "Add item",
@@ -85,7 +85,7 @@ class _TrayViewState extends State<TrayView> {
               const Divider(),
               SizedBox(height: 2.h),
               addText('Order Type', radioButtonTitleTs,
-                  CustomColors.textBlackColor, FontWeight.w700),
+                  BaseColors.textBlackColor, FontWeight.w700),
               SizedBox(height: 1.5.h),
               Obx(() => Row(
                     children: [
@@ -103,10 +103,10 @@ class _TrayViewState extends State<TrayView> {
                 padding: const EdgeInsets.only(left: 4.0, right: 4.0),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: CustomColors.white,
+                    color: BaseColors.white,
                     boxShadow: kElevationToShadow[2],
                     borderRadius: BorderRadius.circular(13),
-                    border: Border.all(color: CustomColors.borderColor),
+                    border: Border.all(color: BaseColors.borderColor),
                   ),
                   padding: const EdgeInsets.all(15),
                   child: GridView.builder(
@@ -129,7 +129,7 @@ class _TrayViewState extends State<TrayView> {
                           addText(
                               controller.weekList[index],
                               14.sp,
-                              CustomColors.textBlackColor,
+                              BaseColors.textBlackColor,
                               FontWeight.w400)
                         ],
                       ),
@@ -140,7 +140,7 @@ class _TrayViewState extends State<TrayView> {
               ),
               SizedBox(height: 2.h),
               addText('Serving', radioButtonTitleTs,
-                  CustomColors.textBlackColor, FontWeight.w700),
+                  BaseColors.textBlackColor, FontWeight.w700),
               SizedBox(height: 1.5.h),
               Obx(() => Row(
                 children: [
@@ -150,17 +150,18 @@ class _TrayViewState extends State<TrayView> {
                   SizedBox(width: 2.h),
                   radioButton(() {
                     controller.deliverSelected();
-                  }, controller.deliver.value, 'Deliver')
+                 }, controller.deliver.value, 'Deliver')
                 ],
-              )),
+               ),
+              ),
               SizedBox(height: 2.h),
               Obx(()=>Visibility(
                   visible: controller.deliver.value,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: CustomColors.white,
+                      color: BaseColors.white,
                       borderRadius: BorderRadius.circular(13),
-                      border: Border.all(color: CustomColors.borderColor),
+                      border: Border.all(color: BaseColors.borderColor),
                     ),
                     padding: const EdgeInsets.all(15),
                     child: Row(
@@ -170,7 +171,7 @@ class _TrayViewState extends State<TrayView> {
                           child: CustomTextField(
                             controller: TextEditingController(),
                             hintText: "10:30 AM",
-                            fillColor: CustomColors.txtFieldTextColor,
+                            fillColor: BaseColors.txtFieldTextColor,
                             borderRadius: 5.0,
                             suffixIcon: Padding(
                               padding: const EdgeInsetsDirectional.only(end: 10.0),
@@ -186,7 +187,7 @@ class _TrayViewState extends State<TrayView> {
                           child: CustomTextField(
                             controller: TextEditingController(),
                             hintText: "Location",
-                            fillColor: CustomColors.txtFieldTextColor,
+                            fillColor: BaseColors.txtFieldTextColor,
                             borderRadius: 5.0,
                             suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
                           ),
@@ -206,7 +207,7 @@ class _TrayViewState extends State<TrayView> {
               addText(
                   'Note: \n1-Order can be cancelled before 24 hours of serving.\n2-Amount will be deduct from the wallet when order is served',
                   13.sp,
-                  CustomColors.textLightGreyColor,
+                  BaseColors.textLightGreyColor,
                   FontWeight.w400),
               SizedBox(height: 3.h),
               Center(
@@ -272,7 +273,7 @@ class _TrayViewState extends State<TrayView> {
         margin: EdgeInsets.only(bottom: 1.5.h),
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-            color: CustomColors.white,
+            color: BaseColors.white,
             boxShadow: kElevationToShadow[2],
             borderRadius: BorderRadius.circular(20)),
         child: Row(
@@ -296,22 +297,22 @@ class _TrayViewState extends State<TrayView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  addText(name, 16.sp, CustomColors.textBlackColor,
+                  addText(name, 16.sp, BaseColors.textBlackColor,
                       FontWeight.w400),
                   SizedBox(height: 0.5.h),
                   addText(price, 14.sp,
-                      CustomColors.primaryColor, FontWeight.w700),
+                      BaseColors.primaryColor, FontWeight.w700),
                   SizedBox(height: 1.h),
                   Row(
                     children: [
                       SvgPicture.asset(
                         "assets/images/delete 4.svg",
-                        color: CustomColors.textRedColor,
+                        color: BaseColors.textRedColor,
                         height: 2.h,
                       ),
                       SizedBox(width: 1.h),
                       addText('Remove', 14.sp,
-                          CustomColors.textRedColor, FontWeight.w400)
+                          BaseColors.textRedColor, FontWeight.w400)
                     ],
                   ),
                 ],
@@ -328,9 +329,9 @@ class _TrayViewState extends State<TrayView> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        addText(title, 15.sp, CustomColors.textBlackColor,
+        addText(title, 15.sp, BaseColors.textBlackColor,
             FontWeight.w400),
-        addText(body, 15.sp, CustomColors.primaryColor,
+        addText(body, 15.sp, BaseColors.primaryColor,
             FontWeight.w700),
       ],
     );

@@ -4,9 +4,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/star_evaluation_screen/success_dialog_screen.dart';
@@ -22,7 +22,7 @@ class _RewardImageScreenState extends State<RewardImageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.white,
+      backgroundColor: BaseColors.white,
       appBar: BaseAppBar(title: translate(context).reward_image),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -51,7 +51,7 @@ class _RewardImageScreenState extends State<RewardImageScreen> {
                           SvgPicture.asset('assets/images/add-image 1.svg'),
                           SizedBox(height:1.h),
                           addText(translate(context).upload_from_albums, 14.sp,
-                              CustomColors.greyColor, FontWeight.w400)
+                              BaseColors.greyColor, FontWeight.w400)
                         ],
                       ),
                     ),
@@ -75,7 +75,7 @@ class _RewardImageScreenState extends State<RewardImageScreen> {
                             SvgPicture.asset('assets/images/photo-camera 1.svg'),
                             SizedBox(height:1.h),
                             addText(translate(context).camera, 14.sp,
-                                CustomColors.greyColor, FontWeight.w400)
+                                BaseColors.greyColor, FontWeight.w400)
                           ]),
                     ),
                   ),
@@ -85,7 +85,7 @@ class _RewardImageScreenState extends State<RewardImageScreen> {
             ),
             SizedBox(height:2.h),
             addText(translate(context).note_add_photo_of_the_reward,
-                15.sp, CustomColors.textBlackColor, FontWeight.w400),
+                15.sp, BaseColors.textBlackColor, FontWeight.w400),
             SizedBox(height:3.h),
             BaseButton(title: translate(context).submit_btn_txt, onPressed: (){
               showGeneralDialog(

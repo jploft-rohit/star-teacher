@@ -5,8 +5,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -31,7 +31,7 @@ class _DetailViewState extends State<DetailView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.white,
+      backgroundColor: BaseColors.white,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -52,7 +52,7 @@ class _DetailViewState extends State<DetailView> {
       elevation: 5,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
-          side: const BorderSide(color: CustomColors.primaryColor)),
+          side: const BorderSide(color: BaseColors.primaryColor)),
       clipBehavior: Clip.antiAlias,
       margin: EdgeInsets.zero,
       child: Padding(
@@ -63,11 +63,11 @@ class _DetailViewState extends State<DetailView> {
               .copyWith(dividerColor: Colors.transparent),
           child: ExpansionTile(
               childrenPadding: EdgeInsets.zero,
-              iconColor: CustomColors.primaryColor,
-              collapsedIconColor: CustomColors.primaryColor,
+              iconColor: BaseColors.primaryColor,
+              collapsedIconColor: BaseColors.primaryColor,
               tilePadding: EdgeInsets.zero,
-              title: Text(translate(context).my_information, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 17.sp)),
-              backgroundColor: CustomColors.white,
+              title: Text(translate(context).my_information, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 17.sp)),
+              backgroundColor: BaseColors.white,
               expandedCrossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Row(
@@ -84,17 +84,17 @@ class _DetailViewState extends State<DetailView> {
                         width: 20.w,
                         height: 25,
                         decoration: BoxDecoration(
-                            color: CustomColors.backgroundColor,
+                            color: BaseColors.backgroundColor,
                             // boxShadow: [getDeepBoxShadow()],
                             border: Border.all(
-                                color: CustomColors.primaryColor,
+                                color: BaseColors.primaryColor,
                                 width: 1.5),
                             borderRadius: BorderRadius.circular(15.0)),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20, vertical: 2),
                           child: Center(
-                            child: Text(translate(context).edit, style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: mediumButtonTs)),
+                            child: Text(translate(context).edit, style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: mediumButtonTs)),
                           ),
                         ),
                       ),
@@ -143,13 +143,14 @@ class _DetailViewState extends State<DetailView> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    buildInfoItems(translate(context).emirates_ID, 'GT65349'),
+                    Expanded(child: buildInfoItems(translate(context).emirates_ID, 'GT65349')),
                     Container(
+                      margin: EdgeInsets.symmetric(horizontal: 8),
                       width: 1.0,
                       height: 3.h,
-                      color: CustomColors.borderColor,
+                      color: BaseColors.borderColor,
                     ),
-                    buildInfoItems(translate(context).expiry_date, '15 Sep, 2025'),
+                    Expanded(child: buildInfoItems(translate(context).expiry_date, '15 Sep, 2025')),
                   ],
                 ),
                 SizedBox(
@@ -172,9 +173,9 @@ class _DetailViewState extends State<DetailView> {
                                   return OpenPdfPopup(title: "");
                                 },
                               );
-                            },child: Icon(Icons.remove_red_eye_outlined,color: CustomColors.primaryColor,size: 20.sp,)),
+                            },child: Icon(Icons.remove_red_eye_outlined,color: BaseColors.primaryColor,size: 20.sp,)),
                         const SizedBox(width: 10,),
-                        Icon(Icons.download_for_offline,color: CustomColors.primaryColor,size: 20.sp,)
+                        Icon(Icons.download_for_offline,color: BaseColors.primaryColor,size: 20.sp,)
                       ],
                     ),
                   ],
@@ -198,7 +199,7 @@ class _DetailViewState extends State<DetailView> {
       elevation: 5,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
-          side: const BorderSide(color: CustomColors.primaryColor)),
+          side: const BorderSide(color: BaseColors.primaryColor)),
       clipBehavior: Clip.antiAlias,
       margin: EdgeInsets.zero,
       child: Padding(
@@ -209,11 +210,11 @@ class _DetailViewState extends State<DetailView> {
               .copyWith(dividerColor: Colors.transparent),
           child: ExpansionTile(
               childrenPadding: EdgeInsets.zero,
-              iconColor: CustomColors.primaryColor,
-              collapsedIconColor: CustomColors.primaryColor,
+              iconColor: BaseColors.primaryColor,
+              collapsedIconColor: BaseColors.primaryColor,
               tilePadding: EdgeInsets.zero,
-              title: Text(translate(context).job_details, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 17.sp)),
-              backgroundColor: CustomColors.white,
+              title: Text(translate(context).job_details, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 17.sp)),
+              backgroundColor: BaseColors.white,
               expandedCrossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
 
@@ -235,19 +236,19 @@ class _DetailViewState extends State<DetailView> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(translate(context).job_grade, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp)),
+                          Text(translate(context).job_grade, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp)),
                           SizedBox(height: 0.5.h,),
                           Container(
                             margin: EdgeInsets.only(bottom: 2.h),
                             padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
                             decoration: BoxDecoration(
-                                border: Border.all(color: CustomColors.primaryColor),
+                                border: Border.all(color: BaseColors.primaryColor),
                                 borderRadius: BorderRadius.circular(10.0)
                             ), child: Row(
                             children: [
                               SvgPicture.asset(jobDetailSvg,height: 18.0,),
                               const SizedBox(width: 10,),
-                              Text('14', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp)),
+                              Text('14', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp)),
                             ],
                           ),
                           ),
@@ -262,19 +263,19 @@ class _DetailViewState extends State<DetailView> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(translate(context).title_grade, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp)),
+                          Text(translate(context).title_grade, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp)),
                           SizedBox(height: 0.5.h,),
                           Container(
                             margin: EdgeInsets.only(bottom: 2.h),
                             padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
                             decoration: BoxDecoration(
-                                border: Border.all(color: CustomColors.primaryColor),
+                                border: Border.all(color: BaseColors.primaryColor),
                                 borderRadius: BorderRadius.circular(10.0)
                             ), child: Row(
                             children: [
                               SvgPicture.asset(jobDetailSvg,height: 18.0,),
                               const SizedBox(width: 10,),
-                              Text('12 - 14', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp)),
+                              Text('12 - 14', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp)),
                             ],
                           ),
                           ),
@@ -285,42 +286,42 @@ class _DetailViewState extends State<DetailView> {
                 ),
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(translate(context).job_title, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp)),),
+                  child: Text(translate(context).job_title, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp)),),
                 Container(
                   margin: EdgeInsets.only(top: 1.h,bottom: 2.h),
                   padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
                   decoration: BoxDecoration(
-                      border: Border.all(color: CustomColors.primaryColor),
+                      border: Border.all(color: BaseColors.primaryColor),
                       borderRadius: BorderRadius.circular(10.0)
                   ), child: Row(
                   children: [
                     SvgPicture.asset(classTakenSvg,height: 18.0,),
                     const SizedBox(width: 10,),
-                    Text('Teacher', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp)),
+                    Text('Teacher', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp)),
                   ],
                 ),
                 ),
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(translate(context).subject, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp)),),
+                  child: Text(translate(context).subject, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp)),),
                 Container(
                   margin: EdgeInsets.only(top: 1.h,bottom: 2.h),
                   padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
                   decoration: BoxDecoration(
-                      border: Border.all(color: CustomColors.primaryColor),
+                      border: Border.all(color: BaseColors.primaryColor),
                       borderRadius: BorderRadius.circular(10.0)
                   ), child: Row(
                   children: [
                     SvgPicture.asset(classTakenSvg,height: 18.0,),
                     const SizedBox(width: 10,),
-                    Text('Maths', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp)),
+                    Text('Maths', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp)),
                   ],
                 ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(translate(context).employment_certificate, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp)),
+                    Text(translate(context).employment_certificate, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp)),
                     Row(
                       children: [
                         InkWell(
@@ -331,20 +332,20 @@ class _DetailViewState extends State<DetailView> {
                                   return OpenPdfPopup(title: "");
                                 },
                               );
-                            },child: Icon(Icons.remove_red_eye_outlined,color: CustomColors.primaryColor,size: 20.sp,)),
+                            },child: Icon(Icons.remove_red_eye_outlined,color: BaseColors.primaryColor,size: 20.sp,)),
                         const SizedBox(width: 10,),
-                        Icon(Icons.download_for_offline,color: CustomColors.primaryColor,size: 20.sp,)
+                        Icon(Icons.download_for_offline,color: BaseColors.primaryColor,size: 20.sp,)
                       ],
                     ),
                   ],
                 ),
                 const Divider(
-                  color: CustomColors.primaryColor,
+                  color: BaseColors.primaryColor,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(translate(context).salary_certificate, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp)),
+                    Text(translate(context).salary_certificate, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp)),
                     Row(
                       children: [
                         InkWell(
@@ -355,20 +356,20 @@ class _DetailViewState extends State<DetailView> {
                                   return OpenPdfPopup(title: "");
                                 },
                               );
-                            },child: Icon(Icons.remove_red_eye_outlined,color: CustomColors.primaryColor,size: 20.sp,)),
+                            },child: Icon(Icons.remove_red_eye_outlined,color: BaseColors.primaryColor,size: 20.sp,)),
                         const SizedBox(width: 10,),
-                        Icon(Icons.download_for_offline,color: CustomColors.primaryColor,size: 20.sp,)
+                        Icon(Icons.download_for_offline,color: BaseColors.primaryColor,size: 20.sp,)
                       ],
                     ),
                   ],
                 ),
                 const Divider(
-                  color: CustomColors.primaryColor,
+                  color: BaseColors.primaryColor,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(translate(context).job_description, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp)),
+                    Text(translate(context).job_description, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp)),
                     Row(
                       children: [
                         InkWell(onTap: (){
@@ -378,15 +379,15 @@ class _DetailViewState extends State<DetailView> {
                               return OpenPdfPopup(title: "");
                             },
                           );
-                        },child: Icon(Icons.remove_red_eye_outlined,color: CustomColors.primaryColor,size: 20.sp,)),
+                        },child: Icon(Icons.remove_red_eye_outlined,color: BaseColors.primaryColor,size: 20.sp,)),
                         const SizedBox(width: 10,),
-                        Icon(Icons.download_for_offline,color: CustomColors.primaryColor,size: 20.sp,)
+                        Icon(Icons.download_for_offline,color: BaseColors.primaryColor,size: 20.sp,)
                       ],
                     ),
                   ],
                 ),
                 const Divider(
-                  color: CustomColors.primaryColor,
+                  color: BaseColors.primaryColor,
                 ),
                 GestureDetector(
                   onTap: (){
@@ -395,8 +396,8 @@ class _DetailViewState extends State<DetailView> {
                   child:  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(translate(context).salary_slip, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp)),
-                      Icon(Icons.arrow_forward,color: CustomColors.primaryColor,size: 18.sp,)
+                      Text(translate(context).salary_slip, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp)),
+                      Icon(Icons.arrow_forward,color: BaseColors.primaryColor,size: 18.sp,)
                     ],
                   ),
                 ),
@@ -412,7 +413,7 @@ class _DetailViewState extends State<DetailView> {
       elevation: 5,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
-          side: const BorderSide(color: CustomColors.primaryColor)),
+          side: const BorderSide(color: BaseColors.primaryColor)),
       clipBehavior: Clip.antiAlias,
       margin: EdgeInsets.zero,
       child: Padding(
@@ -422,13 +423,13 @@ class _DetailViewState extends State<DetailView> {
           data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
           child: ExpansionTile(
               childrenPadding: EdgeInsets.zero,
-              iconColor: CustomColors.primaryColor,
-              collapsedIconColor: CustomColors.primaryColor,
+              iconColor: BaseColors.primaryColor,
+              collapsedIconColor: BaseColors.primaryColor,
               tilePadding: EdgeInsets.zero,
               title: Text(
                   translate(context).family_info,
-                  style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 17.sp)),
-              backgroundColor: CustomColors.white,
+                  style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 17.sp)),
+              backgroundColor: BaseColors.white,
               children: <Widget>[
                 const SizedBox(
                   height: 1,
@@ -436,7 +437,7 @@ class _DetailViewState extends State<DetailView> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(translate(context).family_members, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp)),
+                    Text(translate(context).family_members, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp)),
 
                     GestureDetector(
                       onTap: (){
@@ -445,10 +446,10 @@ class _DetailViewState extends State<DetailView> {
                       child: Container(
                         padding: const EdgeInsets.all(1),
                         decoration: BoxDecoration(
-                            color: CustomColors.backgroundColor,
+                            color: BaseColors.backgroundColor,
                             shape: BoxShape.circle,
-                            border: Border.all(color: CustomColors.primaryColor)
-                        ), child: Icon(Icons.add,color: CustomColors.primaryColor,size: 18.sp,),
+                            border: Border.all(color: BaseColors.primaryColor)
+                        ), child: Icon(Icons.add,color: BaseColors.primaryColor,size: 18.sp,),
                       ),
                     )
 
@@ -480,8 +481,8 @@ class _DetailViewState extends State<DetailView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
-          Text(description, style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp)),
+          Text(title, style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
+          Text(description, style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp)),
         ],
       ),
     );
@@ -497,8 +498,8 @@ class _DetailViewState extends State<DetailView> {
         margin:  const EdgeInsets.only(bottom: 10),
         padding: const EdgeInsets.symmetric(vertical: 15),
         decoration: BoxDecoration(
-            color: CustomColors.white,
-            border: Border.all(color: CustomColors.borderColor,width: 2),
+            color: BaseColors.white,
+            border: Border.all(color: BaseColors.borderColor,width: 2),
             borderRadius: BorderRadius.circular(20.0)),
         child: Padding(
             padding:
@@ -524,7 +525,7 @@ class _DetailViewState extends State<DetailView> {
                         GestureDetector(onTap: (){
                           Get.to(const AddFamilyMemberScreen(isUpdating: true));
                         },
-                          child: Image.asset(editPng, color: CustomColors.primaryColor,height: 17.sp,),
+                          child: Image.asset(editPng, color: BaseColors.primaryColor,height: 17.sp,),
                         ),
                         const SizedBox(width: 20,),
                         GestureDetector(onTap: (){
@@ -532,7 +533,7 @@ class _DetailViewState extends State<DetailView> {
                         },
                           child: Icon(
                             CupertinoIcons.delete,
-                            color: CustomColors.primaryColor,
+                            color: BaseColors.primaryColor,
                             size: 17.sp,
                           ),
                         ),
@@ -553,14 +554,14 @@ class _DetailViewState extends State<DetailView> {
         barrierDismissible: false,
         builder: (_) => AlertDialog(
           insetPadding: EdgeInsets.only(left: 15.sp, right: 15.sp),
-            backgroundColor: CustomColors.white,
+            backgroundColor: BaseColors.white,
             elevation: 10,
             scrollable: true,
             title: Stack(
               children: [
                 Align(alignment: Alignment.center,
                   child: Text(
-                    translate(context).remove_family_member,style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor,fontSize: 17.sp),),),
+                    translate(context).remove_family_member,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor,fontSize: 17.sp),),),
 
                 Align(alignment: AlignmentDirectional.topEnd,
                     child: GestureDetector(
@@ -584,7 +585,7 @@ class _DetailViewState extends State<DetailView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("${translate(context).reason}: ",style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor,fontSize: 15.sp),),
+                    Text("${translate(context).reason}: ",style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor,fontSize: 15.sp),),
                     const SizedBox(height: 5,),
                     CustomTextField(controller: reasonCtrl, hintText: translate(context).type_here,borderRadius: 5.0,maxLine: 3,),
                     SizedBox(height: 2.h ,),

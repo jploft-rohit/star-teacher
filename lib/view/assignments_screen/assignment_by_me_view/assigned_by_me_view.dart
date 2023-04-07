@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_tab_button.dart';
 import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -29,6 +29,11 @@ class _AssignedByMeViewState extends State<AssignedByMeView> with SingleTickerPr
       setState(() {});
     });
     super.initState();
+  }
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {

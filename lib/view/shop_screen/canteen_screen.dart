@@ -3,8 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/shop_screen/shop_screen_ctrl.dart';
@@ -21,7 +21,7 @@ class _CanteenShopAllViewState extends State<CanteenShopAllView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.white,
+      backgroundColor: BaseColors.white,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -34,7 +34,7 @@ class _CanteenShopAllViewState extends State<CanteenShopAllView> {
                   Icons.search,
                 ),
               ),
-              hintTextColor: CustomColors.textLightGreyColor,
+              hintTextColor: BaseColors.textLightGreyColor,
               hintText: 'Search by name',
             ),
             SizedBox(height:2.h),
@@ -53,7 +53,7 @@ class _CanteenShopAllViewState extends State<CanteenShopAllView> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: kElevationToShadow[2],
-                    color: CustomColors.white),
+                    color: BaseColors.white),
                 padding: EdgeInsets.all(10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,7 +75,7 @@ class _CanteenShopAllViewState extends State<CanteenShopAllView> {
                     addText(
                         controller.canteenShopList[index]['name']!,
                         15.sp + 2,
-                        CustomColors.textBlackColor,
+                        BaseColors.textBlackColor,
                         FontWeight.w400),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -83,7 +83,7 @@ class _CanteenShopAllViewState extends State<CanteenShopAllView> {
                         addText(
                             controller.canteenShopList[index]['price']!,
                             15.sp,
-                            CustomColors.primaryColor,
+                            BaseColors.primaryColor,
                             FontWeight.w400),
                         BaseButton(
                             title: "+Add",

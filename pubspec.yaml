@@ -56,6 +56,8 @@ dependencies:
   shared_preferences: ^2.0.17
   dropdown_button2: ^1.0.0
   autoscale_tabbarview: ^1.0.2
+  pin_code_fields: ^7.4.0
+  local_auth: ^2.1.6
 
 dev_dependencies:
   flutter_launcher_icons: ^0.12.0

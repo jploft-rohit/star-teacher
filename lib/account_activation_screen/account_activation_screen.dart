@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -26,7 +26,7 @@ class _AccountActivationScreenState extends State<AccountActivationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.backgroundColor,
+      backgroundColor: BaseColors.backgroundColor,
       body: SafeArea(
           child: Column(
             children: [
@@ -44,7 +44,7 @@ class _AccountActivationScreenState extends State<AccountActivationScreen> {
                         ),
                       ),
                       Center(
-                        child: Text(translate(context).account_activation, style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: 21.sp),),
+                        child: Text(translate(context).account_activation, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 21.sp),),
                       )
                     ],
                   )),
@@ -57,7 +57,7 @@ class _AccountActivationScreenState extends State<AccountActivationScreen> {
                         borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(30),
                             topRight: Radius.circular(30)),
-                        color: CustomColors.white,
+                        color: BaseColors.white,
                         boxShadow: [getBoxShadow()]),
                     child: Column(
                       children: [
@@ -95,7 +95,7 @@ class _AccountActivationScreenState extends State<AccountActivationScreen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(translate(context).account_activation_popup_txt,style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: CustomColors.textBlackColor, height: 1.5),textAlign: TextAlign.center,),
+                      Text(translate(context).account_activation_popup_txt,style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: BaseColors.textBlackColor, height: 1.5),textAlign: TextAlign.center,),
                       const SizedBox(height: 20,),
                       BaseButton(btnType: dialogButton,title: translate(context).ok, onPressed: () {Get.toNamed(ruleScreenRoute);},textSize: mediumButtonTs,)
                     ],
@@ -117,7 +117,7 @@ class _AccountActivationScreenState extends State<AccountActivationScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Flexible(child: Text(fieldName, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),)),
+        Flexible(child: Text(fieldName, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),)),
 
         Container(
           width: 60.w,
@@ -137,7 +137,7 @@ class _AccountActivationScreenState extends State<AccountActivationScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(fieldName, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
+            Text(fieldName, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
 
             Container(
               width: 60.w,
@@ -154,7 +154,7 @@ class _AccountActivationScreenState extends State<AccountActivationScreen> {
                     borderRadius: BorderRadius.circular(5.0),
                     color: const Color(0xff4C4C4C)
                   ),
-                  child: Text(translate(context).sent_otp_btn_txt, style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp,color: CustomColors.white),),
+                  child: Text(translate(context).sent_otp_btn_txt, style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp,color: BaseColors.white),),
                 ),
               ),
             )

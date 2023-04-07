@@ -3,10 +3,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_dropdown.dart';
+import 'package:staff_app/Utility/base_textformfield.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
+import 'package:staff_app/Utility/dummy_lists.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 
 class AddHelpView extends StatefulWidget {
@@ -36,85 +40,55 @@ class _AddHelpViewState extends State<AddHelpView> {
       appBar: BaseAppBar(title: widget.isUpdating ? "Edit Feedback & Help" : "Feedback & Help"),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(15.sp),
+          padding: EdgeInsets.all(scaffoldPadding),
           child: Column(
             children: [
-              Container(
-                padding: EdgeInsets.only(left: 8.0),
-                decoration: BoxDecoration(
-                  color: CustomColors.backgroundColor,
-                  borderRadius: BorderRadius.circular(5.0),
-                  border: Border.all(
-                      color: CustomColors.borderColor
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Ignite Public School", style: Style.montserratRegularStyle().copyWith(color: Colors.black, fontSize: 16.sp),),
-                    const Icon(Icons.arrow_drop_down, color: Color(0xffC4C4C4),size: 35.0,)
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 1.h,
-              ),
-              CustomTextField(
-                controller: TextEditingController(),
-                fillColor: CustomColors.txtFieldTextColor,
+              BaseDropDown(),
+              BaseTextFormField(
+                controller: helpController,
                 hintText: "Help",
-                borderRadius: 5.0,
-                suffixIcon: Padding(
-                  padding: const EdgeInsetsDirectional.only(end: 6.0),
-                  child: Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
-                ),
+                isDropDown: true,
+                dropDownValue: helpController.text,
+                onChanged: (newValue){
+                  setState(() {
+                    helpController.text = newValue.toString();
+                  });},
+                items: DummyLists().list1.map((value) {
+                  return DropdownMenuItem(
+                    value: value,
+                    child: addText(value, 16.sp, Colors.black, FontWeight.w400),);
+                }).toList(),
               ),
-              SizedBox(
-                height: 2.h,
-              ),
-              CustomTextField(
-                controller: TextEditingController(),
-                fillColor: CustomColors.txtFieldTextColor,
+              BaseTextFormField(
+                controller: helpOptionController,
                 hintText: "Select the help options",
-                borderRadius: 5.0,
-                suffixIcon: Padding(
-                  padding: const EdgeInsetsDirectional.only(end: 6.0),
-                  child: Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
-                ),
+                isDropDown: true,
+                dropDownValue: helpOptionController.text,
+                onChanged: (newValue){
+                  setState(() {
+                    helpOptionController.text = newValue.toString();
+                  });},
+                items: DummyLists().list1.map((value) {
+                  return DropdownMenuItem(
+                    value: value,
+                    child: addText(value, 16.sp, Colors.black, FontWeight.w400),);
+                }).toList(),
               ),
-              SizedBox(
-                height: 2.h,
-              ),
-              CustomTextField(
-                controller: TextEditingController(),
-                fillColor: CustomColors.txtFieldTextColor,
+              BaseTextFormField(
+                controller: titleController,
                 hintText: "Title",
-                borderRadius: 5.0,
               ),
-              SizedBox(
-                height: 2.h,
-              ),
-              CustomTextField(
-                controller: TextEditingController(),
+              BaseTextFormField(
+                controller: messageController,
                 maxLine: 4,
                 hintText: "Message",
-                borderRadius: 8.0,
               ),
-              SizedBox(
-                height: 2.h,
-              ),
-              CustomTextField(
-                controller: TextEditingController(),
-                fillColor: CustomColors.txtFieldTextColor,
+              BaseTextFormField(
+                controller: uploadFilePhotoController,
                 hintText: "Upload file or Photo",
-                borderRadius: 5.0,
-                suffixIcon: Padding(
-                  padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                  child: SvgPicture.asset("assets/images/upload_icon.svg",),
-                ),
-              ),
-              SizedBox(
-                height: 3.h,
+                suffixIcon: "assets/images/upload_icon.svg",
+                bottomMargin: 3.h,
+                onTap: (){},
               ),
               BaseButton(title: "SUBMIT", onPressed: (){})
             ],

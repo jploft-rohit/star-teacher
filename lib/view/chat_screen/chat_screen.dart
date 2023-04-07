@@ -6,8 +6,8 @@ import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/base_tab_bar.dart';
 import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -48,6 +48,11 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin{
     super.initState();
   }
   @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -66,7 +71,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin{
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15.0),
                 border: Border.all(
-                  color: CustomColors.borderColor,
+                  color: BaseColors.borderColor,
                 ),
               ),
               child: Column(
@@ -92,7 +97,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin{
                     controller: TextEditingController(),
                     hintText: translate(context).search_by_id,
                     borderColor: Colors.transparent,
-                    hintTextColor: CustomColors.textLightGreyColor,
+                    hintTextColor: BaseColors.textLightGreyColor,
                     contentPadding: const EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
                     prefixIcon: const Padding(
                       padding: EdgeInsets.only(left: 10.0, right: 10.0),
@@ -155,7 +160,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin{
                   padding: const EdgeInsets.all(2.0),
                   decoration: const BoxDecoration(
                       shape: BoxShape.circle,
-                      color: CustomColors.primaryColor
+                      color: BaseColors.primaryColor
                   ),
                   child: Center(child: Text("10", style: Style.montserratRegularStyle().copyWith(color: Colors.white, fontSize: 13.sp),)),
                 ),
@@ -201,7 +206,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin{
                   padding: const EdgeInsets.all(2.0),
                   decoration: const BoxDecoration(
                       shape: BoxShape.circle,
-                      color: CustomColors.primaryColor
+                      color: BaseColors.primaryColor
                   ),
                   child: Center(child: Text("10", style: Style.montserratRegularStyle().copyWith(color: Colors.white, fontSize: 13.sp),)),
                 ),

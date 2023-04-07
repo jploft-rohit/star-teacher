@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/time_picker.dart';
@@ -50,7 +50,7 @@ class _AddTaskOrReminderScreenState extends State<AddTaskOrReminderScreen> {
             addText(translate(context).when_to_remind, 16, Colors.black, FontWeight.normal),
             SizedBox(height: 15,),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
@@ -60,9 +60,9 @@ class _AddTaskOrReminderScreenState extends State<AddTaskOrReminderScreen> {
                       child: Radio(
                         value: "daily",
                         groupValue: remainder,
-                        activeColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
+                        activeColor: MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
                         fillColor:
-                        MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
+                        MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
                         onChanged: (value){
                           setState(() {
                             remainder = value.toString();
@@ -83,9 +83,9 @@ class _AddTaskOrReminderScreenState extends State<AddTaskOrReminderScreen> {
                       width: 15,
                       child: Radio(
                         value: "specificdays",
-                        activeColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
+                        activeColor: MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
                         fillColor:
-                        MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
+                        MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
                         groupValue: remainder,
                         onChanged: (value){
                           setState(() {
@@ -107,9 +107,9 @@ class _AddTaskOrReminderScreenState extends State<AddTaskOrReminderScreen> {
                       width: 15,
                       child: Radio(
                         value: "specificdate",
-                        activeColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
+                        activeColor: MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
                         fillColor:
-                        MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
+                        MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
                         groupValue: remainder,
                         onChanged: (value){
                           setState(() {
@@ -214,7 +214,7 @@ class _AddTaskOrReminderScreenState extends State<AddTaskOrReminderScreen> {
                 padding: EdgeInsets.only(right: 10),
                 child: SvgPicture.asset("assets/images/upload_icon.svg"),
               ),
-              fillColor: CustomColors.txtFieldTextColor,
+              fillColor: BaseColors.txtFieldTextColor,
             ),
             SizedBox(height: 10,),
             Align(

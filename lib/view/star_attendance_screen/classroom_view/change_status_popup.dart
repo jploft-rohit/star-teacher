@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -65,9 +65,9 @@ class _ChangeStatusPopupState extends State<ChangeStatusPopup> {
                       RichText(
                         text: TextSpan(
                           text: '${translate(context).name} : ',
-                          style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp),
+                          style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),
                           children: <TextSpan>[
-                            TextSpan(text: "Roma", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 16.sp)),
+                            TextSpan(text: "Roma", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
                           ],
                         ),
                       ),
@@ -82,9 +82,9 @@ class _ChangeStatusPopupState extends State<ChangeStatusPopup> {
                       RichText(
                         text: TextSpan(
                           text: '${translate(context).current_status} : ',
-                          style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp),
+                          style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),
                           children: <TextSpan>[
-                            TextSpan(text: "Present", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 16.sp)),
+                            TextSpan(text: "Present", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
                           ],
                         ),
                       ),
@@ -111,17 +111,17 @@ class _ChangeStatusPopupState extends State<ChangeStatusPopup> {
                           padding: EdgeInsets.all(14.sp),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8.0),
-                              border: Border.all(color: CustomColors.primaryColor)
+                              border: Border.all(color: BaseColors.primaryColor)
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(controller.reasonList[index]['title'], style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: 17.sp),),
+                              Text(controller.reasonList[index]['title'], style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 17.sp),),
                               Checkbox(
                                 visualDensity: const VisualDensity(vertical: -4),
                                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                 side: const BorderSide(color: Colors.transparent),
-                                activeColor: CustomColors.primaryColor,
+                                activeColor: BaseColors.primaryColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(50.0),
                                 ),
@@ -149,7 +149,7 @@ class _ChangeStatusPopupState extends State<ChangeStatusPopup> {
                   Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: CustomColors.primaryColor)),
+                        border: Border.all(color: BaseColors.primaryColor)),
                     child: Container(
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(12.0,8,8,8),
@@ -160,7 +160,7 @@ class _ChangeStatusPopupState extends State<ChangeStatusPopup> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
                                   border: Border.all(
-                                      color: CustomColors.primaryColor)),
+                                      color: BaseColors.primaryColor)),
                               child:SvgPicture.asset(girlSvg),
                             ),
                             SizedBox(width: 2.w),
@@ -169,7 +169,7 @@ class _ChangeStatusPopupState extends State<ChangeStatusPopup> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(left: 10.0),
-                                  child: Text('Roma #21', style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: CustomColors.primaryColor),),
+                                  child: Text('Roma #21', style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: BaseColors.primaryColor),),
                                 ),
                                 SizedBox(
                                   height: 0.5.h,

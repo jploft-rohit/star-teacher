@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/utility.dart';
 
 import 'sizes.dart';
@@ -91,7 +91,7 @@ class StepProgressView extends StatelessWidget {
             Container(
               height: 25,
               alignment: Alignment.center,
-              child: Text(_statuses[i], style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: textSize ?? stepperTitleTs),textAlign: TextAlign.center,),
+              child: Text(_statuses[i], style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: textSize ?? stepperTitleTs),textAlign: TextAlign.center,),
             ),
             const SizedBox(
               height: 5,
@@ -105,14 +105,14 @@ class StepProgressView extends StatelessWidget {
                         borderRadius:
                             const BorderRadius.all(Radius.circular(22.0)),
                         border: Border.all(
-                          color:  CustomColors.white,
+                          color:  BaseColors.white,
                           width: 2.0,
                         ),
                         boxShadow: [getBoxShadow()],
                         color: circleColor),
                     child: const Icon(
                       Icons.check,
-                      color:  CustomColors.white,
+                      color:  BaseColors.white,
                       size: 12.0,
                     ),
                   )
@@ -131,7 +131,7 @@ class StepProgressView extends StatelessWidget {
             ),
             Row(
                     children: [
-                      Text(_titles.elementAt(i), style: Style.montserratBoldStyle().copyWith(color: CustomColors.textLightGreyColor, fontSize: textSize ?? stepperSubTitleTs),textAlign: TextAlign.center,),
+                      Text(_titles.elementAt(i), style: Style.montserratBoldStyle().copyWith(color: BaseColors.textLightGreyColor, fontSize: textSize ?? stepperSubTitleTs),textAlign: TextAlign.center,),
                     ],
                   )
           ],
@@ -143,7 +143,7 @@ class StepProgressView extends StatelessWidget {
         list.add(Expanded(
           child: Padding(
             padding: const EdgeInsets.only(top: 15.0),
-            child: MySeparator(color:  CustomColors.textLightGreyColor),
+            child: MySeparator(color:  BaseColors.textLightGreyColor),
           ),
         ));
       }

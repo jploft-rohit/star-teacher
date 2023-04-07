@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/base_tab_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/shop_screen/shop_screen_ctrl.dart';
@@ -27,11 +27,16 @@ class _ShopCanteenTabState extends State<ShopCanteenTab> with SingleTickerProvid
     });
   }
   @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
-        backgroundColor: CustomColors.white,
+        backgroundColor: BaseColors.white,
         body: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -82,7 +87,7 @@ class _ShopCanteenTabState extends State<ShopCanteenTab> with SingleTickerProvid
                 Icons.search,
               ),
             ),
-            hintTextColor: CustomColors.textLightGreyColor,
+            hintTextColor: BaseColors.textLightGreyColor,
             hintText: 'Search by name',
           ),
           SizedBox(height:2.h),
@@ -101,7 +106,7 @@ class _ShopCanteenTabState extends State<ShopCanteenTab> with SingleTickerProvid
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: kElevationToShadow[2],
-                  color: CustomColors.white),
+                  color: BaseColors.white),
               padding: EdgeInsets.all(10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,7 +128,7 @@ class _ShopCanteenTabState extends State<ShopCanteenTab> with SingleTickerProvid
                   addText(
                       controller.canteenShopList[index]['name']!,
                       15.sp + 2,
-                      CustomColors.textBlackColor,
+                      BaseColors.textBlackColor,
                       FontWeight.w400),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -132,13 +137,13 @@ class _ShopCanteenTabState extends State<ShopCanteenTab> with SingleTickerProvid
                         child: addText(
                             controller.canteenShopList[index]['price']!,
                             15.sp,
-                            CustomColors.primaryColor,
+                            BaseColors.primaryColor,
                             FontWeight.w400),
                       ),
                       Expanded(
                         child: BaseButton(
                             title: "+Add",
-                            verticalPadding: 0,
+                            verticalPadding: 4,
                             onPressed: () {}),
                       )
                     ],

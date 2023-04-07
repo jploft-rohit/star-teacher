@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_tab_bar.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -42,7 +42,7 @@ class _StarEvaluationScreenState extends State<StarEvaluationScreen> with Ticker
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15.0),
                 border: Border.all(
-                    color: CustomColors.borderColor
+                    color: BaseColors.borderColor
                 ),
               ),
               child: Column(
@@ -71,7 +71,7 @@ class _StarEvaluationScreenState extends State<StarEvaluationScreen> with Ticker
                       Container(
                         width: 1,
                         height: 25,
-                        color: CustomColors.borderColor,
+                        color: BaseColors.borderColor,
                       ),
                       Flexible(
                         flex: 1,
@@ -119,7 +119,7 @@ class _StarEvaluationScreenState extends State<StarEvaluationScreen> with Ticker
                       Container(
                         width: 1,
                         height: 25,
-                        color: CustomColors.borderColor,
+                        color: BaseColors.borderColor,
                       ),
                       Flexible(
                         flex: 1,
@@ -146,7 +146,7 @@ class _StarEvaluationScreenState extends State<StarEvaluationScreen> with Ticker
                   CustomTextField(
                     controller: searchCtrl,
                     hintText: translate(context).search_by_id,
-                    hintTextColor: CustomColors.textLightGreyColor,
+                    hintTextColor: BaseColors.textLightGreyColor,
                     borderColor: Colors.transparent,
                     contentPadding: const EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
                     prefixIcon: const Padding(

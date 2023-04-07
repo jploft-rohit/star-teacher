@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -44,8 +44,7 @@ class CustomTextField extends StatelessWidget {
         contentPadding: contentPadding ?? EdgeInsets.only(top: 16.sp, bottom: 16.sp, left: 10.0, right: 10.0),
         isDense: true,
         hintMaxLines: 2,
-        border: const OutlineInputBorder(
-            borderSide: BorderSide(color: CustomColors.txtFiledBorderColor)),
+        border: const OutlineInputBorder(borderSide: BorderSide(color: BaseColors.txtFiledBorderColor)),
         hintText: hintText,
         errorText: errorText,
         suffixIconConstraints: const BoxConstraints(maxHeight: 45),
@@ -56,12 +55,12 @@ class CustomTextField extends StatelessWidget {
         prefixIcon: prefixIcon,
         fillColor: fillColor ?? Colors.transparent,
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: borderColor ?? CustomColors.txtFiledBorderColor, width: 1.0),
+          borderSide: BorderSide(color: borderColor ?? BaseColors.txtFiledBorderColor, width: 1.0),
           borderRadius: BorderRadius.circular(borderRadius??8.0),
         ),
         enabledBorder: OutlineInputBorder(
           // borderSide: BorderSide.none,
-          borderSide: BorderSide(color: borderColor ??  CustomColors.txtFiledBorderColor, width: 1.0),
+          borderSide: BorderSide(color: borderColor ??  BaseColors.txtFiledBorderColor, width: 1.0),
           borderRadius: BorderRadius.circular(borderRadius??8.0),
         ),
         errorBorder: OutlineInputBorder(
@@ -70,7 +69,7 @@ class CustomTextField extends StatelessWidget {
           borderRadius: BorderRadius.circular(borderRadius??8.0),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: borderColor ?? CustomColors.txtFiledBorderColor, width: 1.0),
+          borderSide: BorderSide(color: borderColor ?? BaseColors.txtFiledBorderColor, width: 1.0),
           // borderSide: BorderSide.none,
           borderRadius: BorderRadius.circular(borderRadius??8.0),
         ),

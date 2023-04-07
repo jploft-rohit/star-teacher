@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -89,7 +89,7 @@ class _AwarenesCoursesViewState extends State<AwarenesCoursesView> {
                           Container(
                             height: 15.0,
                             width: 1,
-                            color: CustomColors.borderColor,
+                            color: BaseColors.borderColor,
                           ),
                           buildInfoItems(translate(context).due_date, "30/06/2022")
                         ],
@@ -98,7 +98,7 @@ class _AwarenesCoursesViewState extends State<AwarenesCoursesView> {
                       StepProgressView(
                         width: MediaQuery.of(context).size.width,
                         curStep: 4,
-                        color: CustomColors.primaryColor,
+                        color: BaseColors.primaryColor,
                         titles: pendingMeetingdates,
                         statuses: heading,
                       ),

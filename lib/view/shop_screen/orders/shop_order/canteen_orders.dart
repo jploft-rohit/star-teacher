@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_tab_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/shop_screen/orders/canteen_orders/sub_screens/every_week.dart';
 import 'package:staff_app/view/shop_screen/orders/canteen_orders/sub_screens/this_week.dart';
@@ -38,7 +38,7 @@ class _CanteenOrderViewState extends State<CanteenOrderView> with SingleTickerPr
             buildTabBar(),
             SizedBox(height: 1.h),
             Container(
-              color: CustomColors.greyColor,
+              color: BaseColors.greyColor,
               height: MediaQuery.of(context).size.height - 10.sp,
               child: TabBarView(
                 controller: tabCtrl,

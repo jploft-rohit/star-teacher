@@ -4,8 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -32,7 +32,7 @@ class _AssignmentStarViewState extends State<AssignmentStarView> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15.0),
               border: Border.all(
-                  color: CustomColors.borderColor
+                  color: BaseColors.borderColor
               ),
             ),
             child: Column(
@@ -61,7 +61,7 @@ class _AssignmentStarViewState extends State<AssignmentStarView> {
                     Container(
                       width: 1,
                       height: 25,
-                      color: CustomColors.borderColor,
+                      color: BaseColors.borderColor,
                     ),
                     Flexible(
                       flex: 1,
@@ -131,12 +131,12 @@ class _AssignmentStarViewState extends State<AssignmentStarView> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      addText("Share your feedback for Grade", 16.sp, CustomColors.textBlackColor, FontWeight.w700),
+                      addText("Share your feedback for Grade", 16.sp, BaseColors.textBlackColor, FontWeight.w700),
                       Row(
                         children: [
                           Icon(
                             CupertinoIcons.delete,
-                            color: CustomColors.primaryColor,
+                            color: BaseColors.primaryColor,
                             size: 18.sp,
                           ),
                           SizedBox(
@@ -146,7 +146,7 @@ class _AssignmentStarViewState extends State<AssignmentStarView> {
                             onTap: (){
 
                             },
-                            child: Image.asset(editPng, color: CustomColors.primaryColor,height: 18.sp,),
+                            child: Image.asset(editPng, color: BaseColors.primaryColor,height: 18.sp,),
                           ),
                         ],
                       ),
@@ -211,7 +211,7 @@ class _AssignmentStarViewState extends State<AssignmentStarView> {
                               },
                               child: Icon(
                                 Icons.remove_red_eye_outlined,
-                                color: CustomColors.primaryColor,
+                                color: BaseColors.primaryColor,
                                 size: 19.sp,
                               ),
                             )
@@ -233,7 +233,7 @@ class _AssignmentStarViewState extends State<AssignmentStarView> {
                           buildInfoItems(translate(context).post_date, "01/03/2022")
                         ],
                       ),
-                      Container(height: 20.0,width: 1, color: CustomColors.borderColor,),
+                      Container(height: 20.0,width: 1, color: BaseColors.borderColor,),
                       Row(
                         children: [
                           SvgPicture.asset("assets/images/time_icon.svg"),
@@ -258,7 +258,7 @@ class _AssignmentStarViewState extends State<AssignmentStarView> {
                           buildInfoItems(translate(context).due_date, "01/03/2022")
                         ],
                       ),
-                      Container(height: 20.0,width: 1, color: CustomColors.borderColor,),
+                      Container(height: 20.0,width: 1, color: BaseColors.borderColor,),
                       Row(
                         children: [
                           SvgPicture.asset("assets/images/time_icon.svg"),

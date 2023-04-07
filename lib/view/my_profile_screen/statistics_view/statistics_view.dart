@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/view/performance_screen/performance_screen.dart';
 
 class StatisticsView extends StatefulWidget {
   const StatisticsView({Key? key}) : super(key: key);
@@ -77,31 +79,47 @@ class _StatisticsViewState extends State<StatisticsView> {
       itemCount: 10,
     );
   }
-
   buildItem(int index) {
-    return Container(
-      padding: EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15.0),
-        color: Colors.white,
-        boxShadow: const [
-          BoxShadow(
-              color: CustomColors.darkShadowColor,
-              spreadRadius: 1.0,
-              blurRadius: 10.0,
-              offset: Offset(0, 3)
-          )
-        ],
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(list[index]['title'], style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 25.sp),),
-          SizedBox(
-            height: 1.h,
-          ),
-          Text(list[index]['subTitle'], style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),textAlign: TextAlign.center,),
-        ],
+    return GestureDetector(
+      onTap: (){
+        switch (list[index]['subTitle']) {
+          case "Pending Task": break;
+          case "Unclosed Compliant": break;
+          case "Stars Evaluation Pending": break;
+          case "Assignment to Review": break;
+          case "Attendance Record": break;
+          case "Performance": Get.to(PerformanceScreen(index: 0)); break;
+          case "Linked Stars": break;
+          case "Allocated Schools": break;
+          case "Total Classes Attended This Week": break;
+          case "Average of Interacting with chatting": break;
+          default: break;
+        }
+      },
+      child: Container(
+        padding: EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15.0),
+          color: Colors.white,
+          boxShadow: const [
+            BoxShadow(
+                color: BaseColors.darkShadowColor,
+                spreadRadius: 1.0,
+                blurRadius: 10.0,
+                offset: Offset(0, 3)
+            )
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(list[index]['title'], style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 25.sp),),
+            SizedBox(
+              height: 1.h,
+            ),
+            Text(list[index]['subTitle'], style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),textAlign: TextAlign.center,),
+          ],
+        ),
       ),
     );
   }

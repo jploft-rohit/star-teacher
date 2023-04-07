@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_floating_action_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -43,10 +43,10 @@ class _AwarenessCoursesScreenState extends State<AwarenessCoursesScreen> {
               Container(
                 padding: EdgeInsets.only(left: 8.0, right: 8.0),
                 decoration: BoxDecoration(
-                  color: CustomColors.backgroundColor,
+                  color: BaseColors.backgroundColor,
                   borderRadius: BorderRadius.circular(5.0),
                   border: Border.all(
-                      color: CustomColors.borderColor
+                      color: BaseColors.borderColor
                   ),
                 ),
                 child: Row(
@@ -123,7 +123,7 @@ class _AwarenessCoursesScreenState extends State<AwarenessCoursesScreen> {
                                     Container(
                                       height: 15.0,
                                       width: 1,
-                                      color: CustomColors.borderColor,
+                                      color: BaseColors.borderColor,
                                     ),
                                     buildInfoItems("Due Date", "30/06/2022")
                                   ],
@@ -132,7 +132,7 @@ class _AwarenessCoursesScreenState extends State<AwarenessCoursesScreen> {
                                 StepProgressView(
                                   width: MediaQuery.of(context).size.width,
                                   curStep: 4,
-                                  color: CustomColors.primaryColor,
+                                  color: BaseColors.primaryColor,
                                   titles: pendingMeetingdates,
                                   statuses: heading,
                                 ),

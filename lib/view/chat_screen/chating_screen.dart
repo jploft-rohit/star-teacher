@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -33,9 +33,9 @@ class _ChatingScreenState extends State<ChatingScreen> {
           preferredSize: Size(Get.width, 100),
           child: Container(
             decoration: const BoxDecoration(
-              color: CustomColors.backgroundColor,
+              color: BaseColors.backgroundColor,
               border: Border(
-                bottom: BorderSide(color: CustomColors.primaryColor)
+                bottom: BorderSide(color: BaseColors.primaryColor)
               )
             ),
             child: Padding(
@@ -51,7 +51,7 @@ class _ChatingScreenState extends State<ChatingScreen> {
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(15.0),
-                            border: Border.all(color: CustomColors.primaryColor)
+                            border: Border.all(color: BaseColors.primaryColor)
                         ),
                         child: SvgPicture.asset(girlSvg, height: 40,),
                       ),
@@ -62,15 +62,15 @@ class _ChatingScreenState extends State<ChatingScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          addText("Sania", 14.sp, CustomColors.primaryColor, FontWeight.w700),
+                          addText("Sania", 14.sp, BaseColors.primaryColor, FontWeight.w700),
                           SizedBox(
                             height: .5.h,
                           ),
-                          addText("Father", 14.sp, CustomColors.primaryColor, FontWeight.w700),
+                          addText("Father", 14.sp, BaseColors.primaryColor, FontWeight.w700),
                           SizedBox(
                             height: .5.h,
                           ),
-                          addText("G3 - H2", 14.sp, CustomColors.primaryColor, FontWeight.w700),
+                          addText("G3 - H2", 14.sp, BaseColors.primaryColor, FontWeight.w700),
                         ],
                       ),
                     ],
@@ -110,7 +110,7 @@ class _ChatingScreenState extends State<ChatingScreen> {
                         child: SvgPicture.asset("assets/images/video.svg", height: 25.0,),
                       ),
                       SizedBox(
-                        width: 2.w,
+                        width: 4.w,
                       ),
                       InkWell(
                         onTap: (){
@@ -153,12 +153,12 @@ class _ChatingScreenState extends State<ChatingScreen> {
                                       borderRadius: BorderRadius.circular(5.0),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: CustomColors.darkShadowColor.withOpacity(0.5),
+                                          color: BaseColors.darkShadowColor.withOpacity(0.5),
                                           blurRadius: 8.0,
                                         )
                                       ]
                                   ),
-                                  child: Text(ctrl.chatList[index]['msg'], style: Style.montserratMediumStyle().copyWith(fontSize:16.sp, color: CustomColors.textBlackColor, fontWeight: FontWeight.w400),textAlign: TextAlign.center,),
+                                  child: Text(ctrl.chatList[index]['msg'], style: Style.montserratMediumStyle().copyWith(fontSize:16.sp, color: BaseColors.textBlackColor, fontWeight: FontWeight.w400),textAlign: TextAlign.center,),
                                 ),
                                 const Icon(Icons.translate_rounded,size: 18,)
                               ],
@@ -166,7 +166,7 @@ class _ChatingScreenState extends State<ChatingScreen> {
                             SizedBox(
                               height: .8.h,
                             ),
-                            addText(ctrl.chatList[index]['date'], 14.sp, CustomColors.textBlackColor, FontWeight.w400),
+                            addText(ctrl.chatList[index]['date'], 14.sp, BaseColors.textBlackColor, FontWeight.w400),
                           ],
                         ),
                       )
@@ -179,21 +179,21 @@ class _ChatingScreenState extends State<ChatingScreen> {
                               constraints: BoxConstraints(minWidth: 40.w, maxWidth: 80.w),
                               padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                               decoration: BoxDecoration(
-                                  color: CustomColors.backgroundColor,
+                                  color: BaseColors.backgroundColor,
                                   borderRadius: BorderRadius.circular(5.0),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: CustomColors.darkShadowColor.withOpacity(0.6),
+                                      color: BaseColors.darkShadowColor.withOpacity(0.6),
                                       blurRadius: 8.0,
                                     )
                                   ]
                               ),
-                              child: Text(ctrl.chatList[index]['msg'], style: Style.montserratMediumStyle().copyWith(fontSize:16.sp, color: CustomColors.textBlackColor, fontWeight: FontWeight.w400),textAlign: TextAlign.center,),
+                              child: Text(ctrl.chatList[index]['msg'], style: Style.montserratMediumStyle().copyWith(fontSize:16.sp, color: BaseColors.textBlackColor, fontWeight: FontWeight.w400),textAlign: TextAlign.center,),
                             ),
                             SizedBox(
                               height: .8.h,
                             ),
-                            addText(ctrl.chatList[index]['date'], 14.sp, CustomColors.textBlackColor, FontWeight.w400),
+                            addText(ctrl.chatList[index]['date'], 14.sp, BaseColors.textBlackColor, FontWeight.w400),
                           ],
                         ),
                       ),
@@ -218,7 +218,7 @@ class _ChatingScreenState extends State<ChatingScreen> {
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
                           child: Icon(
                             Icons.emoji_emotions_outlined,
-                            color: CustomColors.textLightGreyColor,
+                            color: BaseColors.textLightGreyColor,
                             size: 20,
                           ),
                         ),
@@ -237,7 +237,7 @@ class _ChatingScreenState extends State<ChatingScreen> {
                         ),
                         fillColor: const Color(0xffF4F4F4),
                         borderRadius: 50.0,
-                        hintTextColor: CustomColors.textLightGreyColor,
+                        hintTextColor: BaseColors.textLightGreyColor,
                       ),
                     ),
                     SizedBox(
@@ -260,8 +260,8 @@ class _ChatingScreenState extends State<ChatingScreen> {
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: CustomColors.backgroundColor,
-                            border: Border.all(color: CustomColors.primaryColor)
+                            color: BaseColors.backgroundColor,
+                            border: Border.all(color: BaseColors.primaryColor)
                         ),
                         child: Padding(
                           padding: const EdgeInsets.only(left: 2.0),

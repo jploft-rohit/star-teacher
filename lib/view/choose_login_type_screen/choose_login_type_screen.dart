@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/route_manager/route_name.dart';
@@ -31,13 +31,13 @@ class _ChooseLoginTypeScreenState extends State<ChooseLoginTypeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.backgroundColor,
+      backgroundColor: BaseColors.backgroundColor,
       body: Column(
         children: [
           Flexible(
               flex: 2,
               child: Center(
-                child: Text(translate(context).login_as, style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: 21.sp),),
+                child: Text(translate(context).login_as, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 21.sp),),
               )),
           Flexible(
               flex: 12,
@@ -48,7 +48,7 @@ class _ChooseLoginTypeScreenState extends State<ChooseLoginTypeScreen> {
                     borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(30),
                         topRight: Radius.circular(30)),
-                    color: CustomColors.white,
+                    color: BaseColors.white,
                     boxShadow: [getBoxShadow()]),
                 child: Column(
                   children: [
@@ -74,8 +74,8 @@ class _ChooseLoginTypeScreenState extends State<ChooseLoginTypeScreen> {
       ),
       itemBuilder: (context, index) => GestureDetector(
         onTap: (){
-          selectedPos = index;
-          setState(() {});
+          // selectedPos = index;
+          // setState(() {});
         },
         child: buildItem(index),
       ),
@@ -90,9 +90,9 @@ class _ChooseLoginTypeScreenState extends State<ChooseLoginTypeScreen> {
       margin:  EdgeInsets.symmetric(horizontal: 2.w),
       padding: EdgeInsets.symmetric(vertical: 1.5.h),
       decoration: BoxDecoration(
-          color: selectedPos == index ? CustomColors.backgroundColor : CustomColors.white,
+          color: selectedPos == index ? BaseColors.backgroundColor : BaseColors.white,
           boxShadow: [getBoxShadow()],
-          border: selectedPos == index ? Border.all(color: CustomColors.primaryColor,width: 1.5) : null,
+          border: selectedPos == index ? Border.all(color: BaseColors.primaryColor,width: 1.5) : null,
           borderRadius: BorderRadius.circular(20.0)),
       child: Padding(
         padding:
@@ -111,10 +111,10 @@ class _ChooseLoginTypeScreenState extends State<ChooseLoginTypeScreen> {
                     padding: const EdgeInsets.all(3),
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: selectedPos == index ? CustomColors.primaryColor : CustomColors.textLightGreyColor,
+                        color: selectedPos == index ? BaseColors.primaryColor : BaseColors.textLightGreyColor,
                         boxShadow: [getBoxShadow()],
-                        border: Border.all(color: CustomColors.white,width: 2)
-                    ),child: const Icon(Icons.check,color: CustomColors.white,size: 15,),
+                        border: Border.all(color: BaseColors.white,width: 2)
+                    ),child: const Icon(Icons.check,color: BaseColors.white,size: 15,),
                   ),
                 )),
 
@@ -124,7 +124,7 @@ class _ChooseLoginTypeScreenState extends State<ChooseLoginTypeScreen> {
                 children: [
                   SvgPicture.asset(roleImagesList[index]),
                   SizedBox(height: 2.h,),
-                  Text(roleNameList[index], style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
+                  Text(roleNameList[index], style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
                 ],
               ),
             )

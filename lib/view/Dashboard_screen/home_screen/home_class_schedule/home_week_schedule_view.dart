@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -33,7 +33,7 @@ class _HomeWeekScheduleViewState extends State<HomeWeekScheduleView> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15.0),
               border: Border.all(
-                color: CustomColors.borderColor,
+                color: BaseColors.borderColor,
               ),
             ),
             child: Row(
@@ -68,7 +68,7 @@ class _HomeWeekScheduleViewState extends State<HomeWeekScheduleView> {
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(translate(context).start_time, style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor,fontSize: 14.sp),),
+                          Text(translate(context).start_time, style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor,fontSize: 14.sp),),
                           SizedBox(
                             width: 2.w,
                           ),
@@ -76,7 +76,7 @@ class _HomeWeekScheduleViewState extends State<HomeWeekScheduleView> {
                           SizedBox(
                             width: 2.w,
                           ),
-                          Text("09:00AM", style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor,fontSize: 15.sp),),
+                          Text("09:00AM", style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor,fontSize: 15.sp),),
                         ],
                       ),
                       SizedBox(
@@ -87,7 +87,7 @@ class _HomeWeekScheduleViewState extends State<HomeWeekScheduleView> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(right: 3.0),
-                            child: Text(translate(context).end_time, style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor,fontSize: 14.sp),),
+                            child: Text(translate(context).end_time, style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor,fontSize: 14.sp),),
                           ),
                           SizedBox(
                             width: 2.w,
@@ -96,7 +96,7 @@ class _HomeWeekScheduleViewState extends State<HomeWeekScheduleView> {
                           SizedBox(
                             width: 2.w,
                           ),
-                          Text("09:00AM", style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor,fontSize: 15.sp),),
+                          Text("09:00AM", style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor,fontSize: 15.sp),),
                         ],
                       ),
                       SizedBox(
@@ -107,7 +107,7 @@ class _HomeWeekScheduleViewState extends State<HomeWeekScheduleView> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(right: 3.0),
-                            child: Text(translate(context).completed, style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor,fontSize: 14.sp),),
+                            child: Text(translate(context).completed, style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor,fontSize: 14.sp),),
                           ),
                           SizedBox(
                             width: 2.w,
@@ -116,7 +116,7 @@ class _HomeWeekScheduleViewState extends State<HomeWeekScheduleView> {
                           SizedBox(
                             width: 2.w,
                           ),
-                          Text("09:00AM", style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor,fontSize: 15.sp),),
+                          Text("09:00AM", style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor,fontSize: 15.sp),),
                         ],
                       ),
                       const SizedBox(height: 4),

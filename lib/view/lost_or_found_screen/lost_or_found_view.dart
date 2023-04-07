@@ -5,9 +5,9 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/base_floating_action_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/lost_or_found_screen/report_lost_found_screen.dart';
@@ -37,10 +37,10 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
               Container(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 decoration: BoxDecoration(
-                  color: CustomColors.backgroundColor,
+                  color: BaseColors.backgroundColor,
                   borderRadius: BorderRadius.circular(5.0),
                   border: Border.all(
-                      color: CustomColors.borderColor
+                      color: BaseColors.borderColor
                   ),
                 ),
                 child: Row(
@@ -76,8 +76,8 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> {
                           children: [
                             Row(
                               children: [
-                                addText("Title: ", 16.sp, CustomColors.textBlackColor, FontWeight.w700),
-                                addText("Found a book in the computer lab.", 16.sp, CustomColors.primaryColor, FontWeight.w700),
+                                addText("Title: ", 16.sp, BaseColors.textBlackColor, FontWeight.w700),
+                                addText("Found a book in the computer lab.", 16.sp, BaseColors.primaryColor, FontWeight.w700),
                               ],
                             ),
                             const Divider(),

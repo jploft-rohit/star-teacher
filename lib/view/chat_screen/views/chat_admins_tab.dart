@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/chat_screen/chating_screen.dart';
@@ -31,7 +31,7 @@ class _ChatAdminTabState extends State<ChatAdminTab> {
                 height: 70,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.0),
-                    border: Border.all(color: CustomColors.borderColor)
+                    border: Border.all(color: BaseColors.borderColor)
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -43,7 +43,7 @@ class _ChatAdminTabState extends State<ChatAdminTab> {
                           padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15.0),
-                              border: Border.all(color: CustomColors.primaryColor)
+                              border: Border.all(color: BaseColors.primaryColor)
                           ),
                           child: SvgPicture.asset(girlSvg, height: 40,),
                         ),
@@ -54,15 +54,15 @@ class _ChatAdminTabState extends State<ChatAdminTab> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            addText("Salma", 14.sp, CustomColors.textBlackColor, FontWeight.w700),
+                            addText("Salma", 14.sp, BaseColors.textBlackColor, FontWeight.w700),
                             SizedBox(
                               height: .5.h,
                             ),
-                            addText("School Admin", 15.sp, CustomColors.primaryColor, FontWeight.w700),
+                            addText("School Admin", 15.sp, BaseColors.primaryColor, FontWeight.w700),
                             SizedBox(
                               height: .5.h,
                             ),
-                            addText("(Dubai Public School)", 14.sp, CustomColors.textBlackColor, FontWeight.w400),
+                            addText("(Dubai Public School)", 14.sp, BaseColors.textBlackColor, FontWeight.w400),
                           ],
                         ),
                       ],
@@ -82,7 +82,7 @@ class _ChatAdminTabState extends State<ChatAdminTab> {
                                 SizedBox(
                                   height: .5.h,
                                 ),
-                                Text("Schedule\nMeeting", style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: CustomColors.textBlackColor,),textAlign: TextAlign.center,),
+                                Text("Schedule\nMeeting", style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor,),textAlign: TextAlign.center,),
                               ],
                             ),
                           ),
@@ -100,7 +100,7 @@ class _ChatAdminTabState extends State<ChatAdminTab> {
                                 SizedBox(
                                   height: .5.h,
                                 ),
-                                addText("Chats", 13.sp, CustomColors.textBlackColor, FontWeight.w700)
+                                addText("Chats", 13.sp, BaseColors.textBlackColor, FontWeight.w700)
                               ],
                             ),
                           ),
@@ -116,10 +116,10 @@ class _ChatAdminTabState extends State<ChatAdminTab> {
                 child: Container(
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    color: CustomColors.primaryColor,
+                    color: BaseColors.primaryColor,
                   ),
                   padding: const EdgeInsets.all(5),
-                  child: addText("5", 13.sp, CustomColors.white, FontWeight.w700),
+                  child: addText("5", 13.sp, BaseColors.white, FontWeight.w700),
                 ),
               )
             ],

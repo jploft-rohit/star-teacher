@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -22,7 +22,7 @@ class _CanteenEveryWeekOrderViewState extends State<CanteenEveryWeekOrderView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.white,
+      backgroundColor: BaseColors.white,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -31,8 +31,7 @@ class _CanteenEveryWeekOrderViewState extends State<CanteenEveryWeekOrderView> {
               shrinkWrap: true,
               itemCount: 2,
               padding: EdgeInsets.zero,
-              itemBuilder: (context, index) =>
-                  buildCanteenEveryWeekOrderBox(context, index),
+              itemBuilder: (context, index) => buildCanteenEveryWeekOrderBox(context, index),
             ),
             SizedBox(height: 5.h)
           ],
@@ -48,52 +47,37 @@ class _CanteenEveryWeekOrderViewState extends State<CanteenEveryWeekOrderView> {
       width: 100.w,
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
       decoration: BoxDecoration(
-        color: CustomColors.white,
+        color: BaseColors.white,
         borderRadius: BorderRadius.circular(13),
-        border: Border.all(color: CustomColors.textLightGreyColor),
+        border: Border.all(color: BaseColors.textLightGreyColor),
         boxShadow: [
           BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 3)
         ],
       ),
-      child: Stack(
-        alignment: Alignment.topRight,
+      child: Column(
         children: [
-          Column(
-            // mainAxisAlignment: MainAxisAlignment.start,
-            // crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
+          Row(
             children: [
-              detailRow('Order Id : ', '#45689'),
-              detailRow('Order Total : ', '42 AED'),
-              detailRow('Order Date : ', '01/08/2022'),
-              Divider(),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8),
-                child: StepProgressView(
-                  width: MediaQuery.of(context).size.width,
-                  curStep: 2,
-                  color: CustomColors.primaryColor,
-                  titles: index.isEven
-                      ? controller.canteenEveryWeekDates
-                      : controller.canteenEveryWeekDates2,
-                  statuses: index.isEven
-                      ? controller.canteenEveryWeekHeading
-                      : controller.canteenEveryWeekHeading2,
+              Expanded(
+                flex: 6,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    detailRow('Order Id : ', '#45689'),
+                    detailRow('Order Total : ', '42 AED'),
+                    detailRow('Order Date : ', '01/08/2022'),
+                  ],
                 ),
               ),
-            ],
-          ),
-          Visibility(
-            visible: index.isEven == true,
-            child: Positioned(
-              right: 0,
-              top: 10,
-              child: Row(
-                children: [
-                  BaseButton(
+              Expanded(
+                flex: 3,
+                child: Visibility(
+                  visible: index.isEven == true,
+                  child: BaseButton(
                       btnWidth: 65,
                       title: "Cancel",
                       textSize: 15.sp,
+                      removeHorizontalPadding: true,
                       onPressed: () {
                         showGeneralDialog(
                           context: context,
@@ -109,39 +93,55 @@ class _CanteenEveryWeekOrderViewState extends State<CanteenEveryWeekOrderView> {
                           );
                         });
                       }),
-                  SizedBox(width: 1.h),
-                  InkWell(
-                    onTap: (){
-
-                    },
-                    child: Image.asset(editPng, color: CustomColors.primaryColor,height: 18.sp,),
-                  )
-                ],
+                ),
               ),
+              SizedBox(width: 1.5.w),
+              Expanded(
+                flex: 1,
+                child: InkWell(
+                  onTap: (){},
+                  child: Image.asset(editPng, color: BaseColors.primaryColor,height: 18.sp,),
+                ),
+              )
+              // Visibility(
+              //   visible: index.isOdd == true,
+              //   child: Positioned(
+              //     right: 0,
+              //     top: 10,
+              //     child: Row(
+              //       children: [
+              //         BaseButton(
+              //             height: 22,
+              //             width: 110,
+              //             child: addText(
+              //                 'Raise Refund',
+              //                 getNormalTextFontSIze() - 2,
+              //                 CustomColors.primaryColor,
+              //                 FontWeight.w700),
+              //             onTap: () {
+              //               showRefundDialogue(context);
+              //             }),
+              //       ],
+              //     ),
+              //   ),
+              // ),
+            ],
+          ),
+          Divider(),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8),
+            child: StepProgressView(
+              width: MediaQuery.of(context).size.width,
+              curStep: 2,
+              color: BaseColors.primaryColor,
+              titles: index.isEven
+                  ? controller.canteenEveryWeekDates
+                  : controller.canteenEveryWeekDates2,
+              statuses: index.isEven
+                  ? controller.canteenEveryWeekHeading
+                  : controller.canteenEveryWeekHeading2,
             ),
           ),
-          // Visibility(
-          //   visible: index.isOdd == true,
-          //   child: Positioned(
-          //     right: 0,
-          //     top: 10,
-          //     child: Row(
-          //       children: [
-          //         BaseButton(
-          //             height: 22,
-          //             width: 110,
-          //             child: addText(
-          //                 'Raise Refund',
-          //                 getNormalTextFontSIze() - 2,
-          //                 CustomColors.primaryColor,
-          //                 FontWeight.w700),
-          //             onTap: () {
-          //               showRefundDialogue(context);
-          //             }),
-          //       ],
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     );
@@ -151,11 +151,14 @@ class _CanteenEveryWeekOrderViewState extends State<CanteenEveryWeekOrderView> {
     return Column(
       children: [
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            addText(label, 15.sp, CustomColors.textBlackColor,
+            addText(label, 15.sp, BaseColors.textBlackColor,
                 FontWeight.w400),
-            addText(body, 15.sp,
-                CustomColors.primaryColor, FontWeight.w700),
+            Expanded(
+              child: addText(body, 15.sp,
+                  BaseColors.primaryColor, FontWeight.w700),
+            ),
           ],
         ),
         SizedBox(height: 0.5.h)

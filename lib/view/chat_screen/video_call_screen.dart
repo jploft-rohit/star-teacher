@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 
@@ -22,7 +22,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
       backgroundColor: Colors.white,
 
       appBar: AppBar(
-        title: Text("Rahim Khan", style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: CustomColors.primaryColor),),
+        title: Text("Rahim Khan", style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: BaseColors.primaryColor),),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         centerTitle: true,
@@ -41,7 +41,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: CustomColors.backgroundColor,
+          color: BaseColors.backgroundColor,
         ),
         child: Padding(
           padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 20.0, bottom: 20.0),
@@ -54,7 +54,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    border: Border.all(color: CustomColors.primaryColor),
+                    border: Border.all(color: BaseColors.primaryColor),
                     color: Color(0xffF8F4E9)
                 ),
                 child: SvgPicture.asset("assets/images/sound 1.svg"),
@@ -65,7 +65,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    border: Border.all(color: CustomColors.primaryColor),
+                    border: Border.all(color: BaseColors.primaryColor),
                     color: Color(0xffF8F4E9)
                 ),
                 child: SvgPicture.asset("assets/images/mute_img.svg"),
@@ -76,7 +76,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: CustomColors.primaryColor
+                    color: BaseColors.primaryColor
                 ),
                 child: SvgPicture.asset(videoCallSvg)
               ),
@@ -86,7 +86,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: CustomColors.primaryColor
+                    color: BaseColors.primaryColor
                 ),
                 child: SvgPicture.asset(audioCallSvg)
               ),
@@ -98,7 +98,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
         height: Get.height,
         width: 100.w,
         decoration: BoxDecoration(
-            border: Border.all(color: CustomColors.primaryColor)
+            border: Border.all(color: BaseColors.primaryColor)
         ),
         child: Stack(
           alignment: Alignment.center,
@@ -112,7 +112,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                   padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15.0),
-                      border: Border.all(color: CustomColors.primaryColor)
+                      border: Border.all(color: BaseColors.primaryColor)
                   ),
                   child: SvgPicture.asset(manSvg, height: 10.h,),
                 ),

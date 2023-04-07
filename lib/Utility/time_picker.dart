@@ -10,7 +10,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/intl/src/intl/date_format.dart';
 
 
@@ -237,7 +237,7 @@ class _TimePickerHeader extends StatelessWidget {
         children: [
           controls,
           isShowdate?Container(child: VerticalDivider(thickness: 1,width: 1,),height: 30,):SizedBox.shrink(),
-          isShowdate?Container(child: Text("${DateFormat('EEEE, dd MMM yyyy').format(DateTime.now())}",style: TextStyle(color: CustomColors.primaryColor,fontWeight: FontWeight.w700,fontSize: 15.sp),),alignment: Alignment.center,):SizedBox.shrink(),
+          isShowdate?Container(child: Text("${DateFormat('EEEE, dd MMM yyyy').format(DateTime.now())}",style: TextStyle(color: BaseColors.primaryColor,fontWeight: FontWeight.w700,fontSize: 15.sp),),alignment: Alignment.center,):SizedBox.shrink(),
         ],
       ),
     );
@@ -285,7 +285,7 @@ class _HourMinuteControl extends StatelessWidget {
       onDoubleTap: isSelected ? onDoubleTap : null,
       child: Text(
         text,
-        style: style.copyWith(color: CustomColors.primaryColor,fontSize: 20.sp,fontWeight: FontWeight.w400),
+        style: style.copyWith(color: BaseColors.primaryColor,fontSize: 20.sp,fontWeight: FontWeight.w400),
       ),
     );
   }
@@ -391,7 +391,7 @@ class _StringFragment extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 6.0),
       child: Text(
         _stringFragmentValue(timeOfDayFormat),
-        style: hourMinuteStyle.apply(color: CustomColors.primaryColor),
+        style: hourMinuteStyle.apply(color: BaseColors.primaryColor),
         textScaleFactor: 0.3,
       ),
     );
@@ -849,7 +849,7 @@ class _DialPainter extends CustomPainter {
     paintLabels(primaryLabels);
 
     final Paint selectorPaint = Paint()
-      ..color = CustomColors.primaryColor;
+      ..color = BaseColors.primaryColor;
     final Offset focusedPoint = getOffsetForTheta(theta);
     const double focusedRadius = _labelPadding - 4.0;
     canvas.drawCircle(centerPoint, 4.0, selectorPaint);
@@ -2203,7 +2203,7 @@ class _TimePickerDialogsState extends State<TimePickerDialogs> with RestorationM
             child: AspectRatio(
               aspectRatio: 1.0,
               child: Card(
-                color: CustomColors.txtFieldTextColor,
+                color: BaseColors.txtFieldTextColor,
                 elevation: 5.0,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(250)

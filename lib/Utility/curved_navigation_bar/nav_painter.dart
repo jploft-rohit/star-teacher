@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 class NavCustomPainter extends CustomPainter {
   late double loc;
   late double s;
@@ -17,7 +17,7 @@ class NavCustomPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = CustomColors.primaryColor
+      ..color = BaseColors.primaryColor
       ..strokeWidth = 1
       ..style = PaintingStyle.stroke;
 
@@ -46,7 +46,7 @@ class NavCustomPainter extends CustomPainter {
       ..close();
 
     Paint paint_0_fill = Paint()..style=PaintingStyle.fill;
-    paint_0_fill.color = CustomColors.primaryColorLight.withOpacity(1.0);
+    paint_0_fill.color = BaseColors.primaryColorLight.withOpacity(1.0);
     canvas.drawPath(path,paint_0_fill);
     canvas.drawPath(path, paint);
   }

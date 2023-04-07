@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -54,11 +54,11 @@ class _AddToDoNoteState extends State<AddToDoNote> {
             SizedBox(
               height: 2.h,
             ),
-            CustomTextField(controller: TextEditingController(), hintText: "Title", borderRadius: 4.0, fillColor: CustomColors.txtFieldTextColor,),
+            CustomTextField(controller: TextEditingController(), hintText: "Title", borderRadius: 4.0, fillColor: BaseColors.txtFieldTextColor,),
             SizedBox(
               height: 2.h,
             ),
-            CustomTextField(controller: TextEditingController(), hintText: "Type here..", borderRadius: 4.0, fillColor: CustomColors.txtFieldTextColor,maxLine: 3,),
+            CustomTextField(controller: TextEditingController(), hintText: "Type here..", borderRadius: 4.0, fillColor: BaseColors.txtFieldTextColor,maxLine: 3,),
             SizedBox(
               height: 1.h,
             ),
@@ -91,27 +91,27 @@ class _AddToDoNoteState extends State<AddToDoNote> {
                           // padding: const EdgeInsets.symmetric(horizontal: 9),
                           decoration: BoxDecoration(
                               color: ctrl.isChecked.value == true
-                                  ? CustomColors.backgroundColor
-                                  : CustomColors.borderColor,
+                                  ? BaseColors.backgroundColor
+                                  : BaseColors.borderColor,
                               boxShadow: [getLightBoxShadow()],
                               border: ctrl.isChecked.value == true
                                   ? Border.all(
-                                  color: CustomColors.primaryColor, width: 1.5)
+                                  color: BaseColors.primaryColor, width: 1.5)
                                   : Border.all(
                                   color: Colors.transparent, width: 1.5),
                               borderRadius: BorderRadius.circular(30.0)),
                           child: Container(
                             decoration: BoxDecoration(
                                 border: Border.all(
-                                    color: CustomColors.white, width: 1.5),
+                                    color: BaseColors.white, width: 1.5),
                                 shape: BoxShape.circle,
                                 boxShadow: [getBoxShadow()],
                                 color: ctrl.isChecked.value == true
-                                    ? CustomColors.primaryColor
-                                    : CustomColors.borderColor
+                                    ? BaseColors.primaryColor
+                                    : BaseColors.borderColor
                             ),
                             child: Center(
-                              child: Icon(Icons.check, color: CustomColors.white,
+                              child: Icon(Icons.check, color: BaseColors.white,
                                   size: 16.sp),
                             ),
                           ),
@@ -122,7 +122,7 @@ class _AddToDoNoteState extends State<AddToDoNote> {
                   SizedBox(
                     width: 2.w,
                   ),
-                  addText("Set Reminder", 14.sp, CustomColors.textBlackColor, FontWeight.w400)
+                  addText("Set Reminder", 14.sp, BaseColors.textBlackColor, FontWeight.w400)
                 ],
               ),
             ),

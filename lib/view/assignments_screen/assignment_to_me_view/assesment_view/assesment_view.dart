@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_tab_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -88,7 +88,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                addText("Share your feedback for Grade H Stars", 16.sp, CustomColors.textBlackColor, FontWeight.w700),
+                addText("Share your feedback for Grade H Stars", 16.sp, BaseColors.textBlackColor, FontWeight.w700),
                 const Divider(),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,7 +148,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                             },
                             child: Icon(
                               Icons.remove_red_eye_outlined,
-                              color: CustomColors.primaryColor,
+                              color: BaseColors.primaryColor,
                               size: 19.sp,
                             ),
                           )
@@ -170,7 +170,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                         buildInfoItems(translate(context).post_date, "01/03/2022")
                       ],
                     ),
-                    Container(height: 20.0,width: 1, color: CustomColors.borderColor,),
+                    Container(height: 20.0,width: 1, color: BaseColors.borderColor,),
                     Row(
                       children: [
                         SvgPicture.asset("assets/images/time_icon.svg"),
@@ -233,7 +233,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                         buildInfoItems(translate(context).total_stars, "15")
                       ],
                     ),
-                    Container(height: 20.0,width: 1, color: CustomColors.borderColor,),
+                    Container(height: 20.0,width: 1, color: BaseColors.borderColor,),
                     Row(
                       children: [
                         SvgPicture.asset("assets/images/time_icon.svg"),
@@ -273,7 +273,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                 StepProgressView(
                   width: MediaQuery.of(context).size.width,
                   curStep: 3,
-                  color: CustomColors.primaryColor,
+                  color: BaseColors.primaryColor,
                   titles: pendingMeetingdates,
                   statuses: heading,
                 ),
@@ -302,7 +302,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                addText("Share your feedback for Grade H Stars", 16.sp, CustomColors.textBlackColor, FontWeight.w700),
+                addText("Share your feedback for Grade H Stars", 16.sp, BaseColors.textBlackColor, FontWeight.w700),
                 const Divider(),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -362,7 +362,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                             },
                             child: Icon(
                               Icons.remove_red_eye_outlined,
-                              color: CustomColors.primaryColor,
+                              color: BaseColors.primaryColor,
                               size: 19.sp,
                             ),
                           )
@@ -384,7 +384,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                         buildInfoItems(translate(context).post_date, "01/03/2022")
                       ],
                     ),
-                    Container(height: 20.0,width: 1, color: CustomColors.borderColor,),
+                    Container(height: 20.0,width: 1, color: BaseColors.borderColor,),
                     Row(
                       children: [
                         SvgPicture.asset("assets/images/time_icon.svg"),
@@ -422,7 +422,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                     SizedBox(
                       width: 10.w,
                     ),
-                    Container(height: 20.0,width: 1, color: CustomColors.borderColor,),
+                    Container(height: 20.0,width: 1, color: BaseColors.borderColor,),
                     SizedBox(
                       width: 10.w,
                     ),
@@ -433,7 +433,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                 StepProgressView(
                   width: MediaQuery.of(context).size.width,
                   curStep: 3,
-                  color: CustomColors.primaryColor,
+                  color: BaseColors.primaryColor,
                   titles: pendingMeetingdates,
                   statuses: heading,
                 ),
@@ -462,7 +462,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                addText("Share your feedback for Grade H Stars", 16.sp, CustomColors.textBlackColor, FontWeight.w700),
+                addText("Share your feedback for Grade H Stars", 16.sp, BaseColors.textBlackColor, FontWeight.w700),
                 const Divider(),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -522,7 +522,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                             },
                             child: Icon(
                               Icons.remove_red_eye_outlined,
-                              color: CustomColors.primaryColor,
+                              color: BaseColors.primaryColor,
                               size: 19.sp,
                             ),
                           )
@@ -544,7 +544,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                         buildInfoItems(translate(context).post_date, "01/03/2022")
                       ],
                     ),
-                    Container(height: 20.0,width: 1, color: CustomColors.borderColor,),
+                    Container(height: 20.0,width: 1, color: BaseColors.borderColor,),
                     Row(
                       children: [
                         SvgPicture.asset("assets/images/time_icon.svg"),
@@ -569,7 +569,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                         buildInfoItems(translate(context).due_date, "01/03/2022")
                       ],
                     ),
-                    Container(height: 20.0,width: 1, color: CustomColors.borderColor,),
+                    Container(height: 20.0,width: 1, color: BaseColors.borderColor,),
                     Row(
                       children: [
                         SvgPicture.asset("assets/images/time_icon.svg"),

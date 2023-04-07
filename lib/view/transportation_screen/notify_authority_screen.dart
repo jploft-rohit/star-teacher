@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -36,7 +36,7 @@ class _NotifyAuthorityForBusScreenState extends State<NotifyAuthorityForBusScree
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(15.0),
                     border: Border.all(
-                        color: CustomColors.borderColor
+                        color: BaseColors.borderColor
                     )
                 ),
                 child: ListTile(
@@ -47,7 +47,7 @@ class _NotifyAuthorityForBusScreenState extends State<NotifyAuthorityForBusScree
                     padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
                     decoration: BoxDecoration(
                       border: Border.all(
-                          color: CustomColors.primaryColor
+                          color: BaseColors.primaryColor
                       ),
                       borderRadius: BorderRadius.circular(15.0),
                     ),
@@ -56,15 +56,15 @@ class _NotifyAuthorityForBusScreenState extends State<NotifyAuthorityForBusScree
                   title: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Nawaj Alam", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                      Text("Nawaj Alam", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                       SizedBox(
                         height: 2.0,
                       ),
-                      Text("#12344534", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                      Text("#12344534", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                       SizedBox(
                         height: 2.0,
                       ),
-                      Text("English Teacher", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                      Text("English Teacher", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                     ],
                   ),
                   trailing: InkWell(onTap: (){
@@ -109,12 +109,12 @@ class _NotifyAuthorityForBusScreenState extends State<NotifyAuthorityForBusScree
       padding: EdgeInsets.all(14.sp),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),
-          border: Border.all(color: CustomColors.primaryColor)
+          border: Border.all(color: BaseColors.primaryColor)
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(title, style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: 17.sp),),
+          Text(title, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 17.sp),),
           
         ],
       ),
@@ -129,9 +129,9 @@ class _NotifyAuthorityForBusScreenState extends State<NotifyAuthorityForBusScree
           padding: EdgeInsets.all(14.sp),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8.0),
-              border: Border.all(color: CustomColors.primaryColor)
+              border: Border.all(color: BaseColors.primaryColor)
           ),
-          child: Text(title, style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: 17.sp),),
+          child: Text(title, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 17.sp),),
         ),
         Align(alignment: AlignmentDirectional.centerEnd,child: SvgPicture.asset(checkEnableSvg)),
       ],

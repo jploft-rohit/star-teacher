@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 
@@ -26,10 +26,10 @@ class BaseFloatingActionButton extends StatelessWidget {
           children: [
             Card(
               elevation: 3,
-              color: CustomColors.primaryColorLight,
+              color: BaseColors.primaryColorLight,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50),
-                  side: const BorderSide(width: 1,color: CustomColors.primaryColor)
+                  side: const BorderSide(width: 1,color: BaseColors.primaryColor)
               ),
               child: Padding(
                 padding: EdgeInsets.all(1.5.h),
@@ -44,7 +44,7 @@ class BaseFloatingActionButton extends StatelessWidget {
                 margin: const EdgeInsets.only(right: 12),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: CustomColors.primaryColor,
+                  color: BaseColors.primaryColor,
                 ),
                 alignment: Alignment.center,
                 child: addText(cartItemCount, 14, Colors.white, FontWeight.w700),
@@ -61,15 +61,15 @@ class BaseFloatingActionButton extends StatelessWidget {
             elevation: 3,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(50),
-                side: const BorderSide(color: CustomColors.primaryColor,width: 1)
+                side: const BorderSide(color: BaseColors.primaryColor,width: 1)
             ),
-            color: CustomColors.primaryColorLight,
+            color: BaseColors.primaryColorLight,
             child: Padding(
               padding: EdgeInsets.all(1.5.h),
               child: SvgPicture.asset(isCalendar?"assets/images/calender_date.svg":"assets/images/ic_add.svg",height: 3.h,width: 3.h,),
             ),
           ),
-          Text(title,style: TextStyle(color: CustomColors.primaryColor,fontSize: floatingActionButtonTs,fontWeight: FontWeight.normal,fontFamily: 'Arial'),textAlign: TextAlign.center,)
+          Text(title,style: TextStyle(color: BaseColors.primaryColor,fontSize: floatingActionButtonTs,fontWeight: FontWeight.normal,fontFamily: 'Arial'),textAlign: TextAlign.center,)
         ],
       ),
     );

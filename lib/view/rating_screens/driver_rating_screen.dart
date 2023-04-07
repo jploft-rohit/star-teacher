@@ -6,9 +6,11 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_textformfield.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/Utility/base_dialogs.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -40,7 +42,7 @@ class _DriverRatingScreenState extends State<DriverRatingScreen> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.0),
                   border: Border.all(
-                      color: CustomColors.borderColor
+                      color: BaseColors.borderColor
                   )
               ),
               child: Row(
@@ -49,7 +51,7 @@ class _DriverRatingScreenState extends State<DriverRatingScreen> {
                     padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 10.sp, right: 10.sp),
                     decoration: BoxDecoration(
                       border: Border.all(
-                          color: CustomColors.primaryColor
+                          color: BaseColors.primaryColor
                       ),
                       borderRadius: BorderRadius.circular(15.0),
                     ),
@@ -104,12 +106,12 @@ class _DriverRatingScreenState extends State<DriverRatingScreen> {
               ratingWidget: RatingWidget(
                 full: const Icon(
                   CupertinoIcons.star_fill,
-                  color: CustomColors.primaryColor,
+                  color: BaseColors.primaryColor,
                 ),
                 half: SvgPicture.asset('assets/images/full_rating_img.svg'),
                 empty: const Icon(
                   CupertinoIcons.star_fill,
-                  color: CustomColors.borderColor,
+                  color: BaseColors.borderColor,
                 ),
               ),
               itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
@@ -122,29 +124,33 @@ class _DriverRatingScreenState extends State<DriverRatingScreen> {
               height: 2.h,
             ),
             Obx((){
-              return ctrl.totalRating.value < 3.0 ? addText(translate(context).note_Comment_is_mandatory_if_you_rate_minimum, 13.sp, CustomColors.textLightGreyColor, FontWeight.w400) : const SizedBox();
+              return ctrl.totalRating.value < 3.0 ? addText(translate(context).note_Comment_is_mandatory_if_you_rate_minimum, 13.sp, BaseColors.textLightGreyColor, FontWeight.w400) : const SizedBox();
             }),
             SizedBox(
               height: 2.h,
             ),
-            CustomTextField(controller: commentCtrl, hintText: "${translate(context).comment} : ", maxLine: 4,),
+            BaseTextFormField(
+              controller: commentCtrl,
+              hintText: "${translate(context).comment} : ",
+              maxLine: 4,
+            ),
             SizedBox(
               height: 1.h,
             ),
             Row(
               children: [
                 Obx(() => Checkbox(
-                  checkColor: CustomColors.primaryColor,
+                  checkColor: BaseColors.primaryColor,
                   activeColor: Colors.transparent,
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   value: ctrl.isChecked.value,
                   visualDensity: const VisualDensity(horizontal: -4),
                   side: MaterialStateBorderSide.resolveWith(
-                        (states) => const BorderSide(width: 1.0, color: CustomColors.primaryColor),
+                        (states) => const BorderSide(width: 1.0, color: BaseColors.primaryColor),
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(3),
-                    side: const BorderSide(color: CustomColors.primaryColor)
+                    side: const BorderSide(color: BaseColors.primaryColor)
                   ),
                   onChanged: (bool? value) {
                     ctrl.isChecked.value = value!;
@@ -153,13 +159,17 @@ class _DriverRatingScreenState extends State<DriverRatingScreen> {
                 SizedBox(
                   width: 2.w,
                 ),
-                Expanded(child: Text(translate(context).do_you_want_to_remain_anonymous, style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp),),),
+                Expanded(child: Text(translate(context).do_you_want_to_remain_anonymous, style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),),),
               ],
             ),
             SizedBox(
               height: 2.h,
             ),
-            BaseButton(btnType: mediumButton, borderRadius: 100,title: translate(context).send.toUpperCase(), onPressed: (){}),
+            BaseButton(btnType: mediumButton, borderRadius: 100,title: translate(context).send.toUpperCase(), onPressed: (){
+              BaseDialogs().showConfirmationDialog(
+                title: "Are you sure you want to send this feedback?"
+              );
+            }),
           ],
         ),
       ),

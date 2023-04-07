@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -45,7 +45,7 @@ class _ReportLostFoundScreenState extends State<ReportLostFoundScreen> {
               children: [
                 Flexible(
                   flex: 1,
-                  child: Text(translate(context).school, style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: CustomColors.textBlackColor),),
+                  child: Text(translate(context).school, style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: BaseColors.textBlackColor),),
                 ),
                 Flexible(
                   flex: 3,
@@ -60,7 +60,7 @@ class _ReportLostFoundScreenState extends State<ReportLostFoundScreen> {
                           child: CustomTextField(
                             readOnly: true,
                             controller: schoolController,
-                            fillColor: CustomColors.txtFieldTextColor,
+                            fillColor: BaseColors.txtFieldTextColor,
                             hintText: "",
                             borderRadius: 5.0,
                             suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0),
@@ -80,7 +80,7 @@ class _ReportLostFoundScreenState extends State<ReportLostFoundScreen> {
               children: [
                 Flexible(
                   flex: 1,
-                  child: Text(translate(context).title, style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: CustomColors.textBlackColor),),
+                  child: Text(translate(context).title, style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: BaseColors.textBlackColor),),
                 ),
                 Flexible(
                   flex: 3,
@@ -95,7 +95,7 @@ class _ReportLostFoundScreenState extends State<ReportLostFoundScreen> {
                           child: CustomTextField(
                             controller: titleController,
                             hintText: "",
-                            fillColor: CustomColors.txtFieldTextColor,
+                            fillColor: BaseColors.txtFieldTextColor,
                             borderRadius: 5.0,
 
                           ),
@@ -114,7 +114,7 @@ class _ReportLostFoundScreenState extends State<ReportLostFoundScreen> {
               children: [
                 Flexible(
                   flex: 1,
-                  child: Text("Found Date", style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: CustomColors.textBlackColor),),
+                  child: Text("Found Date", style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: BaseColors.textBlackColor),),
                 ),
                 Flexible(
                   flex: 3,
@@ -132,7 +132,7 @@ class _ReportLostFoundScreenState extends State<ReportLostFoundScreen> {
                             onTap: (){
                               selectDate(context);
                             },
-                            fillColor: CustomColors.txtFieldTextColor,
+                            fillColor: BaseColors.txtFieldTextColor,
                             hintText: "",
                             borderRadius: 5.0,
                           ),
@@ -151,7 +151,7 @@ class _ReportLostFoundScreenState extends State<ReportLostFoundScreen> {
               children: [
                 Flexible(
                   flex: 1,
-                  child: Text(translate(context).where, style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: CustomColors.textBlackColor),),
+                  child: Text(translate(context).where, style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: BaseColors.textBlackColor),),
                 ),
                 Flexible(
                   flex: 3,
@@ -165,7 +165,7 @@ class _ReportLostFoundScreenState extends State<ReportLostFoundScreen> {
                         Expanded(
                           child: CustomTextField(
                             controller: whereController,
-                            fillColor: CustomColors.txtFieldTextColor,
+                            fillColor: BaseColors.txtFieldTextColor,
                             hintText: "",
                             borderRadius: 5.0,
                           ),
@@ -184,7 +184,7 @@ class _ReportLostFoundScreenState extends State<ReportLostFoundScreen> {
               children: [
                 Flexible(
                   flex: 1,
-                  child: Text(translate(context).upload_photo, style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: CustomColors.textBlackColor),),
+                  child: Text(translate(context).upload_photo, style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: BaseColors.textBlackColor),),
                 ),
                 Flexible(
                   flex: 3,
@@ -199,7 +199,7 @@ class _ReportLostFoundScreenState extends State<ReportLostFoundScreen> {
                           child: CustomTextField(
                             controller: uploadController,
                             hintText: "",
-                            fillColor: CustomColors.txtFieldTextColor,
+                            fillColor: BaseColors.txtFieldTextColor,
                             borderRadius: 5.0,
                             suffixIcon: Padding(
                               padding: const EdgeInsets.only(left: 10.0, right: 10.0),
@@ -266,7 +266,7 @@ class _ReportLostFoundScreenState extends State<ReportLostFoundScreen> {
           return Theme(
             data: Theme.of(context).copyWith(
               colorScheme: const ColorScheme.light(
-                primary: CustomColors.primaryColor,
+                primary: BaseColors.primaryColor,
               ),
             ),
             child: child!,

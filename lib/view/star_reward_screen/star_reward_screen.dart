@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -34,7 +34,7 @@ class _StarRewardScreenState extends State<StarRewardScreen> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15.0),
                 border: Border.all(
-                    color: CustomColors.borderColor
+                    color: BaseColors.borderColor
                 ),
               ),
               child: Column(
@@ -63,7 +63,7 @@ class _StarRewardScreenState extends State<StarRewardScreen> {
                       Container(
                         width: 1,
                         height: 25,
-                        color: CustomColors.borderColor,
+                        color: BaseColors.borderColor,
                       ),
                       Flexible(
                         flex: 1,
@@ -111,7 +111,7 @@ class _StarRewardScreenState extends State<StarRewardScreen> {
                       Container(
                         width: 1,
                         height: 25,
-                        color: CustomColors.borderColor,
+                        color: BaseColors.borderColor,
                       ),
                       Flexible(
                         flex: 1,
@@ -168,7 +168,7 @@ class _StarRewardScreenState extends State<StarRewardScreen> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
                           border: Border.all(
-                              color: CustomColors.borderColor
+                              color: BaseColors.borderColor
                           )
                       ),
                       child: Row(
@@ -177,7 +177,7 @@ class _StarRewardScreenState extends State<StarRewardScreen> {
                             padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
                             decoration: BoxDecoration(
                               border: Border.all(
-                                  color: CustomColors.primaryColor
+                                  color: BaseColors.primaryColor
                               ),
                               borderRadius: BorderRadius.circular(15.0),
                             ),
@@ -191,14 +191,14 @@ class _StarRewardScreenState extends State<StarRewardScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                addText("Najma Suheil", 16.sp, CustomColors.primaryColor, FontWeight.w700),
+                                addText("Najma Suheil", 16.sp, BaseColors.primaryColor, FontWeight.w700),
                                 SizedBox(
                                   height: 1.h,
                                 ),
                                 Row(
                                   children: [
-                                    addText("ID: ", 14.sp, CustomColors.textBlackColor, FontWeight.w700),
-                                    addText("#632541", 14.sp, CustomColors.primaryColor, FontWeight.w700),
+                                    addText("ID: ", 14.sp, BaseColors.textBlackColor, FontWeight.w700),
+                                    addText("#632541", 14.sp, BaseColors.primaryColor, FontWeight.w700),
                                   ],
                                 ),
                               ],

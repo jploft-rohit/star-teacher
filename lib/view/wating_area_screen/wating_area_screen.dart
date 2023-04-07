@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -69,7 +69,7 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                                     padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
                                     decoration: BoxDecoration(
                                       border: Border.all(
-                                          color: CustomColors.primaryColor
+                                          color: BaseColors.primaryColor
                                       ),
                                       borderRadius: BorderRadius.circular(15.0),
                                     ),
@@ -78,11 +78,11 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                                   SizedBox(
                                     height: 1.h,
                                   ),
-                                  Text("Najma Suheil", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
+                                  Text("Najma Suheil", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
                                   SizedBox(
                                     height: .5.h,
                                   ),
-                                  Text("Called from Gate 3", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 13.sp),),
+                                  Text("Called from Gate 3", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 13.sp),),
                                 ],
                               ),
                             ),
@@ -100,7 +100,7 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                   width: 10,
                   margin: EdgeInsets.only(top:15.sp, left: 7.sp, right: 7.sp,),
                   decoration: BoxDecoration(
-                      color: pageIndex == index ? CustomColors.primaryColor : CustomColors.borderColor,
+                      color: pageIndex == index ? BaseColors.primaryColor : BaseColors.borderColor,
                       shape: BoxShape.circle
                   ),
                 ),),
@@ -113,9 +113,9 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                 child: RichText(
                   text: TextSpan(
                     text: 'Allocated Gate No. : ',
-                    style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),
+                    style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),
                     children: <TextSpan>[
-                      TextSpan(text: "Gate 6", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp, height: 1.2)),
+                      TextSpan(text: "Gate 6", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp, height: 1.2)),
                     ],
                   ),
                 ),
@@ -128,10 +128,10 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                 margin: EdgeInsets.only(left: 10, right: 10.0),
                 padding: EdgeInsets.only(top: 15.sp, bottom: 15.sp),
                 decoration: BoxDecoration(
-                  color: CustomColors.backgroundColor,
+                  color: BaseColors.backgroundColor,
                   borderRadius: BorderRadius.circular(15.0),
                   border: Border.all(
-                    color: CustomColors.primaryColor,
+                    color: BaseColors.primaryColor,
                   ),
                   boxShadow: [
                     getBoxShadow(),
@@ -139,11 +139,11 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                 ),
                 child: Column(
                   children: [
-                    Text("10/15", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 21.sp),),
+                    Text("10/15", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 21.sp),),
                     SizedBox(
                       height: .5.h,
                     ),
-                    Text("Remaining for Detaching", style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                    Text("Remaining for Detaching", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                   ],
                 ),
               ),
@@ -158,9 +158,9 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                     child: SvgPicture.asset(searchSvg, color: Colors.grey[500], height: 14.0,),
                   ),
                   borderRadius: 15.0,
-                  borderColor: CustomColors.borderColor,
+                  borderColor: BaseColors.borderColor,
                   controller: searchCtrl,
-                  hintTextColor: CustomColors.textLightGreyColor,
+                  hintTextColor: BaseColors.textLightGreyColor,
                   hintText: "Search By ID...",
                 ),
               ),
@@ -183,14 +183,14 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                           width: getWidth(context) * 50 / 100,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                              color: index == 0 ? CustomColors.backgroundColor : CustomColors.screenBackgroundColor,
+                              color: index == 0 ? BaseColors.backgroundColor : BaseColors.screenBackgroundColor,
                               border: Border.all(
-                                  color: index == 0 ? Colors.transparent : CustomColors.txtFiledBorderColor
+                                  color: index == 0 ? Colors.transparent : BaseColors.txtFiledBorderColor
                               ),
                               boxShadow: [
                                 if(index == 0)
                                   const BoxShadow(
-                                      color: CustomColors.darkShadowColor,
+                                      color: BaseColors.darkShadowColor,
                                       spreadRadius: 1.0,
                                       blurRadius: 2.0,
                                       offset: Offset(0, 3)
@@ -198,7 +198,7 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                               ],
                               borderRadius: BorderRadius.circular(15.sp)
                           ),
-                          child: Text("Remaining", style: Style.montserratBoldStyle().copyWith(color: index == 0 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
+                          child: Text("Remaining", style: Style.montserratBoldStyle().copyWith(color: index == 0 ? BaseColors.primaryColor : BaseColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
                         ),
                       ),
                     ),
@@ -217,14 +217,14 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                           width: getWidth(context) * 50 / 100,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                              color: index == 1 ? CustomColors.backgroundColor : CustomColors.screenBackgroundColor,
+                              color: index == 1 ? BaseColors.backgroundColor : BaseColors.screenBackgroundColor,
                               border: Border.all(
-                                  color: index == 1 ? Colors.transparent : CustomColors.txtFiledBorderColor
+                                  color: index == 1 ? Colors.transparent : BaseColors.txtFiledBorderColor
                               ),
                               boxShadow: [
                                 if(index == 1)
                                   const BoxShadow(
-                                      color: CustomColors.darkShadowColor,
+                                      color: BaseColors.darkShadowColor,
                                       spreadRadius: 1.0,
                                       blurRadius: 2.0,
                                       offset: Offset(0, 3)
@@ -232,7 +232,7 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                               ],
                               borderRadius: BorderRadius.circular(15.sp)
                           ),
-                          child: Text("Stamped", style: Style.montserratBoldStyle().copyWith(color: index == 1 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
+                          child: Text("Stamped", style: Style.montserratBoldStyle().copyWith(color: index == 1 ? BaseColors.primaryColor : BaseColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
                         ),
                       ),
                     ),
@@ -271,7 +271,7 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                                   padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                        color: CustomColors.primaryColor
+                                        color: BaseColors.primaryColor
                                     ),
                                     borderRadius: BorderRadius.circular(15.0),
                                   ),
@@ -285,11 +285,11 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text("Abdul Khan", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
+                                        Text("Abdul Khan", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
                                         SizedBox(
                                           height: .5.h,
                                         ),
-                                        Text("#632541", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),),
+                                        Text("#632541", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                                       ],
                                     ),
                                   ],
@@ -300,7 +300,7 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                                 Container(
                                   height: 30.0,
                                   width: 1.0,
-                                  color: CustomColors.borderColor,
+                                  color: BaseColors.borderColor,
                                 ),
                                 SizedBox(
                                   width: 5.w,
@@ -316,11 +316,11 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                                       children: [
                                         const Icon(
                                           Icons.location_on_sharp,
-                                          color: CustomColors.primaryColor,
+                                          color: BaseColors.primaryColor,
                                           size: 15.0,
                                         ),
-                                        Text("Gate No.: ", style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 13.sp),),
-                                        Text("6", style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 13.sp),),
+                                        Text("Gate No.: ", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 13.sp),),
+                                        Text("6", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 13.sp),),
                                       ],
                                     ),
                                   ],
@@ -354,7 +354,7 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15.0),
                                 border: Border.all(
-                                    color: CustomColors.borderColor
+                                    color: BaseColors.borderColor
                                 )
                             ),
                             child: Row(
@@ -363,7 +363,7 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                                   padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                        color: CustomColors.primaryColor
+                                        color: BaseColors.primaryColor
                                     ),
                                     borderRadius: BorderRadius.circular(15.0),
                                   ),
@@ -377,11 +377,11 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text("Abdul Khan", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
+                                        Text("Abdul Khan", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
                                         SizedBox(
                                           height: .5.h,
                                         ),
-                                        Text("#632541", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),),
+                                        Text("#632541", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                                       ],
                                     ),
                                   ],
@@ -392,7 +392,7 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                                 Container(
                                   height: 30.0,
                                   width: 1.0,
-                                  color: CustomColors.borderColor,
+                                  color: BaseColors.borderColor,
                                 ),
                                 SizedBox(
                                   width: 5.w,
@@ -408,11 +408,11 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                                       children: [
                                         const Icon(
                                           Icons.location_on_sharp,
-                                          color: CustomColors.primaryColor,
+                                          color: BaseColors.primaryColor,
                                           size: 15.0,
                                         ),
-                                        Text("Gate No.: ", style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 13.sp),),
-                                        Text("6", style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 13.sp),),
+                                        Text("Gate No.: ", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 13.sp),),
+                                        Text("6", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 13.sp),),
                                       ],
                                     ),
                                     SizedBox(

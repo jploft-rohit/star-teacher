@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -60,7 +60,7 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.0),
                     border: Border.all(
-                        color: CustomColors.borderColor
+                        color: BaseColors.borderColor
                     ),
                   ),
                   child: Column(
@@ -114,10 +114,10 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                              color: selectedFMOPos == index ? CustomColors.backgroundColor : Colors.transparent,
+                              color: selectedFMOPos == index ? BaseColors.backgroundColor : Colors.transparent,
                               borderRadius: BorderRadius.circular(10.0),
                               border: Border.all(
-                                  color: CustomColors.borderColor
+                                  color: BaseColors.borderColor
                               )
                           ),
                           child: Row(
@@ -129,7 +129,7 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                                     padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
                                     decoration: BoxDecoration(
                                       border: Border.all(
-                                          color: CustomColors.primaryColor
+                                          color: BaseColors.primaryColor
                                       ),
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
@@ -140,7 +140,7 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text("Abdul Khan", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                                        Text("Abdul Khan", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                                         SizedBox(
                                           height: .5.h,
                                         ),
@@ -167,27 +167,27 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                                   // padding: const EdgeInsets.symmetric(horizontal: 9),
                                   decoration: BoxDecoration(
                                       color: selectedFMOPos == index
-                                          ? CustomColors.backgroundColor
-                                          : CustomColors.borderColor,
+                                          ? BaseColors.backgroundColor
+                                          : BaseColors.borderColor,
                                       boxShadow: [getLightBoxShadow()],
                                       border: selectedFMOPos == index
                                           ? Border.all(
-                                          color: CustomColors.primaryColor, width: 1.5)
+                                          color: BaseColors.primaryColor, width: 1.5)
                                           : Border.all(
                                           color: Colors.transparent, width: 1.5),
                                       borderRadius: BorderRadius.circular(30.0)),
                                   child: Container(
                                     decoration: BoxDecoration(
                                         border: Border.all(
-                                            color: CustomColors.white, width: 1.5),
+                                            color: BaseColors.white, width: 1.5),
                                         shape: BoxShape.circle,
                                         boxShadow: [getBoxShadow()],
                                         color: selectedFMOPos == index
-                                            ? CustomColors.primaryColor
-                                            : CustomColors.borderColor
+                                            ? BaseColors.primaryColor
+                                            : BaseColors.borderColor
                                     ),
                                     child: Center(
-                                      child: Icon(Icons.check, color: CustomColors.white,
+                                      child: Icon(Icons.check, color: BaseColors.white,
                                           size: 16.sp),
                                     ),
                                   ),

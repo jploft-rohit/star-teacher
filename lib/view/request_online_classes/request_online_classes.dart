@@ -4,9 +4,10 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_textformfield.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -37,7 +38,7 @@ class _RequestOnlineClassesState extends State<RequestOnlineClasses> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.screenBackgroundColor,
+      backgroundColor: BaseColors.screenBackgroundColor,
       appBar: BaseAppBar(title: widget.isUpdating ? "Online Class Edit" : translate(context).online_class_request),
       body: Padding(
         padding: EdgeInsets.all(20.sp),
@@ -46,10 +47,10 @@ class _RequestOnlineClassesState extends State<RequestOnlineClasses> {
             Container(
               padding: const EdgeInsets.only(left: 8.0, right: 8.0),
               decoration: BoxDecoration(
-                color: CustomColors.backgroundColor,
+                color: BaseColors.backgroundColor,
                 borderRadius: BorderRadius.circular(5.0),
                 border: Border.all(
-                  color: CustomColors.borderColor
+                  color: BaseColors.borderColor
                 ),
               ),
               child: Row(
@@ -63,109 +64,28 @@ class _RequestOnlineClassesState extends State<RequestOnlineClasses> {
             SizedBox(
               height: 2.h,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  flex: 1,
-                  child: Text("${translate(context).from_date}:", style: Style.montserratBoldStyle().copyWith(fontSize: textFormFieldLabelTs, color: CustomColors.textBlackColor)),
-                ),
-                Flexible(
-                  flex: 3,
-                  child: Row(
-                    children: [
-                      SvgPicture.asset(calenderDateSvg),
-                      SizedBox(
-                        width: 2.w,
-                      ),
-                      Expanded(
-                        child: CustomTextField(
-                          controller: fromDateController,
-                          readOnly: true,
-                          onTap: (){
-                            selectDate(context);
-                          },
-                          hintText: "dd/mm/yyyy",
-                          hintTxtSize: textFormFieldHintTs,
-                          borderRadius: 5.0,
-                          suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ],
+            BaseTextFormField(
+                controller: fromDateController,
+                title: "${translate(context).from_date}:",
+                prefixIcon: calenderDateSvg,
+                suffixIcon: "assets/images/ic_down.svg",
+                hintText: "dd/mm/yyyy",
+                keyboardType: TextInputType.datetime,
+                onTap: (){selectDate(context);},
             ),
-            SizedBox(
-              height: 2.h,
+            BaseTextFormField(
+              controller: toDateController,
+              title: "${translate(context).to_date}:",
+              prefixIcon: calenderDateSvg,
+              suffixIcon: "assets/images/ic_down.svg",
+              hintText: "dd/mm/yyyy",
+              keyboardType: TextInputType.datetime,
+              onTap: (){selectDate(context);},
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  flex: 1,
-                  child: Text("${translate(context).to_date}:", style: Style.montserratBoldStyle().copyWith(fontSize: textFormFieldLabelTs, color: CustomColors.textBlackColor),),
-                ),
-                Flexible(
-                  flex: 3,
-                  child: Container(
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(calenderDateSvg),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        Expanded(
-                          child: CustomTextField(
-                            controller: toDateController,
-                            readOnly: true,
-                            onTap: (){
-                              selectDate(context);
-                            },
-                            hintText: "dd/mm/yyyy",
-                            borderRadius: 5.0,
-                            hintTxtSize: textFormFieldHintTs,
-                            suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-            SizedBox(
-              height: 2.h,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  flex: 1,
-                  child: Text("${translate(context).reason}:", style: Style.montserratBoldStyle().copyWith(fontSize: textFormFieldLabelTs, color: CustomColors.textBlackColor),),
-                ),
-                Flexible(
-                  flex: 3,
-                  child: Container(
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(calenderDateSvg, color: CustomColors.screenBackgroundColor,),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        Expanded(
-                          child: CustomTextField(
-                            controller: reasonController,
-                            hintText: translate(context).type_here,
-                            borderRadius: 5.0,
-                            hintTxtSize: textFormFieldHintTs,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                )
-              ],
+            BaseTextFormField(
+              controller: reasonController,
+              title: "${translate(context).reason}:",
+              hintText: "Type here...",
             ),
             SizedBox(
               height: 5.h,

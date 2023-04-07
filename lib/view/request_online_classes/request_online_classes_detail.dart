@@ -4,8 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
@@ -29,7 +29,7 @@ class RequestOnlineClassesDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.screenBackgroundColor,
+      backgroundColor: BaseColors.screenBackgroundColor,
       floatingActionButton: BaseFloatingActionButton(
         onTap: () {Get.to(const RequestOnlineClasses());},
         title: translate(context).add_request,
@@ -43,10 +43,10 @@ class RequestOnlineClassesDetail extends StatelessWidget {
             Container(
               padding: const EdgeInsets.only(left: 8.0, right: 8.0),
               decoration: BoxDecoration(
-                color: CustomColors.backgroundColor,
+                color: BaseColors.backgroundColor,
                 borderRadius: BorderRadius.circular(5.0),
                 border: Border.all(
-                    color: CustomColors.borderColor
+                    color: BaseColors.borderColor
                 ),
               ),
               child: Row(
@@ -67,7 +67,7 @@ class RequestOnlineClassesDetail extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10.0),
                 boxShadow: const [
                   BoxShadow(
-                      color: CustomColors.darkShadowColor,
+                      color: BaseColors.darkShadowColor,
                       spreadRadius: 1.0,
                       blurRadius: 2.0,
                       offset: Offset(0, 3)
@@ -83,7 +83,7 @@ class RequestOnlineClassesDetail extends StatelessWidget {
                         padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 12.sp, right: 12.sp),
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: CustomColors.primaryColor
+                            color: BaseColors.primaryColor
                           ),
                           borderRadius: BorderRadius.circular(15.0),
                         ),
@@ -95,11 +95,11 @@ class RequestOnlineClassesDetail extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Rafiq Khan", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 17.sp),),
+                          Text("Rafiq Khan", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 17.sp),),
                           SizedBox(
                             height: 0.5.h,
                           ),
-                          Text("#632541", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                          Text("#632541", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                         ],
                       ),
                       const Spacer(),
@@ -113,7 +113,7 @@ class RequestOnlineClassesDetail extends StatelessWidget {
                             },
                             child: Icon(
                               CupertinoIcons.delete,
-                              color: CustomColors.primaryColor,
+                              color: BaseColors.primaryColor,
                               size: 18.sp,
                             ),
                           ),
@@ -122,7 +122,7 @@ class RequestOnlineClassesDetail extends StatelessWidget {
                           ),
                           GestureDetector(onTap: (){
                             Get.to(const RequestOnlineClasses(isUpdating: true));
-                          },child: Image.asset(editPng, color: CustomColors.primaryColor,height: 18.sp,)),
+                          },child: Image.asset(editPng, color: BaseColors.primaryColor,height: 18.sp,)),
                           SizedBox(
                             width: 5.w,
                           ),
@@ -132,7 +132,7 @@ class RequestOnlineClassesDetail extends StatelessWidget {
                               const SizedBox(
                                 height: 2.0,
                               ),
-                              Text(translate(context).upload_evidence, style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: 13.sp),textAlign: TextAlign.center,)
+                              Text(translate(context).upload_evidence, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 13.sp),textAlign: TextAlign.center,)
                             ],
                           ),
                         ],
@@ -140,7 +140,7 @@ class RequestOnlineClassesDetail extends StatelessWidget {
                     ],
                   ),
                   const Divider(
-                    color: CustomColors.borderColor,
+                    color: BaseColors.borderColor,
                     thickness: 1.0,
                   ),
                   Row(
@@ -149,11 +149,11 @@ class RequestOnlineClassesDetail extends StatelessWidget {
                       SizedBox(
                         width: 2.w,
                       ),
-                      Text("01/03/2022", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                      Text("01/03/2022", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                       SizedBox(
                         width: 10.w,
                       ),
-                      Text("to", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                      Text("to", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                       SizedBox(
                         width: 10.w,
                       ),
@@ -161,11 +161,11 @@ class RequestOnlineClassesDetail extends StatelessWidget {
                       SizedBox(
                         width: 2.w,
                       ),
-                      Text("05/03/2022", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                      Text("05/03/2022", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                     ],
                   ),
                   const Divider(
-                    color: CustomColors.borderColor,
+                    color: BaseColors.borderColor,
                     thickness: 1.0,
                   ),
                   Row(
@@ -174,18 +174,18 @@ class RequestOnlineClassesDetail extends StatelessWidget {
                       SizedBox(
                         width: 2.w,
                       ),
-                      Text("${translate(context).reason} : ", style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
-                      Text("Due to sickness", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),),
+                      Text("${translate(context).reason} : ", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
+                      Text("Due to sickness", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                     ],
                   ),
                   const Divider(
-                    color: CustomColors.borderColor,
+                    color: BaseColors.borderColor,
                     thickness: 1.0,
                   ),
         StepProgressView(
           width: MediaQuery.of(context).size.width,
           curStep: 1,
-          color: CustomColors.primaryColor,
+          color: BaseColors.primaryColor,
           titles: pendingMeetingdates,
           statuses: heading,
         ),

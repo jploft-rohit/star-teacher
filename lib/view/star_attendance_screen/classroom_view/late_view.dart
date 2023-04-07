@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -54,13 +54,13 @@ class _PresentViewState extends State<LateView> {
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(15),
                                       border: Border.all(
-                                          color: CustomColors.primaryColor)),
+                                          color: BaseColors.primaryColor)),
                                   child:SvgPicture.asset(girlSvg),
                                 ),
                                 SizedBox(width: 2.w),
                                 Column(
                                   children: [
-                                    Text('Roma #21', style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: CustomColors.primaryColor),),
+                                    Text('Roma #21', style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: BaseColors.primaryColor),),
                                     SizedBox(
                                       height: 0.5.h,
                                     ),
@@ -78,9 +78,9 @@ class _PresentViewState extends State<LateView> {
                                         height: 21,
                                         // padding: EdgeInsets.symmetric(vertical: 0, horizontal: 4),
                                         decoration: BoxDecoration(
-                                            color: CustomColors.backgroundColor,
+                                            color: BaseColors.backgroundColor,
                                             boxShadow: [getBoxShadow()],
-                                            border: Border.all(color: CustomColors.borderColor, width: 1.5),
+                                            border: Border.all(color: BaseColors.borderColor, width: 1.5),
                                             borderRadius: BorderRadius.circular(30.0)),
                                         child: Center(child: Text(translate(context).change_Status, style: Style.montserratRegularStyle().copyWith(fontSize: 12.sp),)),
                                       ),
@@ -94,7 +94,7 @@ class _PresentViewState extends State<LateView> {
                                     SizedBox(
                                       height: 0.5.h,
                                     ),
-                                    Text('7:30 am', style: Style.montserratMediumStyle().copyWith(fontSize: 13.sp, color: CustomColors.textBlackColor),),
+                                    Text('7:30 am', style: Style.montserratMediumStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor),),
                                   ],
                                 ),
                                 SizedBox(width: 5.w,),

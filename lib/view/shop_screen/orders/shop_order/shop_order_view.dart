@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -22,7 +22,7 @@ class _ShopOrderViewState extends State<ShopOrderView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.white,
+      backgroundColor: BaseColors.white,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -48,49 +48,38 @@ class _ShopOrderViewState extends State<ShopOrderView> {
       width: 100.w,
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
       decoration: BoxDecoration(
-        color: CustomColors.white,
+        color: BaseColors.white,
         borderRadius: BorderRadius.circular(13),
-        border: Border.all(color: CustomColors.textLightGreyColor),
+        border: Border.all(color: BaseColors.textLightGreyColor),
         boxShadow: [
           BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 3)
         ],
       ),
-      child: Stack(
-        alignment: Alignment.topRight,
+      child: Column(
         children: [
-          Column(
-            // mainAxisAlignment: MainAxisAlignment.start,
-            // crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
+          Row(
             children: [
-              detailRow('Order Id : ', '#45689'),
-              detailRow('Order Total : ', '130 AED'),
-              detailRow('Order Date : ', '28/06/2022'),
-              const Divider(),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: StepProgressView(
-                  width: MediaQuery.of(context).size.width,
-                  curStep: index.isEven ? 3 : 2,
-                  color: CustomColors.primaryColor,
-                  titles: index.isEven
-                      ? controller.canteenThisWeekDates
-                      : controller.shopOrderDates,
-                  statuses: controller.shopOrderHeading,
+              Expanded(
+                flex: 6,
+                child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.start,
+                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    detailRow('Order Id : ', '#45689'),
+                    detailRow('Order Total : ', '130 AED'),
+                    detailRow('Order Date : ', '28/06/2022'),
+                  ],
                 ),
               ),
-            ],
-          ),
-          Visibility(
-            visible: index.isEven != true,
-            child: Positioned(
-              right: 0,
-              top: 10,
-              child: Row(
-                children: [
-                  BaseButton(
+              Expanded(
+                flex: 3,
+                child: Visibility(
+                  visible: index.isEven != true,
+                  child: BaseButton(
                       btnWidth: 65,
                       title: "Cancel",
+                      removeHorizontalPadding: true,
                       textSize: 15.sp,
                       onPressed: () {showGeneralDialog(
                         context: context,
@@ -108,38 +97,52 @@ class _ShopOrderViewState extends State<ShopOrderView> {
                       );
                      },
                   ),
-                  SizedBox(width: 1.h),
-                  InkWell(
-                    onTap: (){
-
-                    },
-                    child: Image.asset(editPng, color: CustomColors.primaryColor,height: 18.sp,),
-                  ),
-                ],
+                ),
               ),
+              SizedBox(width: 2.w),
+              Expanded(
+                flex: 1,
+                child: InkWell(
+                  onTap: (){},
+                  child: Image.asset(editPng, color: BaseColors.primaryColor,height: 18.sp,),
+                ),
+              ),
+              // Visibility(
+              //   visible: index.isEven == true,
+              //   child: Positioned(
+              //     right: 0,
+              //     top: 10,
+              //     child: Row(
+              //       children: [
+              //         BaseButton(
+              //             height: 22,
+              //             width: 65,
+              //             child: addText('Return', getNormalTextFontSIze() - 2,
+              //                 CustomColors.primaryColor, FontWeight.w700),
+              //             onTap: () {
+              //               Get.toNamed(Routes.shopReturnView);
+              //             }),
+              //         SizedBox(width: 1.h),
+              //         iconButton(() {}, StarIcons.editIconYellow)
+              //       ],
+              //     ),
+              //   ),
+              // ),
+            ],
+          ),
+          const Divider(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: StepProgressView(
+              width: MediaQuery.of(context).size.width,
+              curStep: index.isEven ? 3 : 2,
+              color: BaseColors.primaryColor,
+              titles: index.isEven
+                  ? controller.canteenThisWeekDates
+                  : controller.shopOrderDates,
+              statuses: controller.shopOrderHeading,
             ),
           ),
-          // Visibility(
-          //   visible: index.isEven == true,
-          //   child: Positioned(
-          //     right: 0,
-          //     top: 10,
-          //     child: Row(
-          //       children: [
-          //         BaseButton(
-          //             height: 22,
-          //             width: 65,
-          //             child: addText('Return', getNormalTextFontSIze() - 2,
-          //                 CustomColors.primaryColor, FontWeight.w700),
-          //             onTap: () {
-          //               Get.toNamed(Routes.shopReturnView);
-          //             }),
-          //         SizedBox(width: 1.h),
-          //         iconButton(() {}, StarIcons.editIconYellow)
-          //       ],
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     );
@@ -150,10 +153,10 @@ class _ShopOrderViewState extends State<ShopOrderView> {
       children: [
         Row(
           children: [
-            addText(label, 15.sp, CustomColors.textBlackColor,
+            addText(label, 15.sp, BaseColors.textBlackColor,
                 FontWeight.w400),
             addText(body, 15.sp,
-                CustomColors.primaryColor, FontWeight.w700),
+                BaseColors.primaryColor, FontWeight.w700),
           ],
         ),
         SizedBox(height: 0.5.h)

@@ -29,6 +29,11 @@ class _StarAttendanceScreenState extends State<StarAttendanceScreen> with Single
     });
   }
   @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,

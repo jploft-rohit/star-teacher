@@ -4,8 +4,8 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -29,6 +29,11 @@ class _NotificationScreenState extends State<NotificationScreen> with SingleTick
     tabController = TabController(length: 2, vsync: this)..addListener(() {
       setState(() {});
     });
+  }
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {
@@ -111,7 +116,7 @@ class _NotificationScreenState extends State<NotificationScreen> with SingleTick
             padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 12.sp, right: 12.sp),
             decoration: BoxDecoration(
               border: Border.all(
-                  color: CustomColors.primaryColor
+                  color: BaseColors.primaryColor
               ),
               borderRadius: BorderRadius.circular(15.0),
             ),
@@ -123,15 +128,15 @@ class _NotificationScreenState extends State<NotificationScreen> with SingleTick
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 17.sp),),
+              Text(title, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 17.sp),),
               SizedBox(
                 height: 0.5.h,
               ),
-              Text(subtitle, style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+              Text(subtitle, style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
             ],
           ),
           const Spacer(),
-          Text(tralingText, style: Style.montserratMediumStyle().copyWith(color: CustomColors.textLightGreyColor, fontSize: 14.sp),),
+          Text(tralingText, style: Style.montserratMediumStyle().copyWith(color: BaseColors.textLightGreyColor, fontSize: 14.sp),),
         ],
       ),
     );

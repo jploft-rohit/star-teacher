@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
-import 'package:staff_app/Utility/custom_text_field.dart';
+import 'package:staff_app/Utility/base_dropdown.dart';
+import 'package:staff_app/Utility/base_textformfield.dart';
+import 'package:staff_app/Utility/dummy_lists.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 
 class AddFeedbackView extends StatefulWidget {
-  final isUpdating;
+  final bool isUpdating;
   const AddFeedbackView({Key? key, this.isUpdating = false}) : super(key: key);
 
   @override
@@ -17,86 +17,72 @@ class AddFeedbackView extends StatefulWidget {
 }
 
 class _AddFeedbackViewState extends State<AddFeedbackView> {
-  TextEditingController helpController = TextEditingController();
-  TextEditingController helpOptionController = TextEditingController();
+  TextEditingController feedBackController = TextEditingController();
+  TextEditingController toWhoController = TextEditingController();
   TextEditingController titleController = TextEditingController();
   TextEditingController messageController = TextEditingController();
   TextEditingController uploadFilePhotoController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    setData();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(title: widget.isUpdating ? "" : "Feedback & Help"),
+      appBar: BaseAppBar(title: widget.isUpdating ? "Edit Feedback & Help" : "Feedback & Help"),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(15.sp),
+          padding: EdgeInsets.all(scaffoldPadding),
           child: Column(
             children: [
-              Container(
-                padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                decoration: BoxDecoration(
-                  color: CustomColors.backgroundColor,
-                  borderRadius: BorderRadius.circular(5.0),
-                  border: Border.all(
-                      color: CustomColors.borderColor
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Ignite Public School", style: Style.montserratRegularStyle().copyWith(color: Colors.black, fontSize: 16.sp),),
-                    const Icon(Icons.arrow_drop_down, color: Color(0xffC4C4C4),size: 35.0,)
-                  ],
-                ),
+              BaseDropDown(),
+              BaseTextFormField(
+                controller: feedBackController,
+                hintText: "Type",
+                isDropDown: true,
+                dropDownValue: feedBackController.text,
+                onChanged: (newValue){
+                  setState(() {
+                    feedBackController.text = newValue.toString();
+                  });},
+                items: DummyLists().list1.map((value) {
+                  return DropdownMenuItem(
+                    value: value,
+                    child: addText(value, 16.sp, Colors.black, FontWeight.w400),);
+                }).toList(),
               ),
-              SizedBox(
-                height: 1.h,
-              ),
-              CustomTextField(
-                controller: TextEditingController(),
-                hintText: "Feedback",
-                borderRadius: 5.0,
-                suffixIcon: Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
-              ),
-              SizedBox(
-                height: 2.h,
-              ),
-              CustomTextField(
-                controller: TextEditingController(),
+              BaseTextFormField(
+                controller: toWhoController,
                 hintText: "To who",
-                borderRadius: 5.0,
-                suffixIcon: Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
+                isDropDown: true,
+                dropDownValue: toWhoController.text,
+                onChanged: (newValue){
+                  setState(() {
+                    toWhoController.text = newValue.toString();
+                  });},
+                items: DummyLists().list1.map((value) {
+                  return DropdownMenuItem(
+                    value: value,
+                    child: addText(value, 16.sp, Colors.black, FontWeight.w400),);
+                }).toList(),
               ),
-              SizedBox(
-                height: 2.h,
-              ),
-              CustomTextField(
-                controller: TextEditingController(),
+              BaseTextFormField(
+                controller: titleController,
                 hintText: "Title",
-                borderRadius: 5.0,
               ),
-              SizedBox(
-                height: 2.h,
-              ),
-              CustomTextField(
-                controller: TextEditingController(),
+              BaseTextFormField(
+                controller: messageController,
                 maxLine: 4,
                 hintText: "Message",
-                borderRadius: 8.0,
               ),
-              SizedBox(
-                height: 2.h,
-              ),
-              CustomTextField(
-                controller: TextEditingController(),
+              BaseTextFormField(
+                controller: uploadFilePhotoController,
                 hintText: "Upload file or Photo",
-                borderRadius: 5.0,
-                suffixIcon: Padding(
-                  padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                  child: SvgPicture.asset("assets/images/upload_icon.svg",),
-                ),
-              ),
-              SizedBox(
-                height: 3.h,
+                suffixIcon: "assets/images/upload_icon.svg",
+                bottomMargin: 3.h,
+                onTap: (){},
               ),
               BaseButton(title: "SUBMIT", onPressed: (){})
             ],
@@ -104,5 +90,15 @@ class _AddFeedbackViewState extends State<AddFeedbackView> {
         ),
       ),
     );
+  }
+
+  setData(){
+    if (widget.isUpdating) {
+      feedBackController.text = "Feedback";
+      toWhoController.text = "Application";
+      titleController.text = "Can improve the Speed";
+      messageController.text = "Hi, I'm facing some issues with the application's speed..it's not working as fast as I expect.";
+      uploadFilePhotoController.text = "doc.pdf";
+    }
   }
 }

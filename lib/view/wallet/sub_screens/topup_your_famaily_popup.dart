@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
-import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/wallet/sub_screens/cartd_detail_popup.dart';
 import 'package:staff_app/view/wallet/wallet_controller.dart';
-
-import '../../../Utility/custom_button.dart';
 
 class TopupYourFamilyPopup extends StatefulWidget {
   const TopupYourFamilyPopup({Key? key}) : super(key: key);
@@ -49,9 +45,9 @@ class _TopupYourFamilyPopupState extends State<TopupYourFamilyPopup> {
                     RichText(
                       text: TextSpan(
                         text: '${translate(context).top_up_your} ',
-                        style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp),
+                        style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),
                         children: <TextSpan>[
-                          TextSpan(text: translate(context).family_wallet, style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 16.sp, height: 1.2)),
+                          TextSpan(text: translate(context).family_wallet, style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp, height: 1.2)),
                         ],
                       ),
                     ),
@@ -65,7 +61,7 @@ class _TopupYourFamilyPopupState extends State<TopupYourFamilyPopup> {
                 SizedBox(
                   height: 2.h,
                 ),
-                CustomTextField(controller: amtCtrl, hintText: "AED 1000", borderColor: CustomColors.textBlackColor,),
+                CustomTextField(controller: amtCtrl, hintText: "AED 1000", borderColor: BaseColors.textBlackColor,),
                 SizedBox(
                   height: 1.h,
                 ),
@@ -89,15 +85,15 @@ class _TopupYourFamilyPopupState extends State<TopupYourFamilyPopup> {
                         padding: EdgeInsets.symmetric(horizontal: 5),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                            color: CustomColors.backgroundColor,
+                            color: BaseColors.backgroundColor,
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
                                 width: 0.3,
-                                color: CustomColors.primaryColor)),
+                                color: BaseColors.primaryColor)),
                         child: addText(
                             "+AED${Get.find<WalletController>().amount[index]}",
                             13.sp,
-                            CustomColors.primaryColor,
+                            BaseColors.primaryColor,
                             FontWeight.w400),
                       ),
                     ),

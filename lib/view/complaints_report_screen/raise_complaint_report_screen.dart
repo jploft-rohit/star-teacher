@@ -3,10 +3,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_dropdown.dart';
+import 'package:staff_app/Utility/base_textformfield.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
+import 'package:staff_app/Utility/dummy_lists.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/complaints_report_screen/select_person_popup.dart';
 
@@ -39,66 +43,59 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
       appBar: const BaseAppBar(title: "Raise Complaint & report"),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(15.sp),
+          padding: EdgeInsets.all(scaffoldPadding),
           child: Column(
             children: [
-              Container(
-                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                decoration: BoxDecoration(
-                  color: CustomColors.backgroundColor,
-                  borderRadius: BorderRadius.circular(5.0),
-                  border: Border.all(
-                      color: CustomColors.borderColor
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Ignite Public School", style: Style.montserratRegularStyle().copyWith(color: Colors.black, fontSize: 16.sp),),
-                    const Icon(Icons.arrow_drop_down, color: Color(0xffC4C4C4),size: 35.0,)
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 2.h,
-              ),
-              CustomTextField(
+              BaseDropDown(),
+              BaseTextFormField(
                 controller: complaintOrReportController,
-                fillColor: CustomColors.txtFieldTextColor,
                 hintText: "Select complaint or report",
-                borderRadius: 5.0,
-                readOnly: true,
-                suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
+                isDropDown: true,
+                dropDownValue: complaintOrReportController.text,
+                onChanged: (newValue){
+                  setState(() {
+                    complaintOrReportController.text = newValue.toString();
+                  });},
+                items: DummyLists().list1.map((value) {
+                  return DropdownMenuItem(
+                    value: value,
+                    child: addText(value, 16.sp, Colors.black, FontWeight.w400),);
+                }).toList(),
               ),
-              SizedBox(
-                height: 2.h,
-              ),
-              CustomTextField(
+              BaseTextFormField(
                 controller: complaintForController,
-                fillColor: CustomColors.txtFieldTextColor,
                 hintText: "Complaint for",
-                borderRadius: 5.0,
-                readOnly: true,
-                suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
+                isDropDown: true,
+                dropDownValue: complaintForController.text,
+                onChanged: (newValue){
+                  setState(() {
+                    complaintForController.text = newValue.toString();
+                  });},
+                items: DummyLists().list1.map((value) {
+                  return DropdownMenuItem(
+                    value: value,
+                    child: addText(value, 16.sp, Colors.black, FontWeight.w400),);
+                }).toList(),
               ),
-              SizedBox(
-                height: 2.h,
-              ),
-              CustomTextField(
+              BaseTextFormField(
                 controller: roleController,
-                fillColor: CustomColors.txtFieldTextColor,
                 hintText: "Select Role",
-                borderRadius: 5.0,
-                readOnly: true,
-                suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
+                isDropDown: true,
+                dropDownValue: roleController.text,
+                onChanged: (newValue){
+                  setState(() {
+                    roleController.text = newValue.toString();
+                  });},
+                items: DummyLists().list1.map((value) {
+                  return DropdownMenuItem(
+                    value: value,
+                    child: addText(value, 16.sp, Colors.black, FontWeight.w400),);
+                }).toList(),
               ),
-              SizedBox(
-                height: 2.h,
-              ),
-              CustomTextField(
+              BaseTextFormField(
                 controller: personController,
-                fillColor: CustomColors.txtFieldTextColor,
-                readOnly: true,
+                hintText: "Select person",
+                suffixIcon: "assets/images/ic_down.svg",
                 onTap: (){
                   showGeneralDialog(
                     context: context,
@@ -107,55 +104,32 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                     },
                   );
                 },
-                hintText: "Select person",
-                borderRadius: 5.0,
-                suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
               ),
-              SizedBox(
-                height: 2.h,
-              ),
-              CustomTextField(
+              BaseTextFormField(
                 controller: typeController,
                 hintText: "Complaint type",
-                fillColor: CustomColors.txtFieldTextColor,
-                borderRadius: 5.0,
-                readOnly: true,
-                suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
+                isDropDown: true,
+                dropDownValue: typeController.text,
+                onChanged: (newValue){
+                  setState(() {
+                    typeController.text = newValue.toString();
+                  });},
+                items: DummyLists().list1.map((value) {
+                  return DropdownMenuItem(
+                    value: value,
+                    child: addText(value, 16.sp, Colors.black, FontWeight.w400),);
+                }).toList(),
               ),
-              SizedBox(
-                height: 2.h,
-              ),
-              // CustomTextField(
-              //   controller: TextEditingController(),
-              //   hintText: "Title of complain or report",
-              //   fillColor: CustomColors.txtFieldTextColor,
-              //   borderRadius: 5.0,
-              // ),
-              // SizedBox(
-              //   height: 2.h,
-              // ),
-              CustomTextField(
+              BaseTextFormField(
                 controller: messageController,
                 maxLine: 4,
                 hintText: "Message",
-                borderRadius: 8.0,
               ),
-              SizedBox(
-                height: 2.h,
-              ),
-              CustomTextField(
-                readOnly: true,
+              BaseTextFormField(
                 controller: uploadController,
                 hintText: "Upload file or Photo",
-                fillColor: CustomColors.txtFieldTextColor,
-                borderRadius: 5.0,
-                suffixIcon: Padding(
-                  padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                  child: SvgPicture.asset("assets/images/upload_icon.svg",),
-                ),
-              ),
-              SizedBox(
-                height: 2.h,
+                suffixIcon: "assets/images/upload_icon.svg",
+                bottomMargin: 4.h,
               ),
               BaseButton(title: "SUBMIT", onPressed: (){})
             ],

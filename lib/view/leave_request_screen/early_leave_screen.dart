@@ -4,8 +4,10 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_dropdown.dart';
+import 'package:staff_app/Utility/base_textformfield.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -21,156 +23,57 @@ class EarlyLeaveScreen extends StatefulWidget {
 }
 
 class _EarlyLeaveScreenState extends State<EarlyLeaveScreen> {
-  TextEditingController startDateCtrl = TextEditingController();
+  TextEditingController dateController = TextEditingController();
+  TextEditingController leavingTimeController = TextEditingController();
+  TextEditingController reasonController = TextEditingController();
+  TextEditingController uploadController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: BaseAppBar(title: translate(context).early_leave),
-      body: Padding(
-        padding: EdgeInsets.all(15.sp),
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-              decoration: BoxDecoration(
-                color: CustomColors.backgroundColor,
-                borderRadius: BorderRadius.circular(5.0),
-                border: Border.all(
-                    color: CustomColors.borderColor
-                ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(scaffoldPadding),
+          child: Column(
+            children: [
+              BaseDropDown(),
+              BaseTextFormField(
+                controller: dateController,
+                title: translate(context).date,
+                prefixIcon: calenderDateSvg,
+                hintText: "dd/mm/yyyy",
+                onTap: (){
+                  selectDate(context);
+                },
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Ignite Public School", style: Style.montserratRegularStyle().copyWith(color: Colors.black, fontSize: 16.sp),),
-                  const Icon(Icons.arrow_drop_down, color: Color(0xffC4C4C4),size: 35.0,)
-                ],
+              BaseTextFormField(
+                controller: leavingTimeController,
+                title: translate(context).leaving_time,
+                prefixIcon: "assets/images/time_icon1.svg",
+                hintText: "10:30",
+                onTap: (){
+                  selectDate(context);
+                },
               ),
-            ),
-            SizedBox(
-              height: 3.h,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  flex: 1,
-                  child: Text("${translate(context).date}:", style: Style.montserratBoldStyle().copyWith(fontSize: textFormFieldLabelTs, color: CustomColors.textBlackColor),),
-                ),
-                Flexible(
-                  flex: 3,
-                  child: Row(
-                    children: [
-                      SvgPicture.asset(calenderDateSvg),
-                      SizedBox(
-                        width: 2.w,
-                      ),
-                      Expanded(
-                        child: CustomTextField(
-                          controller: startDateCtrl,
-                          onTap: (){
-                            selectDate(context);
-                          },
-                          readOnly: true,
-                          fillColor: CustomColors.txtFieldTextColor,
-                          hintText: "dd/mm/yyyy",
-                          borderRadius: 5.0,
-                          suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
-            SizedBox(
-              height: 2.h,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  flex: 1,
-                  child: Text("${translate(context).leaving_time}:", style: Style.montserratBoldStyle().copyWith(fontSize: textFormFieldLabelTs, color: CustomColors.textBlackColor),),
-                ),
-                Flexible(
-                  flex: 3,
-                  child: Container(
-                    child: Row(
-                      children: [
-                        SvgPicture.asset("assets/images/time_icon1.svg"),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        Expanded(
-                          child: CustomTextField(
-                            controller: startDateCtrl,
-                            fillColor: CustomColors.txtFieldTextColor,
-                            hintText: "10:30 AM",
-                            borderRadius: 5.0,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-            SizedBox(
-              height: 2.h,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  flex: 1,
-                  child: Text("${translate(context).reason}:", style: Style.montserratBoldStyle().copyWith(fontSize: textFormFieldLabelTs, color: CustomColors.textBlackColor),),
-                ),
-                Flexible(
-                  flex: 3,
-                  child: Container(
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(calenderDateSvg, color: CustomColors.white,),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        Expanded(
-                          child: CustomTextField(
-                            controller: startDateCtrl,
-                            fillColor: CustomColors.txtFieldTextColor,
-                            hintText: translate(context).type_here,
-                            borderRadius: 5.0,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-            SizedBox(
-              height: 2.h,
-            ),
-            CustomTextField(
-              controller: startDateCtrl,
-              hintText: translate(context).upload_file_or_photo,
-              borderRadius: 5.0,
-              fillColor: CustomColors.txtFieldTextColor,
-              suffixIcon: Padding(
-                padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                child: SvgPicture.asset("assets/images/upload_icon.svg",),
+              BaseTextFormField(
+                controller: reasonController,
+                title: translate(context).reason,
+                hintText: translate(context).type_here,
               ),
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-            BaseButton(title: translate(context).submit_btn_txt, onPressed: (){
-              Get.back();
-            })
-          ],
+              BaseTextFormField(
+                controller: uploadController,
+                hintText: translate(context).upload_file_or_photo,
+                suffixIcon: "assets/images/upload_icon.svg",
+                bottomMargin: 10.h,
+                onTap: (){},
+              ),
+              BaseButton(title: translate(context).submit_btn_txt, onPressed: (){
+                Get.back();
+              })
+            ],
+          ),
         ),
       ),
     );

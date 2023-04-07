@@ -5,9 +5,9 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/base_tab_bar.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -81,7 +81,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15.0),
             border: Border.all(
-                color: CustomColors.borderColor
+                color: BaseColors.borderColor
             ),
           ),
           child: Column(
@@ -110,7 +110,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                   Container(
                     width: 1,
                     height: 25,
-                    color: CustomColors.borderColor,
+                    color: BaseColors.borderColor,
                   ),
                   Flexible(
                     flex: 1,
@@ -158,7 +158,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                   Container(
                     width: 1,
                     height: 25,
-                    color: CustomColors.borderColor,
+                    color: BaseColors.borderColor,
                   ),
                   Flexible(
                     flex: 1,
@@ -206,7 +206,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                   Container(
                     width: 1,
                     height: 25,
-                    color: CustomColors.borderColor,
+                    color: BaseColors.borderColor,
                   ),
                   Flexible(
                     flex: 1,
@@ -248,99 +248,94 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                 RichText(
                   text: TextSpan(
                     text: 'Title : ',
-                    style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),
+                    style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),
                     children: <TextSpan>[
-                      TextSpan(text: "Aptitude Test", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp, height: 1.2)),
+                      TextSpan(text: "Aptitude Test", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp, height: 1.2)),
                     ],
                   ),
                 ),
                 const Divider(),
                 Row(
                   children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset("assets/images/copy 3.svg"),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        buildInfoItems("Term", "Term 1")
-                      ],
+                    Expanded(
+                      child: Row(
+                        children: [
+                          SvgPicture.asset("assets/images/copy 3.svg"),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          buildInfoItems("Term", "Term 1")
+                        ],
+                      ),
                     ),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    Container(height: 20.0,width: 1, color: CustomColors.borderColor,),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    Row(
-                      children: [
-                        SvgPicture.asset(jobDetailSvg, height: 15,),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        buildInfoItems("Grade", "Grade 3")
-                      ],
+                    Container(margin: EdgeInsets.symmetric(horizontal: 4.w),height: 20.0,width: 1, color: BaseColors.borderColor,),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(jobDetailSvg, height: 15,),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          buildInfoItems("Grade", "Grade 3")
+                        ],
+                      ),
                     ),
                   ],
                 ),
                 const Divider(),
                 Row(
                   children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset("assets/images/document 1.svg"),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        buildInfoItems("Subject", "Math")
-                      ],
+                    Expanded(
+                      child: Row(
+                        children: [
+                          SvgPicture.asset("assets/images/document 1.svg"),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          Expanded(child: buildInfoItems("Subject", "Math"))
+                        ],
+                      ),
                     ),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    Container(height: 20.0,width: 1, color: CustomColors.borderColor,),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    Row(
-                      children: [
-                        SvgPicture.asset("assets/images/user.svg", height: 15,),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        buildInfoItems("Created By", "Ahmed")
-                      ],
+                    Container(margin: EdgeInsets.symmetric(horizontal: 4.w),height: 20.0,width: 1, color: BaseColors.borderColor,),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          SvgPicture.asset("assets/images/user.svg", height: 15,),
+                          SizedBox(width: 2.w),
+                          Expanded(child: buildInfoItems("Created By", "Ahmed"))
+                        ],
+                      ),
                     ),
                   ],
                 ),
                 const Divider(),
                 Row(
                   children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset("assets/images/gender-fluid 1.svg"),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        buildInfoItems("Gender", "Male")
-                      ],
+                    Expanded(
+                      child: Row(
+                        children: [
+                          SvgPicture.asset("assets/images/gender-fluid 1.svg"),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          Expanded(child: buildInfoItems("Gender", "Male"))
+                        ],
+                      ),
                     ),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    Container(height: 20.0,width: 1, color: CustomColors.borderColor,),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    Row(
-                      children: [
-                        SvgPicture.asset("assets/images/Group (1).svg", height: 15,),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        buildInfoItems("Created On", "07/07/2022")
-                      ],
+                    Container(margin: EdgeInsets.symmetric(horizontal: 4.w),height: 20.0,width: 1, color: BaseColors.borderColor,),
+                    Expanded(
+                      child: Row(
+                        // crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          SvgPicture.asset("assets/images/Group (1).svg", height: 15,),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          Expanded(child: buildInfoItems("Created On", "07/07/2022"))
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -354,12 +349,12 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                         SizedBox(
                           width: 2.w,
                         ),
-                        buildInfoItems("Doc No", "C0082")
+                        buildInfoItems("Doc No", "A0082")
                       ],
                     ),
-                    Container(height: 20.0,width: 1, color: CustomColors.borderColor,),
+                    Container(height: 20.0,width: 1, color: BaseColors.borderColor),
 
-                    BaseButton(title: "Reuse", onPressed: (){}, textSize: 14.sp,),
+                    BaseButton(btnType: toggleButton,title: "Reuse", onPressed: (){}, textSize: 14.sp,verticalPadding: 0.8.h,),
                   ],
                 ),
                 const Divider(),
@@ -372,9 +367,9 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                     RichText(
                       text: TextSpan(
                         text: 'File : ',
-                        style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),
+                        style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),
                         children: <TextSpan>[
-                          TextSpan(text: "apitude_test", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp, height: 1.2, decoration: TextDecoration.underline)),
+                          TextSpan(text: "apitude_test", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp, height: 1.2, decoration: TextDecoration.underline)),
                         ],
                       ),
                     ),
@@ -394,7 +389,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15.0),
             border: Border.all(
-                color: CustomColors.borderColor
+                color: BaseColors.borderColor
             ),
           ),
           child: Column(
@@ -423,7 +418,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                   Container(
                     width: 1,
                     height: 25,
-                    color: CustomColors.borderColor,
+                    color: BaseColors.borderColor,
                   ),
                   Flexible(
                     flex: 1,
@@ -471,7 +466,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                   Container(
                     width: 1,
                     height: 25,
-                    color: CustomColors.borderColor,
+                    color: BaseColors.borderColor,
                   ),
                   Flexible(
                     flex: 1,
@@ -519,7 +514,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                   Container(
                     width: 1,
                     height: 25,
-                    color: CustomColors.borderColor,
+                    color: BaseColors.borderColor,
                   ),
                   Flexible(
                     flex: 1,
@@ -551,7 +546,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
         Card(
           elevation: 3.0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0)
+              borderRadius: BorderRadius.circular(10.0)
           ),
           child: Padding(
             padding: EdgeInsets.all(15.sp),
@@ -561,99 +556,94 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                 RichText(
                   text: TextSpan(
                     text: 'Title : ',
-                    style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),
+                    style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),
                     children: <TextSpan>[
-                      TextSpan(text: "Mental Health", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp, height: 1.2)),
+                      TextSpan(text: "Aptitude Test", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp, height: 1.2)),
                     ],
                   ),
                 ),
                 const Divider(),
                 Row(
                   children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset("assets/images/copy 3.svg"),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        buildInfoItems("Term", "Term 1")
-                      ],
+                    Expanded(
+                      child: Row(
+                        children: [
+                          SvgPicture.asset("assets/images/copy 3.svg"),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          buildInfoItems("Term", "Term 1")
+                        ],
+                      ),
                     ),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    Container(height: 20.0,width: 1, color: CustomColors.borderColor,),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    Row(
-                      children: [
-                        SvgPicture.asset(jobDetailSvg, height: 15,),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        buildInfoItems("Grade", "Grade 3")
-                      ],
+                    Container(margin: EdgeInsets.symmetric(horizontal: 4.w),height: 20.0,width: 1, color: BaseColors.borderColor,),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(jobDetailSvg, height: 15,),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          buildInfoItems("Grade", "Grade 3")
+                        ],
+                      ),
                     ),
                   ],
                 ),
                 const Divider(),
                 Row(
                   children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset("assets/images/document 1.svg"),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        buildInfoItems("Subject", "Math")
-                      ],
+                    Expanded(
+                      child: Row(
+                        children: [
+                          SvgPicture.asset("assets/images/document 1.svg"),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          Expanded(child: buildInfoItems("Subject", "Math"))
+                        ],
+                      ),
                     ),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    Container(height: 20.0,width: 1, color: CustomColors.borderColor,),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    Row(
-                      children: [
-                        SvgPicture.asset("assets/images/user.svg", height: 15,),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        buildInfoItems("Created By", "Ahmed")
-                      ],
+                    Container(margin: EdgeInsets.symmetric(horizontal: 4.w),height: 20.0,width: 1, color: BaseColors.borderColor,),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          SvgPicture.asset("assets/images/user.svg", height: 15,),
+                          SizedBox(width: 2.w),
+                          Expanded(child: buildInfoItems("Created By", "Ahmed"))
+                        ],
+                      ),
                     ),
                   ],
                 ),
                 const Divider(),
                 Row(
                   children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset("assets/images/gender-fluid 1.svg"),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        buildInfoItems("Gender", "Male")
-                      ],
+                    Expanded(
+                      child: Row(
+                        children: [
+                          SvgPicture.asset("assets/images/gender-fluid 1.svg"),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          Expanded(child: buildInfoItems("Gender", "Male"))
+                        ],
+                      ),
                     ),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    Container(height: 20.0,width: 1, color: CustomColors.borderColor,),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    Row(
-                      children: [
-                        SvgPicture.asset("assets/images/Group (1).svg", height: 15,),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        buildInfoItems("Created On", "07/07/2022")
-                      ],
+                    Container(margin: EdgeInsets.symmetric(horizontal: 4.w),height: 20.0,width: 1, color: BaseColors.borderColor,),
+                    Expanded(
+                      child: Row(
+                        // crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          SvgPicture.asset("assets/images/Group (1).svg", height: 15,),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          Expanded(child: buildInfoItems("Created On", "07/07/2022"))
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -670,9 +660,9 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                         buildInfoItems("Doc No", "C0082")
                       ],
                     ),
-                    Container(height: 20.0,width: 1, color: CustomColors.borderColor,),
+                    Container(height: 20.0,width: 1, color: BaseColors.borderColor),
 
-                    BaseButton(title: "Reuse", onPressed: (){}, textSize: 14.sp,),
+                    BaseButton(btnType: toggleButton,title: "Reuse", onPressed: (){}, textSize: 14.sp,verticalPadding: 0.8.h,),
                   ],
                 ),
                 const Divider(),
@@ -685,9 +675,9 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                     RichText(
                       text: TextSpan(
                         text: 'File : ',
-                        style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),
+                        style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),
                         children: <TextSpan>[
-                          TextSpan(text: "Mental Health", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp, height: 1.2, decoration: TextDecoration.underline)),
+                          TextSpan(text: "apitude_test", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp, height: 1.2, decoration: TextDecoration.underline)),
                         ],
                       ),
                     ),
@@ -707,7 +697,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15.0),
             border: Border.all(
-                color: CustomColors.borderColor
+                color: BaseColors.borderColor
             ),
           ),
           child: Column(
@@ -736,7 +726,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                   Container(
                     width: 1,
                     height: 25,
-                    color: CustomColors.borderColor,
+                    color: BaseColors.borderColor,
                   ),
                   Flexible(
                     flex: 1,
@@ -784,7 +774,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                   Container(
                     width: 1,
                     height: 25,
-                    color: CustomColors.borderColor,
+                    color: BaseColors.borderColor,
                   ),
                   Flexible(
                     flex: 1,
@@ -832,7 +822,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                   Container(
                     width: 1,
                     height: 25,
-                    color: CustomColors.borderColor,
+                    color: BaseColors.borderColor,
                   ),
                   Flexible(
                     flex: 1,
@@ -864,7 +854,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
         Card(
           elevation: 3.0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0)
+              borderRadius: BorderRadius.circular(10.0)
           ),
           child: Padding(
             padding: EdgeInsets.all(15.sp),
@@ -874,99 +864,94 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                 RichText(
                   text: TextSpan(
                     text: 'Title : ',
-                    style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),
+                    style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),
                     children: <TextSpan>[
-                      TextSpan(text: "Connect the Dots", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp, height: 1.2)),
+                      TextSpan(text: "Aptitude Test", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp, height: 1.2)),
                     ],
                   ),
                 ),
                 const Divider(),
                 Row(
                   children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset("assets/images/copy 3.svg"),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        buildInfoItems("Term", "Term 1")
-                      ],
+                    Expanded(
+                      child: Row(
+                        children: [
+                          SvgPicture.asset("assets/images/copy 3.svg"),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          buildInfoItems("Term", "Term 1")
+                        ],
+                      ),
                     ),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    Container(height: 20.0,width: 1, color: CustomColors.borderColor,),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    Row(
-                      children: [
-                        SvgPicture.asset(jobDetailSvg, height: 15,),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        buildInfoItems("Grade", "Grade 3")
-                      ],
+                    Container(margin: EdgeInsets.symmetric(horizontal: 4.w),height: 20.0,width: 1, color: BaseColors.borderColor,),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(jobDetailSvg, height: 15,),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          buildInfoItems("Grade", "Grade 3")
+                        ],
+                      ),
                     ),
                   ],
                 ),
                 const Divider(),
                 Row(
                   children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset("assets/images/document 1.svg"),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        buildInfoItems("Subject", "Math")
-                      ],
+                    Expanded(
+                      child: Row(
+                        children: [
+                          SvgPicture.asset("assets/images/document 1.svg"),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          Expanded(child: buildInfoItems("Subject", "Math"))
+                        ],
+                      ),
                     ),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    Container(height: 20.0,width: 1, color: CustomColors.borderColor,),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    Row(
-                      children: [
-                        SvgPicture.asset("assets/images/user.svg", height: 15,),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        buildInfoItems("Created By", "Ahmed")
-                      ],
+                    Container(margin: EdgeInsets.symmetric(horizontal: 4.w),height: 20.0,width: 1, color: BaseColors.borderColor,),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          SvgPicture.asset("assets/images/user.svg", height: 15,),
+                          SizedBox(width: 2.w),
+                          Expanded(child: buildInfoItems("Created By", "Ahmed"))
+                        ],
+                      ),
                     ),
                   ],
                 ),
                 const Divider(),
                 Row(
                   children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset("assets/images/gender-fluid 1.svg"),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        buildInfoItems("Gender", "Male")
-                      ],
+                    Expanded(
+                      child: Row(
+                        children: [
+                          SvgPicture.asset("assets/images/gender-fluid 1.svg"),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          Expanded(child: buildInfoItems("Gender", "Male"))
+                        ],
+                      ),
                     ),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    Container(height: 20.0,width: 1, color: CustomColors.borderColor,),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    Row(
-                      children: [
-                        SvgPicture.asset("assets/images/Group (1).svg", height: 15,),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        buildInfoItems("Created On", "07/07/2022")
-                      ],
+                    Container(margin: EdgeInsets.symmetric(horizontal: 4.w),height: 20.0,width: 1, color: BaseColors.borderColor,),
+                    Expanded(
+                      child: Row(
+                        // crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          SvgPicture.asset("assets/images/Group (1).svg", height: 15,),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          Expanded(child: buildInfoItems("Created On", "07/07/2022"))
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -980,14 +965,12 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                         SizedBox(
                           width: 2.w,
                         ),
-                        buildInfoItems("Doc No", "C0082")
+                        buildInfoItems("Doc No", "W0082")
                       ],
                     ),
-                    Container(height: 20.0,width: 1, color: CustomColors.borderColor,),
+                    Container(height: 20.0,width: 1, color: BaseColors.borderColor),
 
-                    BaseButton(title: "Reuse", onPressed: (){
-                      Get.to(const NoteBookScreen());
-                    }, textSize: 14.sp,),
+                    BaseButton(btnType: toggleButton,title: "Reuse", onPressed: (){}, textSize: 14.sp,verticalPadding: 0.8.h,),
                   ],
                 ),
                 const Divider(),
@@ -1000,9 +983,9 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                     RichText(
                       text: TextSpan(
                         text: 'File : ',
-                        style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),
+                        style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),
                         children: <TextSpan>[
-                          TextSpan(text: "Connect the Dots", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp, height: 1.2, decoration: TextDecoration.underline)),
+                          TextSpan(text: "apitude_test", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp, height: 1.2, decoration: TextDecoration.underline)),
                         ],
                       ),
                     ),

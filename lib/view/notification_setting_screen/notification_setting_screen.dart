@@ -5,9 +5,9 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
-import 'package:staff_app/Utility/custom_switch.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/Utility/base_switch.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -31,6 +31,11 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> w
     tabController = TabController(length: 2, vsync: this)..addListener(() {
       setState(() {});
     });
+  }
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {
@@ -90,19 +95,19 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> w
     return Column(
       children: [
         const Divider(
-          color: CustomColors.borderColor,
+          color: BaseColors.borderColor,
           thickness: 1.0,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(list[index]['title'], style: Style.montserratMediumStyle().copyWith(fontSize: 16.sp, color: CustomColors.textBlackColor),),
-            CustomSwitch(
+            Text(list[index]['title'], style: Style.montserratMediumStyle().copyWith(fontSize: 16.sp, color: BaseColors.textBlackColor),),
+            BaseSwitch(
               key: GlobalKey(),
               value: list[index]['isSelected'],
-              enableColor: CustomColors.backgroundColor,
-              enableSwitchColor: CustomColors.primaryColor,
-              disableColor: CustomColors.textLightGreyColor,
+              enableColor: BaseColors.backgroundColor,
+              enableSwitchColor: BaseColors.primaryColor,
+              disableColor: BaseColors.textLightGreyColor,
               width: 35,
               height: 20,
               switchHeight: 20,
@@ -120,19 +125,19 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> w
     return Column(
       children: [
         const Divider(
-          color: CustomColors.borderColor,
+          color: BaseColors.borderColor,
           thickness: 1.0,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(list1[index]['title'], style: Style.montserratMediumStyle().copyWith(fontSize: 16.sp, color: CustomColors.textBlackColor),),
-            CustomSwitch(
+            Text(list1[index]['title'], style: Style.montserratMediumStyle().copyWith(fontSize: 16.sp, color: BaseColors.textBlackColor),),
+            BaseSwitch(
               key: GlobalKey(),
               value: list1[index]['isSelected'],
-              enableColor: CustomColors.backgroundColor,
-              enableSwitchColor: CustomColors.primaryColor,
-              disableColor: CustomColors.textLightGreyColor,
+              enableColor: BaseColors.backgroundColor,
+              enableSwitchColor: BaseColors.primaryColor,
+              disableColor: BaseColors.textLightGreyColor,
               width: 35,
               height: 20,
               switchHeight: 20,

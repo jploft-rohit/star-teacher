@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -53,7 +53,7 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
-                      border: Border.all(color: CustomColors.borderColor),
+                      border: Border.all(color: BaseColors.borderColor),
                     ),
                     padding: EdgeInsets.all(10.sp),
                     child: Row(
@@ -62,7 +62,7 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                           padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 12.sp, right: 12.sp),
                           decoration: BoxDecoration(
                             border: Border.all(
-                                color: CustomColors.primaryColor
+                                color: BaseColors.primaryColor
                             ),
                             borderRadius: BorderRadius.circular(10.0),
                           ),
@@ -73,15 +73,15 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Sania", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp),),
+                              Text("Sania", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),),
                               SizedBox(
                                 height: .2.h,
                               ),
-                              Text("#562665", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                              Text("#562665", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                               SizedBox(
                                 height: .2.h,
                               ),
-                              Text("G3-H1", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                              Text("G3-H1", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                             ],
                           ),
                         ),
@@ -97,19 +97,19 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                       RichText(
                         text: TextSpan(
                           text: '${translate(context).question}: ',
-                          style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp),
+                          style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),
                           children: <TextSpan>[
-                            TextSpan(text: "${pageIndex + 1}", style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: 16.sp)),
-                            TextSpan(text: "/${ctrl.mcqList.length}", style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp)),
+                            TextSpan(text: "${pageIndex + 1}", style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
+                            TextSpan(text: "/${ctrl.mcqList.length}", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp)),
                           ],
                         ),
                       ),
                       RichText(
                         text: TextSpan(
                           text: '${translate(context).marks}: ',
-                          style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp),
+                          style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),
                           children: <TextSpan>[
-                            TextSpan(text: "3", style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: 16.sp)),
+                            TextSpan(text: "3", style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
                           ],
                         ),
                       ),
@@ -145,7 +145,7 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                       margin: EdgeInsets.only(left: 30.sp, right: 30.sp),
                       clipBehavior: Clip.antiAliasWithSaveLayer,
                       decoration: BoxDecoration(
-                        border: Border.all(color: CustomColors.primaryColor, width: 2.0)
+                        border: Border.all(color: BaseColors.primaryColor, width: 2.0)
                       ),
                     ),
                   if(ctrl.mcqList[pageIndex]['type'] == "download")
@@ -169,7 +169,7 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                               await tts.speak(ctrl.mcqList[pageIndex]['question']);
                             },
                             child: Text("${ctrl.mcqList[pageIndex]['question']}",
-                            style: Style.montserratBoldStyle().copyWith(fontSize: 20.sp, color: CustomColors.primaryColor, fontWeight: FontWeight.w700),textAlign: TextAlign.center,),
+                            style: Style.montserratBoldStyle().copyWith(fontSize: 20.sp, color: BaseColors.primaryColor, fontWeight: FontWeight.w700),textAlign: TextAlign.center,),
                           ),
                         ),
                       ],
@@ -194,15 +194,15 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                           padding: EdgeInsets.all(15.sp),
                           margin: const EdgeInsets.only(bottom: 10.0,left: 5.0,right: 5.0),
                           decoration: BoxDecoration(
-                            color: selectedFMOPos == index ? CustomColors.backgroundColor : CustomColors.white,
+                            color: selectedFMOPos == index ? BaseColors.backgroundColor : BaseColors.white,
                             borderRadius: BorderRadius.circular(15.0),
-                            border: Border.all(color: selectedFMOPos == index ? CustomColors.green :CustomColors.borderColor),
+                            border: Border.all(color: selectedFMOPos == index ? BaseColors.green :BaseColors.borderColor),
                             boxShadow: [getBoxShadow()]
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              addText(ctrl.mcqList[pageIndex]['ans'][index], 17.sp, selectedFMOPos == index ? CustomColors.primaryColor : CustomColors.textBlackColor, selectedFMOPos == index ? FontWeight.w700 : FontWeight.w400),
+                              addText(ctrl.mcqList[pageIndex]['ans'][index], 17.sp, selectedFMOPos == index ? BaseColors.primaryColor : BaseColors.textBlackColor, selectedFMOPos == index ? FontWeight.w700 : FontWeight.w400),
                               Row(
                                 children: [
                                   SvgPicture.asset(soundOnImg, height: 18.sp,),
@@ -215,7 +215,7 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                                     // padding: const EdgeInsets.symmetric(horizontal: 9),
                                     decoration: BoxDecoration(
                                         color: selectedFMOPos == index
-                                            ? CustomColors.backgroundColor
+                                            ? BaseColors.backgroundColor
                                             : Colors.transparent,
                                         boxShadow: [getLightBoxShadow()],
                                         border: Border.all(
@@ -224,15 +224,15 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                                     child: Container(
                                       decoration: BoxDecoration(
                                           border: Border.all(
-                                              color: CustomColors.white, width: 1.5),
+                                              color: BaseColors.white, width: 1.5),
                                           shape: BoxShape.circle,
                                           boxShadow: [getLightBoxShadow()],
                                           color: selectedFMOPos == index
-                                              ? CustomColors.primaryColor
-                                              : CustomColors.borderColor
+                                              ? BaseColors.primaryColor
+                                              : BaseColors.borderColor
                                       ),
                                       child: Center(
-                                        child: Icon(Icons.check, color: CustomColors.white,
+                                        child: Icon(Icons.check, color: BaseColors.white,
                                             size: 16.sp),
                                       ),
                                     ),
@@ -260,19 +260,19 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                             borderRadius: BorderRadius.circular(50.0),
                             boxShadow: const [
                               BoxShadow(
-                                  color: CustomColors.darkShadowColor,
+                                  color: BaseColors.darkShadowColor,
                                   spreadRadius: 1.0,
                                   blurRadius: 2.0,
                                   offset: Offset(0, 3)
                               )
                             ],
-                            color: CustomColors.backgroundColor,
-                            border: Border.all(color: CustomColors.primaryColor),
+                            color: BaseColors.backgroundColor,
+                            border: Border.all(color: BaseColors.primaryColor),
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              addText(translate(context).download.toUpperCase(), 14.sp, CustomColors.primaryColor, FontWeight.w700),
+                              addText(translate(context).download.toUpperCase(), 14.sp, BaseColors.primaryColor, FontWeight.w700),
                               SizedBox(
                                 width: 1.w,
                               ),
@@ -287,9 +287,9 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                       padding: EdgeInsets.all(10.sp),
                       margin: const EdgeInsets.only(bottom: 10.0,left: 5.0,right: 5.0),
                       decoration: BoxDecoration(
-                          color: CustomColors.white,
+                          color: BaseColors.white,
                           borderRadius: BorderRadius.circular(10.0),
-                          border: Border.all(color: CustomColors.borderColor),
+                          border: Border.all(color: BaseColors.borderColor),
                           boxShadow: [getBoxShadow()]
                       ),
                       child: Row(
@@ -297,7 +297,7 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                         children: [
                           const Icon(
                             Icons.play_arrow_rounded,
-                            color: CustomColors.primaryColor,
+                            color: BaseColors.primaryColor,
                           ),
                           SvgPicture.asset("assets/images/audio_wave_img.svg"),
                           const SizedBox.shrink()
@@ -311,7 +311,7 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                         SizedBox(
                           height: 2.h,
                         ),
-                        addText(translate(context).correction, 15.sp, CustomColors.textBlackColor, FontWeight.w400),
+                        addText(translate(context).correction, 15.sp, BaseColors.textBlackColor, FontWeight.w400),
                         SizedBox(
                           height: 1.h,
                         ),
@@ -327,7 +327,7 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          addText("${translate(context).evaluate} :", 15.sp, CustomColors.textBlackColor, FontWeight.w400),
+                          addText("${translate(context).evaluate} :", 15.sp, BaseColors.textBlackColor, FontWeight.w400),
                           SizedBox(
                             width: 2.w,
                           ),
@@ -338,7 +338,7 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                             decoration: BoxDecoration(
                               color: const Color(0xffFCFCFC),
                               borderRadius: BorderRadius.circular(8.0),
-                              border: Border.all(color: CustomColors.borderColor)
+                              border: Border.all(color: BaseColors.borderColor)
                             ),
                             child: addText("1", 15.sp, const Color(0xff7B8D9E), FontWeight.w400),
                           ),
@@ -352,7 +352,7 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                             decoration: BoxDecoration(
                                 color: const Color(0xffFCFCFC),
                                 borderRadius: BorderRadius.circular(8.0),
-                                border: Border.all(color: CustomColors.borderColor)
+                                border: Border.all(color: BaseColors.borderColor)
                             ),
                             child: addText("2", 15.sp, const Color(0xff7B8D9E), FontWeight.w400),
                           ),
@@ -366,7 +366,7 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                             decoration: BoxDecoration(
                                 color: const Color(0xffFCFCFC),
                                 borderRadius: BorderRadius.circular(8.0),
-                                border: Border.all(color: CustomColors.borderColor)
+                                border: Border.all(color: BaseColors.borderColor)
                             ),
                             child: addText("3", 15.sp, const Color(0xff7B8D9E), FontWeight.w400),
                           ),

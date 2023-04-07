@@ -4,12 +4,17 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_textformfield.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
+import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/view/schedule_meeting_screen/schedule_meeting_screen.dart';
+import 'package:staff_app/view/task_or_reminder_screen/add_task_or_reminder_screen.dart';
+import 'package:staff_app/view/task_or_reminder_screen/task_or_reminder_screen.dart';
 
 import 'notebook_screen_ctrl.dart';
 
@@ -49,10 +54,10 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
               Container(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 decoration: BoxDecoration(
-                  color: CustomColors.backgroundColor,
+                  color: BaseColors.backgroundColor,
                   borderRadius: BorderRadius.circular(5.0),
                   border: Border.all(
-                      color: CustomColors.borderColor
+                      color: BaseColors.borderColor
                   ),
                 ),
                 child: Row(
@@ -79,14 +84,14 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                         width: getWidth(context) * 50 / 100,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                            color: controller.selectedIndex3.value == 0 ? CustomColors.backgroundColor : CustomColors.screenBackgroundColor,
+                            color: controller.selectedIndex3.value == 0 ? BaseColors.backgroundColor : BaseColors.screenBackgroundColor,
                             border: Border.all(
-                                color: controller.selectedIndex3.value == 0 ? Colors.transparent : CustomColors.txtFiledBorderColor
+                                color: controller.selectedIndex3.value == 0 ? Colors.transparent : BaseColors.txtFiledBorderColor
                             ),
                             boxShadow: [
                               if(controller.selectedIndex3.value == 0)
                                 const BoxShadow(
-                                    color: CustomColors.darkShadowColor,
+                                    color: BaseColors.darkShadowColor,
                                     spreadRadius: 1.0,
                                     blurRadius: 2.0,
                                     offset: Offset(0, 3)
@@ -94,7 +99,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                             ],
                             borderRadius: BorderRadius.circular(15.sp)
                         ),
-                        child: Text("Has Talent", style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex3.value == 0 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: 16.sp),),
+                        child: Text("Has Talent", style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex3.value == 0 ? BaseColors.primaryColor : BaseColors.txtFiledBorderColor, fontSize: 16.sp),),
                       ),
                     ),
                   )),
@@ -112,14 +117,14 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                         width: getWidth(context) * 50 / 100,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                            color: controller.selectedIndex3.value == 1 ? CustomColors.backgroundColor : CustomColors.screenBackgroundColor,
+                            color: controller.selectedIndex3.value == 1 ? BaseColors.backgroundColor : BaseColors.screenBackgroundColor,
                             border: Border.all(
-                                color: controller.selectedIndex3.value == 1 ? Colors.transparent : CustomColors.txtFiledBorderColor
+                                color: controller.selectedIndex3.value == 1 ? Colors.transparent : BaseColors.txtFiledBorderColor
                             ),
                             boxShadow: [
                               if(controller.selectedIndex3.value == 1)
                                 const BoxShadow(
-                                    color: CustomColors.darkShadowColor,
+                                    color: BaseColors.darkShadowColor,
                                     spreadRadius: 1.0,
                                     blurRadius: 2.0,
                                     offset: Offset(0, 3)
@@ -127,7 +132,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                             ],
                             borderRadius: BorderRadius.circular(15.sp)
                         ),
-                        child: Text("Need Improvement", style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex3.value == 1 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: 16.sp),),
+                        child: Text("Need Improvement", style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex3.value == 1 ? BaseColors.primaryColor : BaseColors.txtFiledBorderColor, fontSize: 16.sp),),
                       ),
                     ),
                   )),
@@ -136,9 +141,9 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
               SizedBox(
                 height: 2.h,
               ),
-              CustomTextField(controller: titleController, hintText: "Title", borderRadius: 5.0,fillColor: CustomColors.txtFieldTextColor,),
-              SizedBox(height: 2.h),
-              CustomTextField(controller: gradeController, hintText: "Grade", borderRadius: 5.0,fillColor: CustomColors.txtFieldTextColor,suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,)),
+              CustomTextField(controller: titleController, hintText: "Title", borderRadius: 5.0,fillColor: BaseColors.txtFieldTextColor,),
+              // SizedBox(height: 2.h),
+              // CustomTextField(controller: gradeController, hintText: "Grade", borderRadius: 5.0,fillColor: CustomColors.txtFieldTextColor,suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,)),
               SizedBox(
                 height: 2.h,
               ),
@@ -147,7 +152,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                 children: [
                   Flexible(
                     flex: 1,
-                    child: Text("Date:", style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: CustomColors.textBlackColor),),
+                    child: Text("Date:", style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: BaseColors.textBlackColor),),
                   ),
                   Flexible(
                     flex: 4,
@@ -167,7 +172,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                                 selectDate(context);
                               },
                               borderRadius: 5.0,
-                              fillColor: CustomColors.txtFieldTextColor,
+                              fillColor: BaseColors.txtFieldTextColor,
                               hintTxtSize: 15.sp,
                             ),
                           )
@@ -180,22 +185,32 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
               SizedBox(
                 height: 2.h,
               ),
-              CustomTextField(controller: descriptionController, hintText: "Description", borderRadius: 5.0,maxLine: 5,fillColor: CustomColors.txtFieldTextColor,),
+              CustomTextField(controller: descriptionController, hintText: "Description", borderRadius: 5.0,maxLine: 5,fillColor: BaseColors.txtFieldTextColor,),
               SizedBox(
                 height: 2.h,
               ),
-              CustomTextField(
+              BaseTextFormField(
                 controller: recommendationController,
                 hintText: "Select Recommendation",
-                borderRadius: 5.0,
-                fillColor: CustomColors.txtFieldTextColor,
-                hintTxtSize: 15.sp,
-                suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
+                isDropDown: true,
+                dropDownValue: recommendationController.text,
+                onChanged: (newValue){
+                  setState(() {
+                    recommendationController.text = newValue.toString();
+                  });},
+                items: DummyLists().list1.map((value) {
+                  return DropdownMenuItem(
+                    value: value,
+                    child: addText(value, 16.sp, Colors.black, FontWeight.w400),);
+                }).toList(),
               ),
+              CustomTextField(controller: subjectController, hintText: "Subject", borderRadius: 5.0,fillColor: BaseColors.txtFieldTextColor,suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0)),
               SizedBox(height: 2.h),
-              CustomTextField(controller: subjectController, hintText: "Subject", borderRadius: 5.0,fillColor: CustomColors.txtFieldTextColor,suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0)),
-              SizedBox(height: 2.h),
-              CustomTextField(controller: commentController, hintText: "Comment", borderRadius: 5.0,fillColor: CustomColors.txtFieldTextColor),
+              // CustomTextField(controller: commentController, hintText: "Comment", borderRadius: 5.0,fillColor: CustomColors.txtFieldTextColor),
+              // SizedBox(height: 2.h),
+              GestureDetector(onTap: (){
+                Get.to(AddTaskOrReminderScreen());
+              },child: Text("Remind Me On",style: TextStyle(color: BaseColors.primaryColor,fontSize: 15.sp,fontWeight: FontWeight.w700),)),
               SizedBox(height: 2.h),
               BaseButton(title: widget.isUpdating ? "UPDATE" : "SUBMIT", onPressed: (){
                 Navigator.pop(context);

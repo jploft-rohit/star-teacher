@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -49,7 +49,7 @@ class _WalletPayPopupState extends State<WalletPayPopup> {
                     RichText(
                       text: TextSpan(
                         text: 'Wallet',
-                        style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp),
+                        style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),
                       ),
                     ),
                     InkWell(
@@ -70,9 +70,9 @@ class _WalletPayPopupState extends State<WalletPayPopup> {
                       BoxShadow(
                           color: Colors.black.withOpacity(0.25), blurRadius: 2)
                     ],
-                    color: CustomColors.backgroundColor,
+                    color: BaseColors.backgroundColor,
                     borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: CustomColors.primaryColor),
+                    border: Border.all(color: BaseColors.primaryColor),
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -85,9 +85,9 @@ class _WalletPayPopupState extends State<WalletPayPopup> {
                           SvgPicture.asset(coinSvg),
                           Column(
                             children: [
-                              Text(translate(context).balance, style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: 20.sp),),
+                              Text(translate(context).balance, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 20.sp),),
                               SizedBox(height: 1.h),
-                              Text('${100} AED', style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor,fontSize: 21.sp),),
+                              Text('${100} AED', style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor,fontSize: 21.sp),),
                               SizedBox(height: 2.h),
                             ],
                           ),
@@ -96,8 +96,8 @@ class _WalletPayPopupState extends State<WalletPayPopup> {
                             decoration: BoxDecoration(
                                 boxShadow: kElevationToShadow[3],
                                 borderRadius: BorderRadius.circular(30),
-                                color: CustomColors.backgroundColor,
-                                border: Border.all(color: CustomColors.primaryColor)),
+                                color: BaseColors.backgroundColor,
+                                border: Border.all(color: BaseColors.primaryColor)),
                             child: Material(
                               color: Colors.transparent,
                               child: InkWell(
@@ -112,7 +112,7 @@ class _WalletPayPopupState extends State<WalletPayPopup> {
                                 },
                                 child: Icon(
                                   Icons.add,
-                                  color: CustomColors.primaryColor,
+                                  color: BaseColors.primaryColor,
                                   size: 5.0.h,
                                 ),
                               ),

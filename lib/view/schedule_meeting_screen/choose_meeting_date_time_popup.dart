@@ -5,7 +5,7 @@ import 'package:staff_app/view/schedule_meeting_screen/schedule_meeting_screen_c
 import 'package:table_calendar/table_calendar.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/utility.dart';
 
 class ChooseMeetingDateTimePopup extends StatefulWidget {
@@ -186,8 +186,8 @@ class _ChooseMeetingDateTimePopupState extends State<ChooseMeetingDateTimePopup>
                       // calendarStyle: ,
                       weekendDays: const [DateTime.sunday],
                       daysOfWeekStyle: DaysOfWeekStyle(
-                        weekdayStyle: Style.montserratMediumStyle().copyWith(fontSize: 16.sp, color: CustomColors.primaryColor),
-                        weekendStyle: Style.montserratMediumStyle().copyWith(fontSize: 16.sp, color: CustomColors.primaryColor),
+                        weekdayStyle: Style.montserratMediumStyle().copyWith(fontSize: 16.sp, color: BaseColors.primaryColor),
+                        weekendStyle: Style.montserratMediumStyle().copyWith(fontSize: 16.sp, color: BaseColors.primaryColor),
                         dowTextFormatter: (date, locale) {
                           return weekDayList[date.weekday-1];
                         },
@@ -200,14 +200,14 @@ class _ChooseMeetingDateTimePopupState extends State<ChooseMeetingDateTimePopup>
                       headerStyle: HeaderStyle(
                         formatButtonVisible: false,
                         titleCentered: true,
-                        titleTextStyle: Style.montserratBoldStyle().copyWith(fontSize: 17.sp, color: CustomColors.textBlackColor),
+                        titleTextStyle: Style.montserratBoldStyle().copyWith(fontSize: 17.sp, color: BaseColors.textBlackColor),
                         titleTextFormatter: (date, locale) {
                           return "${monthList[date.month-1]}";
                         },
-                        rightChevronIcon: Icon(Icons.chevron_right, color: CustomColors.primaryColor),
+                        rightChevronIcon: Icon(Icons.chevron_right, color: BaseColors.primaryColor),
                         leftChevronIcon: Icon(
                           Icons.chevron_left,
-                          color: CustomColors.primaryColor,
+                          color: BaseColors.primaryColor,
                         ),
                       ),
 
@@ -233,16 +233,16 @@ class _ChooseMeetingDateTimePopupState extends State<ChooseMeetingDateTimePopup>
                         isTodayHighlighted: true,
                         selectedDecoration: BoxDecoration(
                           border: Border.all(
-                              color: CustomColors.primaryColor),
-                          color: CustomColors.backgroundColor,
+                              color: BaseColors.primaryColor),
+                          color: BaseColors.backgroundColor,
                           shape: BoxShape.circle,
                         ),
                         selectedTextStyle: const TextStyle(
-                            color: CustomColors.primaryColor),
+                            color: BaseColors.primaryColor),
 
                         // today
                         todayDecoration: const BoxDecoration(
-                          color: CustomColors.primaryColor,
+                          color: BaseColors.primaryColor,
                           shape: BoxShape.circle,
                         ),
                         //  weekend
@@ -252,7 +252,7 @@ class _ChooseMeetingDateTimePopupState extends State<ChooseMeetingDateTimePopup>
                         //     borderRadius: BorderRadius.circular(5.0),
                         //   ),
                         weekendTextStyle: const TextStyle(
-                            color: CustomColors.primaryColor),
+                            color: BaseColors.primaryColor),
                         //   weekNumberTextStyle: const TextStyle(color: CustomColors.primaryColor)
                       ),
                     );
@@ -283,18 +283,18 @@ class _ChooseMeetingDateTimePopupState extends State<ChooseMeetingDateTimePopup>
                         padding: EdgeInsets.all(14.sp),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8.0),
-                            border: Border.all(color: CustomColors.primaryColor)
+                            border: Border.all(color: BaseColors.primaryColor)
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(""),
-                            Text(list[index]['title'], style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: 17.sp),),
+                            Text(list[index]['title'], style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 17.sp),),
                             Checkbox(
                               visualDensity: VisualDensity(vertical: -4, horizontal: -4),
                               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                               side: BorderSide(color: Colors.transparent),
-                              activeColor: CustomColors.primaryColor,
+                              activeColor: BaseColors.primaryColor,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(50.0),
                               ),

@@ -34,6 +34,7 @@ class _AccountViewState extends State<AccountView> {
       translate(context).attendance,
       translate(context).performance,
       "Early Leave",
+      "Leave Permission",
       translate(context).leave_request,
       translate(context).online_class_request,
       translate(context).medical_records,
@@ -44,7 +45,6 @@ class _AccountViewState extends State<AccountView> {
       translate(context).location,
       translate(context).wallet,
       translate(context).transportation,
-      "Leave Permission",
     ];
     return Scaffold(
       body: ListView.builder(
@@ -58,31 +58,31 @@ class _AccountViewState extends State<AccountView> {
               } else if(index == 1){
                 Get.to(const AttendanceScreen());
               } else if(index == 2){
-                Get.to(PerformanceScreen(index: 1,));
+                Get.to(PerformanceScreen(index: 0));
               } else if(index == 3){
                 Get.to(const EarlyLeaveScreen());
               } else if(index == 4){
-                Get.to(const LeaveRequestScreen());
-              } else if(index == 5){
-                Get.to(RequestOnlineClassesDetail());
-              } else if(index == 6){
-                Get.to(const MedicalReportView());
-              } else if(index == 7){
-                Get.to(const NotificationSettingScreen());
-              } else if(index == 8){
-                Get.to(const ComplaintsReportScreen());
-              } else if(index == 9){
-                Get.to(const FeedbackHelpScreen());
-              } else if(index == 10){
-                Get.to(const CardsAndTagsScreen());
-              } else if(index == 11){
-                Get.to(const LocationScreen());
-              } else if(index == 12){
-                Get.to(const WalletView());
-              } else if(index == 13){
-                Get.to(const TransportationScreen());
-              } else if(index == 14){
                 Get.to(const LeavePermissionScreen());
+              } else if(index == 5){
+                Get.to(const LeaveRequestScreen());
+              } else if(index == 6){
+                Get.to(RequestOnlineClassesDetail());
+              } else if(index == 7){
+                Get.to(const MedicalReportView());
+              } else if(index == 8){
+                Get.to(const NotificationSettingScreen());
+              } else if(index == 9){
+                Get.to(const ComplaintsReportScreen());
+              } else if(index == 10){
+                Get.to(const FeedbackHelpScreen());
+              } else if(index == 11){
+                Get.to(const CardsAndTagsScreen());
+              } else if(index == 12){
+                Get.to(const LocationScreen());
+              } else if(index == 13){
+                Get.to(const WalletView());
+              } else if(index == 14){
+                Get.to(const TransportationScreen());
               }
             },
             child: Padding(padding: EdgeInsets.only(bottom: 6),

@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -64,7 +64,7 @@ class _ClinicVisitRequestState extends State<ClinicVisitRequest> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
                           border: Border.all(
-                              color: CustomColors.borderColor
+                              color: BaseColors.borderColor
                           )
                       ),
                       child: Row(
@@ -75,7 +75,7 @@ class _ClinicVisitRequestState extends State<ClinicVisitRequest> {
                                 padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                      color: CustomColors.primaryColor
+                                      color: BaseColors.primaryColor
                                   ),
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
@@ -84,11 +84,11 @@ class _ClinicVisitRequestState extends State<ClinicVisitRequest> {
                               SizedBox(
                                 height: 1.h,
                               ),
-                              Text("Abdul Khan", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                              Text("Abdul Khan", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                               SizedBox(
                                 height: .5.h,
                               ),
-                              Text("#632541", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                              Text("#632541", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                             ],
                           ),
                           SizedBox(
@@ -154,10 +154,10 @@ class _ClinicVisitRequestState extends State<ClinicVisitRequest> {
                         }),
                       ),
                     ),
-                    SizedBox(width: 4.w),
+                    SizedBox(width: 3.w),
                     Expanded(
                       child: Center(
-                        child: BaseButton(borderRadius: 100,title: translate(context).acknowledge, onPressed: (){
+                        child: BaseButton(removeHorizontalPadding: true,borderRadius: 100,title: translate(context).acknowledge, onPressed: (){
                           Get.back();
                         }),
                       ),

@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_floating_action_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
-import 'package:staff_app/Utility/custom_dialogs.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/Utility/base_dialogs.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -42,7 +42,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                 padding: EdgeInsets.all(15.sp),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20.0),
-                    border: Border.all(color: CustomColors.borderColor)
+                    border: Border.all(color: BaseColors.borderColor)
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -53,7 +53,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15.0),
-                              border: Border.all(color: CustomColors.primaryColor)
+                              border: Border.all(color: BaseColors.primaryColor)
                           ),
                           child: SvgPicture.asset(girlSvg, height: 6.h,),
                         ),
@@ -63,31 +63,31 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Sania", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),),
+                            Text("Sania", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                             SizedBox(
                               height: .2.h,
                             ),
                             Container(
                               width: 30.w,
                               height: 1,
-                              color: CustomColors.borderColor,
+                              color: BaseColors.borderColor,
                             ),
                             SizedBox(
                               height: .3.h,
                             ),
-                            Text("#562665", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                            Text("#562665", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                             SizedBox(
                               height: .3.h,
                             ),
                             Container(
                               width: 30.w,
                               height: 1,
-                              color: CustomColors.borderColor,
+                              color: BaseColors.borderColor,
                             ),
                             SizedBox(
                               height: .2.h,
                             ),
-                            Text("G3-H1", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                            Text("G3-H1", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                           ],
                         ),
                       ],
@@ -116,14 +116,14 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                         width: getWidth(context) * 50 / 100,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                            color: controller.selectedIndex1.value == 0 ? CustomColors.backgroundColor : CustomColors.screenBackgroundColor,
+                            color: controller.selectedIndex1.value == 0 ? BaseColors.backgroundColor : BaseColors.screenBackgroundColor,
                             border: Border.all(
-                                color: controller.selectedIndex1.value == 0 ? Colors.transparent : CustomColors.txtFiledBorderColor
+                                color: controller.selectedIndex1.value == 0 ? Colors.transparent : BaseColors.txtFiledBorderColor
                             ),
                             boxShadow: [
                               if(controller.selectedIndex1.value == 0)
                                 const BoxShadow(
-                                    color: CustomColors.darkShadowColor,
+                                    color: BaseColors.darkShadowColor,
                                     spreadRadius: 1.0,
                                     blurRadius: 2.0,
                                     offset: Offset(0, 3)
@@ -131,7 +131,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                             ],
                             borderRadius: BorderRadius.circular(15.sp)
                         ),
-                        child: Text("Has Talent", style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex1.value == 0 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
+                        child: Text("Has Talent", style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex1.value == 0 ? BaseColors.primaryColor : BaseColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
                       ),
                     ),
                   )),
@@ -149,14 +149,14 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                         width: getWidth(context) * 50 / 100,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                            color: controller.selectedIndex1.value == 1 ? CustomColors.backgroundColor : CustomColors.screenBackgroundColor,
+                            color: controller.selectedIndex1.value == 1 ? BaseColors.backgroundColor : BaseColors.screenBackgroundColor,
                             border: Border.all(
-                                color: controller.selectedIndex1.value == 1 ? Colors.transparent : CustomColors.txtFiledBorderColor
+                                color: controller.selectedIndex1.value == 1 ? Colors.transparent : BaseColors.txtFiledBorderColor
                             ),
                             boxShadow: [
                               if(controller.selectedIndex1.value == 1)
                                 const BoxShadow(
-                                    color: CustomColors.darkShadowColor,
+                                    color: BaseColors.darkShadowColor,
                                     spreadRadius: 1.0,
                                     blurRadius: 2.0,
                                     offset: Offset(0, 3)
@@ -164,7 +164,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                             ],
                             borderRadius: BorderRadius.circular(15.sp)
                         ),
-                        child: Text("Need Improvement", style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex1.value == 1 ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
+                        child: Text("Need Improvement", style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex1.value == 1 ? BaseColors.primaryColor : BaseColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
                       ),
                     ),
                   )),
@@ -195,30 +195,30 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                               children: [
                                 Row(
                                   children: [
-                                    addText("Title: ", 16.sp, CustomColors.textBlackColor, FontWeight.w700),
-                                    addText("Extra classes for her", 16.sp, CustomColors.primaryColor, FontWeight.w700),
+                                    addText("Title: ", 16.sp, BaseColors.textBlackColor, FontWeight.w700),
+                                    addText("Extra classes for her", 16.sp, BaseColors.primaryColor, FontWeight.w700),
                                   ],
                                 ),
                                 Row(
                                   children: [
-                                    GestureDetector(
-                                      onTap: (){
-                                        CustomDialogs().showConfirmationDialog(title: "Are you sure you want to\ndelete this Note?");
-                                      },
-                                      child: Icon(
-                                        CupertinoIcons.delete,
-                                        color: CustomColors.primaryColor,
-                                        size: 18.sp,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 5.w,
-                                    ),
                                     InkWell(
                                       onTap: (){
                                         Get.to(const AddNoteScreen(isUpdating: true,));
                                       },
-                                      child: Image.asset(editPng, color: CustomColors.primaryColor,height: 18.sp,),
+                                      child: Image.asset(editPng, color: BaseColors.primaryColor,height: 18.sp,),
+                                    ),
+                                    SizedBox(
+                                      width: 5.w,
+                                    ),
+                                    GestureDetector(
+                                      onTap: (){
+                                        BaseDialogs().showConfirmationDialog(title: "Are you sure you want to\ndelete this Note?");
+                                      },
+                                      child: Icon(
+                                        CupertinoIcons.delete,
+                                        color: BaseColors.primaryColor,
+                                        size: 18.sp,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -234,7 +234,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                                 Container(
                                   height: 20.0,
                                   width: 1,
-                                  color: CustomColors.borderColor,
+                                  color: BaseColors.borderColor,
                                 ),
                                 SizedBox(
                                   width: 10.w,
@@ -252,13 +252,23 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                             buildInfoItems("Teacher", "Ovaish Khan"),
                             const Divider(),
                             buildInfoItems("Subject", "Science"),
-                            // const Divider(),
-                            // buildInfoItems("Comment", "Lorem Ipsum is simply dummy text..."),
-                            // const Divider(),
-                            // buildInfoItems("Recommendation", "Dance"),
-                            // SizedBox(
-                            //   height: 1.h,
-                            // ),
+                            Obx(()=>Visibility(
+                                visible: controller.selectedIndex1.value == 0,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Divider(),
+                                    buildInfoItems("Comment", "Lorem Ipsum is simply dummy text..."),
+                                    const Divider(),
+                                    buildInfoItems("Recommendation", "Dance"),
+                                    SizedBox(
+                                      height: 1.h,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),

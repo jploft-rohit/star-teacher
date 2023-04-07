@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/cards_and_tags_screen/card_tag_ctrl.dart';
 import 'package:staff_app/view/cards_and_tags_screen/wallet_pay_popup.dart';
@@ -26,7 +26,7 @@ class _NFCCartScreenState extends State<NFCCartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.white,
+      backgroundColor: BaseColors.white,
       appBar: BaseAppBar(title: "Cart"),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -36,7 +36,7 @@ class _NFCCartScreenState extends State<NFCCartScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               addText('Items', 15.sp,
-                  CustomColors.textBlackColor, FontWeight.w400),
+                  BaseColors.textBlackColor, FontWeight.w400),
               SizedBox(height: 2.h),
               ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
@@ -51,7 +51,7 @@ class _NFCCartScreenState extends State<NFCCartScreen> {
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: CustomColors.borderColor)),
+                    border: Border.all(color: BaseColors.borderColor)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -60,7 +60,7 @@ class _NFCCartScreenState extends State<NFCCartScreen> {
                       child: addText(
                           'Select shipping',
                           15.sp,
-                          CustomColors.textBlackColor,
+                          BaseColors.textBlackColor,
                           FontWeight.w400),
                     ),
                     SizedBox(height:1.h),
@@ -131,7 +131,7 @@ class _NFCCartScreenState extends State<NFCCartScreen> {
       margin: EdgeInsets.only(bottom: 1.5.h),
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
-          color: CustomColors.white,
+          color: BaseColors.white,
           boxShadow: kElevationToShadow[2],
           borderRadius: BorderRadius.circular(20)),
       child: Row(
@@ -139,7 +139,7 @@ class _NFCCartScreenState extends State<NFCCartScreen> {
           Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: CustomColors.txtFiledBorderColor)
+                  border: Border.all(color: BaseColors.txtFiledBorderColor)
               ),
               // width: double.infinity,
               height: 10.h,
@@ -156,11 +156,11 @@ class _NFCCartScreenState extends State<NFCCartScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                addText(name, 16.sp, CustomColors.textBlackColor,
+                addText(name, 16.sp, BaseColors.textBlackColor,
                     FontWeight.w400),
                 SizedBox(height:0.5.h),
                 addText(price, 14.sp,
-                    CustomColors.primaryColor, FontWeight.w700),
+                    BaseColors.primaryColor, FontWeight.w700),
                 SizedBox(height:1.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -171,8 +171,8 @@ class _NFCCartScreenState extends State<NFCCartScreen> {
                           boxShadow: kElevationToShadow[1],
                           borderRadius: BorderRadius.circular(30),
                           border:
-                          Border.all(color: CustomColors.primaryColor),
-                          color: CustomColors.backgroundColor),
+                          Border.all(color: BaseColors.primaryColor),
+                          color: BaseColors.backgroundColor),
                       // width: 50,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -185,7 +185,7 @@ class _NFCCartScreenState extends State<NFCCartScreen> {
                           }, '-'),
                           SizedBox(width: 1.5.h),
                           addText("$quantity", 14.sp,
-                              CustomColors.primaryColor, FontWeight.w900),
+                              BaseColors.primaryColor, FontWeight.w900),
                           SizedBox(width: 1.5.h),
                           textButton2(() {
                             quantity++;
@@ -197,7 +197,7 @@ class _NFCCartScreenState extends State<NFCCartScreen> {
                     SizedBox(
                       height: 2.h,
                       child: VerticalDivider(
-                        color: CustomColors.borderColor,
+                        color: BaseColors.borderColor,
                         thickness: 1.5,
                       ),
                     ),
@@ -205,12 +205,12 @@ class _NFCCartScreenState extends State<NFCCartScreen> {
                       children: [
                         SvgPicture.asset(
                           "assets/images/delete 4.svg",
-                          color: CustomColors.textRedColor,
+                          color: BaseColors.textRedColor,
                           height: 2.h,
                         ),
                         SizedBox(width: 1.h),
                         addText('Remove', 14.sp,
-                            CustomColors.textRedColor, FontWeight.w400)
+                            BaseColors.textRedColor, FontWeight.w400)
                       ],
                     )
                   ],
@@ -228,9 +228,9 @@ class _NFCCartScreenState extends State<NFCCartScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        addText(title, 15.sp, CustomColors.textBlackColor,
+        addText(title, 15.sp, BaseColors.textBlackColor,
             FontWeight.w400),
-        addText(body, 15.sp, CustomColors.primaryColor,
+        addText(body, 15.sp, BaseColors.primaryColor,
             FontWeight.w700),
       ],
     );

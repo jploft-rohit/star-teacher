@@ -3,8 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -67,9 +67,9 @@ class _EventsViewState extends State<EventsView> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: Style.montserratBoldStyle().copyWith(fontSize: 17.sp, color: CustomColors.textBlackColor),),
+        Text(label, style: Style.montserratBoldStyle().copyWith(fontSize: 17.sp, color: BaseColors.textBlackColor),),
         TextButton(
-            child: Text(translate(context).view_all, style: Style.montserratRegularStyle().copyWith(fontSize: 15.sp, color: CustomColors.textLightGreyColor, decoration: TextDecoration.underline),),
+            child: Text(translate(context).view_all, style: Style.montserratRegularStyle().copyWith(fontSize: 15.sp, color: BaseColors.textLightGreyColor, decoration: TextDecoration.underline),),
             onPressed: onTap),
       ],
     );
@@ -80,9 +80,9 @@ class _EventsViewState extends State<EventsView> {
     return Container(
       margin: EdgeInsets.only(bottom: 1.5.h),
       decoration: BoxDecoration(
-          color: CustomColors.white,
+          color: BaseColors.white,
           boxShadow: kElevationToShadow[2],
-          border: Border.all(color: CustomColors.greyColor, width: 0.5),
+          border: Border.all(color: BaseColors.greyColor, width: 0.5),
           borderRadius: BorderRadius.circular(10)),
       child: Row(
         children: [
@@ -92,15 +92,15 @@ class _EventsViewState extends State<EventsView> {
               width: 12.h,
               padding: EdgeInsets.only(top: 10.0,bottom: 10.0),
               decoration: BoxDecoration(
-                  color: CustomColors.backgroundColor,
-                  border: Border.all(color: CustomColors.primaryColor),
+                  color: BaseColors.backgroundColor,
+                  border: Border.all(color: BaseColors.primaryColor),
                   borderRadius: BorderRadius.circular(10)),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(day, style: Style.montserratBoldStyle().copyWith(fontSize: 22.sp, color: CustomColors.primaryColor),),
-                  Text(month, style: Style.montserratRegularStyle().copyWith(fontSize: 18.sp, color: CustomColors.primaryColor),),
+                  Text(day, style: Style.montserratBoldStyle().copyWith(fontSize: 22.sp, color: BaseColors.primaryColor),),
+                  Text(month, style: Style.montserratRegularStyle().copyWith(fontSize: 18.sp, color: BaseColors.primaryColor),),
                 ],
               ),
             ),
@@ -117,11 +117,11 @@ class _EventsViewState extends State<EventsView> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(title, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp, color: CustomColors.textBlackColor),),
+                      Text(title, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp, color: BaseColors.textBlackColor),),
                       Row(
                         children: [
-                          Text('${translate(context).total_cost} : ', style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: CustomColors.primaryColor),),
-                          Text(totalcost,  style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: CustomColors.textBlackColor),),
+                          Text('${translate(context).total_cost} : ', style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.primaryColor),),
+                          Text(totalcost,  style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor),),
                         ],
                       ),
                     ],
@@ -135,8 +135,8 @@ class _EventsViewState extends State<EventsView> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(eventcost, style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp, color: CustomColors.textBlackColor),),
-                          Text(translate(context).event_cost,  style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: CustomColors.greyColor),),
+                          Text(eventcost, style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp, color: BaseColors.textBlackColor),),
+                          Text(translate(context).event_cost,  style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.greyColor),),
                         ],
                       ),
                       Column(
@@ -149,11 +149,11 @@ class _EventsViewState extends State<EventsView> {
                                 height: 1.8.h,
                               ),
                               addText(starbudget, 15.sp,
-                                  CustomColors.textBlackColor, FontWeight.w400),
+                                  BaseColors.textBlackColor, FontWeight.w400),
                             ],
                           ),
                           addText(translate(context).star_budget, 13.sp,
-                              CustomColors.greyColor, FontWeight.w700),
+                              BaseColors.greyColor, FontWeight.w700),
                         ],
                       ),
                       SizedBox(width: 0.5.h),
@@ -171,19 +171,19 @@ class _EventsViewState extends State<EventsView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     BaseButton(
+                        verticalPadding: 0.7.h,
                         title: translate(context).accept,
-                        textSize: 12,
                         onPressed: () {}),
                     SizedBox(
                       height: 2,
                     ),
-                    Text(translate(context).or,style: Style.montserratBoldStyle().copyWith(color: CustomColors.textLightGreyColor,fontSize: 12),),
+                    Text(translate(context).or,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textLightGreyColor,fontSize: 12),),
                     SizedBox(
                       height: 2,
                     ),
                     BaseButton(
+                        verticalPadding: 0.7.h,
                         isActive: false,
-                        textSize: 12,
                         title: translate(context).reject,
                         onPressed: () {}),
                   ],
@@ -200,9 +200,9 @@ class _EventsViewState extends State<EventsView> {
       margin: EdgeInsets.only(bottom: 1.5.h),
       height: 38.sp,
       decoration: BoxDecoration(
-          color: CustomColors.white,
+          color: BaseColors.white,
           boxShadow: kElevationToShadow[2],
-          border: Border.all(color: CustomColors.greyColor, width: 0.5),
+          border: Border.all(color: BaseColors.greyColor, width: 0.5),
           borderRadius: BorderRadius.circular(10)),
       child: Row(
         children: [
@@ -210,17 +210,17 @@ class _EventsViewState extends State<EventsView> {
             flex: 2,
             child: Container(
               decoration: BoxDecoration(
-                  color: CustomColors.backgroundColor,
-                  border: Border.all(color: CustomColors.primaryColor),
+                  color: BaseColors.backgroundColor,
+                  border: Border.all(color: BaseColors.primaryColor),
                   borderRadius: BorderRadius.circular(10)),
               child: Column(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         addText(day, 22.sp,
-                            CustomColors.primaryColor, FontWeight.w700),
+                            BaseColors.primaryColor, FontWeight.w700),
                         addText(month, 18.sp,
-                            CustomColors.primaryColor, FontWeight.w400),
+                            BaseColors.primaryColor, FontWeight.w400),
                       ],
                     ),
             ),
@@ -238,13 +238,13 @@ class _EventsViewState extends State<EventsView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       addText(title, 15.sp,
-                          CustomColors.textBlackColor, FontWeight.w700),
+                          BaseColors.textBlackColor, FontWeight.w700),
                       Row(
                         children: [
                           addText('${translate(context).total_cost} : ', 14.sp,
-                              CustomColors.primaryColor, FontWeight.w700),
+                              BaseColors.primaryColor, FontWeight.w700),
                           addText(totalcost, 14.sp,
-                              CustomColors.textBlackColor, FontWeight.w700),
+                              BaseColors.textBlackColor, FontWeight.w700),
                         ],
                       ),
                     ],
@@ -256,9 +256,9 @@ class _EventsViewState extends State<EventsView> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           addText(eventcost, 13.sp,
-                              CustomColors.textBlackColor, FontWeight.w400),
+                              BaseColors.textBlackColor, FontWeight.w400),
                           addText(translate(context).event_cost, 13.sp,
-                              CustomColors.greyColor, FontWeight.w700),
+                              BaseColors.greyColor, FontWeight.w700),
                         ],
                       ),
                       Column(
@@ -271,11 +271,11 @@ class _EventsViewState extends State<EventsView> {
                                 height: 1.8.h,
                               ),
                               addText(starbudget, 13.sp,
-                                  CustomColors.textBlackColor, FontWeight.w400),
+                                  BaseColors.textBlackColor, FontWeight.w400),
                             ],
                           ),
                           addText(translate(context).star_budget, 13.sp,
-                              CustomColors.greyColor, FontWeight.w700),
+                              BaseColors.greyColor, FontWeight.w700),
                         ],
                       ),
                       SizedBox(width: 0.5.h),
@@ -296,8 +296,8 @@ class _EventsViewState extends State<EventsView> {
                         controller.eventsList[index]['status']!,
                         15.sp,
                         controller.eventsList[index]['status'] == 'Accepted'
-                            ? CustomColors.green
-                            : CustomColors.textRedColor,
+                            ? BaseColors.green
+                            : BaseColors.textRedColor,
                         FontWeight.w700),
                     SizedBox(height: .5.h),
                     // controller.eventsList[index]['status'] == 'Accepted'
@@ -312,7 +312,7 @@ class _EventsViewState extends State<EventsView> {
                         addText(
                             controller.eventsList[index]['event']!,
                             14.sp,
-                            CustomColors.textBlackColor,
+                            BaseColors.textBlackColor,
                             FontWeight.w400),
                   ],
                 ),
