@@ -5,6 +5,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
 
 import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/route_manager/route_name.dart';
@@ -53,7 +54,7 @@ class _ChooseLoginTypeScreenState extends State<ChooseLoginTypeScreen> {
                 child: Column(
                   children: [
                     Expanded(child: buildGrids()),
-                    BaseButton(title: translate(context).next_btn_txt, onPressed: () {Get.offAllNamed(dashboardScreenRoute);}),
+                    BaseButton(btnType: largeButton,title: translate(context).next_btn_txt, onPressed: () {Get.offAllNamed(dashboardScreenRoute);}),
                     const SizedBox(height: 20,),
                   ],
                 ),

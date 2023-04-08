@@ -17,7 +17,7 @@ class BaseButton extends StatelessWidget {
   const BaseButton({Key? key, required this.title,
     this.textSize, required this.onPressed, this.isActive = true,
     this.showNextIcon = false, this.removeHorizontalPadding = false,
-    this.verticalPadding, this.isToggle = false, this.btnType,this.borderRadius=17, this.btnWidth}) : super(key: key);
+    this.verticalPadding, this.isToggle = false, this.btnType,this.borderRadius=14, this.btnWidth}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +35,11 @@ class BaseButton extends StatelessWidget {
       case toggleLargeButton:
         return showButtonType(context,showNextIcon,verticalPadding??1.3.h,50.w,mediumButtonTs,borderRadius);
       case buttonIcon:
-        return showButtonType(context,true,verticalPadding??1.3.h,double.infinity,largeButtonTs+2,borderRadius-10);
+        return showButtonType(context,true,verticalPadding??1.3.h,double.infinity,largeButtonTs+2,borderRadius-7);
       case dialogButton:
         return showButtonType(context,false,verticalPadding??1.3.h,25.w,largeButtonTs,100);
       default:
-        return showButtonType(context,showNextIcon,verticalPadding??1.4.h,45.w,largeButtonTs,borderRadius);
+        return showButtonType(context,showNextIcon,verticalPadding??1.5.h,45.w,largeButtonTs,isToggle ? borderRadius : borderRadius);
     }
   }
   showButtonType(context,showNextIcon,double verticalPadding,double btnWidth,double fontSize,double borderRadius){

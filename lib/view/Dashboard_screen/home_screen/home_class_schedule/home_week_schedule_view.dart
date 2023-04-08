@@ -6,6 +6,7 @@ import 'package:staff_app/Utility/base_button.dart';
 
 import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/class_schedule_screen/class_schedule_screen_ctrl.dart';
@@ -120,7 +121,7 @@ class _HomeWeekScheduleViewState extends State<HomeWeekScheduleView> {
                         ],
                       ),
                       const SizedBox(height: 4),
-                      BaseButton(title: "Completed", onPressed: (){},textSize: 8,)
+                      SizedBox(height: 26,child: BaseButton(removeHorizontalPadding: true,verticalPadding: 0,title: "Completed", onPressed: (){},textSize: 8,btnType: mediumButton,))
                     ],
                   ),
                 ),

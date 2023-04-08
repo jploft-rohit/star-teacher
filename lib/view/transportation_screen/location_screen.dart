@@ -86,7 +86,7 @@ class _LocationScreenState extends State<LocationScreen> {
                   },child: SvgPicture.asset(qrCodeSvg)),
                 ),
               ),
-              SizedBox(height: 3.h,),
+              SizedBox(height: 3.h),
               // Row(
               //   children: [
               //     Flexible(flex: 1,child: BaseButton(title: translate(context).print_QR,  textSize: 15.sp,onPressed: (){

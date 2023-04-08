@@ -70,8 +70,7 @@ class _OTPScreenState extends State<OTPScreen> {
                       Text("05xx-xxxxxxxx",style: Style.montserratRegularStyle().copyWith(color: const Color(0xff6B6B6B), fontSize: onBoardingSubTitleTs, height: 1.5),),
                       SizedBox(height: 0.5.h,),
                       PinCodeTextField(
-                        textStyle:
-                        TextStyle(color: BaseColors.primaryColor),
+                        textStyle: TextStyle(color: BaseColors.primaryColor),
                         length: 4, autoFocus: true,
                         keyboardType: TextInputType.number,
                         obscureText: false,
@@ -80,9 +79,9 @@ class _OTPScreenState extends State<OTPScreen> {
                         pinTheme: PinTheme(
                           shape: PinCodeFieldShape.box,
                           borderRadius: BorderRadius.circular(5),
-                          fieldHeight: 72,
+                          fieldHeight: 17.w,
                           inactiveColor: BaseColors.borderColor,
-                          fieldWidth: 65,
+                          fieldWidth: 17.w,
                           borderWidth: 1,
                           disabledColor: BaseColors.borderColor,
                           activeColor: BaseColors.primaryColor,
@@ -91,8 +90,7 @@ class _OTPScreenState extends State<OTPScreen> {
                           selectedColor: BaseColors.borderColor,
                           activeFillColor: BaseColors.primaryColorLight,
                         ),
-                        animationDuration:
-                        const Duration(milliseconds: 300),
+                        animationDuration: const Duration(milliseconds: 300),
                         // backgroundColor: Colors.blue.shade50,
                         enableActiveFill: true,
                         // controller: textEditingController,

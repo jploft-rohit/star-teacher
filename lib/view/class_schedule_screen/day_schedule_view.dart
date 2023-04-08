@@ -158,8 +158,8 @@ class _DayScheduleViewState extends State<DayScheduleView> {
                           ),
                           SizedBox(
                             width: 150,
-                            height: 30,
-                            child: BaseButton(verticalPadding: 0.0,removeHorizontalPadding: true,title: translate(context).notify_admin, onPressed: (){
+                            height: 29,
+                            child: BaseButton(btnType: mediumButton,verticalPadding: 0.0,removeHorizontalPadding: true,title: translate(context).notify_admin, onPressed: (){
                               showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation) {
                                 return const NotifyAuthorityPopup();
                               });

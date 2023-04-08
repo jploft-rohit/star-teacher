@@ -67,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       SizedBox(height: 5.h,),
                       Center(
-                        child: BaseButton(title: translate(context).sent_otp_btn_txt, onPressed: (){
+                        child: BaseButton(btnType: largeButton,title: translate(context).sent_otp_btn_txt, onPressed: (){
                           Get.toNamed(otpScreenRoute);
                         }),
                       ),
@@ -82,11 +82,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       SizedBox(height: 6.h),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          SvgPicture.asset(faceScanSvg),
+                          SvgPicture.asset(faceScanSvg,height: 9.h),
                           SizedBox(height: MediaQuery.of(context).size.height*0.10,child: const VerticalDivider(width: 2,thickness: 1,color: Color(0xFFD9D9D9),),),
-                          GestureDetector(child: SvgPicture.asset(fingerprintScanSvg)),
+                          GestureDetector(child: SvgPicture.asset(fingerprintScanSvg,height: 9.h)),
                         ],
                       ),
                       SizedBox(height: 5.h),
