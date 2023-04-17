@@ -284,27 +284,38 @@ class _StarViewState extends State<StarView> {
               },
             ),
             const Spacer(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                BaseButton(title: translate(context).give_stars.toUpperCase(), onPressed: (){
-                  showGeneralDialog(
-                    context: context,
-                    pageBuilder: (context, animation, secondaryAnimation) {
-                      return const StarRatingPopup();
-                    },
-                  );
-                }, btnWidth: 40.w),
-                BaseButton(title: translate(context).record_needs.toUpperCase(), onPressed: (){
-                  showGeneralDialog(
-                    context: context,
-                    pageBuilder: (context, animation, secondaryAnimation) {
-                      return SuccessDialogScreen(msg: translate(context).points_added_successfully,);
-                    },
-                  );
-                },btnWidth: 40.w,),
-              ],
-            ),
+            BaseButton(title: "RATE STAR", onPressed: (){
+              showGeneralDialog(
+                context: context,
+                pageBuilder: (context, animation, secondaryAnimation) {
+                  return const StarRatingPopup();
+                },
+              );
+            }),
+            // Row(
+            //   children: [
+            //     Expanded(
+            //       child: BaseButton(title: translate(context).give_stars.toUpperCase(), onPressed: (){
+            //         showGeneralDialog(
+            //           context: context,
+            //           pageBuilder: (context, animation, secondaryAnimation) {
+            //             return const StarRatingPopup();
+            //           },
+            //         );
+            //       }, rightMargin: 2.w),
+            //     ),
+            //     Expanded(
+            //       child: BaseButton(leftMargin: 2.w,title: translate(context).record_needs.toUpperCase(), onPressed: (){
+            //         showGeneralDialog(
+            //           context: context,
+            //           pageBuilder: (context, animation, secondaryAnimation) {
+            //             return SuccessDialogScreen(msg: translate(context).points_added_successfully,);
+            //           },
+            //         );
+            //       },btnWidth: 40.w,),
+            //     ),
+            //   ],
+            // ),
             SizedBox(
               height: 1.h,
             ),

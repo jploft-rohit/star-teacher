@@ -10,10 +10,8 @@ import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
 
 import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
-import 'package:staff_app/view/chat_screen/chat_screen.dart';
 import 'package:staff_app/view/chat_screen/chating_screen.dart';
 import 'package:staff_app/view/rating_screens/driver_rating_screen.dart';
 import 'package:staff_app/view/transportation_screen/bus_arriving_soon_screen.dart';
@@ -268,7 +266,7 @@ class _TransportationScreenState extends State<TransportationScreen> with Single
                   Flexible(
                     flex: 1,
                     child: BaseButton(title: translate(context).supervisor.toUpperCase(), onPressed: (){
-                      Get.to(DriverRatingScreen(title: "Staff"));
+                      Get.to(DriverRatingScreen(title: "Supervisor"));
                     },textSize: 15.sp,removeHorizontalPadding: true),
                   ),
                 ],

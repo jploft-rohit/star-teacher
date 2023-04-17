@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 
 import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/base_dialogs.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/complaints_report_screen/add_comment_popup.dart';
 import 'package:staff_app/view/complaints_report_screen/raise_complaint_report_screen.dart';
 
@@ -155,10 +157,31 @@ class _AllComplaintsViewState extends State<AllComplaintsView> {
                       SizedBox(
                         width: 2.w,
                       ),
-                      Flexible(child: buildInfoItems("Description", "Please upload the feedback of all the stars in suggested class into the excel worksheet."))
+                      Flexible(child: buildInfoItems("Comment", "Please upload the feedback of all the stars in suggested class into the excel worksheet."))
                     ],
                   ),
-                  const Divider(),
+                  Visibility(visible: index != 0,child: const Divider()),
+                  Visibility(
+                    visible: index != 0,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SvgPicture.asset("assets/images/report.svg"),
+                        SizedBox(
+                          width: 2.w,
+                        ),
+                        Flexible(child: buildInfoItems("Feedback", "Please upload the feedback of all the stars in suggested class into the excel worksheet."))
+                      ],
+                    ),
+                  ),
+                  Divider(height: 3.h),
+                  Row(
+                    children: [
+                      Expanded(child: BaseButton(title: translate(context).accept.toUpperCase(), onPressed: (){},rightMargin: 1.5.w,isActive: false,)),
+                      Expanded(child: BaseButton(title: translate(context).comment.toUpperCase(), onPressed: (){},leftMargin: 1.5.w,)),
+                    ],
+                  ),
+                  // const Divider(),
                   // Row(
                   //   crossAxisAlignment: CrossAxisAlignment.start,
                   //   children: [

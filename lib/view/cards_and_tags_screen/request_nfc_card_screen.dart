@@ -43,9 +43,9 @@ class _RequestNFCCardScreenState extends State<RequestNFCCardScreen> {
               itemBuilder: (context, index) => Container(
                 margin: EdgeInsets.all(2),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: kElevationToShadow[2],
-                    color: BaseColors.white),
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: kElevationToShadow[2],
+                color: BaseColors.white),
                 padding: EdgeInsets.all(10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

@@ -6,6 +6,7 @@ import 'package:staff_app/Utility/base_button.dart';
 
 import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/wallet/wallet_controller.dart';
@@ -143,11 +144,31 @@ class _TransactionHistoryPopupState extends State<TransactionHistoryPopup> {
                   ],
                 ),
                 SizedBox(height: 2.h),
-                BaseButton(
-                  title: translate(context).print_receipt.toUpperCase(),
-                  btnWidth: 40.w,
-                  textSize: 16.sp,
-                  onPressed: (){},
+                Padding(
+                  padding: EdgeInsets.only(left: 4.w,right: 5.w),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: BaseButton(
+                          title: translate(context).print_receipt.toUpperCase(),
+                          btnType: dialogButton,
+                          onPressed: (){
+                            Get.back();
+                          },
+                        ),
+                      ),
+                      SizedBox(width: 4.5.w),
+                      Expanded(
+                        child: BaseButton(
+                          title: "SAVE RECEIPT",
+                          btnType: dialogButton,
+                          onPressed: (){
+                            Get.back();
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),

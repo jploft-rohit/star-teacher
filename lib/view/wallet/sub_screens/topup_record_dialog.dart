@@ -141,11 +141,30 @@ class _TopUpRecordPopUpState extends State<TopUpRecordPopUp> {
                   ),
                 ),
                 SizedBox(height: 2.h),
-                BaseButton(
-                  title: translate(context).print_receipt.toUpperCase(),
-                  btnWidth: 40.w,
-                  textSize: 16.sp,
-                  onPressed: (){},
+                Row(
+                  children: [
+                    Expanded(
+                      child: BaseButton(
+                        title: translate(context).print_receipt.toUpperCase(),
+                        btnWidth: 40.w,
+                        textSize: 16.sp,
+                        onPressed: (){
+                          Get.back();
+                        },
+                      ),
+                    ),
+                    SizedBox(width: 4.w),
+                    Expanded(
+                      child: BaseButton(
+                        title: "SAVE RECEIPT",
+                        btnWidth: 40.w,
+                        textSize: 16.sp,
+                        onPressed: (){
+                          Get.back();
+                        },
+                      ),
+                    ),
+                  ],
                 )
               ],
             ),

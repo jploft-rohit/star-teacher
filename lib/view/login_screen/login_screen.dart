@@ -82,11 +82,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       SizedBox(height: 6.h),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SvgPicture.asset(faceScanSvg,height: 9.h),
-                          SizedBox(height: MediaQuery.of(context).size.height*0.10,child: const VerticalDivider(width: 2,thickness: 1,color: Color(0xFFD9D9D9),),),
-                          GestureDetector(child: SvgPicture.asset(fingerprintScanSvg,height: 9.h)),
+                          // SizedBox(height: MediaQuery.of(context).size.height*0.10,child: const VerticalDivider(width: 2,thickness: 1,color: Color(0xFFD9D9D9),),),
+                          // GestureDetector(child: SvgPicture.asset(fingerprintScanSvg,height: 9.h)),
                         ],
                       ),
                       SizedBox(height: 5.h),

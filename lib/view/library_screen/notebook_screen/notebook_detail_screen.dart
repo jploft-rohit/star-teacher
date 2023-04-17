@@ -23,7 +23,7 @@ class NotebookDetailScreen extends StatefulWidget {
 }
 
 class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
-  NotebookScreenCtrl controller = Get.find<NotebookScreenCtrl>();
+  NotebookScreenCtrl controller = Get.put(NotebookScreenCtrl());
   @override
   Widget build(BuildContext context) {
     return Scaffold(

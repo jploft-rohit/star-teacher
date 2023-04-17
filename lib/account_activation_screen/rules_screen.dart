@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/account_activation_screen/rules_screen2.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/route_manager/route_name.dart';
 
@@ -49,7 +50,8 @@ class _RulesScreenState extends State<RulesScreen> {
 
                 GestureDetector(
                   onTap: () {
-                    Get.toNamed(dashboardScreenRoute);
+
+                    Get.to(RulesScreen2());
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 10),

@@ -30,18 +30,18 @@ class _BehaviourViewState extends State<BehaviourView> {
           children: [
             Row(
               children: [
-                addText("${translate(context).max_points}: ", 14.sp, BaseColors.textBlackColor, FontWeight.w400),
-                SizedBox(
-                  width: 1.w,
-                ),
-                Container(
-                  padding: EdgeInsets.only(left: 25.sp, right: 25.sp,),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: BaseColors.borderColor),
-                      borderRadius: BorderRadius.circular(6.0)
-                  ),
-                  child: addText("5", 15.sp, BaseColors.primaryColor, FontWeight.w700),
-                )
+                addText("21 of 60 selected ", 16.sp, BaseColors.greyColor, FontWeight.w400),
+                // SizedBox(
+                //   width: 1.w,
+                // ),
+                // Container(
+                //   padding: EdgeInsets.only(left: 25.sp, right: 25.sp,),
+                //   decoration: BoxDecoration(
+                //       border: Border.all(color: BaseColors.borderColor),
+                //       borderRadius: BorderRadius.circular(6.0)
+                //   ),
+                //   child: addText("5", 15.sp, BaseColors.primaryColor, FontWeight.w700),
+                // )
               ],
             ),
             Row(

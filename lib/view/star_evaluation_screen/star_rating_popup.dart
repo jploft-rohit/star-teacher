@@ -1,3 +1,4 @@
+import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -86,44 +87,124 @@ class _StarRatingPopupState extends State<StarRatingPopup> with SingleTickerProv
                       mainAxisSpacing: 10.0
                     ),
                     shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: const Color(0xffF3F3F3),
-                          borderRadius: BorderRadius.circular(10.0)
-                        ),
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(ctrl.ratingList[index]['img']),
-                                SizedBox(
-                                  height: 1.h,
-                                ),
-                                Text(ctrl.ratingList[index]['title'], style: Style.montserratMediumStyle().copyWith(fontSize: 15.sp),maxLines: 1, overflow: TextOverflow.ellipsis,),
-                              ],
-                            ),
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Stack(
-                                children: [
-                                  Icon(
-                                    CupertinoIcons.star_fill,
-                                    color: tabController.index == 0 ? BaseColors.primaryColor : Colors.grey.shade500,
-                                    size: 22.sp,
+                    itemBuilder: (internalCtx, index) {
+                      return GestureDetector(
+                        onTap: (){
+                          if (tabController.index == 1) {
+                            Get.back(closeOverlays: true);
+                            showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation){
+                              return Dialog(
+                                insetPadding: EdgeInsets.symmetric(horizontal: 3.w),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(14))),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 4.w),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SizedBox(height: 12),
+                                      Align(
+                                        alignment: Alignment.topRight,
+                                        child: GestureDetector(onTap: (){Get.back();},
+                                            child: SvgPicture.asset("assets/images/ic_close.svg",height: 16)),
+                                      ),
+                                      Text("Star Points Deduct",style: TextStyle(fontWeight: FontWeight.w600)),
+                                      SizedBox(height: 26),
+                                      CircularCountDownTimer(
+                                      duration: 10,
+                                      initialDuration: 0,
+                                      controller: CountDownController(),
+                                      width: 20.w,
+                                      height: 20.w,
+                                      ringColor: Colors.grey[300]!,
+                                      ringGradient: null,
+                                      fillColor: BaseColors.primaryColor,
+                                      fillGradient: null,
+                                      backgroundColor: Colors.transparent,
+                                      backgroundGradient: null,
+                                      strokeWidth: 7,
+                                      strokeCap: StrokeCap.square,
+                                      textStyle: TextStyle(fontSize: 26, color: BaseColors.primaryColor, fontWeight: FontWeight.bold),
+                                      textFormat: CountdownTextFormat.S,
+                                      isReverse: true,
+                                      isReverseAnimation: true,
+                                      isTimerTextShown: true,
+                                      autoStart: true,
+                                      onStart: () {
+                                        debugPrint('Countdown Started');
+                                      },
+                                      onComplete: () {
+                                        debugPrint('Countdown Ended');
+                                        Get.back(closeOverlays: true);
+                                        showSuccessDialog();
+                                      },
+                                      onChange: (String timeStamp) {
+                                        debugPrint('Countdown Changed $timeStamp');
+                                      },
+                                      timeFormatterFunction: (defaultFormatterFunction, duration) {
+                                        if (duration.inSeconds == 0) {
+                                          return "0";
+                                        } else {
+                                          return Function.apply(defaultFormatterFunction, [duration]);
+                                        }
+                                      },
+                                    ),
+                                      const SizedBox(height: 25),
+                                      Row(
+                                        children: [
+                                          Expanded(child: BaseButton(rightMargin: 1.w,btnType: dialogButton,title: "Confirm Rejection", onPressed: (){
+                                            // Get.back();
+                                            Get.back(closeOverlays: true);
+                                            showSuccessDialog();
+                                          })),
+                                          Expanded(child: BaseButton(leftMargin: 1.w, btnType: dialogButton,title: "Issue Resolve", onPressed: (){Get.back();})),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 30),
+                                    ],
                                   ),
-                                  Positioned(
-                                    top: 10.0,
-                                    left: 10.0,
-                                    child: addText(tabController.index == 0 ? "2" : "-2", 13.sp, BaseColors.white, FontWeight.w400),)
+                                ),
+                              );
+                            });
+                          }
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: const Color(0xffF3F3F3),
+                            borderRadius: BorderRadius.circular(10.0)
+                          ),
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(ctrl.ratingList[index]['img']),
+                                  SizedBox(
+                                    height: 1.h,
+                                  ),
+                                  Text(ctrl.ratingList[index]['title'], style: Style.montserratMediumStyle().copyWith(fontSize: 15.sp),maxLines: 1, overflow: TextOverflow.ellipsis,),
                                 ],
                               ),
-                            ),
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Stack(
+                                  children: [
+                                    Icon(
+                                      CupertinoIcons.star_fill,
+                                      color: tabController.index == 0 ? BaseColors.primaryColor : Colors.grey.shade500,
+                                      size: 22.sp,
+                                    ),
+                                    Positioned(
+                                      top: 10.0,
+                                      left: 10.0,
+                                      child: addText(tabController.index == 0 ? "2" : "-2", 13.sp, BaseColors.white, FontWeight.w400),)
+                                  ],
+                                ),
+                              ),
 
-                          ],
+                            ],
+                          ),
                         ),
                       );
                     },
@@ -143,5 +224,39 @@ class _StarRatingPopupState extends State<StarRatingPopup> with SingleTickerProv
         ),
       ),
     );
+  }
+  showSuccessDialog(){
+    showGeneralDialog(context: Get.context!, pageBuilder: (a,b,c){
+      return Dialog(
+        insetPadding: EdgeInsets.symmetric(horizontal: 3.w),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(14))),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 2.w),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(height: 12),
+              Align(
+                alignment: Alignment.topRight,
+                child: GestureDetector(onTap: (){Get.back();},
+                    child: SvgPicture.asset("assets/images/ic_close.svg",height: 16)),
+              ),
+              Container(
+                margin: EdgeInsets.only(bottom: 20),
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  border: Border.all(color: BaseColors.primaryColor,width: 1),
+                  shape: BoxShape.circle,
+                  color: Color(0xffF8F4E9)
+                ),
+                child: SvgPicture.asset("assets/images/ic_check.svg",height: 20,),
+              ),
+              Text("Points Deducted Successfully.",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16)),
+              SizedBox(height: 22),
+            ],
+          ),
+        ),
+      );
+    });
   }
 }

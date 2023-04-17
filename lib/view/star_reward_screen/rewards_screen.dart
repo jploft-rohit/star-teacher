@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/base_floating_action_button.dart';
 
 import 'package:staff_app/Utility/base_colors.dart';
@@ -75,15 +76,23 @@ class _RewardsScreenState extends State<RewardsScreen> {
                         ],
                       ),
                       SizedBox(width: 5.w),
-                      Expanded(
-                        child: Row(
-                          children: [
-                            addText("Sania", 16.sp, BaseColors.textBlackColor, FontWeight.w700),
-                            SizedBox(width: 1.w),
-                            addText("#632541", 16.sp, BaseColors.primaryColor, FontWeight.w700),
-                          ],
-                        ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              addText("Sania", 16.sp, BaseColors.textBlackColor, FontWeight.w700),
+                              SizedBox(width: 1.w),
+                              addText("#632541", 16.sp, BaseColors.primaryColor, FontWeight.w700),
+                            ],
+                          ),
+                          SizedBox(height: 0.8.h),
+                          BaseButton(title: "View History", onPressed: (){},btnType: smallButton,removeHorizontalPadding: true,),
+                        ],
                       ),
+                      // addText("#632541", 16.sp, BaseColors.primaryColor, FontWeight.w700),
                     ],
                   ),
                 ),

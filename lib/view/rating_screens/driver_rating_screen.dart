@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/Utility/base_dropdown.dart';
 import 'package:staff_app/Utility/base_textformfield.dart';
 
 
@@ -38,6 +39,7 @@ class _DriverRatingScreenState extends State<DriverRatingScreen> {
         padding: EdgeInsets.all(20.sp),
         child: Column(
           children: [
+            BaseDropDown(title: widget.title == "Bus" ? "Bus ID : #29735" : "Name : Rahish"),
             Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.0),
@@ -159,7 +161,7 @@ class _DriverRatingScreenState extends State<DriverRatingScreen> {
                 SizedBox(
                   width: 2.w,
                 ),
-                Expanded(child: Text(translate(context).do_you_want_to_remain_anonymous, style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),),),
+                Expanded(child: Text(translate(context).do_you_want_to_remain_anonymous, style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp,fontWeight: FontWeight.w600),),),
               ],
             ),
             SizedBox(

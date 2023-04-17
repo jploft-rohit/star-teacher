@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
 
 import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/Utility/base_textformfield.dart';
 import 'package:staff_app/Utility/otp_txt_field.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -112,9 +114,14 @@ class BaseDialogs {
       },
     );
   }
-  showConfirmationDialog({Function()? onClose,String? title,Function()? onLeftButtonPressed, String? leftButtonTitle,Function()? onRightButtonPressed, String? rightButtonTitle}){
-    double btnHeight = 30;
-    double btnWidth = getWidth(Get.context!) * 50 / 180;
+  showConfirmationDialog({
+    Function()? onClose,
+    String? title,
+    Function()? onLeftButtonPressed,
+    String? leftButtonTitle,
+    Function()? onRightButtonPressed,
+    String? rightButtonTitle,
+  }){
     showGeneralDialog(
         context: Get.context!,
         barrierDismissible: true,
@@ -152,5 +159,86 @@ class BaseDialogs {
             ),
           );
     });
+  }
+
+  showOkDialog({
+    Function()? onClose,
+    String? title,
+    Function()? onBtnPressed,
+    String? btnTitle,
+  }){
+    showGeneralDialog(
+        context: Get.context!,
+        barrierDismissible: true,
+        barrierLabel: "",
+        pageBuilder: (context,a1,a2){
+          return Dialog(
+            insetPadding: EdgeInsets.symmetric(horizontal: 3.w),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(14))),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(height: 12),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: GestureDetector(onTap: onClose ?? (){Get.back();},
+                        child: SvgPicture.asset("assets/images/ic_close.svg",height: 16)),
+                  ),
+                  SizedBox(height: 16),
+                  Text(title??"",textAlign: TextAlign.center,style: const TextStyle(fontWeight: FontWeight.w500,fontSize: 15)),
+                  const SizedBox(height: 20),
+                  BaseButton(btnType: dialogButton,title: btnTitle??"OK", onPressed: onBtnPressed ?? (){Get.back();}),
+                  const SizedBox(height: 20),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  showRejectDialog({
+    Function()? onClose,
+    String? title,
+    Function()? onSubmit,
+    String? btnTitle,
+    String? hintText,
+  }){
+    showGeneralDialog(
+        context: Get.context!,
+        barrierDismissible: true,
+        barrierLabel: "",
+        pageBuilder: (context,a1,a2){
+          return Dialog(
+            insetPadding: EdgeInsets.symmetric(horizontal: 3.w),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(14))),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SvgPicture.asset("assets/images/ic_close.svg",height: 16,color: Colors.transparent),
+                        Text(title??"Event Rejection Reason",textAlign: TextAlign.center,style: const TextStyle(fontWeight: FontWeight.w500,fontSize: 16)),
+                        GestureDetector(onTap: onClose ?? (){Get.back();},
+                            child: SvgPicture.asset("assets/images/ic_close.svg",height: 16),
+                        ),
+                      ],
+                    ),
+                  ),
+                  BaseTextFormField(controller: TextEditingController(),maxLine: 4,hintText: hintText??"Why are you rejecting this?",),
+                  BaseButton(btnType: dialogButton,title: btnTitle??translate(context).submit_btn_txt, onPressed: onSubmit ?? (){Get.back();}),
+                  const SizedBox(height: 20),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

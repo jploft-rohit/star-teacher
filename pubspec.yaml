@@ -58,6 +58,7 @@ dependencies:
   autoscale_tabbarview: ^1.0.2
   pin_code_fields: ^7.4.0
   local_auth: ^2.1.6
+  circular_countdown_timer: ^0.2.3
 
 dev_dependencies:
   flutter_launcher_icons: ^0.12.0

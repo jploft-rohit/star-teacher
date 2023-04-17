@@ -98,16 +98,19 @@ class _MedicalReportViewState extends State<MedicalReportView> {
     ];
     return Scaffold(
       appBar: BaseAppBar(title: translate(context).medical_records),
-      floatingActionButton: BaseFloatingActionButton(
-        onTap: () {
-          showGeneralDialog(
-            context: context,
-            pageBuilder:  (context, animation, secondaryAnimation) {
-              return const AddMedicalFilePopup();
-            },
-          );
-        },
-        title: translate(context).add_medical_record,
+      floatingActionButton: Visibility(
+        visible: isShowMedicalRecord,
+        child: BaseFloatingActionButton(
+          onTap: () {
+            showGeneralDialog(
+              context: context,
+              pageBuilder:  (context, animation, secondaryAnimation) {
+                return const AddMedicalFilePopup();
+              },
+            );
+          },
+          title: translate(context).add_medical_record,
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -939,7 +942,6 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                     children: [
                       Text(
                         translate(context).medical_survey, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),),
-
                       Row(
                         children: [
                           if(isShowMedicalSurvey)
@@ -1549,149 +1551,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                         ),
                         SizedBox(height: 1.h,),
                         Text(sicknessPolicy, style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
-                        SizedBox(height: 2.h,),
-                        Container(
-                          width: 100.w,
-                          margin: const EdgeInsets.symmetric(vertical: 20),
-                          padding: const EdgeInsets.all(20),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: BaseColors.primaryColor),
-                              color: BaseColors.white,
-                              boxShadow: [getBoxShadow()],
-                              borderRadius: BorderRadius.circular(15.0)
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(translate(context).do_you_want_to_use_school_canteen_services, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
-                              SizedBox(height: 2.h,),
-                              Align(
-                                alignment: AlignmentDirectional.topStart,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: 4.h,
-                                      child: ListView.builder(
-                                        itemCount: yesNoList.length,
-                                        scrollDirection: Axis.horizontal,
-                                        shrinkWrap: true,
-                                        physics: const NeverScrollableScrollPhysics(),
-                                        itemBuilder: (context, index) {
-                                          return GestureDetector (
-                                            onTap: (){
-                                              allergicSelectedPos = index;
-                                              setState(() {});
-                                            },
-                                            child: Container(
-                                              height: 4.h,
-                                              width: 20.w,
-                                              alignment: Alignment.centerLeft,
-                                              margin: const EdgeInsets.only(right: 10),
-                                              decoration: allergicSelectedPos == index ? getPrimaryDecoration() : getEditTextDecoration(),
-                                              child: Center(child: Text(yesNoList[index], style: Style.montserratRegularStyle().copyWith(color: allergicSelectedPos == index ? BaseColors.primaryColor : BaseColors.borderColor, fontSize: 15.sp),)),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                    Visibility(
-                                      visible: allergicSelectedPos == 0,
-                                      child: Container(
-                                        width: 100.w,
-                                        margin: const EdgeInsets.symmetric(vertical: 20),
-                                        padding: const EdgeInsets.all(20),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(color: BaseColors.primaryColor),
-                                          color: BaseColors.white,
-                                          borderRadius: BorderRadius.circular(10.0),
-                                        ), child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(translate(context).are_you_allergic_to_any_food,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
-                                          SizedBox(height: 1.h,),
-                                          SizedBox(
-                                            height: 4.h,
-                                            child: ListView.builder(
-                                              itemCount: yesNoList.length,
-                                              scrollDirection: Axis.horizontal,
-                                              shrinkWrap: true,
-                                              physics: const NeverScrollableScrollPhysics(),
-                                              itemBuilder: (context, index) {
-                                                return GestureDetector (
-                                                  onTap: (){
-                                                    useCanteenServicesPos = index;
-                                                    setState(() {});
-                                                  },
-                                                  child: Container(
-                                                    height: 4.h,
-                                                    width: 20.w,
-                                                    margin: const EdgeInsets.only(right: 10),
-                                                    decoration: useCanteenServicesPos == index ? getPrimaryDecoration() : getEditTextDecoration(),
-                                                    child: Center(child: Text(yesNoList[index], style: Style.montserratRegularStyle().copyWith(color: useCanteenServicesPos == index ? BaseColors.primaryColor : BaseColors.borderColor, fontSize: 15.sp),)),
-                                                  ),
-                                                );
-                                              },
-                                            ),
-                                          ),
-                                          SizedBox(height: 1.h,),
-                                          Visibility(
-                                            visible: useCanteenServicesPos == 0,
-                                            child: ListView.builder(
-                                              itemCount: allergyFoodList.length,
-                                              physics: const NeverScrollableScrollPhysics(),
-                                              shrinkWrap: true,
-                                              itemBuilder: (_, int index) {
-                                                return CheckboxListTile(
-                                                  contentPadding: EdgeInsets.zero,
-                                                  visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
-                                                  activeColor: BaseColors.backgroundColor,
-                                                  checkColor: BaseColors.primaryColor,
-                                                  dense: true,
-                                                  checkboxShape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(2.0),
-                                                  ),
-                                                  side: MaterialStateBorderSide.resolveWith(
-                                                        (states) => const BorderSide(width: 1.0, color: BaseColors.primaryColor,),
-                                                  ),
-                                                  title: Text(allergyFoodList[index],style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
-                                                  value: selectedAllergicFoodList.contains(allergyFoodList[index]),
-                                                  onChanged: (_) {
-                                                    if (selectedAllergicFoodList.contains(allergyFoodList[index])) {
-                                                      selectedAllergicFoodList.remove(allergyFoodList[index]);  // unselect
-                                                    } else {
-                                                      selectedAllergicFoodList.add(allergyFoodList[index]); // select
-                                                    }
-                                                    setState(() {});
-                                                  },
-                                                  controlAffinity: ListTileControlAffinity.leading,
-                                                );
-                                              },
-                                            ),
-                                          ),
-
-                                          Visibility(
-                                            visible: useCanteenServicesPos == 0,
-                                            child: Center(child: GestureDetector(
-                                              onTap: () {
-
-                                              },
-                                              child: buildSaveButton(),
-                                            )),
-                                          )
-                                        ],
-                                      ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 4.h),
+                        Divider(color: Colors.grey.shade300,height: 3.h),
                         Center(
                           child: GestureDetector(
                             onTap: (){},
@@ -1699,6 +1559,137 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                           ),
                         ),
                         SizedBox(height: 2.h,),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(translate(context).do_you_want_to_use_school_canteen_services, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
+                            SizedBox(height: 2.h,),
+                            Align(
+                              alignment: AlignmentDirectional.topStart,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: 4.h,
+                                    child: ListView.builder(
+                                      itemCount: yesNoList.length,
+                                      scrollDirection: Axis.horizontal,
+                                      shrinkWrap: true,
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      itemBuilder: (context, index) {
+                                        return GestureDetector (
+                                          onTap: (){
+                                            allergicSelectedPos = index;
+                                            setState(() {});
+                                          },
+                                          child: Container(
+                                            height: 4.h,
+                                            width: 20.w,
+                                            alignment: Alignment.centerLeft,
+                                            margin: const EdgeInsets.only(right: 10),
+                                            decoration: allergicSelectedPos == index ? getPrimaryDecoration() : getEditTextDecoration(),
+                                            child: Center(child: Text(yesNoList[index], style: Style.montserratRegularStyle().copyWith(color: allergicSelectedPos == index ? BaseColors.primaryColor : BaseColors.borderColor, fontSize: 15.sp),)),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  Visibility(
+                                    visible: allergicSelectedPos == 0,
+                                    child: Container(
+                                      width: 100.w,
+                                      margin: const EdgeInsets.symmetric(vertical: 20),
+                                      padding: const EdgeInsets.all(20),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: BaseColors.primaryColor),
+                                        color: BaseColors.white,
+                                        borderRadius: BorderRadius.circular(10.0),
+                                      ), child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(translate(context).are_you_allergic_to_any_food,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
+                                        SizedBox(height: 1.h,),
+                                        SizedBox(
+                                          height: 4.h,
+                                          child: ListView.builder(
+                                            itemCount: yesNoList.length,
+                                            scrollDirection: Axis.horizontal,
+                                            shrinkWrap: true,
+                                            physics: const NeverScrollableScrollPhysics(),
+                                            itemBuilder: (context, index) {
+                                              return GestureDetector (
+                                                onTap: (){
+                                                  useCanteenServicesPos = index;
+                                                  setState(() {});
+                                                },
+                                                child: Container(
+                                                  height: 4.h,
+                                                  width: 20.w,
+                                                  margin: const EdgeInsets.only(right: 10),
+                                                  decoration: useCanteenServicesPos == index ? getPrimaryDecoration() : getEditTextDecoration(),
+                                                  child: Center(child: Text(yesNoList[index], style: Style.montserratRegularStyle().copyWith(color: useCanteenServicesPos == index ? BaseColors.primaryColor : BaseColors.borderColor, fontSize: 15.sp),)),
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                        SizedBox(height: 1.h,),
+                                        Visibility(
+                                          visible: useCanteenServicesPos == 0,
+                                          child: ListView.builder(
+                                            itemCount: allergyFoodList.length,
+                                            physics: const NeverScrollableScrollPhysics(),
+                                            shrinkWrap: true,
+                                            itemBuilder: (_, int index) {
+                                              return CheckboxListTile(
+                                                contentPadding: EdgeInsets.zero,
+                                                visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
+                                                activeColor: BaseColors.backgroundColor,
+                                                checkColor: BaseColors.primaryColor,
+                                                dense: true,
+                                                checkboxShape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(2.0),
+                                                ),
+                                                side: MaterialStateBorderSide.resolveWith(
+                                                      (states) => const BorderSide(width: 1.0, color: BaseColors.primaryColor,),
+                                                ),
+                                                title: Text(allergyFoodList[index],style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
+                                                value: selectedAllergicFoodList.contains(allergyFoodList[index]),
+                                                onChanged: (_) {
+                                                  if (selectedAllergicFoodList.contains(allergyFoodList[index])) {
+                                                    selectedAllergicFoodList.remove(allergyFoodList[index]);  // unselect
+                                                  } else {
+                                                    selectedAllergicFoodList.add(allergyFoodList[index]); // select
+                                                  }
+                                                  setState(() {});
+                                                },
+                                                controlAffinity: ListTileControlAffinity.leading,
+                                              );
+                                            },
+                                          ),
+                                        ),
+
+                                        Visibility(
+                                          visible: useCanteenServicesPos == 0,
+                                          child: Center(child: GestureDetector(
+                                            onTap: () {
+
+                                            },
+                                            child: buildSaveButton(),
+                                          )),
+                                        )
+                                      ],
+                                    ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 4.h),
                       ],
                     ),
                     SizedBox(height: 1.h,),

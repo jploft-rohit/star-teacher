@@ -7,12 +7,10 @@ import 'package:staff_app/Utility/base_tab_bar.dart';
 import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/star_evaluation_screen/assesment_view.dart';
 import 'package:staff_app/view/star_evaluation_screen/behavior_view.dart';
-import 'package:staff_app/view/star_evaluation_screen/star_view.dart';
 import 'package:staff_app/view/star_evaluation_screen/teacher_view.dart';
 
 class StarEvaluationScreen extends StatefulWidget {

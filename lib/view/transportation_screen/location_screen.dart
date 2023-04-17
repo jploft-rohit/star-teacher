@@ -81,9 +81,9 @@ class _LocationScreenState extends State<LocationScreen> {
                       Text("English Teacher", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                     ],
                   ),
-                  trailing: InkWell(onTap: (){
-                    showScanQrDialogue(context, false);
-                  },child: SvgPicture.asset(qrCodeSvg)),
+                  // trailing: InkWell(onTap: (){
+                  //   showScanQrDialogue(context, false);
+                  // },child: SvgPicture.asset(qrCodeSvg)),
                 ),
               ),
               SizedBox(height: 3.h),

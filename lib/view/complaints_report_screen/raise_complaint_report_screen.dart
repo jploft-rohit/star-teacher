@@ -24,12 +24,13 @@ class RaiseComplaintReportScreen extends StatefulWidget {
 
 class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen> {
   TextEditingController complaintOrReportController = TextEditingController();
-  TextEditingController complaintForController = TextEditingController();
+  // TextEditingController complaintForController = TextEditingController();
   TextEditingController roleController = TextEditingController();
   TextEditingController personController = TextEditingController();
   TextEditingController typeController = TextEditingController();
   TextEditingController messageController = TextEditingController();
   TextEditingController uploadController = TextEditingController();
+  TextEditingController titleController = TextEditingController();
 
   @override
   void initState() {
@@ -62,21 +63,21 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                     child: addText(value, 16.sp, Colors.black, FontWeight.w400),);
                 }).toList(),
               ),
-              BaseTextFormField(
-                controller: complaintForController,
-                hintText: "Complaint for",
-                isDropDown: true,
-                dropDownValue: complaintForController.text,
-                onChanged: (newValue){
-                  setState(() {
-                    complaintForController.text = newValue.toString();
-                  });},
-                items: DummyLists().list1.map((value) {
-                  return DropdownMenuItem(
-                    value: value,
-                    child: addText(value, 16.sp, Colors.black, FontWeight.w400),);
-                }).toList(),
-              ),
+              // BaseTextFormField(
+              //   controller: complaintForController,
+              //   hintText: "Complaint for",
+              //   isDropDown: true,
+              //   dropDownValue: complaintForController.text,
+              //   onChanged: (newValue){
+              //     setState(() {
+              //       complaintForController.text = newValue.toString();
+              //     });},
+              //   items: DummyLists().list1.map((value) {
+              //     return DropdownMenuItem(
+              //       value: value,
+              //       child: addText(value, 16.sp, Colors.black, FontWeight.w400),);
+              //   }).toList(),
+              // ),
               BaseTextFormField(
                 controller: roleController,
                 hintText: "Select Role",
@@ -121,6 +122,10 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                 }).toList(),
               ),
               BaseTextFormField(
+                controller: titleController,
+                hintText: "Title",
+              ),
+              BaseTextFormField(
                 controller: messageController,
                 maxLine: 4,
                 hintText: "Message",
@@ -142,12 +147,14 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
   setData(){
     if(widget.isUpdating){
       complaintOrReportController.text = "Complaint";
-      complaintForController.text = "Bus Driver";
+      // complaintForController.text = "Bus Driver";
       roleController.text = "Bus Driver";
       personController.text = "Ibrahim Khan";
       typeController.text = "Bullying";
+      titleController.text = "Unacceptable Behavior";
       messageController.text = "Behavior of the driver are not good with me please take some action or ask him to understand the concern.";
       uploadController.text = "doc.pdf";
+
     }
   }
 }

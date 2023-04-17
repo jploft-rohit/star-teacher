@@ -78,7 +78,7 @@ class _EventsDetailScreenState extends State<EventsDetailScreen> {
                         SizedBox(
                           width: 2.w,
                         ),
-                        Flexible(child: buildInfoItems("Event Type", "Intside school"))
+                        Flexible(child: buildInfoItems("Event Type", "Outside school"))
                       ],
                     ),
                     const Divider(),
@@ -90,6 +90,13 @@ class _EventsDetailScreenState extends State<EventsDetailScreen> {
                           width: 2.w,
                         ),
                         Flexible(child: buildInfoItems("Description", "We are hosting a event as School Picnic for the stars to cheer up with the school mats inside the school will have a lot of activity to do for fun. all the interested stars can register for the event."))
+                      ],
+                    ),
+                    const Divider(),
+                    Row(
+                      children: [
+                        Expanded(flex: 3,child: BaseDetailData(icon: "assets/images/Vector (1).svg",detailsLabel: 'Event Creation Date Time',detailsValue: "09/09/2022")),
+                        Expanded(flex: 1,child: BaseDetailData(icon: "assets/images/time_icon.svg",detailsLabel: '09:13pm')),
                       ],
                     ),
                     const Divider(),
@@ -139,6 +146,18 @@ class _EventsDetailScreenState extends State<EventsDetailScreen> {
                       children: [
                         Expanded(flex: 3,child: BaseDetailData(icon: "assets/images/user.svg",detailsLabel: 'Nurse',detailsValue: "1")),
                         Expanded(flex: 2,child: BaseDetailData(detailsLabel: 'Security Staff',detailsValue: "3")),
+                      ],
+                    ),
+                    const Divider(),
+                    Row(
+                      children: [
+                        Expanded(flex: 3,child: BaseDetailData(icon: "assets/images/report.svg",detailsLabel: 'Start Destination',detailsValue: "Jaipur")),
+                      ],
+                    ),
+                    const Divider(),
+                    Row(
+                      children: [
+                        Expanded(flex: 2,child: BaseDetailData(icon: "assets/images/report.svg",detailsLabel: 'End Destination',detailsValue: "Jaipur")),
                       ],
                     ),
                     const Divider(),
@@ -211,9 +230,13 @@ class _EventsDetailScreenState extends State<EventsDetailScreen> {
                     SizedBox(height: 20),
                     Row(
                       children: [
-                        Expanded(child: BaseButton(title: "APPROVE", onPressed: (){})),
+                        Expanded(child: BaseButton(title: "APPROVE", onPressed: (){
+                          BaseDialogs().showOkDialog(title: "Your event approved!");
+                        })),
                         SizedBox(width: 14),
-                        Expanded(child: BaseButton(title: "REJECT", onPressed: (){},isActive: false)),
+                        Expanded(child: BaseButton(title: "REJECT", onPressed: (){
+                          BaseDialogs().showRejectDialog(hintText: "Why are you rejecting this event?");
+                        },isActive: false)),
                       ],
                     )
                   ],

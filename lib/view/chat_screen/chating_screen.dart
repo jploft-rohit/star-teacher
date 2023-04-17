@@ -103,6 +103,14 @@ class _ChatingScreenState extends State<ChatingScreen> {
                       // SizedBox(
                       //   width: 2.w,
                       // ),
+                      GestureDetector(onTap: (){
+
+                      },child: Container(
+                          margin: EdgeInsets.only(right: 4.w,left: 4.w,top: 2.w,bottom: 2.w),
+                          padding: EdgeInsets.all(6),
+                          decoration: BoxDecoration(color: Colors.white,shape: BoxShape.circle,boxShadow: [
+                        BoxShadow(offset: Offset(0,0),spreadRadius: 1,blurRadius: 3,color: Colors.grey.withOpacity(0.8))
+                      ]),child: SvgPicture.asset("assets/images/google_translate.svg"))),
                       InkWell(
                         onTap: (){
                           Get.to(const VideoCallScreen());
@@ -160,7 +168,6 @@ class _ChatingScreenState extends State<ChatingScreen> {
                                   ),
                                   child: Text(ctrl.chatList[index]['msg'], style: Style.montserratMediumStyle().copyWith(fontSize:16.sp, color: BaseColors.textBlackColor, fontWeight: FontWeight.w400),textAlign: TextAlign.center,),
                                 ),
-                                const Icon(Icons.translate_rounded,size: 18,)
                               ],
                             ),
                             SizedBox(
