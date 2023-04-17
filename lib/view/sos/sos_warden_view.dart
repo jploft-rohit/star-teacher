@@ -6,8 +6,8 @@ import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_floating_action_button.dart';
 import 'package:staff_app/Utility/base_tab_button.dart';
 import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:autoscale_tabbarview/autoscale_tabbarview.dart';
@@ -35,13 +35,18 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
       setState(() {});
     });
   }
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: CustomColors.white,
+        backgroundColor: BaseColors.white,
         // backgroundColor: CustomColors.white,
         appBar: const BaseAppBar(title: "SOS"),
         body: Padding(
@@ -52,28 +57,28 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
               children: [
                 Container(
                   decoration: BoxDecoration(
-                      color: CustomColors.backgroundColor,
+                      color: BaseColors.backgroundColor,
                       borderRadius: BorderRadius.circular(4),
-                      border: Border.all(color: CustomColors.backgroundColor)),
+                      border: Border.all(color: BaseColors.backgroundColor)),
                   padding: const EdgeInsets.all(10),
                   // margin: const EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Assembly Point 1',style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp, color: CustomColors.textBlackColor),),
+                      Text('Assembly Point 1',style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp, color: BaseColors.textBlackColor),),
                       // iconButton(() {}, Assets.imagesDropDownArrow)
                     ],
                   ),
                 ),
                 SizedBox(height: 1.8.h,),
-                Text(translate(context).you_are_a_warden,style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: CustomColors.textBlackColor),),
+                Text(translate(context).you_are_a_warden,style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: BaseColors.textBlackColor),),
                 SizedBox(height: 1.3.h,),
                 Container(
                   width: double.infinity,
                   // margin: const EdgeInsets.fromLTRB(20.0,10.0,20.0,0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20.0),
-                    color: CustomColors.textRedColor,
+                    color: BaseColors.textRedColor,
                   ),
                   child: Column(
                     children: [
@@ -82,7 +87,7 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
                       SizedBox(height: 2.0.h),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 12.sp),
-                        child: Text(translate(context).fire_emergency,style: Style.montserratBoldStyle().copyWith(fontSize: 25.sp, color: CustomColors.white),),
+                        child: Text(translate(context).fire_emergency,style: Style.montserratBoldStyle().copyWith(fontSize: 25.sp, color: BaseColors.white),),
                       ),
                       SizedBox(height: 1.3.h),
                     ],
@@ -139,12 +144,12 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
           padding: const EdgeInsets.symmetric(horizontal: 10),
           decoration: BoxDecoration(
               color: controller.selectedPos.value == index
-                  ? CustomColors.backgroundColor
-                  : CustomColors.white,
+                  ? BaseColors.backgroundColor
+                  : BaseColors.white,
               boxShadow: [getBoxShadow()],
               border: controller.selectedPos.value == index
                   ? Border.all(
-                  color: CustomColors.primaryColor, width: 1.5)
+                  color: BaseColors.primaryColor, width: 1.5)
                   : null,
               borderRadius: BorderRadius.circular(15.0)),
           child: Stack(
@@ -154,11 +159,11 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(controller.sosTitlesValue[index],style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 25.sp),),
+                    Text(controller.sosTitlesValue[index],style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 25.sp),),
                     SizedBox(
                       height: 1.h,
                     ),
-                    Text(controller.sosTitles1[index],style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                    Text(controller.sosTitles1[index],style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                   ],
                 ),
               ),
@@ -169,13 +174,13 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
                   padding: const EdgeInsets.all(2),
                   decoration: BoxDecoration(
                       border:
-                      Border.all(color: CustomColors.white, width: 2),
+                      Border.all(color: BaseColors.white, width: 2),
                       shape: BoxShape.circle,
                       boxShadow: [getBoxShadow()],
-                      color: CustomColors.primaryColor),
+                      color: BaseColors.primaryColor),
                   child: Icon(
                     Icons.check,
-                    color: CustomColors.white,
+                    color: BaseColors.white,
                     size: 15.sp,
                   ),
                 ),
@@ -212,12 +217,12 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
               // padding: const EdgeInsets.symmetric(horizontal: 9),
               decoration: BoxDecoration(
                   color: controller.selectedFMOPos.value == index
-                      ? CustomColors.backgroundColor
-                      : CustomColors.white,
+                      ? BaseColors.backgroundColor
+                      : BaseColors.white,
                   boxShadow: [getBoxShadow()],
                   border: controller.selectedFMOPos.value == index
                       ? Border.all(
-                      color: CustomColors.primaryColor, width: 1.5)
+                      color: BaseColors.primaryColor, width: 1.5)
                       : null,
                   borderRadius: BorderRadius.circular(10.0)),
               child: Row(
@@ -228,15 +233,15 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
                     padding: const EdgeInsets.all(2),
                     decoration: BoxDecoration(
                         border: Border.all(
-                            color: CustomColors.white, width: 2),
+                            color: BaseColors.white, width: 2),
                         shape: BoxShape.circle,
                         boxShadow: [getBoxShadow()],
                         color: controller.selectedFMOPos.value == index
-                            ? CustomColors.primaryColor
-                            : CustomColors.borderColor),
+                            ? BaseColors.primaryColor
+                            : BaseColors.borderColor),
                     child: Icon(
                       Icons.check,
-                      color: CustomColors.white,
+                      color: BaseColors.white,
                       size: 16.sp,
                     ),
                   ),
@@ -244,7 +249,7 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
                     controller.fmoImageList[index],
                     height: 30,
                     color: controller.selectedFMOPos.value == index
-                        ? CustomColors.primaryColor
+                        ? BaseColors.primaryColor
                         : null,
                   )
                 ],
@@ -260,7 +265,7 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
         controller.selectedFMOPos.value==0?
         CustomTextField(controller: controller.searchCtrl, hintText: translate(context).search_by_id,
           borderRadius: 15.0,
-          hintTextColor: CustomColors.textLightGreyColor,
+          hintTextColor: BaseColors.textLightGreyColor,
           contentPadding: const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 10.0, right: 10.0),
           prefixIcon: const Padding(
           padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -275,7 +280,7 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
               child: CustomTextField(controller: controller.searchCtrl,
                 borderRadius: 15.0,
                 contentPadding: const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 10.0, right: 10.0),
-                hintTextColor: CustomColors.textLightGreyColor,
+                hintTextColor: BaseColors.textLightGreyColor,
                 hintText: translate(context).search_by_id, prefixIcon: const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.0),
                 child: Icon(
@@ -285,7 +290,7 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
               ), ),
             ),
             SizedBox(width: 2.0.w),
-            SvgPicture.asset(qrCodeSvg,color: CustomColors.textBlackColor,height: 25.sp,),
+            SvgPicture.asset(qrCodeSvg,color: BaseColors.textBlackColor,height: 25.sp,),
           ],
         ),
         SizedBox(
@@ -312,7 +317,7 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15.0),
                         border: Border.all(
-                            color: CustomColors.borderColor
+                            color: BaseColors.borderColor
                         )
                     ),
                     child: Row(
@@ -321,7 +326,7 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
                           padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
                           decoration: BoxDecoration(
                             border: Border.all(
-                                color: CustomColors.primaryColor
+                                color: BaseColors.primaryColor
                             ),
                             borderRadius: BorderRadius.circular(15.0),
                           ),
@@ -332,11 +337,11 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(controller.mapRemaining[remItemIndex]['title'] ?? "", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                              Text(controller.mapRemaining[remItemIndex]['title'] ?? "", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                               SizedBox(
                                 height: .5.h,
                               ),
-                              Text(controller.mapRemaining[remItemIndex]['id'] ?? "", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                              Text(controller.mapRemaining[remItemIndex]['id'] ?? "", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                             ],
                           ),
                         ),
@@ -348,9 +353,9 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
                             height: 21,
                             // padding: EdgeInsets.symmetric(vertical: 0, horizontal: 4),
                             decoration: BoxDecoration(
-                                color: CustomColors.backgroundColor,
+                                color: BaseColors.backgroundColor,
                                 boxShadow: [getBoxShadow()],
-                                border: Border.all(color: CustomColors.borderColor, width: 1.5),
+                                border: Border.all(color: BaseColors.borderColor, width: 1.5),
                                 borderRadius: BorderRadius.circular(30.0)),
                             child: Center(child: Text(translate(context).stamp, style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp),)),
                           ),
@@ -372,7 +377,7 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
                     margin: const EdgeInsets.only(bottom: 10),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15.0),
-                        border: Border.all(color: CustomColors.borderColor)),
+                        border: Border.all(color: BaseColors.borderColor)),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -382,7 +387,7 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10.0),
-                                border: Border.all(color: CustomColors.primaryColor),
+                                border: Border.all(color: BaseColors.primaryColor),
                               ),
                               child: SvgPicture.asset(manSvg,),
                             ),
@@ -392,16 +397,16 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Nawaz Alam', style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp)),
+                                Text('Nawaz Alam', style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp)),
                                 SizedBox(height: 0.4.h),
-                                Text('#632541', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp)),
+                                Text('#632541', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp)),
                                 SizedBox(height: 0.4.h),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 0),
                                   child: Row(
                                     children: [
                                       SvgPicture.asset(locationSvg),
-                                      Text('${controller.mapRemaining[remItemIndex]['assembly no']}', style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                                      Text('${controller.mapRemaining[remItemIndex]['assembly no']}', style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
 
                                     ],
                                   ),
@@ -416,9 +421,9 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
                           height: 21,
                           // padding: EdgeInsets.symmetric(vertical: 0, horizontal: 4),
                           decoration: BoxDecoration(
-                              color: CustomColors.backgroundColor,
+                              color: BaseColors.backgroundColor,
                               boxShadow: [getBoxShadow()],
-                              border: Border.all(color: CustomColors.borderColor, width: 1.5),
+                              border: Border.all(color: BaseColors.borderColor, width: 1.5),
                               borderRadius: BorderRadius.circular(30.0)),
                           child: Center(child: Text(translate(context).change_Status, style: Style.montserratRegularStyle().copyWith(fontSize: 12.sp),)),
                         )
@@ -430,7 +435,7 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
                   margin: const EdgeInsets.only(bottom: 8.0),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
-                      border: Border.all(color: CustomColors.borderColor)),
+                      border: Border.all(color: BaseColors.borderColor)),
                   child: IntrinsicHeight(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -445,7 +450,7 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
                                 padding: EdgeInsets.symmetric(horizontal: 10.sp),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10.0),
-                                  border: Border.all(color: CustomColors.primaryColor),
+                                  border: Border.all(color: BaseColors.primaryColor),
                                 ),
                                 child: SvgPicture.asset(
                                   manSvg,
@@ -455,11 +460,11 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(controller.mapRemaining[remItemIndex]['title'] ?? "", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                                  Text(controller.mapRemaining[remItemIndex]['title'] ?? "", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                                   SizedBox(
                                     height: .5.h,
                                   ),
-                                  Text(controller.mapRemaining[remItemIndex]['id'] ?? "", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                                  Text(controller.mapRemaining[remItemIndex]['id'] ?? "", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                                 ],
                               ),
                             ],
@@ -467,7 +472,7 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
                         ),
                         SizedBox(
                           height: 2.1.h,
-                          child: const VerticalDivider(color: CustomColors.borderColor,),
+                          child: const VerticalDivider(color: BaseColors.borderColor,),
                         ),
                         SizedBox(
                           width: 5.w,
@@ -480,7 +485,7 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
                               SizedBox(
                                 width: 1.w,
                               ),
-                              Text('${controller.mapRemaining[remItemIndex]['assembly no']}', style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                              Text('${controller.mapRemaining[remItemIndex]['assembly no']}', style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                             ],
                           ),
                         ),
@@ -501,7 +506,7 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
         CustomTextField(controller: controller.searchCtrl, hintText: translate(context).search_by_id,
           borderRadius: 15.0,
           contentPadding: const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 10.0, right: 10.0),
-          hintTextColor: CustomColors.textLightGreyColor,
+          hintTextColor: BaseColors.textLightGreyColor,
           prefixIcon: const Padding(
           padding: EdgeInsets.symmetric(horizontal: 10.0),
           child: Icon(
@@ -532,8 +537,8 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
                   margin: const EdgeInsets.only(bottom: 8.0),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15.0),
-                      border: Border.all(color: CustomColors.textRedColor,width: 1.5),
-                      color: CustomColors.white),
+                      border: Border.all(color: BaseColors.textRedColor,width: 1.5),
+                      color: BaseColors.white),
                   child: IntrinsicHeight(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -548,7 +553,7 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
                                 // padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10.0),
-                                  border: Border.all(color: CustomColors.primaryColor),
+                                  border: Border.all(color: BaseColors.primaryColor),
                                 ),
                                 child: SvgPicture.asset(
                                   manSvg,
@@ -558,11 +563,11 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(controller.mapRemaining[remItemIndex]['title'] ?? "", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                                  Text(controller.mapRemaining[remItemIndex]['title'] ?? "", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                                   SizedBox(
                                     height: .5.h,
                                   ),
-                                  Text(controller.mapRemaining[remItemIndex]['id'] ?? "", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                                  Text(controller.mapRemaining[remItemIndex]['id'] ?? "", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                                 ],
                               ),
                             ],
@@ -570,7 +575,7 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
                         ),
                         SizedBox(
                           height: 2.1.h,
-                          child: const VerticalDivider(color: CustomColors.borderColor,),
+                          child: const VerticalDivider(color: BaseColors.borderColor,),
                         ),
                         SizedBox(
                           width: 10.w,
@@ -579,12 +584,12 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
                           padding: const EdgeInsets.symmetric(horizontal: 10.0),
                           child: Column(mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(translate(context).reported_location, style: Style.montserratRegularStyle().copyWith(fontSize: 13.sp, color: CustomColors.textLightGreyColor),),
+                              Text(translate(context).reported_location, style: Style.montserratRegularStyle().copyWith(fontSize: 13.sp, color: BaseColors.textLightGreyColor),),
                               SizedBox(height: 0.4.h),
                               Row(
                                 children: [
                                   SvgPicture.asset(locationSvg),SizedBox(width: 0.6.h),
-                                  Text(controller.mapRemaining[remItemIndex]['Reported Location'].toString(),style: Style.montserratRegularStyle().copyWith(fontSize: 13.sp, color: CustomColors.textLightGreyColor),),
+                                  Text(controller.mapRemaining[remItemIndex]['Reported Location'].toString(),style: Style.montserratRegularStyle().copyWith(fontSize: 13.sp, color: BaseColors.textLightGreyColor),),
                                 ],
                               )
                             ],

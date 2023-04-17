@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -63,7 +63,7 @@ class _SelectStarPopupState extends State<SelectStarPopup> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.0),
                     border: Border.all(
-                      color: CustomColors.borderColor
+                      color: BaseColors.borderColor
                     ),
                   ),
                   child: Column(
@@ -93,7 +93,7 @@ class _SelectStarPopupState extends State<SelectStarPopup> {
                             Container(
                               width: 1,
                               height: 25,
-                              color: CustomColors.borderColor,
+                              color: BaseColors.borderColor,
                             ),
                             Flexible(
                               flex: 1,
@@ -121,7 +121,7 @@ class _SelectStarPopupState extends State<SelectStarPopup> {
                       CustomTextField(
                         controller: searchCtrl,
                         hintText: translate(context).search_by_id,
-                        hintTextColor: CustomColors.textLightGreyColor,
+                        hintTextColor: BaseColors.textLightGreyColor,
                         borderColor: Colors.transparent,
                         contentPadding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
                         prefixIcon: Padding(
@@ -147,10 +147,10 @@ class _SelectStarPopupState extends State<SelectStarPopup> {
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                            color: selectedFMOPos == index ? CustomColors.backgroundColor : Colors.transparent,
+                            color: selectedFMOPos == index ? BaseColors.backgroundColor : Colors.transparent,
                               borderRadius: BorderRadius.circular(15.0),
                               border: Border.all(
-                                  color: CustomColors.borderColor
+                                  color: BaseColors.borderColor
                               )
                           ),
                           child: Row(
@@ -162,7 +162,7 @@ class _SelectStarPopupState extends State<SelectStarPopup> {
                                     padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
                                     decoration: BoxDecoration(
                                       border: Border.all(
-                                          color: CustomColors.primaryColor
+                                          color: BaseColors.primaryColor
                                       ),
                                       borderRadius: BorderRadius.circular(15.0),
                                     ),
@@ -173,11 +173,11 @@ class _SelectStarPopupState extends State<SelectStarPopup> {
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text("Abdul Khan", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                                        Text("Abdul Khan", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                                         SizedBox(
                                           height: .5.h,
                                         ),
-                                        Text("#632541", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                                        Text("#632541", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                                       ],
                                     ),
                                   ),
@@ -192,8 +192,8 @@ class _SelectStarPopupState extends State<SelectStarPopup> {
                                   // padding: const EdgeInsets.symmetric(horizontal: 9),
                                   decoration: BoxDecoration(
                                       color: selectedFMOPos == index
-                                          ? CustomColors.backgroundColor
-                                          : CustomColors.borderColor,
+                                          ? BaseColors.backgroundColor
+                                          : BaseColors.borderColor,
                                       boxShadow: [getLightBoxShadow()],
                                       border: selectedFMOPos == index
                                           ? Border.all(
@@ -206,11 +206,11 @@ class _SelectStarPopupState extends State<SelectStarPopup> {
                                         shape: BoxShape.circle,
                                         boxShadow: [getLightBoxShadow()],
                                         color: selectedFMOPos == index
-                                            ? CustomColors.primaryColor
-                                            : CustomColors.borderColor
+                                            ? BaseColors.primaryColor
+                                            : BaseColors.borderColor
                                     ),
                                     child: Center(
-                                      child: Icon(Icons.check, color: CustomColors.white,
+                                      child: Icon(Icons.check, color: BaseColors.white,
                                           size: 16.sp),
                                     ),
                                   ),

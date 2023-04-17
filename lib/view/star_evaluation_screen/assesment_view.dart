@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -27,22 +27,22 @@ class _AssesmentViewState extends State<AssesmentView> {
       children: [
         Row(
           children: [
-            addText("${translate(context).assessment_score}: ", 14.sp, CustomColors.textBlackColor, FontWeight.w400),
+            addText("${translate(context).assessment_score}: ", 14.sp, BaseColors.textBlackColor, FontWeight.w400),
             SizedBox(
               width: 1.w,
             ),
             Container(
               padding: EdgeInsets.only(left: 15.sp, right: 15.sp,),
               decoration: BoxDecoration(
-                  border: Border.all(color: CustomColors.borderColor),
+                  border: Border.all(color: BaseColors.borderColor),
                   borderRadius: BorderRadius.circular(6.0)
               ),
               child: Row(
                 children: [
                   Row(
                     children: [
-                      addText("100", 15.sp, CustomColors.textRedColor, FontWeight.w700),
-                      addText(" (max)", 14.sp, CustomColors.textLightGreyColor, FontWeight.w500),
+                      addText("100", 15.sp, BaseColors.textRedColor, FontWeight.w700),
+                      addText(" (max)", 14.sp, BaseColors.textLightGreyColor, FontWeight.w500),
                     ],
                   ),
                 ],
@@ -68,7 +68,7 @@ class _AssesmentViewState extends State<AssesmentView> {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
                       border: Border.all(
-                          color: CustomColors.borderColor
+                          color: BaseColors.borderColor
                       )
                   ),
                   child: Row(
@@ -81,7 +81,7 @@ class _AssesmentViewState extends State<AssesmentView> {
                             padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
                             decoration: BoxDecoration(
                               border: Border.all(
-                                  color: CustomColors.primaryColor
+                                  color: BaseColors.primaryColor
                               ),
                               borderRadius: BorderRadius.circular(15.0),
                             ),
@@ -95,14 +95,14 @@ class _AssesmentViewState extends State<AssesmentView> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                addText("Najma Suheil", 16.sp, CustomColors.primaryColor, FontWeight.w700),
+                                addText("Najma Suheil", 16.sp, BaseColors.primaryColor, FontWeight.w700),
                                 SizedBox(
                                   height: 1.h,
                                 ),
                                 Row(
                                   children: [
-                                    addText("ID: ", 14.sp, CustomColors.textBlackColor, FontWeight.w700),
-                                    addText("#632541", 14.sp, CustomColors.primaryColor, FontWeight.w700),
+                                    addText("ID: ", 14.sp, BaseColors.textBlackColor, FontWeight.w700),
+                                    addText("#632541", 14.sp, BaseColors.primaryColor, FontWeight.w700),
                                   ],
                                 ),
                               ],
@@ -113,10 +113,10 @@ class _AssesmentViewState extends State<AssesmentView> {
                       Container(
                         padding: EdgeInsets.only(left: 15.sp, right: 15.sp, top: 2, bottom: 2),
                         decoration: BoxDecoration(
-                            border: Border.all(color: CustomColors.primaryColor),
+                            border: Border.all(color: BaseColors.primaryColor),
                             borderRadius: BorderRadius.circular(6.0)
                         ),
-                        child: addText("100", 16.sp, CustomColors.primaryColor, FontWeight.w700),
+                        child: addText("100", 16.sp, BaseColors.primaryColor, FontWeight.w700),
                       ),
                     ],
                   ),

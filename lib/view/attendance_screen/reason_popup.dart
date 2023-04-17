@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -89,7 +89,7 @@ class _ReasonPopupState extends State<ReasonPopup> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5.0),
                               border: Border.all(
-                                color: CustomColors.txtFiledBorderColor
+                                color: BaseColors.txtFiledBorderColor
                               )
                             ),
                             alignment: Alignment.center,

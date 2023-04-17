@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
-import 'package:staff_app/Utility/custom_dialogs.dart';
+import 'package:staff_app/Utility/base_button.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/Utility/base_dialogs.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/complaints_report_screen/add_comment_popup.dart';
 import 'package:staff_app/view/complaints_report_screen/raise_complaint_report_screen.dart';
 
@@ -45,18 +47,18 @@ class _AllComplaintsViewState extends State<AllComplaintsView> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      addText("Behavior is not good", 16.sp, CustomColors.textBlackColor, FontWeight.w700),
+                      addText("Behavior is not good", 16.sp, BaseColors.textBlackColor, FontWeight.w700),
                       Row(
                         children: [
                           GestureDetector(
                             onTap: (){
-                              CustomDialogs().showConfirmationDialog(
+                              BaseDialogs().showConfirmationDialog(
                                   title: "Are you sure you want to delete this Complaint?",
                               );
                             },
                             child: Icon(
                               CupertinoIcons.delete,
-                              color: CustomColors.primaryColor,
+                              color: BaseColors.primaryColor,
                               size: 18.sp,
                             ),
                           ),
@@ -67,7 +69,7 @@ class _AllComplaintsViewState extends State<AllComplaintsView> {
                             onTap: (){
                               Get.to(RaiseComplaintReportScreen(isUpdating: true));
                             },
-                            child: Image.asset(editPng, color: CustomColors.primaryColor,height: 18.sp,),
+                            child: Image.asset(editPng, color: BaseColors.primaryColor,height: 18.sp,),
                           ),
                         ],
                       ),
@@ -80,9 +82,9 @@ class _AllComplaintsViewState extends State<AllComplaintsView> {
                       SizedBox(
                         width: 2.w,
                       ),
-                      addText("Star :", 15.sp, CustomColors.textBlackColor, FontWeight.w400),
+                      addText("Star :", 15.sp, BaseColors.textBlackColor, FontWeight.w400),
                       const SizedBox(width: 3),
-                      addText("Najma Suheil", 15.sp, CustomColors.primaryColor, FontWeight.w600),
+                      addText("Najma Suheil", 15.sp, BaseColors.primaryColor, FontWeight.w600),
                     ],
                   ),
                   const Divider(),
@@ -92,7 +94,7 @@ class _AllComplaintsViewState extends State<AllComplaintsView> {
                       SizedBox(
                         width: 2.w,
                       ),
-                      addText("01/03/2022", 15.sp, CustomColors.textBlackColor, FontWeight.w400),
+                      addText("01/03/2022", 15.sp, BaseColors.textBlackColor, FontWeight.w400),
                       SizedBox(
                         width: 10.w,
                       ),
@@ -100,7 +102,7 @@ class _AllComplaintsViewState extends State<AllComplaintsView> {
                       SizedBox(
                         width: 2.w,
                       ),
-                      addText("09:13pm", 15.sp, CustomColors.textBlackColor, FontWeight.w400),
+                      addText("09:13pm", 15.sp, BaseColors.textBlackColor, FontWeight.w400),
                     ],
                   ),
                   const Divider(),
@@ -155,10 +157,31 @@ class _AllComplaintsViewState extends State<AllComplaintsView> {
                       SizedBox(
                         width: 2.w,
                       ),
-                      Flexible(child: buildInfoItems("Description", "Please upload the feedback of all the stars in suggested class into the excel worksheet."))
+                      Flexible(child: buildInfoItems("Comment", "Please upload the feedback of all the stars in suggested class into the excel worksheet."))
                     ],
                   ),
-                  const Divider(),
+                  Visibility(visible: index != 0,child: const Divider()),
+                  Visibility(
+                    visible: index != 0,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SvgPicture.asset("assets/images/report.svg"),
+                        SizedBox(
+                          width: 2.w,
+                        ),
+                        Flexible(child: buildInfoItems("Feedback", "Please upload the feedback of all the stars in suggested class into the excel worksheet."))
+                      ],
+                    ),
+                  ),
+                  Divider(height: 3.h),
+                  Row(
+                    children: [
+                      Expanded(child: BaseButton(title: translate(context).accept.toUpperCase(), onPressed: (){},rightMargin: 1.5.w,isActive: false,)),
+                      Expanded(child: BaseButton(title: translate(context).comment.toUpperCase(), onPressed: (){},leftMargin: 1.5.w,)),
+                    ],
+                  ),
+                  // const Divider(),
                   // Row(
                   //   crossAxisAlignment: CrossAxisAlignment.start,
                   //   children: [
@@ -211,7 +234,7 @@ class _AllComplaintsViewState extends State<AllComplaintsView> {
                   StepProgressView(
                     width: MediaQuery.of(context).size.width,
                     curStep: index+1,
-                    color: CustomColors.primaryColor,
+                    color: BaseColors.primaryColor,
                     titles: pendingMeetingdates,
                     statuses: heading,
                   ),

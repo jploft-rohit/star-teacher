@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/account_activation_screen/rules_screen2.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/route_manager/route_name.dart';
 
@@ -19,13 +20,13 @@ class _RulesScreenState extends State<RulesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.white,
+      backgroundColor: BaseColors.white,
       bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
             padding: EdgeInsets.symmetric(vertical: 18.sp,horizontal: 15.sp),
-            color: CustomColors.backgroundColor,
+            color: BaseColors.backgroundColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -37,29 +38,30 @@ class _RulesScreenState extends State<RulesScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     width: 40.w,
                     decoration: BoxDecoration(
-                        color: CustomColors.white,
-                        border: Border.all(color: CustomColors.borderColor),
+                        color: BaseColors.white,
+                        border: Border.all(color: BaseColors.borderColor),
                         borderRadius: BorderRadius.circular(50.0)
                     ),
                     alignment: Alignment.center,
-                    child: Text(translate(context).decline, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
+                    child: Text(translate(context).decline, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
                   ),
                 ),
 
 
                 GestureDetector(
                   onTap: () {
-                    Get.toNamed(dashboardScreenRoute);
+
+                    Get.to(RulesScreen2());
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     width: 40.w,
                     decoration: BoxDecoration(
-                        border: Border.all(color: CustomColors.primaryColor),
+                        border: Border.all(color: BaseColors.primaryColor),
                         borderRadius: BorderRadius.circular(50.0)
                     ),
                     alignment: Alignment.center,
-                    child: Text(translate(context).agree, style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),),
+                    child: Text(translate(context).agree, style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                   ),
                 )
 
@@ -92,9 +94,9 @@ class _RulesScreenState extends State<RulesScreen> {
                       children: [
                         Checkbox(
                           checkColor: Colors.white,
-                          activeColor: CustomColors.primaryColor,
+                          activeColor: BaseColors.primaryColor,
                           value: isRulesChecked,
-                          side: const BorderSide(color: CustomColors.primaryColor),
+                          side: const BorderSide(color: BaseColors.primaryColor),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(3),
                           ),
@@ -103,7 +105,7 @@ class _RulesScreenState extends State<RulesScreen> {
                             setState(() {});
                           },
                         ),
-                        Expanded(child: Text('I have read all the terms and responsibility guidelines and I agree to all of them.', style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),)
+                        Expanded(child: Text('I have read all the terms and responsibility guidelines and I agree to all of them.', style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),)
                       ],
                     ),
                   ],
@@ -116,7 +118,7 @@ class _RulesScreenState extends State<RulesScreen> {
     );
   }
   Widget buildTitle(String text){
-    return Text(text, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 17.sp, height: 1.5),);
+    return Text(text, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 17.sp, height: 1.5),);
   }
   Widget buildSubtitle(String text){
     return Text(text, style: Style.montserratMediumStyle().copyWith(color: const Color(0xff454545), fontSize: 15.sp, height: 1.5),);

@@ -4,10 +4,10 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
-import 'package:staff_app/Utility/custom_dialogs.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/Utility/base_dialogs.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -54,7 +54,7 @@ class _MyProfileViewState extends State<MyProfileView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.backgroundColor,
+      backgroundColor: BaseColors.backgroundColor,
       appBar: const BaseAppBar(),
       body: SafeArea(
           bottom: false,
@@ -75,7 +75,7 @@ class _MyProfileViewState extends State<MyProfileView> {
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(20.0),
                                 border: Border.all(
-                                    color: CustomColors.primaryColor)),
+                                    color: BaseColors.primaryColor)),
                             child: SvgPicture.asset(
                               manSvg,
                               height: 10.h,
@@ -97,7 +97,7 @@ class _MyProfileViewState extends State<MyProfileView> {
                         borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(30),
                             topRight: Radius.circular(30)),
-                        color: CustomColors.white,
+                        color: BaseColors.white,
                         // color: Colors.red,
                         boxShadow: [getBoxShadow()]),
                     child: SingleChildScrollView(
@@ -115,9 +115,9 @@ class _MyProfileViewState extends State<MyProfileView> {
                                   const SizedBox()
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 25.0),
-                                child: BaseButton(btnType: smallButton,borderRadius: 100,title: translate(context).change,textSize: 11, onPressed: () {
-                                  CustomDialogs().showOtpDialog();
+                                padding: const EdgeInsets.only(bottom: 25),
+                                child: BaseButton(removeHorizontalPadding: true,btnType: smallButton,borderRadius: 100,title: translate(context).change,textSize: 11, onPressed: () {
+                                  BaseDialogs().showOtpDialog();
                                 }),
                               )
                             ],
@@ -165,7 +165,7 @@ class _MyProfileViewState extends State<MyProfileView> {
                               Container(
                                 height: 20.0,
                                 width: 1,
-                                color: CustomColors.borderColor,
+                                color: BaseColors.borderColor,
                               ),
                               SizedBox(
                                 width: 10.w,
@@ -194,7 +194,7 @@ class _MyProfileViewState extends State<MyProfileView> {
                             ],
                           ),
                         const Divider(
-                          color: CustomColors.borderColor,
+                          color: BaseColors.borderColor,
                           thickness: 1.0,
                         ),
                           SizedBox(
@@ -204,7 +204,7 @@ class _MyProfileViewState extends State<MyProfileView> {
                               translate(context).upload_document,
                               TextEditingController(),
                               iconButton(() {}, uploadDocSvg)),
-                          Text("${translate(context).upload_your_doc_till} 25 July, 2022", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textRedColor, fontSize: 14.sp),),
+                          Text("${translate(context).upload_your_doc_till} 25 July, 2022", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textRedColor, fontSize: 14.sp),),
                           SizedBox(height: 3.0.h),
                           BaseButton(title: translate(context).save, onPressed: (){}),
                           SizedBox(height: 3.0.h),
@@ -219,13 +219,13 @@ class _MyProfileViewState extends State<MyProfileView> {
   Widget addPrimaryColorEditText(
       TextEditingController controller, String hintText, Widget suffixIcon) {
     return TextFormField(
-      cursorColor: CustomColors.primaryColor,
+      cursorColor: BaseColors.primaryColor,
       keyboardType: TextInputType.multiline,
       controller: controller,
       textInputAction: TextInputAction.next,
       style: TextStyle(
           fontSize: 15.sp,
-          color: CustomColors.primaryColor,
+          color: BaseColors.primaryColor,
           fontWeight: FontWeight.w500),
       decoration: InputDecoration(
         isDense: true,
@@ -243,7 +243,7 @@ class _MyProfileViewState extends State<MyProfileView> {
       children: [
         addPrimaryColorEditText(controller, title, suffixIcon),
         const Divider(
-          color: CustomColors.borderColor,
+          color: BaseColors.borderColor,
           thickness: 1.0,
         ),
         if(title != translate(context).upload_document)

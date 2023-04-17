@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -30,7 +30,7 @@ class _DayScheduleViewState extends State<DayScheduleView> {
                 physics: const NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  return Center(child: Text("Monday, 22/05/2022", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp),));
+                  return Center(child: Text("Monday, 22/05/2022", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),));
                 },
               ),
             ),
@@ -44,7 +44,7 @@ class _DayScheduleViewState extends State<DayScheduleView> {
                 icon: Icon(
                   Icons.arrow_back_ios,
                   size: 18.sp,
-                  color: CustomColors.primaryColor,
+                  color: BaseColors.primaryColor,
                 ),
               ),
             ),
@@ -58,7 +58,7 @@ class _DayScheduleViewState extends State<DayScheduleView> {
                 icon: Icon(
                   Icons.arrow_forward_ios,
                   size: 18.sp,
-                  color: CustomColors.primaryColor,
+                  color: BaseColors.primaryColor,
                 ),
               ),
             )
@@ -87,13 +87,13 @@ class _DayScheduleViewState extends State<DayScheduleView> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.0),
                   border: Border.all(
-                    color: CustomColors.borderColor,
+                    color: BaseColors.borderColor,
                   ),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Flexible(
+                    Expanded(
                       flex: 1,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,7 +114,7 @@ class _DayScheduleViewState extends State<DayScheduleView> {
                         ],
                       ),
                     ),
-                    Flexible(
+                    Expanded(
                       flex: 1,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -122,7 +122,7 @@ class _DayScheduleViewState extends State<DayScheduleView> {
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text(translate(context).start_time, style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor,fontSize: 14.sp),),
+                              Text(translate(context).start_time, style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor,fontSize: 14.sp),),
                               SizedBox(
                                 width: 2.w,
                               ),
@@ -130,7 +130,7 @@ class _DayScheduleViewState extends State<DayScheduleView> {
                               SizedBox(
                                 width: 2.w,
                               ),
-                              Text("09:00AM", style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor,fontSize: 15.sp),),
+                              Text("09:00AM", style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor,fontSize: 15.sp),),
                             ],
                           ),
                           SizedBox(
@@ -141,7 +141,7 @@ class _DayScheduleViewState extends State<DayScheduleView> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(right: 3.0),
-                                child: Text(translate(context).end_time, style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor,fontSize: 14.sp),),
+                                child: Text(translate(context).end_time, style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor,fontSize: 14.sp),),
                               ),
                               SizedBox(
                                 width: 2.w,
@@ -150,18 +150,21 @@ class _DayScheduleViewState extends State<DayScheduleView> {
                               SizedBox(
                                 width: 2.w,
                               ),
-                              Text("09:00AM", style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor,fontSize: 15.sp),),
+                              Text("09:00AM", style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor,fontSize: 15.sp),),
                             ],
                           ),
                           SizedBox(
                             height: 1.h,
                           ),
-                          Align(alignment: AlignmentDirectional.centerEnd,
-                                child: BaseButton(verticalPadding: 1.h,removeHorizontalPadding: true,btnType: mediumLargeButton,title: translate(context).notify_admin, onPressed: (){
-                                  showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation) {
-                                    return const NotifyAuthorityPopup();
-                                  });
-                                },textSize: 14.sp)),
+                          SizedBox(
+                            width: 150,
+                            height: 29,
+                            child: BaseButton(btnType: mediumButton,verticalPadding: 0.0,removeHorizontalPadding: true,title: translate(context).notify_admin, onPressed: (){
+                              showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation) {
+                                return const NotifyAuthorityPopup();
+                              });
+                            },textSize: 14.sp),
+                          ),
                         ],
                       ),
                     ),

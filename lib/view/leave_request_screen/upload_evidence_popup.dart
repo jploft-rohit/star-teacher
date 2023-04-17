@@ -3,7 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
+import 'package:staff_app/Utility/base_textformfield.dart';
+
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -39,7 +40,6 @@ class _UploadEvidencePopupState extends State<UploadEvidencePopup> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -56,44 +56,33 @@ class _UploadEvidencePopupState extends State<UploadEvidencePopup> {
                 SizedBox(
                   height: 3.h,
                 ),
-                CustomTextField(controller: titleCtrl,
-                    hintText: translate(context).reason),
-                SizedBox(
-                  height: 1.h,
+                BaseTextFormField(
+                    controller: titleCtrl,
+                    hintText: translate(context).reason,
+                    bottomMargin: 1.h,
                 ),
-                CustomTextField(controller: titleCtrl,
-                  readOnly: true,
+                BaseTextFormField(
+                  controller: titleCtrl,
+                  suffixIcon: calenderDateSvg,
+                  hintText: translate(context).from_date,
                   onTap: (){
                     selectDate(context);
                   },
-                  hintText: translate(context).from_date, suffixIcon: Padding(
-                  padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                  child: SvgPicture.asset(calenderDateSvg,),
-                ),),
-                SizedBox(
-                  height: 1.h,
+                  bottomMargin: 1.h,
                 ),
-                CustomTextField(controller: titleCtrl,
-                  readOnly: true,
+                BaseTextFormField(
+                  controller: titleCtrl,
+                  hintText: translate(context).to_date,
+                  suffixIcon: calenderDateSvg,
+                  bottomMargin: 1.h,
                   onTap: (){
                     selectDate(context);
                   },
-                  hintText: translate(context).to_date, suffixIcon: Padding(
-                  padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                  child: SvgPicture.asset(calenderDateSvg,),
-                ),),
-                SizedBox(
-                  height: 1.h,
                 ),
-                CustomTextField(controller: titleCtrl,
+                BaseTextFormField(controller: titleCtrl,
                   hintText: translate(context).upload_file,
-                  suffixIcon: Padding(
-                  padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                  child: SvgPicture.asset("assets/images/upload_icon.svg",),
-                ),),
-                SizedBox(
-                  height: 3.h,
-                ),
+                  bottomMargin: 3.h,
+                  suffixIcon: "assets/images/upload_icon.svg"),
                 BaseButton(btnType: dialogButton,title: translate(context).submit_btn_txt, onPressed: (){
                   Get.back();
                 })

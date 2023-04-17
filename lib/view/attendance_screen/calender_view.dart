@@ -8,8 +8,8 @@ import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_tab_bar.dart';
 import 'package:staff_app/Utility/base_tab_button.dart';
 import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -34,6 +34,11 @@ class _CalenderViewState extends State<CalenderView> with SingleTickerProviderSt
     });
   }
   @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     final calendarCarouselNoHeader = CalendarCarousel<Event>(
       onDayPressed: (date, events) {},
@@ -41,11 +46,11 @@ class _CalenderViewState extends State<CalenderView> with SingleTickerProviderSt
       showOnlyCurrentMonthDate: false,
 
       weekendTextStyle: TextStyle(
-          color: CustomColors.primaryColor,
+          color: BaseColors.primaryColor,
           fontWeight: FontWeight.normal,
           fontSize: 16),
       daysTextStyle: TextStyle(
-          color: CustomColors.textBlackColor,
+          color: BaseColors.textBlackColor,
           fontWeight: FontWeight.normal,
           fontSize: 16),
       // thisMonthDayBorderColor: Colors.grey,
@@ -59,19 +64,19 @@ class _CalenderViewState extends State<CalenderView> with SingleTickerProviderSt
 
       leftButtonIcon: Icon(
         Icons.arrow_back_ios,
-        color: CustomColors.primaryColor,
+        color: BaseColors.primaryColor,
         size: 2.h,
       ),
       rightButtonIcon: Icon(
         Icons.arrow_forward_ios,
-        color: CustomColors.primaryColor,
+        color: BaseColors.primaryColor,
         size: 2.h,
       ),
       // markedDateMoreCustomTextStyle: const TextStyle(color: CustomColors.white),
       // markedDateMoreCustomDecoration: const BoxDecoration(color: CustomColors.gretTextColor, shape: BoxShape.circle),
       // markedDateCustomShapeBorder: const CircleBorder(side: BorderSide(color: CustomColors.blue,strokeAlign: StrokeAlign.inside)),
       markedDateCustomTextStyle: const TextStyle(
-          color: CustomColors.textBlackColor,
+          color: BaseColors.textBlackColor,
           fontWeight: FontWeight.normal,
           fontSize: 16),
       // markedDateShowIcon: true,
@@ -82,37 +87,37 @@ class _CalenderViewState extends State<CalenderView> with SingleTickerProviderSt
       markedDateMoreShowTotal: true,
       showHeader: true,
       headerTextStyle: TextStyle(
-          color: CustomColors.textBlackColor,
+          color: BaseColors.textBlackColor,
           fontWeight: FontWeight.bold,
           fontSize: 1.9.h),
       showHeaderButton: true,
       weekDayFormat: WeekdayFormat.narrow,
       todayTextStyle: TextStyle(
-          color: CustomColors.textBlackColor,
+          color: BaseColors.textBlackColor,
           fontWeight: FontWeight.normal,
           fontSize: 16),
       todayButtonColor: Colors.transparent,
       todayBorderColor: Colors.transparent,
       selectedDayTextStyle: TextStyle(
-          color: CustomColors.textLightGreyColor,
+          color: BaseColors.textLightGreyColor,
           fontWeight: FontWeight.normal,
           fontSize: 16),
       minSelectedDate: DateTime.now().subtract(const Duration(days: 360)),
       maxSelectedDate: DateTime.now().add(const Duration(days: 360)),
       prevDaysTextStyle: TextStyle(
-          color: CustomColors.textLightGreyColor,
+          color: BaseColors.textLightGreyColor,
           fontWeight: FontWeight.normal,
           fontSize: 16),
       nextDaysTextStyle: TextStyle(
-          color: CustomColors.textLightGreyColor,
+          color: BaseColors.textLightGreyColor,
           fontWeight: FontWeight.normal,
           fontSize: 16),
       weekdayTextStyle: TextStyle(
-          color: CustomColors.primaryColor,
+          color: BaseColors.primaryColor,
           fontWeight: FontWeight.normal,
           fontSize: 16),
       inactiveDaysTextStyle: TextStyle(
-          color: CustomColors.textLightGreyColor,
+          color: BaseColors.textLightGreyColor,
           fontWeight: FontWeight.normal,
           fontSize: 16),
       onCalendarChanged: (DateTime date) {},
@@ -135,7 +140,7 @@ class _CalenderViewState extends State<CalenderView> with SingleTickerProviderSt
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(15.0),
                     border: Border.all(
-                        color: CustomColors.borderColor
+                        color: BaseColors.borderColor
                     )
                 ),
                 child: ListTile(
@@ -146,7 +151,7 @@ class _CalenderViewState extends State<CalenderView> with SingleTickerProviderSt
                     padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
                     decoration: BoxDecoration(
                       border: Border.all(
-                          color: CustomColors.primaryColor
+                          color: BaseColors.primaryColor
                       ),
                       borderRadius: BorderRadius.circular(15.0),
                     ),
@@ -155,15 +160,15 @@ class _CalenderViewState extends State<CalenderView> with SingleTickerProviderSt
                   title: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Nawaj Alam", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                      Text("Nawaj Alam", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                       SizedBox(
                         height: 2.0,
                       ),
-                      Text("#12344534", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                      Text("#12344534", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                       SizedBox(
                         height: 2.0,
                       ),
-                      Text("English Teacher", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                      Text("English Teacher", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                     ],
                   ),
                   trailing: SvgPicture.asset(qrCodeSvg),
@@ -193,15 +198,15 @@ class _CalenderViewState extends State<CalenderView> with SingleTickerProviderSt
                     ),
                     Row(
                       children: [
-                        buildColors(CustomColors.textLightGreyColor, translate(context).absent),
+                        buildColors(BaseColors.textLightGreyColor, translate(context).absent),
                         SizedBox(
                           width: 6.w,
                         ),
-                        buildColors(CustomColors.lightBlueColor, translate(context).late),
+                        buildColors(BaseColors.lightBlueColor, translate(context).late),
                         SizedBox(
                           width: 6.w,
                         ),
-                        buildColors(CustomColors.primaryColor, translate(context).holiday),
+                        buildColors(BaseColors.primaryColor, translate(context).holiday),
                       ],
                     ),
                     calendarCarouselNoHeader

@@ -5,12 +5,13 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_tab_button.dart';
 import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/change_status_popup.dart';
+import 'package:staff_app/view/wallet/sub_screens/topup_record_dialog.dart';
 import 'package:staff_app/view/wallet/sub_screens/topup_your_famaily_popup.dart';
 import 'package:staff_app/view/wallet/sub_screens/transaction_history_popup.dart';
 import 'package:staff_app/view/wallet/wallet_controller.dart';
@@ -33,6 +34,11 @@ class _PurchasesViewState extends State<PurchasesView> with SingleTickerProvider
     });
     super.initState();
   }
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +48,6 @@ class _PurchasesViewState extends State<PurchasesView> with SingleTickerProvider
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 2.h),
             Container(
               width: 100.w,
               padding: const EdgeInsets.all(15),
@@ -51,9 +56,9 @@ class _PurchasesViewState extends State<PurchasesView> with SingleTickerProvider
                   BoxShadow(
                       color: Colors.black.withOpacity(0.25), blurRadius: 2)
                 ],
-                color: CustomColors.backgroundColor,
+                color: BaseColors.backgroundColor,
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: CustomColors.primaryColor),
+                border: Border.all(color: BaseColors.primaryColor),
               ),
               child: Column(
                 children: [
@@ -65,10 +70,10 @@ class _PurchasesViewState extends State<PurchasesView> with SingleTickerProvider
                       SvgPicture.asset(coinSvg),
                       Column(
                         children: [
-                          Text(translate(context).balance, style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: 20.sp),),
+                          Text(translate(context).balance, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 20.sp),),
                           SizedBox(height: 1.h),
                           Obx(
-                            () => Text('${controller.walletBalance.value} AED', style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor,fontSize: 21.sp),),
+                            () => Text('${controller.walletBalance.value} AED', style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor,fontSize: 21.sp),),
                           ),
                           SizedBox(height: 2.h),
                         ],
@@ -78,8 +83,8 @@ class _PurchasesViewState extends State<PurchasesView> with SingleTickerProvider
                         decoration: BoxDecoration(
                             boxShadow: kElevationToShadow[3],
                             borderRadius: BorderRadius.circular(30),
-                            color: CustomColors.backgroundColor,
-                            border: Border.all(color: CustomColors.primaryColor)),
+                            color: BaseColors.backgroundColor,
+                            border: Border.all(color: BaseColors.primaryColor)),
                         child: Material(
                           color: Colors.transparent,
                           child: InkWell(
@@ -94,7 +99,7 @@ class _PurchasesViewState extends State<PurchasesView> with SingleTickerProvider
                             },
                             child: Icon(
                               Icons.add,
-                              color: CustomColors.primaryColor,
+                              color: BaseColors.primaryColor,
                               size: 5.0.h,
                             ),
                           ),
@@ -124,18 +129,12 @@ class _PurchasesViewState extends State<PurchasesView> with SingleTickerProvider
             AutoScaleTabBarView(
               controller: tabController,
                 children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                    color: CustomColors.backgroundColor,
-                    borderRadius: BorderRadius.circular(15)),
-                child: ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) => buildTransactionItem(context, index),
-                  itemCount: controller.purchasesList.length,
-                ),
+              ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                itemBuilder: (context, index) => buildTransactionItem(context, index),
+                itemCount: controller.purchasesList.length,
               ),
               ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
@@ -165,60 +164,86 @@ class _PurchasesViewState extends State<PurchasesView> with SingleTickerProvider
                   },
                 );
               },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Image.asset(
-                        controller.purchasesList[index]['image']!,
-                        fit: BoxFit.scaleDown,
-                        height: 5.h,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 15.0),
+                child: Stack(
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  alignment: Alignment.centerRight,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(right: 3.w),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: BaseColors.greyColor)),
+                      child: IntrinsicHeight(
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(12.0,8,8,8),
+                              child: Image.asset(Get.find<WalletController>().purchasesList[index]['image']!,height: 60,),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(width: 2.w),
+                                Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Cookies', style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: BaseColors.textBlackColor)),
+                                    const SizedBox(height: 4),
+                                    Text('#632541', style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.primaryColor)),
+                                    const SizedBox(height: 3),
+                                    Text('Purchase (Cookies)', style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
+                                    const SizedBox(height: 2),
+                                    Text.rich(TextSpan(children: [
+                                      TextSpan(text: "2 AED",style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
+                                      const WidgetSpan(child: SizedBox(width: 2)),
+                                      TextSpan(text: "Sent",style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: Colors.blue,fontWeight: FontWeight.w400)),
+                                    ])),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            const Spacer(),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 35),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text('20/10/2022', style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
+                                  const SizedBox(height: 8),
+                                  Text('09:00:30pm', style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      SizedBox(width: 1.h),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(controller.isTopUpRecord.value ? "**** **** **** 9890" : 'Purchases', style: Style.montserratRegularStyle().copyWith(fontSize: 15.sp, color: CustomColors.textBlackColor),),
-                              // SizedBox(width: 0.5.h),
-                              Text(
-                                '(${controller.purchasesList[index]['item']})',
-                                style: Style.montserratRegularStyle().copyWith(fontSize: 13.sp, color: CustomColors.textBlackColor),),
-                            ],
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                controller.purchasesList[index]['amount']!,
-                                style: Style.montserratRegularStyle().copyWith(fontSize: 15.sp, color: CustomColors.textBlackColor),),
-                              SizedBox(width: 0.5.h),
-                              Text( controller.isTopUpRecord.value ? "Added" : 'sent', style: Style.montserratRegularStyle().copyWith(fontSize: 13.sp, color: const Color(0xff073EFF)),),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        controller.purchasesList[index]['date']!,
-                        style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp),),
-                      SizedBox(height: 1.h),
-                      Text(
-                        controller.purchasesList[index]['time']!,
-                        style: Style.montserratRegularStyle().copyWith(fontSize: 13.sp),),
-                    ],
-                  ),
-                ],
+                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(left: 3.0),
+                    //   child: InkWell(
+                    //     onTap: (){
+                    //     },
+                    //     child: Container(
+                    //       padding: const EdgeInsets.all(3),
+                    //       decoration: BoxDecoration(
+                    //           color: Colors.white,
+                    //           shape: BoxShape.circle,
+                    //           boxShadow: [
+                    //             getBoxShadow()
+                    //           ]
+                    //       ),
+                    //       child: SvgPicture.asset(starSvg, height: 18.sp,),
+                    //     ),
+                    //   ),
+                    // ),
+                  ],
+                ),
               ),
             ),
-            Divider(),
           ],
         );
       },
@@ -234,7 +259,7 @@ class _PurchasesViewState extends State<PurchasesView> with SingleTickerProvider
                 showGeneralDialog(
                   context: context,
                   pageBuilder:  (context, animation, secondaryAnimation) {
-                    return TransactionHistoryPopup(index: index,);
+                    return TopUpRecordPopUp();
                   },
                 );
               },
@@ -245,10 +270,10 @@ class _PurchasesViewState extends State<PurchasesView> with SingleTickerProvider
                   alignment: Alignment.centerRight,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(right: 3.w),
+                      // margin: EdgeInsets.only(right: 3.w),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: CustomColors.greyColor)),
+                          border: Border.all(color: BaseColors.greyColor)),
                       child: IntrinsicHeight(
                         child: Row(
                           children: [
@@ -258,15 +283,15 @@ class _PurchasesViewState extends State<PurchasesView> with SingleTickerProvider
                                 width: 12.h,
                                 padding: const EdgeInsets.only(top: 10.0,bottom: 10.0),
                                 decoration: BoxDecoration(
-                                    color: CustomColors.backgroundColor,
-                                    border: Border.all(color: CustomColors.primaryColor),
+                                    color: BaseColors.backgroundColor,
+                                    border: Border.all(color: BaseColors.primaryColor),
                                     borderRadius: BorderRadius.circular(10)),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text("100", style: Style.montserratBoldStyle().copyWith(fontSize: 22.sp, color: CustomColors.primaryColor),),
-                                    Text("AED", style: Style.montserratRegularStyle().copyWith(fontSize: 18.sp, color: CustomColors.primaryColor),),
+                                    Text("100", style: Style.montserratBoldStyle().copyWith(fontSize: 22.sp, color: BaseColors.primaryColor),),
+                                    Text("AED", style: Style.montserratRegularStyle().copyWith(fontSize: 18.sp, color: BaseColors.primaryColor),),
                                   ],
                                 ),
                               ),
@@ -279,9 +304,9 @@ class _PurchasesViewState extends State<PurchasesView> with SingleTickerProvider
                                   mainAxisSize: MainAxisSize.min,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Amount Added', style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: CustomColors.textBlackColor,fontWeight: FontWeight.w400)),
+                                    Text('Amount Added', style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
                                     const SizedBox(height: 8),
-                                    Text('TR No : 2587961', style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: CustomColors.textBlackColor,fontWeight: FontWeight.w400)),
+                                    Text('TR No : 2587961', style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
                                   ],
                                 ),
                               ],
@@ -293,9 +318,9 @@ class _PurchasesViewState extends State<PurchasesView> with SingleTickerProvider
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Text('20/10/2022', style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: CustomColors.textBlackColor,fontWeight: FontWeight.w400)),
+                                  Text('20/10/2022', style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
                                   const SizedBox(height: 8),
-                                  Text('09:00:30pm', style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: CustomColors.textBlackColor,fontWeight: FontWeight.w400)),
+                                  Text('09:00:30pm', style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
                                 ],
                               ),
                             ),
@@ -303,24 +328,24 @@ class _PurchasesViewState extends State<PurchasesView> with SingleTickerProvider
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 3.0),
-                      child: InkWell(
-                        onTap: (){
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                getBoxShadow()
-                              ]
-                          ),
-                          child: SvgPicture.asset(starSvg, height: 18.sp,),
-                        ),
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(left: 3.0),
+                    //   child: InkWell(
+                    //     onTap: (){
+                    //     },
+                    //     child: Container(
+                    //       padding: const EdgeInsets.all(3),
+                    //       decoration: BoxDecoration(
+                    //           color: Colors.white,
+                    //           shape: BoxShape.circle,
+                    //           boxShadow: [
+                    //             getBoxShadow()
+                    //           ]
+                    //       ),
+                    //       child: SvgPicture.asset(starSvg, height: 18.sp,),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

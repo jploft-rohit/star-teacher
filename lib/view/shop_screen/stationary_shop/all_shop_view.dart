@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/shop_screen/cart/cart_view.dart';
@@ -21,7 +21,7 @@ class _StationaryShopAllViewState extends State<StationaryShopAllView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.white,
+      backgroundColor: BaseColors.white,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -34,7 +34,7 @@ class _StationaryShopAllViewState extends State<StationaryShopAllView> {
                   Icons.search,
                 ),
               ),
-              hintTextColor: CustomColors.textLightGreyColor,
+              hintTextColor: BaseColors.textLightGreyColor,
               hintText: 'Search by name',
             ),
             SizedBox(height:2.h),
@@ -57,7 +57,7 @@ class _StationaryShopAllViewState extends State<StationaryShopAllView> {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: kElevationToShadow[2],
-                      color: CustomColors.white),
+                      color: BaseColors.white),
                   padding: const EdgeInsets.all(10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,7 +79,7 @@ class _StationaryShopAllViewState extends State<StationaryShopAllView> {
                       addText(
                           controller.shopStationaryList[index]['name']!,
                           16.sp,
-                          CustomColors.textBlackColor,
+                          BaseColors.textBlackColor,
                           FontWeight.w400),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -89,7 +89,7 @@ class _StationaryShopAllViewState extends State<StationaryShopAllView> {
                             child: addText(
                                 controller.shopStationaryList[index]['price']!,
                                 15.sp,
-                                CustomColors.primaryColor,
+                                BaseColors.primaryColor,
                                 FontWeight.w400),
                           ),
                           Expanded(

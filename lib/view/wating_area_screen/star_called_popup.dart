@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -56,7 +56,7 @@ class _StarCalledPopupState extends State<StarCalledPopup> {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15.0),
                       border: Border.all(
-                          color: CustomColors.borderColor
+                          color: BaseColors.borderColor
                       )
                   ),
                   child: Row(
@@ -65,7 +65,7 @@ class _StarCalledPopupState extends State<StarCalledPopup> {
                         padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
                         decoration: BoxDecoration(
                           border: Border.all(
-                              color: CustomColors.primaryColor
+                              color: BaseColors.primaryColor
                           ),
                           borderRadius: BorderRadius.circular(15.0),
                         ),
@@ -76,11 +76,11 @@ class _StarCalledPopupState extends State<StarCalledPopup> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Abdul Khan", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                            Text("Abdul Khan", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                             SizedBox(
                               height: .5.h,
                             ),
-                            Text("#632541", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                            Text("#632541", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                             SizedBox(
                               height: .5.h,
                             ),
@@ -102,21 +102,21 @@ class _StarCalledPopupState extends State<StarCalledPopup> {
                   children: [
                     const Icon(
                       Icons.location_on_sharp,
-                      color: CustomColors.primaryColor,
+                      color: BaseColors.primaryColor,
                       size: 15.0,
                     ),
-                    Text("Gate No.: ", style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
-                    Text("6", style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                    Text("Gate No.: ", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
+                    Text("6", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                   ],
                 ),
                 SizedBox(
                   height: 2.h,
                 ),
                 Divider(
-                  color: CustomColors.borderColor,
+                  color: BaseColors.borderColor,
                   thickness: 1.0,
                 ),
-                Text("The Parent has been reached to Pickup the Star and Called Please Acknowledge to Drop The Star.", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp, height: 1.5),textAlign: TextAlign.center,),
+                Text("The Parent has been reached to Pickup the Star and Called Please Acknowledge to Drop The Star.", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp, height: 1.5),textAlign: TextAlign.center,),
                 SizedBox(
                   height: 2.h,
                 ),

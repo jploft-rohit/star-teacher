@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -49,7 +49,7 @@ class _CartCardDetailState extends State<CartCardDetail> {
                     RichText(
                       text: TextSpan(
                         text: 'Card Details',
-                        style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp),
+                        style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),
                       ),
                     ),
                     InkWell(
@@ -62,7 +62,7 @@ class _CartCardDetailState extends State<CartCardDetail> {
                 SizedBox(
                   height: 2.h,
                 ),
-                CustomTextField(controller: cardNoCtrl, hintText: "Card number",hintTextColor: CustomColors.textLightGreyColor,),
+                CustomTextField(controller: cardNoCtrl, hintText: "Card number",hintTextColor: BaseColors.textLightGreyColor,),
                 SizedBox(
                   height: 1.h,
                 ),
@@ -75,7 +75,7 @@ class _CartCardDetailState extends State<CartCardDetail> {
                         child: InkWell(onTap: (){
                           selectDate(context);
                         },child: SvgPicture.asset(calenderSvg,height:17.sp,)),
-                      ),hintTextColor: CustomColors.textLightGreyColor,),
+                      ),hintTextColor: BaseColors.textLightGreyColor,),
                     ),
                     SizedBox(
                       width: 2.w,
@@ -85,14 +85,14 @@ class _CartCardDetailState extends State<CartCardDetail> {
                       child: CustomTextField(controller: expiryCtrl, hintText: "CVV", suffixIcon: Padding(
                         padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                         child: SvgPicture.asset("assets/images/information-button(1) 1.svg",height: 17.sp,),
-                      ),hintTextColor: CustomColors.textLightGreyColor,),
+                      ),hintTextColor: BaseColors.textLightGreyColor,),
                     ),
                   ],
                 ),
                 SizedBox(
                   height: 1.h,
                 ),
-                CustomTextField(controller: cardNoCtrl, hintText: "Card holder name",hintTextColor: CustomColors.textLightGreyColor,),
+                CustomTextField(controller: cardNoCtrl, hintText: "Card holder name",hintTextColor: BaseColors.textLightGreyColor,),
                 SizedBox(
                   height: 2.h,
                 ),

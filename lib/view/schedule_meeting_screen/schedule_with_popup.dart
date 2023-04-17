@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -62,7 +62,7 @@ class _ScheduleWithPopupState extends State<ScheduleWithPopup> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.0),
                     border: Border.all(
-                        color: CustomColors.borderColor
+                        color: BaseColors.borderColor
                     ),
                   ),
                   child: Column(
@@ -91,7 +91,7 @@ class _ScheduleWithPopupState extends State<ScheduleWithPopup> {
                           Container(
                             width: 1,
                             height: 25,
-                            color: CustomColors.borderColor,
+                            color: BaseColors.borderColor,
                           ),
                           Flexible(
                             flex: 1,
@@ -136,7 +136,7 @@ class _ScheduleWithPopupState extends State<ScheduleWithPopup> {
                         controller: searchCtrl,
                         hintText: translate(context).search_by_id,
                         borderColor: Colors.transparent,
-                        hintTextColor: CustomColors.textLightGreyColor,
+                        hintTextColor: BaseColors.textLightGreyColor,
                         contentPadding: const EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
                         prefixIcon: const Padding(
                           padding: EdgeInsets.only(left: 10.0, right: 10.0),
@@ -166,10 +166,10 @@ class _ScheduleWithPopupState extends State<ScheduleWithPopup> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           decoration: BoxDecoration(
-                              color: selectedFMOPos == index ? CustomColors.backgroundColor : Colors.transparent,
+                              color: selectedFMOPos == index ? BaseColors.backgroundColor : Colors.transparent,
                               borderRadius: BorderRadius.circular(15.0),
                               border: Border.all(
-                                  color: CustomColors.borderColor
+                                  color: BaseColors.borderColor
                               )
                           ),
                           child: Row(
@@ -182,7 +182,7 @@ class _ScheduleWithPopupState extends State<ScheduleWithPopup> {
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(roleNames[index], style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                                        Text(roleNames[index], style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                                       ],
                                     ),
                                   ),
@@ -197,27 +197,27 @@ class _ScheduleWithPopupState extends State<ScheduleWithPopup> {
                                   // padding: const EdgeInsets.symmetric(horizontal: 9),
                                   decoration: BoxDecoration(
                                       color: selectedFMOPos == index
-                                          ? CustomColors.backgroundColor
-                                          : CustomColors.borderColor,
+                                          ? BaseColors.backgroundColor
+                                          : BaseColors.borderColor,
                                       boxShadow: [getLightBoxShadow()],
                                       border: selectedFMOPos == index
                                           ? Border.all(
-                                          color: CustomColors.primaryColor, width: 1.5)
+                                          color: BaseColors.primaryColor, width: 1.5)
                                           : Border.all(
                                           color: Colors.transparent, width: 1.5),
                                       borderRadius: BorderRadius.circular(30.0)),
                                   child: Container(
                                     decoration: BoxDecoration(
                                         border: Border.all(
-                                            color: CustomColors.white, width: 1.5),
+                                            color: BaseColors.white, width: 1.5),
                                         shape: BoxShape.circle,
                                         boxShadow: [getBoxShadow()],
                                         color: selectedFMOPos == index
-                                            ? CustomColors.primaryColor
-                                            : CustomColors.borderColor
+                                            ? BaseColors.primaryColor
+                                            : BaseColors.borderColor
                                     ),
                                     child: Center(
-                                      child: Icon(Icons.check, color: CustomColors.white,
+                                      child: Icon(Icons.check, color: BaseColors.white,
                                           size: 16.sp),
                                     ),
                                   ),

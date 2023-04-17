@@ -6,9 +6,9 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/base_tab_bar.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -43,7 +43,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.white,
+      backgroundColor: BaseColors.white,
       appBar: BaseAppBar(title: translate(context).my_profile,onBackPressed: (){
         if(widget.isFromDrawer){
           Navigator.pop(context);
@@ -57,9 +57,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
         margin: EdgeInsets.only(left: 15, right: 15, bottom: widget.isFromDrawer ? 10 : 90),
         padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
-          color: CustomColors.white,
+          color: BaseColors.white,
           borderRadius: BorderRadius.circular(10.0),
-          border: Border.all(color: CustomColors.borderColor),
+          border: Border.all(color: BaseColors.borderColor),
           boxShadow: [getLightBoxShadow()],
         ),child: Column(
         children: [
@@ -69,15 +69,15 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
             padding: const EdgeInsets.all(1),
             decoration: BoxDecoration(
                 borderRadius:  BorderRadius.circular(10.0),
-                border: Border.all(color: CustomColors.primaryColor),
-                color: CustomColors.backgroundColor
+                border: Border.all(color: BaseColors.primaryColor),
+                color: BaseColors.backgroundColor
             ),
             child: ClipRRect(
               borderRadius:  BorderRadius.circular(10.0),
               child: const LinearProgressIndicator(
                 value: 0.5,
-                valueColor: AlwaysStoppedAnimation<Color>(CustomColors.primaryColor),
-                backgroundColor: CustomColors.backgroundColor,
+                valueColor: AlwaysStoppedAnimation<Color>(BaseColors.primaryColor),
+                backgroundColor: BaseColors.backgroundColor,
               ),
             ),
           ),
@@ -85,8 +85,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("${translate(context).profile_complete} 50%", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 13.sp),),
-              Text("${translate(context).complete_your_profile_till} 25 July, 2022", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textRedColor, fontSize: 13.sp),),
+              Text("${translate(context).profile_complete} 50%", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 13.sp),),
+              Text("${translate(context).complete_your_profile_till} 25 July, 2022", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textRedColor, fontSize: 13.sp),),
               // addText('Complete Your Profile Till: 25 July, 2022', getSmallTextFontSIze()-1, Colors.redAccent, FontWeight.w500),
 
             ],
@@ -102,7 +102,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
                   padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 12.sp, right: 12.sp),
                   decoration: BoxDecoration(
                     border: Border.all(
-                        color: CustomColors.primaryColor
+                        color: BaseColors.primaryColor
                     ),
                     borderRadius: BorderRadius.circular(15.0),
                   ),
@@ -114,16 +114,16 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Rafiq Khan", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 17.sp),),
+                    Text("Rafiq Khan", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 17.sp),),
                     SizedBox(
                       height: 0.5.h,
                     ),
                     RichText(
                       text: TextSpan(
                         text: '${translate(context).designation} : ',
-                        style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),
+                        style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),
                         children: <TextSpan>[
-                          TextSpan(text: 'Teacher', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp)),
+                          TextSpan(text: 'Teacher', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp)),
                         ],
                       ),
                     ),

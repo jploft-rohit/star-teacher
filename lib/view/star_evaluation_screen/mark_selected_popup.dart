@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -75,7 +75,7 @@ class _MarkSelectedPopupState extends State<MarkSelectedPopup> {
                       width: 80.0,
                       // padding: EdgeInsets.only(left: 25.sp, right: 25.sp,),
                       decoration: BoxDecoration(
-                          border: Border.all(color: CustomColors.primaryColor),
+                          border: Border.all(color: BaseColors.primaryColor),
                           borderRadius: BorderRadius.circular(10.0)
                       ),
                       child: Row(
@@ -86,22 +86,22 @@ class _MarkSelectedPopupState extends State<MarkSelectedPopup> {
                               if(count > 1) count = count - 1;
                               setState(() {});
                             },
-                            child: Icon(Icons.remove, color: CustomColors.primaryColor,),),
-                          VerticalDivider(color: CustomColors.primaryColor,width: 0.0, thickness: 1.5,),
+                            child: Icon(Icons.remove, color: BaseColors.primaryColor,),),
+                          VerticalDivider(color: BaseColors.primaryColor,width: 0.0, thickness: 1.5,),
                           SizedBox(
                             width: 1.w,
                           ),
-                          addText("$count", 18.sp, CustomColors.primaryColor, FontWeight.w700),
+                          addText("$count", 18.sp, BaseColors.primaryColor, FontWeight.w700),
                           SizedBox(
                             width: 1.w,
                           ),
-                          VerticalDivider(color: CustomColors.primaryColor,width: 0.0, thickness: 1.5),
+                          VerticalDivider(color: BaseColors.primaryColor,width: 0.0, thickness: 1.5),
                           InkWell(
                             onTap: (){
                               count = count + 1;
                               setState(() {});
                             },
-                            child: Icon(Icons.add, color: CustomColors.primaryColor,),),
+                            child: Icon(Icons.add, color: BaseColors.primaryColor,),),
                         ],
                       ),
                     ),
@@ -113,15 +113,15 @@ class _MarkSelectedPopupState extends State<MarkSelectedPopup> {
                         Container(
                           padding: EdgeInsets.only(left: 25.sp, right: 25.sp,top: 2, bottom: 2),
                           decoration: BoxDecoration(
-                              border: Border.all(color: CustomColors.primaryColor),
+                              border: Border.all(color: BaseColors.primaryColor),
                               borderRadius: BorderRadius.circular(6.0)
                           ),
-                          child: addText("90", 20.sp, CustomColors.primaryColor, FontWeight.w700),
+                          child: addText("90", 20.sp, BaseColors.primaryColor, FontWeight.w700),
                         ),
                         SizedBox(
                           height: .5.h,
                         ),
-                        addText("(max) 100", 13.sp, CustomColors.textLightGreyColor, FontWeight.w400),
+                        addText("(max) 100", 13.sp, BaseColors.textLightGreyColor, FontWeight.w400),
                       ],
                     ),
                   )

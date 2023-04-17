@@ -5,8 +5,8 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_floating_action_button.dart';
 import 'package:staff_app/Utility/base_tab_bar.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
@@ -60,7 +60,7 @@ class _SubmittedAssignmentViewState extends State<SubmittedAssignmentView> with 
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    addText("Assignment Title", 16.sp, CustomColors.textBlackColor, FontWeight.w700),
+                    addText("Assignment Title", 16.sp, BaseColors.textBlackColor, FontWeight.w700),
                     const Divider(),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,7 +98,7 @@ class _SubmittedAssignmentViewState extends State<SubmittedAssignmentView> with 
                                 },
                                 child: Icon(
                                   Icons.remove_red_eye_outlined,
-                                  color: CustomColors.primaryColor,
+                                  color: BaseColors.primaryColor,
                                   size: 19.sp,
                                 ),
                               )
@@ -170,7 +170,7 @@ class _SubmittedAssignmentViewState extends State<SubmittedAssignmentView> with 
                         padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 12.sp, right: 12.sp),
                         decoration: BoxDecoration(
                           border: Border.all(
-                              color: CustomColors.primaryColor
+                              color: BaseColors.primaryColor
                           ),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
@@ -181,15 +181,15 @@ class _SubmittedAssignmentViewState extends State<SubmittedAssignmentView> with 
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Sania", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp),),
+                            Text("Sania", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),),
                             SizedBox(
                               height: .2.h,
                             ),
-                            Text("#562665", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                            Text("#562665", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                             SizedBox(
                               height: .2.h,
                             ),
-                            Text("G3-H1", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                            Text("G3-H1", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                           ],
                         ),
                       ),
@@ -199,7 +199,7 @@ class _SubmittedAssignmentViewState extends State<SubmittedAssignmentView> with 
                   StepProgressView(
                     width: MediaQuery.of(context).size.width,
                     curStep: 2,
-                    color: CustomColors.primaryColor,
+                    color: BaseColors.primaryColor,
                     titles: pendingMeetingdates,
                     statuses: heading,
                   ),
@@ -232,7 +232,7 @@ class _SubmittedAssignmentViewState extends State<SubmittedAssignmentView> with 
                       padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 12.sp, right: 12.sp),
                       decoration: BoxDecoration(
                         border: Border.all(
-                            color: CustomColors.primaryColor
+                            color: BaseColors.primaryColor
                         ),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
@@ -243,15 +243,15 @@ class _SubmittedAssignmentViewState extends State<SubmittedAssignmentView> with 
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Sania", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp),),
+                          Text("Sania", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),),
                           SizedBox(
                             height: .2.h,
                           ),
-                          Text("#562665", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                          Text("#562665", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                           SizedBox(
                             height: .2.h,
                           ),
-                          Text("G3-H1", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                          Text("G3-H1", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                         ],
                       ),
                     ),
@@ -261,7 +261,7 @@ class _SubmittedAssignmentViewState extends State<SubmittedAssignmentView> with 
                 StepProgressView(
                   width: MediaQuery.of(context).size.width,
                   curStep: 3,
-                  color: CustomColors.primaryColor,
+                  color: BaseColors.primaryColor,
                   titles: pendingMeetingdates1,
                   statuses: heading,
                 ),

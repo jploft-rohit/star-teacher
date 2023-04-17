@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_tab_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/attendance_screen/attendance_screen_view/absent_screen_view.dart';
@@ -44,7 +44,7 @@ class _ClassRoomTabState extends State<ClassRoomTab> with SingleTickerProviderSt
                 physics: const NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  return Center(child: Text("Monday, 22/05/2022", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp),));
+                  return Center(child: Text("Monday, 22/05/2022", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),));
                 },
               ),
             ),
@@ -58,7 +58,7 @@ class _ClassRoomTabState extends State<ClassRoomTab> with SingleTickerProviderSt
                 icon: Icon(
                   Icons.arrow_back_ios,
                   size: 18.sp,
-                  color: CustomColors.primaryColor,
+                  color: BaseColors.primaryColor,
                 ),
               ),
             ),
@@ -72,7 +72,7 @@ class _ClassRoomTabState extends State<ClassRoomTab> with SingleTickerProviderSt
                 icon: Icon(
                   Icons.arrow_forward_ios,
                   size: 18.sp,
-                  color: CustomColors.primaryColor,
+                  color: BaseColors.primaryColor,
                 ),
               ),
             )

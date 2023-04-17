@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 
@@ -68,9 +68,9 @@ Widget buildInfoItems(String title,String description, [icon]) {
   return RichText(
     text: TextSpan(
       text: '$title : ',
-      style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: textFormFieldLabelTs),
+      style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: textFormFieldLabelTs),
       children: <TextSpan>[
-        TextSpan(text: description, style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: textFormFieldHintTs, height: 1.2)),
+        TextSpan(text: description, style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: textFormFieldHintTs, height: 1.2)),
       ],
     ),
   );
@@ -94,14 +94,14 @@ Widget walletToogleButton(
                 decoration: BoxDecoration(
                     boxShadow: isPurchases ? kElevationToShadow[3] : null,
                     color: isPurchases
-                        ? CustomColors.backgroundColor
-                        : CustomColors.txtFieldTextColor,
+                        ? BaseColors.backgroundColor
+                        : BaseColors.txtFieldTextColor,
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
                         color: isPurchases
                             ? Colors.transparent
-                            : CustomColors.borderColor)),
-                child: Text(translate(Get.context!).purchase, style: Style.montserratBoldStyle().copyWith(color: isPurchases ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
+                            : BaseColors.borderColor)),
+                child: Text(translate(Get.context!).purchase, style: Style.montserratBoldStyle().copyWith(color: isPurchases ? BaseColors.primaryColor : BaseColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
               ),
               // Container(
               //   alignment: Alignment.center,
@@ -131,14 +131,14 @@ Widget walletToogleButton(
                 decoration: BoxDecoration(
                     boxShadow: isEvents ? kElevationToShadow[3] : null,
                     color: isEvents
-                        ? CustomColors.backgroundColor
-                        : CustomColors.txtFieldTextColor,
+                        ? BaseColors.backgroundColor
+                        : BaseColors.txtFieldTextColor,
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
                         color: isEvents
                             ? Colors.transparent
-                            : CustomColors.borderColor)),
-                child: Text(translate(Get.context!).event, style: Style.montserratBoldStyle().copyWith(color: isEvents ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
+                            : BaseColors.borderColor)),
+                child: Text(translate(Get.context!).event, style: Style.montserratBoldStyle().copyWith(color: isEvents ? BaseColors.primaryColor : BaseColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
               ),
               Container(
                 alignment: Alignment.center,
@@ -146,8 +146,8 @@ Widget walletToogleButton(
                 width: 15,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
-                    color: CustomColors.primaryColor),
-                child: Text("1", style: Style.montserratBoldStyle().copyWith(color: CustomColors.white,fontSize: 13.sp),),
+                    color: BaseColors.primaryColor),
+                child: Text("1", style: Style.montserratBoldStyle().copyWith(color: BaseColors.white,fontSize: 13.sp),),
               )
             ],
           ),
@@ -170,13 +170,13 @@ Widget purchasesToogleButton(onTap1, isTransaction, onTap2, isTopup) {
                 border: Border.all(
                     color: isTransaction
                         ? Colors.transparent
-                        : CustomColors.borderColor),
+                        : BaseColors.borderColor),
                 color: isTransaction
-                    ? CustomColors.backgroundColor
-                    : CustomColors.txtFieldTextColor,
+                    ? BaseColors.backgroundColor
+                    : BaseColors.txtFieldTextColor,
                 borderRadius: BorderRadius.circular(8),
                 boxShadow: isTransaction ? kElevationToShadow[3] : null),
-            child: Text(translate(Get.context!).transaction, style: Style.montserratBoldStyle().copyWith(color: isTransaction ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
+            child: Text(translate(Get.context!).transaction, style: Style.montserratBoldStyle().copyWith(color: isTransaction ? BaseColors.primaryColor : BaseColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
           ),
         ),
       ),
@@ -191,14 +191,14 @@ Widget purchasesToogleButton(onTap1, isTransaction, onTap2, isTopup) {
             decoration: BoxDecoration(
                 boxShadow: isTopup ? kElevationToShadow[3] : null,
                 color: isTopup
-                    ? CustomColors.backgroundColor
-                    : CustomColors.txtFieldTextColor,
+                    ? BaseColors.backgroundColor
+                    : BaseColors.txtFieldTextColor,
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
                     color: isTopup
                         ? Colors.transparent
-                        : CustomColors.borderColor)),
-            child: Text(translate(Get.context!).top_up_record, style: Style.montserratBoldStyle().copyWith(color: isTopup ? CustomColors.primaryColor : CustomColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
+                        : BaseColors.borderColor)),
+            child: Text(translate(Get.context!).top_up_record, style: Style.montserratBoldStyle().copyWith(color: isTopup ? BaseColors.primaryColor : BaseColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
           ),
         ),
       ),
@@ -208,9 +208,9 @@ Widget purchasesToogleButton(onTap1, isTransaction, onTap2, isTopup) {
 Widget calenderDownButton(label, onTap) {
   return Container(
     decoration: BoxDecoration(
-        color: CustomColors.white,
+        color: BaseColors.white,
         borderRadius: BorderRadius.circular(5),
-        border: Border.all(color: CustomColors.borderColor)),
+        border: Border.all(color: BaseColors.borderColor)),
     padding: EdgeInsets.symmetric(horizontal: 1.2.w, vertical: 0.6.h),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -220,7 +220,7 @@ Widget calenderDownButton(label, onTap) {
             children: [
               SvgPicture.asset(calenderSvg, height: 2.h,),
               SizedBox(width: 2.w),
-              Text(label, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textLightGreyColor, fontSize: 14.sp),),
+              Text(label, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textLightGreyColor, fontSize: 14.sp),),
             ],
           ),
         ),
@@ -246,7 +246,7 @@ Widget textButton2(ontap, text) {
           borderRadius: BorderRadius.circular(10.sp),
           onTap: ontap,
           child:
-          addText(text, 20, CustomColors.primaryColor, FontWeight.w700)),
+          addText(text, 20, BaseColors.primaryColor, FontWeight.w700)),
     ),
   );
 }
@@ -273,7 +273,7 @@ Widget radioButton(onTap, value, label) {
       iconButton(
           onTap, value ? "assets/images/Group 7585.svg" : "assets/images/Ellipse 33.svg"),
       SizedBox(width: 0.5.h),
-      addText(label, radioButtonTitleTs, CustomColors.textBlackColor,
+      addText(label, radioButtonTitleTs, BaseColors.textBlackColor,
           FontWeight.w400),
     ],
   );
@@ -297,7 +297,7 @@ showNFCDialog(BuildContext context,String image){
       context: context,
       barrierDismissible: false,
       builder: (_) => AlertDialog(
-          backgroundColor: CustomColors.white,
+          backgroundColor: BaseColors.white,
           elevation: 10,
           scrollable: true,
           title: Stack(
@@ -305,7 +305,7 @@ showNFCDialog(BuildContext context,String image){
               if(image.isEmpty)
                 Align(alignment: Alignment.center,
                   child: Text(
-                    translate(context).programme_NFC,style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor,fontSize: 17.sp),),),
+                    translate(context).programme_NFC,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor,fontSize: 17.sp),),),
               if(image.isNotEmpty)
                 Center(child: SvgPicture.asset(image)),
               Align(alignment: Alignment.topRight,
@@ -330,7 +330,7 @@ showNFCDialog(BuildContext context,String image){
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(image.isEmpty ? translate(context).tap_nfc_card_to_match_frequency : translate(context).nfc_programmed_successfully,style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor,fontSize: 17.sp),textAlign: TextAlign.center,),
+                  Text(image.isEmpty ? translate(context).tap_nfc_card_to_match_frequency : translate(context).nfc_programmed_successfully,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor,fontSize: 17.sp),textAlign: TextAlign.center,),
                 ],
               ),
             ),
@@ -342,7 +342,7 @@ showNFCDialog1(BuildContext context,String image){
       context: context,
       barrierDismissible: false,
       builder: (_) => AlertDialog(
-          backgroundColor: CustomColors.white,
+          backgroundColor: BaseColors.white,
           elevation: 10,
           scrollable: true,
           title: Stack(
@@ -350,7 +350,7 @@ showNFCDialog1(BuildContext context,String image){
               if(image.isEmpty)
                 Align(alignment: Alignment.center,
                   child: Text(
-                    translate(context).programme_NFC,style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor,fontSize: 17.sp),),),
+                    translate(context).programme_NFC,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor,fontSize: 17.sp),),),
               if(image.isNotEmpty)
                 Center(child: SvgPicture.asset(image)),
               Align(alignment: Alignment.topRight,
@@ -375,7 +375,7 @@ showNFCDialog1(BuildContext context,String image){
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(image.isEmpty ? translate(context).tap_nfc_card_to_match_frequency : translate(context).nfc_programmed_successfully,style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor,fontSize: 17.sp),textAlign: TextAlign.center,),
+                  Text(image.isEmpty ? translate(context).tap_nfc_card_to_match_frequency : translate(context).nfc_programmed_successfully,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor,fontSize: 17.sp),textAlign: TextAlign.center,),
                 ],
               ),
             ),
@@ -453,7 +453,7 @@ Future<void> selectDate(BuildContext context) async {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: ColorScheme.light(
-              primary: CustomColors.primaryColor,
+              primary: BaseColors.primaryColor,
             ),
           ),
           child: child!,

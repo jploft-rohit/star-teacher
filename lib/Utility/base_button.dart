@@ -6,6 +6,10 @@ class BaseButton extends StatelessWidget {
   final String title;
   final double? textSize;
   final double? btnWidth;
+  final double? bottomMargin;
+  final double? topMargin;
+  final double? leftMargin;
+  final double? rightMargin;
   final double? verticalPadding;
   final bool isActive;
   final bool showNextIcon;
@@ -17,7 +21,7 @@ class BaseButton extends StatelessWidget {
   const BaseButton({Key? key, required this.title,
     this.textSize, required this.onPressed, this.isActive = true,
     this.showNextIcon = false, this.removeHorizontalPadding = false,
-    this.verticalPadding, this.isToggle = false, this.btnType,this.borderRadius=10, this.btnWidth}) : super(key: key);
+    this.verticalPadding, this.isToggle = false, this.btnType,this.borderRadius=14, this.btnWidth, this.bottomMargin, this.topMargin, this.leftMargin, this.rightMargin}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +39,11 @@ class BaseButton extends StatelessWidget {
       case toggleLargeButton:
         return showButtonType(context,showNextIcon,verticalPadding??1.3.h,50.w,mediumButtonTs,borderRadius);
       case buttonIcon:
-        return showButtonType(context,true,verticalPadding??1.3.h,double.infinity,largeButtonTs,borderRadius);
+        return showButtonType(context,true,verticalPadding??1.3.h,double.infinity,largeButtonTs+2,borderRadius-7);
       case dialogButton:
         return showButtonType(context,false,verticalPadding??1.3.h,25.w,largeButtonTs,100);
       default:
-        return showButtonType(context,showNextIcon,verticalPadding??1.7.h,50.w,largeButtonTs,borderRadius);
+        return showButtonType(context,showNextIcon,verticalPadding??1.5.h,45.w,largeButtonTs,isToggle ? borderRadius : borderRadius);
     }
   }
   showButtonType(context,showNextIcon,double verticalPadding,double btnWidth,double fontSize,double borderRadius){
@@ -48,6 +52,7 @@ class BaseButton extends StatelessWidget {
       child: Container(
         alignment: Alignment.center,
         padding: EdgeInsets.symmetric(horizontal: removeHorizontalPadding ? 0 : 4.w, vertical: verticalPadding),
+        margin: EdgeInsets.only(top: topMargin??0,bottom: bottomMargin??0,left: leftMargin??0,right: rightMargin??0),
         width: btnWidth,
         decoration: BoxDecoration(
             color: isActive ? !showNextIcon ? Color(0xffF8F4E9) : Colors.white:Colors.white,

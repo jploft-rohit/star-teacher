@@ -3,10 +3,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_dropdown.dart';
+import 'package:staff_app/Utility/base_textformfield.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
+import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/schedule_meeting_screen/choose_meeting_date_time_popup.dart';
@@ -21,6 +24,7 @@ class CreateMeetingScreen extends StatefulWidget {
 }
 
 class _CreateMeetingScreenState extends State<CreateMeetingScreen> {
+  TextEditingController meetingTypeController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,10 +37,10 @@ class _CreateMeetingScreenState extends State<CreateMeetingScreen> {
               Container(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 decoration: BoxDecoration(
-                  color: CustomColors.backgroundColor,
+                  color: BaseColors.backgroundColor,
                   borderRadius: BorderRadius.circular(5.0),
                   border: Border.all(
-                      color: CustomColors.borderColor
+                      color: BaseColors.borderColor
                   ),
                 ),
                 child: Row(
@@ -92,23 +96,26 @@ class _CreateMeetingScreenState extends State<CreateMeetingScreen> {
               SizedBox(
                 height: 2.h,
               ),
-              CustomTextField(
-                controller: TextEditingController(),
+              BaseTextFormField(
+                controller: meetingTypeController,
                 hintText: "Meeting type",
-                borderRadius: 5.0,
-                suffixIcon: const Padding(
-                  padding: EdgeInsetsDirectional.only(end: 15.0),
-                  child: Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
-                ),
-              ),
-              SizedBox(
-                height: 2.h,
+                isDropDown: true,
+                dropDownValue: meetingTypeController.text,
+                onChanged: (newValue){
+                  setState(() {
+                    meetingTypeController.text = newValue.toString();
+                  });},
+                items: DummyLists().list1.map((value) {
+                  return DropdownMenuItem(
+                    value: value,
+                    child: addText(value, 16.sp, Colors.black, FontWeight.w400),);
+                }).toList(),
               ),
               Row(
                 children: [
                   Expanded(
                     flex: 1,
-                      child: Text("Date:", style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: CustomColors.textBlackColor),)),
+                      child: Text("Date:", style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: BaseColors.textBlackColor),)),
                   SizedBox(
                     width: 10.w,
                   ),
@@ -141,7 +148,7 @@ class _CreateMeetingScreenState extends State<CreateMeetingScreen> {
               ),
               Row(
                 children: [
-                  Text("Selected Slot:", style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: CustomColors.textBlackColor),),
+                  Text("Selected Slot:", style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: BaseColors.textBlackColor),),
                   SizedBox(
                     width: 2.w,
                   ),
@@ -157,11 +164,11 @@ class _CreateMeetingScreenState extends State<CreateMeetingScreen> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 3.0),
                       decoration: BoxDecoration(
-                          color: CustomColors.backgroundColor,
+                          color: BaseColors.backgroundColor,
                           borderRadius: BorderRadius.circular(50.0),
-                          border: Border.all(color: CustomColors.primaryColor)
+                          border: Border.all(color: BaseColors.primaryColor)
                       ),
-                      child: addText("09:00 AM", 13.sp, CustomColors.primaryColor, FontWeight.w700),
+                      child: addText("09:00 AM", 13.sp, BaseColors.primaryColor, FontWeight.w700),
                     ),
                   )
                 ],

@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -46,7 +46,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                 children: [
                   Expanded(
                     child: CustomTextField(
-                      fillColor: CustomColors.txtFieldTextColor,
+                      fillColor: BaseColors.txtFieldTextColor,
                       controller: locationCtrl,
                       hintText: translate(context).type_your_location,
                       hintTxtSize: 14.sp,
@@ -65,7 +65,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                 ],
               ),
               Divider(
-                color: CustomColors.txtFiledBorderColor,
+                color: BaseColors.txtFiledBorderColor,
                 height: 0.0,
                 endIndent: 40.sp,
                 indent: 15.sp,
@@ -85,7 +85,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                           height: .5.h,
                         ),
                         CustomTextField(
-                          fillColor: CustomColors.txtFieldTextColor,
+                          fillColor: BaseColors.txtFieldTextColor,
                           controller: locationCtrl,
                           hintText: "Dubai",
                           borderRadius: 3.0,
@@ -106,7 +106,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                           height: .5.h,
                         ),
                         CustomTextField(
-                          fillColor: CustomColors.txtFieldTextColor,
+                          fillColor: BaseColors.txtFieldTextColor,
                           controller: locationCtrl,
                           hintText: "Jumeriah",
                           borderRadius: 3.0,
@@ -131,7 +131,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                           height: .5.h,
                         ),
                         CustomTextField(
-                          fillColor: CustomColors.txtFieldTextColor,
+                          fillColor: BaseColors.txtFieldTextColor,
                           controller: locationCtrl,
                           hintText: "53 B",
                           borderRadius: 3.0,
@@ -152,7 +152,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                           height: .5.h,
                         ),
                         CustomTextField(
-                          fillColor: CustomColors.txtFieldTextColor,
+                          fillColor: BaseColors.txtFieldTextColor,
                           controller: locationCtrl,
                           hintText: "KM Tower A",
                           borderRadius: 3.0,
@@ -177,7 +177,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                           height: .5.h,
                         ),
                         CustomTextField(
-                          fillColor: CustomColors.txtFieldTextColor,
+                          fillColor: BaseColors.txtFieldTextColor,
                           controller: locationCtrl,
                           hintText: "#123456",
                           borderRadius: 3.0,
@@ -198,7 +198,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                           height: .5.h,
                         ),
                         CustomTextField(
-                          fillColor: CustomColors.txtFieldTextColor,
+                          fillColor: BaseColors.txtFieldTextColor,
                           controller: locationCtrl,
                           hintText: "Jumeriah",
                           borderRadius: 3.0,
@@ -223,7 +223,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                           height: .5.h,
                         ),
                         CustomTextField(
-                          fillColor: CustomColors.txtFieldTextColor,
+                          fillColor: BaseColors.txtFieldTextColor,
                           controller: locationCtrl,
                           hintText: "0503664321",
                           borderRadius: 3.0,
@@ -244,7 +244,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                           height: .5.h,
                         ),
                         CustomTextField(
-                          fillColor: CustomColors.txtFieldTextColor,
+                          fillColor: BaseColors.txtFieldTextColor,
                           controller: locationCtrl,
                           hintText: "043674882",
                           borderRadius: 3.0,
@@ -265,7 +265,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                     height: .5.h,
                   ),
                   CustomTextField(
-                    fillColor: CustomColors.txtFieldTextColor,
+                    fillColor: BaseColors.txtFieldTextColor,
                     controller: locationCtrl,
                     hintText: translate(context).upload_photo,
                     borderRadius: 3.0,

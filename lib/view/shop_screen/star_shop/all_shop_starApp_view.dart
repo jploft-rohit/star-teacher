@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/shop_screen/shop_screen_ctrl.dart';
@@ -20,7 +20,7 @@ class _StarAppShopAllViewState extends State<StarAppShopAllView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.white,
+      backgroundColor: BaseColors.white,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -33,7 +33,7 @@ class _StarAppShopAllViewState extends State<StarAppShopAllView> {
                   Icons.search,
                 ),
               ),
-              hintTextColor: CustomColors.textLightGreyColor,
+              hintTextColor: BaseColors.textLightGreyColor,
               hintText: 'Search by name',
             ),
             SizedBox(height:2.h),
@@ -52,7 +52,7 @@ class _StarAppShopAllViewState extends State<StarAppShopAllView> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: kElevationToShadow[2],
-                    color: CustomColors.white),
+                    color: BaseColors.white),
                 padding: EdgeInsets.all(10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,7 +74,7 @@ class _StarAppShopAllViewState extends State<StarAppShopAllView> {
                     addText(
                         controller.shopStarShopList[index]['name']!,
                         16.sp,
-                        CustomColors.textBlackColor,
+                        BaseColors.textBlackColor,
                         FontWeight.w400),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -82,7 +82,7 @@ class _StarAppShopAllViewState extends State<StarAppShopAllView> {
                         addText(
                             controller.shopStarShopList[index]['price']!,
                             15.sp,
-                            CustomColors.primaryColor,
+                            BaseColors.primaryColor,
                             FontWeight.w400),
                         BaseButton(
                             btnWidth: 60,

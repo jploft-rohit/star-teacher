@@ -4,9 +4,10 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_textformfield.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -59,7 +60,7 @@ class _AskForHelpViewState extends State<AskForHelpView> {
                     height: 26,
                     width: 30,
                     child: SvgPicture.asset(nfcSvg)),
-                  fillColor: CustomColors.txtFieldTextColor,
+                  fillColor: BaseColors.txtFieldTextColor,
                 ),
                 SizedBox(height: 2.2.h),
                 ...List.generate(
@@ -84,21 +85,21 @@ class _AskForHelpViewState extends State<AskForHelpView> {
                                 // color: CustomColors.backgroundColor,
                                 borderRadius: BorderRadius.circular(5.0),
                                 border: Border.all(
-                                    color: CustomColors.primaryColor)),
+                                    color: BaseColors.primaryColor)),
                             // padding: marginSymetric(1.2.h, 0.8.h),
                             child: Row(
                               children: [
                                 Text(
                                     helpOptions[index]['title'],
                                     style: Style.montserratRegularStyle().copyWith(fontSize: 16.sp,
-                                        color: CustomColors.primaryColor,
+                                        color: BaseColors.primaryColor,
                                         fontWeight:FontWeight.w400),),
                                 Spacer(),
                                 Container(
                                   padding: const EdgeInsets.all(2),
                                   decoration: BoxDecoration(
                                       border: Border.all(
-                                          color: helpOptions[index]['value'] == true?CustomColors.white :CustomColors.white,
+                                          color: helpOptions[index]['value'] == true?BaseColors.white :BaseColors.white,
                                           width: 2),
                                       shape: BoxShape.circle,
                                       boxShadow: [helpOptions[index]['value'] == true?getBoxShadow():const BoxShadow(
@@ -111,11 +112,11 @@ class _AskForHelpViewState extends State<AskForHelpView> {
                                         spreadRadius: 0.0,
                                       )],
                                       color: helpOptions[index]['value'] == true
-                                          ? CustomColors.primaryColor
-                                          : CustomColors.white,),
+                                          ? BaseColors.primaryColor
+                                          : BaseColors.white,),
                                   child: Icon(
                                     Icons.check,
-                                    color: CustomColors.white,
+                                    color: BaseColors.white,
                                     size: 15.sp,
                                   ),
                                 )
@@ -123,15 +124,13 @@ class _AskForHelpViewState extends State<AskForHelpView> {
                             ),
                           ),
                         )),
-                SizedBox(height: 2.8.h),
-                Container(
-                  child: CustomTextField(
-                    controller: commentController,
-                    hintText: translate(context).add_comment,
-                    maxLine: 3,
-                  ),
+                BaseTextFormField(
+                  topMargin: 2.8.h,
+                  controller: commentController,
+                  hintText: translate(context).add_comment,
+                  maxLine: 3,
+                  bottomMargin: 2.h,
                 ),
-                SizedBox(height: 2.0.h),
                 Center(
                   child: BaseButton(title: translate(context).notify.toUpperCase(), onPressed: (){
                     Get.back();

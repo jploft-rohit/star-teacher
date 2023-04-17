@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/base_tab_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -38,6 +38,11 @@ class _ClassRoomViewState extends State<ClassRoomView> with SingleTickerProvider
     });
   }
   @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
@@ -47,7 +52,7 @@ class _ClassRoomViewState extends State<ClassRoomView> with SingleTickerProvider
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15.0),
               border: Border.all(
-                  color: CustomColors.borderColor
+                  color: BaseColors.borderColor
               ),
             ),
             child: Column(
@@ -76,7 +81,7 @@ class _ClassRoomViewState extends State<ClassRoomView> with SingleTickerProvider
                     Container(
                       width: 1,
                       height: 25,
-                      color: CustomColors.borderColor,
+                      color: BaseColors.borderColor,
                     ),
                     Flexible(
                       flex: 1,
@@ -124,7 +129,7 @@ class _ClassRoomViewState extends State<ClassRoomView> with SingleTickerProvider
                     Container(
                       width: 1,
                       height: 25,
-                      color: CustomColors.borderColor,
+                      color: BaseColors.borderColor,
                     ),
                     Flexible(
                       flex: 1,
@@ -152,7 +157,7 @@ class _ClassRoomViewState extends State<ClassRoomView> with SingleTickerProvider
                   controller: controller.searchCtrl,
                   hintText: translate(context).search_by_id,
                   borderColor: Colors.transparent,
-                  hintTextColor: CustomColors.textLightGreyColor,
+                  hintTextColor: BaseColors.textLightGreyColor,
                   contentPadding: const EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
                   prefixIcon: const Padding(
                     padding: EdgeInsets.only(left: 10.0, right: 10.0),
@@ -191,12 +196,12 @@ class _ClassRoomViewState extends State<ClassRoomView> with SingleTickerProvider
                           // padding: const EdgeInsets.symmetric(horizontal: 9),
                           decoration: BoxDecoration(
                               color: controller.selectedFMOPos.value == index
-                                  ? CustomColors.backgroundColor
-                                  : CustomColors.white,
+                                  ? BaseColors.backgroundColor
+                                  : BaseColors.white,
                               boxShadow: [getBoxShadow()],
                               border: controller.selectedFMOPos.value == index
                                   ? Border.all(
-                                  color: CustomColors.primaryColor, width: 1.5)
+                                  color: BaseColors.primaryColor, width: 1.5)
                                   : null,
                               borderRadius: BorderRadius.circular(15.0)),
                           child: Row(
@@ -207,17 +212,17 @@ class _ClassRoomViewState extends State<ClassRoomView> with SingleTickerProvider
                                 padding: const EdgeInsets.all(2),
                                 decoration: BoxDecoration(
                                     border: Border.all(
-                                        color: CustomColors.white, width: 2),
+                                        color: BaseColors.white, width: 2),
                                     shape: BoxShape.circle,
                                     boxShadow: [getBoxShadow()],
                                     color: controller.selectedFMOPos.value == index
-                                        ? CustomColors.primaryColor
-                                        : CustomColors.borderColor
+                                        ? BaseColors.primaryColor
+                                        : BaseColors.borderColor
                                 ),
-                                child: Icon(Icons.check, color: CustomColors.white,
+                                child: Icon(Icons.check, color: BaseColors.white,
                                     size: 17.sp),
                               ),
-                              Obx(() => SvgPicture.asset(controller.fmoImageList[index],height: 30,color: controller.selectedFMOPos.value==index ? CustomColors.primaryColor:Colors.black,))
+                              Obx(() => SvgPicture.asset(controller.fmoImageList[index],height: 30,color: controller.selectedFMOPos.value==index ? BaseColors.primaryColor:Colors.black,))
                             ],
                           ),
                         );
@@ -266,9 +271,9 @@ class _ClassRoomViewState extends State<ClassRoomView> with SingleTickerProvider
                     children: [
                       Checkbox(
                         checkColor: Colors.white,
-                        activeColor: CustomColors.primaryColor,
+                        activeColor: BaseColors.primaryColor,
                         value: controller.isRulesChecked.value,
-                        side: const BorderSide(color: CustomColors.primaryColor),
+                        side: const BorderSide(color: BaseColors.primaryColor),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(3),
                         ),
@@ -304,13 +309,13 @@ class _ClassRoomViewState extends State<ClassRoomView> with SingleTickerProvider
                                 margin: const EdgeInsets.only(left: 15, right: 15.0),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(color: controller.selectedFMOPos1.value == index ? CustomColors.primaryColor : CustomColors.borderColor)),
+                                    border: Border.all(color: controller.selectedFMOPos1.value == index ? BaseColors.primaryColor : BaseColors.borderColor)),
                                 child: Row(
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
                                           border: BorderDirectional(
-                                              end: BorderSide(width: 1,color: controller.selectedFMOPos1.value == index ? CustomColors.primaryColor : CustomColors.borderColor)
+                                              end: BorderSide(width: 1,color: controller.selectedFMOPos1.value == index ? BaseColors.primaryColor : BaseColors.borderColor)
                                           )),
                                       child: Padding(
                                         padding: const EdgeInsets.fromLTRB(12.0,8,8,8),
@@ -324,14 +329,14 @@ class _ClassRoomViewState extends State<ClassRoomView> with SingleTickerProvider
                                                   decoration: BoxDecoration(
                                                       borderRadius: BorderRadius.circular(15),
                                                       border: Border.all(
-                                                          color: CustomColors.primaryColor)),
+                                                          color: BaseColors.primaryColor)),
                                                   child:SvgPicture.asset(girlSvg),
                                                 ),
                                                 SizedBox(width: 2.w),
                                                 Column(
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
-                                                    Text('Roma #21', style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: CustomColors.primaryColor),),
+                                                    Text('Roma #21', style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: BaseColors.primaryColor),),
                                                     SizedBox(
                                                       height: 0.5.h,
                                                     ),
@@ -420,27 +425,27 @@ class _ClassRoomViewState extends State<ClassRoomView> with SingleTickerProvider
                                   // padding: const EdgeInsets.symmetric(horizontal: 9),
                                   decoration: BoxDecoration(
                                       color: controller.selectedFMOPos1.value == index
-                                          ? CustomColors.backgroundColor
-                                          : CustomColors.borderColor,
+                                          ? BaseColors.backgroundColor
+                                          : BaseColors.borderColor,
                                       boxShadow: [getLightBoxShadow()],
                                       border: controller.selectedFMOPos1.value == index
                                           ? Border.all(
-                                          color: CustomColors.primaryColor, width: 1.5)
+                                          color: BaseColors.primaryColor, width: 1.5)
                                           : Border.all(
                                           color: Colors.transparent, width: 1.5),
                                       borderRadius: BorderRadius.circular(30.0)),
                                   child: Container(
                                     decoration: BoxDecoration(
                                         border: Border.all(
-                                            color: CustomColors.white, width: 1.5),
+                                            color: BaseColors.white, width: 1.5),
                                         shape: BoxShape.circle,
                                         boxShadow: [getBoxShadow()],
                                         color: controller.selectedFMOPos1.value == index
-                                            ? CustomColors.primaryColor
-                                            : CustomColors.borderColor
+                                            ? BaseColors.primaryColor
+                                            : BaseColors.borderColor
                                     ),
                                     child: Center(
-                                      child: Icon(Icons.check, color: CustomColors.white,
+                                      child: Icon(Icons.check, color: BaseColors.white,
                                           size: 16.sp),
                                     ),
                                   ),

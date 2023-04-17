@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -69,10 +69,10 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                 Container(
                   padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 5.0, bottom: 5.0),
                   decoration: BoxDecoration(
-                    color: CustomColors.backgroundColor,
+                    color: BaseColors.backgroundColor,
                     borderRadius: BorderRadius.circular(5.0)
                   ),
-                  child: Text(translate(context).going_to_school_by_my_own_vehicle, style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),),
+                  child: Text(translate(context).going_to_school_by_my_own_vehicle, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                 ),
                 SizedBox(
                   height: 2.h,
@@ -93,8 +93,8 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                             // padding: const EdgeInsets.symmetric(horizontal: 9),
                             decoration: BoxDecoration(
                                 color: selectedFMOPos == 0
-                                    ? CustomColors.backgroundColor
-                                    : CustomColors.borderColor,
+                                    ? BaseColors.backgroundColor
+                                    : BaseColors.borderColor,
                                 boxShadow: [getLightBoxShadow()],
                                 border: Border.all(
                                     color: Colors.transparent, width: 1.5),
@@ -102,15 +102,15 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                             child: Container(
                               decoration: BoxDecoration(
                                   border: Border.all(
-                                      color: CustomColors.white, width: 1.5),
+                                      color: BaseColors.white, width: 1.5),
                                   shape: BoxShape.circle,
                                   boxShadow: [getBoxShadow()],
                                   color: selectedFMOPos == 0
-                                      ? CustomColors.primaryColor
-                                      : CustomColors.borderColor
+                                      ? BaseColors.primaryColor
+                                      : BaseColors.borderColor
                               ),
                               child: Center(
-                                child: Icon(Icons.check, color: CustomColors.white,
+                                child: Icon(Icons.check, color: BaseColors.white,
                                     size: 16.sp),
                               ),
                             ),
@@ -118,7 +118,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                           SizedBox(
                             width: 2.w,
                           ),
-                          Text(translate(context).for_today, style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
+                          Text(translate(context).for_today, style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
                         ],
                       ),
                     ),
@@ -138,8 +138,8 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                             // padding: const EdgeInsets.symmetric(horizontal: 9),
                             decoration: BoxDecoration(
                                 color: selectedFMOPos == 1
-                                    ? CustomColors.backgroundColor
-                                    : CustomColors.borderColor,
+                                    ? BaseColors.backgroundColor
+                                    : BaseColors.borderColor,
                                 boxShadow: [getLightBoxShadow()],
                                 border: Border.all(
                                     color: Colors.transparent, width: 1.5),
@@ -147,15 +147,15 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                             child: Container(
                               decoration: BoxDecoration(
                                   border: Border.all(
-                                      color: CustomColors.white, width: 1.5),
+                                      color: BaseColors.white, width: 1.5),
                                   shape: BoxShape.circle,
                                   boxShadow: [getBoxShadow()],
                                   color: selectedFMOPos == 1
-                                      ? CustomColors.primaryColor
-                                      : CustomColors.borderColor
+                                      ? BaseColors.primaryColor
+                                      : BaseColors.borderColor
                               ),
                               child: Center(
-                                child: Icon(Icons.check, color: CustomColors.white,
+                                child: Icon(Icons.check, color: BaseColors.white,
                                     size: 16.sp),
                               ),
                             ),
@@ -163,7 +163,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                           SizedBox(
                             width: 2.w,
                           ),
-                          Text(translate(context).for_multiple_days, style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
+                          Text(translate(context).for_multiple_days, style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
                         ],
                       ),
                     ),
@@ -249,10 +249,10 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                 Container(
                   padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0, bottom: 5.0),
                   decoration: BoxDecoration(
-                      color: CustomColors.backgroundColor,
+                      color: BaseColors.backgroundColor,
                       borderRadius: BorderRadius.circular(5.0)
                   ),
-                  child: Text(translate(context).going_back_to_home_by_my_own_vehicle, style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),),
+                  child: Text(translate(context).going_back_to_home_by_my_own_vehicle, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                 ),
                 SizedBox(
                   height: 2.h,
@@ -273,8 +273,8 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                             // padding: const EdgeInsets.symmetric(horizontal: 9),
                             decoration: BoxDecoration(
                                 color: selectedFMOPos1 == 0
-                                    ? CustomColors.backgroundColor
-                                    : CustomColors.borderColor,
+                                    ? BaseColors.backgroundColor
+                                    : BaseColors.borderColor,
                                 boxShadow: [getLightBoxShadow()],
                                 border: Border.all(
                                     color: Colors.transparent, width: 1.5),
@@ -282,15 +282,15 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                             child: Container(
                               decoration: BoxDecoration(
                                   border: Border.all(
-                                      color: CustomColors.white, width: 1.5),
+                                      color: BaseColors.white, width: 1.5),
                                   shape: BoxShape.circle,
                                   boxShadow: [getBoxShadow()],
                                   color: selectedFMOPos1 == 0
-                                      ? CustomColors.primaryColor
-                                      : CustomColors.borderColor
+                                      ? BaseColors.primaryColor
+                                      : BaseColors.borderColor
                               ),
                               child: Center(
-                                child: Icon(Icons.check, color: CustomColors.white,
+                                child: Icon(Icons.check, color: BaseColors.white,
                                     size: 16.sp),
                               ),
                             ),
@@ -298,7 +298,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                           SizedBox(
                             width: 2.w,
                           ),
-                          Text(translate(context).for_today, style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
+                          Text(translate(context).for_today, style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
                         ],
                       ),
                     ),
@@ -318,8 +318,8 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                             // padding: const EdgeInsets.symmetric(horizontal: 9),
                             decoration: BoxDecoration(
                                 color: selectedFMOPos1 == 1
-                                    ? CustomColors.backgroundColor
-                                    : CustomColors.borderColor,
+                                    ? BaseColors.backgroundColor
+                                    : BaseColors.borderColor,
                                 boxShadow: [getLightBoxShadow()],
                                 border: Border.all(
                                     color: Colors.transparent, width: 1.5),
@@ -327,15 +327,15 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                             child: Container(
                               decoration: BoxDecoration(
                                   border: Border.all(
-                                      color: CustomColors.white, width: 1.5),
+                                      color: BaseColors.white, width: 1.5),
                                   shape: BoxShape.circle,
                                   boxShadow: [getBoxShadow()],
                                   color: selectedFMOPos1 == 1
-                                      ? CustomColors.primaryColor
-                                      : CustomColors.borderColor
+                                      ? BaseColors.primaryColor
+                                      : BaseColors.borderColor
                               ),
                               child: Center(
-                                child: Icon(Icons.check, color: CustomColors.white,
+                                child: Icon(Icons.check, color: BaseColors.white,
                                     size: 16.sp),
                               ),
                             ),
@@ -343,7 +343,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                           SizedBox(
                             width: 2.w,
                           ),
-                          Text(translate(context).for_multiple_days, style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
+                          Text(translate(context).for_multiple_days, style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
                         ],
                       ),
                     ),

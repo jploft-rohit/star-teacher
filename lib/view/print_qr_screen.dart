@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
+
 
 class PrintQrScreen extends StatefulWidget {
   const PrintQrScreen({Key? key}) : super(key: key);

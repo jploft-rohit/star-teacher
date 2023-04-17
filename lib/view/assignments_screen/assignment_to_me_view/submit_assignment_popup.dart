@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -52,7 +52,7 @@ class _SubmitAssignmentPopupState extends State<SubmitAssignmentPopup> {
                 SizedBox(
                   height: 2.h,
                 ),
-                CustomTextField(controller: commentCtrl, hintText: "Comments", maxLine: 3,fillColor: CustomColors.txtFieldTextColor,),
+                CustomTextField(controller: commentCtrl, hintText: "Comments", maxLine: 3,fillColor: BaseColors.txtFieldTextColor,),
                 SizedBox(
                   height: 2.h,
                 ),

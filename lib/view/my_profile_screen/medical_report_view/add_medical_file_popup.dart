@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -62,20 +62,20 @@ class _AddMedicalFilePopupState extends State<AddMedicalFilePopup> {
                 ),
                 CustomTextField(controller: titleCtrl,
                     borderRadius: 5.0,
-                    fillColor: CustomColors.txtFieldTextColor,
+                    fillColor: BaseColors.txtFieldTextColor,
                     hintText: translate(context).title),
                 SizedBox(
                   height: 1.h,
                 ),
                 CustomTextField(controller: titleCtrl,
                   borderRadius: 5.0,
-                  fillColor: CustomColors.txtFieldTextColor,
+                  fillColor: BaseColors.txtFieldTextColor,
                   hintText: translate(context).description, maxLine: 3,),
                 SizedBox(
                   height: 1.h,
                 ),
                 CustomTextField(controller: titleCtrl,
-                  fillColor: CustomColors.txtFieldTextColor,
+                  fillColor: BaseColors.txtFieldTextColor,
                   borderRadius: 5.0,
                   readOnly: true,
                   onTap: (){
@@ -89,7 +89,7 @@ class _AddMedicalFilePopupState extends State<AddMedicalFilePopup> {
                   height: 1.h,
                 ),
                 CustomTextField(controller: titleCtrl,
-                  fillColor: CustomColors.txtFieldTextColor,
+                  fillColor: BaseColors.txtFieldTextColor,
                   borderRadius: 5.0,
                   hintText: translate(context).upload_file, suffixIcon: Padding(
                   padding: const EdgeInsets.only(left: 10.0, right: 10.0),

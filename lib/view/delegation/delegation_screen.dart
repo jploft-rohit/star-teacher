@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
+
+
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -18,7 +18,7 @@ import 'package:staff_app/view/assignments_screen/submitted_assignment_view.dart
 import 'package:staff_app/view/create_task_or_assignment/create_task_or_assignment.dart';
 import 'package:staff_app/view/salary_slip_screen/salary_slip_poup.dart';
 
-import '../../Utility/custom_colors.dart';
+import '../../Utility/base_colors.dart';
 
 class DelegationScreen extends StatefulWidget {
   const DelegationScreen({Key? key}) : super(key: key);
@@ -42,10 +42,10 @@ class _DelegationScreenState extends State<DelegationScreen> {
             Container(
               padding: const EdgeInsets.only(left: 8.0, right: 8.0),
               decoration: BoxDecoration(
-                color: CustomColors.backgroundColor,
+                color: BaseColors.backgroundColor,
                 borderRadius: BorderRadius.circular(5.0),
                 border: Border.all(
-                    color: CustomColors.borderColor
+                    color: BaseColors.borderColor
                 ),
               ),
               child: Row(
@@ -72,7 +72,7 @@ class _DelegationScreenState extends State<DelegationScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            addText("Roles Delegation Request", 16.sp, CustomColors.textBlackColor, FontWeight.w700),
+                            addText("Roles Delegation Request", 16.sp, BaseColors.textBlackColor, FontWeight.w700),
                           ],
                         ),
                         const Divider(),

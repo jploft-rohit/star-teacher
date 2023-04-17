@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/salary_slip_screen/salary_slip_poup.dart';
@@ -41,7 +41,7 @@ class _SalarySlipScreenState extends State<SalarySlipScreen> {
                   color: Colors.white,
                   boxShadow: [
                     BoxShadow(
-                      color: CustomColors.darkShadowColor,
+                      color: BaseColors.darkShadowColor,
                       blurRadius: 3.0,
                       offset: Offset(0,3)
                     )
@@ -54,13 +54,13 @@ class _SalarySlipScreenState extends State<SalarySlipScreen> {
                       padding: EdgeInsets.only(left: 20.sp, right: 20.sp, top: 10.sp, bottom: 10.sp),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
-                        color: CustomColors.backgroundColor,
-                        border: Border.all(color: CustomColors.primaryColor)
+                        color: BaseColors.backgroundColor,
+                        border: Border.all(color: BaseColors.primaryColor)
                       ),
                       child: Column(
                         children: [
-                          Text("10", style: Style.montserratBoldStyle().copyWith(fontSize: 20.sp,color: CustomColors.txtPrimaryColor),),
-                          Text("June", style: Style.montserratMediumStyle().copyWith(fontSize: 17.sp,color: CustomColors.txtPrimaryColor),),
+                          Text("10", style: Style.montserratBoldStyle().copyWith(fontSize: 20.sp,color: BaseColors.txtPrimaryColor),),
+                          Text("June", style: Style.montserratMediumStyle().copyWith(fontSize: 17.sp,color: BaseColors.txtPrimaryColor),),
                         ],
                       ),
                     ),
@@ -74,7 +74,7 @@ class _SalarySlipScreenState extends State<SalarySlipScreen> {
                         SizedBox(
                           height: 3.0,
                         ),
-                        Text("1000 AED", style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp,color: CustomColors.primaryColor),),
+                        Text("1000 AED", style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp,color: BaseColors.primaryColor),),
                       ],
                     ),
                     Spacer(),
@@ -91,7 +91,7 @@ class _SalarySlipScreenState extends State<SalarySlipScreen> {
                           },
                         );
                       },
-                      child: Icon(Icons.remove_red_eye_outlined,color: CustomColors.primaryColor,),
+                      child: Icon(Icons.remove_red_eye_outlined,color: BaseColors.primaryColor,),
                     ),
                     SizedBox(
                       width: 10.0,

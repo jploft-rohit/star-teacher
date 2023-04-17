@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 
@@ -45,11 +45,11 @@ class _BusArrivingSoonScreenState extends State<BusArrivingSoonScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(translate(context).please_make_sure_you_are_ready_at_the_pickup_point, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp, height: 1.5),textAlign: TextAlign.center,),
+            Text(translate(context).please_make_sure_you_are_ready_at_the_pickup_point, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp, height: 1.5),textAlign: TextAlign.center,),
             SizedBox(
               height: 5.h,
             ),
-            Text("${translate(context).notify}:", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp,),),
+            Text("${translate(context).notify}:", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp,),),
             SizedBox(
               height: 1.h,
             ),
@@ -70,17 +70,17 @@ class _BusArrivingSoonScreenState extends State<BusArrivingSoonScreen> {
                     padding: EdgeInsets.all(14.sp),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.0),
-                        border: Border.all(color: CustomColors.primaryColor)
+                        border: Border.all(color: BaseColors.primaryColor)
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(list[index]['title'], style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: 17.sp),),
+                        Text(list[index]['title'], style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 17.sp),),
                         Checkbox(
                           visualDensity: VisualDensity(vertical: -4),
                           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           side: BorderSide(color: Colors.transparent),
-                          activeColor: CustomColors.primaryColor,
+                          activeColor: BaseColors.primaryColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50.0),
                           ),

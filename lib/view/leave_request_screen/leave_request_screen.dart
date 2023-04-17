@@ -6,9 +6,10 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_floating_action_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_textformfield.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -30,6 +31,7 @@ class LeaveRequestScreen extends StatefulWidget {
 
 class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
   TextEditingController startDateCtrl = TextEditingController();
+  TextEditingController leaveTypeController = TextEditingController();
   final List<String> pendingMeetingdates = ['July 2,\n8:30PM', 'July 3,\n10:30AM', 'July 3,\n10:30AM', 'July 3,\n10:30AM'];
   String? initialLeaveType;
   var leaveTypeDropdownData = [
@@ -68,10 +70,10 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
               Container(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 decoration: BoxDecoration(
-                  color: CustomColors.backgroundColor,
+                  color: BaseColors.backgroundColor,
                   borderRadius: BorderRadius.circular(5.0),
                   border: Border.all(
-                      color: CustomColors.borderColor
+                      color: BaseColors.borderColor
                   ),
                 ),
                 child: Row(
@@ -87,32 +89,14 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
               ),
               Row(
                 children: [
-                  // Container(
-                  //   width: 40.w,
-                  //   padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                  //   decoration: BoxDecoration(
-                  //     color: CustomColors.backgroundColor,
-                  //     borderRadius: BorderRadius.circular(5.0),
-                  //     border: Border.all(
-                  //         color: CustomColors.borderColor
-                  //     ),
-                  //   ),
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //     children: [
-                  //       Text("Leave Type", style: Style.montserratRegularStyle().copyWith(color: Colors.black, fontSize: 16.sp),),
-                  //       const Icon(Icons.arrow_drop_down, color: Color(0xffC4C4C4),size: 35.0,)
-                  //     ],
-                  //   ),
-                  // ),
                   Expanded(
                     child: Container(
                       padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
                       decoration: BoxDecoration(
-                        color: CustomColors.backgroundColor,
+                        color: BaseColors.backgroundColor,
                         borderRadius: BorderRadius.circular(5.0),
                         border: Border.all(
-                            color: CustomColors.borderColor
+                            color: BaseColors.borderColor
                         ),
                       ),
                       child: DropdownButtonHideUnderline(
@@ -153,13 +137,13 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                         width: 50.w,
                         padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 9.0, bottom: 9.0),
                         decoration: BoxDecoration(
-                          color: CustomColors.backgroundColor,
+                          color: BaseColors.backgroundColor,
                           borderRadius: BorderRadius.circular(5.0),
                           border: Border.all(
-                              color: CustomColors.primaryColor
+                              color: BaseColors.primaryColor
                           ),
                         ),
-                        child: Center(child: Text(translate(context).check_leave_balance, style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: 16.sp),)),
+                        child: Center(child: Text(translate(context).check_leave_balance, style: Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp),)),
                       ),
                     ),
                   ),
@@ -182,7 +166,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                         borderRadius: BorderRadius.circular(10.0),
                         boxShadow: const [
                           BoxShadow(
-                              color: CustomColors.darkShadowColor,
+                              color: BaseColors.darkShadowColor,
                               spreadRadius: 1.0,
                               blurRadius: 2.0,
                               offset: Offset(0, 3)
@@ -197,15 +181,15 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                             children: [
                               Row(
                                 children: [
-                                  Text("${translate(context).leave_type} : ", style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
-                                  Text("CL", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),maxLines: 1, overflow: TextOverflow.ellipsis,),
+                                  Text("${translate(context).leave_type} : ", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
+                                  Text("CL", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),maxLines: 1, overflow: TextOverflow.ellipsis,),
                                 ],
                               ),
                               Row(
                                 children: [
                                   Icon(
                                     CupertinoIcons.delete,
-                                    color: CustomColors.primaryColor,
+                                    color: BaseColors.primaryColor,
                                     size: 18.sp,
                                   ),
                                   SizedBox(
@@ -215,7 +199,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                                     onTap: (){
                                       Get.to(const EarlyLeaveScreen());
                                     },
-                                    child: Image.asset(editPng, color: CustomColors.primaryColor,height: 18.sp,),
+                                    child: Image.asset(editPng, color: BaseColors.primaryColor,height: 18.sp,),
                                   ),
                                   SizedBox(
                                     width: 5.w,
@@ -235,7 +219,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                                         const SizedBox(
                                           height: 2.0,
                                         ),
-                                        Text(translate(context).upload_evidence1, style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: 13.sp),textAlign: TextAlign.center,)
+                                        Text(translate(context).upload_evidence1, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 13.sp),textAlign: TextAlign.center,)
                                       ],
                                     ),
                                   ),
@@ -244,7 +228,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                             ],
                           ),
                           const Divider(
-                            color: CustomColors.borderColor,
+                            color: BaseColors.borderColor,
                             thickness: 1.0,
                           ),
                           Row(
@@ -253,11 +237,11 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                               SizedBox(
                                 width: 2.w,
                               ),
-                              Text("01/03/2022", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                              Text("01/03/2022", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                               SizedBox(
                                 width: 10.w,
                               ),
-                              Text(translate(context).to, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                              Text(translate(context).to, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                               SizedBox(
                                 width: 10.w,
                               ),
@@ -265,11 +249,11 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                               SizedBox(
                                 width: 2.w,
                               ),
-                              Text("05/03/2022", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                              Text("05/03/2022", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                             ],
                           ),
                           const Divider(
-                            color: CustomColors.borderColor,
+                            color: BaseColors.borderColor,
                             thickness: 1.0,
                           ),
                           Row(
@@ -278,12 +262,12 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                               SizedBox(
                                 width: 2.w,
                               ),
-                              Text("${translate(context).reason} : ", style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
-                              Text("Lorem Ipsum is simply dummy text...", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),maxLines: 1, overflow: TextOverflow.ellipsis,),
+                              Text("${translate(context).reason} : ", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
+                              Text("Lorem Ipsum is simply dummy text...", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),maxLines: 1, overflow: TextOverflow.ellipsis,),
                             ],
                           ),
                           const Divider(
-                            color: CustomColors.borderColor,
+                            color: BaseColors.borderColor,
                             thickness: 1.0,
                           ),
                           Row(
@@ -292,12 +276,12 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                               SizedBox(
                                 width: 2.w,
                               ),
-                              Text("${translate(context).comment} : ", style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
-                              Text("Ok I will talk to her...", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),maxLines: 1, overflow: TextOverflow.ellipsis,),
+                              Text("${translate(context).comment} : ", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
+                              Text("Ok I will talk to her...", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),maxLines: 1, overflow: TextOverflow.ellipsis,),
                             ],
                           ),
                           const Divider(
-                            color: CustomColors.borderColor,
+                            color: BaseColors.borderColor,
                             thickness: 1.0,
                           ),
                           Row(
@@ -306,8 +290,8 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                               SizedBox(
                                 width: 2.w,
                               ),
-                              Text("${translate(context).evidence} : ", style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
-                              Text("Medical_sania.jpeg", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),maxLines: 1, overflow: TextOverflow.ellipsis,),
+                              Text("${translate(context).evidence} : ", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
+                              Text("Medical_sania.jpeg", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),maxLines: 1, overflow: TextOverflow.ellipsis,),
                               SizedBox(width: 4.w,),
                               InkWell(onTap: (){
                                 showGeneralDialog(
@@ -316,19 +300,19 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                                     return OpenPdfPopup(title: "");
                                   },
                                 );
-                              },child: Icon(Icons.remove_red_eye_outlined,color: CustomColors.primaryColor,size: 20.sp,)),
+                              },child: Icon(Icons.remove_red_eye_outlined,color: BaseColors.primaryColor,size: 20.sp,)),
                               SizedBox(width: 3.w,),
-                              Icon(Icons.download_for_offline,color: CustomColors.primaryColor,size: 20.sp,)
+                              Icon(Icons.download_for_offline,color: BaseColors.primaryColor,size: 20.sp,)
                             ],
                           ),
                           const Divider(
-                            color: CustomColors.borderColor,
+                            color: BaseColors.borderColor,
                             thickness: 1.0,
                           ),
                           StepProgressView(
                             width: MediaQuery.of(context).size.width,
                             curStep: 4,
-                            color: CustomColors.primaryColor,
+                            color: BaseColors.primaryColor,
                             titles: pendingMeetingdates,
                             statuses: heading,
                           ),

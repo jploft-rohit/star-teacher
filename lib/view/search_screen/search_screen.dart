@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -71,12 +71,12 @@ class _SearchScreenState extends State<SearchScreen> {
                             // padding: const EdgeInsets.symmetric(horizontal: 9),
                             decoration: BoxDecoration(
                                 color: controller.selectedFMOPos.value == index
-                                    ? CustomColors.backgroundColor
-                                    : CustomColors.white,
+                                    ? BaseColors.backgroundColor
+                                    : BaseColors.white,
                                 boxShadow: [getBoxShadow()],
                                 border: controller.selectedFMOPos.value == index
                                     ? Border.all(
-                                    color: CustomColors.primaryColor, width: 1.5)
+                                    color: BaseColors.primaryColor, width: 1.5)
                                     : null,
                                 borderRadius: BorderRadius.circular(10.0)),
                             child: Row(
@@ -87,17 +87,17 @@ class _SearchScreenState extends State<SearchScreen> {
                                   padding: const EdgeInsets.all(2),
                                   decoration: BoxDecoration(
                                       border: Border.all(
-                                          color: CustomColors.white, width: 2),
+                                          color: BaseColors.white, width: 2),
                                       shape: BoxShape.circle,
                                       boxShadow: [getBoxShadow()],
                                       color: controller.selectedFMOPos.value == index
-                                          ? CustomColors.primaryColor
-                                          : CustomColors.borderColor
+                                          ? BaseColors.primaryColor
+                                          : BaseColors.borderColor
                                   ),
-                                  child: Icon(Icons.check, color: CustomColors.white,
+                                  child: Icon(Icons.check, color: BaseColors.white,
                                       size: 17.sp),
                                 ),
-                                Obx(() => SvgPicture.asset(controller.fmoImageList[index],height: 30,color: controller.selectedFMOPos.value==index ? CustomColors.primaryColor:Colors.black,))
+                                Obx(() => SvgPicture.asset(controller.fmoImageList[index],height: 30,color: controller.selectedFMOPos.value==index ? BaseColors.primaryColor:Colors.black,))
                               ],
                             ),
                           );
@@ -114,7 +114,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                     child: SvgPicture.asset(searchSvg, color: Colors.grey[500], height: 20.0,),
                   ),
-                  borderColor: CustomColors.borderColor,
+                  borderColor: BaseColors.borderColor,
                   controller: searchCtrl,
                   hintText: translate(context).search,
                   suffixIcon: controller.selectedFMOPos.value == 2 ? const SizedBox() : Padding(
@@ -160,7 +160,7 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget buildTile(String title) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 7),
-      child: BaseButton(btnType: buttonIcon,title: title, onPressed: (){},showNextIcon: true,),
+      child: BaseButton(btnType: buttonIcon,title: title, onPressed:null,showNextIcon: true,),
     );
   }
 }

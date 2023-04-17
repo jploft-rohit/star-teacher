@@ -4,24 +4,26 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/Utility/base_dropdown.dart';
+import 'package:staff_app/Utility/base_textformfield.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 
 class ReportLostFoundScreen extends StatefulWidget {
+  final String type;
   final bool isUpdating;
-  const ReportLostFoundScreen({Key? key,this.isUpdating = false}) : super(key: key);
+  const ReportLostFoundScreen({Key? key,this.isUpdating = false, required this.type}) : super(key: key);
 
   @override
   State<ReportLostFoundScreen> createState() => _ReportLostFoundScreenState();
 }
 
 class _ReportLostFoundScreenState extends State<ReportLostFoundScreen> {
-  TextEditingController schoolController = TextEditingController();
   TextEditingController titleController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   TextEditingController whereController = TextEditingController();
@@ -35,184 +37,16 @@ class _ReportLostFoundScreenState extends State<ReportLostFoundScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(title: widget.isUpdating ? "Lost & Found" : "Report Lost & Found"),
+      appBar: BaseAppBar(title: widget.isUpdating ? widget.type == "Lost" ? "Update Lost Report" : "Update Found Report" : widget.type == "Lost" ? "Report Lost" : "Report Found"),
       body: Padding(
         padding: EdgeInsets.all(20.sp),
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  flex: 1,
-                  child: Text(translate(context).school, style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: CustomColors.textBlackColor),),
-                ),
-                Flexible(
-                  flex: 3,
-                  child: Container(
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(calenderDateSvg, color: Colors.transparent,),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        Expanded(
-                          child: CustomTextField(
-                            readOnly: true,
-                            controller: schoolController,
-                            fillColor: CustomColors.txtFieldTextColor,
-                            hintText: "",
-                            borderRadius: 5.0,
-                            suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-            SizedBox(
-              height: 2.h,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  flex: 1,
-                  child: Text(translate(context).title, style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: CustomColors.textBlackColor),),
-                ),
-                Flexible(
-                  flex: 3,
-                  child: Container(
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(calenderDateSvg, color: Colors.transparent,),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        Expanded(
-                          child: CustomTextField(
-                            controller: titleController,
-                            hintText: "",
-                            fillColor: CustomColors.txtFieldTextColor,
-                            borderRadius: 5.0,
-
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-            SizedBox(
-              height: 2.h,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  flex: 1,
-                  child: Text("Found Date", style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: CustomColors.textBlackColor),),
-                ),
-                Flexible(
-                  flex: 3,
-                  child: Container(
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(calenderDateSvg),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        Expanded(
-                          child: CustomTextField(
-                            controller: dateController,
-                            readOnly: true,
-                            onTap: (){
-                              selectDate(context);
-                            },
-                            fillColor: CustomColors.txtFieldTextColor,
-                            hintText: "",
-                            borderRadius: 5.0,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-            SizedBox(
-              height: 2.h,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  flex: 1,
-                  child: Text(translate(context).where, style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: CustomColors.textBlackColor),),
-                ),
-                Flexible(
-                  flex: 3,
-                  child: Container(
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(calenderDateSvg, color: Colors.transparent,),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        Expanded(
-                          child: CustomTextField(
-                            controller: whereController,
-                            fillColor: CustomColors.txtFieldTextColor,
-                            hintText: "",
-                            borderRadius: 5.0,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-            SizedBox(
-              height: 2.h,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  flex: 1,
-                  child: Text(translate(context).upload_photo, style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: CustomColors.textBlackColor),),
-                ),
-                Flexible(
-                  flex: 3,
-                  child: Container(
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(calenderDateSvg, color: Colors.transparent,),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        Expanded(
-                          child: CustomTextField(
-                            controller: uploadController,
-                            hintText: "",
-                            fillColor: CustomColors.txtFieldTextColor,
-                            borderRadius: 5.0,
-                            suffixIcon: Padding(
-                              padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                              child: SvgPicture.asset("assets/images/upload_icon.svg",),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
+            BaseDropDown(),
+            BaseTextFormField(controller: titleController,hintText: translate(context).title,),
+            BaseTextFormField(controller: dateController,hintText: "${widget.type} Date",onTap: (){selectDate(context);}),
+            BaseTextFormField(controller: whereController,hintText: translate(context).where,),
+            BaseTextFormField(bottomMargin: 3.h,controller: uploadController,hintText: translate(context).upload_photo,suffixIcon: "assets/images/upload_icon.svg",onTap: (){}),
             // SizedBox(
             //   height: 2.h,
             // ),
@@ -250,7 +84,6 @@ class _ReportLostFoundScreenState extends State<ReportLostFoundScreen> {
             //     )
             //   ],
             // ),
-            SizedBox(height: 5.h),
             BaseButton(title: widget.isUpdating ? translate(context).update : translate(context).submit_btn_txt, onPressed: (){
               Get.back();
             })
@@ -266,7 +99,7 @@ class _ReportLostFoundScreenState extends State<ReportLostFoundScreen> {
           return Theme(
             data: Theme.of(context).copyWith(
               colorScheme: const ColorScheme.light(
-                primary: CustomColors.primaryColor,
+                primary: BaseColors.primaryColor,
               ),
             ),
             child: child!,
@@ -281,10 +114,9 @@ class _ReportLostFoundScreenState extends State<ReportLostFoundScreen> {
   }
   setData(){
     if(widget.isUpdating){
-      schoolController.text = "Ignite Public School";
-      titleController.text = "Found a book in the computer lab.";
-      dateController.text = "14/12/1997";
-      whereController.text = "9342343245";
+      titleController.text = "${widget.type} a book in the computer lab.";
+      dateController.text = "28-11-2022";
+      whereController.text = "In Computer Lab";
       uploadController.text = "doc.pdf";
     }
   }

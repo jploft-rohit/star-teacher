@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -24,7 +24,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(title??"", style: Style.montserratBoldStyle().copyWith(fontSize: appBarHeadingTs, color: CustomColors.appBarTextColor)),
+      title: Text(title??"", style: Style.montserratBoldStyle().copyWith(fontSize: appBarHeadingTs, color: BaseColors.appBarTextColor)),
       backgroundColor: Colors.transparent,
       elevation: 0.0,
       centerTitle: true,
@@ -81,7 +81,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
                   alignment: Alignment.center,
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    color: CustomColors.primaryColor
+                    color: BaseColors.primaryColor
                   ),
                   child: Text("1",style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.w500)),
                 ),

@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_dropdown.dart';
+import 'package:staff_app/Utility/base_textformfield.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
+import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/create_task_or_assignment/assign_assignment_popup.dart';
@@ -24,17 +27,18 @@ class _CreateTaskStaffViewState extends State<CreateTaskStaffView> {
   TextEditingController libraryNoCtrl = TextEditingController();
   TextEditingController dueDateCtrl = TextEditingController();
   TextEditingController dueTimeCtrl = TextEditingController();
+  TextEditingController assignedController = TextEditingController();
+  TextEditingController assignTypeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
-          CustomTextField(
-            controller: TextEditingController(),
+          BaseTextFormField(
+            controller: assignedController,
             hintText: "Select assigned to:",
-            fillColor: CustomColors.txtFieldTextColor,
-            readOnly: true,
+            suffixIcon: "assets/images/ic_down.svg",
             onTap: (){
               showGeneralDialog(
                 context: context,
@@ -43,150 +47,85 @@ class _CreateTaskStaffViewState extends State<CreateTaskStaffView> {
                 },
               );
             },
-            borderRadius: 5.0,
-            suffixIcon: Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
-          ),
-          SizedBox(
-            height: 2.h,
           ),
           Row(
             children: [
-              Flexible(
-                flex: 1,
-                child: CustomTextField(
+              Expanded(
+                child: BaseTextFormField(
+                  rightMargin: 1.w,
                   controller: startDateCtrl,
-                  fillColor: CustomColors.txtFieldTextColor,
+                  suffixIcon: calenderDateSvg,
                   hintText: "Post Date",
-                  readOnly: true,
                   onTap: (){
                     selectDate(context);
                   },
-                  borderRadius: 5.0,
-                  suffixIcon: Padding(
-                    padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                    child: SvgPicture.asset(calenderDateSvg),
-                  ),
                 ),
               ),
-              SizedBox(
-                width: 2.w,
-              ),
-              Flexible(
-                flex: 1,
-                child: CustomTextField(
+              Expanded(
+                child: BaseTextFormField(
+                  leftMargin: 1.w,
                   controller: postTimeCtrl,
-                  fillColor: CustomColors.txtFieldTextColor,
                   hintText: "Post Time",
-                  borderRadius: 5.0,
-                  suffixIcon: Padding(
-                    padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                    child: SvgPicture.asset("assets/images/time_icon1.svg"),
-                  ),
+                  suffixIcon: "assets/images/time_icon1.svg",
                 ),
               ),
             ],
           ),
-          SizedBox(
-            height: 2.h,
-          ),
-          CustomTextField(
+          BaseTextFormField(
             controller: titleCtrl,
-            fillColor: CustomColors.txtFieldTextColor,
             hintText: "Title",
-            borderRadius: 5.0,
           ),
-          SizedBox(
-            height: 2.h,
-          ),
-          CustomTextField(
+          BaseTextFormField(
             controller: descriptionCtrl,
             hintText: "Description",
-            maxLine: 3,
-            borderRadius: 5.0,
           ),
-          SizedBox(
-            height: 2.h,
-          ),
-          CustomTextField(
-            controller: TextEditingController(),
+          BaseTextFormField(
+            controller: assignTypeController,
+            isDropDown: true,
             hintText: "Assign type",
-            fillColor: CustomColors.txtFieldTextColor,
-            readOnly: true,
-            onTap: (){
-              print("adfas");
-            },
-            borderRadius: 5.0,
-            suffixIcon: Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
+            dropDownValue: assignTypeController.text,
+            onChanged: (newValue){
+              setState(() {
+                assignTypeController.text = newValue.toString();
+              });},
+            items: DummyLists().list1.map((value) {
+              return DropdownMenuItem(
+                value: value,
+                child: addText(value, 16.sp, Colors.black, FontWeight.w400),);
+            }).toList(),
           ),
-          SizedBox(
-            height: 2.h,
-          ),
-          CustomTextField(
+          BaseTextFormField(
             controller: libraryNoCtrl,
-            fillColor: CustomColors.txtFieldTextColor,
             hintText: "Library Assignment No.",
-            borderRadius: 5.0,
           ),
-          SizedBox(
-            height: 2.h,
-          ),
-          CustomTextField(
+          BaseTextFormField(
             controller: TextEditingController(),
-            fillColor: CustomColors.txtFieldTextColor,
             hintText: "Upload file",
-            readOnly: true,
-            onTap: (){
-              print("adfas");
-            },
-            borderRadius: 5.0,
-            suffixIcon: Padding(
-              padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-              child: SvgPicture.asset("assets/images/upload_icon.svg"),
-            ),
-          ),
-          SizedBox(
-            height: 2.h,
+            suffixIcon: "assets/images/upload_icon.svg",
+            onTap: (){},
           ),
           Row(
             children: [
-              Flexible(
-                flex: 1,
-                child: CustomTextField(
+              Expanded(
+                child: BaseTextFormField(
+                  rightMargin: 1.w,
                   controller: dueDateCtrl,
                   hintText: "Due Date",
-                  fillColor: CustomColors.txtFieldTextColor,
-                  borderRadius: 5.0,
-                  readOnly: true,
-                  onTap: (){
-                    selectDate(context);
-                  },
-                  suffixIcon: Padding(
-                    padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                    child: SvgPicture.asset(calenderDateSvg),
-                  ),
+                  suffixIcon: calenderDateSvg,
+                  onTap: (){selectDate(context);},
                 ),
               ),
-              SizedBox(
-                width: 2.w,
-              ),
-              Flexible(
-                flex: 1,
-                child: CustomTextField(
+              Expanded(
+                child: BaseTextFormField(
+                  leftMargin: 1.w,
                   controller: dueTimeCtrl,
                   hintText: "Due Time",
-                  fillColor: CustomColors.txtFieldTextColor,
-                  borderRadius: 5.0,
-                  suffixIcon: Padding(
-                    padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                    child: SvgPicture.asset("assets/images/time_icon1.svg"),
-                  ),
+                  suffixIcon: "assets/images/time_icon1.svg",
                 ),
               ),
             ],
           ),
-          SizedBox(height: 2.h),
           BaseButton(title: "SUBMIT", onPressed: (){}),
-          SizedBox(height: 2.h),
         ],
       ),
     );

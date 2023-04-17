@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/utility.dart';
 
 class NewsDetailScreen extends StatefulWidget {
@@ -19,8 +20,8 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
     return SafeArea(
 
       child: Scaffold(
-        backgroundColor: CustomColors.white,
-        appBar: appBarWithHeading(""),
+        backgroundColor: BaseColors.white,
+        appBar: BaseAppBar(),
         body: Padding(
           padding: const EdgeInsets.all(15),
           child: Column(
@@ -65,13 +66,13 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                       },
                       child: Card(
                           elevation: 4,
-                          color: CustomColors.backgroundColor,
+                          color: BaseColors.backgroundColor,
                           shape: RoundedRectangleBorder(
-                              side: const BorderSide(color: CustomColors.primaryColor, width: 1.0),
+                              side: const BorderSide(color: BaseColors.primaryColor, width: 1.0),
                               borderRadius: BorderRadius.circular(10.0)),
                           child:Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 60,vertical: 15),
-                            child: addText("Agreed".toUpperCase(),15.sp,CustomColors.primaryColor,FontWeight.w700),
+                            child: addText("Agreed".toUpperCase(),15.sp,BaseColors.primaryColor,FontWeight.w700),
                           )
                       ),
                     ),

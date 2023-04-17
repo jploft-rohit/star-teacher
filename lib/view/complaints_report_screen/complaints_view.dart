@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
-import 'package:staff_app/Utility/custom_dialogs.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/Utility/base_dialogs.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -45,18 +45,18 @@ class _ComplaintsViewState extends State<ComplaintsView> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    addText("Behavior is not good", 16.sp, CustomColors.textBlackColor, FontWeight.w700),
+                    addText("Behavior is not good", 16.sp, BaseColors.textBlackColor, FontWeight.w700),
                     Row(
                       children: [
                         GestureDetector(
                           onTap: (){
-                            CustomDialogs().showConfirmationDialog(
+                            BaseDialogs().showConfirmationDialog(
                               title: "Are you sure you want to delete this Complaint?",
                             );
                           },
                           child: Icon(
                             CupertinoIcons.delete,
-                            color: CustomColors.primaryColor,
+                            color: BaseColors.primaryColor,
                             size: 18.sp,
                           ),
                         ),
@@ -67,7 +67,7 @@ class _ComplaintsViewState extends State<ComplaintsView> {
                           onTap: (){
                             Get.to(RaiseComplaintReportScreen(isUpdating: true));
                           },
-                          child: Image.asset(editPng, color: CustomColors.primaryColor,height: 18.sp,),
+                          child: Image.asset(editPng, color: BaseColors.primaryColor,height: 18.sp,),
                         ),
                       ],
                     ),
@@ -80,9 +80,9 @@ class _ComplaintsViewState extends State<ComplaintsView> {
                     SizedBox(
                       width: 2.w,
                     ),
-                    addText("Star :", 15.sp, CustomColors.textBlackColor, FontWeight.w400),
+                    addText("Star :", 15.sp, BaseColors.textBlackColor, FontWeight.w400),
                     const SizedBox(width: 3),
-                    addText("Najma Suheil", 15.sp, CustomColors.primaryColor, FontWeight.w600),
+                    addText("Najma Suheil", 15.sp, BaseColors.primaryColor, FontWeight.w600),
                   ],
                 ),
                 Divider(),
@@ -92,7 +92,7 @@ class _ComplaintsViewState extends State<ComplaintsView> {
                     SizedBox(
                       width: 2.w,
                     ),
-                    addText("01/03/2022", 15.sp, CustomColors.textBlackColor, FontWeight.w400),
+                    addText("01/03/2022", 15.sp, BaseColors.textBlackColor, FontWeight.w400),
                     SizedBox(
                       width: 10.w,
                     ),
@@ -100,7 +100,7 @@ class _ComplaintsViewState extends State<ComplaintsView> {
                     SizedBox(
                       width: 2.w,
                     ),
-                    addText("09:13pm", 15.sp, CustomColors.textBlackColor, FontWeight.w400),
+                    addText("09:13pm", 15.sp, BaseColors.textBlackColor, FontWeight.w400),
                   ],
                 ),
                 Divider(),
@@ -211,7 +211,7 @@ class _ComplaintsViewState extends State<ComplaintsView> {
                 StepProgressView(
                   width: MediaQuery.of(context).size.width,
                   curStep: index+1,
-                  color: CustomColors.primaryColor,
+                  color: BaseColors.primaryColor,
                   titles: pendingMeetingdates,
                   statuses: heading,
                 ),

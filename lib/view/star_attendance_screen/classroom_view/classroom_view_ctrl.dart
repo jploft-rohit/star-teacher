@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 
 class ClassroomViewCtrl extends GetxController{
@@ -20,7 +20,7 @@ class ClassroomViewCtrl extends GetxController{
   List<Map<String, dynamic>> statusList = [
     {
       "title" : "Present",
-      "color" : CustomColors.green,
+      "color" : BaseColors.green,
       "isSelected" : true
     },
     {
@@ -30,7 +30,7 @@ class ClassroomViewCtrl extends GetxController{
     },
     {
       "title" : "Absent",
-      "color" : CustomColors.textRedColor,
+      "color" : BaseColors.textRedColor,
       "isSelected" : true
     },
   ];

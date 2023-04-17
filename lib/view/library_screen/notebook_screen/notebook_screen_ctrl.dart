@@ -10,6 +10,7 @@ class NotebookScreenCtrl extends GetxController{
     NotesModel("To be learn", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s", false),
   ].obs;
   List<NotesModel> doneNotesList = <NotesModel>[].obs;
+
   final selectedIndex = 0.obs;
   final selectedIndex1 = 0.obs;
   final selectedIndex3 = 0.obs;

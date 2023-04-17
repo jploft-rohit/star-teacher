@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/star_reward_screen/create_reward_screen.dart';
@@ -24,7 +24,7 @@ class _RewardViewState extends State<RewardView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.white,
+      backgroundColor: BaseColors.white,
       appBar: BaseAppBar(title: translate(context).rewards),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -37,20 +37,20 @@ class _RewardViewState extends State<RewardView> {
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(15),
-                  border: Border.all(color: CustomColors.primaryColor)),
+                  border: Border.all(color: BaseColors.primaryColor)),
               child: SvgPicture.asset(
                 girlSvg,
               ),
             ),
             SizedBox(height: 1.h),
             addText('Najma Suheil', 15.sp,
-                CustomColors.primaryColor, FontWeight.w700),
+                BaseColors.primaryColor, FontWeight.w700),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 14.h),
               child: Divider(),
             ),
             addText('#632541', 15.sp,
-                CustomColors.primaryColor, FontWeight.w700),
+                BaseColors.primaryColor, FontWeight.w700),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 14.h),
               child: Divider(),
@@ -69,7 +69,7 @@ class _RewardViewState extends State<RewardView> {
                       itemBuilder: (context, index) => Container(
                         margin: EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                            color: CustomColors.white,
+                            color: BaseColors.white,
                             borderRadius: BorderRadius.circular(13),
                             boxShadow: kElevationToShadow[2]),
                         child: Row(
@@ -81,7 +81,7 @@ class _RewardViewState extends State<RewardView> {
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(13),
                                     border: Border.all(
-                                        color: CustomColors.primaryColor)),
+                                        color: BaseColors.primaryColor)),
                                 child: SvgPicture.asset(
                                   controller.rewardsList2[index]['icon']!,
                                   height: 6.h,
@@ -108,7 +108,7 @@ class _RewardViewState extends State<RewardView> {
                                               controller.rewardsList2[index]
                                               ['date']!,
                                               13.sp,
-                                              CustomColors.textBlackColor,
+                                              BaseColors.textBlackColor,
                                               FontWeight.w400)
                                         ],
                                       ),
@@ -121,7 +121,7 @@ class _RewardViewState extends State<RewardView> {
                                               controller.rewardsList2[index]
                                               ['time']!,
                                               13.sp,
-                                              CustomColors.textBlackColor,
+                                              BaseColors.textBlackColor,
                                               FontWeight.w400)
                                         ],
                                       ),
@@ -135,7 +135,7 @@ class _RewardViewState extends State<RewardView> {
                                 padding: EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: CustomColors.backgroundColor,
+                                    color: BaseColors.backgroundColor,
                                     boxShadow: kElevationToShadow[3]),
                                 child: SvgPicture.asset(
                                   cupIcon,
@@ -160,9 +160,9 @@ class _RewardViewState extends State<RewardView> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        addText(label, 13.sp, CustomColors.textBlackColor,
+        addText(label, 13.sp, BaseColors.textBlackColor,
             FontWeight.w400),
-        addText(body, 14.sp, CustomColors.primaryColor,
+        addText(body, 14.sp, BaseColors.primaryColor,
             FontWeight.w700),
       ],
     );

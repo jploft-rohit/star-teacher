@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -47,19 +47,19 @@ class _StartPendingAssignmentState extends State<StartPendingAssignment> {
                       RichText(
                         text: TextSpan(
                           text: 'Question: ',
-                          style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp),
+                          style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),
                           children: <TextSpan>[
-                            TextSpan(text: "${pageIndex + 1}", style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: 16.sp)),
-                            TextSpan(text: "/${ctrl.pendingAssignmentList.length}", style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp)),
+                            TextSpan(text: "${pageIndex + 1}", style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
+                            TextSpan(text: "/${ctrl.pendingAssignmentList.length}", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp)),
                           ],
                         ),
                       ),
                       RichText(
                         text: TextSpan(
                           text: 'Mark: ',
-                          style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp),
+                          style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),
                           children: <TextSpan>[
-                            TextSpan(text: "3", style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: 16.sp)),
+                            TextSpan(text: "3", style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
                           ],
                         ),
                       ),
@@ -102,7 +102,7 @@ class _StartPendingAssignmentState extends State<StartPendingAssignment> {
                       ),
                       Flexible(
                         child: Text("${ctrl.pendingAssignmentList[pageIndex]['question']}",
-                          style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: CustomColors.primaryColor, fontWeight: FontWeight.w700),textAlign: TextAlign.center,),
+                          style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: BaseColors.primaryColor, fontWeight: FontWeight.w700),textAlign: TextAlign.center,),
                       ),
                     ],
                   ),
@@ -123,15 +123,15 @@ class _StartPendingAssignmentState extends State<StartPendingAssignment> {
                             padding: EdgeInsets.all(15.sp),
                             margin: EdgeInsets.only(bottom: 10.0,left: 5.0,right: 5.0),
                             decoration: BoxDecoration(
-                                color: selectedFMOPos == index ? CustomColors.backgroundColor : CustomColors.white,
+                                color: selectedFMOPos == index ? BaseColors.backgroundColor : BaseColors.white,
                                 borderRadius: BorderRadius.circular(15.0),
-                                border: Border.all(color: selectedFMOPos == index ? CustomColors.primaryColor :CustomColors.borderColor),
+                                border: Border.all(color: selectedFMOPos == index ? BaseColors.primaryColor :BaseColors.borderColor),
                                 boxShadow: [getBoxShadow()]
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Flexible(child: addText("${ctrl.pendingAssignmentList[pageIndex]['ans'][index]}", 17.sp, selectedFMOPos == index ? CustomColors.primaryColor : CustomColors.textBlackColor, selectedFMOPos == index ? FontWeight.w700 : FontWeight.w400)),
+                                Flexible(child: addText("${ctrl.pendingAssignmentList[pageIndex]['ans'][index]}", 17.sp, selectedFMOPos == index ? BaseColors.primaryColor : BaseColors.textBlackColor, selectedFMOPos == index ? FontWeight.w700 : FontWeight.w400)),
                                 Row(
                                   children: [
                                     SvgPicture.asset(soundOnImg, height: 18.sp,),
@@ -144,8 +144,8 @@ class _StartPendingAssignmentState extends State<StartPendingAssignment> {
                                       // padding: const EdgeInsets.symmetric(horizontal: 9),
                                       decoration: BoxDecoration(
                                           color: selectedFMOPos == index
-                                              ? CustomColors.backgroundColor
-                                              : CustomColors.borderColor,
+                                              ? BaseColors.backgroundColor
+                                              : BaseColors.borderColor,
                                           boxShadow: [getLightBoxShadow()],
                                           border: Border.all(
                                               color: Colors.transparent, width: 1.5),
@@ -153,15 +153,15 @@ class _StartPendingAssignmentState extends State<StartPendingAssignment> {
                                       child: Container(
                                         decoration: BoxDecoration(
                                             border: Border.all(
-                                                color: CustomColors.white, width: 1.5),
+                                                color: BaseColors.white, width: 1.5),
                                             shape: BoxShape.circle,
                                             boxShadow: [getLightBoxShadow()],
                                             color: selectedFMOPos == index
-                                                ? CustomColors.primaryColor
-                                                : CustomColors.borderColor
+                                                ? BaseColors.primaryColor
+                                                : BaseColors.borderColor
                                         ),
                                         child: Center(
-                                          child: Icon(Icons.check, color: CustomColors.white,
+                                          child: Icon(Icons.check, color: BaseColors.white,
                                               size: 16.sp),
                                         ),
                                       ),
@@ -181,7 +181,7 @@ class _StartPendingAssignmentState extends State<StartPendingAssignment> {
                         SizedBox(
                           height: 2.h,
                         ),
-                        addText("Input Number 1 to 10", 15.sp, CustomColors.textBlackColor, FontWeight.w400),
+                        addText("Input Number 1 to 10", 15.sp, BaseColors.textBlackColor, FontWeight.w400),
                         SizedBox(
                           height: 1.h,
                         ),

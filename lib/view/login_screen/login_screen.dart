@@ -4,10 +4,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/account_activation_screen/account_activation_screen.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -26,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: CustomColors.backgroundColor,
+        backgroundColor: BaseColors.backgroundColor,
         body: SingleChildScrollView(
           child: SafeArea(
             child: Stack(
@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Container(
                   height: MediaQuery.of(context).size.height*0.17,
                   alignment: Alignment.center,
-                  child: Text(translate(context).login, style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: 21.sp),),
+                  child: Text(translate(context).login, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: onBoardingHeadingTs,fontWeight: FontWeight.w500),),
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width,
@@ -50,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(height: MediaQuery.of(context).size.height*0.05,),
-                      Text(translate(context).welcome,style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 21.sp),),
+                      Text(translate(context).welcome,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: onBoardingTitleTs,fontWeight: FontWeight.w700),),
                       SizedBox(height: 0.5.h,),
                       Text(translate(context).please_login_to_your_account,style: Style.montserratRegularStyle().copyWith(color: const Color(0xff6B6B6B), fontSize: 16.sp),),
                       SizedBox(height: 10.h,),
@@ -67,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       SizedBox(height: 5.h,),
                       Center(
-                        child: BaseButton(title: translate(context).sent_otp_btn_txt, onPressed: (){
+                        child: BaseButton(btnType: largeButton,title: translate(context).sent_otp_btn_txt, onPressed: (){
                           Get.toNamed(otpScreenRoute);
                         }),
                       ),
@@ -80,23 +80,23 @@ class _LoginScreenState extends State<LoginScreen> {
                           const Text("  -------------------"),
                         ],
                       ),
-                      SizedBox(height: 6.h,),
+                      SizedBox(height: 6.h),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SvgPicture.asset(faceScanSvg),
-                          SizedBox(height: MediaQuery.of(context).size.height*0.10,child: const VerticalDivider(width: 2,thickness: 1,color: Color(0xFFD9D9D9),),),
-                          SvgPicture.asset(fingerprintScanSvg),
+                          SvgPicture.asset(faceScanSvg,height: 9.h),
+                          // SizedBox(height: MediaQuery.of(context).size.height*0.10,child: const VerticalDivider(width: 2,thickness: 1,color: Color(0xFFD9D9D9),),),
+                          // GestureDetector(child: SvgPicture.asset(fingerprintScanSvg,height: 9.h)),
                         ],
                       ),
-                      SizedBox(height: 5.h,),
+                      SizedBox(height: 5.h),
                       Center(
                         child: RichText(
                           text: TextSpan(
                             text: '${translate(context).dont_have_account} ',
                             style: Style.montserratBoldStyle().copyWith(color: const Color(0xff7C7C7C), fontSize: 16.sp),
                             children: <TextSpan>[
-                              TextSpan(text: ' ${translate(context).create_account}', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 16.sp), recognizer: TapGestureRecognizer()..onTap = (){
+                              TextSpan(text: ' ${translate(context).create_account}', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp), recognizer: TapGestureRecognizer()..onTap = (){
                                 Get.to(const AccountActivationScreen());
                               }),
                             ],

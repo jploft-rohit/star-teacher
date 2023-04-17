@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_app_bar.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 
@@ -19,11 +20,11 @@ class _AudioCallScreenState extends State<AudioCallScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWithHeading(""),
+      appBar: BaseAppBar(),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: CustomColors.backgroundColor,
-          border: Border(top: BorderSide(color: CustomColors.primaryColor))
+          color: BaseColors.backgroundColor,
+          border: Border(top: BorderSide(color: BaseColors.primaryColor))
         ),
         child: Padding(
           padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 20.0, bottom: 20.0),
@@ -36,7 +37,7 @@ class _AudioCallScreenState extends State<AudioCallScreen> {
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(color: CustomColors.primaryColor),
+                  border: Border.all(color: BaseColors.primaryColor),
                   color: Color(0xffF8F4E9)
                 ),
                 child: SvgPicture.asset("assets/images/sound 1.svg"),
@@ -47,7 +48,7 @@ class _AudioCallScreenState extends State<AudioCallScreen> {
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(color: CustomColors.primaryColor),
+                  border: Border.all(color: BaseColors.primaryColor),
                   color: Color(0xffF8F4E9)
                 ),
                 child: SvgPicture.asset("assets/images/mute_img.svg"),
@@ -58,11 +59,11 @@ class _AudioCallScreenState extends State<AudioCallScreen> {
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: CustomColors.primaryColor
+                  color: BaseColors.primaryColor
                 ),
                 child: Icon(
                   CupertinoIcons.phone_down_fill,
-                  color: CustomColors.white,
+                  color: BaseColors.white,
                 ),
               ),
             ],
@@ -79,18 +80,18 @@ class _AudioCallScreenState extends State<AudioCallScreen> {
               padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.0),
-                  border: Border.all(color: CustomColors.primaryColor)
+                  border: Border.all(color: BaseColors.primaryColor)
               ),
               child: SvgPicture.asset(manSvg, height: 60,),
             ),
             SizedBox(
               height: 2.h,
             ),
-            addText("Rahim Khan", 20.sp, CustomColors.primaryColor, FontWeight.w700),
+            addText("Rahim Khan", 20.sp, BaseColors.primaryColor, FontWeight.w700),
             SizedBox(
               height: .8.h,
             ),
-            addText("Meeting Ends on 05:12", 14.sp, CustomColors.textBlackColor, FontWeight.w400),
+            addText("Meeting Ends on 05:12", 14.sp, BaseColors.textBlackColor, FontWeight.w400),
           ],
         ),
       ),

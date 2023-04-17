@@ -5,8 +5,8 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_floating_action_button.dart';
 import 'package:staff_app/Utility/base_tab_bar.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -31,7 +31,7 @@ class _LibraryRecordsViewState extends State<LibraryRecordsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.white,
+      backgroundColor: BaseColors.white,
       appBar: const BaseAppBar(title: "Library Record"),
       floatingActionButton: BaseFloatingActionButton(
       onTap: () {Get.to(const BookIssueView());},
@@ -47,7 +47,7 @@ class _LibraryRecordsViewState extends State<LibraryRecordsView> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15.0),
                 border: Border.all(
-                    color: CustomColors.borderColor
+                    color: BaseColors.borderColor
                 ),
               ),
               child: Column(
@@ -76,7 +76,7 @@ class _LibraryRecordsViewState extends State<LibraryRecordsView> {
                       Container(
                         width: 1,
                         height: 25,
-                        color: CustomColors.borderColor,
+                        color: BaseColors.borderColor,
                       ),
                       Flexible(
                         flex: 1,
@@ -124,7 +124,7 @@ class _LibraryRecordsViewState extends State<LibraryRecordsView> {
                       Container(
                         width: 1,
                         height: 25,
-                        color: CustomColors.borderColor,
+                        color: BaseColors.borderColor,
                       ),
                       Flexible(
                         flex: 1,
@@ -152,7 +152,7 @@ class _LibraryRecordsViewState extends State<LibraryRecordsView> {
                     controller: TextEditingController(),
                     hintText: translate(context).search_by_id,
                     borderColor: Colors.transparent,
-                    hintTextColor: CustomColors.textLightGreyColor,
+                    hintTextColor: BaseColors.textLightGreyColor,
                     contentPadding: const EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
                     prefixIcon: const Padding(
                       padding: EdgeInsets.only(left: 10.0, right: 10.0),

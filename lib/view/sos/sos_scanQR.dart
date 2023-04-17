@@ -8,8 +8,8 @@ import 'package:get/get.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -62,7 +62,7 @@ class _ScanQrCodeScreenState extends State<ScanQrCodeScreen> {
     var size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-          backgroundColor: CustomColors.white,
+          backgroundColor: BaseColors.white,
           // backgroundColor: CustomColors.white,
           appBar: BaseAppBar(title: translate(context).qr_scanner),
           body: Center(
@@ -87,7 +87,7 @@ class _ScanQrCodeScreenState extends State<ScanQrCodeScreen> {
 
                         onQRViewCreated: _onQRViewCreated,
                         overlay: QrScannerOverlayShape(
-                            borderColor: CustomColors.primaryColor,
+                            borderColor: BaseColors.primaryColor,
                             borderRadius: 12,
                             borderLength: 30,
                             borderWidth: 10,
@@ -95,7 +95,7 @@ class _ScanQrCodeScreenState extends State<ScanQrCodeScreen> {
                             // borderLength: 0.0,
                             // borderWidth: 0.0,
                             // cutOutSize: 250,
-                            overlayColor: CustomColors.white
+                            overlayColor: BaseColors.white
                         ),
                       ),
                     ),
@@ -108,7 +108,7 @@ class _ScanQrCodeScreenState extends State<ScanQrCodeScreen> {
                 Container(
                   height: 46,
                   decoration: BoxDecoration(
-                    border: Border.all(color: CustomColors.borderColor),
+                    border: Border.all(color: BaseColors.borderColor),
                     borderRadius: BorderRadius.circular(10.0)
                   ),
                   margin: const EdgeInsets.symmetric(horizontal: 32),
@@ -120,7 +120,7 @@ class _ScanQrCodeScreenState extends State<ScanQrCodeScreen> {
                           padding: EdgeInsets.symmetric(horizontal: 13.sp),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
-                            border: Border.all(color: CustomColors.primaryColor),
+                            border: Border.all(color: BaseColors.primaryColor),
                           ),
                         child: SvgPicture.asset(
                           girlSvg
@@ -130,14 +130,14 @@ class _ScanQrCodeScreenState extends State<ScanQrCodeScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("Sania",style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp, color: CustomColors.textBlackColor),),
-                          Text("#455285",style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp, color: CustomColors.primaryColor),),
+                          Text("Sania",style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp, color: BaseColors.textBlackColor),),
+                          Text("#455285",style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp, color: BaseColors.primaryColor),),
                         ],
                       ),
                       const Spacer(),
                       Icon(
                         CupertinoIcons.delete,
-                        color: CustomColors.primaryColor,
+                        color: BaseColors.primaryColor,
                         size: 18.sp,
                       ),
                       SizedBox(width: 1.4.h),

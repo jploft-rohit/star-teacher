@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'dart:io';
 
 import 'nav_button.dart';
@@ -124,7 +124,7 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar>
                     padding: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
-                        border: Border.all(color: CustomColors.primaryColor)
+                        border: Border.all(color: BaseColors.primaryColor)
                     ),
                     child: _icon,
                   ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/library_record/library_record_controller.dart';
@@ -20,7 +20,7 @@ class _ReturnViewState extends State<ReturnView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.white,
+      backgroundColor: BaseColors.white,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -30,9 +30,9 @@ class _ReturnViewState extends State<ReturnView> {
               width: 100.w,
               padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
               decoration: BoxDecoration(
-                color: CustomColors.white,
+                color: BaseColors.white,
                 borderRadius: BorderRadius.circular(13),
-                border: Border.all(color: CustomColors.textLightGreyColor),
+                border: Border.all(color: BaseColors.textLightGreyColor),
                 boxShadow: [
                   BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 3)
                 ],
@@ -51,7 +51,7 @@ class _ReturnViewState extends State<ReturnView> {
                           SvgPicture.asset("assets/images/Vector (1).svg"),
                           SizedBox(width: 1.h),
                           addText('01/03/2022', 14.sp,
-                              CustomColors.textBlackColor, FontWeight.w400)
+                              BaseColors.textBlackColor, FontWeight.w400)
                         ],
                       ),
                       SizedBox(width: 5.h),
@@ -60,7 +60,7 @@ class _ReturnViewState extends State<ReturnView> {
                           SvgPicture.asset("assets/images/time_icon.svg"),
                           SizedBox(width: 1.h),
                           addText('01/03/2022', 14.sp,
-                              CustomColors.textBlackColor, FontWeight.w400)
+                              BaseColors.textBlackColor, FontWeight.w400)
                         ],
                       ),
                     ],
@@ -86,7 +86,7 @@ class _ReturnViewState extends State<ReturnView> {
                         },
                         child: Icon(
                           Icons.remove_red_eye_outlined,
-                          color: CustomColors.primaryColor,
+                          color: BaseColors.primaryColor,
                           size: 19.sp,
                         ),
                       )
@@ -110,7 +110,7 @@ class _ReturnViewState extends State<ReturnView> {
                     child: StepProgressView(
                       width: MediaQuery.of(context).size.width,
                       curStep: 5,
-                      color: CustomColors.primaryColor,
+                      color: BaseColors.primaryColor,
                       titles: controller.returndates,
                       statuses: controller.reuestedheading,
                     ),
@@ -135,9 +135,9 @@ class _ReturnViewState extends State<ReturnView> {
           children: [
             SvgPicture.asset(icon),
             SizedBox(width: 1.h),
-            addText(title, 13.sp, CustomColors.textBlackColor,
+            addText(title, 13.sp, BaseColors.textBlackColor,
                 FontWeight.w400),
-            addText(body, 14.sp, CustomColors.primaryColor,
+            addText(body, 14.sp, BaseColors.primaryColor,
                 FontWeight.w700),
           ],
         ),

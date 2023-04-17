@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/view/about_us.dart';
 import 'package:staff_app/view/assignments_screen/assignment_screen.dart';
 import 'package:staff_app/view/delegation/delegation_screen.dart';
+import 'package:staff_app/view/events/events_screen.dart';
 import 'package:staff_app/view/feedback_help_screen/feedback_help_screen.dart';
 import 'package:staff_app/view/library_record/library_record_view.dart';
 import 'package:staff_app/view/library_screen/library_screen.dart';
@@ -37,7 +39,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: CustomColors.backgroundColor,
+      backgroundColor: BaseColors.backgroundColor,
       child: Padding(
         padding: EdgeInsets.all(20.sp),
         child: SafeArea(
@@ -58,7 +60,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                       alignment: Alignment.topCenter,
                       icon: const Icon(
                         Icons.close,
-                        color: CustomColors.primaryColor,
+                        color: BaseColors.primaryColor,
                       ),
                     ),
                   ],
@@ -173,9 +175,14 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   child: buildTile1(translate(context).help_feedback),),
                 InkWell(
                   onTap: (){
-                    Get.to(const LostAndFoundScreen());
+                    Get.to(const AboutUs());
                   },
-                  child: buildTile1(translate(context).about_app),),
+                  child: buildTile1(translate(context).about_app)),
+                InkWell(
+                    onTap: (){
+                      Get.to(const EventsScreen());
+                    },
+                    child: buildTile1("Events")),
               ],
             ),
           ),
@@ -189,12 +196,12 @@ class _DrawerScreenState extends State<DrawerScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(text, style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: drawerSubHeadingTs)),
-            Icon(CupertinoIcons.arrow_up_right, color: CustomColors.primaryColor,size: 17.sp,),
+            Text(text, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: drawerSubHeadingTs)),
+            Icon(CupertinoIcons.arrow_up_right, color: BaseColors.primaryColor,size: 17.sp,),
           ],
         ),
         const Divider(
-          color: CustomColors.primaryColor,
+          color: BaseColors.primaryColor,
         ),
         SizedBox(
           height: 1.h,
@@ -209,8 +216,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(text, style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: 20.sp),),
-            Icon(CupertinoIcons.forward, color: CustomColors.primaryColor,size: 20.sp,),
+            Text(text, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 20.sp),),
+            Icon(CupertinoIcons.forward, color: BaseColors.primaryColor,size: 20.sp,),
           ],
         ),
         SizedBox(
@@ -224,15 +231,15 @@ class _DrawerScreenState extends State<DrawerScreen> {
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent,visualDensity: const VisualDensity(vertical: -2, horizontal: -4)),
       child: ExpansionTile(
         initiallyExpanded: false,
-        title: Text(title, style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: drawerHeadingTs),),
-        iconColor: CustomColors.primaryColor,
+        title: Text(title, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: drawerHeadingTs),),
+        iconColor: BaseColors.primaryColor,
         // onExpansionChanged: (value){
         //   isOpen = value;
         //   setState(() {});
         // },
         tilePadding: EdgeInsets.zero,
         // trailing: isOpen ? Icon(Icons.keyboard_arrow_down_rounded, color: CustomColors.primaryColor,size: 24.sp,) : Icon(Icons.keyboard_arrow_right, color: CustomColors.primaryColor,size: 24.sp,),
-        collapsedIconColor: CustomColors.primaryColor,
+        collapsedIconColor: BaseColors.primaryColor,
         childrenPadding: const EdgeInsetsDirectional.only(end: 20.0),
         children: children,
       ),

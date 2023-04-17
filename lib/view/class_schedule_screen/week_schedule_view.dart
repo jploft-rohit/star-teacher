@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -40,9 +40,9 @@ class _WeekScheduleViewState extends State<WeekScheduleView> {
                       RichText(
                         text: TextSpan(
                           text: '${translate(context).from} : ',
-                          style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp),
+                          style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),
                           children: <TextSpan>[
-                            TextSpan(text: "05/06", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 16.sp)),
+                            TextSpan(text: "05/06", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
                           ],
                         ),
                       ),
@@ -56,9 +56,9 @@ class _WeekScheduleViewState extends State<WeekScheduleView> {
                       RichText(
                         text: TextSpan(
                           text: '${translate(context).to} : ',
-                          style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp),
+                          style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),
                           children: <TextSpan>[
-                            TextSpan(text: "09/06", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 16.sp)),
+                            TextSpan(text: "09/06", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
                           ],
                         ),
                       ),
@@ -77,7 +77,7 @@ class _WeekScheduleViewState extends State<WeekScheduleView> {
                 icon: Icon(
                   Icons.arrow_back_ios,
                   size: 18.sp,
-                  color: CustomColors.primaryColor,
+                  color: BaseColors.primaryColor,
                 ),
               ),
             ),
@@ -91,7 +91,7 @@ class _WeekScheduleViewState extends State<WeekScheduleView> {
                 icon: Icon(
                   Icons.arrow_forward_ios,
                   size: 18.sp,
-                  color: CustomColors.primaryColor,
+                  color: BaseColors.primaryColor,
                 ),
               ),
             )
@@ -117,7 +117,7 @@ class _WeekScheduleViewState extends State<WeekScheduleView> {
                       },
                       children: [
                         TableRow(children: [
-                          addText('', 12, CustomColors.primaryColor,
+                          addText('', 12, BaseColors.primaryColor,
                               FontWeight.w400),
                         ]),
                       ],
@@ -142,7 +142,7 @@ class _WeekScheduleViewState extends State<WeekScheduleView> {
                                   child: addText(
                                       controller.timeList[index],
                                       13.sp,
-                                      CustomColors.primaryColor,
+                                      BaseColors.primaryColor,
                                       FontWeight.w700),
                                 ),
                               ),
@@ -161,9 +161,9 @@ class _WeekScheduleViewState extends State<WeekScheduleView> {
               child: Container(
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 decoration: BoxDecoration(
-                  border: Border.all(color: CustomColors.borderColor),
+                  border: Border.all(color: BaseColors.borderColor),
                   borderRadius: BorderRadius.circular(6),
-                  color: CustomColors.white,
+                  color: BaseColors.white,
                 ),
                 child: Column(
                   children: [
@@ -171,7 +171,7 @@ class _WeekScheduleViewState extends State<WeekScheduleView> {
                       clipBehavior: Clip.antiAliasWithSaveLayer,
                       padding: EdgeInsets.symmetric(vertical: 15),
                       decoration: BoxDecoration(
-                        color: CustomColors.backgroundColor,
+                        color: BaseColors.backgroundColor,
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: Table(
@@ -188,31 +188,31 @@ class _WeekScheduleViewState extends State<WeekScheduleView> {
                           TableRow(children: [
                             Center(
                               child: addText(translate(context).mon, 12,
-                                  CustomColors.primaryColor, FontWeight.w400),
+                                  BaseColors.primaryColor, FontWeight.w400),
                             ),
                             Center(
                               child: addText(translate(context).tue, 12,
-                                  CustomColors.primaryColor, FontWeight.w400),
+                                  BaseColors.primaryColor, FontWeight.w400),
                             ),
                             Center(
                               child: addText(translate(context).wed, 12,
-                                  CustomColors.primaryColor, FontWeight.w400),
+                                  BaseColors.primaryColor, FontWeight.w400),
                             ),
                             Center(
                               child: addText(translate(context).thu, 12,
-                                  CustomColors.primaryColor, FontWeight.w400),
+                                  BaseColors.primaryColor, FontWeight.w400),
                             ),
                             Center(
                               child: addText(translate(context).fri, 12,
-                                  CustomColors.primaryColor, FontWeight.w400),
+                                  BaseColors.primaryColor, FontWeight.w400),
                             ),
                             Center(
                               child: addText(translate(context).sat, 12,
-                                  CustomColors.primaryColor, FontWeight.w400),
+                                  BaseColors.primaryColor, FontWeight.w400),
                             ),
                             Center(
                               child: addText(translate(context).sun, 12,
-                                  CustomColors.primaryColor, FontWeight.w400),
+                                  BaseColors.primaryColor, FontWeight.w400),
                             ),
                           ]),
                         ],
@@ -235,7 +235,7 @@ class _WeekScheduleViewState extends State<WeekScheduleView> {
                             Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(6),
-                                color: CustomColors.txtFieldTextColor,
+                                color: BaseColors.txtFieldTextColor,
                               ),
                               child: ListView.builder(
                                 padding: EdgeInsets.zero,
@@ -254,7 +254,7 @@ class _WeekScheduleViewState extends State<WeekScheduleView> {
                               ),
                             ),
                             Container(
-                              color: CustomColors.white,
+                              color: BaseColors.white,
                               child: ListView.builder(
                                 padding: EdgeInsets.zero,
                                 itemCount: controller.tueList.length,
@@ -272,7 +272,7 @@ class _WeekScheduleViewState extends State<WeekScheduleView> {
                               ),
                             ),
                             Container(
-                              color: CustomColors.txtFieldTextColor,
+                              color: BaseColors.txtFieldTextColor,
                               child: ListView.builder(
                                 padding: EdgeInsets.zero,
                                 itemCount: controller.wedList.length,
@@ -290,7 +290,7 @@ class _WeekScheduleViewState extends State<WeekScheduleView> {
                               ),
                             ),
                             Container(
-                              color: CustomColors.white,
+                              color: BaseColors.white,
                               child: ListView.builder(
                                 padding: EdgeInsets.zero,
                                 itemCount: controller.thuList.length,
@@ -308,7 +308,7 @@ class _WeekScheduleViewState extends State<WeekScheduleView> {
                               ),
                             ),
                             Container(
-                              color: CustomColors.txtFieldTextColor,
+                              color: BaseColors.txtFieldTextColor,
                               child: ListView.builder(
                                 padding: EdgeInsets.zero,
                                 itemCount: controller.friList.length,
@@ -326,7 +326,7 @@ class _WeekScheduleViewState extends State<WeekScheduleView> {
                               ),
                             ),
                             Container(
-                              color: CustomColors.white,
+                              color: BaseColors.white,
                               child: ListView.builder(
                                 padding: EdgeInsets.zero,
                                 itemCount: controller.satList.length,
@@ -346,7 +346,7 @@ class _WeekScheduleViewState extends State<WeekScheduleView> {
                             Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(6),
-                                color: CustomColors.txtFieldTextColor,
+                                color: BaseColors.txtFieldTextColor,
                               ),
                               child: ListView.builder(
                                 padding: EdgeInsets.zero,

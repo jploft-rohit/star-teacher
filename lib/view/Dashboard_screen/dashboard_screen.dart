@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:staff_app/Utility/curved_navigation_bar/curved_navigation_bar.dart';
 import 'dart:io' show Platform;
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -25,16 +25,16 @@ class DashboardScreen extends GetView<DashboardScreenCtrl>{
       bottom: Platform.isIOS?false:true,
       child: Scaffold(
         extendBody: true,
-        backgroundColor: CustomColors.white,
+        backgroundColor: BaseColors.white,
         bottomNavigationBar: Stack(
           children: [
             CurvedNavigationBar(
               key: controller.bottomNavigationKey,
-              buttonBackgroundColor: CustomColors.backgroundColor,
+              buttonBackgroundColor: BaseColors.backgroundColor,
               backgroundColor: Colors.transparent,
               // animationCurve: Curves.easeInOut,
               index: 2,
-              color: CustomColors.backgroundColor,
+              color: BaseColors.backgroundColor,
               height: Platform.isIOS?85.0:75.0,
               items: <Widget>[
                 Padding(
@@ -91,14 +91,14 @@ class DashboardScreen extends GetView<DashboardScreenCtrl>{
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text('${translate(context).task}',style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: bottomNavigationBarTs),),
+                    Text('${translate(context).task}',style: Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: bottomNavigationBarTs),),
                     Padding(
                       padding: const EdgeInsetsDirectional.only(start: 8),
-                      child: Text('${translate(context).search}',style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: bottomNavigationBarTs),),
+                      child: Text('${translate(context).search}',style: Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: bottomNavigationBarTs),),
                     ),
-                    Text(translate(context).home,style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: bottomNavigationBarTs),),
-                    Text(translate(context).chats,style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: bottomNavigationBarTs),),
-                    Text('${translate(context).account}',style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: bottomNavigationBarTs),),
+                    Text(translate(context).home,style: Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: bottomNavigationBarTs),),
+                    Text(translate(context).chats,style: Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: bottomNavigationBarTs),),
+                    Text('${translate(context).account}',style: Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: bottomNavigationBarTs),),
                   ],
                 ),
               ),

@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/Utility/base_dropdown.dart';
 import 'package:staff_app/Utility/base_floating_action_button.dart';
 import 'package:staff_app/Utility/base_tab_bar.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -52,27 +53,21 @@ class _FeedbackHelpScreenState extends State<FeedbackHelpScreen> with TickerProv
         padding: EdgeInsets.all(15.sp),
         child: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-              decoration: BoxDecoration(
-                color: CustomColors.backgroundColor,
-                borderRadius: BorderRadius.circular(5.0),
-                border: Border.all(
-                    color: CustomColors.borderColor
+            BaseDropDown(),
+            BaseTabBar(
+              controller: tabCtrl,
+              tabs:  const [
+                Tab(
+                  text: 'All',
                 ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Ignite Public School", style: Style.montserratRegularStyle().copyWith(color: Colors.black, fontSize: 16.sp),),
-                  const Icon(Icons.arrow_drop_down, color: Color(0xffC4C4C4),size: 35.0,)
-                ],
-              ),
+                Tab(
+                  text: 'Help',
+                ),
+                Tab(
+                  text: 'Feedback',
+                ),
+              ],
             ),
-            SizedBox(
-              height: 2.h,
-            ),
-            buildTabBar(),
             SizedBox(
               height: 2.h,
             ),
@@ -89,22 +84,6 @@ class _FeedbackHelpScreenState extends State<FeedbackHelpScreen> with TickerProv
           ],
         ),
       ),
-    );
-  }
-  Widget buildTabBar() {
-    return BaseTabBar(
-      controller: tabCtrl,
-      tabs:  const [
-        Tab(
-          text: 'All',
-        ),
-        Tab(
-          text: 'Help',
-        ),
-        Tab(
-          text: 'Feedback',
-        ),
-      ],
     );
   }
 }

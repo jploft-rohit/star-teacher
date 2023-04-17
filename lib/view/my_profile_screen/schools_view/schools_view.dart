@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -76,15 +76,15 @@ class _SchoolsViewState extends State<SchoolsView> {
       },
     ];
     return Scaffold(
-      backgroundColor: CustomColors.white,
+      backgroundColor: BaseColors.white,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                Text('${translate(context).list_of_located_schools} : ', style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp)),
-                Text('3', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 16.sp)),
+                Text('${translate(context).list_of_located_schools} : ', style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp)),
+                Text('3', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
               ],
             ),
             SizedBox(
@@ -113,7 +113,7 @@ class _SchoolsViewState extends State<SchoolsView> {
       elevation: 5,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
-          side: const BorderSide(color: CustomColors.primaryColor)),
+          side: const BorderSide(color: BaseColors.primaryColor)),
       clipBehavior: Clip.antiAlias,
       margin: EdgeInsets.zero,
       child: Padding(
@@ -124,11 +124,11 @@ class _SchoolsViewState extends State<SchoolsView> {
               .copyWith(dividerColor: Colors.transparent),
           child: ExpansionTile(
               childrenPadding: EdgeInsets.zero,
-              iconColor: CustomColors.primaryColor,
-              collapsedIconColor: CustomColors.primaryColor,
+              iconColor: BaseColors.primaryColor,
+              collapsedIconColor: BaseColors.primaryColor,
               tilePadding: EdgeInsets.zero,
-              title: Text(heading, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 17.sp)),
-              backgroundColor: CustomColors.white,
+              title: Text(heading, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 17.sp)),
+              backgroundColor: BaseColors.white,
               expandedCrossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
 
@@ -161,7 +161,7 @@ class _SchoolsViewState extends State<SchoolsView> {
                         ),
 
                         Divider(
-                          color: CustomColors.borderColor,
+                          color: BaseColors.borderColor,
                           thickness: 1.0,
                         ),
                       ],
@@ -207,19 +207,19 @@ class _SchoolsViewState extends State<SchoolsView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp)),
+              Text(title, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp)),
               SizedBox(height: 0.5.h,),
               Container(
                 margin: EdgeInsets.only(bottom: 2.h),
                 padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
                 decoration: BoxDecoration(
-                    border: Border.all(color: CustomColors.primaryColor),
+                    border: Border.all(color: BaseColors.primaryColor),
                     borderRadius: BorderRadius.circular(10.0)
                 ), child: Row(
                 children: [
                   SvgPicture.asset(svgImg,height: 18.0,),
                   const SizedBox(width: 10,),
-                  Text(subTitle, style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp, height: 1.5)),
+                  Text(subTitle, style: Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp, height: 1.5)),
                 ],
               ),
               ),

@@ -6,7 +6,7 @@ import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_floating_action_button.dart';
 import 'package:staff_app/Utility/base_tab_button.dart';
 import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
+
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -15,7 +15,7 @@ import 'package:staff_app/view/assignments_screen/assignment_screen_ctrl.dart';
 import 'package:staff_app/view/assignments_screen/assignment_to_me_view/assignment_to_me_view.dart';
 import 'package:staff_app/view/create_task_or_assignment/create_task_or_assignment.dart';
 
-import '../../Utility/custom_colors.dart';
+import '../../Utility/base_colors.dart';
 
 class AssignmentScreen extends StatefulWidget {
   const AssignmentScreen({Key? key}) : super(key: key);
@@ -36,6 +36,11 @@ class _AssignmentScreenState extends State<AssignmentScreen> with SingleTickerPr
     super.initState();
   }
   @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
@@ -53,10 +58,10 @@ class _AssignmentScreenState extends State<AssignmentScreen> with SingleTickerPr
               Container(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 decoration: BoxDecoration(
-                  color: CustomColors.backgroundColor,
+                  color: BaseColors.backgroundColor,
                   borderRadius: BorderRadius.circular(5.0),
                   border: Border.all(
-                      color: CustomColors.borderColor
+                      color: BaseColors.borderColor
                   ),
                 ),
                 child: Row(
@@ -82,7 +87,8 @@ class _AssignmentScreenState extends State<AssignmentScreen> with SingleTickerPr
                   controller: tabController,
                   children: [
                   AssignedByMeView(),
-                  AssignedToMeView()
+                  AssignedByMeView(),
+                  // AssignedToMeView()
                 ]),
               ),
             ],

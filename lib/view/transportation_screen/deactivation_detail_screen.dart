@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -37,7 +37,7 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.0),
-                  border: Border.all(color: CustomColors.borderColor)),
+                  border: Border.all(color: BaseColors.borderColor)),
               child: Column(
                 children: [
                   Row(
@@ -46,7 +46,7 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15.0),
-                          border: Border.all(color: CustomColors.primaryColor),
+                          border: Border.all(color: BaseColors.primaryColor),
                         ),
                         child: SvgPicture.asset(manSvg,),
                       ),
@@ -58,15 +58,15 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
 
                           children: [
-                            Text('Nawaz Alam', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),),
+                            Text('Nawaz Alam', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                             const Divider(
-                              color: CustomColors.borderColor,
+                              color: BaseColors.borderColor,
                               height: 8.0,
                               thickness: 1.0,
                             ),
-                            Text('#632541', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),),
+                            Text('#632541', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                             const Divider(
-                              color: CustomColors.borderColor,
+                              color: BaseColors.borderColor,
                               height: 8.0,
                               thickness: 1.0,
                             ),
@@ -80,10 +80,10 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
                           Container(
                             width: 20.w,
                             decoration: BoxDecoration(
-                                color: CustomColors.backgroundColor,
+                                color: BaseColors.backgroundColor,
                                 // boxShadow: [getDeepBoxShadow()],
                                 border: Border.all(
-                                    color: CustomColors.primaryColor,
+                                    color: BaseColors.primaryColor,
                                     width: 1.5),
                                 borderRadius: BorderRadius.circular(20.0)),
                             child: Padding(
@@ -92,7 +92,7 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
                               child: Center(
                                 child: Text(
                                   translate(context).deactivated.toUpperCase(),
-                                  style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 12.sp),),
+                                  style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 12.sp),),
                               ),
                             ),
                           ),
@@ -120,7 +120,7 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
                       Container(
                         height: 20,
                         width: 1,
-                        color: CustomColors.borderColor,
+                        color: BaseColors.borderColor,
                       ),
                       SizedBox(
                         width: 5.w,
@@ -157,7 +157,7 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
             SizedBox(
               height: 1.h,
             ),
-            Text(translate(context).note_for_activation_please_upload_the_required_evidence, style: Style.montserratRegularStyle().copyWith(fontSize: 13.sp, height: 1.5, color: CustomColors.textLightGreyColor),),
+            Text(translate(context).note_for_activation_please_upload_the_required_evidence, style: Style.montserratRegularStyle().copyWith(fontSize: 13.sp, height: 1.5, color: BaseColors.textLightGreyColor),),
             SizedBox(
               height: 1.h,
             ),

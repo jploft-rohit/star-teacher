@@ -4,15 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
-import 'package:staff_app/main.dart';
 import 'package:staff_app/route_manager/route_name.dart';
 import 'package:staff_app/view/choose_language/choose_language_ctrl.dart';
-
-import '../../Utility/images_icon_path.dart';
 
 class ChooseLangaugeScreen extends StatefulWidget {
   const ChooseLangaugeScreen({Key? key}) : super(key: key);
@@ -29,14 +27,14 @@ class _ChooseLangaugeScreenState extends State<ChooseLangaugeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: CustomColors.backgroundColor,
+        backgroundColor: BaseColors.backgroundColor,
         body: SafeArea(
           child: Stack(
             children: [
               Container(
                 height: MediaQuery.of(context).size.height*0.17,
                 alignment: Alignment.center,
-                child: Text(translate(context).choose_language, style: Style.montserratRegularStyle().copyWith(color: CustomColors.primaryColor, fontSize: 21.sp),),
+                child: Text(translate(context).choose_language, style: Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: onBoardingHeadingTs),),
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
@@ -54,106 +52,15 @@ class _ChooseLangaugeScreenState extends State<ChooseLangaugeScreen> {
                     SizedBox(height: MediaQuery.of(context).size.height*0.05,),
                     Padding(
                       padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                      child: Text(translate(context).choose_your_language,style: Style.montserratRegularStyle().copyWith(color: const Color(0xff6B6B6B), fontSize: 16.sp),),
+                      child: Text(translate(context).choose_your_language,style: Style.montserratRegularStyle().copyWith(color: const Color(0xff6B6B6B), fontSize: onBoardingSubTitleTs),),
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height*0.05,),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.center,
-                    //   children: [
-                    //     Flexible(
-                    //       flex: 1,
-                    //       child: Stack(
-                    //         children: [
-                    //           InkWell(
-                    //             onTap: (){
-                    //               setState(() {
-                    //                 arbicselect=true;
-                    //                 englishselect=false;
-                    //               });
-                    //             },
-                    //             child: Card(
-                    //                 color: !arbicselect?Color(0xFFF2F2F2):Color(0xFFF8F4E9),
-                    //                 elevation: 5,
-                    //                 shape: arbicselect
-                    //                     ? new RoundedRectangleBorder(
-                    //                     side: new BorderSide(color: Color(0xFFC19444), width: 1.0),
-                    //                     borderRadius: BorderRadius.circular(10.0))
-                    //                     : new RoundedRectangleBorder(
-                    //                     borderRadius: BorderRadius.circular(10.0)),
-                    //                 child:Padding(
-                    //                   padding: const EdgeInsets.symmetric(horizontal: 40,vertical: 30),
-                    //                   child: Column(
-                    //                     mainAxisAlignment: MainAxisAlignment.center,
-                    //                     children: [
-                    //                       SvgPicture.asset(arabicFlagSvg,fit: BoxFit.scaleDown,height: 40,width: 40,),
-                    //                       SizedBox(height: 20,),
-                    //                       Text("Arabic", style: Style.montserratBoldStyle().copyWith(color: arbicselect?Color(0xffC19444):Color(0xff000000),fontSize: 16.sp),),
-                    //                     ],
-                    //                   ),
-                    //                 )
-                    //             ),
-                    //           ),
-                    //           arbicselect?Container(
-                    //             width: MediaQuery.of(context).size.width*0.34,
-                    //             alignment: Alignment.topRight,
-                    //             child: Align(child: SvgPicture.asset(checkEnableSvg),
-                    //                 alignment: Alignment.topRight),
-                    //           ):Container(),
-                    //         ],
-                    //       ),
-                    //     ),
-                    //     SizedBox(
-                    //       width: 5.w,
-                    //     ),
-                    //     Flexible(
-                    //       flex: 1,
-                    //       child: Stack(
-                    //         children: [
-                    //           InkWell(
-                    //             onTap: (){
-                    //               setState(() {
-                    //                 arbicselect=false;
-                    //                 englishselect=true;
-                    //               });
-                    //             },
-                    //             child: Card(
-                    //                 color: !englishselect?Color(0xFFF2F2F2):Color(0xFFF8F4E9),
-                    //                 elevation: 5,
-                    //                 shape: englishselect
-                    //                     ? new RoundedRectangleBorder(
-                    //                     side: new BorderSide(color: Color(0xFFC19444), width: 1.0),
-                    //                     borderRadius: BorderRadius.circular(10.0))
-                    //                     : new RoundedRectangleBorder(
-                    //                     borderRadius: BorderRadius.circular(10.0)),
-                    //                 child:Padding(
-                    //                   padding: const EdgeInsets.symmetric(horizontal: 40,vertical: 30),
-                    //                   child: Column(
-                    //                     mainAxisAlignment: MainAxisAlignment.center,
-                    //                     children: [
-                    //                       SvgPicture.asset("assets/images/english_flag.svg",fit: BoxFit.scaleDown,height: 40,width: 40,),
-                    //                       SizedBox(height: 20,),
-                    //                       Text("English", style: Style.montserratBoldStyle().copyWith(color: englishselect?Color(0xffC19444):Color(0xff000000),fontSize: 16.sp),),
-                    //                     ],
-                    //                   ),
-                    //                 )
-                    //             ),
-                    //           ),
-                    //           englishselect?Container(
-                    //             width: MediaQuery.of(context).size.width*0.34,
-                    //             alignment: Alignment.topRight,
-                    //             child: Align(child: SvgPicture.asset(checkEnableSvg),
-                    //                 alignment: Alignment.topRight),
-                    //           ):Container(),
-                    //         ],
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
                     SizedBox(
                       height: 20.h,
                       child: ListView.builder(
                         itemCount: controller.languageList.length,
                         scrollDirection: Axis.horizontal,
+                        padding: EdgeInsets.zero,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           return GestureDetector(
@@ -174,15 +81,13 @@ class _ChooseLangaugeScreenState extends State<ChooseLangaugeScreen> {
                             child: Obx(
                                   () => Container(
                                 width: 38.w,
-                                margin:
-                                EdgeInsets.symmetric(horizontal: 2.w),
-                                padding:
-                                EdgeInsets.symmetric(vertical: 1.5.h),
+                                margin: EdgeInsets.symmetric(horizontal: 2.w),
+                                padding: EdgeInsets.symmetric(vertical: 1.5.h),
                                 decoration: BoxDecoration(
                                     color: controller.selectedPos.value ==
                                         index
-                                        ? CustomColors.backgroundColor
-                                        : CustomColors.white,
+                                        ? BaseColors.backgroundColor
+                                        : BaseColors.white,
                                     boxShadow: [
                                       BoxShadow(
                                         color: Colors.black12.withOpacity(0.1),
@@ -194,7 +99,7 @@ class _ChooseLangaugeScreenState extends State<ChooseLangaugeScreen> {
                                         index
                                         ? Border.all(
                                         color:
-                                        CustomColors.primaryColor,
+                                        BaseColors.primaryColor,
                                         width: 1.5)
                                         : null,
                                     borderRadius: BorderRadius.circular(15.0)),
@@ -219,18 +124,18 @@ class _ChooseLangaugeScreenState extends State<ChooseLangaugeScreen> {
                                               const EdgeInsets.all(3),
                                               decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
-                                                  color: CustomColors
+                                                  color: BaseColors
                                                       .primaryColor,
                                                   boxShadow: [
                                                     getBoxShadow()
                                                   ],
                                                   border: Border.all(
-                                                      color: CustomColors
+                                                      color: BaseColors
                                                           .white,
                                                       width: 2)),
                                               child: const Icon(
                                                 Icons.check,
-                                                color: CustomColors.white,
+                                                color: BaseColors.white,
                                                 size: 15,
                                               ),
                                             ),
@@ -245,20 +150,9 @@ class _ChooseLangaugeScreenState extends State<ChooseLangaugeScreen> {
                                             SizedBox(
                                               height: 2.h,
                                             ),
-                                            // Text(
-                                            //     controller
-                                            //         .languageList[index],
-                                            //     getNormalTextFontSIze(),
-                                            //     controller.selectedPos
-                                            //         .value ==
-                                            //         index
-                                            //         ? CustomColors
-                                            //         .primaryColor
-                                            //         : CustomColors.black,
-                                            //     FontWeight.w600)
                                             Text(controller.languageList[index], style: Style.montserratBoldStyle().copyWith(color: controller.selectedPos.value == index
-                                                ? CustomColors.primaryColor
-                                                : CustomColors.textBlackColor,fontSize: 16.sp),),
+                                                ? BaseColors.primaryColor
+                                                : BaseColors.textBlackColor,fontSize: 16.sp),),
                                           ],
                                         ),
                                       )

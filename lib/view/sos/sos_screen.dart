@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -31,7 +31,7 @@ class _SOSViewState extends State<SOSView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.white,
+      backgroundColor: BaseColors.white,
       // backgroundColor: CustomColors.white,
       appBar: const BaseAppBar(title: "SOS"),
       body: Padding(
@@ -43,10 +43,10 @@ class _SOSViewState extends State<SOSView> {
               Container(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 decoration: BoxDecoration(
-                  color: CustomColors.backgroundColor,
+                  color: BaseColors.backgroundColor,
                   borderRadius: BorderRadius.circular(5.0),
                   border: Border.all(
-                      color: CustomColors.borderColor
+                      color: BaseColors.borderColor
                   ),
                 ),
                 child: Row(
@@ -60,22 +60,14 @@ class _SOSViewState extends State<SOSView> {
               SizedBox(height: 2.0.h,),
               buildGrids(),
               SizedBox(height: 2.2.h,),
-              Obx(() =>
-              (controller.selectedPos.value == 0 ||
-                  controller.selectedPos.value == 2 ||
-                  controller.selectedPos.value == 3) ? SizedBox(
-                  // height: 100,
-                  child: buildFightMedicalAndOther(context)) : const SizedBox
-                  .shrink()),
-              SizedBox(height: 2.2.h,),
-              Obx(() =>
-              controller.selectedPos.value == 0
-                  ? buildNfcScannerAndHand(context)
+              Obx(() => (controller.selectedPos.value == 0 || controller.selectedPos.value == 2 || controller.selectedPos.value == 3)
+                  ? SizedBox(child: buildFightMedicalAndOther(context))
                   : const SizedBox.shrink()),
+              SizedBox(height: 2.2.h),
+              Obx(() => controller.selectedPos.value == 0  ? buildNfcScannerAndHand(context) : const SizedBox.shrink()),
               Obx(() => controller.selectedPos.value == 1  ? buildFireEmergency(context) : const SizedBox.shrink() ),
               Obx(() => controller.selectedPos.value == 2  ? buildMedicalSupport(context) : const SizedBox.shrink() ),
-              Obx(() => controller.selectedPos.value == 3  ? buildOther(context) : const SizedBox.shrink() ),
-
+              Obx(() => controller.selectedPos.value == 3  ? buildOther(context) : const SizedBox.shrink()),
             ],
           ),
         ),
@@ -107,12 +99,12 @@ class _SOSViewState extends State<SOSView> {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     decoration: BoxDecoration(
                         color: controller.selectedPos.value == index
-                            ? CustomColors.backgroundColor
-                            : CustomColors.white,
+                            ? BaseColors.backgroundColor
+                            : BaseColors.white,
                         boxShadow: [getBoxShadow()],
                         border: controller.selectedPos.value == index
                             ? Border.all(
-                            color: CustomColors.primaryColor, width: 1.5)
+                            color: BaseColors.primaryColor, width: 1.5)
                             : null,
                         borderRadius: BorderRadius.circular(15.0)),
                     child: Stack(
@@ -126,7 +118,7 @@ class _SOSViewState extends State<SOSView> {
                               SvgPicture.asset(
                                 controller.imageList[index], height: 6.h,),
                               SizedBox(height: 1.h,),
-                              Text(controller.sosTitles[index],style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
+                              Text(controller.sosTitles[index],style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
                             ],
                           ),
                         ),
@@ -136,14 +128,14 @@ class _SOSViewState extends State<SOSView> {
                             padding: const EdgeInsets.all(2),
                             decoration: BoxDecoration(
                                 border: Border.all(
-                                    color: CustomColors.white, width: 2),
+                                    color: BaseColors.white, width: 2),
                                 shape: BoxShape.circle,
                                 boxShadow: [getBoxShadow()],
                                 color: controller.selectedPos.value == index
-                                    ? CustomColors.primaryColor
-                                    : CustomColors.borderColor
+                                    ? BaseColors.primaryColor
+                                    : BaseColors.borderColor
                             ),
-                            child: Icon(Icons.check, color: CustomColors.white,
+                            child: Icon(Icons.check, color: BaseColors.white,
                               size: 17.sp,),
                           ),
                         ),
@@ -173,6 +165,9 @@ class _SOSViewState extends State<SOSView> {
               GestureDetector(
                 onTap: () {
                   controller.selectedFMOPos.value = index;
+                  if (index == 1) {
+                    Get.to(const ScanQrCodeScreen());
+                  }
                 },
                 child: Obx(() {
                   return AnimatedContainer(
@@ -182,12 +177,12 @@ class _SOSViewState extends State<SOSView> {
                     // padding: const EdgeInsets.symmetric(horizontal: 9),
                     decoration: BoxDecoration(
                         color: controller.selectedFMOPos.value == index
-                            ? CustomColors.backgroundColor
-                            : CustomColors.white,
+                            ? BaseColors.backgroundColor
+                            : BaseColors.white,
                         boxShadow: [getBoxShadow()],
                         border: controller.selectedFMOPos.value == index
                             ? Border.all(
-                            color: CustomColors.primaryColor, width: 1.5)
+                            color: BaseColors.primaryColor, width: 1.5)
                             : null,
                         borderRadius: BorderRadius.circular(15.0)),
                     child: Row(
@@ -198,17 +193,17 @@ class _SOSViewState extends State<SOSView> {
                           padding: const EdgeInsets.all(2),
                           decoration: BoxDecoration(
                               border: Border.all(
-                                  color: CustomColors.white, width: 2),
+                                  color: BaseColors.white, width: 2),
                               shape: BoxShape.circle,
                               boxShadow: [getBoxShadow()],
                               color: controller.selectedFMOPos.value == index
-                                  ? CustomColors.primaryColor
-                                  : CustomColors.borderColor
+                                  ? BaseColors.primaryColor
+                                  : BaseColors.borderColor
                           ),
-                          child: Icon(Icons.check, color: CustomColors.white,
+                          child: Icon(Icons.check, color: BaseColors.white,
                             size: 17.sp),
                         ),
-                        Obx(() => SvgPicture.asset(controller.fmoImageList[index],height: 30,color: controller.selectedFMOPos.value==index ? CustomColors.primaryColor:Colors.black,))
+                        Obx(() => SvgPicture.asset(controller.fmoImageList[index],height: 30,color: controller.selectedFMOPos.value==index ? BaseColors.primaryColor:Colors.black,))
                       ],
                     ),
                   );
@@ -254,7 +249,7 @@ class _SOSViewState extends State<SOSView> {
                       }
                     },
                     child: SvgPicture.asset(
-                      controller.selectedFMOPos.value==0?nfcSvg:barcodeSvg,color: CustomColors.primaryColor,),
+                      controller.selectedFMOPos.value==0?nfcSvg:barcodeSvg,color: BaseColors.primaryColor,),
                   ),
                 );
               }))),
@@ -263,7 +258,7 @@ class _SOSViewState extends State<SOSView> {
 
         Align(
             alignment: Alignment.topLeft,
-            child: Text(translate(context).stars,style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp, color: CustomColors.textBlackColor),),),
+            child: Text(translate(context).stars,style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp, color: BaseColors.textBlackColor),),),
         SizedBox(height: 2.h,),
          Container(
            margin: const EdgeInsets.only(left: 5.0,right: 5.0),
@@ -272,7 +267,7 @@ class _SOSViewState extends State<SOSView> {
              borderRadius: BorderRadius.circular(15.0),
              boxShadow: [
                const BoxShadow(
-                 color: CustomColors.shadowColor,
+                 color: BaseColors.shadowColor,
                  blurRadius: 5,
                  spreadRadius: 5,
                )
@@ -306,11 +301,11 @@ class _SOSViewState extends State<SOSView> {
                           child: SvgPicture.asset(starSvg,)),
                     ),
                     SizedBox(width: 0.5.h),
-                    Text('Sania Khan (#455285)',style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: CustomColors.textBlackColor),),
+                    Text('Sania Khan (#455285)',style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: BaseColors.textBlackColor),),
                     const Spacer(),
                     const Icon(
                       CupertinoIcons.delete,
-                      color: CustomColors.primaryColor,
+                      color: BaseColors.primaryColor,
                       size: 15.0,
                     ),
 
@@ -333,12 +328,15 @@ class _SOSViewState extends State<SOSView> {
             width: 30,
             child: Padding(
               padding: const EdgeInsets.only(right: 10.0),
-              child: SvgPicture.asset(controller.selectedFMOPos.value==0?nfcSvg:barcodeSvg,color: CustomColors.primaryColor,),
+              child: SvgPicture.asset(controller.selectedFMOPos.value==0?nfcSvg:barcodeSvg,color: BaseColors.primaryColor,),
             )) : const SizedBox(),),
         SizedBox(height: 2.h,),
         BaseButton(title: translate(context).notify.toUpperCase(), onPressed: (){
+          showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation){
+            return sosDialogs(title: "Fight",icon: fightSvg);
+          });
           // if (controller.selectedPos.value == 1) {
-          //   Get.to(const FireReportedView());
+          // Get.to(FireReportedView(from: 'Fight', icon: fightSvg,));
           // }
         }),
         SizedBox(height: 2.h,),
@@ -367,7 +365,7 @@ class _SOSViewState extends State<SOSView> {
 
         SizedBox(height: 2.h,),
         BaseButton(title: translate(context).notify.toUpperCase(), onPressed: (){
-          Get.to(const FireReportedView());
+          Get.to(FireReportedView(from: 'Fire Emergency', icon: fireSvg,));
         }),
         SizedBox(height: 2.h,),
       ],
@@ -411,7 +409,7 @@ class _SOSViewState extends State<SOSView> {
 
         Align(
             alignment: Alignment.topLeft,
-            child: Text(translate(context).support_for,style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp, color: CustomColors.textBlackColor),),
+            child: Text(translate(context).support_for,style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp, color: BaseColors.textBlackColor),),
         ),
         SizedBox(height: 2.h,),
         Container(
@@ -421,7 +419,7 @@ class _SOSViewState extends State<SOSView> {
               borderRadius: BorderRadius.circular(15.0),
               boxShadow: [
                 const BoxShadow(
-                  color: CustomColors.shadowColor,
+                  color: BaseColors.shadowColor,
                   blurRadius: 5,
                   spreadRadius: 5,
                 )
@@ -442,11 +440,11 @@ class _SOSViewState extends State<SOSView> {
                   child: Row(
                     children: [
                       SizedBox(width: 0.5.h),
-                      Text('Sania Khan (#455285)',style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: CustomColors.textBlackColor),),
+                      Text('Sania Khan (#455285)',style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: BaseColors.textBlackColor),),
                       const Spacer(),
                       const Icon(
                         CupertinoIcons.delete,
-                        color: CustomColors.primaryColor,
+                        color: BaseColors.primaryColor,
                         size: 15.0,
                       ),
 
@@ -473,7 +471,10 @@ class _SOSViewState extends State<SOSView> {
 
         SizedBox(height: 2.h,),
         BaseButton(title: translate(context).notify.toUpperCase(), onPressed: (){
-          // Get.to(const FireReportedView());
+          showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation){
+            return sosDialogs(title: "Medical Support",icon: medicalSupportSvg);
+          });
+          // Get.to(FireReportedView(from: 'Medical Support', icon: medicalSupportSvg,));
         }),
         SizedBox(height: 2.h,),
       ],
@@ -500,7 +501,7 @@ class _SOSViewState extends State<SOSView> {
                   }
                 },
                 child: SvgPicture.asset(
-                  controller.selectedFMOPos.value==0?nfcSvg:barcodeSvg, color: CustomColors.primaryColor,),
+                  controller.selectedFMOPos.value==0?nfcSvg:barcodeSvg, color: BaseColors.primaryColor,),
               ),
             )),),
         SizedBox(height: 2.h,),
@@ -512,7 +513,7 @@ class _SOSViewState extends State<SOSView> {
               borderRadius: BorderRadius.circular(15.0),
               boxShadow: [
                 const BoxShadow(
-                  color: CustomColors.shadowColor,
+                  color: BaseColors.shadowColor,
                   blurRadius: 5,
                   spreadRadius: 5,
                 )
@@ -546,11 +547,11 @@ class _SOSViewState extends State<SOSView> {
                             child: SvgPicture.asset(starSvg,)),
                       ),
                       SizedBox(width: 0.5.h),
-                      Text('Sania Khan (#455285)',style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: CustomColors.textBlackColor),),
+                      Text('Sania Khan (#455285)',style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: BaseColors.textBlackColor),),
                       const Spacer(),
                       const Icon(
                         CupertinoIcons.delete,
-                        color: CustomColors.primaryColor,
+                        color: BaseColors.primaryColor,
                         size: 15.0,
                       ),
 
@@ -572,7 +573,7 @@ class _SOSViewState extends State<SOSView> {
             child: Padding(
               padding: const EdgeInsets.only(right: 10.0),
               child: SvgPicture.asset(
-                controller.selectedFMOPos.value==0?nfcSvg:barcodeSvg, color: CustomColors.primaryColor,),
+                controller.selectedFMOPos.value==0?nfcSvg:barcodeSvg, color: BaseColors.primaryColor,),
             )),):CustomTextField(prefixIcon: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: SvgPicture.asset("assets/images/circle2017.svg")
@@ -582,14 +583,66 @@ class _SOSViewState extends State<SOSView> {
             child: Padding(
               padding: const EdgeInsets.only(right: 10.0),
               child: SvgPicture.asset(
-                controller.selectedFMOPos.value==0?nfcSvg:barcodeSvg, color: CustomColors.primaryColor,),
+                controller.selectedFMOPos.value==0?nfcSvg:barcodeSvg, color: BaseColors.primaryColor,),
             )),),
         SizedBox(height: 2.h,),
         BaseButton(title: translate(context).notify.toUpperCase(), onPressed: (){
-          // Get.to(const FireReportedView());
+          showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation){
+            return sosDialogs(title: "Other",icon: otherSosSvg);
+          });
+          // Get.to(FireReportedView(from: 'Other', icon: otherSosSvg,));
         }),
         SizedBox(height: 2.h,),
       ],
+    );
+  }
+  Widget sosDialogs({title,icon}){
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Center(
+        child: Stack(
+          alignment: Alignment.topRight,
+          children: [
+            Container(
+              width: double.infinity,
+              margin: const EdgeInsets.fromLTRB(20.0,10.0,20.0,0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.0),
+                color: BaseColors.textRedColor,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(height: 7.7.h),
+                  SvgPicture.asset(icon,height: 90,width: 90,),
+                  SizedBox(height: 3.4.h),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12.sp),
+                    child: Text(title, style: Style.montserratBoldStyle().copyWith(fontSize: 25.sp, color: BaseColors.white),),
+                  ),
+                  SizedBox(height: 3.7.h),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12.sp),
+                    child: Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry.", style: Style.montserratBoldStyle().copyWith(fontSize: 19.sp, color: BaseColors.white, height: 1.3),textAlign: TextAlign.center,),
+                  ),
+                  SizedBox(height: 5.h),
+                  Text('${translate(context).reported_by}: Ahmed (Teacher)', style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: BaseColors.white),),
+                  SizedBox(height: 3.h),
+                ],
+              ),
+            ),
+            GestureDetector(
+              onTap: (){
+                Get.back();
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 20),
+                child: Icon(Icons.close_rounded,color: Colors.white,),
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

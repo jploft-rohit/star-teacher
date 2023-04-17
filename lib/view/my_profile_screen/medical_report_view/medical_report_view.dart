@@ -6,8 +6,8 @@ import 'package:group_radio_button/group_radio_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_floating_action_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -98,16 +98,19 @@ class _MedicalReportViewState extends State<MedicalReportView> {
     ];
     return Scaffold(
       appBar: BaseAppBar(title: translate(context).medical_records),
-      floatingActionButton: BaseFloatingActionButton(
-        onTap: () {
-          showGeneralDialog(
-            context: context,
-            pageBuilder:  (context, animation, secondaryAnimation) {
-              return const AddMedicalFilePopup();
-            },
-          );
-        },
-        title: translate(context).add_medical_record,
+      floatingActionButton: Visibility(
+        visible: isShowMedicalRecord,
+        child: BaseFloatingActionButton(
+          onTap: () {
+            showGeneralDialog(
+              context: context,
+              pageBuilder:  (context, animation, secondaryAnimation) {
+                return const AddMedicalFilePopup();
+              },
+            );
+          },
+          title: translate(context).add_medical_record,
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -119,7 +122,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.0),
-                    border: Border.all(color: CustomColors.borderColor)),
+                    border: Border.all(color: BaseColors.borderColor)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -130,7 +133,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15.0),
-                              border: Border.all(color: CustomColors.primaryColor),
+                              border: Border.all(color: BaseColors.primaryColor),
                             ),
                             child: SvgPicture.asset(
                               manSvg,
@@ -143,13 +146,13 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Nawaz Alam', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),),
+                                Text('Nawaz Alam', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                                 const Divider(
                                   color: Color(0xffEBEBEB),
                                   height: 5.0,
                                   thickness: 1.0,
                                 ),
-                                Text('#632541', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),),
+                                Text('#632541', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                                 const Divider(
                                   color: Color(0xffEBEBEB),
                                   height: 5.0,
@@ -190,7 +193,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
       elevation: 2,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
-          side: const BorderSide(color: CustomColors.primaryColor)),
+          side: const BorderSide(color: BaseColors.primaryColor)),
       clipBehavior: Clip.antiAlias,
       margin: EdgeInsets.zero,
       child: Padding(
@@ -938,8 +941,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        translate(context).medical_survey, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp),),
-
+                        translate(context).medical_survey, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),),
                       Row(
                         children: [
                           if(isShowMedicalSurvey)
@@ -953,7 +955,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                           SizedBox(
                             width: 2.w,
                           ),
-                          Icon(isShowMedicalSurvey ? Icons.keyboard_arrow_down :CupertinoIcons.forward, size:isShowMedicalSurvey? 25 : 20,color: CustomColors.primaryColor,),
+                          Icon(isShowMedicalSurvey ? Icons.keyboard_arrow_down :CupertinoIcons.forward, size:isShowMedicalSurvey? 25 : 20,color: BaseColors.primaryColor,),
                         ],
                       ),
                     ],
@@ -971,99 +973,13 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          width: 100.w,
-                          margin: const EdgeInsets.symmetric(vertical: 20),
-                          padding: const EdgeInsets.all(20),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: CustomColors.primaryColor),
-                            color: CustomColors.white,
-                            borderRadius: BorderRadius.circular(10.0),
-                          ), child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(translate(context).are_you_allergic_to_any_food,style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
-                            SizedBox(height: 1.h,),
-                            SizedBox(
-                              height: 4.h,
-                              child: ListView.builder(
-                                itemCount: yesNoList.length,
-                                scrollDirection: Axis.horizontal,
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  return GestureDetector (
-                                    onTap: (){
-                                      useCanteenServicesPos = index;
-                                      setState(() {});
-                                    },
-                                    child: Container(
-                                      height: 4.h,
-                                      width: 20.w,
-                                      margin: const EdgeInsets.only(right: 10),
-                                      decoration: useCanteenServicesPos == index ? getPrimaryDecoration() : getEditTextDecoration(),
-                                      child: Center(child: Text(yesNoList[index], style: Style.montserratRegularStyle().copyWith(color: useCanteenServicesPos == index ? CustomColors.primaryColor : CustomColors.borderColor, fontSize: 15.sp),)),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                            SizedBox(height: 1.h,),
-                            Visibility(
-                              visible: useCanteenServicesPos == 0,
-                              child: ListView.builder(
-                                itemCount: allergyFoodList.length,
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemBuilder: (_, int index) {
-                                  return CheckboxListTile(
-                                    contentPadding: EdgeInsets.zero,
-                                    visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
-                                    activeColor: CustomColors.backgroundColor,
-                                    checkColor: CustomColors.primaryColor,
-                                    dense: true,
-                                    checkboxShape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(2.0),
-                                    ),
-                                    side: MaterialStateBorderSide.resolveWith(
-                                          (states) => const BorderSide(width: 1.0, color: CustomColors.primaryColor,),
-                                    ),
-                                    title: Text(allergyFoodList[index],style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
-                                    value: selectedAllergicFoodList.contains(allergyFoodList[index]),
-                                    onChanged: (_) {
-                                      if (selectedAllergicFoodList.contains(allergyFoodList[index])) {
-                                        selectedAllergicFoodList.remove(allergyFoodList[index]);  // unselect
-                                      } else {
-                                        selectedAllergicFoodList.add(allergyFoodList[index]); // select
-                                      }
-                                      setState(() {});
-                                    },
-                                    controlAffinity: ListTileControlAffinity.leading,
-                                  );
-                                },
-                              ),
-                            ),
-
-                            Visibility(
-                              visible: useCanteenServicesPos == 0,
-                              child: Center(child: GestureDetector(
-                                onTap: () {
-
-                                },
-                                child: buildSaveButton(),
-                              )),
-                            )
-                          ],
-                        ),
-                        ),
-
                         //medical History
                         Align(
                             alignment: AlignmentDirectional.topStart,
-                            child: Text(translate(context).medical_history,style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),)),
+                            child: Text(translate(context).medical_history,style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),)),
 
                         const Divider(
-                          color: CustomColors.borderColor,
+                          color: BaseColors.borderColor,
                           thickness: 1.0,
                         ),
 
@@ -1080,10 +996,10 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                             children: [
                               TableRow(
                                   children: [
-                                    Center(child: Text(translate(context).infectious_diseases,style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
-                                    Center(child: Text(translate(context).yes.toUpperCase(),style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
-                                    Center(child: Text(translate(context).no.toUpperCase(),style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
-                                    Center(child: Text(translate(context).details.toUpperCase(),style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
+                                    Center(child: Text(translate(context).infectious_diseases,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),)),
+                                    Center(child: Text(translate(context).yes.toUpperCase(),style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),)),
+                                    Center(child: Text(translate(context).no.toUpperCase(),style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),)),
+                                    Center(child: Text(translate(context).details.toUpperCase(),style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),)),
                                   ]),
                             ],
                           ),
@@ -1103,7 +1019,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                 return Container(
                                   color: Colors.white,
                                   child: Table(
-                                    border: TableBorder.all(color: CustomColors.borderColor.withOpacity(0.5),width: 1),
+                                    border: TableBorder.all(color: BaseColors.borderColor.withOpacity(0.5),width: 1),
                                     columnWidths: const {
                                       0: FlexColumnWidth(3),
                                       1: FlexColumnWidth(1),
@@ -1115,15 +1031,15 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                           children: [
                                             Padding(
                                               padding:  EdgeInsets.symmetric(vertical: 2.h,horizontal: 1.w),
-                                              child: Text(controller.infectiousDiseaseList[index]['title'], style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: radioButtonTitleTs),),
+                                              child: Text(controller.infectiousDiseaseList[index]['title'], style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: radioButtonTitleTs),),
                                             ),
                                             Padding(
                                               padding:  EdgeInsets.symmetric(vertical: 0.h),
                                               child: Radio(
                                                   toggleable: true,
-                                                  activeColor: CustomColors.primaryColor, fillColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-                                                  focusColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-                                                  overlayColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
+                                                  activeColor: BaseColors.primaryColor, fillColor: MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
+                                                  focusColor: MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
+                                                  overlayColor: MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
                                                   value: index,
                                                   groupValue: controller.infectiousDiseaseList[index]['isSelected'],
                                                   onChanged: (index1) {
@@ -1137,10 +1053,10 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                               child: SizedBox(
                                                 width : 10.w,
                                                 child: Radio(
-                                                  activeColor: CustomColors.primaryColor,
-                                                  fillColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-                                                  focusColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-                                                  overlayColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
+                                                  activeColor: BaseColors.primaryColor,
+                                                  fillColor: MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
+                                                  focusColor: MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
+                                                  overlayColor: MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
                                                   toggleable: true,
                                                   value: index, groupValue: controller.infectiousDiseaseList[index]['isSelected1'],
                                                   onChanged: (index1) {
@@ -1176,7 +1092,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                         ),
 
                         const Divider(
-                          color: CustomColors.borderColor,
+                          color: BaseColors.borderColor,
                           thickness: 1.0,
                         ),
                         SizedBox(height: 2.h,),
@@ -1191,10 +1107,10 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                             },
                             children: [
                               TableRow(children: [
-                                Center(child: Text(translate(context).disease_condition,style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
-                                Center(child: Text(translate(context).yes.toUpperCase(),style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
-                                Center(child: Text(translate(context).no.toUpperCase(),style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
-                                Center(child: Text(translate(context).details.toUpperCase(),style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
+                                Center(child: Text(translate(context).disease_condition,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),)),
+                                Center(child: Text(translate(context).yes.toUpperCase(),style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),)),
+                                Center(child: Text(translate(context).no.toUpperCase(),style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),)),
+                                Center(child: Text(translate(context).details.toUpperCase(),style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),)),
                               ]),
                             ],
                           ),
@@ -1213,7 +1129,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                 return Container(
                                   color: Colors.white,
                                   child: Table(
-                                    border: TableBorder.all(color: CustomColors.borderColor.withOpacity(0.5),width: 1),
+                                    border: TableBorder.all(color: BaseColors.borderColor.withOpacity(0.5),width: 1),
                                     columnWidths: const {
                                       0: FlexColumnWidth(3),
                                       1: FlexColumnWidth(1),
@@ -1225,15 +1141,15 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                           children: [
                                             Padding(
                                               padding:  EdgeInsets.symmetric(vertical: 2.h,horizontal: 1.w),
-                                              child: Text(controller.diseaseConditionList[index]['title'],style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: radioButtonTitleTs),),
+                                              child: Text(controller.diseaseConditionList[index]['title'],style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: radioButtonTitleTs),),
                                             ),
                                             Padding(
                                               padding:  EdgeInsets.symmetric(vertical: 0.h),
                                               child: Radio(
                                                   toggleable: true,
-                                                  activeColor: CustomColors.primaryColor, fillColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-                                                  focusColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-                                                  overlayColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
+                                                  activeColor: BaseColors.primaryColor, fillColor: MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
+                                                  focusColor: MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
+                                                  overlayColor: MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
                                                   value: index, groupValue: controller.diseaseConditionList[index]['isSelected'],
                                                   onChanged: (index1) {
                                                     controller.diseaseConditionList[index]['isSelected1'] = -1;
@@ -1246,9 +1162,9 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                               child: SizedBox(
                                                 width : 10.w,
                                                 child: Radio(
-                                                    activeColor: CustomColors.primaryColor, fillColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-                                                    focusColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-                                                    overlayColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
+                                                    activeColor: BaseColors.primaryColor, fillColor: MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
+                                                    focusColor: MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
+                                                    overlayColor: MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
                                                     toggleable: true,
                                                     value: index, groupValue: controller.diseaseConditionList[index]['isSelected1'], onChanged: (index1) {
                                                   controller.diseaseConditionList[index]['isSelected'] = -1;
@@ -1281,14 +1197,14 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                         SizedBox(height: 2.h,),
                         Align(
                           alignment: AlignmentDirectional.topStart,
-                          child: Text('${translate(context).history_of} :',style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),),
+                          child: Text('${translate(context).history_of} :',style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                         ),
                         Row(
                           children: [
 
                             Expanded(
                                 flex: 3,
-                                child: Text('${translate(context).blood_transfusion} :',style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: radioButtonTitleTs),)),
+                                child: Text('${translate(context).blood_transfusion} :',style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: radioButtonTitleTs),)),
 
                             Flexible(
                               flex: 2,
@@ -1296,8 +1212,8 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                   description: translate(Get.context!).yes,
                                   value: translate(Get.context!).yes,
                                   groupValue: bloodTransfusionValue,
-                                  fillColor: CustomColors.primaryColor,
-                                  activeColor: CustomColors.primaryColor,
+                                  fillColor: BaseColors.primaryColor,
+                                  activeColor: BaseColors.primaryColor,
                                   onChanged: (value) {
                                     bloodTransfusionValue = value.toString();
                                     setState(() {});
@@ -1311,8 +1227,8 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                   description: translate(Get.context!).no,
                                   value: translate(Get.context!).no,
                                   groupValue: bloodTransfusionValue,
-                                  fillColor: CustomColors.primaryColor,
-                                  activeColor: CustomColors.primaryColor,
+                                  fillColor: BaseColors.primaryColor,
+                                  activeColor: BaseColors.primaryColor,
                                   onChanged: (value) {
                                     bloodTransfusionValue = value.toString();
                                     setState(() {});
@@ -1322,11 +1238,11 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                             SizedBox(
                               width: 2.w,
                             ),
-                            SvgPicture.asset(uploadDocSvg,color: bloodTransfusionValue == translate(Get.context!).no ? CustomColors.white : null,),
+                            SvgPicture.asset(uploadDocSvg,color: bloodTransfusionValue == translate(Get.context!).no ? BaseColors.white : null,),
                           ],
                         ),
                         Divider(
-                          color: CustomColors.borderColor.withOpacity(0.5),
+                          color: BaseColors.borderColor.withOpacity(0.5),
                           thickness: 2,
                           height: 1.h,
                         ),
@@ -1334,15 +1250,15 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                           children: [
                             Expanded(
                                 flex: 3,
-                                child: Text('${translate(context).hospitalization} :',style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: radioButtonTitleTs),)),
+                                child: Text('${translate(context).hospitalization} :',style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: radioButtonTitleTs),)),
                             Flexible(
                               flex: 2,
                               child: RadioButton(
                                   description: translate(Get.context!).yes,
                                   value: translate(Get.context!).yes,
                                   groupValue: hospitalizationValue,
-                                  fillColor: CustomColors.primaryColor,
-                                  activeColor: CustomColors.primaryColor,
+                                  fillColor: BaseColors.primaryColor,
+                                  activeColor: BaseColors.primaryColor,
                                   onChanged: (value) {
                                     hospitalizationValue = value.toString();
                                     setState(() {});
@@ -1356,8 +1272,8 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                   description: translate(Get.context!).no,
                                   value: translate(Get.context!).no,
                                   groupValue: hospitalizationValue,
-                                  fillColor: CustomColors.primaryColor,
-                                  activeColor: CustomColors.primaryColor,
+                                  fillColor: BaseColors.primaryColor,
+                                  activeColor: BaseColors.primaryColor,
                                   onChanged: (value) {
                                     hospitalizationValue = value.toString();
                                     setState(() {});
@@ -1368,13 +1284,13 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                             SizedBox(
                               width: 2.w,
                             ),
-                            SvgPicture.asset(uploadDocSvg,color: hospitalizationValue == translate(Get.context!).no ? CustomColors.white : null,),
+                            SvgPicture.asset(uploadDocSvg,color: hospitalizationValue == translate(Get.context!).no ? BaseColors.white : null,),
 
 
                           ],
                         ),
                         Divider(
-                          color: CustomColors.borderColor.withOpacity(0.5),
+                          color: BaseColors.borderColor.withOpacity(0.5),
                           thickness: 2,
                           height: 1.h,
                         ),
@@ -1385,7 +1301,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                 flex: 1,
                                 child: Container(
                                     margin: EdgeInsets.only(top: 1.5.h),
-                                    child: Text('${translate(context).currently_using} :',style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),))),
+                                    child: Text('${translate(context).currently_using} :',style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),))),
                             Flexible(
                               flex: 1,
                               child: ListView.builder(
@@ -1396,16 +1312,16 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                   return CheckboxListTile(
                                     contentPadding: EdgeInsets.zero,
                                     visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                    activeColor: CustomColors.backgroundColor,
-                                    checkColor: CustomColors.primaryColor,
+                                    activeColor: BaseColors.backgroundColor,
+                                    checkColor: BaseColors.primaryColor,
                                     dense: true,
                                     checkboxShape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(2.0),
                                     ),
                                     side: MaterialStateBorderSide.resolveWith(
-                                          (states) => const BorderSide(width: 1.0, color: CustomColors.primaryColor,),
+                                          (states) => const BorderSide(width: 1.0, color: BaseColors.primaryColor,),
                                     ),
-                                    title: Text(currentlyUsingList[index],style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                                    title: Text(currentlyUsingList[index],style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                                     value: selectedCurrentlyUsingList.contains(currentlyUsingList[index]),
                                     onChanged: (_) {
                                       if (selectedCurrentlyUsingList.contains(currentlyUsingList[index])) {
@@ -1423,7 +1339,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                         ),
 
                         const Divider(
-                          color: CustomColors.borderColor,
+                          color: BaseColors.borderColor,
                           thickness: 1.0,
                         ),
                         Center(
@@ -1435,10 +1351,10 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                         SizedBox(height: 3.h,),
                         Align(
                           alignment: AlignmentDirectional.topStart,
-                          child: Text('${translate(context).family_history} :', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),),
+                          child: Text('${translate(context).family_history} :', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                         ),
                         SizedBox(height: 1.h,),
-                        Text('Heart Disease/Diabetes/Hypertension/Mental Disorder/Stroke/Tuberculosis. Others, specify', style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp, fontWeight: FontWeight.w500),),
+                        Text('Heart Disease/Diabetes/Hypertension/Mental Disorder/Stroke/Tuberculosis. Others, specify', style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp, fontWeight: FontWeight.w500),),
                         SizedBox(height: 1.h,),
 
                         Container(
@@ -1473,11 +1389,11 @@ class _MedicalReportViewState extends State<MedicalReportView> {
 
                         Align(
                             alignment: AlignmentDirectional.topStart,
-                            child: Text(translate(context).medical_examination_consent, style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),)),
+                            child: Text(translate(context).medical_examination_consent, style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),)),
                         SizedBox(height: 1.h,),
-                        Text(medicalExaminationConsent, style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                        Text(medicalExaminationConsent, style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                         const Divider(
-                          color: CustomColors.borderColor,
+                          color: BaseColors.borderColor,
                           thickness: 1.0,
                         ),
                         Row(
@@ -1486,11 +1402,11 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                           children: [
                             Checkbox(
                               checkColor: Colors.white,
-                              activeColor: CustomColors.primaryColor,
+                              activeColor: BaseColors.primaryColor,
                               value: isConsentChecked,
 
                               visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                              side: const BorderSide(color: CustomColors.primaryColor),
+                              side: const BorderSide(color: BaseColors.primaryColor),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(3),
                               ),
@@ -1499,7 +1415,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                               },
                             ),
 
-                            Text(translate(context).i_agree_to_attend_the_school_examination, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),)
+                            Text(translate(context).i_agree_to_attend_the_school_examination, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),)
                           ],
                         ),
                         SizedBox(height: 1.h,),
@@ -1512,9 +1428,9 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                         SizedBox(height: 2.h,),
                         Align(
                             alignment: AlignmentDirectional.topStart,
-                            child: Text(translate(context).medication_policy, style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),)),
+                            child: Text(translate(context).medication_policy, style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),)),
                         const Divider(
-                          color: CustomColors.borderColor,
+                          color: BaseColors.borderColor,
                           thickness: 1.0,
                         ),
                         SizedBox(height: 1.h,),
@@ -1524,11 +1440,11 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                           children: [
                             Checkbox(
                               checkColor: Colors.white,
-                              activeColor: CustomColors.primaryColor,
+                              activeColor: BaseColors.primaryColor,
                               value: isMedicationPolicyChecked,
 
                               visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                              side: const BorderSide(color: CustomColors.primaryColor),
+                              side: const BorderSide(color: BaseColors.primaryColor),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(3),
                               ),
@@ -1538,27 +1454,27 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                               },
                             ),
 
-                            Text(translate(context).i_agree_with, style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
+                            Text(translate(context).i_agree_with, style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
 
                           ],
                         ),
 
                         SizedBox(height: 1.h,),
-                        Text(medicationPolicy, style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                        Text(medicationPolicy, style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                         SizedBox(height: 1.h,),
                         Container(
                           width: 100.w,
                           margin: const EdgeInsets.symmetric(vertical: 20),
                           padding: const EdgeInsets.all(20),
                           decoration: BoxDecoration(
-                              border: Border.all(color: CustomColors.primaryColor),
-                              color: CustomColors.white,
+                              border: Border.all(color: BaseColors.primaryColor),
+                              color: BaseColors.white,
                               boxShadow: [getBoxShadow()],
                               borderRadius: BorderRadius.circular(15.0)
                           ), child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(translate(context).are_you_allergic_to_any_medication, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
+                            Text(translate(context).are_you_allergic_to_any_medication, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
                             SizedBox(height: 1.h,),
                             SizedBox(
                               height: 4.h,
@@ -1578,7 +1494,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                       width: 20.w,
                                       margin: const EdgeInsets.only(right: 10),
                                       decoration: allergicMedicationSelectedPos == index ? getPrimaryDecoration() : getEditTextDecoration(),
-                                      child: Center(child: Text(yesNoList[index], style: Style.montserratBoldStyle().copyWith(color: allergicMedicationSelectedPos == index ? CustomColors.primaryColor : CustomColors.borderColor, fontSize: 15.sp),)),
+                                      child: Center(child: Text(yesNoList[index], style: Style.montserratBoldStyle().copyWith(color: allergicMedicationSelectedPos == index ? BaseColors.primaryColor : BaseColors.borderColor, fontSize: 15.sp),)),
                                     ),
                                   );
                                 },
@@ -1605,9 +1521,9 @@ class _MedicalReportViewState extends State<MedicalReportView> {
 
                         Align(
                             alignment: AlignmentDirectional.topStart,
-                            child: Text(translate(context).sickness_exclusion_policy, style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),)),
+                            child: Text(translate(context).sickness_exclusion_policy, style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),)),
                         const Divider(
-                          color: CustomColors.borderColor,
+                          color: BaseColors.borderColor,
                           thickness: 1.0,
                         ),
                         SizedBox(height: 1.h,),
@@ -1617,11 +1533,11 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                           children: [
                             Checkbox(
                               checkColor: Colors.white,
-                              activeColor: CustomColors.primaryColor,
+                              activeColor: BaseColors.primaryColor,
                               value: isSicknessPolicyChecked,
 
                               visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                              side: const BorderSide(color: CustomColors.primaryColor),
+                              side: const BorderSide(color: BaseColors.primaryColor),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(3),
                               ),
@@ -1630,58 +1546,12 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                               },
                             ),
 
-                            Text(translate(context).i_agree_to, style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
+                            Text(translate(context).i_agree_to, style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
                           ],
                         ),
                         SizedBox(height: 1.h,),
-                        Text(sicknessPolicy, style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
-                        SizedBox(height: 2.h,),
-                        Container(
-                          width: 100.w,
-                          margin: const EdgeInsets.symmetric(vertical: 20),
-                          padding: const EdgeInsets.all(20),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: CustomColors.primaryColor),
-                              color: CustomColors.white,
-                              boxShadow: [getBoxShadow()],
-                              borderRadius: BorderRadius.circular(15.0)
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(translate(context).do_you_want_to_use_school_canteen_services, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
-                              SizedBox(height: 2.h,),
-                              Align(
-                                alignment: AlignmentDirectional.topStart,
-                                child: SizedBox(
-                                  height: 4.h,
-                                  child: ListView.builder(
-                                    itemCount: yesNoList.length,
-                                    scrollDirection: Axis.horizontal,
-                                    shrinkWrap: true,
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    itemBuilder: (context, index) {
-                                      return GestureDetector (
-                                        onTap: (){
-                                          allergicSelectedPos = index;
-                                          setState(() {});
-                                        },
-                                        child: Container(
-                                          height: 4.h,
-                                          width: 20.w,
-                                          margin: const EdgeInsets.only(right: 10),
-                                          decoration: allergicSelectedPos == index ? getPrimaryDecoration() : getEditTextDecoration(),
-                                          child: Center(child: Text(yesNoList[index], style: Style.montserratRegularStyle().copyWith(color: allergicSelectedPos == index ? CustomColors.primaryColor : CustomColors.borderColor, fontSize: 15.sp),)),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 4.h,),
+                        Text(sicknessPolicy, style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
+                        Divider(color: Colors.grey.shade300,height: 3.h),
                         Center(
                           child: GestureDetector(
                             onTap: (){},
@@ -1689,6 +1559,137 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                           ),
                         ),
                         SizedBox(height: 2.h,),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(translate(context).do_you_want_to_use_school_canteen_services, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
+                            SizedBox(height: 2.h,),
+                            Align(
+                              alignment: AlignmentDirectional.topStart,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: 4.h,
+                                    child: ListView.builder(
+                                      itemCount: yesNoList.length,
+                                      scrollDirection: Axis.horizontal,
+                                      shrinkWrap: true,
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      itemBuilder: (context, index) {
+                                        return GestureDetector (
+                                          onTap: (){
+                                            allergicSelectedPos = index;
+                                            setState(() {});
+                                          },
+                                          child: Container(
+                                            height: 4.h,
+                                            width: 20.w,
+                                            alignment: Alignment.centerLeft,
+                                            margin: const EdgeInsets.only(right: 10),
+                                            decoration: allergicSelectedPos == index ? getPrimaryDecoration() : getEditTextDecoration(),
+                                            child: Center(child: Text(yesNoList[index], style: Style.montserratRegularStyle().copyWith(color: allergicSelectedPos == index ? BaseColors.primaryColor : BaseColors.borderColor, fontSize: 15.sp),)),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  Visibility(
+                                    visible: allergicSelectedPos == 0,
+                                    child: Container(
+                                      width: 100.w,
+                                      margin: const EdgeInsets.symmetric(vertical: 20),
+                                      padding: const EdgeInsets.all(20),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: BaseColors.primaryColor),
+                                        color: BaseColors.white,
+                                        borderRadius: BorderRadius.circular(10.0),
+                                      ), child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(translate(context).are_you_allergic_to_any_food,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
+                                        SizedBox(height: 1.h,),
+                                        SizedBox(
+                                          height: 4.h,
+                                          child: ListView.builder(
+                                            itemCount: yesNoList.length,
+                                            scrollDirection: Axis.horizontal,
+                                            shrinkWrap: true,
+                                            physics: const NeverScrollableScrollPhysics(),
+                                            itemBuilder: (context, index) {
+                                              return GestureDetector (
+                                                onTap: (){
+                                                  useCanteenServicesPos = index;
+                                                  setState(() {});
+                                                },
+                                                child: Container(
+                                                  height: 4.h,
+                                                  width: 20.w,
+                                                  margin: const EdgeInsets.only(right: 10),
+                                                  decoration: useCanteenServicesPos == index ? getPrimaryDecoration() : getEditTextDecoration(),
+                                                  child: Center(child: Text(yesNoList[index], style: Style.montserratRegularStyle().copyWith(color: useCanteenServicesPos == index ? BaseColors.primaryColor : BaseColors.borderColor, fontSize: 15.sp),)),
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                        SizedBox(height: 1.h,),
+                                        Visibility(
+                                          visible: useCanteenServicesPos == 0,
+                                          child: ListView.builder(
+                                            itemCount: allergyFoodList.length,
+                                            physics: const NeverScrollableScrollPhysics(),
+                                            shrinkWrap: true,
+                                            itemBuilder: (_, int index) {
+                                              return CheckboxListTile(
+                                                contentPadding: EdgeInsets.zero,
+                                                visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
+                                                activeColor: BaseColors.backgroundColor,
+                                                checkColor: BaseColors.primaryColor,
+                                                dense: true,
+                                                checkboxShape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(2.0),
+                                                ),
+                                                side: MaterialStateBorderSide.resolveWith(
+                                                      (states) => const BorderSide(width: 1.0, color: BaseColors.primaryColor,),
+                                                ),
+                                                title: Text(allergyFoodList[index],style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
+                                                value: selectedAllergicFoodList.contains(allergyFoodList[index]),
+                                                onChanged: (_) {
+                                                  if (selectedAllergicFoodList.contains(allergyFoodList[index])) {
+                                                    selectedAllergicFoodList.remove(allergyFoodList[index]);  // unselect
+                                                  } else {
+                                                    selectedAllergicFoodList.add(allergyFoodList[index]); // select
+                                                  }
+                                                  setState(() {});
+                                                },
+                                                controlAffinity: ListTileControlAffinity.leading,
+                                              );
+                                            },
+                                          ),
+                                        ),
+
+                                        Visibility(
+                                          visible: useCanteenServicesPos == 0,
+                                          child: Center(child: GestureDetector(
+                                            onTap: () {
+
+                                            },
+                                            child: buildSaveButton(),
+                                          )),
+                                        )
+                                      ],
+                                    ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 4.h),
                       ],
                     ),
                     SizedBox(height: 1.h,),
@@ -1708,7 +1709,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
       elevation: 2,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
-          side: const BorderSide(color: CustomColors.primaryColor)),
+          side: const BorderSide(color: BaseColors.primaryColor)),
       clipBehavior: Clip.antiAlias,
       margin: EdgeInsets.zero,
       child: Padding(
@@ -1830,9 +1831,9 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        translate(context).medical_records, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp),),
+                        translate(context).medical_records, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),),
 
-                      Icon(isShowMedicalRecord ? Icons.keyboard_arrow_down :CupertinoIcons.forward, size:isShowMedicalRecord? 25 : 20,color: CustomColors.primaryColor,),
+                      Icon(isShowMedicalRecord ? Icons.keyboard_arrow_down :CupertinoIcons.forward, size:isShowMedicalRecord? 25 : 20,color: BaseColors.primaryColor,),
 
                     ],
                   ),
@@ -1856,7 +1857,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                 width: Get.width,
                                 height: 1,
                                 margin: const EdgeInsets.only(top: 8, bottom: 8),
-                                color: CustomColors.borderColor,
+                                color: BaseColors.borderColor,
                               ),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1872,7 +1873,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                 width: Get.width,
                                 height: 1,
                                 margin: const EdgeInsets.only(top: 8, bottom: 8),
-                                color: CustomColors.borderColor,
+                                color: BaseColors.borderColor,
                               ),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1888,7 +1889,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                 width: Get.width,
                                 height: 1,
                                 margin: const EdgeInsets.only(top: 8, bottom: 8),
-                                color: CustomColors.borderColor,
+                                color: BaseColors.borderColor,
                               ),
                               InkWell(
                                 onTap: (){
@@ -1902,7 +1903,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text('medication.doc', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp)),
+                                    Text('medication.doc', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp)),
                                     Row(
                                       children: [
                                         InkWell(
@@ -1913,9 +1914,9 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                                   return OpenPdfPopup(title: "");
                                                 },
                                               );
-                                            },child: Icon(Icons.remove_red_eye_outlined,color: CustomColors.primaryColor,size: 20.sp,)),
+                                            },child: Icon(Icons.remove_red_eye_outlined,color: BaseColors.primaryColor,size: 20.sp,)),
                                         const SizedBox(width: 10,),
-                                        Icon(Icons.download_for_offline,color: CustomColors.primaryColor,size: 20.sp,)
+                                        Icon(Icons.download_for_offline,color: BaseColors.primaryColor,size: 20.sp,)
                                       ],
                                     ),
                                   ],
@@ -1941,10 +1942,10 @@ class _MedicalReportViewState extends State<MedicalReportView> {
     return Container(
       width: 20.w,
       decoration: BoxDecoration(
-          color: CustomColors.backgroundColor,
+          color: BaseColors.backgroundColor,
           // boxShadow: [getDeepBoxShadow()],
           border: Border.all(
-              color: CustomColors.primaryColor,
+              color: BaseColors.primaryColor,
               width: 1.5),
           borderRadius: BorderRadius.circular(5.0)),
       child: Padding(
@@ -1952,7 +1953,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
             horizontal: 20, vertical: 4),
         child: Center(
           child: Text(
-            translate(context).save_small, style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),),
+            translate(context).save_small, style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
         ),
       ),
     );
@@ -1962,10 +1963,10 @@ class _MedicalReportViewState extends State<MedicalReportView> {
     return Container(
       width: 20.w,
       decoration: BoxDecoration(
-          color: CustomColors.backgroundColor,
+          color: BaseColors.backgroundColor,
           // boxShadow: [getDeepBoxShadow()],
           border: Border.all(
-              color: CustomColors.primaryColor,
+              color: BaseColors.primaryColor,
               width: 1.5),
           borderRadius: BorderRadius.circular(20.0)),
       child: Padding(
@@ -1974,7 +1975,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
         child: Center(
           child: Text(
             translate(context).deactivated,
-            style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 13.sp),),
+            style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 13.sp),),
         ),
       ),
     );
@@ -1983,14 +1984,14 @@ class _MedicalReportViewState extends State<MedicalReportView> {
   Decoration getEditTextDecoration(){
     return BoxDecoration(
         borderRadius: BorderRadius.circular(5.0),
-        border: Border.all(color: CustomColors.borderColor),
-        color: CustomColors.white);
+        border: Border.all(color: BaseColors.borderColor),
+        color: BaseColors.white);
   }
 
   Decoration getPrimaryDecoration(){
     return BoxDecoration(
         borderRadius: BorderRadius.circular(5.0),
-        border: Border.all(color: CustomColors.primaryColor),
-        color: CustomColors.backgroundColor);
+        border: Border.all(color: BaseColors.primaryColor),
+        color: BaseColors.backgroundColor);
   }
 }

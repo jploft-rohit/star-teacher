@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/Utility/base_textformfield.dart';
 import 'package:staff_app/Utility/otp_txt_field.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 
-class CustomDialogs {
+class BaseDialogs {
   showOtpDialog(){
     final first = TextEditingController(),
           second = TextEditingController(),
@@ -37,7 +39,7 @@ class CustomDialogs {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(height: MediaQuery.of(context).size.height*0.05,),
-                  Text(translate(context).otp_sent,style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 21.sp),),
+                  Text(translate(context).otp_sent,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 21.sp),),
                   SizedBox(height: 0.5.h,),
                   Text(translate(context).enter_4_digit_otp,style: Style.montserratRegularStyle().copyWith(color: const Color(0xff6B6B6B), fontSize: 16.sp, height: 1.5),),
                   SizedBox(height: 0.5.h,),
@@ -60,7 +62,7 @@ class CustomDialogs {
                         text: ' ${translate(context).didnt_recive_otp}',
                         style: Style.montserratBoldStyle().copyWith(color: const Color(0xff7C7C7C), fontSize: 16.sp),
                         children: <TextSpan>[
-                          TextSpan(text: ' ${translate(context).sent_again}', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 16.sp)),
+                          TextSpan(text: ' ${translate(context).sent_again}', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
                         ],
                       ),
                     ),
@@ -112,9 +114,14 @@ class CustomDialogs {
       },
     );
   }
-  showConfirmationDialog({Function()? onClose,String? title,Function()? onLeftButtonPressed, String? leftButtonTitle,Function()? onRightButtonPressed, String? rightButtonTitle}){
-    double btnHeight = 30;
-    double btnWidth = getWidth(Get.context!) * 50 / 180;
+  showConfirmationDialog({
+    Function()? onClose,
+    String? title,
+    Function()? onLeftButtonPressed,
+    String? leftButtonTitle,
+    Function()? onRightButtonPressed,
+    String? rightButtonTitle,
+  }){
     showGeneralDialog(
         context: Get.context!,
         barrierDismissible: true,
@@ -152,5 +159,86 @@ class CustomDialogs {
             ),
           );
     });
+  }
+
+  showOkDialog({
+    Function()? onClose,
+    String? title,
+    Function()? onBtnPressed,
+    String? btnTitle,
+  }){
+    showGeneralDialog(
+        context: Get.context!,
+        barrierDismissible: true,
+        barrierLabel: "",
+        pageBuilder: (context,a1,a2){
+          return Dialog(
+            insetPadding: EdgeInsets.symmetric(horizontal: 3.w),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(14))),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(height: 12),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: GestureDetector(onTap: onClose ?? (){Get.back();},
+                        child: SvgPicture.asset("assets/images/ic_close.svg",height: 16)),
+                  ),
+                  SizedBox(height: 16),
+                  Text(title??"",textAlign: TextAlign.center,style: const TextStyle(fontWeight: FontWeight.w500,fontSize: 15)),
+                  const SizedBox(height: 20),
+                  BaseButton(btnType: dialogButton,title: btnTitle??"OK", onPressed: onBtnPressed ?? (){Get.back();}),
+                  const SizedBox(height: 20),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  showRejectDialog({
+    Function()? onClose,
+    String? title,
+    Function()? onSubmit,
+    String? btnTitle,
+    String? hintText,
+  }){
+    showGeneralDialog(
+        context: Get.context!,
+        barrierDismissible: true,
+        barrierLabel: "",
+        pageBuilder: (context,a1,a2){
+          return Dialog(
+            insetPadding: EdgeInsets.symmetric(horizontal: 3.w),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(14))),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SvgPicture.asset("assets/images/ic_close.svg",height: 16,color: Colors.transparent),
+                        Text(title??"Event Rejection Reason",textAlign: TextAlign.center,style: const TextStyle(fontWeight: FontWeight.w500,fontSize: 16)),
+                        GestureDetector(onTap: onClose ?? (){Get.back();},
+                            child: SvgPicture.asset("assets/images/ic_close.svg",height: 16),
+                        ),
+                      ],
+                    ),
+                  ),
+                  BaseTextFormField(controller: TextEditingController(),maxLine: 4,hintText: hintText??"Why are you rejecting this?",),
+                  BaseButton(btnType: dialogButton,title: btnTitle??translate(context).submit_btn_txt, onPressed: onSubmit ?? (){Get.back();}),
+                  const SizedBox(height: 20),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

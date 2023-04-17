@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/chat_screen/chating_screen.dart';
@@ -27,6 +27,11 @@ class _ChatStarTabState extends State<ChatStarTab> with SingleTickerProviderStat
       setState(() {});
     });
     super.initState();
+  }
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -60,6 +65,123 @@ class _ChatStarTabState extends State<ChatStarTab> with SingleTickerProviderStat
                 controller: tabController,
                 children: [
                   ListView.builder(
+                    itemCount: 3,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 10.0),
+                        child: Stack(
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          children: [
+                            Container(
+                              height: 70,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  border: Border.all(color: BaseColors.borderColor)
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 70,
+                                        padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(15.0),
+                                            border: Border.all(color: BaseColors.primaryColor)
+                                        ),
+                                        child: SvgPicture.asset(girlSvg, height: 40,),
+                                      ),
+                                      SizedBox(
+                                        width: 2.w,
+                                      ),
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          addText("Sania", 15.sp, BaseColors.primaryColor, FontWeight.w700),
+                                          SizedBox(
+                                            height: .5.h,
+                                          ),
+                                          RichText(
+                                            text: TextSpan(
+                                              text: 'ID: ',
+                                              style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),
+                                              children: <TextSpan>[
+                                                TextSpan(text: "#235543", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp,)),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: .5.h,
+                                          ),
+                                          RichText(
+                                            text: TextSpan(
+                                              text: 'Message: ',
+                                              style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),
+                                              children: <TextSpan>[
+                                                TextSpan(text: "Can you please tell...", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp,),),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  InkWell(
+                                    onTap: (){
+                                      Get.to(const ScheduleMeetingScreen());
+                                    },
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        SvgPicture.asset("assets/images/calender_chat.svg"),
+                                        SizedBox(
+                                          height: .5.h,
+                                        ),
+                                        Text("Schedule\nMeeting", style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor,),textAlign: TextAlign.center,),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 10),
+                                    child: InkWell(
+                                      onTap: (){
+                                        Get.to(const ChatingScreen());
+                                      },
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          SvgPicture.asset("assets/images/chat_img.svg"),
+                                          SizedBox(
+                                            height: .5.h,
+                                          ),
+                                          addText("Chats", 13.sp, BaseColors.textBlackColor, FontWeight.w700)
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Align(
+                              alignment: AlignmentDirectional.topEnd,
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: BaseColors.primaryColor,
+                                ),
+                                padding: const EdgeInsets.all(5),
+                                child: addText("5", 13.sp, BaseColors.white, FontWeight.w700),
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                  ListView.builder(
                     itemCount: 2,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
@@ -72,7 +194,7 @@ class _ChatStarTabState extends State<ChatStarTab> with SingleTickerProviderStat
                               height: 70,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15.0),
-                                  border: Border.all(color: CustomColors.borderColor)
+                                  border: Border.all(color: BaseColors.borderColor)
                               ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -84,7 +206,7 @@ class _ChatStarTabState extends State<ChatStarTab> with SingleTickerProviderStat
                                         padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                                         decoration: BoxDecoration(
                                             borderRadius: BorderRadius.circular(15.0),
-                                            border: Border.all(color: CustomColors.primaryColor)
+                                            border: Border.all(color: BaseColors.primaryColor)
                                         ),
                                         child: SvgPicture.asset("assets/images/Group 8090.svg"),
                                       ),
@@ -98,9 +220,9 @@ class _ChatStarTabState extends State<ChatStarTab> with SingleTickerProviderStat
                                           RichText(
                                             text: TextSpan(
                                               text: 'Class Group',
-                                              style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),
+                                              style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),
                                               children: <TextSpan>[
-                                                TextSpan(text: "(G1-H1)", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp,)),
+                                                TextSpan(text: "(G1-H1)", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp,)),
                                               ],
                                             ),
                                           ),
@@ -110,9 +232,9 @@ class _ChatStarTabState extends State<ChatStarTab> with SingleTickerProviderStat
                                           RichText(
                                             text: TextSpan(
                                               text: 'Message: ',
-                                              style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),
+                                              style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),
                                               children: <TextSpan>[
-                                                TextSpan(text: "Can you please tell...", style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp,),),
+                                                TextSpan(text: "Can you please tell...", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp,),),
                                               ],
                                             ),
                                           ),
@@ -133,7 +255,7 @@ class _ChatStarTabState extends State<ChatStarTab> with SingleTickerProviderStat
                                           SizedBox(
                                             height: .5.h,
                                           ),
-                                          addText("Chats", 13.sp, CustomColors.textBlackColor, FontWeight.w700)
+                                          addText("Chats", 13.sp, BaseColors.textBlackColor, FontWeight.w700)
                                         ],
                                       ),
                                     ),
@@ -146,127 +268,10 @@ class _ChatStarTabState extends State<ChatStarTab> with SingleTickerProviderStat
                               child: Container(
                                 decoration: const BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: CustomColors.primaryColor,
+                                  color: BaseColors.primaryColor,
                                 ),
                                 padding: const EdgeInsets.all(5),
-                                child: addText("5", 13.sp, CustomColors.white, FontWeight.w700),
-                              ),
-                            )
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                  ListView.builder(
-                    itemCount: 3,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 10.0),
-                        child: Stack(
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          children: [
-                            Container(
-                              height: 70,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  border: Border.all(color: CustomColors.borderColor)
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Container(
-                                        height: 70,
-                                        padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(15.0),
-                                            border: Border.all(color: CustomColors.primaryColor)
-                                        ),
-                                        child: SvgPicture.asset(girlSvg, height: 40,),
-                                      ),
-                                      SizedBox(
-                                        width: 2.w,
-                                      ),
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          addText("Sania", 15.sp, CustomColors.primaryColor, FontWeight.w700),
-                                          SizedBox(
-                                            height: .5.h,
-                                          ),
-                                          RichText(
-                                            text: TextSpan(
-                                              text: 'ID: ',
-                                              style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),
-                                              children: <TextSpan>[
-                                                TextSpan(text: "#235543", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp,)),
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: .5.h,
-                                          ),
-                                          RichText(
-                                            text: TextSpan(
-                                              text: 'Message: ',
-                                              style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),
-                                              children: <TextSpan>[
-                                                TextSpan(text: "Can you please tell...", style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp,),),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  InkWell(
-                                    onTap: (){
-                                      Get.to(const ScheduleMeetingScreen());
-                                    },
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        SvgPicture.asset("assets/images/calender_chat.svg"),
-                                        SizedBox(
-                                          height: .5.h,
-                                        ),
-                                        Text("Schedule\nMeeting", style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: CustomColors.textBlackColor,),textAlign: TextAlign.center,),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 10),
-                                    child: InkWell(
-                                      onTap: (){
-                                        Get.to(const ChatingScreen());
-                                      },
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset("assets/images/chat_img.svg"),
-                                          SizedBox(
-                                            height: .5.h,
-                                          ),
-                                          addText("Chats", 13.sp, CustomColors.textBlackColor, FontWeight.w700)
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Align(
-                              alignment: AlignmentDirectional.topEnd,
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: CustomColors.primaryColor,
-                                ),
-                                padding: const EdgeInsets.all(5),
-                                child: addText("5", 13.sp, CustomColors.white, FontWeight.w700),
+                                child: addText("5", 13.sp, BaseColors.white, FontWeight.w700),
                               ),
                             )
                           ],

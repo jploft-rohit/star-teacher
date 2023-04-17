@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -55,7 +55,7 @@ class _HelpDetailPopupState extends State<HelpDetailPopup> {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
                       border: Border.all(
-                          color: CustomColors.borderColor
+                          color: BaseColors.borderColor
                       )
                   ),
                   child: Row(
@@ -64,7 +64,7 @@ class _HelpDetailPopupState extends State<HelpDetailPopup> {
                         padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
                         decoration: BoxDecoration(
                           border: Border.all(
-                              color: CustomColors.primaryColor
+                              color: BaseColors.primaryColor
                           ),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
@@ -75,11 +75,11 @@ class _HelpDetailPopupState extends State<HelpDetailPopup> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Abdul Khan", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
+                            Text("Abdul Khan", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                             SizedBox(
                               height: .5.h,
                             ),
-                            Text("#632541", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                            Text("#632541", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                           ],
                         ),
                       ),
@@ -97,23 +97,23 @@ class _HelpDetailPopupState extends State<HelpDetailPopup> {
                   children: [
                     const Icon(
                       Icons.location_on_sharp,
-                      color: CustomColors.primaryColor,
+                      color: BaseColors.primaryColor,
                       size: 15.0,
                     ),
                     SizedBox(
                       width: 2.w,
                     ),
-                    Text("Classroom 43", style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
+                    Text("Classroom 43", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
                   ],
                 ),
                 SizedBox(
                   height: 2.h,
                 ),
                 Divider(
-                  color: CustomColors.borderColor,
+                  color: BaseColors.borderColor,
                   thickness: 1.0,
                 ),
-                Text(translate(context).im_stuck_at_my_location_Please_help_me_Im_unable_to_evacuate_the_classroom, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp, height: 1.5),textAlign: TextAlign.center,),
+                Text(translate(context).im_stuck_at_my_location_Please_help_me_Im_unable_to_evacuate_the_classroom, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp, height: 1.5),textAlign: TextAlign.center,),
                 SizedBox(
                   height: 2.h,
                 ),

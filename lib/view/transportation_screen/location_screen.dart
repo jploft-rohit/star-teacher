@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -50,7 +50,7 @@ class _LocationScreenState extends State<LocationScreen> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(15.0),
                     border: Border.all(
-                        color: CustomColors.borderColor
+                        color: BaseColors.borderColor
                     )
                 ),
                 child: ListTile(
@@ -61,7 +61,7 @@ class _LocationScreenState extends State<LocationScreen> {
                     padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
                     decoration: BoxDecoration(
                       border: Border.all(
-                          color: CustomColors.primaryColor
+                          color: BaseColors.primaryColor
                       ),
                       borderRadius: BorderRadius.circular(15.0),
                     ),
@@ -70,42 +70,42 @@ class _LocationScreenState extends State<LocationScreen> {
                   title: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Nawaj Alam", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                      Text("Nawaj Alam", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                       SizedBox(
                         height: 2.0,
                       ),
-                      Text("#12344534", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                      Text("#12344534", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                       SizedBox(
                         height: 2.0,
                       ),
-                      Text("English Teacher", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                      Text("English Teacher", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                     ],
                   ),
-                  trailing: InkWell(onTap: (){
-                    showScanQrDialogue(context, false);
-                  },child: SvgPicture.asset(qrCodeSvg)),
+                  // trailing: InkWell(onTap: (){
+                  //   showScanQrDialogue(context, false);
+                  // },child: SvgPicture.asset(qrCodeSvg)),
                 ),
               ),
-              SizedBox(height: 3.h,),
-              Row(
-                children: [
-                  Flexible(flex: 1,child: BaseButton(title: translate(context).print_QR,  textSize: 15.sp,onPressed: (){
-                    Get.to(PrintQrScreen());
-                  },),),
-                  SizedBox(
-                    width: 2.w,
-                  ),
-                  Flexible(flex: 1,child: BaseButton(title: translate(context).programme_NFC, textSize: 15.sp, onPressed: (){
-                    showNFCDialog(context,"");
-                  })),
-                ],
-              ),
-              SizedBox(height: 2.h,),
+              SizedBox(height: 3.h),
+              // Row(
+              //   children: [
+              //     Flexible(flex: 1,child: BaseButton(title: translate(context).print_QR,  textSize: 15.sp,onPressed: (){
+              //       Get.to(PrintQrScreen());
+              //     },),),
+              //     SizedBox(
+              //       width: 2.w,
+              //     ),
+              //     Flexible(flex: 1,child: BaseButton(title: translate(context).programme_NFC, textSize: 15.sp, onPressed: (){
+              //       showNFCDialog(context,"");
+              //     })),
+              //   ],
+              // ),
+              // SizedBox(height: 2.h,),
               Row(
                 children: [
                   Icon(
                     Icons.location_on_outlined,
-                    color: CustomColors.primaryColor,
+                    color: BaseColors.primaryColor,
                     size: 18.sp,
                   ),
                   SizedBox(
@@ -122,7 +122,7 @@ class _LocationScreenState extends State<LocationScreen> {
                 width: 100.w,
                 decoration: BoxDecoration(
                   border: Border.all(
-                      color: CustomColors.primaryColor
+                      color: BaseColors.primaryColor
                   ),
                   borderRadius: BorderRadius.circular(15.0),
                 ),
@@ -157,7 +157,7 @@ class _LocationScreenState extends State<LocationScreen> {
                         },
                         child: Icon(
                           CupertinoIcons.delete,
-                          color: CustomColors.primaryColor,
+                          color: BaseColors.primaryColor,
                           size: 18.sp,
                         ),
                       ),
@@ -177,7 +177,7 @@ class _LocationScreenState extends State<LocationScreen> {
                             }
                           });
                         },
-                        child: Image.asset(editPng, height: 18.sp, color: CustomColors.primaryColor,),
+                        child: Image.asset(editPng, height: 18.sp, color: BaseColors.primaryColor,),
                       )
                     ],
                   )
@@ -217,7 +217,7 @@ class _LocationScreenState extends State<LocationScreen> {
               StepProgressView(
                 width: MediaQuery.of(context).size.width,
                 curStep: 2,
-                color: CustomColors.primaryColor,
+                color: BaseColors.primaryColor,
                 titles: listDate,
                 statuses: listTitle,
               ),

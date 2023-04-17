@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_button.dart';
+import 'package:staff_app/Utility/base_textformfield.dart';
+
 import 'package:staff_app/Utility/custom_text_field.dart';
+import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/create_task_or_assignment/assign_assignment_popup_1.dart';
@@ -23,6 +25,7 @@ class _CreateTaskParentViewState extends State<CreateTaskParentView> {
   TextEditingController libraryNoCtrl = TextEditingController();
   TextEditingController dueDateCtrl = TextEditingController();
   TextEditingController dueTimeCtrl = TextEditingController();
+  TextEditingController assignTypeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -102,18 +105,20 @@ class _CreateTaskParentViewState extends State<CreateTaskParentView> {
           SizedBox(
             height: 2.h,
           ),
-          CustomTextField(
-            controller: TextEditingController(),
+          BaseTextFormField(
+            controller: assignTypeController,
+            isDropDown: true,
             hintText: "Assign type",
-            readOnly: true,
-            onTap: (){
-              print("adfas");
-            },
-            borderRadius: 5.0,
-            suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
-          ),
-          SizedBox(
-            height: 2.h,
+            dropDownValue: assignTypeController.text,
+            onChanged: (newValue){
+              setState(() {
+                assignTypeController.text = newValue.toString();
+              });},
+            items: DummyLists().list1.map((value) {
+              return DropdownMenuItem(
+                value: value,
+                child: addText(value, 16.sp, Colors.black, FontWeight.w400),);
+            }).toList(),
           ),
           CustomTextField(
             controller: libraryNoCtrl,

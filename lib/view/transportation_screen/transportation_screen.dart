@@ -6,14 +6,12 @@ import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/base_tab_button.dart';
 import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
-import 'package:staff_app/view/chat_screen/chat_screen.dart';
 import 'package:staff_app/view/chat_screen/chating_screen.dart';
 import 'package:staff_app/view/rating_screens/driver_rating_screen.dart';
 import 'package:staff_app/view/transportation_screen/bus_arriving_soon_screen.dart';
@@ -40,6 +38,11 @@ class _TransportationScreenState extends State<TransportationScreen> with Single
     });
   }
   @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(title: translate(context).transportation),
@@ -54,7 +57,7 @@ class _TransportationScreenState extends State<TransportationScreen> with Single
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(15.0),
                     border: Border.all(
-                        color: CustomColors.borderColor
+                        color: BaseColors.borderColor
                     )
                 ),
                 child: ListTile(
@@ -65,7 +68,7 @@ class _TransportationScreenState extends State<TransportationScreen> with Single
                     padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
                     decoration: BoxDecoration(
                       border: Border.all(
-                          color: CustomColors.primaryColor
+                          color: BaseColors.primaryColor
                       ),
                       borderRadius: BorderRadius.circular(15.0),
                     ),
@@ -74,15 +77,15 @@ class _TransportationScreenState extends State<TransportationScreen> with Single
                   title: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Nawaj Alam", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                      Text("Nawaj Alam", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                       SizedBox(
                         height: 2.0,
                       ),
-                      Text("#12344534", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                      Text("#12344534", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                       SizedBox(
                         height: 2.0,
                       ),
-                      Text("English Teacher", style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp),),
+                      Text("English Teacher", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                     ],
                   ),
                   trailing: InkWell(onTap: (){
@@ -123,7 +126,7 @@ class _TransportationScreenState extends State<TransportationScreen> with Single
               Container(
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 decoration: BoxDecoration(
-                    color: CustomColors.white,
+                    color: BaseColors.white,
                     borderRadius: BorderRadius.circular(15.0),
                     boxShadow: [
                       getBoxShadow()
@@ -220,7 +223,7 @@ class _TransportationScreenState extends State<TransportationScreen> with Single
                               SizedBox(
                                 height: 1.h,
                               ),
-                              Text(translate(context).chat, style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
+                              Text(translate(context).chat, style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
                             ],
                           ),
                         ),
@@ -236,7 +239,7 @@ class _TransportationScreenState extends State<TransportationScreen> with Single
               SizedBox(
                 height: 3.h,
               ),
-              Text("${translate(context).rate}: ", style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
+              Text("${translate(context).rate}: ", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
               SizedBox(
                 height: 1.h,
               ),
@@ -263,8 +266,8 @@ class _TransportationScreenState extends State<TransportationScreen> with Single
                   Flexible(
                     flex: 1,
                     child: BaseButton(title: translate(context).supervisor.toUpperCase(), onPressed: (){
-                      Get.to(DriverRatingScreen(title: "Staff"));
-                    },textSize: 15.sp,),
+                      Get.to(DriverRatingScreen(title: "Supervisor"));
+                    },textSize: 15.sp,removeHorizontalPadding: true),
                   ),
                 ],
               ),
@@ -280,15 +283,15 @@ class _TransportationScreenState extends State<TransportationScreen> with Single
       padding: EdgeInsets.all(14.sp),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),
-          border: Border.all(color: CustomColors.primaryColor)
+          border: Border.all(color: BaseColors.primaryColor)
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(title, style: Style.montserratMediumStyle().copyWith(color: CustomColors.primaryColor, fontSize: 17.sp),),
+          Text(title, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 17.sp),),
           Icon(
             Icons.arrow_forward,
-            color: CustomColors.primaryColor,
+            color: BaseColors.primaryColor,
             size: 20.sp,
           )
         ],

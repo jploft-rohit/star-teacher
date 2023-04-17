@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/custom_app_bar.dart';
-import 'package:staff_app/Utility/custom_button.dart';
-import 'package:staff_app/Utility/custom_colors.dart';
+
+
+import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/news_screen/news_details_screen.dart';
 
@@ -28,17 +28,17 @@ class _NewsScreenState extends State<NewsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            addText("Latest Broadcasts & Events", 18.sp, CustomColors.textBlackColor, FontWeight.w700),
+            addText("Latest Broadcasts & Events", 18.sp, BaseColors.textBlackColor, FontWeight.w700),
             SizedBox(
               height: 2.h,
             ),
             Container(
               padding: const EdgeInsets.only(left: 8.0, right: 8.0),
               decoration: BoxDecoration(
-                color: CustomColors.backgroundColor,
+                color: BaseColors.backgroundColor,
                 borderRadius: BorderRadius.circular(5.0),
                 border: Border.all(
-                    color: CustomColors.borderColor
+                    color: BaseColors.borderColor
                 ),
               ),
               child: Row(
