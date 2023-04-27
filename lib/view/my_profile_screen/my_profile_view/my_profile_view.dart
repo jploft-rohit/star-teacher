@@ -70,15 +70,15 @@ class _MyProfileViewState extends State<MyProfileView> {
                         children: [
                           Container(
                             margin: const EdgeInsets.all(5),
-                            padding: const EdgeInsets.only(left: 20, right: 20, top: 10.0, bottom: 10.0),
+                            padding: const EdgeInsets.only(left: 15, right: 15, top: 10.0, bottom: 10.0),
                             decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: BorderRadius.circular(20.0),
+                                borderRadius: BorderRadius.circular(15.0),
                                 border: Border.all(
                                     color: BaseColors.primaryColor)),
                             child: SvgPicture.asset(
                               manSvg,
-                              height: 10.h,
+                              height: 8.h,
                             ),
                           ),
                           iconButton(() {}, "assets/images/upload_img.svg")
@@ -122,10 +122,21 @@ class _MyProfileViewState extends State<MyProfileView> {
                               )
                             ],
                           ),
-                          _buildProfileFields(
-                            translate(context).alternative_mobile,
-                            alternativeMobileCtrl,
-                            const SizedBox(),
+                          Stack(
+                            alignment: AlignmentDirectional.centerEnd,
+                            children: [
+                              _buildProfileFields(
+                                  translate(context).alternative_mobile,
+                                  alternativeMobileCtrl,
+                                  const SizedBox()
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 25),
+                                child: BaseButton(removeHorizontalPadding: true,btnType: smallButton,borderRadius: 100,title: translate(context).change,textSize: 11, onPressed: () {
+                                  BaseDialogs().showOtpDialog();
+                                }),
+                              )
+                            ],
                           ),
                           _buildProfileFields(
                             translate(context).dob,
@@ -135,7 +146,7 @@ class _MyProfileViewState extends State<MyProfileView> {
                           _buildProfileFields(
                               translate(context).email, emailCtrl, const SizedBox.shrink()),
                           _buildProfileFields(translate(context).address,addressCtrl,
-                              InkWell(
+                              GestureDetector(
                                   onTap: (){
                                     Get.to(const MapScreen());
                                   },
@@ -206,7 +217,7 @@ class _MyProfileViewState extends State<MyProfileView> {
                               iconButton(() {}, uploadDocSvg)),
                           Text("${translate(context).upload_your_doc_till} 25 July, 2022", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textRedColor, fontSize: 14.sp),),
                           SizedBox(height: 3.0.h),
-                          BaseButton(title: translate(context).save, onPressed: (){}),
+                          BaseButton(title: translate(context).save, onPressed: (){},btnType: largeButton,),
                           SizedBox(height: 3.0.h),
                         ],
                       ),
@@ -224,7 +235,7 @@ class _MyProfileViewState extends State<MyProfileView> {
       controller: controller,
       textInputAction: TextInputAction.next,
       style: TextStyle(
-          fontSize: 15.sp,
+          fontSize: 16.sp,
           color: BaseColors.primaryColor,
           fontWeight: FontWeight.w500),
       decoration: InputDecoration(
@@ -233,7 +244,7 @@ class _MyProfileViewState extends State<MyProfileView> {
           suffixIconConstraints: const BoxConstraints(minHeight: 10),
           contentPadding: EdgeInsets.zero,
           labelText: hintText,
-          labelStyle: TextStyle(fontSize: 14.sp, color: Colors.black),
+          labelStyle: TextStyle(fontSize: 15.sp, color: Colors.black),
           border: InputBorder.none),
     );
   }
@@ -260,8 +271,7 @@ class _MyProfileViewState extends State<MyProfileView> {
       width: 20.sp,
       child: Material(
         color: Colors.transparent,
-        child: InkWell(
-            borderRadius: BorderRadius.circular(10.sp),
+        child: GestureDetector(
             onTap: ontap,
             child: SvgPicture.asset(
               icon,

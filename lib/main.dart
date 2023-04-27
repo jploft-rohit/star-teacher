@@ -58,8 +58,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveSizer(
-      builder: (p0, p1, p2) {
+    return ResponsiveSizer(builder: (context, orientation, deviceType) {
         return GetMaterialApp(
           onGenerateRoute: route.generateRoute,
           initialRoute: splashScreenRoute,

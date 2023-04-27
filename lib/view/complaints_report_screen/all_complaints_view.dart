@@ -4,12 +4,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
-
 import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/base_dialogs.dart';
+import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/constants-classes/color_constants.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/complaints_report_screen/add_comment_popup.dart';
 import 'package:staff_app/view/complaints_report_screen/raise_complaint_report_screen.dart';
@@ -52,6 +54,15 @@ class _AllComplaintsViewState extends State<AllComplaintsView> {
                         children: [
                           GestureDetector(
                             onTap: (){
+                              Get.to(RaiseComplaintReportScreen(isUpdating: true));
+                            },
+                            child: Image.asset(editPng, color: BaseColors.primaryColor,height: 18.sp,),
+                          ),
+                          SizedBox(
+                            width: 5.w,
+                          ),
+                          GestureDetector(
+                            onTap: (){
                               BaseDialogs().showConfirmationDialog(
                                   title: "Are you sure you want to delete this Complaint?",
                               );
@@ -61,15 +72,6 @@ class _AllComplaintsViewState extends State<AllComplaintsView> {
                               color: BaseColors.primaryColor,
                               size: 18.sp,
                             ),
-                          ),
-                          SizedBox(
-                            width: 5.w,
-                          ),
-                          GestureDetector(
-                            onTap: (){
-                              Get.to(RaiseComplaintReportScreen(isUpdating: true));
-                            },
-                            child: Image.asset(editPng, color: BaseColors.primaryColor,height: 18.sp,),
                           ),
                         ],
                       ),
@@ -82,9 +84,9 @@ class _AllComplaintsViewState extends State<AllComplaintsView> {
                       SizedBox(
                         width: 2.w,
                       ),
-                      addText("Star :", 15.sp, BaseColors.textBlackColor, FontWeight.w400),
+                      addText("Star :", 14.sp, BaseColors.textBlackColor, FontWeight.w400),
                       const SizedBox(width: 3),
-                      addText("Najma Suheil", 15.sp, BaseColors.primaryColor, FontWeight.w600),
+                      addText("Najma Suheil", 14.sp, BaseColors.primaryColor, FontWeight.w600),
                     ],
                   ),
                   const Divider(),
@@ -94,7 +96,7 @@ class _AllComplaintsViewState extends State<AllComplaintsView> {
                       SizedBox(
                         width: 2.w,
                       ),
-                      addText("01/03/2022", 15.sp, BaseColors.textBlackColor, FontWeight.w400),
+                      addText("01/03/2022", 14.sp, BaseColors.textBlackColor, FontWeight.w400),
                       SizedBox(
                         width: 10.w,
                       ),
@@ -102,7 +104,7 @@ class _AllComplaintsViewState extends State<AllComplaintsView> {
                       SizedBox(
                         width: 2.w,
                       ),
-                      addText("09:13pm", 15.sp, BaseColors.textBlackColor, FontWeight.w400),
+                      addText("09:13pm", 14.sp, BaseColors.textBlackColor, FontWeight.w400),
                     ],
                   ),
                   const Divider(),
@@ -116,17 +118,17 @@ class _AllComplaintsViewState extends State<AllComplaintsView> {
                       Flexible(child: buildInfoItems("Type", "Complaints"))
                     ],
                   ),
-                  const Divider(),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SvgPicture.asset("assets/images/report.svg"),
-                      SizedBox(
-                        width: 2.w,
-                      ),
-                      Flexible(child: buildInfoItems("Complain on", "Bus Driver"))
-                    ],
-                  ),
+                  // const Divider(),
+                  // Row(
+                  //   crossAxisAlignment: CrossAxisAlignment.start,
+                  //   children: [
+                  //     SvgPicture.asset("assets/images/report.svg"),
+                  //     SizedBox(
+                  //       width: 2.w,
+                  //     ),
+                  //     Flexible(child: buildInfoItems("Complain on", "Bus Driver"))
+                  //   ],
+                  // ),
                   const Divider(),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -175,59 +177,17 @@ class _AllComplaintsViewState extends State<AllComplaintsView> {
                     ),
                   ),
                   Divider(height: 3.h),
-                  Row(
-                    children: [
-                      Expanded(child: BaseButton(title: translate(context).accept.toUpperCase(), onPressed: (){},rightMargin: 1.5.w,isActive: false,)),
-                      Expanded(child: BaseButton(title: translate(context).comment.toUpperCase(), onPressed: (){},leftMargin: 1.5.w,)),
-                    ],
+                  Visibility(
+                    visible: index != 0,
+                    child: Row(
+                      children: [
+                        Expanded(child: BaseButton(title: translate(context).accept.toUpperCase(), onPressed: (){},rightMargin: 1.5.w,isActive: false,removeHorizontalPadding: true,btnType: mediumLargeButton,)),
+                        Expanded(child: BaseButton(title: translate(context).comment.toUpperCase(), onPressed: (){
+                          showCommentDialog(context);
+                        },leftMargin: 1.5.w,removeHorizontalPadding: true,btnType: mediumLargeButton,)),
+                      ],
+                    ),
                   ),
-                  // const Divider(),
-                  // Row(
-                  //   crossAxisAlignment: CrossAxisAlignment.start,
-                  //   children: [
-                  //     SvgPicture.asset("assets/images/comment_img.svg"),
-                  //     SizedBox(
-                  //       width: 2.w,
-                  //     ),
-                  //     Flexible(child: buildInfoItems("Feedback", "We will take action on this."))
-                  //   ],
-                  // ),
-                  // SizedBox(
-                  //   height: 1.h,
-                  // ),
-                  // Row(
-                  //   children: [
-                  //     Flexible(
-                  //       flex: 1,
-                  //       child: BaseButton(text: "ESCALATE", onPressed: (){}, btnHeight: 35, boxShadow: [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 16.sp,),
-                  //     ),
-                  //     SizedBox(
-                  //       width: 2.w,
-                  //     ),
-                  //     Flexible(
-                  //       flex: 1,
-                  //       child: BaseButton(text: "COMMENTS", onPressed: (){
-                  //         showGeneralDialog(
-                  //           context: context,
-                  //           pageBuilder:  (context, animation, secondaryAnimation) {
-                  //             return const AddCommentPopup();
-                  //           },
-                  //         );
-                  //       }, btnHeight: 35, boxShadow: [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 16.sp,),
-                  //     ),
-                  //     SizedBox(
-                  //       width: 2.w,
-                  //     ),
-                  //     Flexible(
-                  //       flex: 1,
-                  //       child: BaseButton(text: "ACCEPT", onPressed: (){}, btnHeight: 35, borderRadius: 10.0,textSize: 16.sp,),
-                  //     ),
-                  //   ],
-                  // ),
-                  // SizedBox(
-                  //   height: 1.h,
-                  // ),
-                  // const Divider(),
                   SizedBox(
                     height: 1.h,
                   ),
@@ -246,4 +206,63 @@ class _AllComplaintsViewState extends State<AllComplaintsView> {
       },
     );
   }
+}
+showCommentDialog(BuildContext context){
+
+  showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => AlertDialog(
+          backgroundColor: ColorConstants.white,
+          elevation: 10,
+
+          scrollable: true,
+          title: Stack(
+            children: [
+              Align(alignment: Alignment.center,
+                child: Padding(
+                  padding: const EdgeInsetsDirectional.only(top: 15),
+                  child: addAlignedText(
+                      "Add Comment",
+                      16.sp,
+                      Color(0xFF000000),
+                      FontWeight.w600),
+                ),),
+
+              Align(
+                  alignment: AlignmentDirectional.topEnd,
+                  child: GestureDetector(
+                    onTap: (){
+                      Navigator.pop(context);
+                    },
+                    child: Icon(Icons.close,color: Color(0xFF929292),),
+                  ))
+            ],
+          ),
+          contentPadding: const EdgeInsets.all(5),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20)),
+          content: SizedBox(
+            width: 100.w,
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomTextField(controller: TextEditingController(), hintText: "Comment",maxLine: 4,),
+                  SizedBox(height: 2.h ,),
+                  Align(
+                      alignment: Alignment.topCenter,
+                      child: BaseButton(title: 'SUBMIT', onPressed: () {
+                        Navigator.pop(context);
+                      }, btnType: 'mediumlarge',borderRadius: 20,)
+                  ),
+                  SizedBox(height: 1.h ,),
+
+                ],
+              ),
+            ),
+          )));
+
+
 }

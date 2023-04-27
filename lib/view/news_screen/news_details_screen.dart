@@ -45,7 +45,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   !widget.isShowAcknw?Flexible(
-                    child: InkWell(
+                    child: GestureDetector(
                       onTap: (){
                       },
                       child: Card(
@@ -60,7 +60,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                       ),
                     ),
                   ):Flexible(
-                    child: InkWell(
+                    child: GestureDetector(
                       onTap: (){
                         
                       },

@@ -7,6 +7,8 @@ import 'package:staff_app/Utility/base_floating_action_button.dart';
 import 'package:staff_app/Utility/base_tab_bar.dart';
 
 import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/Utility/custom_dropdown_widget.dart';
+import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -44,29 +46,25 @@ class _ComplaintsReportScreenState extends State<ComplaintsReportScreen> with Ti
         padding: EdgeInsets.all(15.sp),
         child: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-              decoration: BoxDecoration(
-                color: BaseColors.backgroundColor,
-                borderRadius: BorderRadius.circular(5.0),
-                border: Border.all(
-                    color: BaseColors.borderColor
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Ignite Public School", style: Style.montserratRegularStyle().copyWith(color: Colors.black, fontSize: 16.sp),),
-                  const Icon(Icons.arrow_drop_down, color: Color(0xffC4C4C4),size: 35.0,)
-                ],
-              ),
-            ),
+          Custom_DropDown(
+          initialValue: DummyLists.initialSchool,
+          hintText: "Select School",
+          listData:DummyLists.schoolData,
+          onChange: (value) {
+            setState(() {
+              DummyLists.initialSchool=value;
+            });
+          },
+          topPadding: 5,
+          bottomPadding: 5,
+          icon: Icon(Icons.arrow_drop_down,color: Color(0xFFC4C4C4),size: 25,),
+        ),
             SizedBox(
-              height: 2.h,
+              height: 1.h,
             ),
             buildTabBar(),
             SizedBox(
-              height: 2.h,
+              height: 1.h,
             ),
             Expanded(
               child: TabBarView(

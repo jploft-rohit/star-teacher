@@ -6,6 +6,7 @@ import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/base_textformfield.dart';
 import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 
@@ -95,7 +96,7 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
             const Spacer(),
             BaseButton(title: translate(context).submit_btn_txt, onPressed: (){
               Get.back();
-            })
+            },btnType: largeButton,)
           ],
         ),
       ),

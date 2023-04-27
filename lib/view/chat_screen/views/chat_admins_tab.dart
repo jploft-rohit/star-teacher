@@ -71,7 +71,7 @@ class _ChatAdminTabState extends State<ChatAdminTab> {
                       padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                       child: Row(
                         children: [
-                          InkWell(
+                          GestureDetector(
                             onTap: (){
                               Get.to(const ScheduleMeetingScreen());
                             },
@@ -89,7 +89,7 @@ class _ChatAdminTabState extends State<ChatAdminTab> {
                           SizedBox(
                             width: 5.w,
                           ),
-                          InkWell(
+                          GestureDetector(
                             onTap: (){
                               Get.to(const ChatingScreen());
                             },

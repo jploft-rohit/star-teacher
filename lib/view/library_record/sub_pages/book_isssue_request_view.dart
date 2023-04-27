@@ -228,7 +228,7 @@ class _BookIssueViewState extends State<BookIssueView> with SingleTickerProvider
                     children: [
                       SizedBox(width: 1.h),
                       Image.asset(
-                        'assets/images/Rectangle 704.png',
+                        'assets/delete/Rectangle 704.png',
                       ),
                       SizedBox(width: 1.h),
                       Expanded(
@@ -286,8 +286,7 @@ class _BookIssueViewState extends State<BookIssueView> with SingleTickerProvider
     return Row(
       children: [
         Expanded(
-          child: InkWell(
-            borderRadius: BorderRadius.circular(8),
+          child: GestureDetector(
             onTap: onTap1,
             child: Container(
               alignment: Alignment.center,
@@ -311,8 +310,7 @@ class _BookIssueViewState extends State<BookIssueView> with SingleTickerProvider
         ),
         SizedBox(width: 0.7.h),
         Expanded(
-          child: InkWell(
-            borderRadius: BorderRadius.circular(8),
+          child: GestureDetector(
             onTap: onTap2,
             child: Container(
               alignment: Alignment.center,
@@ -336,8 +334,7 @@ class _BookIssueViewState extends State<BookIssueView> with SingleTickerProvider
         ),
         SizedBox(width: 0.7.h),
         Expanded(
-          child: InkWell(
-            borderRadius: BorderRadius.circular(8),
+          child: GestureDetector(
             onTap: onTap3,
             child: Container(
               alignment: Alignment.center,
@@ -361,8 +358,7 @@ class _BookIssueViewState extends State<BookIssueView> with SingleTickerProvider
         ),
         SizedBox(width: 0.7.h),
         Expanded(
-          child: InkWell(
-            borderRadius: BorderRadius.circular(8),
+          child: GestureDetector(
             onTap: onTap4,
             child: Container(
               alignment: Alignment.center,

@@ -129,7 +129,7 @@ class _ChatStarTabState extends State<ChatStarTab> with SingleTickerProviderStat
                                       ),
                                     ],
                                   ),
-                                  InkWell(
+                                  GestureDetector(
                                     onTap: (){
                                       Get.to(const ScheduleMeetingScreen());
                                     },
@@ -146,7 +146,7 @@ class _ChatStarTabState extends State<ChatStarTab> with SingleTickerProviderStat
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(right: 10),
-                                    child: InkWell(
+                                    child: GestureDetector(
                                       onTap: (){
                                         Get.to(const ChatingScreen());
                                       },
@@ -244,7 +244,7 @@ class _ChatStarTabState extends State<ChatStarTab> with SingleTickerProviderStat
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                                    child: InkWell(
+                                    child: GestureDetector(
                                       onTap: (){
                                         Get.to(const ChatingScreen());
                                       },

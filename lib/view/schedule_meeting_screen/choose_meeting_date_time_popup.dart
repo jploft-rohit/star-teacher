@@ -170,7 +170,7 @@ class _ChooseMeetingDateTimePopupState extends State<ChooseMeetingDateTimePopup>
                   children: [
                     Text(""),
                     Text("      ${widget.title}", style: Style.montserratBoldStyle().copyWith(fontSize: 17.sp, color: Colors.black),),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back();
                       },
@@ -270,13 +270,14 @@ class _ChooseMeetingDateTimePopupState extends State<ChooseMeetingDateTimePopup>
                   itemCount: 4,
                   padding: EdgeInsets.zero,
                   itemBuilder: (context, index) {
-                    return InkWell(
+                    return GestureDetector(
                       onTap: (){
                         for(var i in list){
                           i['isSelected'] = false;
                         }
                         list[index]['isSelected'] = !list[index]['isSelected'];
                         setState(() {});
+                        Get.back();
                       },
                       child: Container(
                         margin: EdgeInsets.only(bottom: 8.0),

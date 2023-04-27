@@ -1,4 +1,5 @@
-import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,6 +11,7 @@ import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
 
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/constants-classes/color_constants.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/star_evaluation_screen/star_evaluation_screen_ctrl.dart';
 
@@ -38,6 +40,8 @@ class _StarRatingPopupState extends State<StarRatingPopup> with SingleTickerProv
     tabController.dispose();
     super.dispose();
   }
+
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -65,7 +69,7 @@ class _StarRatingPopupState extends State<StarRatingPopup> with SingleTickerProv
                     children: [
                       const Text(""),
                       Text(translate(context).star_rating, style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: Colors.black),),
-                      InkWell(
+                      GestureDetector(
                         onTap: (){
                           Get.back();
                         },
@@ -76,8 +80,8 @@ class _StarRatingPopupState extends State<StarRatingPopup> with SingleTickerProv
                     height: 2.h,
                   ),
                   BaseToggleTabBar(controller: tabController, tabs: [
-                    BaseTabButton(title: translate(context).positive, isSelected: tabController.index == 0),
-                    BaseTabButton(title: translate(context).needs, isSelected: tabController.index == 1)
+                    BaseTabButton(title: translate(context).positive, isSelected: tabController.index == 0,type: toggleMediumButton,),
+                    BaseTabButton(title: translate(context).needs, isSelected: tabController.index == 1,type: toggleMediumButton,)
                   ]),
                   GridView.builder(
                     itemCount: ctrl.ratingList.length,
@@ -93,78 +97,11 @@ class _StarRatingPopupState extends State<StarRatingPopup> with SingleTickerProv
                           if (tabController.index == 1) {
                             Get.back(closeOverlays: true);
                             showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation){
-                              return Dialog(
-                                insetPadding: EdgeInsets.symmetric(horizontal: 3.w),
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(14))),
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 4.w),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      SizedBox(height: 12),
-                                      Align(
-                                        alignment: Alignment.topRight,
-                                        child: GestureDetector(onTap: (){Get.back();},
-                                            child: SvgPicture.asset("assets/images/ic_close.svg",height: 16)),
-                                      ),
-                                      Text("Star Points Deduct",style: TextStyle(fontWeight: FontWeight.w600)),
-                                      SizedBox(height: 26),
-                                      CircularCountDownTimer(
-                                      duration: 10,
-                                      initialDuration: 0,
-                                      controller: CountDownController(),
-                                      width: 20.w,
-                                      height: 20.w,
-                                      ringColor: Colors.grey[300]!,
-                                      ringGradient: null,
-                                      fillColor: BaseColors.primaryColor,
-                                      fillGradient: null,
-                                      backgroundColor: Colors.transparent,
-                                      backgroundGradient: null,
-                                      strokeWidth: 7,
-                                      strokeCap: StrokeCap.square,
-                                      textStyle: TextStyle(fontSize: 26, color: BaseColors.primaryColor, fontWeight: FontWeight.bold),
-                                      textFormat: CountdownTextFormat.S,
-                                      isReverse: true,
-                                      isReverseAnimation: true,
-                                      isTimerTextShown: true,
-                                      autoStart: true,
-                                      onStart: () {
-                                        debugPrint('Countdown Started');
-                                      },
-                                      onComplete: () {
-                                        debugPrint('Countdown Ended');
-                                        Get.back(closeOverlays: true);
-                                        showSuccessDialog();
-                                      },
-                                      onChange: (String timeStamp) {
-                                        debugPrint('Countdown Changed $timeStamp');
-                                      },
-                                      timeFormatterFunction: (defaultFormatterFunction, duration) {
-                                        if (duration.inSeconds == 0) {
-                                          return "0";
-                                        } else {
-                                          return Function.apply(defaultFormatterFunction, [duration]);
-                                        }
-                                      },
-                                    ),
-                                      const SizedBox(height: 25),
-                                      Row(
-                                        children: [
-                                          Expanded(child: BaseButton(rightMargin: 1.w,btnType: dialogButton,title: "Confirm Rejection", onPressed: (){
-                                            // Get.back();
-                                            Get.back(closeOverlays: true);
-                                            showSuccessDialog();
-                                          })),
-                                          Expanded(child: BaseButton(leftMargin: 1.w, btnType: dialogButton,title: "Issue Resolve", onPressed: (){Get.back();})),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 30),
-                                    ],
-                                  ),
-                                ),
-                              );
+                              return StarPointDeductPop();
                             });
+                          }else{
+                            Get.back(closeOverlays: true);
+                            showSuccessDialog("Points Added Successfully.");
                           }
                         },
                         child: Container(
@@ -192,12 +129,12 @@ class _StarRatingPopupState extends State<StarRatingPopup> with SingleTickerProv
                                   children: [
                                     Icon(
                                       CupertinoIcons.star_fill,
-                                      color: tabController.index == 0 ? BaseColors.primaryColor : Colors.grey.shade500,
+                                      color: tabController.index == 0 ? BaseColors.primaryColor : BaseColors.halfRatingColor,
                                       size: 22.sp,
                                     ),
                                     Positioned(
-                                      top: 10.0,
-                                      left: 10.0,
+                                      top: 10,
+                                      left: tabController.index == 1?8.0:10,
                                       child: addText(tabController.index == 0 ? "2" : "-2", 13.sp, BaseColors.white, FontWeight.w400),)
                                   ],
                                 ),
@@ -209,14 +146,14 @@ class _StarRatingPopupState extends State<StarRatingPopup> with SingleTickerProv
                       );
                     },
                   ),
-                  Center(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 2.h),
-                      child: BaseButton(title: translate(context).submit_btn_txt.toUpperCase(), onPressed: (){
-                        Navigator.pop(context);
-                      }, btnWidth: 40.w),
-                    ),
-                  ),
+                  // Center(
+                  //   child: Padding(
+                  //     padding: EdgeInsets.only(top: 2.h),
+                  //     child: BaseButton(title: translate(context).submit_btn_txt.toUpperCase(), onPressed: (){
+                  //       Navigator.pop(context);
+                  //     }, btnWidth: 40.w),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -225,38 +162,133 @@ class _StarRatingPopupState extends State<StarRatingPopup> with SingleTickerProv
       ),
     );
   }
-  showSuccessDialog(){
-    showGeneralDialog(context: Get.context!, pageBuilder: (a,b,c){
-      return Dialog(
-        insetPadding: EdgeInsets.symmetric(horizontal: 3.w),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(14))),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 2.w),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(height: 12),
-              Align(
-                alignment: Alignment.topRight,
-                child: GestureDetector(onTap: (){Get.back();},
-                    child: SvgPicture.asset("assets/images/ic_close.svg",height: 16)),
-              ),
-              Container(
-                margin: EdgeInsets.only(bottom: 20),
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
+
+}
+showSuccessDialog(String title){
+  showGeneralDialog(context: Get.context!, pageBuilder: (a,b,c){
+    return Dialog(
+      insetPadding: EdgeInsets.symmetric(horizontal: 3.w),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(14))),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 2.w),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(height: 12),
+            Align(
+              alignment: Alignment.topRight,
+              child: GestureDetector(onTap: (){Get.back();},
+                  child: SvgPicture.asset("assets/images/ic_close.svg",height: 16)),
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: 20),
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
                   border: Border.all(color: BaseColors.primaryColor,width: 1),
                   shape: BoxShape.circle,
                   color: Color(0xffF8F4E9)
-                ),
-                child: SvgPicture.asset("assets/images/ic_check.svg",height: 20,),
               ),
-              Text("Points Deducted Successfully.",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16)),
-              SizedBox(height: 22),
-            ],
-          ),
+              child: SvgPicture.asset("assets/images/ic_check.svg",height: 20,),
+            ),
+            Text(title,style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16)),
+            SizedBox(height: 22),
+          ],
         ),
-      );
+      ),
+    );
+  });
+}
+class StarPointDeductPop extends StatefulWidget {
+  const StarPointDeductPop({Key? key}) : super(key: key);
+
+  @override
+  State<StarPointDeductPop> createState() => _StarPointDeductPopState();
+}
+
+class _StarPointDeductPopState extends State<StarPointDeductPop> {
+  int maxSecond=60;
+  int seconds = 60;
+  Timer? timer;
+  int tabIndex=1;
+  void startTime(){
+    timer?.cancel();
+    seconds = 60;
+    timer=Timer.periodic(Duration(seconds: 1), (timers) {
+
+      if(seconds > 0)
+      {
+        setState(() {
+          seconds--;
+        });
+
+      }
+      else{
+        timer?.cancel();
+      }
     });
+
+  }
+  @override
+  void initState() {
+    startTime();
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      insetPadding: EdgeInsets.symmetric(horizontal: 3.w),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(14))),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 4.w),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(height: 12),
+            Align(
+              alignment: Alignment.topRight,
+              child: GestureDetector(onTap: (){Get.back();},
+                  child: SvgPicture.asset("assets/images/ic_close.svg",height: 16)),
+            ),
+            Text("Star Points Deduct",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16.sp)),
+            SizedBox(height: 4.h,),
+            Center(
+              child: SizedBox(
+                height: 20.h,
+                width: 20.h,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    CircularProgressIndicator(
+                      backgroundColor: ColorConstants.primaryColorLight,
+                      strokeWidth: 1.2.h,
+                      value: seconds/maxSecond,
+                      valueColor: AlwaysStoppedAnimation(ColorConstants.primaryColor),
+                    ),
+                    Center(
+                      child: addText(seconds.toString(), 26, ColorConstants.primaryColor, FontWeight.bold),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 5.h,),
+            Row(
+              children: [
+                Expanded(child: BaseButton(rightMargin: 1.w,
+                  btnType: mediumLargeButton,title: "Confirm Deduction", onPressed: (){
+                    // Get.back();
+                    Get.back(closeOverlays: true);
+                    showSuccessDialog("Points Deducted Successfully.");
+                  },borderRadius: 20,)),
+                Expanded(child: BaseButton(leftMargin: 1.w, btnType: mediumLargeButton,title: "Issue Resolve",
+                  onPressed: (){Get.back();},borderRadius: 20,)),
+              ],
+            ),
+            const SizedBox(height: 30),
+          ],
+        ),
+      ),
+    );
   }
 }
+

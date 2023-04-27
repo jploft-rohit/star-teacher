@@ -42,7 +42,7 @@ class _NewsBroadCastTabState extends State<NewsBroadCastTab> {
                   )
                 ],
               ),
-              InkWell(
+              GestureDetector(
                 onTap: (){
                   Get.to(const NewsScreen());
                 },

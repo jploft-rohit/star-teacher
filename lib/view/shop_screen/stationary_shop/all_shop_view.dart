@@ -48,7 +48,7 @@ class _StationaryShopAllViewState extends State<StationaryShopAllView> {
                   mainAxisExtent: 30.h,
                   mainAxisSpacing: 3.h,
                   crossAxisSpacing: 3.h),
-              itemBuilder: (context, index) => InkWell(
+              itemBuilder: (context, index) => GestureDetector(
                 onTap: (){
                   Get.to(const CartView());
                 },

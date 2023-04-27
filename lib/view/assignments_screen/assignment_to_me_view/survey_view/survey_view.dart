@@ -6,6 +6,7 @@ import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/base_tab_bar.dart';
 
 import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -138,7 +139,7 @@ class _SurveyViewState extends State<SurveyView> with SingleTickerProviderStateM
                           SizedBox(
                             width: 5.w,
                           ),
-                          InkWell(
+                          GestureDetector(
                             onTap: (){
                               showGeneralDialog(
                                 context: context,
@@ -213,20 +214,20 @@ class _SurveyViewState extends State<SurveyView> with SingleTickerProviderStateM
                 ),
                 Row(
                   children: [
-                    Flexible(
+                    Expanded(
                       flex: 1,
                       child: BaseButton(title: translate(context).set_reminder.toUpperCase(), onPressed: (){
                         Get.to(AddTaskOrReminderScreen());
-                      }, isActive: false, textSize: 16.sp,),
+                      }, isActive: false,btnType: mediumLargeButton,),
                     ),
                     SizedBox(
                       width: 2.w,
                     ),
-                    Flexible(
+                    Expanded(
                       flex: 1,
                       child: BaseButton(title: translate(context).start.toUpperCase(), onPressed: (){
                         Get.to(StartPendingAssignment());
-                      },textSize: 16.sp,),
+                      },btnType: mediumLargeButton,),
                     ),
                   ],
                 ),
@@ -305,7 +306,7 @@ class _SurveyViewState extends State<SurveyView> with SingleTickerProviderStateM
                           SizedBox(
                             width: 5.w,
                           ),
-                          InkWell(
+                          GestureDetector(
                             onTap: (){
                               showGeneralDialog(
                                 context: context,
@@ -457,7 +458,7 @@ class _SurveyViewState extends State<SurveyView> with SingleTickerProviderStateM
                           SizedBox(
                             width: 5.w,
                           ),
-                          InkWell(
+                          GestureDetector(
                             onTap: (){
                               showGeneralDialog(
                                 context: context,

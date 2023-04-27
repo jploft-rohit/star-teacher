@@ -6,9 +6,14 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
 
 import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/Utility/custom_filter_dropdown.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
+import 'package:staff_app/Utility/dummy_lists.dart';
+import 'package:staff_app/Utility/filter_textformfield.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/constants-classes/color_constants.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/assignments_screen/submitted_assignment_view.dart';
 import 'package:staff_app/view/salary_slip_screen/salary_slip_poup.dart';
@@ -30,73 +35,55 @@ class _AssignmentStaffViewState extends State<AssignmentStaffView> {
         children: [
           Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15.0),
+              borderRadius: BorderRadius.circular(10.0),
               border: Border.all(
-                  color: BaseColors.borderColor
+                  color: ColorConstants.borderColor
               ),
             ),
             child: Column(
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Flexible(
-                      flex: 1,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0,),
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(classTakenSvg,height: 15,),
-                            SizedBox(
-                              width: 2.w,
-                            ),
-                            Text("Role", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                            Spacer(),
-                            Icon(
-                              Icons.arrow_drop_down,
-                            )
-                          ],
-                        ),
-                      ),
+                    CustomFilterDropDown(
+                      initialValue: DummyLists.initialRole,
+                      hintText: 'Role',
+                      listData: DummyLists.roleData,
+                      onChange: (value) {
+                        setState(() {
+                          DummyLists.initialRole = value;
+                        });
+                      },
+                      icon: classTakenSvg,
                     ),
                     Container(
-                      width: 1,
-                      height: 25,
-                      color: BaseColors.borderColor,
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(classTakenSvg,height: 15,),
-                            SizedBox(
-                              width: 2.w,
-                            ),
-                            Text("Grade", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                            Spacer(),
-                            Icon(
-                              Icons.arrow_drop_down,
-                            )
-                          ],
-                        ),
+                      child: VerticalDivider(
+                        width: 1,
                       ),
+                      height: 4.h,
+                      width: 1,
+                    ),
+                    CustomFilterDropDown(
+                      initialValue: DummyLists.initialGrade,
+                      hintText: 'Grade',
+                      listData: DummyLists.gradeData,
+                      onChange: (value) {
+                        setState(() {
+                          DummyLists.initialGrade = value;
+                        });
+                      },
+                      icon: classTakenSvg,
                     ),
                   ],
                 ),
-                Divider(height: 0.0,),
-                CustomTextField(
-                  controller: searchCtrl,
-                  hintText: translate(context).search_star_id,
-                  hintTextColor: BaseColors.textLightGreyColor,
-                  borderColor: Colors.transparent,
-                  contentPadding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                    child: Icon(
-                      Icons.search,
-                    ),
-                  ),
+                Divider(
+                  height: 1,
+                  thickness: 1,
+                ),
+                FilterTextFormField(
+                  onChange: (String val) {},
+                  hintText: "Search Star,ID...",
+                  keyBoardType: TextInputType.name,
                 ),
               ],
             ),
@@ -126,7 +113,7 @@ class _AssignmentStaffViewState extends State<AssignmentStaffView> {
                           SizedBox(
                             width: 5.w,
                           ),
-                          InkWell(
+                          GestureDetector(
                             onTap: (){
 
                             },
@@ -184,7 +171,7 @@ class _AssignmentStaffViewState extends State<AssignmentStaffView> {
                             SizedBox(
                               width: 5.w,
                             ),
-                            InkWell(
+                            GestureDetector(
                               onTap: (){
                                 showGeneralDialog(
                                   context: context,
@@ -257,9 +244,17 @@ class _AssignmentStaffViewState extends State<AssignmentStaffView> {
                   SizedBox(
                     height: 3.h,
                   ),
-                  BaseButton(removeHorizontalPadding: true,title: translate(context).view_submissions.toUpperCase(), onPressed: (){
-                    Get.to(SubmittedAssignmentView());
-                  }),
+                  Row(
+                    children: [
+                      SizedBox(width: 10.w,),
+                      Expanded(
+                        child: BaseButton(title: "View Submissions".toUpperCase(), onPressed: (){
+                          Get.to(SubmittedAssignmentView());
+                        },btnType: mediumButton,),
+                      ),
+                      SizedBox(width: 10.w,),
+                    ],
+                  ),
                   SizedBox(
                     height: 2.h,
                   ),

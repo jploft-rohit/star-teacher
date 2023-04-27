@@ -5,17 +5,18 @@ import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/base_tab_bar.dart';
 import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/shop_screen/shop_screen_ctrl.dart';
 
-class ShopCanteenTab extends StatefulWidget {
-  const ShopCanteenTab({super.key});
+class StarsStoreTab extends StatefulWidget {
+  const StarsStoreTab({super.key});
 
   @override
-  State<ShopCanteenTab> createState() => _ShopCanteenTabState();
+  State<StarsStoreTab> createState() => _StarsStoreTabState();
 }
 
-class _ShopCanteenTabState extends State<ShopCanteenTab> with SingleTickerProviderStateMixin{
+class _StarsStoreTabState extends State<StarsStoreTab> with SingleTickerProviderStateMixin{
   ShopScreenCtrl controller = Get.find<ShopScreenCtrl>();
   late TabController tabController;
 
@@ -95,7 +96,7 @@ class _ShopCanteenTabState extends State<ShopCanteenTab> with SingleTickerProvid
             physics: NeverScrollableScrollPhysics(),
             padding: EdgeInsets.zero,
             shrinkWrap: true,
-            itemCount: controller.canteenShopList.length,
+            itemCount: controller.shopStarShopList.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisExtent: 24.h,
@@ -121,12 +122,12 @@ class _ShopCanteenTabState extends State<ShopCanteenTab> with SingleTickerProvid
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: Image.asset(
-                          controller.canteenShopList[index]['image']!,
+                          controller.shopStarShopList[index]['image']!,
                           fit: BoxFit.fill,
                         ),
                       )),
                   addText(
-                      controller.canteenShopList[index]['name']!,
+                      controller.shopStarShopList[index]['name']!,
                       15.sp + 2,
                       BaseColors.textBlackColor,
                       FontWeight.w400),
@@ -135,7 +136,7 @@ class _ShopCanteenTabState extends State<ShopCanteenTab> with SingleTickerProvid
                     children: [
                       Expanded(
                         child: addText(
-                            controller.canteenShopList[index]['price']!,
+                            controller.shopStarShopList[index]['price']!,
                             15.sp,
                             BaseColors.primaryColor,
                             FontWeight.w400),
@@ -144,7 +145,7 @@ class _ShopCanteenTabState extends State<ShopCanteenTab> with SingleTickerProvid
                         child: BaseButton(
                             title: "+Add",
                             verticalPadding: 4,
-                            onPressed: () {}),
+                            onPressed: () {},btnType: smallButton,),
                       )
                     ],
                   ),

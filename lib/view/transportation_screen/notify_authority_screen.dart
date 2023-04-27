@@ -8,6 +8,7 @@ import 'package:staff_app/Utility/base_button.dart';
 
 import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/transportation_screen/notify_school_administrator.dart';
@@ -67,7 +68,7 @@ class _NotifyAuthorityForBusScreenState extends State<NotifyAuthorityForBusScree
                       Text("English Teacher", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                     ],
                   ),
-                  trailing: InkWell(onTap: (){
+                  trailing: GestureDetector(onTap: (){
                     showScanQrDialogue(context, false);
                   },child: SvgPicture.asset(qrCodeSvg)),
                 ),
@@ -96,7 +97,7 @@ class _NotifyAuthorityForBusScreenState extends State<NotifyAuthorityForBusScree
                     return NotifySchoolAdministratorPopup();
                   },
                 );
-              }, btnWidth: 30.w))
+              },btnType: largeButton,))
             ],
           ),
         ),
@@ -114,7 +115,7 @@ class _NotifyAuthorityForBusScreenState extends State<NotifyAuthorityForBusScree
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(title, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 17.sp),),
+          Text(title, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp),),
           
         ],
       ),
@@ -131,7 +132,7 @@ class _NotifyAuthorityForBusScreenState extends State<NotifyAuthorityForBusScree
               borderRadius: BorderRadius.circular(8.0),
               border: Border.all(color: BaseColors.primaryColor)
           ),
-          child: Text(title, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 17.sp),),
+          child: Text(title, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp),),
         ),
         Align(alignment: AlignmentDirectional.centerEnd,child: SvgPicture.asset(checkEnableSvg)),
       ],

@@ -97,7 +97,7 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
                             ),
                           ),
                           const SizedBox(height: 5,),
-                          InkWell(
+                          GestureDetector(
                               onTap: (){
                                 showScanQrDialogue(context, false);
                               },child: SvgPicture.asset(qrCodeSvg, height: 5.h,))
@@ -215,7 +215,7 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
             SizedBox(
               height: 3.h,
             ),
-            Center(child: BaseButton(title: translate(context).request_for_activation, onPressed: (){
+            Center(child: BaseButton(removeHorizontalPadding: true, title: translate(context).request_for_activation, onPressed: (){
               showGeneralDialog(
                 context: context,
                 pageBuilder: (context, animation, secondaryAnimation) {
@@ -224,7 +224,7 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
               ).then((value){
                 Get.to(const ActivationRequestDetailScreen());
               });
-            }, btnWidth: 70.w,))
+            }))
           ],
         ),
       ),

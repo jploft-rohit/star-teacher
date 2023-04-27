@@ -18,6 +18,7 @@ class BaseColors{
   static const Color borderColor = Color(0xffE2E2E2);
   static const Color shadowColor = Color(0xffF2F2F2);
   static const Color darkShadowColor = Color(0xffA59F9F);
+  static const Color secondaryColor = Color(0xFFF8F4E9);
   static const Color screenBackgroundColor = Color(0xffF5F5F5);
   static const Color txtFieldTextColor = Color(0xffFCFCFC);
   static const Color txtFiledBorderColor = Color(0xffBECADA);

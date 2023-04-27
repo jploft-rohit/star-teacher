@@ -37,7 +37,7 @@ class _StartQuizPopupState extends State<StartQuizPopup> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back();
                       },

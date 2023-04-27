@@ -5,9 +5,13 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 
 import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/Utility/custom_filter_dropdown.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
+import 'package:staff_app/Utility/dummy_lists.dart';
+import 'package:staff_app/Utility/filter_textformfield.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/constants-classes/color_constants.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/star_reward_screen/reward_screen_ctrl.dart';
 import 'package:staff_app/view/star_reward_screen/rewards_screen.dart';
@@ -34,121 +38,73 @@ class _StarRewardScreenState extends State<StarRewardScreen> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15.0),
                 border: Border.all(
-                    color: BaseColors.borderColor
+                    color: ColorConstants.borderColor
                 ),
               ),
               child: Column(
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Flexible(
-                        flex: 1,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0,),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(classTakenSvg,height: 15,),
-                              SizedBox(
-                                width: 2.w,
-                              ),
-                              Text("School", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                              Spacer(),
-                              Icon(
-                                Icons.arrow_drop_down,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
+                      CustomFilterDropDown(
+                        initialValue: DummyLists.initialSchool, hintText: 'School',
+                        listData: DummyLists.schoolData, onChange: (value) {
+                        setState(() {
+                          DummyLists.initialSchool=value;
+                        });
+                      },icon: classTakenSvg,),
                       Container(
-                        width: 1,
-                        height: 25,
-                        color: BaseColors.borderColor,
-                      ),
-                      Flexible(
-                        flex: 1,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(classTakenSvg,height: 15,),
-                              SizedBox(
-                                width: 2.w,
-                              ),
-                              Text("Grade 3", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                              Spacer(),
-                              Icon(
-                                Icons.arrow_drop_down,
-                              )
-                            ],
-                          ),
+                        child: VerticalDivider(
+                          width: 1,
                         ),
+                        height: 35,
+                        width: 1,
                       ),
+                      CustomFilterDropDown(
+                        initialValue: DummyLists.initialGrade, hintText: 'Grade 3',
+                        listData: DummyLists.gradeData, onChange: (value) {
+                        setState(() {
+                          DummyLists.initialGrade=value;
+                        });
+                      },icon: classTakenSvg,),
                     ],
                   ),
-                  Divider(height: 0.0,),
+                  Divider(
+                    height: 1,
+                    thickness: 1,
+                  ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Flexible(
-                        flex: 1,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0,),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(classTakenSvg,height: 15,),
-                              SizedBox(
-                                width: 2.w,
-                              ),
-                              Text("H1", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                              Spacer(),
-                              Icon(
-                                Icons.arrow_drop_down,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: 1,
-                        height: 25,
-                        color: BaseColors.borderColor,
-                      ),
-                      Flexible(
-                        flex: 1,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(jobDetailSvg,height: 15,),
-                              SizedBox(
-                                width: 2.w,
-                              ),
-                              Text("Term 1", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                              Spacer(),
-                              Icon(
-                                Icons.arrow_drop_down,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
+                      CustomFilterDropDown(
+                        initialValue: DummyLists.initialClass, hintText: 'H1',
+                        listData: DummyLists.classData, onChange: (value) {
+                        setState(() {
+                          DummyLists.initialClass=value;
+                        });
+                      },icon: classTakenSvg,),
+                      Container(child: VerticalDivider(width: 1,),height: 4.h,width: 1,),
+                      CustomFilterDropDown(
+                        initialValue: DummyLists.initialTerm, hintText: 'Term 1',
+                        listData: DummyLists.termData, onChange: (value) {
+                        setState(() {
+                          DummyLists.initialTerm=value;
+                        });
+                      },icon: classTakenSvg,),
                     ],
                   ),
-                  Divider(height: 0.0,),
-                  CustomTextField(
-                    controller: searchCtrl,
-                    hintText: translate(context).search_by_id,
-                    borderColor: Colors.transparent,
-                    contentPadding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                      child: Icon(
-                        Icons.search,
-                      ),
-                    ),
-                  )
+                  Divider(
+                    height: 1,
+                    thickness: 1,
+                  ),
+                  FilterTextFormField(onChange: (String val) {
+                  }, hintText: "Search Star,ID...", keyBoardType: TextInputType.name,
+                  ),
                 ],
               ),
+            ),
+            SizedBox(
+              height: 2.h,
             ),
             SizedBox(
               height: 2.h,
@@ -157,7 +113,7 @@ class _StarRewardScreenState extends State<StarRewardScreen> {
               itemCount: 3,
               shrinkWrap: true,
               itemBuilder: (context, index) {
-                return InkWell(
+                return GestureDetector(
                   onTap: (){
                     Get.to(RewardsScreen());
                   },

@@ -280,7 +280,7 @@ class _HourMinuteControl extends StatelessWidget {
     final ShapeBorder shape = timePickerTheme.hourMinuteShape ?? _kDefaultShape;
 
     final Set<MaterialState> states = isSelected ? <MaterialState>{MaterialState.selected} : <MaterialState>{};
-    return InkWell(
+    return GestureDetector(
       onTap: onTap,
       onDoubleTap: isSelected ? onDoubleTap : null,
       child: Text(
@@ -543,7 +543,7 @@ class _DayPeriodControl extends StatelessWidget {
 
     final double buttonTextScaleFactor = math.min(MediaQuery.of(context).textScaleFactor, 2.0);
 
-    final Widget amButton = InkWell(
+    final Widget amButton = GestureDetector(
       onTap: Feedback.wrapForTap(() => _setAm(context), context),
       child: Semantics(
         checked: amSelected,
@@ -559,7 +559,7 @@ class _DayPeriodControl extends StatelessWidget {
       ),
     );
 
-    final Widget pmButton = InkWell(
+    final Widget pmButton = GestureDetector(
       onTap: Feedback.wrapForTap(() => _setPm(context), context),
       child: Semantics(
         checked: pmSelected,

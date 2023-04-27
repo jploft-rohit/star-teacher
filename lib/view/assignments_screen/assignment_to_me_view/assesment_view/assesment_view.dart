@@ -137,7 +137,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                           SizedBox(
                             width: 5.w,
                           ),
-                          InkWell(
+                          GestureDetector(
                             onTap: (){
                               showGeneralDialog(
                                 context: context,
@@ -351,7 +351,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                           SizedBox(
                             width: 5.w,
                           ),
-                          InkWell(
+                          GestureDetector(
                             onTap: (){
                               showGeneralDialog(
                                 context: context,
@@ -511,7 +511,7 @@ class _AssesmentViewState extends State<AssesmentView> with SingleTickerProvider
                           SizedBox(
                             width: 5.w,
                           ),
-                          InkWell(
+                          GestureDetector(
                             onTap: (){
                               showGeneralDialog(
                                 context: context,

@@ -8,9 +8,11 @@ import 'package:staff_app/Utility/base_textformfield.dart';
 
 
 import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/Utility/custom_dropdown_widget.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/schedule_meeting_screen/choose_meeting_date_time_popup.dart';
 import 'package:staff_app/view/schedule_meeting_screen/schedule_with_popup.dart';
@@ -34,46 +36,38 @@ class _CreateMeetingScreenState extends State<CreateMeetingScreen> {
           padding: EdgeInsets.all(15.sp),
           child: Column(
             children: [
-              Container(
-                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                decoration: BoxDecoration(
-                  color: BaseColors.backgroundColor,
-                  borderRadius: BorderRadius.circular(5.0),
-                  border: Border.all(
-                      color: BaseColors.borderColor
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Ignite Public School", style: Style.montserratRegularStyle().copyWith(color: Colors.black, fontSize: 16.sp),),
-                    const Icon(Icons.arrow_drop_down, color: Color(0xffC4C4C4),size: 35.0,)
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 2.h,
-              ),
-              CustomTextField(
-                controller: TextEditingController(),
-                hintText: "Select Role",
-                readOnly: true,
-                onTap: (){
-                  showGeneralDialog(
-                    context: context,
-                    pageBuilder:  (context, animation, secondaryAnimation) {
-                      return const ScheduleWithPopup();
-                    },
-                  );
+              Custom_DropDown(
+                initialValue: DummyLists.initialSchool,
+                hintText: "Select School",
+                listData:DummyLists.schoolData,
+                onChange: (value) {
+                  setState(() {
+                    DummyLists.initialSchool=value;
+                  });
                 },
-                borderRadius: 5.0,
-                suffixIcon: const Padding(
-                  padding: EdgeInsetsDirectional.only(end: 15.0),
-                  child: Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0,),
-                ),
+                topPadding: 5,
+                bottomPadding: 5,
+                icon: Icon(Icons.arrow_drop_down,color: Color(0xFFC4C4C4),size: 25,),
               ),
               SizedBox(
-                height: 2.h,
+                height: 1.h,
+              ),
+              Custom_DropDown(
+                isBackground: true,
+                initialValue: DummyLists.initialRoleType,
+                hintText: "Select Role",
+                listData: ["Bus Driver","Supervisor","Teacher","Nurse"],
+                onChange: (value) {
+                  setState(() {
+                    DummyLists.initialRoleType=value;
+                  });
+                },
+                topPadding: 8,
+                bottomPadding: 8,
+                icon: Icon(Icons.keyboard_arrow_down,color: Colors.black,size: 25,),
+              ),
+              SizedBox(
+                height: 1.h,
               ),
               CustomTextField(
                 controller: TextEditingController(),
@@ -94,22 +88,24 @@ class _CreateMeetingScreenState extends State<CreateMeetingScreen> {
                 ),
               ),
               SizedBox(
-                height: 2.h,
+                height: 1.h,
               ),
-              BaseTextFormField(
-                controller: meetingTypeController,
-                hintText: "Meeting type",
-                isDropDown: true,
-                dropDownValue: meetingTypeController.text,
-                onChanged: (newValue){
+              Custom_DropDown(
+                isBackground: true,
+                initialValue: DummyLists.initialMettingType,
+                hintText: "Metting Type",
+                listData: ["Audio","Video"],
+                onChange: (value) {
                   setState(() {
-                    meetingTypeController.text = newValue.toString();
-                  });},
-                items: DummyLists().list1.map((value) {
-                  return DropdownMenuItem(
-                    value: value,
-                    child: addText(value, 16.sp, Colors.black, FontWeight.w400),);
-                }).toList(),
+                    DummyLists.initialMettingType=value;
+                  });
+                },
+                topPadding: 8,
+                bottomPadding: 8,
+                icon: Icon(Icons.keyboard_arrow_down,color: Colors.black,size: 25,),
+              ),
+              SizedBox(
+                height: 1.h,
               ),
               Row(
                 children: [
@@ -152,7 +148,7 @@ class _CreateMeetingScreenState extends State<CreateMeetingScreen> {
                   SizedBox(
                     width: 2.w,
                   ),
-                  InkWell(
+                  GestureDetector(
                     onTap: (){
                       showGeneralDialog(
                         context: context,
@@ -176,7 +172,7 @@ class _CreateMeetingScreenState extends State<CreateMeetingScreen> {
               SizedBox(
                 height: 5.h,
               ),
-              BaseButton(title: "SUBMIT", onPressed: (){})
+              BaseButton(title: "SUBMIT", onPressed: (){},btnType: largeButton,)
             ],
           ),
         ),

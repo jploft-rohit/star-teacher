@@ -39,7 +39,7 @@ class _SuccessDialogScreenState extends State<SuccessDialogScreen> {
                   children: [
                     Text(""),
                     Text(""),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back();
                       },

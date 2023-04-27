@@ -15,6 +15,7 @@ import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/star_reward_screen/add_new_reward_popup.dart';
 import 'package:staff_app/view/star_reward_screen/create_reward_screen.dart';
 import 'package:staff_app/view/star_reward_screen/reward_screen_ctrl.dart';
+import 'package:staff_app/view/star_reward_screen/rewards_screen_earn_screen.dart';
 
 class RewardsScreen extends StatefulWidget {
   const RewardsScreen({Key? key}) : super(key: key);
@@ -43,79 +44,84 @@ class _RewardsScreenState extends State<RewardsScreen> {
             SizedBox(
               height: 2.h,
             ),
-            Stack(
-              alignment: Alignment.centerRight,
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(right: 10),
-                  width: 100.w,
-                  decoration: BoxDecoration(
-                    boxShadow: kElevationToShadow[1],
-                    color: BaseColors.white,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(
-                                top: 10, left: 10, bottom: 10),
-                            padding: const EdgeInsets.symmetric(horizontal:12, vertical:8),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(15),
-                                border: Border.all(
-                                    color: BaseColors.primaryColor)),
-                            child: SvgPicture.asset(
-                              girlSvg,
+            GestureDetector(
+              onTap: (){
+                Get.to(RewardView());
+              },
+              child: Stack(
+                alignment: Alignment.centerRight,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(right: 10),
+                    width: 100.w,
+                    decoration: BoxDecoration(
+                      boxShadow: kElevationToShadow[1],
+                      color: BaseColors.white,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  top: 10, left: 10, bottom: 10),
+                              padding: const EdgeInsets.symmetric(horizontal:12, vertical:8),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(15),
+                                  border: Border.all(
+                                      color: BaseColors.primaryColor)),
+                              child: SvgPicture.asset(
+                                girlSvg,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(width: 5.w),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              addText("Sania", 16.sp, BaseColors.textBlackColor, FontWeight.w700),
-                              SizedBox(width: 1.w),
-                              addText("#632541", 16.sp, BaseColors.primaryColor, FontWeight.w700),
-                            ],
-                          ),
-                          SizedBox(height: 0.8.h),
-                          BaseButton(title: "View History", onPressed: (){},btnType: smallButton,removeHorizontalPadding: true,),
-                        ],
-                      ),
-                      // addText("#632541", 16.sp, BaseColors.primaryColor, FontWeight.w700),
-                    ],
+                          ],
+                        ),
+                        SizedBox(width: 5.w),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                addText("Sania", 16.sp, BaseColors.textBlackColor, FontWeight.w700),
+                                SizedBox(width: 1.w),
+                                addText("#632541", 16.sp, BaseColors.primaryColor, FontWeight.w700),
+                              ],
+                            ),
+                            SizedBox(height: 0.8.h),
+                            BaseButton(title: "View History", onPressed: (){},btnType: smallButton,removeHorizontalPadding: true,),
+                          ],
+                        ),
+                        // addText("#632541", 16.sp, BaseColors.primaryColor, FontWeight.w700),
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: BaseColors.backgroundColor,
-                        boxShadow: kElevationToShadow[3]),
-                    child: SvgPicture.asset(cupIcon)),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: BaseColors.primaryColor,
-                        borderRadius: BorderRadius.circular(7)),
-                    padding: const EdgeInsets.all(6),
-                    margin: EdgeInsets.only(bottom: 8.5.h),
-                    child: addText('41', 14.sp,
-                        BaseColors.white, FontWeight.w500),
-                  ),
-                )
-              ],
+                  Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: BaseColors.backgroundColor,
+                          boxShadow: kElevationToShadow[3]),
+                      child: SvgPicture.asset(cupIcon)),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: BaseColors.primaryColor,
+                          borderRadius: BorderRadius.circular(7)),
+                      padding: const EdgeInsets.all(6),
+                      margin: EdgeInsets.only(bottom: 8.5.h),
+                      child: addText('41', 14.sp,
+                          BaseColors.white, FontWeight.w500),
+                    ),
+                  )
+                ],
+              ),
             ),
             addText('${translate(context).select_a_reward}:', 17.sp,
                 BaseColors.primaryColor, FontWeight.w700),

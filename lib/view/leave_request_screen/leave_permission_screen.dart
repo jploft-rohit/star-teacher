@@ -10,7 +10,9 @@ import 'package:staff_app/Utility/base_textformfield.dart';
 
 
 import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/Utility/custom_dropdown_widget.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
+import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -41,7 +43,20 @@ class _LeavePermissionScreenState extends State<LeavePermissionScreen> {
           padding: EdgeInsets.all(scaffoldPadding),
           child: Column(
             children: [
-              BaseDropDown(),
+              Custom_DropDown(
+                initialValue: DummyLists.initialSchool,
+                hintText: "Select School",
+                listData:DummyLists.schoolData,
+                onChange: (value) {
+                  setState(() {
+                    DummyLists.initialSchool=value;
+                  });
+                },
+                topPadding: 5,
+                bottomPadding: 5,
+                icon: Icon(Icons.arrow_drop_down,color: Color(0xFFC4C4C4),size: 25,),
+              ),
+              SizedBox(height: 1.h,),
               BaseTextFormField(
                 controller: dateController,
                 hintText: "dd/mm/yyyy",
@@ -57,7 +72,7 @@ class _LeavePermissionScreenState extends State<LeavePermissionScreen> {
                 title: translate(context).out_time,
                 prefixIcon: "assets/images/time_icon1.svg",
                 onTap: (){
-                  selectDate(context);
+                  selectTime(context);
                 },
               ),
               BaseTextFormField(
@@ -66,7 +81,7 @@ class _LeavePermissionScreenState extends State<LeavePermissionScreen> {
                 title: translate(context).in_time,
                 prefixIcon: "assets/images/time_icon1.svg",
                 onTap: (){
-                  selectDate(context);
+                  selectTime(context);
                 },
               ),
               BaseTextFormField(
@@ -83,7 +98,7 @@ class _LeavePermissionScreenState extends State<LeavePermissionScreen> {
               ),
               BaseButton(title: translate(context).submit_btn_txt, onPressed: (){
                 Get.back();
-              })
+              },btnType: largeButton,)
             ],
           ),
         ),

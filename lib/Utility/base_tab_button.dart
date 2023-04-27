@@ -4,14 +4,17 @@ import 'package:staff_app/Utility/base_button.dart';
 class BaseTabButton extends StatelessWidget {
   final String title;
   final bool isSelected;
-  const BaseTabButton({Key? key, required this.title, required this.isSelected}) : super(key: key);
+  final String type;
+  const BaseTabButton({Key? key, required this.title, required this.isSelected,this.type="toggle"}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Tab(
-      child: Padding(
-        padding: const EdgeInsets.only(right: 6),
-        child: BaseButton(title: title,onPressed: null,verticalPadding: 0,removeHorizontalPadding: true,isActive: isSelected,isToggle: isSelected),
+      child: BaseButton(
+        title: title,onPressed: null,verticalPadding: 0,
+        isActive: isSelected,isToggle: isSelected,
+        btnType: type,
+        removeHorizontalPadding: true,
       ),
     );
   }

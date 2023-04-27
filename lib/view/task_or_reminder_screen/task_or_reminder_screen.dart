@@ -47,7 +47,7 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
         ),
         body: ListView.builder(
           itemCount: 3,
-          padding: EdgeInsets.all(15.sp),
+          padding: EdgeInsets.all(14.sp),
           itemBuilder: (context, index) {
             return buildDailyTaskCard();
           },
@@ -80,7 +80,7 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
               SizedBox(
                 width: 2.w,
               ),
-              addText("Submit your daily log", 16.sp, BaseColors.textBlackColor, FontWeight.w700)
+              addText("Submit your daily log", 15.sp, BaseColors.textBlackColor, FontWeight.w700)
             ],
           ),
           const Divider(),
@@ -89,7 +89,7 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
             children: [
               SvgPicture.asset("assets/images/time_icon.svg"),
               SizedBox(width: 1.h),
-              addText('09:13pm', 15.sp,
+              addText('09:13pm', 14.sp,
                   BaseColors.textBlackColor, FontWeight.w400),
             ],
           ),
@@ -103,9 +103,9 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
               RichText(
                 text: TextSpan(
                   text: '${translate(context).remind_star} : ',
-                  style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),
+                  style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),
                   children: <TextSpan>[
-                    TextSpan(text: "Daily", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp, height: 1.2)),
+                    TextSpan(text: "Daily", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp, height: 1.2)),
                   ],
                 ),
               ),
@@ -120,9 +120,9 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
               RichText(
                 text: TextSpan(
                   text: '${translate(context).file} : ',
-                  style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),
+                  style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),
                   children: <TextSpan>[
-                    TextSpan(text: "Str_task.file", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp, height: 1.2)),
+                    TextSpan(text: "Str_task.file", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp, height: 1.2)),
                   ],
                 ),
               ),
@@ -131,7 +131,7 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
               SizedBox(
                 width: 2.w,
               ),
-              InkWell(onTap: (){
+              GestureDetector(onTap: (){
                 showGeneralDialog(
                   context: context,
                   pageBuilder:  (context, animation, secondaryAnimation) {
@@ -149,7 +149,7 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
                 child: BaseButton(
                     isActive: false,
                     title: translate(context).edit.toUpperCase(),
-                    onPressed: () {Get.to(const AddTaskOrReminderScreen(isUpdating: true));}),
+                    onPressed: () {Get.to(const AddTaskOrReminderScreen(isUpdating: true));},btnType: mediumLargeButton,),
               ),
               SizedBox(width:2.h),
               Expanded(
@@ -162,7 +162,7 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
                           return ConfirmationDialog(msg: translate(context).are_you_sure_to_cancel_this_reminder,isShowBtn: true,);
                         },
                       );
-                    }),
+                    },btnType: mediumLargeButton,),
               ),
               SizedBox(width:3.h),
             ],

@@ -47,7 +47,7 @@ class _AddFeedbackViewState extends State<AddFeedbackView> {
                   setState(() {
                     feedBackController.text = newValue.toString();
                   });},
-                items: DummyLists().list1.map((value) {
+                items: DummyLists().feedbackList.map((value) {
                   return DropdownMenuItem(
                     value: value,
                     child: addText(value, 16.sp, Colors.black, FontWeight.w400),);
@@ -62,7 +62,7 @@ class _AddFeedbackViewState extends State<AddFeedbackView> {
                   setState(() {
                     toWhoController.text = newValue.toString();
                   });},
-                items: DummyLists().list1.map((value) {
+                items: DummyLists().applicationList.map((value) {
                   return DropdownMenuItem(
                     value: value,
                     child: addText(value, 16.sp, Colors.black, FontWeight.w400),);

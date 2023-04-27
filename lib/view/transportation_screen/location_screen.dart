@@ -1,18 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_button.dart';
-
-
 import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
-import 'package:staff_app/view/print_qr_screen.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/confirmation_popup.dart';
 import 'package:staff_app/view/transportation_screen/change_address_screen.dart';
 
@@ -81,7 +79,7 @@ class _LocationScreenState extends State<LocationScreen> {
                       Text("English Teacher", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                     ],
                   ),
-                  // trailing: InkWell(onTap: (){
+                  // trailing: GestureDetector(onTap: (){
                   //   showScanQrDialogue(context, false);
                   // },child: SvgPicture.asset(qrCodeSvg)),
                 ),
@@ -146,7 +144,29 @@ class _LocationScreenState extends State<LocationScreen> {
                   ),
                   Row(
                     children: [
-                      InkWell(
+
+                      SizedBox(
+                        width: 2.w,
+                      ),
+                      GestureDetector(
+                        onTap: (){
+                          showGeneralDialog(
+                            context: context,
+                            pageBuilder: (context, animation, secondaryAnimation) {
+                              return ConfirmationDialog(msg: translate(context).are_you_sure_you_want_to_change_the_location,isShowBtn: true,);
+                            },
+                          ).then((value){
+                            if(value == true){
+                              Get.to(const ChangeAddressScreen());
+                            }
+                          });
+                        },
+                        child: Image.asset(editPng, height: 18.sp, color: BaseColors.primaryColor,),
+                      ),
+                      SizedBox(
+                        width: 3.w,
+                      ),
+                      GestureDetector(
                         onTap: (){
                           showGeneralDialog(
                             context: context,
@@ -161,24 +181,6 @@ class _LocationScreenState extends State<LocationScreen> {
                           size: 18.sp,
                         ),
                       ),
-                      SizedBox(
-                        width: 2.w,
-                      ),
-                      InkWell(
-                        onTap: (){
-                          showGeneralDialog(
-                            context: context,
-                            pageBuilder: (context, animation, secondaryAnimation) {
-                              return ConfirmationDialog(msg: translate(context).are_you_sure_you_want_to_change_the_location,isShowBtn: true,);
-                            },
-                          ).then((value){
-                            if(value == true){
-                              Get.to(const ChangeAddressScreen());
-                            }
-                          });
-                        },
-                        child: Image.asset(editPng, height: 18.sp, color: BaseColors.primaryColor,),
-                      )
                     ],
                   )
                 ],
@@ -202,11 +204,17 @@ class _LocationScreenState extends State<LocationScreen> {
               SizedBox(
                 height: .5.h,
               ),
-              buildInfoItems(translate(context).mobile_no, "0503664321"),
+              buildInfoItems(translate(context).mobile_no, "0503664321",svgPath: "assets/images/copy 2.svg",onSvgClick: () async {
+                await Clipboard.setData(ClipboardData(text: "0503664321"));
+                Fluttertoast.showToast(msg: "Copied");
+              }),
               SizedBox(
                 height: .5.h,
               ),
-              buildInfoItems(translate(context).landline_no, "0503664321"),
+              buildInfoItems(translate(context).landline_no, "0503664321",svgPath: "assets/images/copy 2.svg",onSvgClick: () async {
+                 await Clipboard.setData(ClipboardData(text: "0503664321"));
+                 Fluttertoast.showToast(msg: "Copied");
+              }),
               SizedBox(
                 height: 1.5.h,
               ),

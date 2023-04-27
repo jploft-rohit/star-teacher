@@ -60,4 +60,4 @@ const String parkSvg = "assets/images/park 1.svg";
 const String cupIcon = "assets/images/trophyRewardLogo.svg";
 const String soundOnImg = "assets/images/sound_on_img.svg";
 const String videoCallSvg = "assets/images/Group 8235.svg";
-const String audioCallSvg = "assets/images/_x32_7-Phone.svg";
+const String audioCallSvg = "assets/images/ic_phone.svg";

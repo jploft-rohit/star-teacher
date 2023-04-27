@@ -47,7 +47,7 @@ class _RescheduleVisitRequestPopupState extends State<RescheduleVisitRequestPopu
                   children: [
                     Text(""),
                     Text(translate(context).reschedule, style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: Colors.black),),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back();
                       },
@@ -58,7 +58,7 @@ class _RescheduleVisitRequestPopupState extends State<RescheduleVisitRequestPopu
                   SizedBox(
                     height: 2.h,
                   ),
-                  InkWell(onTap: (){
+                  GestureDetector(onTap: (){
                     selectDate(context);
                   },
                     child: Row(
@@ -89,7 +89,7 @@ class _RescheduleVisitRequestPopupState extends State<RescheduleVisitRequestPopu
                   SizedBox(
                     height: 2.h,
                   ),
-                  InkWell(
+                  GestureDetector(
                     onTap: (){
                       selectDate(context);
                     },

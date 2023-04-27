@@ -7,13 +7,14 @@ import 'package:staff_app/Utility/base_button.dart';
 
 
 import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/Utility/base_type_search.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/star_evaluation_screen/star_evaluation_screen_ctrl.dart';
 import 'package:staff_app/view/star_evaluation_screen/star_rating_popup.dart';
-import 'package:staff_app/view/star_evaluation_screen/success_dialog_screen.dart';
+import '../../Utility/sizes.dart';
 
 class StarView extends StatefulWidget {
   const StarView({Key? key}) : super(key: key);
@@ -23,139 +24,18 @@ class StarView extends StatefulWidget {
 }
 
 class _StarViewState extends State<StarView> {
-  StarEvaluationScreenCtrl ctrl = Get.put(StarEvaluationScreenCtrl());
+  StarEvaluationScreenCtrl getController = Get.put(StarEvaluationScreenCtrl());
   TextEditingController searchCtrl = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const BaseAppBar(title: "Star Evaluation"),
+      appBar: BaseAppBar(title: "Star Rating"),
       body: Padding(
         padding: const EdgeInsets.all(15),
         child: Column(
           children: [
-            Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15.0),
-                border: Border.all(
-                    color: BaseColors.borderColor
-                ),
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Flexible(
-                        flex: 1,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0,),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(classTakenSvg,height: 15,),
-                              SizedBox(
-                                width: 2.w,
-                              ),
-                              Text("School", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                              const Spacer(),
-                              const Icon(
-                                Icons.arrow_drop_down,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: 1,
-                        height: 25,
-                        color: BaseColors.borderColor,
-                      ),
-                      Flexible(
-                        flex: 1,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(classTakenSvg,height: 15,),
-                              SizedBox(
-                                width: 2.w,
-                              ),
-                              Text("Grade 3", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                              const Spacer(),
-                              const Icon(
-                                Icons.arrow_drop_down,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Divider(height: 0.0,),
-                  Row(
-                    children: [
-                      Flexible(
-                        flex: 1,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0,),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(classTakenSvg,height: 15,),
-                              SizedBox(
-                                width: 2.w,
-                              ),
-                              Text("H1", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                              const Spacer(),
-                              const Icon(
-                                Icons.arrow_drop_down,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: 1,
-                        height: 25,
-                        color: BaseColors.borderColor,
-                      ),
-                      Flexible(
-                        flex: 1,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(jobDetailSvg,height: 15,),
-                              SizedBox(
-                                width: 2.w,
-                              ),
-                              Text("Term 1", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                              const Spacer(),
-                              const Icon(
-                                Icons.arrow_drop_down,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Divider(height: 0.0,),
-                  CustomTextField(
-                    controller: searchCtrl,
-                    hintText: translate(context).search_by_id,
-                    hintTextColor: BaseColors.textLightGreyColor,
-                    borderColor: Colors.transparent,
-                    contentPadding: const EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
-                    prefixIcon: const Padding(
-                      padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                      child: Icon(
-                        Icons.search,
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-
+            BaseTypeSearch(searchController: searchCtrl),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -166,17 +46,27 @@ class _StarViewState extends State<StarView> {
                       checkColor: BaseColors.primaryColor,
                       activeColor: Colors.transparent,
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      value: ctrl.isChecked.value,
+                      value: getController.isChecked.value,
                       visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                      side: MaterialStateBorderSide.resolveWith(
-                            (states) => const BorderSide(width: 1.0, color: BaseColors.primaryColor),
-                      ),
+                      side: MaterialStateBorderSide.resolveWith((states) => const BorderSide(
+                          width: 1.0,
+                          color: BaseColors.primaryColor
+                      )),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(3),
                           side: const BorderSide(color: BaseColors.primaryColor)
                       ),
                       onChanged: (bool? value) {
-                        ctrl.isChecked.value = value!;
+                        getController.isChecked.value = value??false;
+                        if (value??false) {
+                          getController.list.asMap().forEach((key, value) {
+                            getController.list[key]['isSelected'].value = true;
+                          });
+                        }else{
+                          getController.list.asMap().forEach((key, value) {
+                            getController.list[key]['isSelected'].value = false;
+                          });
+                        }
                       },
                     ),),
                     Text(translate(context).select_all, style: Style.montserratMediumStyle().copyWith(color: BaseColors.greyColor, fontSize: 15.sp),),
@@ -193,20 +83,26 @@ class _StarViewState extends State<StarView> {
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 10.0),
-                  child: InkWell(
+                  child: GestureDetector(
                     onTap: (){
-                      ctrl.list[index]['isSelected'].value = !ctrl.list[index]['isSelected'].value;
+                      getController.list[index]['isSelected'].value = !getController.list[index]['isSelected'].value;
+                      getController.list.any((element) => element['isSelected'] == true);
+                        if (getController.list.any((element) => element['isSelected'] == false)) {
+                          getController.isChecked.value = false;
+                        }else{
+                          getController.isChecked.value = true;
+                        }
                     },
                     child: Row(
                       children: [
                         Obx(() => Container(
                           // padding: const EdgeInsets.symmetric(horizontal: 9),
                           decoration: BoxDecoration(
-                              color: ctrl.list[index]['isSelected'].value
+                              color: getController.list[index]['isSelected'].value
                                   ? BaseColors.backgroundColor
                                   : BaseColors.borderColor,
                               boxShadow: [getLightBoxShadow()],
-                              border: ctrl.list[index]['isSelected'].value
+                              border: getController.list[index]['isSelected'].value
                                   ? Border.all(
                                   color: BaseColors.primaryColor, width: 1.5)
                                   : Border.all(
@@ -218,7 +114,7 @@ class _StarViewState extends State<StarView> {
                                     color: BaseColors.white, width: 1.5),
                                 shape: BoxShape.circle,
                                 boxShadow: [getBoxShadow()],
-                                color: ctrl.list[index]['isSelected'].value
+                                color: getController.list[index]['isSelected'].value
                                     ? BaseColors.primaryColor
                                     : BaseColors.borderColor
                             ),
@@ -237,7 +133,9 @@ class _StarViewState extends State<StarView> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10.0),
                                 border: Border.all(
-                                    color: BaseColors.borderColor
+                                    color: getController.list[index]['isSelected'].value
+                                        ? BaseColors.primaryColor
+                                        : BaseColors.borderColor
                                 )
                             ),
                             child: Row(
@@ -260,14 +158,12 @@ class _StarViewState extends State<StarView> {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      addText("Najma Suheil", 16.sp, ctrl.list[index]['isSelected'].value == true ? BaseColors.primaryColor : BaseColors.textLightGreyColor, FontWeight.w700),
-                                      SizedBox(
-                                        height: 1.h,
-                                      ),
+                                      addText("Najma Suheil", 16.sp, BaseColors.primaryColor, FontWeight.w700),
+                                      SizedBox(height: 1.h),
                                       Row(
                                         children: [
-                                          addText("ID: ", 14.sp, ctrl.list[index]['isSelected'].value == true ? BaseColors.textBlackColor : BaseColors.textLightGreyColor, FontWeight.w700),
-                                          addText("#632541", 14.sp, ctrl.list[index]['isSelected'].value == true ? BaseColors.primaryColor : BaseColors.textLightGreyColor, FontWeight.w700),
+                                          addText("ID: ", 14.sp, BaseColors.textBlackColor, FontWeight.w700),
+                                          addText("#632541", 14.sp, BaseColors.primaryColor, FontWeight.w700),
                                         ],
                                       ),
                                     ],
@@ -291,7 +187,7 @@ class _StarViewState extends State<StarView> {
                   return const StarRatingPopup();
                 },
               );
-            }),
+            },btnType: mediumLargeButton,borderRadius: 20,),
             // Row(
             //   children: [
             //     Expanded(
@@ -324,5 +220,129 @@ class _StarViewState extends State<StarView> {
       ),
     );
   }
-
+  
+  Widget starEvaluationFilter(){
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15.0),
+        border: Border.all(
+            color: BaseColors.borderColor
+        ),
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Flexible(
+                flex: 1,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0,),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(classTakenSvg,height: 15,),
+                      SizedBox(
+                        width: 2.w,
+                      ),
+                      Text("School", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
+                      const Spacer(),
+                      const Icon(
+                        Icons.arrow_drop_down,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                width: 1,
+                height: 25,
+                color: BaseColors.borderColor,
+              ),
+              Flexible(
+                flex: 1,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(classTakenSvg,height: 15,),
+                      SizedBox(
+                        width: 2.w,
+                      ),
+                      Text("Grade 3", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
+                      const Spacer(),
+                      const Icon(
+                        Icons.arrow_drop_down,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const Divider(height: 0.0,),
+          Row(
+            children: [
+              Flexible(
+                flex: 1,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0,),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(classTakenSvg,height: 15,),
+                      SizedBox(
+                        width: 2.w,
+                      ),
+                      Text("H1", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
+                      const Spacer(),
+                      const Icon(
+                        Icons.arrow_drop_down,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                width: 1,
+                height: 25,
+                color: BaseColors.borderColor,
+              ),
+              Flexible(
+                flex: 1,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(jobDetailSvg,height: 15,),
+                      SizedBox(
+                        width: 2.w,
+                      ),
+                      Text("Term 1", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
+                      const Spacer(),
+                      const Icon(
+                        Icons.arrow_drop_down,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const Divider(height: 0.0,),
+          CustomTextField(
+            controller: searchCtrl,
+            hintText: translate(context).search_by_id,
+            hintTextColor: BaseColors.textLightGreyColor,
+            borderColor: Colors.transparent,
+            contentPadding: const EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
+            prefixIcon: const Padding(
+              padding: EdgeInsets.only(left: 10.0, right: 10.0),
+              child: Icon(
+                Icons.search,
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
 }

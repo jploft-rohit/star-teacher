@@ -131,7 +131,7 @@ class _CreateRewardScreenState extends State<CreateRewardScreen> {
                 ),
               ),),
               SizedBox(height:3.h),
-              BaseButton(title: translate(context).create.toUpperCase(), onPressed: (){})
+              BaseButton(title: translate(context).create.toUpperCase(), onPressed: (){},btnType: largeButton,)
             ],
           ),
         ),

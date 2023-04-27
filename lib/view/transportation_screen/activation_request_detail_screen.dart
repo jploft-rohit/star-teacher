@@ -112,7 +112,7 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                             ),
                           ),
                           const SizedBox(height: 5,),
-                          InkWell(
+                          GestureDetector(
                               onTap: (){
                                 showScanQrDialogue(context, false);
                               },child: SvgPicture.asset(qrCodeSvg, height: 5.h,))
@@ -289,7 +289,7 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                   Text(translate(context).medical_certificate, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp)),
                   Row(
                     children: [
-                      InkWell(
+                      GestureDetector(
                           onTap: (){
                             showGeneralDialog(
                               context: context,
@@ -422,7 +422,7 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                   Text(translate(context).medical_certificate, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp)),
                   Row(
                     children: [
-                      InkWell(onTap: (){
+                      GestureDetector(onTap: (){
                         showGeneralDialog(
                           context: context,
                           pageBuilder:  (context, animation, secondaryAnimation) {

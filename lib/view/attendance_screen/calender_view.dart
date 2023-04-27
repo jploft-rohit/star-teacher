@@ -12,6 +12,7 @@ import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
 import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/constants-classes/color_constants.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/attendance_screen/attendance_screen_ctrl.dart';
 
@@ -25,6 +26,68 @@ class CalenderView extends StatefulWidget {
 class _CalenderViewState extends State<CalenderView> with SingleTickerProviderStateMixin{
   late TabController tabController;
   AttendanceScreenCtrl controller = Get.find<AttendanceScreenCtrl>();
+  int selectedIndextype=0;
+  EventList<Event> _absentmarkedDateMap = new EventList<Event>(
+    events: {
+    },
+  );
+  EventList<Event> _presentmarkedDateMap = new EventList<Event>(
+    events: {
+    },
+  );
+  EventList<Event> _latemarkedDateMap = new EventList<Event>(
+    events: {
+    },
+  );
+
+  addMarker(DateTime startEventDateTime,Color boxColor,bool isAbsent) {
+
+    var eventDateTime = startEventDateTime;
+    if(isAbsent)
+    {
+      _absentmarkedDateMap.add(
+        eventDateTime,
+        Event(
+          date: eventDateTime,
+          title: 'Event 1',
+          icon: Container(
+            decoration: BoxDecoration(
+                color: boxColor,
+                borderRadius: BorderRadius.circular(15)
+            ),
+            height: 9.w,
+            width: 11.w,
+            alignment: Alignment.center,
+            child: Text(eventDateTime.day.toString(),style: TextStyle(
+                color: ColorConstants.white,
+                fontWeight: FontWeight.w400,
+                fontSize: 14),),
+          ),
+        ),);
+    }else{
+      _latemarkedDateMap.add(
+        eventDateTime,
+        Event(
+          date: eventDateTime,
+          title: 'Event 1',
+          icon: Container(
+            decoration: BoxDecoration(
+                color: boxColor,
+                borderRadius: BorderRadius.circular(15)
+            ),
+            height: 9.w,
+            width: 11.w,
+            alignment: Alignment.center,
+            child: Text(eventDateTime.day.toString(),style: TextStyle(
+                color: ColorConstants.white,
+                fontWeight: FontWeight.w400,
+                fontSize: 14),),
+          ),
+        ),);
+    }
+
+
+  }
 
   @override
   void initState() {
@@ -32,6 +95,12 @@ class _CalenderViewState extends State<CalenderView> with SingleTickerProviderSt
     tabController = TabController(length: 3, vsync: this)..addListener(() {
       setState(() {});
     });
+    addMarker(DateTime(2023, 04, 01),Color(0xFFC9C9C9),true);
+    addMarker(DateTime(2023, 04, 13),Color(0xFFC9C9C9),true);
+    addMarker(DateTime(2023, 04, 21),Color(0xFFC9C9C9),true);
+    addMarker(DateTime(2023, 04, 07),Color(0xFF92AADA),false);
+    addMarker(DateTime(2023, 04, 14),Color(0xFF92AADA),false);
+    addMarker(DateTime(2023, 04, 20),Color(0xFF92AADA),false);
   }
   @override
   void dispose() {
@@ -132,7 +201,7 @@ class _CalenderViewState extends State<CalenderView> with SingleTickerProviderSt
         backgroundColor: Colors.white,
         appBar: BaseAppBar(title: translate(context).calender),
         body: Padding(
-          padding: EdgeInsets.all(20.sp),
+          padding: EdgeInsets.all(10.sp),
           child: Column(
             children: [
               Container(
@@ -171,7 +240,11 @@ class _CalenderViewState extends State<CalenderView> with SingleTickerProviderSt
                       Text("English Teacher", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                     ],
                   ),
-                  trailing: SvgPicture.asset(qrCodeSvg),
+                  trailing: GestureDetector(
+                    onTap: (){
+                      showScanQrDialogue(context, false);
+                    },
+                      child: SvgPicture.asset(qrCodeSvg)),
                 ),
               ),
               SizedBox(
@@ -186,7 +259,7 @@ class _CalenderViewState extends State<CalenderView> with SingleTickerProviderSt
                 height: 2.h,
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 20.sp),
+                padding: EdgeInsets.symmetric(horizontal: 10.sp),
                 decoration: BoxDecoration(
                     color: const Color(0xFF0F8F8F8),
                     borderRadius: BorderRadius.circular(10.0)),
@@ -209,7 +282,82 @@ class _CalenderViewState extends State<CalenderView> with SingleTickerProviderSt
                         buildColors(BaseColors.primaryColor, translate(context).holiday),
                       ],
                     ),
-                    calendarCarouselNoHeader
+                    CalendarCarousel<Event>(
+                      onDayPressed: (date, events) {},
+                      daysHaveCircularBorder: true,
+                      showOnlyCurrentMonthDate: false,
+
+                      weekendTextStyle: TextStyle(
+                          color: ColorConstants.primaryColor,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 12),
+                      daysTextStyle: TextStyle(
+                          color: ColorConstants.gretTextColor,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 12),
+                      // thisMonthDayBorderColor: Colors.grey,
+                      weekFormat: false,
+                      markedDatesMap: tabController.index==1?_absentmarkedDateMap:tabController.index==2?_latemarkedDateMap:_presentmarkedDateMap,
+                      height: 45.h,
+
+                      selectedDayButtonColor: Colors.transparent,
+                      selectedDayBorderColor: Colors.transparent,
+                      customGridViewPhysics: const NeverScrollableScrollPhysics(),
+
+
+                      leftButtonIcon: Icon(
+                        Icons.arrow_back_ios,
+                        color: ColorConstants.primaryColor,
+                        size: 15,
+                      ),
+                      rightButtonIcon: Icon(
+                        Icons.arrow_forward_ios,
+                        color: ColorConstants.primaryColor,
+                        size: 15,
+                      ),
+                      // markedDateMoreCustomDecoration: const BoxDecoration(color: ColorConstants.gretTextColor, shape: BoxShape.circle),
+                      // markedDateCustomShapeBorder: const CircleBorder(side: BorderSide(color: ColorConstants.blue,strokeAlign: StrokeAlign.inside)),
+                      markedDateShowIcon: false,
+                      markedDateIconBuilder: (event) {
+                        return event.icon;
+                      },
+                      markedDateMoreShowTotal: false,
+                      showHeader: true,
+                      headerTextStyle: TextStyle(
+                          color: ColorConstants.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14),
+                      showHeaderButton: true,
+                      weekDayFormat: WeekdayFormat.narrow,
+                      todayTextStyle: TextStyle(
+                          color: ColorConstants.black,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 14),
+                      todayButtonColor: Colors.transparent,
+                      todayBorderColor: Colors.transparent,
+                      selectedDayTextStyle: TextStyle(
+                          color: ColorConstants.lightTextColor,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 14),
+                      minSelectedDate: DateTime.now().subtract(const Duration(days: 360)),
+                      maxSelectedDate: DateTime.now().add(const Duration(days: 360)),
+                      prevDaysTextStyle: TextStyle(
+                          color: ColorConstants.lightGreyColor,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 14),
+                      nextDaysTextStyle: TextStyle(
+                          color: ColorConstants.lightTextColor,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 14),
+                      weekdayTextStyle: TextStyle(
+                          color: ColorConstants.primaryColor,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 14),
+                      onCalendarChanged: (DateTime date) {},
+                      onDayLongPressed: (DateTime date) {
+                        //
+                      },
+                    )
                   ],
                 ),
               ),

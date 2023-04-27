@@ -59,6 +59,9 @@ dependencies:
   pin_code_fields: ^7.4.0
   local_auth: ^2.1.6
   circular_countdown_timer: ^0.2.3
+  syncfusion_flutter_datepicker: ^21.1.39
+  fluttertoast: ^8.2.1
+  image_picker: ^0.8.7+4
 
 dev_dependencies:
   flutter_launcher_icons: ^0.12.0

@@ -6,10 +6,9 @@ import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/base_tab_button.dart';
 import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
-
-
 import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/chat_screen/chating_screen.dart';
@@ -88,7 +87,7 @@ class _TransportationScreenState extends State<TransportationScreen> with Single
                       Text("English Teacher", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                     ],
                   ),
-                  trailing: InkWell(onTap: (){
+                  trailing: GestureDetector(onTap: (){
                     showScanQrDialogue(context, false);
                   },child: SvgPicture.asset(qrCodeSvg)),
                 ),
@@ -96,29 +95,23 @@ class _TransportationScreenState extends State<TransportationScreen> with Single
               SizedBox(
                 height: 2.h,
               ),
-              InkWell(
-                onTap: (){
-                  Get.to(NotifyAuthorityForBusScreen());
-                },
-                child: buildTile(translate(context).notify_authority),
-              ),
-              InkWell(
-                onTap: (){
-                  Get.to(LocationScreen());
-                },
-                child: buildTile(translate(context).location),
-              ),
-              InkWell(
-                onTap: (){
-                  Get.to(BusArrivingSoonScreen());
-                },
-                child: buildTile(translate(context).bus_notifications),),
+              BaseButton(title: translate(context).notify_authority, onPressed: (){
+                Get.to(NotifyAuthorityForBusScreen());
+              },btnType: buttonIcon,),
+              SizedBox(height: 1.h,),
+              BaseButton(title: translate(context).location, onPressed: (){
+                Get.to(LocationScreen());
+              },btnType: buttonIcon,),
+              SizedBox(height: 1.h,),
+              BaseButton(title: translate(context).bus_notifications, onPressed: (){
+                Get.to(BusArrivingSoonScreen());
+              },btnType: buttonIcon,),
               SizedBox(
                 height: 1.h,
               ),
               BaseToggleTabBar(controller: tabController, tabs: [
-                BaseTabButton(title: translate(context).departure_information, isSelected: tabController.index == 0),
-                BaseTabButton(title: translate(context).return_information, isSelected: tabController.index == 1)
+                BaseTabButton(title: translate(context).departure_information, isSelected: tabController.index == 0,type: toggleLargeButton,),
+                BaseTabButton(title: translate(context).return_information, isSelected: tabController.index == 1,type: toggleLargeButton,)
               ]),
               SizedBox(
                 height: 2.h,

@@ -46,7 +46,7 @@ class _TrayViewState extends State<TrayView> {
                   addText('First Break Items', 16.sp,
                       BaseColors.textBlackColor, FontWeight.w700),
                   BaseButton(
-                      btnWidth: 85,
+                      btnType: smallButton,
                       title: "Add item",
                       onPressed: () {})
                 ],
@@ -67,9 +67,8 @@ class _TrayViewState extends State<TrayView> {
                   addText('Second Break Items', 16.sp,
                       BaseColors.textBlackColor, FontWeight.w700),
                   BaseButton(
-                      btnWidth: 85,
+                      btnType: smallButton,
                       title: "Add item",
-                      textSize: 16.sp,
                       onPressed: () {})
                 ],
               ),
@@ -229,23 +228,24 @@ class _TrayViewState extends State<TrayView> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               SizedBox(height: MediaQuery.of(context).size.height*0.03,),
-                              Text("Are you sure you want to schedule this order?",style: Style.montserratRegularStyle().copyWith(color: Colors.black, fontSize: 17.sp, height: 1.5,fontWeight: FontWeight.w600),),
-                              SizedBox(height: 7.h,),
+                              Text("Are you sure you want to schedule this order?",textAlign: TextAlign.center,
+                                style: Style.montserratRegularStyle().copyWith(color: Colors.black, fontSize: 17.sp, height: 1.5,fontWeight: FontWeight.w600),),
+                              SizedBox(height: 4.h,),
                               Row(
                                 children: [
                                   Expanded(
                                     child: Center(
                                       child: BaseButton(title: translate(context).cancel, onPressed: (){
                                         Navigator.pop(context);
-                                      }),
+                                      },btnType: mediumButton,borderRadius: 20,),
                                     ),
                                   ),
                                   SizedBox(width: 3.w),
                                   Expanded(
                                     child: Center(
-                                      child: BaseButton(btnType: dialogButton,title: translate(context).proceed, onPressed: (){
+                                      child: BaseButton(btnType: mediumButton,title: translate(context).proceed, onPressed: (){
                                         Navigator.pop(context);
-                                      }),
+                                      },borderRadius: 20,),
                                     ),
                                   ),
                                 ],
@@ -256,7 +256,7 @@ class _TrayViewState extends State<TrayView> {
                       ),
                     );
                   });
-                })
+                },btnType: largeButton,)
               ),
               SizedBox(height: 3.h),
             ],

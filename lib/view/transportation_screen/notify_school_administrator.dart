@@ -33,7 +33,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
     return Scaffold(
       backgroundColor: Colors.black.withOpacity(0.5),
       body: Dialog(
-        insetPadding: EdgeInsets.only(left: 15.sp, right: 15.sp),
+        insetPadding: EdgeInsets.only(left: 10.sp, right: 10.sp),
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0)
         ),
@@ -43,7 +43,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
               color: Colors.white
           ),
           child: Padding(
-            padding: EdgeInsets.all(20.sp),
+            padding: EdgeInsets.all(15.sp),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -56,7 +56,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                       padding: const EdgeInsets.only(top: 10.0),
                       child: Text(translate(context).are_you_sure_you_want_to_notify_the_school_administration, style: Style.montserratBoldStyle().copyWith(fontSize: 17.sp, color: Colors.black),textAlign: TextAlign.center,),
                     )),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back();
                       },
@@ -80,7 +80,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         selectedFMOPos = 0;
                         setState(() {});
@@ -125,7 +125,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                     SizedBox(
                       width: 7.w,
                     ),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         selectedFMOPos = 1;
                         setState(() {});
@@ -260,7 +260,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         selectedFMOPos1 = 0;
                         setState(() {});
@@ -305,7 +305,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                     SizedBox(
                       width: 7.w,
                     ),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         selectedFMOPos1 = 1;
                         setState(() {});
@@ -423,10 +423,13 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                     height: 2.h,
                   ),
                 Center(
-                  child: BaseButton(btnType: dialogButton,title: translate(context).notify, onPressed: (){
+                  child: BaseButton(btnType: mediumLargeButton,title: translate(context).notify, onPressed: (){
                     Get.back();
-                    Get.to(const DeactivationDetailScreen());
-                  }, btnWidth: 30.w),
+                    // Get.to(const DeactivationDetailScreen());
+                  },borderRadius: 20,),
+                ),
+                SizedBox(
+                  height: 1.h,
                 ),
               ],
             ),

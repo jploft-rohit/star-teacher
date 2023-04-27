@@ -4,11 +4,10 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
-
-
 import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/library_screen/notebook_screen/notebook_screen_ctrl.dart';
 import 'package:staff_app/view/lost_or_found_screen/lost_or_found_view.dart';
@@ -46,53 +45,60 @@ class _AddToDoNoteState extends State<AddToDoNote> {
               Wrap(
                 spacing: 4.0,
                 children: List.generate(ctrl.colorList.length, (index) {
-                  return Obx(() => InkWell(
-                    onTap: (){
-                      ctrl.selectedColor.value = index;
-                    },
-                    child: Container(
-                      height: 25.0,
-                      width: 25.0,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color(int.tryParse("0xff${ctrl.colorList[index]}")!),
-                      ),
-                      child: ctrl.selectedColor.value == index ? SvgPicture.asset("assets/images/selected_color_img.svg", fit: BoxFit.scaleDown,) : SizedBox(),
-                    ),
-                  ));
+                  return Obx(() => GestureDetector(
+                        onTap: () {
+                          ctrl.selectedColor.value = index;
+                        },
+                        child: Container(
+                          height: 25.0,
+                          width: 25.0,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color(
+                                int.tryParse("0xff${ctrl.colorList[index]}")!),
+                          ),
+                          child: ctrl.selectedColor.value == index
+                              ? SvgPicture.asset(
+                                  "assets/images/selected_color_img.svg",
+                                  fit: BoxFit.scaleDown,
+                                )
+                              : SizedBox(),
+                        ),
+                      ));
                 }),
               ),
               SizedBox(
                 height: 2.h,
               ),
-              CustomTextField(controller: titleController, hintText: "Title", borderRadius: 4.0, fillColor: BaseColors.txtFieldTextColor,),
+              CustomTextField(
+                controller: titleController,
+                hintText: "Title",
+                borderRadius: 4.0,
+                fillColor: BaseColors.txtFieldTextColor,
+              ),
               SizedBox(
                 height: 2.h,
               ),
-              CustomTextField(controller: descriptionController, hintText: "Type here..", borderRadius: 4.0, fillColor: BaseColors.txtFieldTextColor,maxLine: null,),
+              CustomTextField(
+                controller: descriptionController,
+                hintText: "Type here..",
+                borderRadius: 4.0,
+                fillColor: BaseColors.txtFieldTextColor,
+                maxLine: null,
+              ),
               SizedBox(
                 height: 1.h,
               ),
-              InkWell(
-                onTap: (){
+              GestureDetector(
+                onTap: () {
                   ctrl.isChecked.value = !ctrl.isChecked.value;
                 },
                 child: Row(
                   children: [
-                    // Checkbox(value: ctrl.isChecked.value, onChanged: (value){
-                    //   ctrl.isChecked.value  = value!;
-                    // },
-                    //   shape: RoundedRectangleBorder(
-                    //     borderRadius: BorderRadius.circular(50.0)
-                    //   ),
-                    //   activeColor: CustomColors.primaryColor,
-                    //   visualDensity: VisualDensity(horizontal: -4, vertical: -4),
-                    //   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    // ),
                     GetBuilder<NotebookScreenCtrl>(
                       builder: (ctrl) {
-                        return InkWell(
-                          onTap: (){
+                        return GestureDetector(
+                          onTap: () {
                             ctrl.isChecked.value = !ctrl.isChecked.value;
                             ctrl.update();
                           },
@@ -107,9 +113,10 @@ class _AddToDoNoteState extends State<AddToDoNote> {
                                 boxShadow: [getLightBoxShadow()],
                                 border: ctrl.isChecked.value == true
                                     ? Border.all(
-                                    color: BaseColors.primaryColor, width: 1.5)
+                                        color: BaseColors.primaryColor,
+                                        width: 1.5)
                                     : Border.all(
-                                    color: Colors.transparent, width: 1.5),
+                                        color: Colors.transparent, width: 1.5),
                                 borderRadius: BorderRadius.circular(30.0)),
                             child: Container(
                               decoration: BoxDecoration(
@@ -119,11 +126,10 @@ class _AddToDoNoteState extends State<AddToDoNote> {
                                   boxShadow: [getBoxShadow()],
                                   color: ctrl.isChecked.value == true
                                       ? BaseColors.primaryColor
-                                      : BaseColors.borderColor
-                              ),
+                                      : BaseColors.borderColor),
                               child: Center(
-                                child: Icon(Icons.check, color: BaseColors.white,
-                                    size: 16.sp),
+                                child: Icon(Icons.check,
+                                    color: BaseColors.white, size: 16.sp),
                               ),
                             ),
                           ),
@@ -133,16 +139,20 @@ class _AddToDoNoteState extends State<AddToDoNote> {
                     SizedBox(
                       width: 2.w,
                     ),
-                    addText("Set Reminder", 14.sp, BaseColors.textBlackColor, FontWeight.w400)
+                    addText("Set Reminder", 14.sp, BaseColors.textBlackColor,
+                        FontWeight.w400)
                   ],
                 ),
               ),
               SizedBox(
                 height: 5.h,
               ),
-              Center(child: BaseButton(title: "SUBMIT", onPressed: (){
-                Get.back();
-              }))
+              Center(
+                  child: BaseButton(
+                      title: widget.isEditing?"UPDATE":"SUBMIT",
+                      onPressed: () {
+                        Get.back();
+                      },btnType: largeButton,))
             ],
           ),
         ),
@@ -150,10 +160,11 @@ class _AddToDoNoteState extends State<AddToDoNote> {
     );
   }
 
-  setData(){
+  setData() {
     if (widget.isEditing) {
       titleController.text = "To Do List";
-      descriptionController.text = "■ Hang washing\n\n■ Hang washing\n\n■ Hang washing";
+      descriptionController.text =
+          "■ Hang washing\n\n■ Hang washing\n\n■ Hang washing";
     }
   }
 }

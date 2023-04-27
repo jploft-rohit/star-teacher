@@ -43,54 +43,51 @@ class _PresentViewState extends State<AbsentView> {
                               end: BorderSide(width: 1,color: BaseColors.textRedColor)
                           )),
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(12.0,8,8,8),
+                        padding: const EdgeInsets.fromLTRB(12.0,8,0,8),
                         child: Row(
                           children: [
-                            Row(
+                            Container(
+                              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  border: Border.all(
+                                      color: BaseColors.primaryColor)),
+                              child:SvgPicture.asset(girlSvg),
+                            ),
+                            SizedBox(width: 2.w),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
-                                      border: Border.all(
-                                          color: BaseColors.primaryColor)),
-                                  child:SvgPicture.asset(girlSvg),
+                                Text('Roma #21', style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: BaseColors.primaryColor),),
+                                SizedBox(
+                                  height: 0.8.h,
                                 ),
-                                SizedBox(width: 2.w),
-                                Column(
-                                  children: [
-                                    Text('Roma #21', style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: BaseColors.primaryColor),),
-                                    SizedBox(
-                                      height: 0.5.h,
-                                    ),
-                                    InkWell(
-                                      onTap: (){
-                                        showGeneralDialog(
-                                          context: context,
-                                          pageBuilder: (context, animation, secondaryAnimation) {
-                                            return ChangeStatusPopup(isFromLateView: false,);
-                                          },
-                                        );
+                                GestureDetector(
+                                  onTap: (){
+                                    showGeneralDialog(
+                                      context: context,
+                                      pageBuilder: (context, animation, secondaryAnimation) {
+                                        return ChangeStatusPopup(isFromLateView: false,);
                                       },
-                                      child: Container(
-                                        width: 82,
-                                        height: 21,
-                                        // padding: EdgeInsets.symmetric(vertical: 0, horizontal: 4),
-                                        decoration: BoxDecoration(
-                                            color: BaseColors.backgroundColor,
-                                            boxShadow: [getBoxShadow()],
-                                            border: Border.all(color: BaseColors.borderColor, width: 1.5),
-                                            borderRadius: BorderRadius.circular(30.0)),
-                                        child: Center(child: Text(translate(context).change_Status, style: Style.montserratRegularStyle().copyWith(fontSize: 12.sp),)),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(width: 15.w,),
-                                Text(translate(context).absent, style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: BaseColors.textRedColor),),
-                                SizedBox(width: 5.w,),
+                                    );
+                                  },
+                                  child: Container(
+                                    width: 12.h,
+                                    height: 3.h,
+                                    // padding: EdgeInsets.symmetric(vertical: 0, horizontal: 4),
+                                    decoration: BoxDecoration(
+                                        color: BaseColors.backgroundColor,
+                                        boxShadow: [getBoxShadow()],
+                                        border: Border.all(color: BaseColors.borderColor, width: 1.5),
+                                        borderRadius: BorderRadius.circular(30.0)),
+                                    child: Center(child: Text(translate(context).change_Status, style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp),)),
+                                  ),
+                                )
                               ],
                             ),
+                            SizedBox(width: 13.w,),
+                            Text(translate(context).absent, style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: BaseColors.textRedColor),),
+                            SizedBox(width: 5.w,),
                           ],
                         ),
                       ),
@@ -110,7 +107,7 @@ class _PresentViewState extends State<AbsentView> {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 3.0),
-                child: InkWell(
+                child: GestureDetector(
                   onTap: (){
                     Get.to(PerformanceScreen(index: 2,));
                   },

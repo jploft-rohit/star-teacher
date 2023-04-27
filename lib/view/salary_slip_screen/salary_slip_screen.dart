@@ -26,7 +26,7 @@ class _SalarySlipScreenState extends State<SalarySlipScreen> {
           shrinkWrap: true,
           itemCount: 5,
           itemBuilder: (context, index) {
-            return InkWell(
+            return GestureDetector(
               onTap: (){
                 showGeneralDialog(
                   context: context,
@@ -51,7 +51,7 @@ class _SalarySlipScreenState extends State<SalarySlipScreen> {
                 child: Row(
                   children: [
                     Container(
-                      padding: EdgeInsets.only(left: 20.sp, right: 20.sp, top: 10.sp, bottom: 10.sp),
+                      padding: EdgeInsets.only(left: 20.sp, right: 20.sp, top: 15.sp, bottom: 15.sp),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
                         color: BaseColors.backgroundColor,
@@ -70,29 +70,29 @@ class _SalarySlipScreenState extends State<SalarySlipScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Payment Received", style: Style.montserratBoldStyle().copyWith(fontSize: 17.sp,color: Colors.black),),
+                        Text("Payment Received", style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp,color: Colors.black),),
                         SizedBox(
                           height: 3.0,
                         ),
-                        Text("1000 AED", style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp,color: BaseColors.primaryColor),),
+                        Text("1000 AED", style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp,color: BaseColors.primaryColor),),
                       ],
                     ),
                     Spacer(),
-                    SvgPicture.asset(salarySlipDownloadSvg),
-                    SizedBox(
-                      width: 10.0,
-                    ),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         showGeneralDialog(
                           context: context,
                           pageBuilder:  (context, animation, secondaryAnimation) {
-                            return OpenPdfPopup(title: "");
+                            return OpenPdfPopup(title: "Payment Received");
                           },
                         );
                       },
                       child: Icon(Icons.remove_red_eye_outlined,color: BaseColors.primaryColor,),
                     ),
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    SvgPicture.asset(salarySlipDownloadSvg),
                     SizedBox(
                       width: 10.0,
                     ),

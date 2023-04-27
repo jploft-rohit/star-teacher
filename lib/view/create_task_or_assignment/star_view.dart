@@ -8,6 +8,7 @@ import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/create_task_or_assignment/assign_assignment_popup_1.dart';
 
@@ -81,6 +82,9 @@ class _CreateTaskStarViewState extends State<CreateTaskStarView> {
                   fillColor: BaseColors.txtFieldTextColor,
                   hintText: "Post Time",
                   borderRadius: 5.0,
+                  onTap: (){
+                    selectTime(context);
+                  },
                   suffixIcon: Padding(
                     padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                     child: SvgPicture.asset("assets/images/time_icon1.svg"),
@@ -180,6 +184,9 @@ class _CreateTaskStarViewState extends State<CreateTaskStarView> {
                   controller: dueTimeCtrl,
                   hintText: "Due Time",
                   borderRadius: 5.0,
+                  onTap: (){
+                    selectTime(context);
+                  },
                   suffixIcon: Padding(
                     padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                     child: SvgPicture.asset("assets/images/time_icon1.svg"),
@@ -189,7 +196,7 @@ class _CreateTaskStarViewState extends State<CreateTaskStarView> {
             ],
           ),
           SizedBox(height: 2.h),
-          BaseButton(title: "SUBMIT", onPressed: (){}),
+          BaseButton(title: "SUBMIT", onPressed: (){},btnType: largeButton,),
           SizedBox(height: 2.h),
         ],
       ),

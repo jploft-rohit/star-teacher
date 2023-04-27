@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
 
 import 'package:staff_app/Utility/custom_text_field.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/schedule_meeting_screen/choose_meeting_date_time_popup.dart';
 
@@ -42,7 +45,7 @@ class _MeetingCancelReasonPopupState extends State<MeetingCancelReasonPopup> {
                   children: [
                     Text(""),
                     Text("Meeting Cancel Reason", style: Style.montserratBoldStyle().copyWith(fontSize: 17.sp, color: Colors.black),),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back();
                       },
@@ -59,7 +62,7 @@ class _MeetingCancelReasonPopupState extends State<MeetingCancelReasonPopup> {
                 Center(
                   child: BaseButton(title: "SUBMIT", onPressed: (){
                     Get.back();
-                  }),
+                  },btnType: mediumButton,borderRadius: 20,),
                 ),
               ],
             ),

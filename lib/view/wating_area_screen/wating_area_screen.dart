@@ -173,7 +173,7 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                   children: [
                     Flexible(
                       flex: 1,
-                      child: InkWell(
+                      child: GestureDetector(
                         onTap: (){
                           index = 0;
                           setState(() {});
@@ -207,7 +207,7 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                     ),
                     Flexible(
                       flex: 1,
-                      child: InkWell(
+                      child: GestureDetector(
                         onTap: (){
                           index = 1;
                           setState(() {});
@@ -252,7 +252,7 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 10.0),
-                        child: InkWell(
+                        child: GestureDetector(
                           onTap: (){
                             showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation) {
                               return StarCalledPopup();
@@ -343,7 +343,7 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 10.0),
-                        child: InkWell(
+                        child: GestureDetector(
                           onTap: (){
                             showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation) {
                               return StarDetachingPopup();

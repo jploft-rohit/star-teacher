@@ -93,19 +93,24 @@ class _RulesScreen2State extends State<RulesScreen2> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Checkbox(
-                          checkColor: Colors.white,
-                          activeColor: BaseColors.primaryColor,
-                          value: isRulesChecked,
-                          side: const BorderSide(color: BaseColors.primaryColor),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(3),
+                        SizedBox(
+                          height: 22,
+                          width: 22,
+                          child: Checkbox(
+                            checkColor: Colors.white,
+                            activeColor: BaseColors.primaryColor,
+                            value: isRulesChecked,
+                            side: const BorderSide(color: BaseColors.primaryColor),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(3),
+                            ),
+                            onChanged: (bool? value) {
+                              isRulesChecked = value!;
+                              setState(() {});
+                            },
                           ),
-                          onChanged: (bool? value) {
-                            isRulesChecked = value!;
-                            setState(() {});
-                          },
                         ),
+                        SizedBox(width: 10),
                         Expanded(child: Text('I have read all the terms and responsibility guidelines and I agree to all of them.', style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),)
                       ],
                     ),
@@ -119,7 +124,7 @@ class _RulesScreen2State extends State<RulesScreen2> {
     );
   }
   Widget buildTitle(String text){
-    return Text(text, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 17.sp, height: 1.5),);
+    return Text(text, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp, height: 1.5),);
   }
   Widget buildSubtitle(String text){
     return Text(text, style: Style.montserratMediumStyle().copyWith(color: Colors.black, fontSize: 15.sp, height: 1.5),);

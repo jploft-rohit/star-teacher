@@ -47,7 +47,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
       ///  SOS Icon
         Visibility(
           visible: showSos??false,
-          child: InkWell(
+          child: GestureDetector(
             onTap: (){
               Get.to(const SOSView());
             },
@@ -63,7 +63,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              InkWell(
+              GestureDetector(
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const NotificationScreen()));
                   },

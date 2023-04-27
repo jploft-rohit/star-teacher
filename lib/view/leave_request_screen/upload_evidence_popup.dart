@@ -45,7 +45,7 @@ class _UploadEvidencePopupState extends State<UploadEvidencePopup> {
                   children: [
                     const Text(""),
                     Text(translate(context).upload_evidence, style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: Colors.black),),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Navigator.pop(context);
                       },
@@ -85,7 +85,7 @@ class _UploadEvidencePopupState extends State<UploadEvidencePopup> {
                   suffixIcon: "assets/images/upload_icon.svg"),
                 BaseButton(btnType: dialogButton,title: translate(context).submit_btn_txt, onPressed: (){
                   Get.back();
-                })
+                },removeHorizontalPadding: true,)
               ],
             ),
           ),

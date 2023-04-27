@@ -5,6 +5,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/constants-classes/color_constants.dart';
 
 class BaseFloatingActionButton extends StatelessWidget {
   Function() onTap;
@@ -66,7 +67,7 @@ class BaseFloatingActionButton extends StatelessWidget {
             color: BaseColors.primaryColorLight,
             child: Padding(
               padding: EdgeInsets.all(1.5.h),
-              child: SvgPicture.asset(isCalendar?"assets/images/calender_date.svg":"assets/images/ic_add.svg",height: 3.h,width: 3.h,),
+              child: SvgPicture.asset(isCalendar?"assets/images/calender_date.svg":"assets/images/ic_add.svg",height: 3.h,width: 3.h,color: ColorConstants.primaryColor,),
             ),
           ),
           Text(title,style: TextStyle(color: BaseColors.primaryColor,fontSize: floatingActionButtonTs,fontWeight: FontWeight.normal,fontFamily: 'Arial'),textAlign: TextAlign.center,)

@@ -23,6 +23,7 @@ class DashboardScreen extends GetView<DashboardScreenCtrl>{
   Widget build(BuildContext context) {
     return SafeArea(
       bottom: Platform.isIOS?false:true,
+      top: false,
       child: Scaffold(
         extendBody: true,
         backgroundColor: BaseColors.white,

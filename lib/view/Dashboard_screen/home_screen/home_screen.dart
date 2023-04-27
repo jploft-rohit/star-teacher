@@ -8,6 +8,7 @@ import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/base_tab_button.dart';
 import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/Dashboard_screen/home_screen/home_class_schedule/home_class_schedule_screen.dart';
@@ -69,28 +70,25 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                     ),
                   ),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      GestureDetector(
-                        onTap: (){
-                          Get.to(const HomeClassScheduleScreen(index: 1));
-                        },
-                        child: Row(
-                          children: [
-                            InkWell(
-                              onTap: (){
-                                // selectDate(context);
-                              },
-                                child: InkWell(
-                                    onTap: (){
-                                      // selectDate(context);
-                                    },
-                                    child: SvgPicture.asset(calenderSvg)),),
-                            SizedBox(
-                              width: 20.sp,
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: (){
+                            Get.to(const HomeClassScheduleScreen(index: 1));
+                          },
+                          child: Container(
+                            color: Colors.white,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(calenderSvg),
+                                SizedBox(
+                                  width: 20.sp,
+                                ),
+                                Text(translate(context).this_week, style: Style.montserratRegularStyle().copyWith(fontSize: 15.sp),)
+                              ],
                             ),
-                            Text(translate(context).this_week, style: Style.montserratRegularStyle().copyWith(fontSize: 15.sp),)
-                          ],
+                          ),
                         ),
                       ),
                       Container(
@@ -98,18 +96,24 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                         width: 1.0,
                         color: BaseColors.borderColor,
                       ),
-                      GestureDetector(
-                        onTap: (){
-                          Get.to(const HomeClassScheduleScreen(index: 0));
-                        },
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(classTakenSvg),
-                            SizedBox(
-                              width: 15.sp,
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: (){
+                            Get.to(const HomeClassScheduleScreen(index: 0));
+                          },
+                          child: Container(
+                            color: Colors.white,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(classTakenSvg),
+                                SizedBox(
+                                  width: 15.sp,
+                                ),
+                                Text("21 ${translate(context).classes_taken}", style: Style.montserratRegularStyle().copyWith(fontSize: 15.sp),)
+                              ],
                             ),
-                            Text("21 ${translate(context).classes_taken}", style: Style.montserratRegularStyle().copyWith(fontSize: 15.sp),)
-                          ],
+                          ),
                         ),
                       ),
                     ],
@@ -124,7 +128,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(translate(context).today_schedule, style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp),),
-                      Text(translate(context).view_all, style: Style.montserratMediumStyle().copyWith(fontSize: 15.sp ,decoration: TextDecoration.underline, color: BaseColors.txtPrimaryColor),),
+                      GestureDetector(
+                        onTap: (){
+                          Get.to(const HomeClassScheduleScreen(index: 1,isViewAll: true));
+                        },
+                          child: Text(translate(context).view_all, style: Style.montserratMediumStyle().copyWith(fontSize: 15.sp ,decoration: TextDecoration.underline, color: BaseColors.txtPrimaryColor),)),
                     ],
                   ),
                 ),
@@ -141,87 +149,87 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                       clipBehavior: Clip.none,
                       alignment: Alignment.centerLeft,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 10.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Colors.grey,
-                                  offset: Offset(0, 2),
-                                  spreadRadius: 0.0,
-                                  blurRadius: 5.0
+                        GestureDetector(
+                          onTap: (){
+                            Get.to(const StarAttendanceScreen());
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 10.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Colors.grey,
+                                    offset: Offset(0, 2),
+                                    spreadRadius: 0.0,
+                                    blurRadius: 5.0
+                                  )
+                                ],
+                                borderRadius: BorderRadius.circular(15.0),
+                                border: Border.all(
+                                  color: BaseColors.primaryColor
                                 )
-                              ],
-                              borderRadius: BorderRadius.circular(15.0),
-                              border: Border.all(
-                                color: BaseColors.primaryColor
-                              )
-                            ),
-                            padding: const EdgeInsets.only(top: 5.0, left: 15.0, right: 15.0, bottom: 5.0),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text("${index+2}nd Slot (Hold)", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 16.sp),),
-                                    Row(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                                          child: Text("Start in", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 14.sp),),
-                                        ),
-                                        SizedBox(
-                                          width: 2.w,
-                                        ),
-                                        Container(
-                                          padding: const EdgeInsets.all(2.0),
-                                          decoration: BoxDecoration(
-                                            color: BaseColors.backgroundColor,
-                                            borderRadius: BorderRadius.circular(2.0),
-                                            border: Border.all(
-                                              color: BaseColors.primaryColor,
-                                            ),
+                              ),
+                              padding: const EdgeInsets.only(top: 5.0, left: 15.0, right: 15.0, bottom: 5.0),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text("${index+2}nd Slot (Hold)", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 16.sp),),
+                                      Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                            child: Text("Start in", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 14.sp),),
                                           ),
-                                          child: Text('05', style:  Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
-                                        ),
-                                        SizedBox(
-                                          width: 2.w,
-                                        ),
-                                        Text(":", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 14.sp),),
-                                        SizedBox(
-                                          width: 2.w,
-                                        ),
-                                        Container(
-                                          padding: const EdgeInsets.all(2.0),
-                                          decoration: BoxDecoration(
-                                            color: BaseColors.backgroundColor,
-                                            borderRadius: BorderRadius.circular(2.0),
-                                            border: Border.all(
-                                              color: BaseColors.primaryColor,
-                                            ),
+                                          SizedBox(
+                                            width: 2.w,
                                           ),
-                                          child: Text('05', style:  Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 3.0,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        GestureDetector(
-                                          onTap: (){
-                                            Get.to(const StarAttendanceScreen());
-                                          },
-                                          child: Row(
+                                          Container(
+                                            padding: const EdgeInsets.all(2.0),
+                                            decoration: BoxDecoration(
+                                              color: BaseColors.backgroundColor,
+                                              borderRadius: BorderRadius.circular(2.0),
+                                              border: Border.all(
+                                                color: BaseColors.primaryColor,
+                                              ),
+                                            ),
+                                            child: Text('05', style:  Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
+                                          ),
+                                          SizedBox(
+                                            width: 2.w,
+                                          ),
+                                          Text(":", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 14.sp),),
+                                          SizedBox(
+                                            width: 2.w,
+                                          ),
+                                          Container(
+                                            padding: const EdgeInsets.all(2.0),
+                                            decoration: BoxDecoration(
+                                              color: BaseColors.backgroundColor,
+                                              borderRadius: BorderRadius.circular(2.0),
+                                              border: Border.all(
+                                                color: BaseColors.primaryColor,
+                                              ),
+                                            ),
+                                            child: Text('05', style:  Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 3.0,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
                                             children: [
                                               SvgPicture.asset(classTakenSvg, height: 15.0,),
                                               const SizedBox(
@@ -230,152 +238,152 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                                               Text("Classroom 42", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 14.sp),),
                                             ],
                                           ),
-                                        ),
-                                        const SizedBox(
-                                          height: 2.0,
-                                        ),
-                                        Container(
-                                          color: BaseColors.dividerColor,
-                                          height: 1.0,
-                                          width: getWidth(context) * 40 / 100,
-                                        ),
-                                        const SizedBox(
-                                          height: 2.0,
-                                        ),
-                                        Row(
-                                          children: [
-                                            const Icon(Icons.person, color: BaseColors.primaryColor,size: 15.0,),
-                                            const SizedBox(
-                                              width: 5.0,
-                                            ),
-                                            Text("G1 - H4", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 14.sp),),
-                                            SizedBox(
-                                              width: 5.w,
-                                            ),
-                                            Container(
-                                              height: 15.0,
-                                              width: 1.0,
-                                              color: BaseColors.dividerColor,
-                                            ),
-                                            SizedBox(
-                                              width: 5.w,
-                                            ),
-                                            SvgPicture.asset(watchSvg),
-                                            const SizedBox(
-                                              width: 5.0,
-                                            ),
-                                            Text("History", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 14.sp),),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 2.0,
-                                        ),
-                                        Container(
-                                          color: BaseColors.dividerColor,
-                                          height: 1.0,
-                                          width: getWidth(context) * 40 / 100,
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text("Start time", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 14.sp),),
-                                        SizedBox(
-                                          width: 2.w,
-                                        ),
-                                        Container(
-                                          padding: const EdgeInsets.all(2.0),
-                                          decoration: BoxDecoration(
-                                            color: BaseColors.backgroundColor,
-                                            borderRadius: BorderRadius.circular(2.0),
-                                            border: Border.all(
-                                              color: BaseColors.primaryColor,
-                                            ),
+                                          const SizedBox(
+                                            height: 2.0,
                                           ),
-                                          child: Text('05', style:  Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
-                                        ),
-                                        SizedBox(
-                                          width: 2.w,
-                                        ),
-                                        Text(":", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 14.sp),),
-                                        SizedBox(
-                                          width: 2.w,
-                                        ),
-                                        Container(
-                                          padding: const EdgeInsets.all(2.0),
-                                          decoration: BoxDecoration(
-                                            color: BaseColors.backgroundColor,
-                                            borderRadius: BorderRadius.circular(2.0),
-                                            border: Border.all(
-                                              color: BaseColors.primaryColor,
-                                            ),
+                                          Container(
+                                            color: BaseColors.dividerColor,
+                                            height: 1.0,
+                                            width: getWidth(context) * 40 / 100,
                                           ),
-                                          child: Text('05', style:  Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        SvgPicture.asset(classTakenSvg, height: 15.0,),
-                                        const SizedBox(
-                                          width: 5.0,
-                                        ),
-                                        Text("Dubai international school", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 14.sp),),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                                          child: Text("End time", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 14.sp),),),
-                                        SizedBox(
-                                          width: 2.w,
-                                        ),
-                                        Container(
-                                          padding: const EdgeInsets.all(2.0),
-                                          decoration: BoxDecoration(
-                                            color: BaseColors.backgroundColor,
-                                            borderRadius: BorderRadius.circular(2.0),
-                                            border: Border.all(
-                                              color: BaseColors.primaryColor,
-                                            ),
+                                          const SizedBox(
+                                            height: 2.0,
                                           ),
-                                          child: Text('05', style:  Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
-                                        ),
-                                        SizedBox(
-                                          width: 2.w,
-                                        ),
-                                        Text(":", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 14.sp),),
-                                        SizedBox(
-                                          width: 2.w,
-                                        ),
-                                        Container(
-                                          padding: const EdgeInsets.all(2.0),
-                                          decoration: BoxDecoration(
-                                            color: BaseColors.backgroundColor,
-                                            borderRadius: BorderRadius.circular(2.0),
-                                            border: Border.all(
-                                              color: BaseColors.primaryColor,
-                                            ),
+                                          Row(
+                                            children: [
+                                              const Icon(Icons.person, color: BaseColors.primaryColor,size: 15.0,),
+                                              const SizedBox(
+                                                width: 5.0,
+                                              ),
+                                              Text("G1 - H4", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 14.sp),),
+                                              SizedBox(
+                                                width: 5.w,
+                                              ),
+                                              Container(
+                                                height: 15.0,
+                                                width: 1.0,
+                                                color: BaseColors.dividerColor,
+                                              ),
+                                              SizedBox(
+                                                width: 5.w,
+                                              ),
+                                              SvgPicture.asset(watchSvg),
+                                              const SizedBox(
+                                                width: 5.0,
+                                              ),
+                                              Text("History", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 14.sp),),
+                                            ],
                                           ),
-                                          child: Text('05', style:  Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                          const SizedBox(
+                                            height: 2.0,
+                                          ),
+                                          Container(
+                                            color: BaseColors.dividerColor,
+                                            height: 1.0,
+                                            width: getWidth(context) * 40 / 100,
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text("Start time", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 14.sp),),
+                                          SizedBox(
+                                            width: 2.w,
+                                          ),
+                                          Container(
+                                            padding: const EdgeInsets.all(2.0),
+                                            decoration: BoxDecoration(
+                                              color: BaseColors.backgroundColor,
+                                              borderRadius: BorderRadius.circular(2.0),
+                                              border: Border.all(
+                                                color: BaseColors.primaryColor,
+                                              ),
+                                            ),
+                                            child: Text('05', style:  Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
+                                          ),
+                                          SizedBox(
+                                            width: 2.w,
+                                          ),
+                                          Text(":", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 14.sp),),
+                                          SizedBox(
+                                            width: 2.w,
+                                          ),
+                                          Container(
+                                            padding: const EdgeInsets.all(2.0),
+                                            decoration: BoxDecoration(
+                                              color: BaseColors.backgroundColor,
+                                              borderRadius: BorderRadius.circular(2.0),
+                                              border: Border.all(
+                                                color: BaseColors.primaryColor,
+                                              ),
+                                            ),
+                                            child: Text('05', style:  Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          SvgPicture.asset(classTakenSvg, height: 15.0,),
+                                          const SizedBox(
+                                            width: 5.0,
+                                          ),
+                                          Text("Dubai international school", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 14.sp),),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                                            child: Text("End time", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 14.sp),),),
+                                          SizedBox(
+                                            width: 2.w,
+                                          ),
+                                          Container(
+                                            padding: const EdgeInsets.all(2.0),
+                                            decoration: BoxDecoration(
+                                              color: BaseColors.backgroundColor,
+                                              borderRadius: BorderRadius.circular(2.0),
+                                              border: Border.all(
+                                                color: BaseColors.primaryColor,
+                                              ),
+                                            ),
+                                            child: Text('05', style:  Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
+                                          ),
+                                          SizedBox(
+                                            width: 2.w,
+                                          ),
+                                          Text(":", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 14.sp),),
+                                          SizedBox(
+                                            width: 2.w,
+                                          ),
+                                          Container(
+                                            padding: const EdgeInsets.all(2.0),
+                                            decoration: BoxDecoration(
+                                              color: BaseColors.backgroundColor,
+                                              borderRadius: BorderRadius.circular(2.0),
+                                              border: Border.all(
+                                                color: BaseColors.primaryColor,
+                                              ),
+                                            ),
+                                            child: Text('05', style:  Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
                         Positioned(
                           left: -10,
-                          child: InkWell(
+                          child: GestureDetector(
                             onTap: (){
                               Get.to(const StarView());
                             },
@@ -399,83 +407,86 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                 SizedBox(
                   height: 2.h,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    InkWell(
-                      onTap:(){
-                        Get.to(PerformanceScreen(index: 0,));
-                      },
-                      child: Container(
-                        height: 14.h,
-                        width: 28.w,
-                        padding: EdgeInsets.only(left: 15.sp, top: 18.sp, bottom: 18.sp, right: 15.sp, ),
-                        decoration: BoxDecoration(
-                          color: const Color(0xffFDFDFD),
-                          borderRadius: BorderRadius.circular(15.0),
-                          border: Border.all(
-                              color: BaseColors.primaryColor
+                SizedBox(
+                  height: 12.h,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          onTap:(){
+                            Get.to(PerformanceScreen(index: 0,));
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(right: 2.w),
+                            decoration: BoxDecoration(
+                              color: const Color(0xffFDFDFD),
+                              borderRadius: BorderRadius.circular(15.0),
+                              border: Border.all(
+                                  color: BaseColors.primaryColor
+                              ),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(translate(context).performance, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),textAlign: TextAlign.center,),
+                                Text("4.3", style: Style.montserratBoldStyle().copyWith(fontSize: 21.sp, color: BaseColors.txtPrimaryColor),textAlign: TextAlign.center,),
+                              ],
+                            ),
                           ),
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(translate(context).performance, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),textAlign: TextAlign.center,),
-                            Text("4.3", style: Style.montserratBoldStyle().copyWith(fontSize: 21.sp, color: BaseColors.txtPrimaryColor),textAlign: TextAlign.center,),
-                          ],
-                        ),
                       ),
-                    ),
-                    InkWell(
-                      onTap:(){
-                        // Get.to(const AttendanceScreen());
-                        Get.to(const NoteBookScreen());
-                      },
-                      child: Container(
-                        height: 14.h,
-                        width: 28.w,
-                        padding: EdgeInsets.only(left: 15.sp, top: 18.sp, bottom: 18.sp, right: 15.sp, ),
-                        decoration: BoxDecoration(
-                          color: const Color(0xffFDFDFD),
-                          borderRadius: BorderRadius.circular(15.0),
-                          border: Border.all(
-                              color: BaseColors.primaryColor
+                      Expanded(
+                        child: GestureDetector(
+                          onTap:(){
+                            // Get.to(const AttendanceScreen());
+                            Get.to(const NoteBookScreen());
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(left: 2.w,right: 2.w),
+                            decoration: BoxDecoration(
+                              color: const Color(0xffFDFDFD),
+                              borderRadius: BorderRadius.circular(15.0),
+                              border: Border.all(
+                                  color: BaseColors.primaryColor
+                              ),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(translate(context).notebook, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),textAlign: TextAlign.center,),
+                                Image.asset(calenderPng, height: 4.h,),
+                              ],
+                            ),
                           ),
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(translate(context).notebook, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),textAlign: TextAlign.center,),
-                            Image.asset(calenderPng, height: 4.h,),
-                          ],
-                        ),
                       ),
-                    ),
-                    InkWell(
-                      onTap:(){
-                        Get.to(const StarEvaluationScreen());
-                      },
-                      child: Container(
-                        height: 14.h,
-                        width: 28.w,
-                        padding: EdgeInsets.only(left: 15.sp, top: 18.sp, bottom: 18.sp, right: 15.sp, ),
-                        decoration: BoxDecoration(
-                          color: const Color(0xffFDFDFD),
-                          borderRadius: BorderRadius.circular(15.0),
-                          border: Border.all(
-                              color: BaseColors.primaryColor
+                      Expanded(
+                        child: GestureDetector(
+                          onTap:(){
+                            Get.to(const StarEvaluationScreen());
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(left: 2.w),
+                            decoration: BoxDecoration(
+                              color: const Color(0xffFDFDFD),
+                              borderRadius: BorderRadius.circular(15.0),
+                              border: Border.all(
+                                  color: BaseColors.primaryColor
+                              ),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(translate(context).star_evaluation, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),textAlign: TextAlign.center,),
+                                SvgPicture.asset(graphSvg,height: 3.5.h),
+                              ],
+                            ),
                           ),
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(translate(context).star_evaluation, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),textAlign: TextAlign.center,),
-                            SvgPicture.asset(graphSvg,height: 3.5.h),
-                          ],
-                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: 2.h,
@@ -483,9 +494,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                 BaseToggleTabBar(
                     controller: tabController,
                     tabs: [
-                    BaseTabButton(title: "News/Broadcast", isSelected: tabController.index == 0),
-                    BaseTabButton(title: "Star Gallery", isSelected: tabController.index == 1),
+                    BaseTabButton(title: "News/Broadcast", isSelected: tabController.index == 0,type: toggleLargeButton,),
+                    BaseTabButton(title: "Star Gallery", isSelected: tabController.index == 1,type: toggleLargeButton,),
                 ],bottomMargin: 2.h),
+                SizedBox(height: 1.h,),
                 AutoScaleTabBarView(
                   controller: tabController,
                   children: [

@@ -88,23 +88,29 @@ class _RulesScreenState extends State<RulesScreen> {
                     ),
                     buildTitle('Code of Conduct for Workers in the General education Sector:'),
                     buildSubtitle("1. Encourage positive values in students, safeguard them against being drawn into ideas deemed unacceptable by UAE's society and promote the principles of tolerance and acceptance of others.2. Encourage students to highly regard the UAE's journey of development and prosperity, and encourage them to actively participate in national activities and events\n3. Commit to protecting children from neglect, exploitation, bullying and all forms of abuse\n4. Avoid disclosing confidential information about the students and their families and avoid spreading false news and rumors. Refrain from committing any verbal or physical violence against students under all circumstances\n5. Demonstrate positive behavior in dealing with the parents and the community.\n6. Respect and make yourself aware of the Emirati culture and traditions and highly regard the values of Islam\n7. Respect cultural, religious and ethnic diversity of the workplace, and refrain from committing any behavioral or verbal offenses against your colleagues, the educational institution and its employees\n8. Refrain from using, possessing or falling under the influence of any unauthorized substances, including smoking, in the workplace\n9. Refrain from spreading socially unacceptable behaviors and discussing gender identity, homosexuality or any other behavior deemed unacceptable to the UAE's society\n10. Adhere to appropriate, non-revealing clothing, respecting the traditions of the UAE and showing a respectful image of workers in the educational sector."),
+                    SizedBox(height: 10),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Checkbox(
-                          checkColor: Colors.white,
-                          activeColor: BaseColors.primaryColor,
-                          value: isRulesChecked,
-                          side: const BorderSide(color: BaseColors.primaryColor),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(3),
+                        SizedBox(
+                          height: 22,
+                          width: 22,
+                          child: Checkbox(
+                            checkColor: Colors.white,
+                            activeColor: BaseColors.primaryColor,
+                            value: isRulesChecked,
+                            side: const BorderSide(color: BaseColors.primaryColor),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(3),
+                            ),
+                            onChanged: (bool? value) {
+                              isRulesChecked = value!;
+                              setState(() {});
+                            },
                           ),
-                          onChanged: (bool? value) {
-                            isRulesChecked = value!;
-                            setState(() {});
-                          },
                         ),
+                        SizedBox(width: 10),
                         Expanded(child: Text('I have read all the terms and responsibility guidelines and I agree to all of them.', style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),)
                       ],
                     ),
@@ -118,7 +124,7 @@ class _RulesScreenState extends State<RulesScreen> {
     );
   }
   Widget buildTitle(String text){
-    return Text(text, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 17.sp, height: 1.5),);
+    return Text(text, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp, height: 1.5),);
   }
   Widget buildSubtitle(String text){
     return Text(text, style: Style.montserratMediumStyle().copyWith(color: const Color(0xff454545), fontSize: 15.sp, height: 1.5),);

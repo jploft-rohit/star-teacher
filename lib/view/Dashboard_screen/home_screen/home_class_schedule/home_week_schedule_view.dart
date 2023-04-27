@@ -121,7 +121,8 @@ class _HomeWeekScheduleViewState extends State<HomeWeekScheduleView> {
                         ],
                       ),
                       const SizedBox(height: 4),
-                      SizedBox(height: 26,child: BaseButton(removeHorizontalPadding: true,verticalPadding: 0,title: "Completed", onPressed: (){},textSize: 8,btnType: mediumButton,))
+                      SizedBox(height: 26,child: BaseButton(removeHorizontalPadding: true,
+                        verticalPadding: 0,title: "Completed", onPressed: (){},btnType: mediumButton,textSize: 14.sp,))
                     ],
                   ),
                 ),

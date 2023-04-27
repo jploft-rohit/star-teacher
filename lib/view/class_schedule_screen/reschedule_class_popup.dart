@@ -48,7 +48,7 @@ class _RescheduleClassPopupState extends State<RescheduleClassPopup> {
                   children: [
                     Text(""),
                     Text(translate(context).reschedule, style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: Colors.black),),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back();
                       },
@@ -59,7 +59,7 @@ class _RescheduleClassPopupState extends State<RescheduleClassPopup> {
                   SizedBox(
                     height: 2.h,
                   ),
-                  InkWell(onTap: (){
+                  GestureDetector(onTap: (){
                     selectDate(context);
                   },
 
@@ -114,7 +114,7 @@ class _RescheduleClassPopupState extends State<RescheduleClassPopup> {
                   SizedBox(
                     height: 2.h,
                   ),
-                  InkWell(
+                  GestureDetector(
                     onTap: (){
                       selectDate(context);
                     },

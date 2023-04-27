@@ -9,6 +9,7 @@ import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/map_screen.dart';
@@ -21,7 +22,17 @@ class ChangeAddressScreen extends StatefulWidget {
 }
 
 class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
-  TextEditingController locationCtrl = TextEditingController();
+
+  TextEditingController typeYourLocationController = TextEditingController();
+  TextEditingController sectorController = TextEditingController();
+  TextEditingController areaController = TextEditingController();
+  TextEditingController streetController = TextEditingController();
+  TextEditingController buildingController = TextEditingController();
+  TextEditingController flatController = TextEditingController();
+  TextEditingController landmarkController = TextEditingController();
+  TextEditingController mobileController = TextEditingController();
+  TextEditingController landlineController = TextEditingController();
+  TextEditingController flatPhotoController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -47,19 +58,19 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                   Expanded(
                     child: CustomTextField(
                       fillColor: BaseColors.txtFieldTextColor,
-                      controller: locationCtrl,
+                      controller: typeYourLocationController,
                       hintText: translate(context).type_your_location,
                       hintTxtSize: 14.sp,
                       borderColor: Colors.transparent,
                     ),
                   ),
-                  InkWell(
+                  GestureDetector(
                     onTap: (){
                       Get.to(MapScreen());
                     },
                     child: Padding(
                       padding: EdgeInsets.only(right: 15.sp, left: 15.sp),
-                      child: SvgPicture.asset(mapSvg),
+                      child: SvgPicture.asset(mapSvg,fit: BoxFit.cover,height: 3.h,),
                     ),
                   )
                 ],
@@ -80,13 +91,13 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(translate(context).sector, style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp),),
+                        Text(translate(context).sector, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),),
                         SizedBox(
                           height: .5.h,
                         ),
                         CustomTextField(
                           fillColor: BaseColors.txtFieldTextColor,
-                          controller: locationCtrl,
+                          controller: sectorController,
                           hintText: "Dubai",
                           borderRadius: 3.0,
                         ),
@@ -101,13 +112,13 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(translate(context).area, style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp),),
+                        Text(translate(context).area, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),),
                         SizedBox(
                           height: .5.h,
                         ),
                         CustomTextField(
                           fillColor: BaseColors.txtFieldTextColor,
-                          controller: locationCtrl,
+                          controller: areaController,
                           hintText: "Jumeriah",
                           borderRadius: 3.0,
                         ),
@@ -126,13 +137,13 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(translate(context).street, style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp),),
+                        Text(translate(context).street, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),),
                         SizedBox(
                           height: .5.h,
                         ),
                         CustomTextField(
                           fillColor: BaseColors.txtFieldTextColor,
-                          controller: locationCtrl,
+                          controller: streetController,
                           hintText: "53 B",
                           borderRadius: 3.0,
                         ),
@@ -147,13 +158,13 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(translate(context).building_villa, style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp),),
+                        Text(translate(context).building_villa, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),),
                         SizedBox(
                           height: .5.h,
                         ),
                         CustomTextField(
                           fillColor: BaseColors.txtFieldTextColor,
-                          controller: locationCtrl,
+                          controller: buildingController,
                           hintText: "KM Tower A",
                           borderRadius: 3.0,
                         ),
@@ -172,13 +183,13 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(translate(context).flat_villa_no, style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp),),
+                        Text(translate(context).flat_villa_no, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),),
                         SizedBox(
                           height: .5.h,
                         ),
                         CustomTextField(
                           fillColor: BaseColors.txtFieldTextColor,
-                          controller: locationCtrl,
+                          controller: flatController,
                           hintText: "#123456",
                           borderRadius: 3.0,
                         ),
@@ -193,13 +204,13 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(translate(context).landmark, style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp),),
+                        Text(translate(context).landmark, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),),
                         SizedBox(
                           height: .5.h,
                         ),
                         CustomTextField(
                           fillColor: BaseColors.txtFieldTextColor,
-                          controller: locationCtrl,
+                          controller: landmarkController,
                           hintText: "Jumeriah",
                           borderRadius: 3.0,
                         ),
@@ -218,15 +229,16 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("${translate(context).mobile_no}.", style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp),),
+                        Text("${translate(context).mobile_no}.", style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),),
                         SizedBox(
                           height: .5.h,
                         ),
                         CustomTextField(
                           fillColor: BaseColors.txtFieldTextColor,
-                          controller: locationCtrl,
+                          controller: mobileController,
                           hintText: "0503664321",
                           borderRadius: 3.0,
+                          textInputType: TextInputType.phone,
                         ),
                       ],
                     ),
@@ -239,15 +251,16 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("${translate(context).landline_no}.", style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp),),
+                        Text("${translate(context).landline_no}.", style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),),
                         SizedBox(
                           height: .5.h,
                         ),
                         CustomTextField(
                           fillColor: BaseColors.txtFieldTextColor,
-                          controller: locationCtrl,
+                          controller: landlineController,
                           hintText: "043674882",
                           borderRadius: 3.0,
+                          textInputType: TextInputType.phone,
                         ),
                       ],
                     ),
@@ -260,13 +273,13 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(translate(context).flat_villa_photo, style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp),),
+                  Text(translate(context).flat_villa_photo, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),),
                   SizedBox(
                     height: .5.h,
                   ),
                   CustomTextField(
                     fillColor: BaseColors.txtFieldTextColor,
-                    controller: locationCtrl,
+                    controller: flatPhotoController,
                     hintText: translate(context).upload_photo,
                     borderRadius: 3.0,
                     suffixIcon: Padding(
@@ -283,7 +296,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                   ),
                   Center(child: BaseButton(title: translate(context).send_request, onPressed: (){
                     Get.back();
-                  }))
+                  },btnType: largeButton,))
                 ],
               ),
             ],

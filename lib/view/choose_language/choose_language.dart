@@ -66,20 +66,13 @@ class _ChooseLangaugeScreenState extends State<ChooseLangaugeScreen> {
                           return GestureDetector(
                             onTap: () async {
                               controller.selectedPos.value = index;
-                              // if(index == 0){
-                              //   controller.updateLocale('ar');
-                              // } else {
-                              //   controller.updateLocale('en_US');
-
-                              // }
                               Locale _locale = await setLocalePref(controller.selectedPos.value == 1 ? ENGLISH : ARABIC);
                               print("country Code1: ${_locale.languageCode}");
                               Get.updateLocale(_locale);
-                              // MyApp.setLocale(context, _locale);
-
                             },
                             child: Obx(
-                                  () => Container(
+                                  () =>
+                                      Container(
                                 width: 38.w,
                                 margin: EdgeInsets.symmetric(horizontal: 2.w),
                                 padding: EdgeInsets.symmetric(vertical: 1.5.h),
@@ -168,9 +161,9 @@ class _ChooseLangaugeScreenState extends State<ChooseLangaugeScreen> {
                     SizedBox(height: MediaQuery.of(context).size.height*0.07,),
                     Align(
                       alignment: Alignment.topCenter,
-                      child: BaseButton(btnType: "large",title: translate(context).continue_btn_txt, onPressed: (){
-                        Get.offAllNamed(loginScreenRoute);
-                      })
+                      child: BaseButton(btnType: "large",title: translate(context).continue_btn_txt,textSize: 17.sp, onPressed: (){
+                        Get.toNamed(loginScreenRoute);
+                      },borderRadius: 19,)
                     ),
                   ],
                 ),

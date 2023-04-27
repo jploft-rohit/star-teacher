@@ -65,7 +65,7 @@ class _AwarenessCoursesScreenState extends State<AwarenessCoursesScreen> {
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return InkWell(
+                  return GestureDetector(
                     onTap: (){
                       showGeneralDialog(
                         context: context,

@@ -48,7 +48,7 @@ class _ChangeStatusPopupState extends State<ChangeStatusPopup> {
                   children: [
                     const Text(""),
                     Text(translate(context).change_Status, style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: Colors.black),),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back();
                       },
@@ -98,7 +98,7 @@ class _ChangeStatusPopupState extends State<ChangeStatusPopup> {
                     padding: EdgeInsets.zero,
                     itemCount: controller.reasonList.length,
                     itemBuilder: (context, index) {
-                      return InkWell(
+                      return GestureDetector(
                         onTap: (){
                           for(var i in controller.reasonList){
                             i['isSelected'] = false;

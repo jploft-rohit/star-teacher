@@ -43,7 +43,7 @@ class _StarGalleryTabState extends State<StarGalleryTab> with TickerProviderStat
           ]),
           SizedBox(height: 15),
           SizedBox(
-            height: 40.h,
+            height: 60.h,
             child: AutoScaleTabBarView(
               controller: tabController,
               children: [

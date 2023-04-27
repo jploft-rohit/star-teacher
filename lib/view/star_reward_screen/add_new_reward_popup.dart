@@ -46,7 +46,7 @@ class _AddNewRewardPopupState extends State<AddNewRewardPopup> {
                   children: [
                     Text(""),
                     Text(translate(context).do_you_want_to_reward_star,style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: Colors.black),),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back();
                       },
@@ -73,19 +73,19 @@ class _AddNewRewardPopupState extends State<AddNewRewardPopup> {
                     Row(
                       children: [
                         Expanded(
-                          child: BaseButton(btnType: dialogButton,title: translate(context).yes, onPressed: (){
+                          child: BaseButton(btnType: mediumButton,title: translate(context).yes, onPressed: (){
                             Get.to(RewardView());
-                          }, isActive: false),
+                          }, isActive: false,borderRadius: 20,),
                         ),
                         SizedBox(width: 2.w),
                         Expanded(
-                          child: BaseButton(btnType: dialogButton,title: translate(context).no, onPressed: (){}),
+                          child: BaseButton(btnType: mediumButton,title: translate(context).no, onPressed: (){},borderRadius: 20,)
                         ),
                         SizedBox(width: 2.w),
                         Expanded(
-                          child: BaseButton(btnType: dialogButton,title: translate(context).reward_photo, onPressed: (){
+                          child: BaseButton(btnType: mediumButton,title: translate(context).reward_photo, onPressed: (){
                             Get.to(RewardImageScreen());
-                          },isActive: false,removeHorizontalPadding: true),
+                          },isActive: false,removeHorizontalPadding: true,borderRadius: 20,),
                         ),
                       ],
                     ),

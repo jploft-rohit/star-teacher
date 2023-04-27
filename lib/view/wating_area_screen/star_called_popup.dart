@@ -42,7 +42,7 @@ class _StarCalledPopupState extends State<StarCalledPopup> {
                   children: [
                     Text(""),
                     Text("Star Called", style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: Colors.black),),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back();
                       },

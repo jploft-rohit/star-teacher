@@ -90,7 +90,7 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
                       onTap: widget.onTap,
                       textInputType: widget.keyboardType,
                       suffixIcon: Padding(
-                        padding: EdgeInsets.only(right: 1.5.w),
+                        padding: EdgeInsets.only(right: 1.8.w),
                         child: SvgPicture.asset(widget.suffixIcon??""),
                       ),
                     ),

@@ -11,6 +11,8 @@ import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/star_evaluation_screen/success_dialog_screen.dart';
 
+import '../../Utility/sizes.dart';
+
 class RewardImageScreen extends StatefulWidget {
   const RewardImageScreen({Key? key}) : super(key: key);
 
@@ -94,7 +96,7 @@ class _RewardImageScreenState extends State<RewardImageScreen> {
                   return SuccessDialogScreen(msg: translate(context).reward_added_successfully);
                 },
               );
-            })
+            },btnType: largeButton,)
           ],
         ),
       ),

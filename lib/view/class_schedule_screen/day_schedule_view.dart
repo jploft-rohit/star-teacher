@@ -67,11 +67,6 @@ class _DayScheduleViewState extends State<DayScheduleView> {
         SizedBox(
           height: 2.h,
         ),
-        // BaseButton(text: translate(context).leave_request.toUpperCase(), onPressed: (){
-        //   showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation) {
-        //     return const NotifyAuthorityPopup();
-        //   },);
-        // },borderRadius: 5.0,btnHeight: 35,textSize: 16.sp,btnWidth: 40.w,),
         SizedBox(
           height: 3.h,
         ),
@@ -156,15 +151,12 @@ class _DayScheduleViewState extends State<DayScheduleView> {
                           SizedBox(
                             height: 1.h,
                           ),
-                          SizedBox(
-                            width: 150,
-                            height: 29,
-                            child: BaseButton(btnType: mediumButton,verticalPadding: 0.0,removeHorizontalPadding: true,title: translate(context).notify_admin, onPressed: (){
-                              showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation) {
-                                return const NotifyAuthorityPopup();
-                              });
-                            },textSize: 14.sp),
-                          ),
+                          BaseButton(btnType: mediumLargeButton,verticalPadding: 1.2.h,
+                              removeHorizontalPadding: true,title: translate(context).notify_admin, onPressed: (){
+                            showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation) {
+                              return const NotifyAuthorityPopup();
+                            });
+                          },textSize: 14.sp),
                         ],
                       ),
                     ),

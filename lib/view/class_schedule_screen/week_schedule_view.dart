@@ -7,7 +7,7 @@ import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/class_schedule_screen/class_schedule_screen_ctrl.dart';
-
+import 'dart:math' as math;
 class WeekScheduleView extends StatefulWidget {
   const WeekScheduleView({super.key});
 
@@ -42,7 +42,7 @@ class _WeekScheduleViewState extends State<WeekScheduleView> {
                           text: '${translate(context).from} : ',
                           style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),
                           children: <TextSpan>[
-                            TextSpan(text: "05/06", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
+                            TextSpan(text: "05/06/2023", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
                           ],
                         ),
                       ),
@@ -58,7 +58,7 @@ class _WeekScheduleViewState extends State<WeekScheduleView> {
                           text: '${translate(context).to} : ',
                           style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),
                           children: <TextSpan>[
-                            TextSpan(text: "09/06", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
+                            TextSpan(text: "09/06/2023", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
                           ],
                         ),
                       ),

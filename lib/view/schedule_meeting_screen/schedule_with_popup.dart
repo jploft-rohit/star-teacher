@@ -48,7 +48,7 @@ class _ScheduleWithPopupState extends State<ScheduleWithPopup> {
                   children: [
                     const Text(""),
                     Text("Select Role", style: Style.montserratBoldStyle().copyWith(fontSize: 17.sp, color: Colors.black),),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back();
                       },
@@ -158,7 +158,7 @@ class _ScheduleWithPopupState extends State<ScheduleWithPopup> {
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 10.0),
-                      child: InkWell(
+                      child: GestureDetector(
                         onTap: (){
                           selectedFMOPos = index;
                           setState(() {});

@@ -5,19 +5,21 @@ import 'package:staff_app/Utility/base_button.dart';
 
 import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/view/shop_screen/orders/edit_order_view.dart';
 import 'package:staff_app/view/shop_screen/shop_screen_ctrl.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/confirmation_popup.dart';
 
-class CanteenThisWeekOrderView extends StatefulWidget {
-  const CanteenThisWeekOrderView({super.key});
+class EveryWeekTab extends StatefulWidget {
+  const EveryWeekTab({super.key});
 
   @override
-  State<CanteenThisWeekOrderView> createState() => _CanteenThisWeekOrderViewState();
+  State<EveryWeekTab> createState() => _EveryWeekTabState();
 }
 
-class _CanteenThisWeekOrderViewState extends State<CanteenThisWeekOrderView> {
+class _EveryWeekTabState extends State<EveryWeekTab> {
   ShopScreenCtrl controller = Get.find<ShopScreenCtrl>();
   @override
   Widget build(BuildContext context) {
@@ -31,8 +33,7 @@ class _CanteenThisWeekOrderViewState extends State<CanteenThisWeekOrderView> {
               shrinkWrap: true,
               itemCount: 2,
               padding: EdgeInsets.zero,
-              itemBuilder: (context, index) =>
-                  buildCanteenThisWeekOrderBox(context, index),
+              itemBuilder: (context, index) => buildCanteenEveryWeekOrderBox(context, index),
             ),
             SizedBox(height: 5.h)
           ],
@@ -41,7 +42,7 @@ class _CanteenThisWeekOrderViewState extends State<CanteenThisWeekOrderView> {
     );
   }
 
-  Widget buildCanteenThisWeekOrderBox(context, index) {
+  Widget buildCanteenEveryWeekOrderBox(context, index) {
     return Container(
       alignment: Alignment.topLeft,
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 2),
@@ -58,6 +59,7 @@ class _CanteenThisWeekOrderViewState extends State<CanteenThisWeekOrderView> {
       child: Column(
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 flex: 6,
@@ -67,19 +69,16 @@ class _CanteenThisWeekOrderViewState extends State<CanteenThisWeekOrderView> {
                     detailRow('Order Id : ', '#45689'),
                     detailRow('Order Total : ', '42 AED'),
                     detailRow('Order Date : ', '01/08/2022'),
-                    detailRow('Serving Days : ', 'Monday, Tuesday, Wednesday'),
                   ],
                 ),
               ),
               Expanded(
                 flex: 2,
                 child: Visibility(
-                  visible: index.isEven != true,
+                  visible: index.isEven == true,
                   child: BaseButton(
-                      btnWidth: 65,
                       title: "Cancel",
-                      textSize: 15.sp,
-                      removeHorizontalPadding: true,
+                      btnType: smallButton,
                       onPressed: () {
                         showGeneralDialog(
                           context: context,
@@ -100,11 +99,35 @@ class _CanteenThisWeekOrderViewState extends State<CanteenThisWeekOrderView> {
               SizedBox(width: 1.5.w),
               Expanded(
                 flex: 1,
-                child: InkWell(
-                  onTap: (){},
+                child: GestureDetector(
+                  onTap: (){
+                    Get.to(EditOrderView());
+                  },
                   child: Image.asset(editPng, color: BaseColors.primaryColor,height: 18.sp,),
                 ),
               )
+              // Visibility(
+              //   visible: index.isOdd == true,
+              //   child: Positioned(
+              //     right: 0,
+              //     top: 10,
+              //     child: Row(
+              //       children: [
+              //         BaseButton(
+              //             height: 22,
+              //             width: 110,
+              //             child: addText(
+              //                 'Raise Refund',
+              //                 getNormalTextFontSIze() - 2,
+              //                 CustomColors.primaryColor,
+              //                 FontWeight.w700),
+              //             onTap: () {
+              //               showRefundDialogue(context);
+              //             }),
+              //       ],
+              //     ),
+              //   ),
+              // ),
             ],
           ),
           Divider(),
@@ -112,10 +135,14 @@ class _CanteenThisWeekOrderViewState extends State<CanteenThisWeekOrderView> {
             padding: EdgeInsets.symmetric(horizontal: 8),
             child: StepProgressView(
               width: MediaQuery.of(context).size.width,
-              curStep: index.isEven ? 3 : 1,
+              curStep: 2,
               color: BaseColors.primaryColor,
-              titles: controller.canteenThisWeekDates,
-              statuses: controller.canteenThisWeekHeading,
+              titles: index.isEven
+                  ? controller.canteenEveryWeekDates
+                  : controller.canteenEveryWeekDates2,
+              statuses: index.isEven
+                  ? controller.canteenEveryWeekHeading
+                  : controller.canteenEveryWeekHeading2,
             ),
           ),
         ],
@@ -129,8 +156,12 @@ class _CanteenThisWeekOrderViewState extends State<CanteenThisWeekOrderView> {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            addText(label, 15.sp, BaseColors.textBlackColor, FontWeight.w400),
-            Expanded(child: addText(body, 15.sp, BaseColors.primaryColor, FontWeight.w700)),
+            addText(label, 14.sp, BaseColors.textBlackColor,
+                FontWeight.w400),
+            Expanded(
+              child: addText(body, 14.sp,
+                  BaseColors.primaryColor, FontWeight.w700),
+            ),
           ],
         ),
         SizedBox(height: 0.5.h)

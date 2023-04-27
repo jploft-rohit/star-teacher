@@ -7,6 +7,7 @@ import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
 
 import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/notification_screen/bus_at_door_popup.dart';
@@ -38,7 +39,7 @@ class _NotificationScreenState extends State<NotificationScreen> with SingleTick
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(title: translate(context).notifications),
+      appBar: BaseAppBar(title: translate(context).notifications,showNotification: false),
       body: Padding(
         padding: EdgeInsets.all(20.sp),
         child: Column(
@@ -47,13 +48,13 @@ class _NotificationScreenState extends State<NotificationScreen> with SingleTick
               Tab(
                 child: Padding(
                   padding: const EdgeInsets.only(right: 6),
-                  child: BaseButton(title: translate(context).school,onPressed: null,verticalPadding: 0,isActive: tabController.index == 0 ? true : false,isToggle: tabController.index == 0 ? true : false),
+                  child: BaseButton(title: translate(context).school,onPressed: null,verticalPadding: 0,isActive: tabController.index == 0 ? true : false,isToggle: tabController.index == 0 ? true : false,btnType: toggleLargeButton,),
                 ),
               ),
               Tab(
                 child: Padding(
                   padding: const EdgeInsets.only(left: 6),
-                  child: BaseButton(title: translate(context).transportation,onPressed: null,verticalPadding: 0,isActive: tabController.index == 1 ? true : false, isToggle: tabController.index == 1 ? true : false),
+                  child: BaseButton(title: translate(context).transportation,onPressed: null,verticalPadding: 0,isActive: tabController.index == 1 ? true : false, isToggle: tabController.index == 1 ? true : false,btnType: toggleLargeButton,),
                 ),
               ),
             ]),
@@ -68,7 +69,7 @@ class _NotificationScreenState extends State<NotificationScreen> with SingleTick
                   padding: EdgeInsets.only(top: 15.sp),
                   itemCount: 3,
                   itemBuilder: (context, index) {
-                    return InkWell(
+                    return GestureDetector(
                       onTap: (){
                         showGeneralDialog(
                           context: context,
@@ -87,7 +88,7 @@ class _NotificationScreenState extends State<NotificationScreen> with SingleTick
                   padding: EdgeInsets.only(top: 15.sp),
                   itemCount: 2,
                   itemBuilder: (context, index) {
-                    return InkWell(
+                    return GestureDetector(
                       onTap: (){
                         showGeneralDialog(
                           context: context,
@@ -113,14 +114,15 @@ class _NotificationScreenState extends State<NotificationScreen> with SingleTick
       child: Row(
         children: [
           Container(
-            padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 12.sp, right: 12.sp),
             decoration: BoxDecoration(
               border: Border.all(
                   color: BaseColors.primaryColor
               ),
               borderRadius: BorderRadius.circular(15.0),
             ),
-            child: SvgPicture.asset(girlSvg),
+            alignment: Alignment.center,
+            padding: EdgeInsets.symmetric(horizontal: 12,vertical: 7.5),
+            child: SvgPicture.asset(girlSvg,height: 5.h,width: 5.h,),
           ),
           SizedBox(
             width: 3.w,
@@ -128,7 +130,7 @@ class _NotificationScreenState extends State<NotificationScreen> with SingleTick
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 17.sp),),
+              Text(title, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
               SizedBox(
                 height: 0.5.h,
               ),

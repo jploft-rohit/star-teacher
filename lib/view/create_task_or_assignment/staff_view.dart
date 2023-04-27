@@ -9,6 +9,7 @@ import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/create_task_or_assignment/assign_assignment_popup.dart';
 
@@ -66,6 +67,9 @@ class _CreateTaskStaffViewState extends State<CreateTaskStaffView> {
                   leftMargin: 1.w,
                   controller: postTimeCtrl,
                   hintText: "Post Time",
+                  onTap: (){
+                    selectTime(context);
+                  },
                   suffixIcon: "assets/images/time_icon1.svg",
                 ),
               ),
@@ -120,12 +124,15 @@ class _CreateTaskStaffViewState extends State<CreateTaskStaffView> {
                   leftMargin: 1.w,
                   controller: dueTimeCtrl,
                   hintText: "Due Time",
+                  onTap: (){
+                    selectTime(context);
+                  },
                   suffixIcon: "assets/images/time_icon1.svg",
                 ),
               ),
             ],
           ),
-          BaseButton(title: "SUBMIT", onPressed: (){}),
+          BaseButton(title: "SUBMIT", onPressed: (){},btnType: largeButton,),
         ],
       ),
     );

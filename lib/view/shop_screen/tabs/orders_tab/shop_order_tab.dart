@@ -5,8 +5,10 @@ import 'package:staff_app/Utility/base_button.dart';
 
 import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/view/shop_screen/orders/edit_order_view.dart';
 import 'package:staff_app/view/shop_screen/shop_screen_ctrl.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/confirmation_popup.dart';
 
@@ -58,6 +60,7 @@ class _ShopOrderViewState extends State<ShopOrderView> {
       child: Column(
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 flex: 6,
@@ -73,14 +76,12 @@ class _ShopOrderViewState extends State<ShopOrderView> {
                 ),
               ),
               Expanded(
-                flex: 3,
+                flex: 2,
                 child: Visibility(
                   visible: index.isEven != true,
                   child: BaseButton(
-                      btnWidth: 65,
+                     btnType: smallButton,
                       title: "Cancel",
-                      removeHorizontalPadding: true,
-                      textSize: 15.sp,
                       onPressed: () {showGeneralDialog(
                         context: context,
                         pageBuilder:  (context, animation, secondaryAnimation) {
@@ -102,8 +103,10 @@ class _ShopOrderViewState extends State<ShopOrderView> {
               SizedBox(width: 2.w),
               Expanded(
                 flex: 1,
-                child: InkWell(
-                  onTap: (){},
+                child: GestureDetector(
+                  onTap: (){
+                    Get.to(EditOrderView());
+                  },
                   child: Image.asset(editPng, color: BaseColors.primaryColor,height: 18.sp,),
                 ),
               ),
@@ -153,9 +156,9 @@ class _ShopOrderViewState extends State<ShopOrderView> {
       children: [
         Row(
           children: [
-            addText(label, 15.sp, BaseColors.textBlackColor,
+            addText(label, 14.sp, BaseColors.textBlackColor,
                 FontWeight.w400),
-            addText(body, 15.sp,
+            addText(body, 14.sp,
                 BaseColors.primaryColor, FontWeight.w700),
           ],
         ),

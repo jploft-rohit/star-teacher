@@ -43,7 +43,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> w
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        appBar: BaseAppBar(title: translate(context).notification_settings),
+        appBar: BaseAppBar(title: translate(context).notification_settings,showNotification: false),
         body: Padding(
           padding: EdgeInsets.all(20.sp),
           child: Column(
@@ -52,13 +52,13 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> w
                 Tab(
                   child: Padding(
                     padding: const EdgeInsets.only(right: 6),
-                    child: BaseButton(title: 'School',onPressed: null,verticalPadding: 0,isActive: tabController.index == 0 ? true : false,isToggle: tabController.index == 0 ? true : false),
+                    child: BaseButton(title: 'School',onPressed: null,verticalPadding: 0,isActive: tabController.index == 0 ? true : false,isToggle: tabController.index == 0 ? true : false,btnType: toggleLargeButton,),
                   ),
                 ),
                 Tab(
                   child: Padding(
                     padding: const EdgeInsets.only(left: 6),
-                    child: BaseButton(title: 'Transportation',onPressed: null,verticalPadding: 0,isActive: tabController.index == 1 ? true : false, isToggle: tabController.index == 1 ? true : false),
+                    child: BaseButton(title: 'Transportation',onPressed: null,verticalPadding: 0,isActive: tabController.index == 1 ? true : false, isToggle: tabController.index == 1 ? true : false,btnType: toggleLargeButton,),
                   ),
                 ),
               ]),
@@ -94,28 +94,32 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> w
   Widget buildTile(int index){
     return Column(
       children: [
-        const Divider(
+        Divider(
           color: BaseColors.borderColor,
           thickness: 1.0,
+          height: 3.h,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(list[index]['title'], style: Style.montserratMediumStyle().copyWith(fontSize: 16.sp, color: BaseColors.textBlackColor),),
-            BaseSwitch(
-              key: GlobalKey(),
-              value: list[index]['isSelected'],
-              enableColor: BaseColors.backgroundColor,
-              enableSwitchColor: BaseColors.primaryColor,
-              disableColor: BaseColors.textLightGreyColor,
-              width: 35,
-              height: 20,
-              switchHeight: 20,
-              switchWidth: 15,
-              onChanged: (bool value) {
-                list[index]['isSelected'] = !list[index]['isSelected'];
-                setState(() {});
-              },)
+            Text(list[index]['title'], style: Style.montserratMediumStyle().copyWith(fontSize: 15.sp, color: BaseColors.textBlackColor),),
+            Padding(
+              padding: const EdgeInsets.only(right: 2),
+              child: BaseSwitch(
+                key: GlobalKey(),
+                value: list[index]['isSelected'],
+                enableColor: BaseColors.backgroundColor,
+                enableSwitchColor: BaseColors.primaryColor,
+                disableColor: BaseColors.textLightGreyColor,
+                width: 35,
+                height: 20,
+                switchHeight: 20,
+                switchWidth: 15,
+                onChanged: (bool value) {
+                  list[index]['isSelected'] = !list[index]['isSelected'];
+                  setState(() {});
+                },),
+            ),
           ],
         ),
       ],
@@ -124,28 +128,32 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> w
   Widget buildTile1(int index){
     return Column(
       children: [
-        const Divider(
+        Divider(
           color: BaseColors.borderColor,
           thickness: 1.0,
+          height: 3.h,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(list1[index]['title'], style: Style.montserratMediumStyle().copyWith(fontSize: 16.sp, color: BaseColors.textBlackColor),),
-            BaseSwitch(
-              key: GlobalKey(),
-              value: list1[index]['isSelected'],
-              enableColor: BaseColors.backgroundColor,
-              enableSwitchColor: BaseColors.primaryColor,
-              disableColor: BaseColors.textLightGreyColor,
-              width: 35,
-              height: 20,
-              switchHeight: 20,
-              switchWidth: 15,
-              onChanged: (bool value) {
-                list1[index]['isSelected'] = !list1[index]['isSelected'];
-                setState(() {});
-              },)
+            Text(list1[index]['title'], style: Style.montserratMediumStyle().copyWith(fontSize: 15.sp, color: BaseColors.textBlackColor),),
+            Padding(
+              padding: const EdgeInsets.only(right: 2),
+              child: BaseSwitch(
+                key: GlobalKey(),
+                value: list1[index]['isSelected'],
+                enableColor: BaseColors.backgroundColor,
+                enableSwitchColor: BaseColors.primaryColor,
+                disableColor: BaseColors.textLightGreyColor,
+                width: 35,
+                height: 20,
+                switchHeight: 20,
+                switchWidth: 15,
+                onChanged: (bool value) {
+                  list1[index]['isSelected'] = !list1[index]['isSelected'];
+                  setState(() {});
+                },),
+            )
           ],
         ),
       ],

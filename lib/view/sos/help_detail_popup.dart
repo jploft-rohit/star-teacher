@@ -41,7 +41,7 @@ class _HelpDetailPopupState extends State<HelpDetailPopup> {
                   children: [
                     Text(""),
                     Text(translate(context).help_details, style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: Colors.black),),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back();
                       },

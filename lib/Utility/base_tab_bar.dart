@@ -7,11 +7,13 @@ class BaseTabBar extends StatelessWidget {
   final TabController? controller;
   final Function(int index)? onTap;
   final List<Widget> tabs;
-  BaseTabBar({Key? key, this.controller, this.onTap,required this.tabs}) : super(key: key);
+  final double? bottomMargin, topMargin, rightMargin, leftMargin;
+  BaseTabBar({Key? key, this.controller, this.onTap,required this.tabs, this.bottomMargin, this.topMargin, this.rightMargin, this.leftMargin}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(bottom: bottomMargin??0,top: topMargin??0,right: rightMargin??0,left: leftMargin??0),
       height: 5.h,
       width: Get.width,
       decoration: BoxDecoration(

@@ -41,7 +41,7 @@ class _AddCommentPopupState extends State<AddCommentPopup> {
                   children: [
                     Text(""),
                     Text("Add Comment", style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: Colors.black),),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back();
                       },

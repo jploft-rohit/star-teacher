@@ -6,18 +6,18 @@ import 'package:staff_app/Utility/base_tab_bar.dart';
 import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
-import 'package:staff_app/view/shop_screen/orders/shop_order/canteen_orders.dart';
-import 'package:staff_app/view/shop_screen/orders/shop_order/shop_order_view.dart';
+import 'package:staff_app/view/shop_screen/tabs/orders_tab/canteen_orders_tab.dart';
+import 'package:staff_app/view/shop_screen/tabs/orders_tab/shop_order_tab.dart';
 import 'package:staff_app/view/shop_screen/shop_screen_ctrl.dart';
 
-class OrderView extends StatefulWidget {
-  const OrderView({super.key});
+class OrderTab extends StatefulWidget {
+  const OrderTab({super.key});
 
   @override
-  State<OrderView> createState() => _OrderViewState();
+  State<OrderTab> createState() => _OrderTabState();
 }
 
-class _OrderViewState extends State<OrderView> with SingleTickerProviderStateMixin {
+class _OrderTabState extends State<OrderTab> with SingleTickerProviderStateMixin {
   ShopScreenCtrl controller = Get.find<ShopScreenCtrl>();
 
   TabController? tabCtrl;
@@ -45,8 +45,7 @@ class _OrderViewState extends State<OrderView> with SingleTickerProviderStateMix
               controller: tabCtrl,
               children: const [
                 ShopOrderView(),
-                // SizedBox.shrink(),
-                CanteenOrderView(),
+                CanteenOrdersTab(),
               ],
             ),
           ),

@@ -7,6 +7,8 @@ import 'package:staff_app/Utility/base_button.dart';
 
 
 import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/Utility/base_dialogs.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 
@@ -57,7 +59,7 @@ class _BusArrivingSoonScreenState extends State<BusArrivingSoonScreen> {
               shrinkWrap: true,
               itemCount: 4,
               itemBuilder: (context, index) {
-                return InkWell(
+                return GestureDetector(
                   onTap: (){
                     for(var i in list){
                       i['isSelected'] = false;
@@ -75,7 +77,7 @@ class _BusArrivingSoonScreenState extends State<BusArrivingSoonScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(list[index]['title'], style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 17.sp),),
+                        Text(list[index]['title'], style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp),),
                         Checkbox(
                           visualDensity: VisualDensity(vertical: -4),
                           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -102,7 +104,12 @@ class _BusArrivingSoonScreenState extends State<BusArrivingSoonScreen> {
             SizedBox(
               height: 3.h,
             ),
-            Center(child: BaseButton(title: translate(context).notify.toUpperCase(), onPressed: (){}))
+            Center(child: BaseButton(title: translate(context).notify.toUpperCase(), onPressed: (){
+              BaseDialogs().showOkDialog(title: "Notify Successfully",onBtnPressed: (){
+                Get.back();
+                Get.back();
+              });
+            },btnType: largeButton,))
           ],
         ),
       ),

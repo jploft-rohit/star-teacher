@@ -75,7 +75,7 @@ class _InCustodyViewState extends State<InCustodyView> {
                       SizedBox(width: 1.h),
                       buildInfoItems("Books", "Global GK, World GK by AR Rehman"),
                       SizedBox(width: 0.5.h),
-                      InkWell(
+                      GestureDetector(
                         onTap: (){
                           showGeneralDialog(
                             context: context,

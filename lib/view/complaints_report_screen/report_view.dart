@@ -9,7 +9,6 @@ import 'package:staff_app/Utility/base_dialogs.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/Utility/utility.dart';
-import 'package:staff_app/view/complaints_report_screen/add_comment_popup.dart';
 
 import 'raise_complaint_report_screen.dart';
 
@@ -50,8 +49,17 @@ class _ReportViewState extends State<ReportView> {
                       children: [
                         GestureDetector(
                           onTap: (){
+                            Get.to(RaiseComplaintReportScreen(isUpdating: true));
+                          },
+                          child: Image.asset(editPng, color: BaseColors.primaryColor,height: 18.sp,),
+                        ),
+                        SizedBox(
+                          width: 5.w,
+                        ),
+                        GestureDetector(
+                          onTap: (){
                             BaseDialogs().showConfirmationDialog(
-                              title: "Are you sure you want to delete this Report?",
+                              title: "Are you sure you want to delete this Complaint?",
                             );
                           },
                           child: Icon(
@@ -59,15 +67,6 @@ class _ReportViewState extends State<ReportView> {
                             color: BaseColors.primaryColor,
                             size: 18.sp,
                           ),
-                        ),
-                        SizedBox(
-                          width: 5.w,
-                        ),
-                        InkWell(
-                          onTap: (){
-                            Get.to(RaiseComplaintReportScreen(isUpdating: true));
-                          },
-                          child: Image.asset(editPng, color: BaseColors.primaryColor,height: 18.sp,),
                         ),
                       ],
                     ),
@@ -114,17 +113,17 @@ class _ReportViewState extends State<ReportView> {
                     Flexible(child: buildInfoItems("Type", "Report"))
                   ],
                 ),
-                Divider(),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SvgPicture.asset("assets/images/report.svg"),
-                    SizedBox(
-                      width: 2.w,
-                    ),
-                    Flexible(child: buildInfoItems("Complain for", "Bus Driver"))
-                  ],
-                ),
+                // Divider(),
+                // Row(
+                //   crossAxisAlignment: CrossAxisAlignment.start,
+                //   children: [
+                //     SvgPicture.asset("assets/images/report.svg"),
+                //     SizedBox(
+                //       width: 2.w,
+                //     ),
+                //     Flexible(child: buildInfoItems("Complain for", "Bus Driver"))
+                //   ],
+                // ),
                 Divider(),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,

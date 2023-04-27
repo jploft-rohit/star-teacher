@@ -5,7 +5,10 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
 
 import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/Utility/custom_filter_dropdown.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
+import 'package:staff_app/Utility/dummy_lists.dart';
+import 'package:staff_app/Utility/filter_textformfield.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -49,7 +52,7 @@ class _AssignAssignmentPopupState extends State<AssignAssignmentPopup> {
                   children: [
                     Text(""),
                     Text("Assigned To", style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: Colors.black),),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back();
                       },
@@ -60,73 +63,39 @@ class _AssignAssignmentPopupState extends State<AssignAssignmentPopup> {
                   height: 2.h,
                 ),
                 Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.0),
-                    border: Border.all(
-                        color: BaseColors.borderColor
-                    ),
-                  ),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),border: Border.all(color: Color(0xFFCECECE),width: 1)),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
-                          Flexible(
-                            flex: 1,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 10.0,),
-                              child: Row(
-                                children: [
-                                  SvgPicture.asset(classTakenSvg,height: 15,),
-                                  SizedBox(
-                                    width: 2.w,
-                                  ),
-                                  Text("Select Role", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                                  Spacer(),
-                                  Icon(
-                                    Icons.arrow_drop_down,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                            Container(
+                          CustomFilterDropDown(
+                            initialValue: DummyLists.initialRole, hintText: 'Select Role',
+                            listData: DummyLists.roleData, onChange: (value) {
+                            setState(() {
+                              DummyLists.initialRole=value;
+                            });
+                          },icon: classTakenSvg,),
+                          Container(
+                            child: VerticalDivider(
                               width: 1,
-                              height: 25,
-                              color: BaseColors.borderColor,
                             ),
-                            Flexible(
-                              flex: 1,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
-                                child: Row(
-                                  children: [
-                                    SvgPicture.asset(jobDetailSvg,height: 15,),
-                                    SizedBox(
-                                      width: 2.w,
-                                    ),
-                                    Text("Select Subject", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                                    Spacer(),
-                                    Icon(
-                                      Icons.arrow_drop_down,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
+                            height: 4.h,
+                            width: 1,
+                          ),
+                          CustomFilterDropDown(
+                            initialValue: DummyLists.initialSubject, hintText: 'Select Subject',
+                            listData: DummyLists.subjectData, onChange: (value) {
+                            setState(() {
+                              DummyLists.initialSubject=value;
+                            });
+                          },icon: jobDetailSvg,),
                         ],
                       ),
-                      Divider(height: 0.0,),
-                      CustomTextField(
-                        controller: searchCtrl,
-                        hintText: "Search By ID...",
-                        borderColor: Colors.transparent,
-                        contentPadding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                          child: Icon(
-                            Icons.search,
-                          ),
-                        ),
+                      Divider(height: 1,thickness: 1,),
+                      FilterTextFormField
+                        (onChange: (String val) {
+                      }, hintText: "Search by ID....", keyBoardType: TextInputType.name,
                       )
                     ],
                   ),
@@ -167,7 +136,7 @@ class _AssignAssignmentPopupState extends State<AssignAssignmentPopup> {
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 10.0),
-                      child: InkWell(
+                      child: GestureDetector(
                         onTap: (){
                           selectedFMOPos = index;
                           setState(() {});

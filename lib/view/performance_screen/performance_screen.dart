@@ -130,7 +130,7 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
                       scrollDirection: Axis.horizontal,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-                        return Obx(() => InkWell(
+                        return Obx(() => GestureDetector(
                           onTap: (){
                             controller.selectedIndex.value = index;
                           },
@@ -255,14 +255,31 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
                     },
                   ),
                   if(controller.ratingList[index] < 3.0 || controller.ratingList[index] > 4.0)
-                    Container(
-                      padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0, bottom: 5.0),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: BaseColors.backgroundColor,
-                          border: Border.all(color: BaseColors.primaryColor)
+                    Tooltip(
+                      showDuration: const Duration(seconds: 10),
+                      margin: const EdgeInsets.symmetric(horizontal: 30),
+                      textStyle: TextStyle(
+                        color: BaseColors.primaryColor,
+                        fontSize: 1.8.h - 1,
                       ),
-                      child: addText(controller.ratingList[index] < 3.0 ? "Performance not good" : "Good behaviour", 14.sp, BaseColors.primaryColor, FontWeight.w400),
+                      decoration: BoxDecoration(
+                        color: BaseColors.secondaryColor,
+                        border: Border.all(color: BaseColors.primaryColor),
+                        // boxShadow: [getDeepBoxShadow()],
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      padding: const EdgeInsets.all(20),
+                      message: 'Perrformance is not good, he dont know how to talk and drive bus. Management is also very poor',
+                      triggerMode: TooltipTriggerMode.tap,
+                      child: Container(
+                        padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0, bottom: 5.0),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            color: BaseColors.backgroundColor,
+                            border: Border.all(color: BaseColors.primaryColor)
+                        ),
+                        child: addText(controller.ratingList[index] < 3.0 ? "Performance not good" : "Good behaviour", 14.sp, BaseColors.primaryColor, FontWeight.w400),
+                      ),
                     ),
                 ],
               ),

@@ -43,6 +43,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
       child: Padding(
         padding: EdgeInsets.all(20.sp),
         child: SafeArea(
+          bottom: false,
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -66,61 +67,61 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   ],
                 ),
                 buildExpensionTile(translate(context).my_profile, [
-                  InkWell(
+                  GestureDetector(
                     onTap: (){
                       Get.to(MyProfileScreen(isFromDrawer: true,index: 0,));
                     },
                     child: buildTile(translate(context).account),
                   ),
-                  InkWell(
+                  GestureDetector(
                     onTap: (){
                       Get.to(MyProfileScreen(isFromDrawer: true,index: 1,));
                     },
                     child: buildTile(translate(context).job_details),
                   ),
-                  InkWell(
+                  GestureDetector(
                     onTap: (){
                       Get.to(MyProfileScreen(isFromDrawer: true,index: 2,));
                     },
                     child: buildTile(translate(context).statistics),),
-                  InkWell(
+                  GestureDetector(
                     onTap: (){
                       Get.to(MyProfileScreen(isFromDrawer: true,index: 3,));
                     },
                     child: buildTile(translate(context).assigned_schools),),
                 ]),
                 buildExpensionTile(translate(context).stars, [
-                  InkWell(
+                  GestureDetector(
                     onTap: (){
                       Get.to(const StarAttendanceScreen());
                     },
                     child: buildTile(translate(context).stars_attendance),
                   ),
-                  InkWell(
+                  GestureDetector(
                     onTap: (){
                       Get.to(const StarEvaluationScreen());
                     },
                     child: buildTile(translate(context).star_evaluation),
                   ),
-                  InkWell(
+                  GestureDetector(
                     onTap: (){
                       Get.to(const AssignmentScreen());
                     },
                     child: buildTile(translate(context).assignments),
                   ),
-                  InkWell(
+                  GestureDetector(
                     onTap: (){
                       Get.to(const NoteBookScreen());
                     },
                     child: buildTile(translate(context).notebook),
                   ),
-                  InkWell(
-                    onTap: (){
-                      Get.to(const LibraryScreen());
-                    },
-                    child: buildTile(translate(context).library),
-                  ),
-                  InkWell(
+                  // GestureDetector(
+                  //   onTap: (){
+                  //     Get.to(const LibraryScreen());
+                  //   },
+                  //   child: buildTile(translate(context).library),
+                  // ),
+                  GestureDetector(
                     onTap: (){
                       Get.to(const StarRewardScreen());
                     },
@@ -128,7 +129,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   ),
                 ]),
                 buildExpensionTile(translate(context).roles_delegation, [
-                  InkWell(
+                  GestureDetector(
                     onTap: (){
                       Get.to(const DelegationScreen());
                     },
@@ -138,51 +139,51 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 SizedBox(
                   height: 2.h,
                 ),
-                InkWell(
+                GestureDetector(
                   onTap: (){
                     Get.to(const ShopView());
                   },
                   child: buildTile1(translate(context).shop),),
-                InkWell(
-                  onTap: (){
-                    Get.to(const LibraryRecordsView());
-                  },
-                  child: buildTile1(translate(context).school_library),),
-                InkWell(
+                // GestureDetector(
+                //   onTap: (){
+                //     Get.to(const LibraryRecordsView());
+                //   },
+                //   child: buildTile1(translate(context).school_library),),
+                GestureDetector(
                   onTap: (){
                     Get.to(TaskOrReminderScreen(isFromBtmBar: false,));
                   },
                   child: buildTile1(translate(context).tasks_reminders),),
-                // InkWell(
+                // GestureDetector(
                 //   onTap: (){
                 //     Get.to(ComplaintsReportScreen());
                 //   },
                 //   child: buildTile1(translate(context).complaints_reports),),
-                InkWell(
+                GestureDetector(
                   onTap: (){
                     Get.to(const ScheduleMeetingScreen());
                   },
                   child: buildTile1(translate(context).schedule_meeting),),
-                InkWell(
+                GestureDetector(
                   onTap: (){
                     Get.to(const LostAndFoundScreen());
                   },
                   child: buildTile1(translate(context).lost_found),),
-                InkWell(
+                GestureDetector(
                   onTap: (){
                     Get.to(const FeedbackHelpScreen());
                   },
                   child: buildTile1(translate(context).help_feedback),),
-                InkWell(
-                  onTap: (){
-                    Get.to(const AboutUs());
-                  },
-                  child: buildTile1(translate(context).about_app)),
-                InkWell(
+                GestureDetector(
                     onTap: (){
                       Get.to(const EventsScreen());
                     },
                     child: buildTile1("Events")),
+                GestureDetector(
+                    onTap: (){
+                      Get.to(const AboutUs());
+                    },
+                    child: buildTile1(translate(context).about_app)),
               ],
             ),
           ),

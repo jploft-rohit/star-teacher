@@ -49,7 +49,7 @@ class _AddMedicalFilePopupState extends State<AddMedicalFilePopup> {
                   children: [
                     Text(""),
                     Text(translate(context).add_medical_record, style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: Colors.black),),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Navigator.pop(context);
                       },

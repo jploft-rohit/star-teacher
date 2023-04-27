@@ -119,7 +119,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   hintText: translate(context).search,
                   suffixIcon: controller.selectedFMOPos.value == 2 ? const SizedBox() : Padding(
                     padding: const EdgeInsetsDirectional.only(end: 10.0),
-                    child: SvgPicture.asset(controller.fmoImageList[controller.selectedFMOPos.value]),
+                    child: SvgPicture.asset(controller.fmoImageList[controller.selectedFMOPos.value],color: BaseColors.primaryColor,),
                   ),
                 );
               },

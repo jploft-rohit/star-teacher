@@ -10,7 +10,9 @@ import 'package:staff_app/Utility/base_textformfield.dart';
 
 
 import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/Utility/custom_dropdown_widget.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
+import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
@@ -67,25 +69,21 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
           padding: EdgeInsets.all(15.sp),
           child: Column(
             children: [
-              Container(
-                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                decoration: BoxDecoration(
-                  color: BaseColors.backgroundColor,
-                  borderRadius: BorderRadius.circular(5.0),
-                  border: Border.all(
-                      color: BaseColors.borderColor
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Ignite Public School", style: Style.montserratRegularStyle().copyWith(color: Colors.black, fontSize: 16.sp),),
-                    const Icon(Icons.arrow_drop_down, color: Color(0xffC4C4C4),size: 35.0,)
-                  ],
-                ),
+              Custom_DropDown(
+                initialValue: DummyLists.initialSchool,
+                hintText: "Select School",
+                listData:DummyLists.schoolData,
+                onChange: (value) {
+                  setState(() {
+                    DummyLists.initialSchool=value;
+                  });
+                },
+                topPadding: 5,
+                bottomPadding: 5,
+                icon: Icon(Icons.arrow_drop_down,color: Color(0xFFC4C4C4),size: 25,),
               ),
               SizedBox(
-                height: 3.h,
+                height: 1.h,
               ),
               Row(
                 children: [
@@ -105,12 +103,12 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                             isDense: true,
                             value: initialLeaveType,
                             alignment: Alignment.centerLeft,
-                            hint: const Text("Leave Type",style: TextStyle(color: Colors.black),),
+                            hint: Text("Leave Type",style: TextStyle(color: Colors.black,fontSize: 14.sp),),
                             icon: const Icon(Icons.arrow_drop_down, color: Color(0xffC4C4C4),),
                             items: leaveTypeDropdownData.map((String leave) {
                               return DropdownMenuItem(
                                 value: leave,
-                                child: addText(leave, 14, Colors.black, FontWeight.w400),);
+                                child: addText(leave, 14.sp, Colors.black, FontWeight.w400),);
                             }).toList(),
                             onChanged: (dynamic newValue){
                               setState(() {
@@ -124,7 +122,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                     width: 2.w,
                   ),
                   Expanded(
-                    child: InkWell(
+                    child: GestureDetector(
                       onTap: (){
                         showGeneralDialog(
                           context: context,
@@ -195,16 +193,16 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                                   SizedBox(
                                     width: 5.w,
                                   ),
-                                  InkWell(
+                                  GestureDetector(
                                     onTap: (){
-                                      Get.to(const EarlyLeaveScreen());
+                                      Get.to(const AddLeaveRequestView());
                                     },
                                     child: Image.asset(editPng, color: BaseColors.primaryColor,height: 18.sp,),
                                   ),
                                   SizedBox(
                                     width: 5.w,
                                   ),
-                                  InkWell(
+                                  GestureDetector(
                                     onTap: (){
                                       showGeneralDialog(
                                         context: context,
@@ -293,7 +291,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                               Text("${translate(context).evidence} : ", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                               Text("Medical_sania.jpeg", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),maxLines: 1, overflow: TextOverflow.ellipsis,),
                               SizedBox(width: 4.w,),
-                              InkWell(onTap: (){
+                              GestureDetector(onTap: (){
                                 showGeneralDialog(
                                   context: context,
                                   pageBuilder:  (context, animation, secondaryAnimation) {

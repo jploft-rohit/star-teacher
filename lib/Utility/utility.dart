@@ -8,6 +8,7 @@ import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 
+import '../constants-classes/color_constants.dart';
 import 'images_icon_path.dart';
 
 class Style{
@@ -64,13 +65,20 @@ BoxShadow getBoxShadow() {
   );
 }
 
-Widget buildInfoItems(String title,String description, [icon]) {
+Widget buildInfoItems(String title,String description,{Function()? onSvgClick,String? svgPath}) {
   return RichText(
     text: TextSpan(
       text: '$title : ',
-      style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: textFormFieldLabelTs),
-      children: <TextSpan>[
-        TextSpan(text: description, style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: textFormFieldHintTs, height: 1.2)),
+      style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: detailLabelTs,height: 1.5),
+      children: [
+        TextSpan(text: description, style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: detailValueTs,height: 1.5)),
+        WidgetSpan(child: GestureDetector(
+          onTap: onSvgClick??(){},
+          child: Padding(
+            padding: const EdgeInsets.only(left: 6),
+            child: SvgPicture.asset(svgPath??"",height: 13,),
+          ),
+        )),
       ],
     ),
   );
@@ -81,8 +89,7 @@ Widget walletToogleButton(
   return Row(
     children: [
       Expanded(
-        child: InkWell(
-          borderRadius: BorderRadius.circular(8),
+        child: GestureDetector(
           onTap: onTap1,
           child: Stack(
             alignment: Alignment.topRight,
@@ -118,8 +125,7 @@ Widget walletToogleButton(
       ),
       SizedBox(width: 2.w),
       Expanded(
-        child: InkWell(
-          borderRadius: BorderRadius.circular(8),
+        child: GestureDetector(
           onTap: onTap2,
           child: Stack(
             alignment: Alignment.topRight,
@@ -160,8 +166,7 @@ Widget purchasesToogleButton(onTap1, isTransaction, onTap2, isTopup) {
   return Row(
     children: [
       Expanded(
-        child: InkWell(
-          borderRadius: BorderRadius.circular(8),
+        child: GestureDetector(
           onTap: onTap1,
           child: Container(
             alignment: Alignment.center,
@@ -182,8 +187,7 @@ Widget purchasesToogleButton(onTap1, isTransaction, onTap2, isTopup) {
       ),
       SizedBox(width: 0.7.h),
       Expanded(
-        child: InkWell(
-          borderRadius: BorderRadius.circular(8),
+        child: GestureDetector(
           onTap: onTap2,
           child: Container(
             alignment: Alignment.center,
@@ -206,32 +210,38 @@ Widget purchasesToogleButton(onTap1, isTransaction, onTap2, isTopup) {
   );
 }
 Widget calenderDownButton(label, onTap) {
-  return Container(
-    decoration: BoxDecoration(
-        color: BaseColors.white,
-        borderRadius: BorderRadius.circular(5),
-        border: Border.all(color: BaseColors.borderColor)),
-    padding: EdgeInsets.symmetric(horizontal: 1.2.w, vertical: 0.6.h),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          child: Row(
-            children: [
-              SvgPicture.asset(calenderSvg, height: 2.h,),
-              SizedBox(width: 2.w),
-              Text(label, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textLightGreyColor, fontSize: 14.sp),),
-            ],
+  return GestureDetector(
+    onTap: (){
+      showDatePicker(
+          context: Get.context!,
+          initialDate: DateTime.now(),
+          firstDate: DateTime(2000, 8),
+          lastDate: DateTime.now());
+    },
+    child: Container(
+      decoration: BoxDecoration(
+          color: BaseColors.white,
+          borderRadius: BorderRadius.circular(5),
+          border: Border.all(color: BaseColors.borderColor)),
+      padding: EdgeInsets.symmetric(horizontal: 1.2.w, vertical: 0.6.h),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Row(
+              children: [
+                SvgPicture.asset(calenderSvg, height: 2.h,),
+                SizedBox(width: 2.w),
+                Text(label, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textLightGreyColor, fontSize: 14.sp),),
+              ],
+            ),
           ),
-        ),
-        InkWell(
-          onTap: onTap,
-          child: Icon(
+          Icon(
             Icons.arrow_drop_down,
             color: Colors.black,
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     ),
   );
 }
@@ -242,8 +252,7 @@ Widget textButton2(ontap, text) {
     // width: 20.sp,
     child: Material(
       color: Colors.transparent,
-      child: InkWell(
-          borderRadius: BorderRadius.circular(10.sp),
+      child: GestureDetector(
           onTap: ontap,
           child:
           addText(text, 20, BaseColors.primaryColor, FontWeight.w700)),
@@ -257,8 +266,7 @@ Widget iconButton(ontap, icon) {
     width: 20.sp,
     child: Material(
       color: Colors.transparent,
-      child: InkWell(
-          borderRadius: BorderRadius.circular(10.sp),
+      child: GestureDetector(
           onTap: ontap,
           child: SvgPicture.asset(
             icon,
@@ -298,14 +306,17 @@ showNFCDialog(BuildContext context,String image){
       barrierDismissible: false,
       builder: (_) => AlertDialog(
           backgroundColor: BaseColors.white,
-          elevation: 10,
+          elevation: 5,
           scrollable: true,
           title: Stack(
             children: [
               if(image.isEmpty)
                 Align(alignment: Alignment.center,
-                  child: Text(
-                    translate(context).programme_NFC,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor,fontSize: 17.sp),),),
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 2.h),
+                    child: Text(
+                      translate(context).programme_NFC,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor,fontSize: 16.sp),),
+                  ),),
               if(image.isNotEmpty)
                 Center(child: SvgPicture.asset(image)),
               Align(alignment: Alignment.topRight,
@@ -330,13 +341,18 @@ showNFCDialog(BuildContext context,String image){
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(image.isEmpty ? translate(context).tap_nfc_card_to_match_frequency : translate(context).nfc_programmed_successfully,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor,fontSize: 17.sp),textAlign: TextAlign.center,),
+                  GestureDetector(child: Text(image.isEmpty ? translate(context).tap_nfc_card_to_match_frequency : translate(context).nfc_programmed_successfully,
+                    style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor,fontSize: 16.sp),
+                    textAlign: TextAlign.center,),
+                  onTap: (){
+                    showNFCDialog1(context,"assets/images/check 1.svg");
+                  },),
                 ],
               ),
             ),
-          ))).then((value) {showNFCDialog1(context,"assets/images/check 1.svg");});
+          )));
 }
-showNFCDialog1(BuildContext context,String image){
+showNFCDialog1(BuildContext context,String image,{String? title}){
 
   showDialog(
       context: context,
@@ -352,7 +368,10 @@ showNFCDialog1(BuildContext context,String image){
                   child: Text(
                     translate(context).programme_NFC,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor,fontSize: 17.sp),),),
               if(image.isNotEmpty)
-                Center(child: SvgPicture.asset(image)),
+                Padding(
+                  padding:  EdgeInsets.only(top: 3.h),
+                  child: Center(child: SvgPicture.asset(image)),
+                ),
               Align(alignment: Alignment.topRight,
                   child: GestureDetector(
                     onTap: (){
@@ -373,9 +392,9 @@ showNFCDialog1(BuildContext context,String image){
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: (title??"").isEmpty ? CrossAxisAlignment.start : CrossAxisAlignment.center,
                 children: [
-                  Text(image.isEmpty ? translate(context).tap_nfc_card_to_match_frequency : translate(context).nfc_programmed_successfully,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor,fontSize: 17.sp),textAlign: TextAlign.center,),
+                  Text(image.isEmpty ? translate(context).tap_nfc_card_to_match_frequency : title ?? translate(context).nfc_programmed_successfully,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor,fontSize: 17.sp),textAlign: TextAlign.center,),
                 ],
               ),
             ),
@@ -404,7 +423,7 @@ void showScanQrDialogue(BuildContext context, bool isShowButton) {
                         children: [
                           Align(
                             alignment: AlignmentDirectional.topEnd,
-                            child: InkWell(
+                            child: GestureDetector(
                               onTap: (){
                                 Get.back();
                               },
@@ -428,7 +447,7 @@ void showScanQrDialogue(BuildContext context, bool isShowButton) {
                         fit: BoxFit.scaleDown,
                       ),
                       SizedBox(height:1.h),
-                      if(isShowButton) BaseButton(btnType: dialogButton,title: "PRINT QR", onPressed: (){})
+                      if(isShowButton) BaseButton(btnType: mediumLargeButton,title: "PRINT QR", onPressed: (){},borderRadius: 20,)
                     ],
                   ),
                 ),
@@ -462,6 +481,24 @@ Future<void> selectDate(BuildContext context) async {
       initialDate: DateTime.now(),
       firstDate: DateTime(1600, 8),
       lastDate: DateTime.now()
+  ).then((picked){
+
+  });
+}
+Future<void> selectTime(BuildContext context) async {
+  showTimePicker(
+    context: context,
+    builder: (context, child) {
+      return Theme(
+        data: Theme.of(context).copyWith(
+          colorScheme: ColorScheme.light(
+            primary: ColorConstants.primaryColor,
+          ),
+        ),
+        child: child!,
+      );
+    },
+    initialTime: TimeOfDay.now(),
   ).then((picked){
 
   });

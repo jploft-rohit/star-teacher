@@ -40,7 +40,7 @@ class _TransactionHistoryPopupState extends State<TransactionHistoryPopup> {
                   children: [
                     Align(
                       alignment: Alignment.topRight,
-                      child: InkWell(
+                      child: GestureDetector(
                         onTap: (){
                           Get.back();
                         },
@@ -125,7 +125,7 @@ class _TransactionHistoryPopupState extends State<TransactionHistoryPopup> {
                     ),
                     // Padding(
                     //   padding: const EdgeInsets.only(left: 3.0),
-                    //   child: InkWell(
+                    //   child: GestureDetector(
                     //     onTap: (){
                     //     },
                     //     child: Container(
@@ -151,7 +151,8 @@ class _TransactionHistoryPopupState extends State<TransactionHistoryPopup> {
                       Expanded(
                         child: BaseButton(
                           title: translate(context).print_receipt.toUpperCase(),
-                          btnType: dialogButton,
+                          btnType: mediumLargeButton,
+                          borderRadius: 20,
                           onPressed: (){
                             Get.back();
                           },
@@ -161,7 +162,8 @@ class _TransactionHistoryPopupState extends State<TransactionHistoryPopup> {
                       Expanded(
                         child: BaseButton(
                           title: "SAVE RECEIPT",
-                          btnType: dialogButton,
+                          btnType: mediumLargeButton,
+                          borderRadius: 20,
                           onPressed: (){
                             Get.back();
                           },

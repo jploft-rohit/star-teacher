@@ -31,10 +31,10 @@ class _HomePhotoVideoTabState extends State<HomePhotoVideoTab> {
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            mainAxisExtent: 90,
-            mainAxisSpacing: 5,
-            crossAxisSpacing: 5,
+          crossAxisCount: 3,
+          mainAxisSpacing: 1.5.h,
+          crossAxisSpacing: 1.h,
+          mainAxisExtent: 17.h,
         ),
         itemBuilder: (context,index){
           return GestureDetector(
@@ -42,18 +42,26 @@ class _HomePhotoVideoTabState extends State<HomePhotoVideoTab> {
               Get.to(StarGalleryScreen());
             },
             child: Container(
-              height: 60,
-              width: 60,
               padding: EdgeInsets.all(2),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(15),
                 border: Border.all(color: BaseColors.primaryColor,width: 1),
               ),
-              child: Stack(
-                alignment: Alignment.center,
+              child:
+              Stack(
+                fit: StackFit.expand,
                 children: [
-                  ClipRRect(borderRadius: BorderRadius.circular(12),child: Image.asset(imagesList[index],fit: BoxFit.fill,height: 100,width: 100,colorBlendMode: BlendMode.darken,color: index == 4 || index == 0 ? Colors.black.withOpacity(0.5):null)),
-                  Visibility(visible: index == 4 || index == 0,child: SvgPicture.asset("assets/images/ic_play.svg",height: 30,width: 30,)),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(13),
+                    child: ColorFiltered(
+                      colorFilter: ColorFilter.mode(Colors.black.withOpacity(index == 4 || index == 0 ? 0.6 : 0.0), BlendMode.darken),
+                      child: Image.asset(imagesList[index],
+                          fit: BoxFit.fill,
+                          colorBlendMode: BlendMode.darken,
+                        ),
+                    ),
+                  ),
+                  Visibility(child: Positioned.fill(child: Center(child: SvgPicture.asset("assets/images/ic_play.svg",))),visible: index == 4 || index == 0),
                 ],
               ),
             ),

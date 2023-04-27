@@ -92,7 +92,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
             ],
           ),
           SizedBox(height: 3.h,),
-          InkWell(
+          GestureDetector(
             onTap: (){
               Get.to(const MyProfileView());
             },
@@ -130,7 +130,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
                   ],
                 ),
                 const Spacer(),
-                InkWell(
+                GestureDetector(
                   onTap: (){
                     showScanQrDialogue(context, false);
                   },
@@ -138,7 +138,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
               ],
             ),
           ),
-          SizedBox(height: 2.h,),
+          SizedBox(height: 2.h),
           Row(
             children: [
               Expanded(flex: 3,child: BaseButton(title: translate(context).print_QR,  textSize: mediumButtonTs,onPressed: (){
@@ -159,7 +159,6 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
           Expanded(
             child: TabBarView(
               controller: controller,
-              physics: const NeverScrollableScrollPhysics(),
               children: const [
                 AccountView(),
                 DetailView(),

@@ -42,10 +42,10 @@ class _SchoolsViewState extends State<SchoolsView> {
         "title": translate(context).school_type,
         "subtitle": "Preschool , Cycle 1  ,  Cycle 2 , Cycle",
       },
-      {
-        "title": translate(context).school_name,
-        "subtitle": "Ignite Group School",
-      },
+      // {
+      //   "title": translate(context).school_name,
+      //   "subtitle": "Ignite Group School",
+      // },
       {
         "title": translate(context).school_id,
         "subtitle": "#4425577",
@@ -127,7 +127,7 @@ class _SchoolsViewState extends State<SchoolsView> {
               iconColor: BaseColors.primaryColor,
               collapsedIconColor: BaseColors.primaryColor,
               tilePadding: EdgeInsets.zero,
-              title: Text(heading, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 17.sp)),
+              title: Text(heading, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp)),
               backgroundColor: BaseColors.white,
               expandedCrossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -136,6 +136,7 @@ class _SchoolsViewState extends State<SchoolsView> {
                   shrinkWrap: true,
                   itemCount: list1.length,
                   physics: NeverScrollableScrollPhysics(),
+                  padding: EdgeInsetsDirectional.zero,
                   itemBuilder: (context, index) {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,7 +147,7 @@ class _SchoolsViewState extends State<SchoolsView> {
                               list1[index]['title'] , list1[index]['subtitle'],),
                             if(index == 6)...[
                               Spacer(),
-                              InkWell(
+                              GestureDetector(
                                   onTap: (){
                                     Get.to(MapScreen());
                                   },child: SvgPicture.asset("assets/images/map_ig.svg")),
@@ -167,9 +168,6 @@ class _SchoolsViewState extends State<SchoolsView> {
                       ],
                     );
                   },
-                ),
-                SizedBox(
-                  height: 0.5.h,
                 ),
                 buildTile(translate(context).week_days_3, "Monday, Tuesday, Wednesday", "assets/images/Vector (1).svg"),
                 SizedBox(
@@ -211,13 +209,13 @@ class _SchoolsViewState extends State<SchoolsView> {
               SizedBox(height: 0.5.h,),
               Container(
                 margin: EdgeInsets.only(bottom: 2.h),
-                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
                 decoration: BoxDecoration(
                     border: Border.all(color: BaseColors.primaryColor),
                     borderRadius: BorderRadius.circular(10.0)
                 ), child: Row(
                 children: [
-                  SvgPicture.asset(svgImg,height: 18.0,),
+                  SvgPicture.asset(svgImg,height: 16.0,),
                   const SizedBox(width: 10,),
                   Text(subTitle, style: Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp, height: 1.5)),
                 ],

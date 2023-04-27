@@ -41,7 +41,7 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(""),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back(result: false);
                       },

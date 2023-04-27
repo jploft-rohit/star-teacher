@@ -26,88 +26,94 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: BaseColors.backgroundColor,
-        body: SingleChildScrollView(
-          child: SafeArea(
-            child: Stack(
-              children: [
-                Container(
-                  height: MediaQuery.of(context).size.height*0.17,
-                  alignment: Alignment.center,
-                  child: Text(translate(context).login, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: onBoardingHeadingTs,fontWeight: FontWeight.w500),),
+        backgroundColor: BaseColors.white,
+        resizeToAvoidBottomInset: false,
+        body: SafeArea(
+          bottom: false,
+          child: Stack(
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height*0.17,
+                alignment: Alignment.center,
+                color: BaseColors.backgroundColor,
+                child: Text(translate(context).login, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: onBoardingHeadingTs,fontWeight: FontWeight.w500),),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.15),
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25),
+                    ),
+                    color: Colors.white
                 ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.15),
-                  decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(25),
-                        topRight: Radius.circular(25),
+                padding: const EdgeInsets.all(25),
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    SizedBox(height: 2.5.h,),
+                    Text(translate(context).welcome,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: onBoardingTitleTs,fontWeight: FontWeight.w700),),
+                    SizedBox(height: 0.1.h,),
+                    Text(translate(context).please_login_to_your_account,style: Style.montserratRegularStyle().copyWith(color: const Color(0xff6B6B6B), fontSize: 16.sp),),
+                    SizedBox(height: 8.h,),
+                    CustomTextField(
+                      controller: mobileCtrl,
+                      hintText: "05x-xxxxxxxxx",
+                      textInputType: TextInputType.phone,
+                      fillColor: const Color(0xffFCFCFC),
+                      borderRadius: 5.0,
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                        child: SvgPicture.asset(mobileSvg),
                       ),
-                      color: Colors.white
-                  ),
-                  padding: const EdgeInsets.all(25),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: MediaQuery.of(context).size.height*0.05,),
-                      Text(translate(context).welcome,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: onBoardingTitleTs,fontWeight: FontWeight.w700),),
-                      SizedBox(height: 0.5.h,),
-                      Text(translate(context).please_login_to_your_account,style: Style.montserratRegularStyle().copyWith(color: const Color(0xff6B6B6B), fontSize: 16.sp),),
-                      SizedBox(height: 10.h,),
-                      CustomTextField(
-                        controller: mobileCtrl,
-                        hintText: "05x-xxxxxxxxx",
-                        textInputType: TextInputType.phone,
-                        fillColor: const Color(0xffFCFCFC),
-                        borderRadius: 5.0,
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                          child: SvgPicture.asset(mobileSvg),
-                        ),
-                      ),
-                      SizedBox(height: 5.h,),
-                      Center(
-                        child: BaseButton(btnType: largeButton,title: translate(context).sent_otp_btn_txt, onPressed: (){
-                          Get.toNamed(otpScreenRoute);
+                    ),
+                    SizedBox(height: 4.h,),
+                    Center(
+                      child: BaseButton(btnType: largeButton,title: translate(context).sent_otp_btn_txt, onPressed: (){
+                        Get.toNamed(otpScreenRoute);
+                      },borderRadius: 19,),
+                    ),
+                    SizedBox(height: 10.h,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text("- - - - - - - - - - - -    "),
+                        Text(translate(context).or.toUpperCase(), style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp),),
+                        const Text("    - - - - - - - - - - - -"),
+                      ],
+                    ),
+                    SizedBox(height: 7.h,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(faceScanSvg,height: 9.h,width: 9.h,),
+                      ],
+                    ),
+                    SizedBox(height: 5.h),
+
+                  ],
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: RichText(
+                    text: TextSpan(
+                      text: '${translate(context).dont_have_account} ',
+                      style: Style.montserratBoldStyle().copyWith(color: const Color(0xff7C7C7C), fontSize: 16.sp),
+                      children: <TextSpan>[
+                        TextSpan(text: ' ${translate(context).activate_account}', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp), recognizer: TapGestureRecognizer()..onTap = (){
+                          Get.to(const AccountActivationScreen());
                         }),
-                      ),
-                      SizedBox(height: 10.h,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text("-------------------  "),
-                          Text(translate(context).or.toUpperCase(), style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp),),
-                          const Text("  -------------------"),
-                        ],
-                      ),
-                      SizedBox(height: 6.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(faceScanSvg,height: 9.h),
-                          // SizedBox(height: MediaQuery.of(context).size.height*0.10,child: const VerticalDivider(width: 2,thickness: 1,color: Color(0xFFD9D9D9),),),
-                          // GestureDetector(child: SvgPicture.asset(fingerprintScanSvg,height: 9.h)),
-                        ],
-                      ),
-                      SizedBox(height: 5.h),
-                      Center(
-                        child: RichText(
-                          text: TextSpan(
-                            text: '${translate(context).dont_have_account} ',
-                            style: Style.montserratBoldStyle().copyWith(color: const Color(0xff7C7C7C), fontSize: 16.sp),
-                            children: <TextSpan>[
-                              TextSpan(text: ' ${translate(context).create_account}', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp), recognizer: TapGestureRecognizer()..onTap = (){
-                                Get.to(const AccountActivationScreen());
-                              }),
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
+                      ],
+                    ),
                   ),
-                )
-              ],
-            ),
+                ),
+              ),
+            ],
           ),
         )
     );

@@ -8,6 +8,7 @@ import 'package:staff_app/Utility/base_textformfield.dart';
 
 
 import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/Utility/custom_dropdown_widget.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -47,7 +48,20 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
           padding: EdgeInsets.all(scaffoldPadding),
           child: Column(
             children: [
-              BaseDropDown(),
+              Custom_DropDown(
+                initialValue: DummyLists.initialSchool,
+                hintText: "Select School",
+                listData:DummyLists.schoolData,
+                onChange: (value) {
+                  setState(() {
+                    DummyLists.initialSchool=value;
+                  });
+                },
+                topPadding: 5,
+                bottomPadding: 5,
+                icon: Icon(Icons.arrow_drop_down,color: Color(0xFFC4C4C4),size: 25,),
+              ),
+              SizedBox(height: 1.h,),
               BaseTextFormField(
                 controller: complaintOrReportController,
                 hintText: "Select complaint or report",
@@ -57,37 +71,7 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                   setState(() {
                     complaintOrReportController.text = newValue.toString();
                   });},
-                items: DummyLists().list1.map((value) {
-                  return DropdownMenuItem(
-                    value: value,
-                    child: addText(value, 16.sp, Colors.black, FontWeight.w400),);
-                }).toList(),
-              ),
-              // BaseTextFormField(
-              //   controller: complaintForController,
-              //   hintText: "Complaint for",
-              //   isDropDown: true,
-              //   dropDownValue: complaintForController.text,
-              //   onChanged: (newValue){
-              //     setState(() {
-              //       complaintForController.text = newValue.toString();
-              //     });},
-              //   items: DummyLists().list1.map((value) {
-              //     return DropdownMenuItem(
-              //       value: value,
-              //       child: addText(value, 16.sp, Colors.black, FontWeight.w400),);
-              //   }).toList(),
-              // ),
-              BaseTextFormField(
-                controller: roleController,
-                hintText: "Select Role",
-                isDropDown: true,
-                dropDownValue: roleController.text,
-                onChanged: (newValue){
-                  setState(() {
-                    roleController.text = newValue.toString();
-                  });},
-                items: DummyLists().list1.map((value) {
+                items: DummyLists().complaintList.map((value) {
                   return DropdownMenuItem(
                     value: value,
                     child: addText(value, 16.sp, Colors.black, FontWeight.w400),);
@@ -107,15 +91,15 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                 },
               ),
               BaseTextFormField(
-                controller: typeController,
-                hintText: "Complaint type",
+                controller: complaintOrReportController,
+                hintText: "Complaint Type",
                 isDropDown: true,
-                dropDownValue: typeController.text,
+                dropDownValue: complaintOrReportController.text,
                 onChanged: (newValue){
                   setState(() {
-                    typeController.text = newValue.toString();
+                    complaintOrReportController.text = newValue.toString();
                   });},
-                items: DummyLists().list1.map((value) {
+                items: DummyLists().complainttypeList.map((value) {
                   return DropdownMenuItem(
                     value: value,
                     child: addText(value, 16.sp, Colors.black, FontWeight.w400),);
@@ -136,7 +120,7 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                 suffixIcon: "assets/images/upload_icon.svg",
                 bottomMargin: 4.h,
               ),
-              BaseButton(title: "SUBMIT", onPressed: (){})
+              BaseButton(title: "SUBMIT", onPressed: (){},btnType: largeButton,)
             ],
           ),
         ),

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/Utility/sizes.dart';
 
 
 class PrintQrScreen extends StatefulWidget {
@@ -20,7 +21,7 @@ class _PrintQrScreenState extends State<PrintQrScreen> {
       extendBodyBehindAppBar: true,
       appBar: const BaseAppBar(title: "QR Code"),
       body: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: EdgeInsets.all(scaffoldPadding),
         child: SizedBox(
           width: 100.w,
           height: Get.height,
@@ -33,7 +34,16 @@ class _PrintQrScreenState extends State<PrintQrScreen> {
                 fit: BoxFit.scaleDown,
               ),
               SizedBox(height:5.h),
-              BaseButton(title: "PRINT QR", onPressed: (){})
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 4.w),
+                child: Row(
+                  children: [
+                    Expanded(child: BaseButton(title: "PRINT QR", onPressed: (){})),
+                    SizedBox(width: 3.w),
+                    Expanded(child: BaseButton(title: "SAVE QR", onPressed: (){})),
+                  ],
+                ),
+              )
             ],
           ),
         ),

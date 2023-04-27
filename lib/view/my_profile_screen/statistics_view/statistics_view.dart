@@ -3,6 +3,9 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/view/complaints_report_screen/Complaints_report_screen.dart';
+import 'package:staff_app/view/complaints_report_screen/all_complaints_view.dart';
+import 'package:staff_app/view/complaints_report_screen/complaints_view.dart';
 import 'package:staff_app/view/performance_screen/performance_screen.dart';
 
 class StatisticsView extends StatefulWidget {
@@ -84,7 +87,7 @@ class _StatisticsViewState extends State<StatisticsView> {
       onTap: (){
         switch (list[index]['subTitle']) {
           case "Pending Task": break;
-          case "Unclosed Compliant": break;
+          case "Unclosed Compliant":Get.to(ComplaintsReportScreen()); break;
           case "Stars Evaluation Pending": break;
           case "Assignment to Review": break;
           case "Attendance Record": break;

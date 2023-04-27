@@ -46,7 +46,7 @@ class _MarkSelectedPopupState extends State<MarkSelectedPopup> {
                   children: [
                     Text(""),
                     Text(translate(context).mark_selected, style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: Colors.black),),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back();
                       },
@@ -66,7 +66,7 @@ class _MarkSelectedPopupState extends State<MarkSelectedPopup> {
                   addText(translate(context).allocate_teacher_score_to_selected_stars, 16.sp, Colors.black, FontWeight.w400),
                 ],
                 SizedBox(
-                  height: 2.h,
+                  height: 3.h,
                 ),
                 if(widget.isShowCount)...[
                   Center(
@@ -81,7 +81,7 @@ class _MarkSelectedPopupState extends State<MarkSelectedPopup> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          InkWell(
+                          GestureDetector(
                             onTap: (){
                               if(count > 1) count = count - 1;
                               setState(() {});
@@ -96,7 +96,7 @@ class _MarkSelectedPopupState extends State<MarkSelectedPopup> {
                             width: 1.w,
                           ),
                           VerticalDivider(color: BaseColors.primaryColor,width: 0.0, thickness: 1.5),
-                          InkWell(
+                          GestureDetector(
                             onTap: (){
                               count = count + 1;
                               setState(() {});
@@ -127,12 +127,12 @@ class _MarkSelectedPopupState extends State<MarkSelectedPopup> {
                   )
                 ],
                 SizedBox(
-                  height: 2.h,
+                  height: 3.h,
                 ),
                 Center(
-                  child: BaseButton(btnType: dialogButton,title: translate(context).save, onPressed: (){
+                  child: BaseButton(btnType: mediumLargeButton,title: translate(context).save, onPressed: (){
                     Get.back();
-                  }, btnWidth: 30.w),
+                  }, btnWidth: 30.w,borderRadius: 20,),
                 ),
               ],
             ),

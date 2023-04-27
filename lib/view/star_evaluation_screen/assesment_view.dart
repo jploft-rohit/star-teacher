@@ -59,7 +59,7 @@ class _AssesmentViewState extends State<AssesmentView> {
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.only(bottom: 10.0),
-              child: InkWell(
+              child: GestureDetector(
                 onTap: (){
                   ctrl.list[index]['isSelected'].value = !ctrl.list[index]['isSelected'].value;
                 },
@@ -129,9 +129,9 @@ class _AssesmentViewState extends State<AssesmentView> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Expanded(flex: 2,child: BaseButton(btnType: mediumButton,title: translate(context).save, onPressed: (){}, btnWidth: 30.w)),
+            BaseButton(btnType: mediumButton,title: translate(context).save, onPressed: (){}, btnWidth: 30.w,borderRadius: 19,),
             SizedBox(width: 3.5.w),
-            Expanded(flex: 4,child: BaseButton(btnType: mediumButton,title: translate(context).submit_for_review.toUpperCase(), onPressed: (){})),
+            Expanded(flex: 4,child: BaseButton(btnType: mediumButton,title: translate(context).submit_for_review.toUpperCase(), onPressed: (){},borderRadius: 19,)),
           ],
         ),
         SizedBox(

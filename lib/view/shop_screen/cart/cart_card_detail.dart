@@ -7,6 +7,7 @@ import 'package:staff_app/Utility/base_button.dart';
 import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/confirmation_popup.dart';
 
@@ -52,7 +53,7 @@ class _CartCardDetailState extends State<CartCardDetail> {
                         style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),
                       ),
                     ),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back();
                       },
@@ -72,7 +73,7 @@ class _CartCardDetailState extends State<CartCardDetail> {
                       flex: 1,
                       child: CustomTextField(controller: expiryCtrl, hintText: "Expiry", suffixIcon: Padding(
                         padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                        child: InkWell(onTap: (){
+                        child: GestureDetector(onTap: (){
                           selectDate(context);
                         },child: SvgPicture.asset(calenderSvg,height:17.sp,)),
                       ),hintTextColor: BaseColors.textLightGreyColor,),
@@ -99,7 +100,8 @@ class _CartCardDetailState extends State<CartCardDetail> {
                 Center(
                   child: BaseButton(
                     title: "PAY",
-                    btnWidth: 100.w,
+                    btnType: mediumButton,
+                    borderRadius: 20,
                     onPressed: (){
                       Get.back();
                       showGeneralDialog(

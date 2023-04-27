@@ -31,7 +31,7 @@ class _AwarenesCoursesViewState extends State<AwarenesCoursesView> {
       itemCount: 2,
       shrinkWrap: true,
       itemBuilder: (context, index) {
-        return InkWell(
+        return GestureDetector(
           onTap: (){
             showGeneralDialog(
               context: context,

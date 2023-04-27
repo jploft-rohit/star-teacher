@@ -59,10 +59,11 @@ class _AttendanceScreenState extends State<AttendanceScreen> with TickerProvider
       appBar: BaseAppBar(title: translate(context).attendance),
       floatingActionButton: BaseFloatingActionButton(
         onTap: () {Get.to(const CalenderView());},
-        title: translate(context).view_on_calender,
+        title: "View on\nCalendar",
+        isCalendar: true,
       ),
       body: Padding(
-        padding: EdgeInsets.all(20.sp),
+        padding: EdgeInsets.symmetric(horizontal: 10),
         child: Column(
           children: [
             Container(
@@ -101,7 +102,9 @@ class _AttendanceScreenState extends State<AttendanceScreen> with TickerProvider
                     Text("English Teacher", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                   ],
                 ),
-                trailing: SvgPicture.asset(qrCodeSvg),
+                trailing: GestureDetector(child: SvgPicture.asset(qrCodeSvg),onTap: (){
+                  showScanQrDialogue(context, false);
+                },),
               ),
             ),
             SizedBox(

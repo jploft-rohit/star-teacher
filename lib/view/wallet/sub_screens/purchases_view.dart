@@ -8,6 +8,7 @@ import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
 
 import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/change_status_popup.dart';
@@ -87,8 +88,7 @@ class _PurchasesViewState extends State<PurchasesView> with SingleTickerProvider
                             border: Border.all(color: BaseColors.primaryColor)),
                         child: Material(
                           color: Colors.transparent,
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(30),
+                          child: GestureDetector(
                             onTap: () {
                               showGeneralDialog(
                                 context: context,
@@ -112,8 +112,8 @@ class _PurchasesViewState extends State<PurchasesView> with SingleTickerProvider
             ),
             SizedBox(height: 2.h),
             BaseToggleTabBar(controller: tabController, tabs: [
-              BaseTabButton(title: translate(context).transaction, isSelected: tabController.index == 0),
-              BaseTabButton(title: translate(context).top_up_record, isSelected: tabController.index == 1),
+              BaseTabButton(title: translate(context).transaction, isSelected: tabController.index == 0,type: toggleLargeButton,),
+              BaseTabButton(title: translate(context).top_up_record, isSelected: tabController.index == 1,type: toggleLargeButton,),
             ]),
             SizedBox(height: 1.5.h),
             Row(
@@ -224,7 +224,7 @@ class _PurchasesViewState extends State<PurchasesView> with SingleTickerProvider
                     ),
                     // Padding(
                     //   padding: const EdgeInsets.only(left: 3.0),
-                    //   child: InkWell(
+                    //   child: GestureDetector(
                     //     onTap: (){
                     //     },
                     //     child: Container(
@@ -278,9 +278,9 @@ class _PurchasesViewState extends State<PurchasesView> with SingleTickerProvider
                         child: Row(
                           children: [
                             Expanded(
-                              flex: 2,
+                              flex: 1,
                               child: Container(
-                                width: 12.h,
+                                width: 10.h,
                                 padding: const EdgeInsets.only(top: 10.0,bottom: 10.0),
                                 decoration: BoxDecoration(
                                     color: BaseColors.backgroundColor,
@@ -290,8 +290,8 @@ class _PurchasesViewState extends State<PurchasesView> with SingleTickerProvider
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text("100", style: Style.montserratBoldStyle().copyWith(fontSize: 22.sp, color: BaseColors.primaryColor),),
-                                    Text("AED", style: Style.montserratRegularStyle().copyWith(fontSize: 18.sp, color: BaseColors.primaryColor),),
+                                    Text("100", style: Style.montserratBoldStyle().copyWith(fontSize: 20.sp, color: BaseColors.primaryColor),),
+                                    Text("AED", style: Style.montserratRegularStyle().copyWith(fontSize: 16.sp, color: BaseColors.primaryColor),),
                                   ],
                                 ),
                               ),
@@ -304,7 +304,7 @@ class _PurchasesViewState extends State<PurchasesView> with SingleTickerProvider
                                   mainAxisSize: MainAxisSize.min,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Amount Added', style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
+                                    Text('Amount Added', style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
                                     const SizedBox(height: 8),
                                     Text('TR No : 2587961', style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
                                   ],
@@ -330,7 +330,7 @@ class _PurchasesViewState extends State<PurchasesView> with SingleTickerProvider
                     ),
                     // Padding(
                     //   padding: const EdgeInsets.only(left: 3.0),
-                    //   child: InkWell(
+                    //   child: GestureDetector(
                     //     onTap: (){
                     //     },
                     //     child: Container(

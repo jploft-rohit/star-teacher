@@ -5,8 +5,12 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/base_button.dart';
 
 import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/Utility/custom_filter_dropdown.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
+import 'package:staff_app/Utility/dummy_lists.dart';
+import 'package:staff_app/Utility/filter_textformfield.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 
 class SelectPersonPopup extends StatefulWidget {
@@ -46,7 +50,7 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                   children: [
                     Text(""),
                     Text("Select Person", style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: Colors.black),),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back();
                       },
@@ -57,43 +61,25 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                   height: 2.h,
                 ),
                 Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.0),
-                    border: Border.all(
-                        color: BaseColors.borderColor
-                    ),
-                  ),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),border: Border.all(color: Color(0xFFCECECE),width: 1)),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0,),
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(classTakenSvg,height: 15,),
-                            SizedBox(
-                              width: 2.w,
-                            ),
-                            Text("Teacher", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                            Spacer(),
-                            Icon(
-                              Icons.arrow_drop_down,
-                            )
-                          ],
-                        ),
+                      Row(
+                        children: [
+                          CustomFilterDropDown(
+                            initialValue: DummyLists.initialRole, hintText: 'Teacher',
+                            listData: DummyLists.roleData, onChange: (value) {
+                            setState(() {
+                              DummyLists.initialRole=value;
+                            });
+                          },icon: jobDetailSvg,),
+                        ],
                       ),
-                      Divider(height: 0.0,),
-                      CustomTextField(
-                        controller: searchCtrl,
-                        hintText: "Search By ID...",
-                        borderColor: Colors.transparent,
-                        contentPadding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                          child: Icon(
-                            Icons.search,
-                          ),
-                        ),
-                      )
+                      Divider(height: 1,thickness: 1,),
+                      FilterTextFormField(onChange: (String val) {
+                      }, hintText: "Search By ID...", keyBoardType: TextInputType.name,
+                      ),
                     ],
                   ),
                 ),
@@ -107,7 +93,7 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 10.0),
-                      child: InkWell(
+                      child: GestureDetector(
                         onTap: (){
                           selectedFMOPos = index;
                           setState(() {});
@@ -133,7 +119,7 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                                       ),
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
-                                    child: SvgPicture.asset(manSvg,height: 25,),
+                                    child: SvgPicture.asset(manSvg,height: 30,),
                                   ),
                                   Padding(
                                     padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 10.sp),
@@ -206,7 +192,7 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                 Center(
                   child: BaseButton(title: "SAVE", onPressed: (){
                     Get.back();
-                  }),
+                  },btnType: mediumButton,borderRadius: 20,),
                 ),
               ],
             ),

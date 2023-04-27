@@ -44,7 +44,7 @@ class _NFCCartScreenState extends State<NFCCartScreen> {
                 shrinkWrap: true,
                 itemCount: 2,
                 itemBuilder: (context, index) => buildCartCard(
-                    'assets/images/Rectangle 429.png', 'NFC Tags', '15 AED', 2),
+                    'assets/delete/Rectangle 429.png', 'NFC Tags', '15 AED', 2),
               ),
               SizedBox(height:2.h),
               Container(
@@ -75,7 +75,7 @@ class _NFCCartScreenState extends State<NFCCartScreen> {
                         radioButton(() {
                           controller.schoolDelivertSelected();
                         }, controller.isSchoolDelivery.value,
-                            'Pick-up from school'),
+                            'Handover to school'),
                       ],
                     )),
                     SizedBox(height:1.h),
@@ -94,7 +94,7 @@ class _NFCCartScreenState extends State<NFCCartScreen> {
               Row(
                 children: [
                   Expanded(
-                    child: BaseButton(title: "PROCEED TO PAY", onPressed: (){
+                    child: BaseButton(removeHorizontalPadding: true,title: "PROCEED TO PAY", onPressed: (){
                       showGeneralDialog(
                         context: context,
                         pageBuilder:  (context, animation, secondaryAnimation) {

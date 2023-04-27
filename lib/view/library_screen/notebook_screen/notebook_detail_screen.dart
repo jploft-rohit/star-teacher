@@ -65,7 +65,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                           children: [
                             Text("Sania", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                             SizedBox(
-                              height: .2.h,
+                              height: .5.h,
                             ),
                             Container(
                               width: 30.w,
@@ -73,11 +73,11 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                               color: BaseColors.borderColor,
                             ),
                             SizedBox(
-                              height: .3.h,
+                              height: .5.h,
                             ),
                             Text("#562665", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                             SizedBox(
-                              height: .3.h,
+                              height: .5.h,
                             ),
                             Container(
                               width: 30.w,
@@ -85,14 +85,14 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                               color: BaseColors.borderColor,
                             ),
                             SizedBox(
-                              height: .2.h,
+                              height: .5.h,
                             ),
                             Text("G3-H1", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                           ],
                         ),
                       ],
                     ),
-                    InkWell(
+                    GestureDetector(
                         onTap: (){
                           showScanQrDialogue(context, false);
                         },
@@ -107,7 +107,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                 children: [
                   Obx(() => Flexible(
                     flex: 1,
-                    child: InkWell(
+                    child: GestureDetector(
                       onTap: (){
                         controller.selectedIndex1.value = 0;
                       },
@@ -116,7 +116,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                         width: getWidth(context) * 50 / 100,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                            color: controller.selectedIndex1.value == 0 ? BaseColors.backgroundColor : BaseColors.screenBackgroundColor,
+                            color: controller.selectedIndex1.value == 0 ? BaseColors.backgroundColor : BaseColors.txtFieldTextColor,
                             border: Border.all(
                                 color: controller.selectedIndex1.value == 0 ? Colors.transparent : BaseColors.txtFiledBorderColor
                             ),
@@ -129,9 +129,10 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                                     offset: Offset(0, 3)
                                 )
                             ],
-                            borderRadius: BorderRadius.circular(15.sp)
+                            borderRadius: BorderRadius.circular(10)
                         ),
-                        child: Text("Has Talent", style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex1.value == 0 ? BaseColors.primaryColor : BaseColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
+                        child: Text("Has Talent", style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex1.value == 0 ? BaseColors.primaryColor : BaseColors.txtFiledBorderColor, fontSize: toggleButtonTs,
+                            fontWeight: controller.selectedIndex1.value == 0?FontWeight.bold:FontWeight.w400),),
                       ),
                     ),
                   )),
@@ -140,7 +141,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                   ),
                   Obx(() => Flexible(
                     flex: 1,
-                    child: InkWell(
+                    child: GestureDetector(
                       onTap: (){
                         controller.selectedIndex1.value = 1;
                       },
@@ -149,7 +150,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                         width: getWidth(context) * 50 / 100,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                            color: controller.selectedIndex1.value == 1 ? BaseColors.backgroundColor : BaseColors.screenBackgroundColor,
+                            color: controller.selectedIndex1.value == 1 ? BaseColors.backgroundColor : BaseColors.txtFieldTextColor,
                             border: Border.all(
                                 color: controller.selectedIndex1.value == 1 ? Colors.transparent : BaseColors.txtFiledBorderColor
                             ),
@@ -162,9 +163,10 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                                     offset: Offset(0, 3)
                                 )
                             ],
-                            borderRadius: BorderRadius.circular(15.sp)
+                            borderRadius: BorderRadius.circular(10)
                         ),
-                        child: Text("Need Improvement", style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex1.value == 1 ? BaseColors.primaryColor : BaseColors.txtFiledBorderColor, fontSize: toggleButtonTs),),
+                        child: Text("Need Improvement", style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex1.value == 1 ? BaseColors.primaryColor : BaseColors.txtFiledBorderColor, fontSize: toggleButtonTs,
+                        fontWeight: controller.selectedIndex1.value == 1?FontWeight.bold:FontWeight.w400),),
                       ),
                     ),
                   )),
@@ -201,7 +203,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                                 ),
                                 Row(
                                   children: [
-                                    InkWell(
+                                    GestureDetector(
                                       onTap: (){
                                         Get.to(const AddNoteScreen(isUpdating: true,));
                                       },

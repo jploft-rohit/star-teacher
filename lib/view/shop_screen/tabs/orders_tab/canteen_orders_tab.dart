@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
 import 'package:staff_app/Utility/base_tab_bar.dart';
 import 'package:staff_app/Utility/base_colors.dart';
-import 'package:staff_app/Utility/utility.dart';
-import 'package:staff_app/view/shop_screen/orders/canteen_orders/sub_screens/every_week.dart';
-import 'package:staff_app/view/shop_screen/orders/canteen_orders/sub_screens/this_week.dart';
+import 'package:staff_app/view/shop_screen/tabs/orders_tab/canteen_orders_tab/every_week_tab.dart';
+import 'package:staff_app/view/shop_screen/tabs/orders_tab/canteen_orders_tab/this_week_tab.dart';
 import 'package:staff_app/view/shop_screen/shop_screen_ctrl.dart';
 
-class CanteenOrderView extends StatefulWidget {
-  const CanteenOrderView({super.key});
+class CanteenOrdersTab extends StatefulWidget {
+  const CanteenOrdersTab({super.key});
 
   @override
-  State<CanteenOrderView> createState() => _CanteenOrderViewState();
+  State<CanteenOrdersTab> createState() => _CanteenOrdersTabState();
 }
 
-class _CanteenOrderViewState extends State<CanteenOrderView> with SingleTickerProviderStateMixin {
+class _CanteenOrdersTabState extends State<CanteenOrdersTab> with SingleTickerProviderStateMixin {
   ShopScreenCtrl controller = Get.find<ShopScreenCtrl>();
 
   TabController? tabCtrl;
@@ -43,8 +41,8 @@ class _CanteenOrderViewState extends State<CanteenOrderView> with SingleTickerPr
               child: TabBarView(
                 controller: tabCtrl,
                 children: const [
-                  CanteenThisWeekOrderView(),
-                  CanteenEveryWeekOrderView(),
+                  ThisWeekTab(),
+                  EveryWeekTab(),
                 ],
               ),
             )

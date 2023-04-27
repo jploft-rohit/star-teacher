@@ -28,53 +28,58 @@ class _AccountActivationScreenState extends State<AccountActivationScreen> {
     return Scaffold(
       backgroundColor: BaseColors.backgroundColor,
       body: SafeArea(
-          child: Column(
-            children: [
-              Flexible(
-                  flex: 2,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        left: 20,
-                        top: 5,
-                        child: GestureDetector(
-                          onTap: (){
-                            Get.back();
-                          },child: const Icon(Icons.arrow_back_ios_new,color: Colors.black,),
-                        ),
+        bottom: false,
+        child: Column(
+          children: [
+            Flexible(
+                flex: 2,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      left: 10,
+                      top: 10,
+                      child: GestureDetector(
+                        onTap: (){
+                          Get.back();
+                        },child: const Icon(Icons.arrow_back_ios_new,color: Colors.black,),
                       ),
-                      Center(
-                        child: Text(translate(context).account_activation, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 21.sp),),
-                      )
-                    ],
-                  )),
-              Flexible(
-                  flex: 12,
-                  child: Container(
-                    padding: EdgeInsets.only(top: 4.h, left: 7.w, right: 7.w),
-                    width: 100.w,
-                    decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30)),
-                        color: BaseColors.white,
-                        boxShadow: [getBoxShadow()]),
-                    child: Column(
-                      children: [
-                        buildInputField(translate(context).full_name, fullNameController),
-                        SizedBox(height: 2.h,),
-                        buildNumberInputField(translate(context).mobile_number, mobileController),
-                        SizedBox(height: 1.h,),
-                        buildInputField(translate(context).otp_for_verification, otpController),
-                        SizedBox(height: 2.h,),
-                        buildInputField(translate(context).employee_id, employeeIdController),
-                        SizedBox(height: 4.h,),
-                        BaseButton(title: translate(context).submit_btn_txt, onPressed: () {_showActivationDialogue(context);},)
-                      ],
                     ),
-                  ))
-            ],
-          )),
+                    Center(
+                      child: Text(translate(context).account_activation, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 21.sp),),
+                    )
+                  ],
+                )),
+            Flexible(
+                flex: 12,
+                child: Container(
+                  padding: EdgeInsets.only(top: 4.h, left: 7.w, right: 7.w),
+                  width: 100.w,
+                  decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30)),
+                      color: BaseColors.white,
+                      boxShadow: [getBoxShadow()]),
+                  child: Column(
+                    children: [
+                      buildInputField(translate(context).full_name, fullNameController),
+                      SizedBox(height: 2.h,),
+                      buildNumberInputField(translate(context).mobile_number, mobileController),
+                      SizedBox(height: 1.h,),
+                      buildInputField(translate(context).otp_for_verification, otpController),
+                      SizedBox(height: 2.h,),
+                      buildInputField(translate(context).employee_id, employeeIdController),
+                      SizedBox(height: 4.h,),
+                      BaseButton(
+                        title: translate(context).submit_btn_txt,
+                        onPressed: () {
+                          _showActivationDialogue(context);},btnType: largeButton,borderRadius: 19,)
+                    ],
+                  ),
+                ))
+          ],
+        ),
+      ),
     );
   }
   void _showActivationDialogue(BuildContext context) {
@@ -97,7 +102,7 @@ class _AccountActivationScreenState extends State<AccountActivationScreen> {
                     children: [
                       Text(translate(context).account_activation_popup_txt,style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: BaseColors.textBlackColor, height: 1.5),textAlign: TextAlign.center,),
                       const SizedBox(height: 20,),
-                      BaseButton(btnType: dialogButton,title: translate(context).ok, onPressed: () {Get.toNamed(ruleScreenRoute);},textSize: mediumButtonTs,)
+                      BaseButton(btnType: mediumButton,borderRadius: 20,title: translate(context).ok.toUpperCase(), onPressed: () {Get.toNamed(ruleScreenRoute);},textSize: mediumButtonTs,)
                     ],
                   ),
                 ),
@@ -160,6 +165,7 @@ class _AccountActivationScreenState extends State<AccountActivationScreen> {
             )
           ],
         ),
+        SizedBox(height: 0.7.h,),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [

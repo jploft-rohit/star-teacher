@@ -52,7 +52,7 @@ class _WalletPayPopupState extends State<WalletPayPopup> {
                         style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),
                       ),
                     ),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back();
                       },
@@ -100,13 +100,12 @@ class _WalletPayPopupState extends State<WalletPayPopup> {
                                 border: Border.all(color: BaseColors.primaryColor)),
                             child: Material(
                               color: Colors.transparent,
-                              child: InkWell(
-                                borderRadius: BorderRadius.circular(30),
+                              child: GestureDetector(
                                 onTap: () {
                                   showGeneralDialog(
                                     context: context,
                                     pageBuilder:  (context, animation, secondaryAnimation) {
-                                      return CardDetailPopup();
+                                      return const TopupYourFamilyPopup();
                                     },
                                   );
                                 },

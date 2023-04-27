@@ -1,13 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/base_button.dart';
 
 import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/base_dialogs.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/view/feedback_help_screen/add_feedback_view.dart';
 
 class HelpView extends StatefulWidget {
   const HelpView({Key? key}) : super(key: key);
@@ -46,6 +50,15 @@ class _HelpViewState extends State<HelpView> {
                       children: [
                         GestureDetector(
                           onTap: (){
+                            Get.to(AddFeedbackView(isUpdating: true));
+                          },
+                          child: Image.asset(editPng, color: BaseColors.primaryColor,height: 18.sp,),
+                        ),
+                        SizedBox(
+                          width: 5.w,
+                        ),
+                        GestureDetector(
+                          onTap: (){
                             BaseDialogs().showConfirmationDialog(title: "Are you sure you want to\ndelete this Help?");
                           },
                           child: Icon(
@@ -53,15 +66,6 @@ class _HelpViewState extends State<HelpView> {
                             color: BaseColors.primaryColor,
                             size: 18.sp,
                           ),
-                        ),
-                        SizedBox(
-                          width: 5.w,
-                        ),
-                        InkWell(
-                          onTap: (){
-
-                          },
-                          child: Image.asset(editPng, color: BaseColors.primaryColor,height: 18.sp,),
                         ),
                       ],
                     ),
@@ -139,50 +143,34 @@ class _HelpViewState extends State<HelpView> {
                   ],
                 ),
                 Divider(),
-                // Row(
-                //   crossAxisAlignment: CrossAxisAlignment.start,
-                //   children: [
-                //     SvgPicture.asset("assets/images/chat_img.svg"),
-                //     SizedBox(
-                //       width: 2.w,
-                //     ),
-                //     Flexible(child: buildInfoItems("Revert", "Thanks for your feedback, the support team will solve the issue and update you."))
-                //   ],
-                // ),
-                // SizedBox(
-                //   height: 1.h,
-                // ),
-                // Divider(),
-                // SizedBox(
-                //   height: 1.h,
-                // ),
-                // Row(
-                //   children: [
-                //     Flexible(
-                //       flex: 1,
-                //       child: BaseButton(text: "ESCALATE", onPressed: (){}, btnHeight: 35, boxShadow: [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 16.sp,),
-                //     ),
-                //     SizedBox(
-                //       width: 2.w,
-                //     ),
-                //     Flexible(
-                //       flex: 1,
-                //       child: BaseButton(text: "COMMENTS", onPressed: (){
-                //
-                //       }, btnHeight: 35, boxShadow: [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 16.sp,),
-                //     ),
-                //     SizedBox(
-                //       width: 2.w,
-                //     ),
-                //     Flexible(
-                //       flex: 1,
-                //       child: BaseButton(text: "ACCEPT", onPressed: (){}, btnHeight: 35, borderRadius: 10.0,textSize: 16.sp,),
-                //     ),
-                //   ],
-                // ),
-                // SizedBox(
-                //   height: 2.h,
-                // ),
+                Visibility(
+                  visible: index != 0,
+                  child: Row(
+                    children: [
+                      // Flexible(
+                      //   flex: 1,
+                      //   child: BaseButton(title: "ESCALATE", onPressed: (){}),
+                      // ),
+                      // SizedBox(
+                      //   width: 2.w,
+                      // ),
+                      Expanded(
+                        flex: 1,
+                        child: BaseButton(title: "ACCEPT", onPressed: (){},btnType: mediumButton,removeHorizontalPadding: true),
+                      ),
+                      SizedBox(
+                        width: 2.w,
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: BaseButton(title: "COMMENT", onPressed: (){},isActive: false,btnType: mediumButton,removeHorizontalPadding: true),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 2.h,
+                ),
                 StepProgressView(
                   width: MediaQuery.of(context).size.width,
                   curStep: index+1,

@@ -41,7 +41,7 @@ class _StarDetachingPopupState extends State<StarDetachingPopup> {
                   children: [
                     Text(""),
                     Text("Star Detaching", style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: Colors.black),),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back();
                       },
@@ -106,7 +106,7 @@ class _StarDetachingPopupState extends State<StarDetachingPopup> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         index = 0;
                         setState(() {});
@@ -134,7 +134,7 @@ class _StarDetachingPopupState extends State<StarDetachingPopup> {
                     SizedBox(
                       width: 5.w,
                     ),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         index = 1;
                         setState(() {});

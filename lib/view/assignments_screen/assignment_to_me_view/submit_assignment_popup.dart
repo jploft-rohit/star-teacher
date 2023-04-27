@@ -41,7 +41,7 @@ class _SubmitAssignmentPopupState extends State<SubmitAssignmentPopup> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back();
                       },

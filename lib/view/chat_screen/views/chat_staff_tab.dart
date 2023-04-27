@@ -6,6 +6,7 @@ import 'package:staff_app/Utility/base_tab_button.dart';
 import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
 import 'package:staff_app/Utility/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/chat_screen/chating_screen.dart';
@@ -41,8 +42,8 @@ class _ChatStaffTabState extends State<ChatStaffTab> with SingleTickerProviderSt
       child: Column(
         children: [
           BaseToggleTabBar(controller: tabController, tabs: [
-            BaseTabButton(title: translate(context).individual, isSelected: tabController.index == 0),
-            BaseTabButton(title: translate(context).group, isSelected: tabController.index == 1),
+            BaseTabButton(title: translate(context).individual, isSelected: tabController.index == 0,type: toggleLargeButton,),
+            BaseTabButton(title: translate(context).group, isSelected: tabController.index == 1,type: toggleLargeButton,),
           ]),
           SizedBox(
             height: 2.h,
@@ -108,7 +109,7 @@ class _ChatStaffTabState extends State<ChatStaffTab> with SingleTickerProviderSt
                                       ),
                                     ],
                                   ),
-                                  InkWell(
+                                  GestureDetector(
                                     onTap: (){
                                       Get.to(const ScheduleMeetingScreen());
                                     },
@@ -125,7 +126,7 @@ class _ChatStaffTabState extends State<ChatStaffTab> with SingleTickerProviderSt
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(right: 10.0),
-                                    child: InkWell(
+                                    child: GestureDetector(
                                       onTap: (){
                                         Get.to(const ChatingScreen());
                                       },
@@ -220,7 +221,7 @@ class _ChatStaffTabState extends State<ChatStaffTab> with SingleTickerProviderSt
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                                    child: InkWell(
+                                    child: GestureDetector(
                                       onTap: (){
                                         Get.to(const ChatingScreen());
                                       },

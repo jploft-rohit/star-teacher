@@ -8,7 +8,9 @@ import 'package:staff_app/Utility/base_tab_bar.dart';
 
 
 import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/Utility/custom_filter_dropdown.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
+import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -79,155 +81,89 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
       children: [
         Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15.0),
-            border: Border.all(
-                color: BaseColors.borderColor
-            ),
-          ),
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: Color(0xFFCECECE), width: 1)),
           child: Column(
             children: [
               Row(
                 children: [
-                  Flexible(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0,),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(classTakenSvg,height: 15,),
-                          SizedBox(
-                            width: 2.w,
-                          ),
-                          Text("School", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          const Spacer(),
-                          const Icon(
-                            Icons.arrow_drop_down,
-                          )
-                        ],
-                      ),
-                    ),
+                  CustomFilterDropDown(initialValue: DummyLists.initialSchool, hintText: 'School', listData: DummyLists.schoolData, onChange: (value) {
+                    setState(() {
+                      DummyLists.initialSchool=value;
+                    });
+                  },icon: classTakenSvg,
                   ),
                   Container(
-                    width: 1,
-                    height: 25,
-                    color: BaseColors.borderColor,
-                  ),
-                  Flexible(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(classTakenSvg,height: 15,),
-                          SizedBox(
-                            width: 2.w,
-                          ),
-                          Text("Terms 1", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          const Spacer(),
-                          const Icon(
-                            Icons.arrow_drop_down,
-                          )
-                        ],
-                      ),
+                    child: VerticalDivider(
+                      width: 1,
                     ),
+                    height: 4.h,
+                    width: 1,
+                  ),
+                  CustomFilterDropDown(initialValue: DummyLists.initialTerm, hintText: 'Terms 1', listData: DummyLists.termData, onChange: (value) {
+                    setState(() {
+                      DummyLists.initialTerm=value;
+                    });
+                  },icon: classTakenSvg,
                   ),
                 ],
+                mainAxisAlignment: MainAxisAlignment.start,
               ),
-              const Divider(height: 0.0,),
+              Divider(
+                height: 1,
+                thickness: 1,
+              ),
               Row(
                 children: [
-                  Flexible(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0,),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(jobDetailSvg,height: 15,),
-                          SizedBox(
-                            width: 2.w,
-                          ),
-                          Text("Grade 3", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          const Spacer(),
-                          const Icon(
-                            Icons.arrow_drop_down,
-                          )
-                        ],
-                      ),
-                    ),
+                  CustomFilterDropDown(initialValue: DummyLists.initialGrade, hintText: 'Grade 3', listData: DummyLists.schoolData, onChange: (value) {
+                    setState(() {
+                      DummyLists.initialGrade=value;
+                    });
+                  },icon: jobDetailSvg,
                   ),
                   Container(
-                    width: 1,
-                    height: 25,
-                    color: BaseColors.borderColor,
-                  ),
-                  Flexible(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset("assets/images/book 2.svg",height: 15,),
-                          SizedBox(
-                            width: 2.w,
-                          ),
-                          Text("Math", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          const Spacer(),
-                          const Icon(
-                            Icons.arrow_drop_down,
-                          )
-                        ],
-                      ),
+                    child: VerticalDivider(
+                      width: 1,
                     ),
+                    height: 4.h,
+                    width: 1,
+                  ),
+                  CustomFilterDropDown(initialValue: DummyLists.initialSubject, hintText: 'Math', listData: DummyLists.subjectData, onChange: (value) {
+                    setState(() {
+                      DummyLists.initialSubject=value;
+                    });
+                  },icon: "assets/images/book 2.svg",
                   ),
                 ],
+                mainAxisAlignment: MainAxisAlignment.start,
               ),
-              const Divider(height: 0.0,),
+              Divider(
+                height: 1,
+                thickness: 1,
+              ),
               Row(
                 children: [
-                  Flexible(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0,),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset("assets/images/user.svg",height: 15,),
-                          SizedBox(
-                            width: 2.w,
-                          ),
-                          Text("Gender", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          const Spacer(),
-                          const Icon(
-                            Icons.arrow_drop_down,
-                          )
-                        ],
-                      ),
-                    ),
+                  CustomFilterDropDown(initialValue: DummyLists.initialSchool, hintText: 'Gender', listData: DummyLists.genderData, onChange: (value) {
+                    setState(() {
+                      DummyLists.initialSchool=value;
+                    });
+                  },icon: "assets/images/user.svg",
                   ),
                   Container(
-                    width: 1,
-                    height: 25,
-                    color: BaseColors.borderColor,
-                  ),
-                  Flexible(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset("assets/images/user.svg",height: 15,),
-                          SizedBox(
-                            width: 2.w,
-                          ),
-                          Text("Ahmed", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          const Spacer(),
-                          const Icon(
-                            Icons.arrow_drop_down,
-                          )
-                        ],
-                      ),
+                    child: VerticalDivider(
+                      width: 1,
                     ),
+                    height: 4.h,
+                    width: 1,
+                  ),
+                  CustomFilterDropDown(initialValue: DummyLists.initialteacherName, hintText: 'Ahmed', listData: DummyLists.teacherNameData, onChange: (value) {
+                    setState(() {
+                      DummyLists.initialteacherName=value;
+                    });
+                  },icon: "assets/images/user.svg",
                   ),
                 ],
+                mainAxisAlignment: MainAxisAlignment.start,
               ),
             ],
           ),
@@ -354,7 +290,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                     ),
                     Container(height: 20.0,width: 1, color: BaseColors.borderColor),
 
-                    BaseButton(btnType: toggleButton,title: "Reuse", onPressed: (){}, textSize: 14.sp,verticalPadding: 0.8.h,),
+                    BaseButton(btnType: toggleButton,title: "Reuse", onPressed: (){}, textSize: 13.sp,verticalPadding: 0.8.h,),
                   ],
                 ),
                 const Divider(),
@@ -387,155 +323,89 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
       children: [
         Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15.0),
-            border: Border.all(
-                color: BaseColors.borderColor
-            ),
-          ),
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: Color(0xFFCECECE), width: 1)),
           child: Column(
             children: [
               Row(
                 children: [
-                  Flexible(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0,),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(classTakenSvg,height: 15,),
-                          SizedBox(
-                            width: 2.w,
-                          ),
-                          Text("School", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          const Spacer(),
-                          const Icon(
-                            Icons.arrow_drop_down,
-                          )
-                        ],
-                      ),
-                    ),
+                  CustomFilterDropDown(initialValue: DummyLists.initialSchool, hintText: 'School', listData: DummyLists.schoolData, onChange: (value) {
+                    setState(() {
+                      DummyLists.initialSchool=value;
+                    });
+                  },icon: classTakenSvg,
                   ),
                   Container(
-                    width: 1,
-                    height: 25,
-                    color: BaseColors.borderColor,
-                  ),
-                  Flexible(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(classTakenSvg,height: 15,),
-                          SizedBox(
-                            width: 2.w,
-                          ),
-                          Text("Terms 1", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          const Spacer(),
-                          const Icon(
-                            Icons.arrow_drop_down,
-                          )
-                        ],
-                      ),
+                    child: VerticalDivider(
+                      width: 1,
                     ),
+                    height: 4.h,
+                    width: 1,
+                  ),
+                  CustomFilterDropDown(initialValue: DummyLists.initialTerm, hintText: 'Terms 1', listData: DummyLists.termData, onChange: (value) {
+                    setState(() {
+                      DummyLists.initialTerm=value;
+                    });
+                  },icon: classTakenSvg,
                   ),
                 ],
+                mainAxisAlignment: MainAxisAlignment.start,
               ),
-              const Divider(height: 0.0,),
+              Divider(
+                height: 1,
+                thickness: 1,
+              ),
               Row(
                 children: [
-                  Flexible(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0,),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(jobDetailSvg,height: 15,),
-                          SizedBox(
-                            width: 2.w,
-                          ),
-                          Text("Grade 3", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          const Spacer(),
-                          const Icon(
-                            Icons.arrow_drop_down,
-                          )
-                        ],
-                      ),
-                    ),
+                  CustomFilterDropDown(initialValue: DummyLists.initialGrade, hintText: 'Grade 3', listData: DummyLists.schoolData, onChange: (value) {
+                    setState(() {
+                      DummyLists.initialGrade=value;
+                    });
+                  },icon: jobDetailSvg,
                   ),
                   Container(
-                    width: 1,
-                    height: 25,
-                    color: BaseColors.borderColor,
-                  ),
-                  Flexible(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset("assets/images/book 2.svg",height: 15,),
-                          SizedBox(
-                            width: 2.w,
-                          ),
-                          Text("Math", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          const Spacer(),
-                          const Icon(
-                            Icons.arrow_drop_down,
-                          )
-                        ],
-                      ),
+                    child: VerticalDivider(
+                      width: 1,
                     ),
+                    height: 4.h,
+                    width: 1,
+                  ),
+                  CustomFilterDropDown(initialValue: DummyLists.initialSubject, hintText: 'Math', listData: DummyLists.subjectData, onChange: (value) {
+                    setState(() {
+                      DummyLists.initialSubject=value;
+                    });
+                  },icon: "assets/images/book 2.svg",
                   ),
                 ],
+                mainAxisAlignment: MainAxisAlignment.start,
               ),
-              const Divider(height: 0.0,),
+              Divider(
+                height: 1,
+                thickness: 1,
+              ),
               Row(
                 children: [
-                  Flexible(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0,),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset("assets/images/user.svg",height: 15,),
-                          SizedBox(
-                            width: 2.w,
-                          ),
-                          Text("Gender", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          const Spacer(),
-                          const Icon(
-                            Icons.arrow_drop_down,
-                          )
-                        ],
-                      ),
-                    ),
+                  CustomFilterDropDown(initialValue: DummyLists.initialSchool, hintText: 'Gender', listData: DummyLists.genderData, onChange: (value) {
+                    setState(() {
+                      DummyLists.initialSchool=value;
+                    });
+                  },icon: "assets/images/user.svg",
                   ),
                   Container(
-                    width: 1,
-                    height: 25,
-                    color: BaseColors.borderColor,
-                  ),
-                  Flexible(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset("assets/images/user.svg",height: 15,),
-                          SizedBox(
-                            width: 2.w,
-                          ),
-                          Text("Ahmed", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          const Spacer(),
-                          const Icon(
-                            Icons.arrow_drop_down,
-                          )
-                        ],
-                      ),
+                    child: VerticalDivider(
+                      width: 1,
                     ),
+                    height: 4.h,
+                    width: 1,
+                  ),
+                  CustomFilterDropDown(initialValue: DummyLists.initialteacherName, hintText: 'Ahmed', listData: DummyLists.teacherNameData, onChange: (value) {
+                    setState(() {
+                      DummyLists.initialteacherName=value;
+                    });
+                  },icon: "assets/images/user.svg",
                   ),
                 ],
+                mainAxisAlignment: MainAxisAlignment.start,
               ),
             ],
           ),
@@ -662,7 +532,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                     ),
                     Container(height: 20.0,width: 1, color: BaseColors.borderColor),
 
-                    BaseButton(btnType: toggleButton,title: "Reuse", onPressed: (){}, textSize: 14.sp,verticalPadding: 0.8.h,),
+                    BaseButton(btnType: toggleButton,title: "Reuse", onPressed: (){}, textSize: 13.sp,verticalPadding: 0.8.h,),
                   ],
                 ),
                 const Divider(),
@@ -695,155 +565,89 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
       children: [
         Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15.0),
-            border: Border.all(
-                color: BaseColors.borderColor
-            ),
-          ),
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: Color(0xFFCECECE), width: 1)),
           child: Column(
             children: [
               Row(
                 children: [
-                  Flexible(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0,),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(classTakenSvg,height: 15,),
-                          SizedBox(
-                            width: 2.w,
-                          ),
-                          Text("School", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          const Spacer(),
-                          const Icon(
-                            Icons.arrow_drop_down,
-                          )
-                        ],
-                      ),
-                    ),
+                  CustomFilterDropDown(initialValue: DummyLists.initialSchool, hintText: 'School', listData: DummyLists.schoolData, onChange: (value) {
+                    setState(() {
+                      DummyLists.initialSchool=value;
+                    });
+                  },icon: classTakenSvg,
                   ),
                   Container(
-                    width: 1,
-                    height: 25,
-                    color: BaseColors.borderColor,
-                  ),
-                  Flexible(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(classTakenSvg,height: 15,),
-                          SizedBox(
-                            width: 2.w,
-                          ),
-                          Text("Terms 1", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          const Spacer(),
-                          const Icon(
-                            Icons.arrow_drop_down,
-                          )
-                        ],
-                      ),
+                    child: VerticalDivider(
+                      width: 1,
                     ),
+                    height: 4.h,
+                    width: 1,
+                  ),
+                  CustomFilterDropDown(initialValue: DummyLists.initialTerm, hintText: 'Terms 1', listData: DummyLists.termData, onChange: (value) {
+                    setState(() {
+                      DummyLists.initialTerm=value;
+                    });
+                  },icon: classTakenSvg,
                   ),
                 ],
+                mainAxisAlignment: MainAxisAlignment.start,
               ),
-              const Divider(height: 0.0,),
+              Divider(
+                height: 1,
+                thickness: 1,
+              ),
               Row(
                 children: [
-                  Flexible(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0,),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(jobDetailSvg,height: 15,),
-                          SizedBox(
-                            width: 2.w,
-                          ),
-                          Text("Grade 3", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          const Spacer(),
-                          const Icon(
-                            Icons.arrow_drop_down,
-                          )
-                        ],
-                      ),
-                    ),
+                  CustomFilterDropDown(initialValue: DummyLists.initialGrade, hintText: 'Grade 3', listData: DummyLists.schoolData, onChange: (value) {
+                    setState(() {
+                      DummyLists.initialGrade=value;
+                    });
+                  },icon: jobDetailSvg,
                   ),
                   Container(
-                    width: 1,
-                    height: 25,
-                    color: BaseColors.borderColor,
-                  ),
-                  Flexible(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset("assets/images/book 2.svg",height: 15,),
-                          SizedBox(
-                            width: 2.w,
-                          ),
-                          Text("Math", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          const Spacer(),
-                          const Icon(
-                            Icons.arrow_drop_down,
-                          )
-                        ],
-                      ),
+                    child: VerticalDivider(
+                      width: 1,
                     ),
+                    height: 4.h,
+                    width: 1,
+                  ),
+                  CustomFilterDropDown(initialValue: DummyLists.initialSubject, hintText: 'Math', listData: DummyLists.subjectData, onChange: (value) {
+                    setState(() {
+                      DummyLists.initialSubject=value;
+                    });
+                  },icon: "assets/images/book 2.svg",
                   ),
                 ],
+                mainAxisAlignment: MainAxisAlignment.start,
               ),
-              const Divider(height: 0.0,),
+              Divider(
+                height: 1,
+                thickness: 1,
+              ),
               Row(
                 children: [
-                  Flexible(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0,),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset("assets/images/user.svg",height: 15,),
-                          SizedBox(
-                            width: 2.w,
-                          ),
-                          Text("Gender", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          const Spacer(),
-                          const Icon(
-                            Icons.arrow_drop_down,
-                          )
-                        ],
-                      ),
-                    ),
+                  CustomFilterDropDown(initialValue: DummyLists.initialSchool, hintText: 'Gender', listData: DummyLists.genderData, onChange: (value) {
+                    setState(() {
+                      DummyLists.initialSchool=value;
+                    });
+                  },icon: "assets/images/user.svg",
                   ),
                   Container(
-                    width: 1,
-                    height: 25,
-                    color: BaseColors.borderColor,
-                  ),
-                  Flexible(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset("assets/images/user.svg",height: 15,),
-                          SizedBox(
-                            width: 2.w,
-                          ),
-                          Text("Ahmed", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                          const Spacer(),
-                          const Icon(
-                            Icons.arrow_drop_down,
-                          )
-                        ],
-                      ),
+                    child: VerticalDivider(
+                      width: 1,
                     ),
+                    height: 4.h,
+                    width: 1,
+                  ),
+                  CustomFilterDropDown(initialValue: DummyLists.initialteacherName, hintText: 'Ahmed', listData: DummyLists.teacherNameData, onChange: (value) {
+                    setState(() {
+                      DummyLists.initialteacherName=value;
+                    });
+                  },icon: "assets/images/user.svg",
                   ),
                 ],
+                mainAxisAlignment: MainAxisAlignment.start,
               ),
             ],
           ),
@@ -970,7 +774,7 @@ class _LibraryScreenState extends State<LibraryScreen> with SingleTickerProvider
                     ),
                     Container(height: 20.0,width: 1, color: BaseColors.borderColor),
 
-                    BaseButton(btnType: toggleButton,title: "Reuse", onPressed: (){}, textSize: 14.sp,verticalPadding: 0.8.h,),
+                    BaseButton(btnType: toggleButton,title: "Reuse", onPressed: (){}, textSize: 13.sp,verticalPadding: 0.8.h,),
                   ],
                 ),
                 const Divider(),

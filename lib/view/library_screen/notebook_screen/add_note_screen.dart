@@ -8,9 +8,11 @@ import 'package:staff_app/Utility/base_textformfield.dart';
 
 
 import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/Utility/custom_dropdown_widget.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/schedule_meeting_screen/schedule_meeting_screen.dart';
 import 'package:staff_app/view/task_or_reminder_screen/add_task_or_reminder_screen.dart';
@@ -51,31 +53,25 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
           padding: EdgeInsets.all(15.sp),
           child: Column(
             children: [
-              Container(
-                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                decoration: BoxDecoration(
-                  color: BaseColors.backgroundColor,
-                  borderRadius: BorderRadius.circular(5.0),
-                  border: Border.all(
-                      color: BaseColors.borderColor
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Ignite Public School", style: Style.montserratRegularStyle().copyWith(color: Colors.black, fontSize: 16.sp),),
-                    const Icon(Icons.arrow_drop_down, color: Color(0xffC4C4C4),size: 35.0,)
-                  ],
-                ),
+              Custom_DropDown(
+                initialValue: DummyLists.initialSchool,
+                hintText: "Select School",
+                listData:DummyLists.schoolData,
+                onChange: (value) {
+                  setState(() {
+                    DummyLists.initialSchool=value;
+                  });
+                },
+                topPadding: 5,
+                bottomPadding: 5,
+                icon: Icon(Icons.arrow_drop_down,color: Color(0xFFC4C4C4),size: 25,),
               ),
-              SizedBox(
-                height: 2.h,
-              ),
+              SizedBox(height: 1.h,),
               Row(
                 children: [
                   Obx(() => Flexible(
                     flex: 1,
-                    child: InkWell(
+                    child: GestureDetector(
                       onTap: (){
                         controller.selectedIndex3.value = 0;
                       },
@@ -84,7 +80,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                         width: getWidth(context) * 50 / 100,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                            color: controller.selectedIndex3.value == 0 ? BaseColors.backgroundColor : BaseColors.screenBackgroundColor,
+                            color: controller.selectedIndex3.value == 0 ? BaseColors.backgroundColor : BaseColors.txtFieldTextColor,
                             border: Border.all(
                                 color: controller.selectedIndex3.value == 0 ? Colors.transparent : BaseColors.txtFiledBorderColor
                             ),
@@ -97,9 +93,10 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                                     offset: Offset(0, 3)
                                 )
                             ],
-                            borderRadius: BorderRadius.circular(15.sp)
+                            borderRadius: BorderRadius.circular(10)
                         ),
-                        child: Text("Has Talent", style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex3.value == 0 ? BaseColors.primaryColor : BaseColors.txtFiledBorderColor, fontSize: 16.sp),),
+                        child: Text("Has Talent", style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex3.value == 0 ? BaseColors.primaryColor : BaseColors.txtFiledBorderColor, fontSize: 16.sp,
+                        fontWeight: controller.selectedIndex3.value == 0?FontWeight.bold:FontWeight.w400),),
                       ),
                     ),
                   )),
@@ -108,7 +105,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                   ),
                   Obx(() => Flexible(
                     flex: 1,
-                    child: InkWell(
+                    child: GestureDetector(
                       onTap: (){
                         controller.selectedIndex3.value = 1;
                       },
@@ -117,7 +114,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                         width: getWidth(context) * 50 / 100,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                            color: controller.selectedIndex3.value == 1 ? BaseColors.backgroundColor : BaseColors.screenBackgroundColor,
+                            color: controller.selectedIndex3.value == 1 ? BaseColors.backgroundColor : BaseColors.txtFieldTextColor,
                             border: Border.all(
                                 color: controller.selectedIndex3.value == 1 ? Colors.transparent : BaseColors.txtFiledBorderColor
                             ),
@@ -130,9 +127,10 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                                     offset: Offset(0, 3)
                                 )
                             ],
-                            borderRadius: BorderRadius.circular(15.sp)
+                            borderRadius: BorderRadius.circular(10)
                         ),
-                        child: Text("Need Improvement", style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex3.value == 1 ? BaseColors.primaryColor : BaseColors.txtFiledBorderColor, fontSize: 16.sp),),
+                        child: Text("Need Improvement", style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex3.value == 1 ? BaseColors.primaryColor : BaseColors.txtFiledBorderColor, fontSize: 16.sp,
+                            fontWeight: controller.selectedIndex3.value == 0?FontWeight.bold:FontWeight.w400),),
                       ),
                     ),
                   )),
@@ -198,13 +196,13 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                   setState(() {
                     recommendationController.text = newValue.toString();
                   });},
-                items: DummyLists().list1.map((value) {
+                items: DummyLists().recommendationList.map((value) {
                   return DropdownMenuItem(
                     value: value,
                     child: addText(value, 16.sp, Colors.black, FontWeight.w400),);
                 }).toList(),
               ),
-              CustomTextField(controller: subjectController, hintText: "Subject", borderRadius: 5.0,fillColor: BaseColors.txtFieldTextColor,suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0)),
+              CustomTextField(controller: subjectController, hintText: "Subject", borderRadius: 5.0,fillColor: BaseColors.txtFieldTextColor),
               SizedBox(height: 2.h),
               // CustomTextField(controller: commentController, hintText: "Comment", borderRadius: 5.0,fillColor: CustomColors.txtFieldTextColor),
               // SizedBox(height: 2.h),
@@ -214,7 +212,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
               SizedBox(height: 2.h),
               BaseButton(title: widget.isUpdating ? "UPDATE" : "SUBMIT", onPressed: (){
                 Navigator.pop(context);
-              })
+              },btnType: largeButton,)
             ],
           ),
         ),

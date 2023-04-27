@@ -65,7 +65,7 @@ class _NotifyAuthorityPopupState extends State<NotifyAuthorityPopup> {
                   children: [
                     const Text(""),
                     Text(translate(context).notify_admin, style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: Colors.black),),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back();
                       },
@@ -80,7 +80,7 @@ class _NotifyAuthorityPopupState extends State<NotifyAuthorityPopup> {
                     itemCount: 4,
                     padding: EdgeInsets.zero,
                     itemBuilder: (context, index) {
-                      return InkWell(
+                      return GestureDetector(
                         onTap: (){
                           for(var i in list){
                             i['isSelected'] = false;
