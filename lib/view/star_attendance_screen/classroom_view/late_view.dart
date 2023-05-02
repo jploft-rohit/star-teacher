@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
-import 'package:staff_app/view/performance_screen/performance_screen.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/change_status_popup.dart';
+import 'package:staff_app/view/star_evaluation_screen/star_rating_popup.dart';
 
 class LateView extends StatefulWidget {
   const LateView({Key? key}) : super(key: key);
@@ -117,7 +116,13 @@ class _PresentViewState extends State<LateView> {
                 padding: const EdgeInsets.only(left: 3.0),
                 child: GestureDetector(
                   onTap: (){
-                    Get.to(PerformanceScreen(index: 2,));
+                    // Get.to(PerformanceScreen(index: 2,));
+                    showGeneralDialog(
+                      context: context,
+                      pageBuilder: (context, animation, secondaryAnimation) {
+                        return const StarRatingPopup();
+                      },
+                    );
                   },
                   child: Container(
                     padding: EdgeInsets.all(3),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -25,8 +25,8 @@ class _AttendanceAbsentViewState extends State<AttendanceAbsentView> {
         shrinkWrap: true,
         itemBuilder: (context, index) {
           return Container(
-            height: 100,
-            margin: const EdgeInsets.only(bottom: 10.0),
+            height: 12.5.h,
+            margin: EdgeInsets.only(bottom: 1.h),
             clipBehavior: Clip.antiAliasWithSaveLayer,
             decoration: BoxDecoration(
                 color: BaseColors.white,
@@ -47,18 +47,16 @@ class _AttendanceAbsentViewState extends State<AttendanceAbsentView> {
                         Row(
                           children: [
                             SvgPicture.asset(calenderDateSvg, color: BaseColors.primaryColor,height: 13),
-                            SizedBox(
-                              width: 2.w,
-                            ),
+                            SizedBox(width: 2.w),
                             Text("01/03/2022", style: Style.montserratMediumStyle().copyWith(fontSize: 14.sp),),
                             SizedBox(
                               width: 10.w,
                             ),
                             SvgPicture.asset("assets/images/time_icon.svg"),
                             SizedBox(
-                              width: 2.w,
+                              width: 2.w
                             ),
-                            Text("09:13pm", style: Style.montserratMediumStyle().copyWith(fontSize: 14.sp),),
+                            Text("09:13pm", style: Style.montserratMediumStyle().copyWith(fontSize: 14.sp)),
                           ],
                         ),
                         Divider(),

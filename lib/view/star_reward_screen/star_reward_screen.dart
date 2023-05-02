@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_filter_dropdown.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/dummy_lists.dart';

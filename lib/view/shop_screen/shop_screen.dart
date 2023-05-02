@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_tab_button.dart';
-import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_tab_button.dart';
+import 'package:staff_app/utility/base_views/base_toggle_tab_bar.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_dropdown_widget.dart';
 import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -69,7 +69,7 @@ class _ShopViewState extends State<ShopView> with SingleTickerProviderStateMixin
                 BaseTabButton(title: translate(context).orders, isSelected: tabController.index == 1,type: toggleLargeButton,),
               ]),
               SizedBox(height:2.h),
-              Custom_DropDown(
+              CustomDropDown(
                 initialValue: DummyLists.initialSchool,
                 hintText: "Select School",
                 listData:DummyLists.schoolData,

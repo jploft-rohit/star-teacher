@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
 
-import 'package:staff_app/Utility/base_colors.dart';
-import 'package:staff_app/Utility/base_dialogs.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -117,7 +117,7 @@ class _MyProfileViewState extends State<MyProfileView> {
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 25),
                                 child: BaseButton(removeHorizontalPadding: true,btnType: smallButton,borderRadius: 100,title: translate(context).change,textSize: 11, onPressed: () {
-                                  BaseDialogs().showOtpDialog();
+                                  BaseOverlays().showOtpDialog();
                                 }),
                               )
                             ],
@@ -133,7 +133,7 @@ class _MyProfileViewState extends State<MyProfileView> {
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 25),
                                 child: BaseButton(removeHorizontalPadding: true,btnType: smallButton,borderRadius: 100,title: translate(context).change,textSize: 11, onPressed: () {
-                                  BaseDialogs().showOtpDialog();
+                                  BaseOverlays().showOtpDialog();
                                 }),
                               )
                             ],
@@ -217,7 +217,9 @@ class _MyProfileViewState extends State<MyProfileView> {
                               iconButton(() {}, uploadDocSvg)),
                           Text("${translate(context).upload_your_doc_till} 25 July, 2022", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textRedColor, fontSize: 14.sp),),
                           SizedBox(height: 3.0.h),
-                          BaseButton(title: translate(context).save, onPressed: (){},btnType: largeButton,),
+                          BaseButton(title: translate(context).save, onPressed: (){
+                            Get.back();
+                          },btnType: largeButton,),
                           SizedBox(height: 3.0.h),
                         ],
                       ),

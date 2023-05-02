@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/utility.dart';
 
 class NewsDetailScreen extends StatefulWidget {

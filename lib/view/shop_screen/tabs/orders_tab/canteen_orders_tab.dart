@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_tab_bar.dart';
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_tab_bar.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/view/shop_screen/tabs/orders_tab/canteen_orders_tab/every_week_tab.dart';
 import 'package:staff_app/view/shop_screen/tabs/orders_tab/canteen_orders_tab/this_week_tab.dart';
 import 'package:staff_app/view/shop_screen/shop_screen_ctrl.dart';

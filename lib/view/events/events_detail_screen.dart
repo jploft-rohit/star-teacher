@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/Utility/base_container_decoration.dart';
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/constants-classes/color_constants.dart';
-
-
-import '../../Utility/base_detail_data.dart';
-import '../../Utility/base_dialogs.dart';
+import 'package:staff_app/utility/base_views/base_detail_data.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
 
 class EventsDetailScreen extends StatefulWidget {
   const EventsDetailScreen({Key? key}) : super(key: key);
@@ -515,7 +513,7 @@ class _EventsDetailScreenState extends State<EventsDetailScreen> {
                             child: BaseButton(
                                 title: "APPROVE",
                                 onPressed: () {
-                                  BaseDialogs().showOkDialog(
+                                  BaseOverlays().showOkDialog(
                                       title: "Your event approved!");
                                 },btnType: mediumLargeButton,)),
                         SizedBox(width: 14),
@@ -523,7 +521,7 @@ class _EventsDetailScreenState extends State<EventsDetailScreen> {
                             child: BaseButton(
                                 title: "REJECT",
                                 onPressed: () {
-                                  BaseDialogs().showRejectDialog(
+                                  BaseOverlays().showRejectDialog(
                                       hintText:
                                           "Why are you rejecting this event?");
                                 },

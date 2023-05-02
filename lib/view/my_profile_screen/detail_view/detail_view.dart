@@ -4,17 +4,19 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/route_manager/route_name.dart';
+import 'package:staff_app/utility/base_views/base_detail_data.dart';
 import 'package:staff_app/view/add_family_member/add_family_member.dart';
 import 'package:staff_app/view/add_family_member/family_details_screen.dart';
+import 'package:staff_app/view/my_profile_screen/controller/my_profile_ctrl.dart';
 import 'package:staff_app/view/my_profile_screen/my_profile_view/my_profile_view.dart';
 import 'package:staff_app/view/salary_slip_screen/salary_slip_poup.dart';
 
@@ -26,7 +28,11 @@ class DetailView extends StatefulWidget {
 }
 
 class _DetailViewState extends State<DetailView> {
+  MyProfileCtrl controller = Get.find<MyProfileCtrl>();
   TextEditingController reasonCtrl = TextEditingController();
+  String na = translate(Get.context!).na;
+  bool showDivider = false;
+  double bottomMargin = 1.h;
 
   @override
   Widget build(BuildContext context) {
@@ -59,8 +65,7 @@ class _DetailViewState extends State<DetailView> {
         padding:
         const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
         child: Theme(
-          data: Theme.of(context)
-              .copyWith(dividerColor: Colors.transparent),
+          data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
           child: ExpansionTile(
               childrenPadding: EdgeInsets.zero,
               iconColor: BaseColors.primaryColor,
@@ -73,8 +78,7 @@ class _DetailViewState extends State<DetailView> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    buildInfoItems(translate(context).mobile_no, '9563214563'),
-
+                    BaseDetailData(detailsLabel:translate(context).mobile_no, detailsValue:controller.response.value.data?.mobile??na,bottomMargin: bottomMargin,showDivider: showDivider,),
                     BaseButton(
                       title: "Edit".toUpperCase(),
                       onPressed: (){
@@ -88,84 +92,65 @@ class _DetailViewState extends State<DetailView> {
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                buildInfoItems(
-                    translate(context).alternative_mobile, '9795214563'),
-                SizedBox(
-                  height: 2.h,
-                ),
-                buildInfoItems(
-                    translate(context).email, 'rafiq_khan007@gmail.com'),
-                SizedBox(
-                  height: 2.h,
-                ),
-                buildInfoItems(translate(context).dob, '17 March, 1985'),
-                SizedBox(
-                  height: 2.h,
-                ),
-                buildInfoItems(
-                    translate(context).address, 'PO Box: 9440 Dubai UAE'),
-                SizedBox(
-                  height: 2.h,
-                ),
-                buildInfoItems(translate(context).country, 'UAE'),
-                SizedBox(
-                  height: 2.h,
-                ),
-                buildInfoItems(translate(context).sector, 'Dubai'),
-                SizedBox(
-                  height: 2.h,
-                ),
-                buildInfoItems(translate(context).marital_status, 'Married'),
-                SizedBox(
-                  height: 2.h,
-                ),
-                buildInfoItems(translate(context).nationality, 'Pakistan'),
-                SizedBox(
-                  height: 1.5.h,
-                ),
-                buildInfoItems(translate(context).emirates_ID, 'GT65349'),
-                SizedBox(
-                  height: 1.5.h,
-                ),
-                buildInfoItems(translate(context).expiry_date, '15 Sep, 2025',),
-                SizedBox(
-                  height: 1.h,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    buildInfoItems("Document", 'doc.pdf'),
-                    SizedBox(
-                      width: 5.w,
-                    ),
-                    Row(
-                      children: [
-                        GestureDetector(
-                            onTap: (){
-                              showGeneralDialog(
-                                context: context,
-                                pageBuilder:  (context, animation, secondaryAnimation) {
-                                  return OpenPdfPopup(title: "doc.pdf");
-                                },
-                              );
-                            },child: Icon(Icons.remove_red_eye_outlined,color: BaseColors.primaryColor,size: 20.sp,)),
-                        const SizedBox(width: 10,),
-                        Icon(Icons.download_for_offline,color: BaseColors.primaryColor,size: 20.sp,)
-                      ],
-                    ),
-                  ],
+                SizedBox(height: 2.h),
+                BaseDetailData(detailsLabel: translate(context).alternative_mobile,detailsValue: controller.response.value.data?.mobile??na, showDivider: showDivider, bottomMargin: bottomMargin),
+                // BaseDetailData(
+                //     translate(context).email, controller.response.data?.email??""),
+                // SizedBox(
+                //   height: 2.h,
+                // ),
+                BaseDetailData(detailsLabel:translate(context).dob, detailsValue: controller.response.value.data?.dob??na,bottomMargin: bottomMargin,showDivider: showDivider,),
+                // BaseDetailData(
+                //     translate(context).address, controller.response.data?.address??""),
+                // SizedBox(
+                //   height: 2.h,
+                // ),
+                // BaseDetailData(translate(context).country, controller.response.value.data?.country??na),
+                // SizedBox(
+                //   height: 2.h,
+                // ),
+                // BaseDetailData(translate(context).sector, controller.response.value.data?.sector??na),
+                // SizedBox(
+                //   height: 2.h,
+                // ),
+                // BaseDetailData(translate(context).marital_status, controller.response.value.data?.married??na),
+                // SizedBox(
+                //   height: 2.h,
+                // ),
+                BaseDetailData(detailsLabel:translate(context).nationality, detailsValue:controller.response.value.data?.nationality??na,bottomMargin: bottomMargin,showDivider: showDivider,),
+                BaseDetailData(detailsLabel:translate(context).emirates_ID, detailsValue:controller.response.value.data?.emirateId??"",bottomMargin: bottomMargin,showDivider: showDivider,),
+                BaseDetailData(detailsLabel:translate(context).expiry_date, detailsValue:controller.response.value.data?.emirateIdExpire??"",bottomMargin: bottomMargin,showDivider: showDivider),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 2.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      BaseDetailData(detailsLabel:"Document", detailsValue:'doc.pdf',bottomMargin: bottomMargin,showDivider: showDivider,rightMargin: 5.w),
+                      Row(
+                        children: [
+                          GestureDetector(
+                              onTap: (){
+                                showGeneralDialog(
+                                  context: context,
+                                  pageBuilder:  (context, animation, secondaryAnimation) {
+                                    return OpenPdfPopup(title: "doc.pdf");
+                                  },
+                                );
+                              },child: Icon(Icons.remove_red_eye_outlined,color: BaseColors.primaryColor,size: 20.sp,)),
+                          const SizedBox(width: 10,),
+                          Icon(Icons.download_for_offline,color: BaseColors.primaryColor,size: 20.sp,)
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
                 // Row(
                 //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 //   children: [
-                //     buildInfoItems('Emirates ID', 'GT65349'),
-                //     buildInfoItems('Expiry Date', '15 Sep, 2025')
+                //     BaseDetailData('Emirates ID', 'GT65349'),
+                //     BaseDetailData('Expiry Date', '15 Sep, 2025')
                 //   ],
                 // ),
-                SizedBox(height: 2.h,)
               ]),
         ),
       ),
@@ -195,17 +180,8 @@ class _DetailViewState extends State<DetailView> {
               backgroundColor: BaseColors.white,
               expandedCrossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-
-                buildInfoItems(
-                    translate(context).designation , 'Teacher'),
-                SizedBox(
-                  height: 2.h,
-                ),
-                buildInfoItems(
-                    translate(context).date_of_employment , '23 May, 2019'),
-                SizedBox(
-                  height: 2.h,
-                ),
+                BaseDetailData(detailsLabel:translate(context).designation , detailsValue:controller.response.value.data?.jobDetails?.role??na,bottomMargin: bottomMargin,showDivider: showDivider,),
+                BaseDetailData(detailsLabel:translate(context).date_of_employment , detailsValue:controller.response.value.data?.jobDetails?.dateOfEmployment??na,bottomMargin: bottomMargin,showDivider: showDivider,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -215,7 +191,7 @@ class _DetailViewState extends State<DetailView> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(translate(context).job_grade, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp)),
-                          SizedBox(height: 0.5.h,),
+                          SizedBox(height: 0.5.h),
                           Container(
                             margin: EdgeInsets.only(bottom: 2.h),
                             padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
@@ -491,11 +467,8 @@ class _DetailViewState extends State<DetailView> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        buildInfoItems(translate(context).name, 'Salma Khan'),
-                        SizedBox(
-                          height: 1.h,
-                        ),
-                        buildInfoItems(translate(context).relation, 'Mother'),
+                        BaseDetailData(detailsLabel:translate(context).name, detailsValue:'Salma Khan',bottomMargin: bottomMargin,showDivider: showDivider),
+                        BaseDetailData(detailsLabel:translate(context).relation, detailsValue:'Mother',bottomMargin: bottomMargin,showDivider: showDivider),
                       ],
                     ),
                     Row(

@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/constants-classes/color_constants.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
 
 import '../../../Utility/utility.dart';
 
@@ -241,12 +242,17 @@ class _EditOrderViewState extends State<EditOrderView> {
                       height: 2.h,
                       child: VerticalDivider(),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Icon(CupertinoIcons.delete,color: Color(0xFFE62626),size: 14,),
-                        addText("Remove", 14,Color(0xFFE62626), FontWeight.w400),
-                      ],
+                    GestureDetector(
+                      onTap: (){
+                        BaseOverlays().showOkDialog(btnTitle: "Yes",title: "Are you sure you want\nto remove this item?");
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(CupertinoIcons.delete,color: Color(0xFFE62626),size: 14,),
+                          addText("Remove", 14,Color(0xFFE62626), FontWeight.w400),
+                        ],
+                      ),
                     )
                   ],
                 ),

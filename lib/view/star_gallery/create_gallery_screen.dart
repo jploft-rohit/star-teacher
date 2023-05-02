@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/base_dialogs.dart';
-import 'package:staff_app/Utility/base_textformfield.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/utility/base_views/base_textformfield.dart';
 import 'package:staff_app/Utility/custom_dropdown_widget.dart';
 import 'package:staff_app/Utility/custom_filter_dropdown.dart';
 import 'package:staff_app/Utility/dummy_lists.dart';
@@ -34,7 +34,7 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
           padding: EdgeInsets.all(scaffoldPadding),
           child: Column(
             children: [
-              Custom_DropDown(
+              CustomDropDown(
                 initialValue: categoryInitial,
                 hintText: "Select Category",
                 listData: ["Select Category", "School","Achievements","Events"],
@@ -97,7 +97,7 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
               BaseTextFormField(controller: titleController,hintText: "Title"),
               BaseTextFormField(controller: uploadController,hintText: "Upload Images & Video",suffixIcon: "assets/images/upload_icon.svg",
               onTap: (){
-                BaseDialogs().showMediaPickerDialog();
+                BaseOverlays().showMediaPickerDialog();
               }),
               SizedBox(height: 3.h,),
               Row(

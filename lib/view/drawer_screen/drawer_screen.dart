@@ -3,20 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/storage/base_shared_preference.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/view/about_us.dart';
 import 'package:staff_app/view/assignments_screen/assignment_screen.dart';
 import 'package:staff_app/view/delegation/delegation_screen.dart';
 import 'package:staff_app/view/events/events_screen.dart';
 import 'package:staff_app/view/feedback_help_screen/feedback_help_screen.dart';
-import 'package:staff_app/view/library_record/library_record_view.dart';
-import 'package:staff_app/view/library_screen/library_screen.dart';
 import 'package:staff_app/view/library_screen/notebook_screen/notebook_screen.dart';
-import 'package:staff_app/view/lost_or_found_screen/lost_or_found_view.dart';
+import 'package:staff_app/view/login_screen/login_screen.dart';
+import 'package:staff_app/view/lost_or_found_screen/lost_or_found_screen.dart';
 import 'package:staff_app/view/my_profile_screen/my_profile_screen.dart';
 import 'package:staff_app/view/schedule_meeting_screen/schedule_meeting_screen.dart';
 import 'package:staff_app/view/shop_screen/shop_screen.dart';
@@ -184,6 +185,24 @@ class _DrawerScreenState extends State<DrawerScreen> {
                       Get.to(const AboutUs());
                     },
                     child: buildTile1(translate(context).about_app)),
+                GestureDetector(
+                    onTap: (){
+                      Get.back();
+                      BaseOverlays().showConfirmationDialog(
+                        title: "Are you sure do you want to logout this app?",
+                        rightButtonTitle: "YES",
+                        leftButtonTitle: "NO",
+                        onRightButtonPressed: (){
+                          Get.back(closeOverlays: true);
+                          BaseOverlays().showLoader();
+                          Future.delayed(const Duration(seconds: 2), () {
+                            Get.offAll(LoginScreen());
+                            BaseSharedPreference().clearLoginSession();
+                          });
+                        }
+                      );
+                    },
+                    child: buildTile1(translate(context).logout)),
               ],
             ),
           ),

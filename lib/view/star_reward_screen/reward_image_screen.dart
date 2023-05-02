@@ -2,11 +2,11 @@ import 'package:dashed_rect/dashed_rect.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/star_evaluation_screen/success_dialog_screen.dart';

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
 
-import 'package:staff_app/Utility/base_colors.dart';
-import 'package:staff_app/Utility/base_dialogs.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -105,7 +105,7 @@ class _BusArrivingSoonScreenState extends State<BusArrivingSoonScreen> {
               height: 3.h,
             ),
             Center(child: BaseButton(title: translate(context).notify.toUpperCase(), onPressed: (){
-              BaseDialogs().showOkDialog(title: "Notify Successfully",onBtnPressed: (){
+              BaseOverlays().showOkDialog(title: "Notify Successfully",onBtnPressed: (){
                 Get.back();
                 Get.back();
               });

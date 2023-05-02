@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/view/notification_screen/reschedule_visit_request_popup.dart';
 import 'package:staff_app/view/performance_screen/performance_screen.dart';
 import 'package:staff_app/view/rating_screens/driver_rating_screen.dart';
+import 'package:staff_app/view/star_evaluation_screen/star_rating_popup.dart';
+import 'package:staff_app/view/star_evaluation_screen/star_view.dart';
 
 import '../../Utility/sizes.dart';
 
@@ -113,7 +116,7 @@ class _ClinicVisitRequestState extends State<ClinicVisitRequest> {
                                 SizedBox(
                                   height: 1.h,
                                 ),
-                                buildInfoItems(translate(context).user_type, "Teacher"),
+                                buildInfoItems(translate(context).user_type, "Star"),
                                 SizedBox(
                                   height: 1.h,
                                 ),
@@ -126,7 +129,14 @@ class _ClinicVisitRequestState extends State<ClinicVisitRequest> {
                     ),
                     GestureDetector(
                       onTap: (){
-                        Get.to(DriverRatingScreen(title: 'Driver Rating',));
+                        // Get.to(DriverRatingScreen(title: 'Driver Rating',));
+                        BaseOverlays().closeOverlay();
+                        showGeneralDialog(
+                          context: context,
+                          pageBuilder: (context, animation, secondaryAnimation) {
+                            return const StarRatingPopup();
+                          },
+                        );
                       },
                       child: Container(
                         padding: const EdgeInsets.all(5),

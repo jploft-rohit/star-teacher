@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/storage/base_shared_preference.dart';
+import 'package:staff_app/storage/sp_keys.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/route_manager/route_name.dart';
+import 'package:staff_app/view/Dashboard_screen/dashboard_screen.dart';
 
 
 class SplashScreen extends StatefulWidget {
@@ -18,10 +21,15 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 3), (){
-      Get.offAndToNamed(chooseLanguageScreenRoute);
+    Future.delayed(const Duration(seconds: 3), () async {
+      if (await BaseSharedPreference().getBool(SpKeys().isLoggedIn)??false) {
+        Get.to(DashboardScreen());
+      }else{
+        Get.offAndToNamed(chooseLanguageScreenRoute);
+      }
     });
     super.initState();
+    FocusScope.of(Get.context!).requestFocus(new FocusNode());
   }
 
   @override

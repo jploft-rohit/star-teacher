@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
-import 'package:staff_app/Utility/base_dialogs.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
@@ -59,7 +59,7 @@ class _AllFeedbackHelpViewState extends State<AllFeedbackHelpView> {
                         ),
                         GestureDetector(
                           onTap: (){
-                            BaseDialogs().showConfirmationDialog(title: "Are you sure you want to\ndelete this Help?");
+                            BaseOverlays().showConfirmationDialog(title: "Are you sure you want to\ndelete this Help?");
                           },
                           child: Icon(
                             CupertinoIcons.delete,

@@ -5,10 +5,10 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_colors.dart';
-import 'package:staff_app/Utility/base_dialogs.dart';
-import 'package:staff_app/Utility/base_floating_action_button.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -145,7 +145,7 @@ class _MyNotesScreenState extends State<MyNotesScreen> {
                                           ),
                                           GestureDetector(
                                               onTap: () {
-                                                BaseDialogs()
+                                                BaseOverlays()
                                                     .showConfirmationDialog(
                                                         title:
                                                             "Are you sure you want to delete this Note?",

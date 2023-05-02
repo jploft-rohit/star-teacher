@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:staff_app/api_response/models/notes_model.dart';
+import 'package:staff_app/backend/custom_models/notes_model.dart';
 
 class NotebookScreenCtrl extends GetxController{
 

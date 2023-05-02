@@ -628,5 +628,16 @@
  "reject_reason": "Reject Reason",
  "add_medical_record": "Add Medical Record",
  "proceed": "Proceed",
- "book_issue_request" : "Book Issue Request"
+ "book_issue_request" : "Book Issue Request",
+ "logout" : "Logout",
+ "otp_resend_message" : "OTP sent successfully",
+ "exit_app_msg" : "Are you sure you want to exit this app?",
+ "no_internet_connection" : "No internet connection.",
+ "invalid_otp" : "Invalid OTP. Please try again.",
+ "empty_otp" : "Please enter OTP.",
+ "invalid_mobile" : "Please enter a valid phone no. between 7 to 15 digits",
+ "please_select_any_one" : "Please select any one",
+ "empty_mobile_error" : "Can't be empty",
+ "something_went_wrong" : "Something went wrong, please try again",
+ "na" : "N/A"
 }

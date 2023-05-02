@@ -1,18 +1,17 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/route_manager/route_manager.dart' as route;
-import 'package:staff_app/view/Dashboard_screen/dashboard_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:staff_app/storage/base_shared_preference.dart';
+import 'package:staff_app/view/login_screen/login_ctrl.dart';
 import 'route_manager/route_name.dart';
 import 'view/Dashboard_screen/dashboard_screen_ctrl.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  BaseSharedPreference().sharedPrefInit();
   // SystemChrome.setSystemUIOverlayStyle(
   //     const SystemUiOverlayStyle(
   //     statusBarColor: Colors.transparent,
@@ -22,6 +21,7 @@ void main() {
     DeviceOrientation.portraitDown,
   ]);
   Get.lazyPut(()=>DashboardScreenCtrl(), fenix: true);
+  Get.lazyPut(()=>LoginCtrl(), fenix: true);
   runApp(const MyApp());
 }
 

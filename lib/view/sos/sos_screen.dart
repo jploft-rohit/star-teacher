@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
 
-import 'package:staff_app/Utility/base_colors.dart';
-import 'package:staff_app/Utility/base_dialogs.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/Utility/custom_dropdown_widget.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/dummy_lists.dart';
@@ -43,7 +43,7 @@ class _SOSViewState extends State<SOSView> {
           physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
-              Custom_DropDown(
+              CustomDropDown(
                 initialValue: DummyLists.initialSchool,
                 hintText: "Select School",
                 listData:DummyLists.schoolData,
@@ -338,9 +338,14 @@ class _SOSViewState extends State<SOSView> {
         ) : const SizedBox(),),
         SizedBox(height: 2.h,),
         BaseButton(title: translate(context).notify.toUpperCase(), onPressed: (){
-          showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation){
-            return sosDialogs(title: "Fight",icon: fightSvg);
-          });
+          // showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation){
+          //   return sosDialogs(title: "Fight",icon: fightSvg);
+          // });
+          BaseOverlays().showOkDialog(
+              showOkButton: false,
+              iconSvg: fightSvg,
+              title: "Emergency Notification has been successfully sent. We are arranging the assistance.",
+          );
           // if (controller.selectedPos.value == 1) {
           // Get.to(FireReportedView(from: 'Fight', icon: fightSvg,));
           // }
@@ -495,9 +500,14 @@ class _SOSViewState extends State<SOSView> {
 
         SizedBox(height: 2.h),
         BaseButton(title: translate(context).notify.toUpperCase(), onPressed: (){
-          showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation){
-            return sosDialogs(title: "Medical Support",icon: medicalSupportSvg);
-          });
+          // showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation){
+          //   return sosDialogs(title: "Medical Support",icon: medicalSupportSvg);
+          // });
+          BaseOverlays().showOkDialog(
+            showOkButton: false,
+            iconSvg: medicalSupportSvg,
+            title: "Emergency Notification has been successfully sent. We are arranging the assistance.",
+          );
           // Get.to(FireReportedView(from: 'Medical Support', icon: medicalSupportSvg,));
         },btnType: largeButton,),
         SizedBox(height: 2.h,),
@@ -509,7 +519,7 @@ class _SOSViewState extends State<SOSView> {
     return Column(
       children: [
         CustomTextField(controller: controller.commentController, hintText: translate(context).add_comment,maxLine: 3,hintTxtSize: 15.sp,),
-        SizedBox(height: 2.h,),
+        SizedBox(height: 2.h),
         CustomTextField(prefixIcon: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child:SvgPicture.asset("assets/images/circle2017.svg")
@@ -625,13 +635,18 @@ class _SOSViewState extends State<SOSView> {
         ),),
         SizedBox(height: 2.h,),
         BaseButton(title: translate(context).notify.toUpperCase(), onPressed: (){
-          showNFCDialog1(context,"assets/images/check 1.svg",title: "Notified Successfully");
+          // showNFCDialog1(context,"assets/images/check 1.svg",title: "Notified Successfully");
           // BaseDialogs().showOkDialog(title: "Notified Successfully",showOkButton: false,onBtnPressed: (){
           //   Get.back();
           // });
           // showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation){
           //   return sosDialogs(title: "Other",icon: otherSosSvg);
           // });
+          BaseOverlays().showOkDialog(
+            showOkButton: false,
+            iconSvg: otherSosSvg,
+            title: "Emergency Notification has been successfully sent. We are arranging the assistance.",
+          );
           // Get.to(FireReportedView(from: 'Other', icon: otherSosSvg,));
         },btnType: largeButton,),
         SizedBox(height: 2.h,),

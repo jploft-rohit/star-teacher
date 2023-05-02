@@ -3,9 +3,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/storage/base_shared_preference.dart';
+import 'package:staff_app/storage/sp_keys.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -20,10 +22,9 @@ class ChooseLangaugeScreen extends StatefulWidget {
 }
 
 class _ChooseLangaugeScreenState extends State<ChooseLangaugeScreen> {
-  bool arbicselect=false;
-  bool englishselect=true;
 
   ChooseLanguageScreenCtrl controller = Get.put(ChooseLanguageScreenCtrl());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,15 +73,14 @@ class _ChooseLangaugeScreenState extends State<ChooseLangaugeScreen> {
                             },
                             child: Obx(
                                   () =>
-                                      Container(
-                                width: 38.w,
-                                margin: EdgeInsets.symmetric(horizontal: 2.w),
-                                padding: EdgeInsets.symmetric(vertical: 1.5.h),
-                                decoration: BoxDecoration(
-                                    color: controller.selectedPos.value ==
-                                        index
-                                        ? BaseColors.backgroundColor
-                                        : BaseColors.white,
+                                    Container(
+                                       width: 38.w,
+                                       margin: EdgeInsets.symmetric(horizontal: 2.w),
+                                       padding: EdgeInsets.symmetric(vertical: 1.5.h),
+                                       decoration: BoxDecoration(
+                                       color: controller.selectedPos.value == index
+                                         ? BaseColors.backgroundColor
+                                         : BaseColors.white,
                                     boxShadow: [
                                       BoxShadow(
                                         color: Colors.black12.withOpacity(0.1),
@@ -97,8 +97,7 @@ class _ChooseLangaugeScreenState extends State<ChooseLangaugeScreen> {
                                         : null,
                                     borderRadius: BorderRadius.circular(15.0)),
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20),
+                                  padding: const EdgeInsets.symmetric(horizontal: 20),
                                   child: Stack(
                                     children: [
                                       Visibility(
@@ -163,6 +162,7 @@ class _ChooseLangaugeScreenState extends State<ChooseLangaugeScreen> {
                       alignment: Alignment.topCenter,
                       child: BaseButton(btnType: "large",title: translate(context).continue_btn_txt,textSize: 17.sp, onPressed: (){
                         Get.toNamed(loginScreenRoute);
+                        BaseSharedPreference().setString(SpKeys().selectedLanguage, controller.selectedPos.value == 0 ? "ar" : "en");
                       },borderRadius: 19,)
                     ),
                   ],

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_dropdown.dart';
-import 'package:staff_app/Utility/base_floating_action_button.dart';
-import 'package:staff_app/Utility/base_tab_bar.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_dropdown.dart';
+import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
+import 'package:staff_app/utility/base_views/base_tab_bar.dart';
 import 'package:staff_app/view/feedback_help_screen/add_feedback_view.dart';
 import 'package:staff_app/view/feedback_help_screen/add_help_view.dart';
 import 'package:staff_app/view/feedback_help_screen/all_feedback_help_view.dart';

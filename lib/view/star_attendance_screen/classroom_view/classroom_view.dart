@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/base_tab_bar.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
+import 'package:staff_app/utility/base_views/base_student_filter.dart';
+import 'package:staff_app/utility/base_views/base_tab_bar.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_filter_dropdown.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/dummy_lists.dart';
@@ -15,7 +16,9 @@ import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/utility/base_views/base_type_search.dart';
 import 'package:staff_app/view/performance_screen/performance_screen.dart';
+import 'package:staff_app/view/sos/sos_scanQR.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/absent_view.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/classroom_view_ctrl.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/confirmation_popup.dart';
@@ -51,84 +54,16 @@ class _ClassRoomViewState extends State<ClassRoomView> with SingleTickerProvider
       child: Column(
         children: [
           /// Top Section
-          Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: Color(0xFFCECECE), width: 1)),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CustomFilterDropDown(
-                      initialValue: DummyLists.initialSchool, hintText: 'School',
-                      listData: DummyLists.schoolData, onChange: (value) {
-                      setState(() {
-                        DummyLists.initialSchool=value;
-                      });
-                    },icon: classTakenSvg,),
-                    Container(
-                      child: VerticalDivider(
-                        width: 1,
-                      ),
-                      height: 35,
-                      width: 1,
-                    ),
-                    CustomFilterDropDown(
-                      initialValue: DummyLists.initialClassroom, hintText: 'Classroom',
-                      listData: DummyLists.classRoomData, onChange: (value) {
-                      setState(() {
-                        DummyLists.initialClassroom=value;
-                      });
-                    },icon: classTakenSvg,),
-                  ],
-                ),
-                Divider(
-                  height: 1,
-                  thickness: 1,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CustomFilterDropDown(
-                      initialValue: DummyLists.initialGrade, hintText: 'Grade 3',
-                      listData: DummyLists.gradeData, onChange: (value) {
-                      setState(() {
-                        DummyLists.initialGrade=value;
-                      });
-                    },icon: classTakenSvg,),
-                    Container(child: VerticalDivider(width: 1,),height: 4.h,width: 1,),
-                    CustomFilterDropDown(
-                      initialValue: DummyLists.initialClass, hintText: 'H1',
-                      listData: DummyLists.classData, onChange: (value) {
-                      setState(() {
-                        DummyLists.initialClass=value;
-                      });
-                    },icon: classTakenSvg,),
-                  ],
-                ),
-                Divider(
-                  height: 1,
-                  thickness: 1,
-                ),
-                FilterTextFormField(onChange: (String val) {
-                }, hintText: "Search Star,ID...", keyBoardType: TextInputType.name,
-                ),
-              ],
-            ),
-          ),
-          //
-          SizedBox(
-            height: 1.5.h,
-          ),
+          BaseStudentFilter(),
+          // BaseTypeSearch(searchController: TextEditingController()),
           Obx((){
             return controller.selectedIndex.value == 0
                 ? GridView.builder(
-                    shrinkWrap: true,
-                    padding: EdgeInsets.symmetric(horizontal: 1),
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: controller.fmoImageList.length,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                shrinkWrap: true,
+                padding: EdgeInsets.symmetric(horizontal: 1),
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: controller.fmoImageList.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     crossAxisSpacing: 15,
                     // mainAxisSpacing: 15,
@@ -138,6 +73,9 @@ class _ClassRoomViewState extends State<ClassRoomView> with SingleTickerProvider
                     GestureDetector(
                       onTap: () {
                         controller.selectedFMOPos.value = index;
+                        if(index == 1){
+                          Get.to(ScanQrCodeScreen());
+                        }
                       },
                       child: Obx(() {
                         return Container(
@@ -195,7 +133,8 @@ class _ClassRoomViewState extends State<ClassRoomView> with SingleTickerProvider
                             ? Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 5.0),
                                 child: GestureDetector(child: SvgPicture.asset(qrCodeSvg, height: 25.sp,color: BaseColors.primaryColor,),onTap: (){
-                                  showScanQrDialogue(context, true);
+                                  // showScanQrDialogue(context, true);
+                                  Get.to(ScanQrCodeScreen());
                                 },))
                             : const SizedBox();
                       }),

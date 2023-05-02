@@ -4,11 +4,11 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/base_textformfield.dart';
-import 'package:staff_app/Utility/base_colors.dart';
-import 'package:staff_app/Utility/base_dialogs.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
+import 'package:staff_app/utility/base_views/base_textformfield.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/Utility/custom_dropdown_widget.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -38,7 +38,7 @@ class _DriverRatingScreenState extends State<DriverRatingScreen> {
         child: Column(
           children: [
             // BaseDropDown(title: widget.title == "Bus" ? "Bus ID : #29735" : "Name : Rahish"),
-            Custom_DropDown(initialValue: selectUserType,
+            CustomDropDown(initialValue: selectUserType,
                 hintText: widget.title=="Driver"?"Select Driver":
                 widget.title=="Bus"?"Select Bus":"Select Supervisor",
                 listData: widget.title=="Bus"?[
@@ -209,7 +209,7 @@ class _DriverRatingScreenState extends State<DriverRatingScreen> {
                 borderRadius: 20,
                 title: translate(context).submit_btn_txt.toUpperCase(),
                 onPressed: () {
-                  BaseDialogs().showConfirmationDialog(
+                  BaseOverlays().showConfirmationDialog(
                       title: "Are you sure you want to send this feedback?");
                 }),
           ],

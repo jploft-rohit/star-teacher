@@ -5,7 +5,6 @@ import 'package:staff_app/Utility/curved_navigation_bar/curved_navigation_bar.da
 class DashboardScreenCtrl extends GetxController{
   @override
   void onInit() {
-
     super.onInit();
   }
   final currentIndex = 2.obs;

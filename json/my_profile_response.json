@@ -1,0 +1,215 @@
+{
+  "statusCode": 200,
+  "message": "Success",
+  "data": {
+    "_id": "644f530f813f1b2ce73376db",
+    "isMobileVerified": false,
+    "gender": "Male",
+    "idDocument": [
+      ""
+    ],
+    "deviceType": "android",
+    "parentId": [""],
+    "isDeleted": false,
+    "name": "chetan teacher updated",
+    "mobile": "9638527410",
+    "dob": "1 January, 2023",
+    "nationality": "64491b9eb87d17379864c04e",
+    "emirateId": "ttesfsdf",
+    "emirateIdExpire": "Sun Jan 01 2023 05:30:00 GMT+0530 (India Standard Time)",
+    "nativeLanguage": null,
+    "religion": null,
+    "profilePic": "",
+    "role": "64467c68f871809066b4e219",
+    "createdAt": "2023-05-01T05:50:07.455Z",
+    "updatedAt": "2023-05-02T05:15:31.557Z",
+    "__v": 0,
+    "otp": "1234",
+    "deviceToken": "deviceToken",
+    "deviceVoip": "fdsfad",
+    "schoolStaff": [
+      {
+        "_id": "644f674329a267429b5b5a31",
+        "isDeleted": false,
+        "user": "644f530f813f1b2ce73376db",
+        "school": {
+          "_id": "643e7e76786e2a1898ace622",
+          "isDeleted": true,
+          "name": "MPS",
+          "schoolCategory": "643d232dedfaad4310f1536b",
+          "schoolSector": "643e62017971dc2744089ef8",
+          "schoolArea": "643d2f52c972c30660f1b152",
+          "address": "Jaipur, Rajasthan",
+          "language": "643d47ab1080eb11d01e93cc",
+          "schoolId": "dvcv345",
+          "status": "643ce9f5eb36b9363c2128ce",
+          "helplineNo": 4523544,
+          "email": "admin@test.com",
+          "secondoryEmail": null,
+          "website": "www.google.com",
+          "mobile": 234234235,
+          "parentSchool": null,
+          "createdBy": "643e3f8221c64438241922d7",
+          "createdAt": "2023-04-18T11:26:46.159Z",
+          "updatedAt": "2023-04-18T12:50:36.308Z",
+          "__v": 0,
+          "updatedBy": "643e3f8221c64438241922d7",
+          "staffsubjects": {
+            "_id": "644fbaee46bcbe93b0074a8e",
+            "school": "643e7e76786e2a1898ace622",
+            "schoolStaff": "644f674329a267429b5b5a31",
+            "my_class": [
+              {
+                "_id": "644bb468017ff679ae0d6f0c",
+                "school": "ObjectId('643e7e76786e2a1898ace622')",
+                "name": "First"
+              }
+            ],
+            "classSection": [
+              {
+                "_id": "644fbd2546bcbe93b0074a9b",
+                "school": "643e7e76786e2a1898ace622",
+                "my_class": "644bb468017ff679ae0d6f0c",
+                "name": "Section 1",
+                "roomNo": "1",
+                "status": "643ce9f5eb36b9363c2128ce"
+              }
+            ],
+            "subject": {
+              "_id": "644fbba746bcbe93b0074a91",
+              "language": "643d47ab1080eb11d01e93cc",
+              "name": "Subject 1",
+              "status": "643ce9f5eb36b9363c2128ce"
+            }
+          }
+        },
+        "role": "64467c68f871809066b4e219",
+        "dateOfEmployment": "2023-05-01T07:16:19.297Z",
+        "createdAt": "2023-05-01T07:16:19.309Z",
+        "updatedAt": "2023-05-01T07:16:19.309Z",
+        "__v": 0
+      },
+      {
+        "_id": "644f674329a267429b5b5a33",
+        "isDeleted": false,
+        "user": "644f530f813f1b2ce73376db",
+        "school": {
+          "_id": "64491b9eb87d17379864c04e",
+          "isDeleted": false,
+          "name": "ABC",
+          "schoolCategory": "643cf12934bd81338cbe70cc",
+          "schoolSector": "643e62017971dc2744089ef8",
+          "schoolArea": "64426a5ff2b10d119c94ff33",
+          "address": "d",
+          "language": "643d47ab1080eb11d01e93cc",
+          "schoolId": "dds",
+          "helplineNo": 4324,
+          "email": "dd@gf.com",
+          "secondoryEmail": "",
+          "website": "",
+          "mobile": 324,
+          "status": "643ce9f5eb36b9363c2128ce",
+          "parentSchool": null,
+          "location": {
+            "type": "Point",
+            "coordinates": [
+              26.9124,
+              75.7873
+            ]
+          },
+          "createdBy": "643e3f8221c64438241922d7",
+          "createdAt": "2023-04-26T12:39:58.979Z",
+          "updatedAt": "2023-04-26T12:39:58.979Z",
+          "__v": 0,
+          "staffsubjects": {
+            "my_class": [""],
+            "classSection": [""]
+          }
+        },
+        "role": "64467c68f871809066b4e219",
+        "dateOfEmployment": "2023-05-01T07:16:19.349Z",
+        "createdAt": "2023-05-01T07:16:19.356Z",
+        "updatedAt": "2023-05-01T07:16:19.356Z",
+        "__v": 0
+      }
+    ],
+    "familyMembers": [""],
+    "alternativeMobile": "9638527410",
+    "profileCompletePercentage": 50,
+    "profileCompleteDate": "25 July, 2022",
+    "barcode": "555-555-5555",
+    "jobDetails": {
+      "_id": "644f674329a267429b5b5a31",
+      "isDeleted": false,
+      "user": "644f530f813f1b2ce73376db",
+      "school": {
+        "_id": "643e7e76786e2a1898ace622",
+        "isDeleted": true,
+        "name": "MPS",
+        "schoolCategory": "643d232dedfaad4310f1536b",
+        "schoolSector": "643e62017971dc2744089ef8",
+        "schoolArea": "643d2f52c972c30660f1b152",
+        "address": "Jaipur, Rajasthan",
+        "language": "643d47ab1080eb11d01e93cc",
+        "schoolId": "dvcv345",
+        "status": "643ce9f5eb36b9363c2128ce",
+        "helplineNo": 4523544,
+        "email": "admin@test.com",
+        "secondoryEmail": null,
+        "website": "www.google.com",
+        "mobile": 234234235,
+        "parentSchool": null,
+        "createdBy": "643e3f8221c64438241922d7",
+        "createdAt": "2023-04-18T11:26:46.159Z",
+        "updatedAt": "2023-04-18T12:50:36.308Z",
+        "__v": 0,
+        "updatedBy": "643e3f8221c64438241922d7",
+        "staffsubjects": {
+          "_id": "644fbaee46bcbe93b0074a8e",
+          "school": "643e7e76786e2a1898ace622",
+          "schoolStaff": "644f674329a267429b5b5a31",
+          "my_class": [
+            {
+              "_id": "644bb468017ff679ae0d6f0c",
+              "school": "ObjectId('643e7e76786e2a1898ace622')",
+              "name": "First"
+            }
+          ],
+          "classSection": [
+            {
+              "_id": "644fbd2546bcbe93b0074a9b",
+              "school": "643e7e76786e2a1898ace622",
+              "my_class": "644bb468017ff679ae0d6f0c",
+              "name": "Section 1",
+              "roomNo": "1",
+              "status": "643ce9f5eb36b9363c2128ce"
+            }
+          ],
+          "subject": {
+            "_id": "644fbba746bcbe93b0074a91",
+            "language": "643d47ab1080eb11d01e93cc",
+            "name": "Subject 1",
+            "status": "643ce9f5eb36b9363c2128ce"
+          }
+        }
+      },
+      "role": "64467c68f871809066b4e219",
+      "dateOfEmployment": "2023-05-01T07:16:19.297Z",
+      "createdAt": "2023-05-01T07:16:19.309Z",
+      "updatedAt": "2023-05-01T07:16:19.309Z",
+      "__v": 0
+    },
+    "statistics": {
+      "pendingTask": "0",
+      "unclosedComplaint": "0",
+      "starsEvaluationPending": "0",
+      "assignmentToReview": "0",
+      "attendanceRecord": "0",
+      "performance": "0",
+      "linkedStars": "0",
+      "allocatedSchools": "0",
+      "totalClassesAttendedThisWeek": "0",
+      "avgOfInteractingWithChatting": "0"
+    }
+  }
+}

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
+import 'package:staff_app/utility/base_views/base_toggle_tab_bar.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/view/chat_screen/chating_screen.dart';
@@ -46,13 +46,13 @@ class _ChatStarTabState extends State<ChatStarTab> with SingleTickerProviderStat
               Tab(
                 child: Padding(
                   padding: const EdgeInsets.only(right: 6),
-                  child: BaseButton(title: 'Individual',onPressed: null,verticalPadding: 0,isActive: tabController.index == 0 ? true : false,isToggle: tabController?.index == 0 ? true : false),
+                  child: BaseButton(title: 'Individual',onPressed: null,verticalPadding: 0,isActive: tabController.index == 0 ? true : false,isToggle: tabController.index == 0 ? true : false),
                 ),
               ),
               Tab(
                 child: Padding(
                   padding: const EdgeInsets.only(left: 6),
-                  child: BaseButton(title: 'Group',onPressed: null,verticalPadding: 0,isActive: tabController.index == 1 ? true : false, isToggle: tabController?.index == 1 ? true : false),
+                  child: BaseButton(title: 'Group',onPressed: null,verticalPadding: 0,isActive: tabController.index == 1 ? true : false, isToggle: tabController.index == 1 ? true : false),
                 ),
               ),
             ],
