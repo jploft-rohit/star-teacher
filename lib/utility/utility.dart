@@ -482,9 +482,7 @@ Future<void> selectDate(BuildContext context) async {
       initialDate: DateTime.now(),
       firstDate: DateTime(1600, 8),
       lastDate: DateTime.now()
-  ).then((picked){
-
-  });
+  ).then((picked){});
 }
 Future<void> selectTime(BuildContext context) async {
   showTimePicker(

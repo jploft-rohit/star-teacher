@@ -14,6 +14,7 @@ import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/route_manager/route_name.dart';
 import 'package:staff_app/utility/base_views/base_detail_data.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/view/add_family_member/add_family_member.dart';
 import 'package:staff_app/view/add_family_member/family_details_screen.dart';
 import 'package:staff_app/view/my_profile_screen/controller/my_profile_ctrl.dart';
@@ -32,22 +33,23 @@ class _DetailViewState extends State<DetailView> {
   TextEditingController reasonCtrl = TextEditingController();
   String na = translate(Get.context!).na;
   bool showDivider = false;
-  double bottomMargin = 1.h;
+  double bottomMargin = 2.h;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: BaseColors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            buildMyInformation(context),
-            SizedBox(height: 2.h,),
-            buildJobDetails(context),
-            SizedBox(height: 2.h,),
-            buildFamilyInfo(context),
-            SizedBox(height: 2.h,)
-          ],
+      body: Obx(()=>SingleChildScrollView(
+          child: Column(
+            children: [
+              buildMyInformation(context),
+              SizedBox(height: 2.h),
+              buildJobDetails(context),
+              SizedBox(height: 2.h),
+              buildFamilyInfo(context),
+              SizedBox(height: 2.h)
+            ],
+          ),
         ),
       ),
     );
@@ -202,10 +204,10 @@ class _DetailViewState extends State<DetailView> {
                             children: [
                               SvgPicture.asset(jobDetailSvg,height: 16.0,),
                               const SizedBox(width: 10,),
-                              Text('14', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp)),
+                              Text(controller.response.value.data?.jobDetails?.jobGrade??na, style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp)),
                             ],
-                          ),
-                          ),
+                           ),
+                         ),
                         ],
                       ),
                     ),
@@ -227,9 +229,9 @@ class _DetailViewState extends State<DetailView> {
                                 borderRadius: BorderRadius.circular(10.0)
                             ), child: Row(
                             children: [
-                              SvgPicture.asset(jobDetailSvg,height: 16.0,),
-                              const SizedBox(width: 10,),
-                              Text('12 - 14', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp)),
+                              SvgPicture.asset(jobDetailSvg,height: 16.0),
+                              const SizedBox(width: 10),
+                              Text(controller.response.value.data?.jobDetails?.titleGrade??na, style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp)),
                             ],
                           ),
                           ),
@@ -251,7 +253,7 @@ class _DetailViewState extends State<DetailView> {
                   children: [
                     SvgPicture.asset(classTakenSvg,height: 16.0,),
                     const SizedBox(width: 10,),
-                    Text('Teacher', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp)),
+                    Text(controller.response.value.data?.jobDetails?.jobTitle??na, style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp)),
                   ],
                 ),
                 ),
@@ -268,7 +270,7 @@ class _DetailViewState extends State<DetailView> {
                   children: [
                     SvgPicture.asset(classTakenSvg,height: 16.0,),
                     const SizedBox(width: 10,),
-                    Text('Maths', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp)),
+                    Text(controller.response.value.data?.jobDetails?.school?.staffsubjects?.subject?.name??na, style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp)),
                   ],
                 ),
                 ),
@@ -371,8 +373,7 @@ class _DetailViewState extends State<DetailView> {
       clipBehavior: Clip.antiAlias,
       margin: EdgeInsets.zero,
       child: Padding(
-        padding:
-        const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
         child: Theme(
           data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
           child: ExpansionTile(
@@ -385,14 +386,11 @@ class _DetailViewState extends State<DetailView> {
                   style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp)),
               backgroundColor: BaseColors.white,
               children: <Widget>[
-                const SizedBox(
-                  height: 1,
-                ),
+                const SizedBox(height: 1),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(translate(context).family_members, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp)),
-
                     GestureDetector(
                       onTap: (){
                         Get.to(const AddFamilyMemberScreen(isUpdating: false));
@@ -403,7 +401,7 @@ class _DetailViewState extends State<DetailView> {
                             color: BaseColors.backgroundColor,
                             shape: BoxShape.circle,
                             border: Border.all(color: BaseColors.primaryColor)
-                        ), child: Icon(Icons.add,color: BaseColors.primaryColor,size: 18.sp,),
+                        ), child: Icon(Icons.add,color: BaseColors.primaryColor,size: 18.sp),
                       ),
                     )
 
@@ -411,7 +409,7 @@ class _DetailViewState extends State<DetailView> {
                 ),
                 SizedBox(height: 2.h,),
                 ListView.builder(
-                  itemCount: 2,
+                  itemCount: controller.response.value.data?.familyMembers?.length??0,
                   padding: EdgeInsets.zero,
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
@@ -445,7 +443,7 @@ class _DetailViewState extends State<DetailView> {
   Widget buildFamilyItem(int index,BuildContext context){
     return GestureDetector(
       onTap: (){
-        Get.to(const FamilyDetailsScreen());
+        Get.to(FamilyDetailsScreen(data: controller.response.value.data?.familyMembers?[index]));
       },
       child: Container(
         width: 100.w,
@@ -467,18 +465,18 @@ class _DetailViewState extends State<DetailView> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        BaseDetailData(detailsLabel:translate(context).name, detailsValue:'Salma Khan',bottomMargin: bottomMargin,showDivider: showDivider),
-                        BaseDetailData(detailsLabel:translate(context).relation, detailsValue:'Mother',bottomMargin: bottomMargin,showDivider: showDivider),
+                        BaseDetailData(detailsLabel:translate(context).name, detailsValue: controller.response.value.data?.familyMembers?[index].fullName??na,bottomMargin: bottomMargin,showDivider: showDivider),
+                        BaseDetailData(detailsLabel:translate(context).relation, detailsValue:controller.response.value.data?.familyMembers?[index].relation??na,bottomMargin: bottomMargin,showDivider: showDivider),
                       ],
                     ),
                     Row(
                       children: [
                         GestureDetector(onTap: (){
-                          Get.to(const AddFamilyMemberScreen(isUpdating: true));
+                          Get.to(AddFamilyMemberScreen(isUpdating: true,familyMembers: controller.response.value.data?.familyMembers?[index],));
                         },
-                          child: Image.asset(editPng, color: BaseColors.primaryColor,height: 17.sp,),
+                          child: Image.asset(editPng, color: BaseColors.primaryColor,height: 17.sp),
                         ),
-                        const SizedBox(width: 20,),
+                        const SizedBox(width: 20),
                         GestureDetector(onTap: (){
                           showDeleteDialog(context, index);
                         },
@@ -542,15 +540,21 @@ class _DetailViewState extends State<DetailView> {
                     Text("${translate(context).reason}: ",style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor,fontSize: 15.sp),),
                     const SizedBox(height: 5,),
                     CustomTextField(controller: reasonCtrl, hintText: translate(context).type_here,borderRadius: 5.0,maxLine: 3,),
-                    SizedBox(height: 2.h ,),
+                    SizedBox(height: 2.h),
                     Align(
                       alignment: Alignment.center,
-                      child: BaseButton(borderRadius: 20,btnType: mediumLargeButton,title: translate(context).delete.toUpperCase(), onPressed: () {Get.back();},),
+                      child: BaseButton(borderRadius: 20,btnType: mediumLargeButton,title: translate(context).delete.toUpperCase(), onPressed: () {
+                        controller.deleteFamilyMember(memberId: controller.response.value.data?.familyMembers?[index].sId??"", index: index);
+                        BaseOverlays().closeOverlay();
+                        controller.update();
+                        },
+                      ),
                     )
-
                   ],
                 ),
               ),
-            )));
+            ),
+        ),
+    );
   }
 }

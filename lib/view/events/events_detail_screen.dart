@@ -165,13 +165,13 @@ class _EventsDetailScreenState extends State<EventsDetailScreen> {
                         Expanded(
                             flex: 3,
                             child: BaseDetailData(
-                                icon: "assets/images/Vector (1).svg",
+                                prefixIcon: "assets/images/Vector (1).svg",
                                 detailsLabel: 'Start Date Time',
                                 detailsValue: "09/09/2022")),
                         Expanded(
                             flex: 1,
                             child: BaseDetailData(
-                                icon: "assets/images/time_icon.svg",
+                                prefixIcon: "assets/images/time_icon.svg",
                                 detailsLabel: '09:13pm')),
                       ],
                     ),
@@ -195,13 +195,13 @@ class _EventsDetailScreenState extends State<EventsDetailScreen> {
                         Expanded(
                             flex: 3,
                             child: BaseDetailData(
-                                icon: "assets/images/Vector (1).svg",
+                                prefixIcon: "assets/images/Vector (1).svg",
                                 detailsLabel: 'End Date Time',
                                 detailsValue: "09/09/2022")),
                         Expanded(
                             flex: 1,
                             child: BaseDetailData(
-                                icon: "assets/images/time_icon.svg",
+                                prefixIcon: "assets/images/time_icon.svg",
                                 detailsLabel: '09:13pm')),
                       ],
                     ),
@@ -226,13 +226,13 @@ class _EventsDetailScreenState extends State<EventsDetailScreen> {
                         Expanded(
                             flex: 3,
                             child: BaseDetailData(
-                                icon: "assets/images/Vector (1).svg",
+                                prefixIcon: "assets/images/Vector (1).svg",
                                 detailsLabel: 'Reporting Date Time',
                                 detailsValue: "09/09/2022")),
                         Expanded(
                             flex: 1,
                             child: BaseDetailData(
-                                icon: "assets/images/time_icon.svg",
+                                prefixIcon: "assets/images/time_icon.svg",
                                 detailsLabel: '09:13pm')),
                       ],
                     ),
@@ -242,13 +242,13 @@ class _EventsDetailScreenState extends State<EventsDetailScreen> {
                         Expanded(
                             flex: 3,
                             child: BaseDetailData(
-                                icon: "assets/images/Vector (1).svg",
+                                prefixIcon: "assets/images/Vector (1).svg",
                                 detailsLabel: 'End Date for Registration',
                                 detailsValue: "09/09/2022")),
                         Expanded(
                             flex: 1,
                             child: BaseDetailData(
-                                icon: "assets/images/time_icon.svg",
+                                prefixIcon: "assets/images/time_icon.svg",
                                 detailsLabel: '09:13pm')),
                       ],
                     ),
@@ -258,7 +258,7 @@ class _EventsDetailScreenState extends State<EventsDetailScreen> {
                         Expanded(
                             flex: 3,
                             child: BaseDetailData(
-                                icon: "assets/images/report.svg",
+                                prefixIcon: "assets/images/report.svg",
                                 detailsLabel: 'Transport Facility',
                                 detailsValue: "No")),
                         Expanded(
@@ -274,7 +274,7 @@ class _EventsDetailScreenState extends State<EventsDetailScreen> {
                         Expanded(
                             flex: 3,
                             child: BaseDetailData(
-                                icon: "assets/images/user.svg",
+                                prefixIcon: "assets/images/user.svg",
                                 detailsLabel: 'Staff',
                                 detailsValue: "2")),
                         Expanded(
@@ -289,7 +289,7 @@ class _EventsDetailScreenState extends State<EventsDetailScreen> {
                         Expanded(
                             flex: 3,
                             child: BaseDetailData(
-                                icon: "assets/images/user.svg",
+                                prefixIcon: "assets/images/user.svg",
                                 detailsLabel: 'Nurse',
                                 detailsValue: "1")),
                         Expanded(
@@ -305,7 +305,7 @@ class _EventsDetailScreenState extends State<EventsDetailScreen> {
                         Expanded(
                             flex: 3,
                             child: BaseDetailData(
-                                icon: "assets/images/report.svg",
+                                prefixIcon: "assets/images/report.svg",
                                 detailsLabel: 'Estimated Entrance Cost',
                                 detailsValue: "10 AED")),
                       ],
@@ -317,7 +317,7 @@ class _EventsDetailScreenState extends State<EventsDetailScreen> {
                         Expanded(
                             flex: 2,
                             child: BaseDetailData(
-                                icon: "assets/images/report.svg",
+                                prefixIcon: "assets/images/report.svg",
                                 detailsLabel: 'Estimated Trip Cost',
                                 detailsValue: "40 AED")),
                       ],
@@ -328,7 +328,7 @@ class _EventsDetailScreenState extends State<EventsDetailScreen> {
                         Expanded(
                             flex: 2,
                             child: BaseDetailData(
-                                icon: "assets/images/report.svg",
+                                prefixIcon: "assets/images/report.svg",
                                 detailsLabel: 'Estimated Food Cost',
                                 detailsValue: "40 AED")),
                       ],
@@ -337,7 +337,7 @@ class _EventsDetailScreenState extends State<EventsDetailScreen> {
                     Row(
                       children: [
                         BaseDetailData(
-                            icon: "assets/images/report.svg",
+                            prefixIcon: "assets/images/report.svg",
                             detailsLabel: 'Estimated Cost Per Star',
                             detailsValue: "100 AED"),
                       ],
@@ -447,7 +447,7 @@ class _EventsDetailScreenState extends State<EventsDetailScreen> {
                         Expanded(
                             flex: 3,
                             child: BaseDetailData(
-                                icon: "assets/images/report.svg",
+                                prefixIcon: "assets/images/report.svg",
                                 detailsLabel: 'Grade',
                                 detailsValue: "Grade4")),
                         Expanded(
@@ -463,7 +463,7 @@ class _EventsDetailScreenState extends State<EventsDetailScreen> {
                         Expanded(
                             flex: 3,
                             child: BaseDetailData(
-                                icon: "assets/images/report.svg",
+                                prefixIcon: "assets/images/report.svg",
                                 detailsLabel: 'Stars',
                                 detailsValue: "40")),
                       ],
@@ -474,7 +474,7 @@ class _EventsDetailScreenState extends State<EventsDetailScreen> {
                         Expanded(
                             flex: 3,
                             child: BaseDetailData(
-                                icon: "assets/images/report.svg",
+                                prefixIcon: "assets/images/report.svg",
                                 detailsLabel: 'Grade',
                                 detailsValue: "Grade5")),
                         Expanded(
@@ -490,7 +490,7 @@ class _EventsDetailScreenState extends State<EventsDetailScreen> {
                         Expanded(
                             flex: 3,
                             child: BaseDetailData(
-                                icon: "assets/images/user.svg",
+                                prefixIcon: "assets/images/user.svg",
                                 detailsLabel: 'Stars',
                                 detailsValue: "40")),
                       ],
@@ -501,7 +501,7 @@ class _EventsDetailScreenState extends State<EventsDetailScreen> {
                         Expanded(
                             flex: 3,
                             child: BaseDetailData(
-                                icon: "assets/images/user.svg",
+                                prefixIcon: "assets/images/user.svg",
                                 detailsLabel: 'Total Passengers',
                                 detailsValue: "40")),
                       ],

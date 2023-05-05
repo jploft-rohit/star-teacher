@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_dropdown.dart';
@@ -7,6 +8,7 @@ import 'package:staff_app/utility/base_views/base_tab_bar.dart';
 import 'package:staff_app/view/feedback_help_screen/add_feedback_view.dart';
 import 'package:staff_app/view/feedback_help_screen/add_help_view.dart';
 import 'package:staff_app/view/feedback_help_screen/all_feedback_help_view.dart';
+import 'package:staff_app/view/feedback_help_screen/controller/feedback_help_controller.dart';
 import 'package:staff_app/view/feedback_help_screen/feedback_view.dart';
 import 'package:staff_app/view/feedback_help_screen/help_view.dart';
 
@@ -18,11 +20,15 @@ class FeedbackHelpScreen extends StatefulWidget {
 }
 
 class _FeedbackHelpScreenState extends State<FeedbackHelpScreen> with TickerProviderStateMixin{
+  FeedbackHelpController controller = Get.put(FeedbackHelpController());
   TabController? tabCtrl;
+
 
   @override
   void initState() {
-    tabCtrl = TabController(length: 3, vsync: this);
+    tabCtrl = TabController(length: 3, vsync: this)..addListener(() {
+      controller.getData(type: (tabCtrl?.index??0) == 0 ? "" : (tabCtrl?.index??0) == 1 ? "feedback" : "help");
+    });
     super.initState();
   }
 
@@ -40,7 +46,6 @@ class _FeedbackHelpScreenState extends State<FeedbackHelpScreen> with TickerProv
             },
           );
         },
-
       ),
       body: Padding(
         padding: EdgeInsets.all(15.sp),

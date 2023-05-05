@@ -64,3 +64,5 @@ const String audioCallSvg = "assets/images/ic_phone.svg";
 ///
 const String icEdit = "assets/images/ic_edit.svg";
 const String icDelete = "assets/images/ic_delete.svg";
+const String icCopy = "assets/images/copy 2.svg";
+const String icReport = "assets/images/report.svg";

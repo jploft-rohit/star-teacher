@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart' as X;
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
@@ -32,16 +33,17 @@ class BaseAPI {
   }
 
   /// GET Method
-  Future<Response?> get({required String url, Map<String, dynamic>? queryParameters}) async {
+  Future<Response?> get({required String url, Map<String, dynamic>? queryParameters,bool? showLoader}) async {
     if (await checkInternetConnection()) {
       try {
-        BaseOverlays().showLoader();
+        BaseOverlays().showLoader(showLoader: showLoader??true);
+        FocusScope.of(X.Get.context!).requestFocus(new FocusNode());
         final String token = await BaseSharedPreference().getString(SpKeys().apiToken);
         final response = await _dio.get(url, options: Options(headers: {"Authorization": "Bearer $token"}),queryParameters: queryParameters,);
-        BaseOverlays().closeOverlay();
+        BaseOverlays().closeOverlay(showLoader: showLoader??true);
         return response;
       } on DioError catch (e) {
-        BaseOverlays().closeOverlay();
+        BaseOverlays().closeOverlay(showLoader: showLoader??true);
         _handleError(e);
         rethrow;
       }
@@ -56,6 +58,7 @@ class BaseAPI {
     if (await checkInternetConnection()) {
       try {
         BaseOverlays().showLoader();
+        FocusScope.of(X.Get.context!).requestFocus(new FocusNode());
         final String token = await BaseSharedPreference().getString(SpKeys().apiToken)??"";
         final response = await _dio.post(url, data: data, options: Options(headers: headers??{"Authorization": "Bearer $token"}));
         BaseOverlays().closeOverlay();
@@ -72,8 +75,32 @@ class BaseAPI {
     }
   }
 
+  /// PATCH Method
+  Future<Response?> patch({required String url, dynamic data, Map<String, dynamic>? headers,bool? concatUserId}) async {
+    if (await checkInternetConnection()) {
+      try {
+        BaseOverlays().showLoader();
+        FocusScope.of(X.Get.context!).requestFocus(new FocusNode());
+        final String token = await BaseSharedPreference().getString(SpKeys().apiToken)??"";
+        final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
+        final response = await _dio.patch(url+((concatUserId??false) ? userId : ""), data: data, options: Options(headers: headers??{"Authorization": "Bearer $token"}));
+        BaseOverlays().closeOverlay();
+        return response;
+      } on DioError catch (e) {
+        BaseOverlays().closeOverlay();
+        _handleError(e);
+        rethrow;
+      }
+    }else{
+      // BaseDialogs().dismissLoader();
+      BaseOverlays().showSnackBar(message: translate(X.Get.context!).no_internet_connection);
+      return null;
+    }
+  }
+
   /// Delete Method
   Future<Response?> delete({required String url, Map<String, dynamic>? headers}) async {
+    FocusScope.of(X.Get.context!).requestFocus(FocusNode());
     if (await checkInternetConnection()) {
       try {
         BaseOverlays().showLoader();

@@ -65,7 +65,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
           boxShadow: [getLightBoxShadow()],
         ),child: Column(
         children: [
-          profileProgress(value: 0.5),
+          profileProgress(value: (controller.response.value.data?.profileCompletePercentage??0).toDouble(), profileCompletionData: (controller.response.value.data?.profileCompleteDate).toString()),
           GestureDetector(
             onTap: (){
               Get.to(const MyProfileView());
@@ -141,7 +141,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
       ),
     );
   }
-  Widget profileProgress({required double value,double? bottomMargin}){
+  Widget profileProgress({required double value,double? bottomMargin, required String profileCompletionData}){
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -150,14 +150,14 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
           width: double.infinity,
           padding: const EdgeInsets.all(1),
           decoration: BoxDecoration(
-              borderRadius:  BorderRadius.circular(10.0),
+              borderRadius: BorderRadius.circular(10.0),
               border: Border.all(color: BaseColors.primaryColor),
               color: BaseColors.backgroundColor
           ),
           child: ClipRRect(
-            borderRadius:  BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(10.0),
             child: LinearProgressIndicator(
-              value: value,
+              value: value/100,
               valueColor: AlwaysStoppedAnimation<Color>(BaseColors.primaryColor),
               backgroundColor: BaseColors.backgroundColor,
             ),
@@ -166,8 +166,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("${translate(context).profile_complete} 50%", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 13.sp),),
-            Text("${translate(context).complete_your_profile_till} 25 July, 2022", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textRedColor, fontSize: 13.sp),),
+            Text("${(translate(context).profile_complete)+" "+value.toString()}%", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 13.sp),),
+            Text("${translate(context).complete_your_profile_till +" "+profileCompletionData}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textRedColor, fontSize: 13.sp),),
             // addText('Complete Your Profile Till: 25 July, 2022', getSmallTextFontSIze()-1, Colors.redAccent, FontWeight.w500),
           ],
         ),

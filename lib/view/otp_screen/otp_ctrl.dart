@@ -38,6 +38,7 @@ class OtpCtrl extends GetxController{
         if (response.statusCode == 200) {
           BaseSharedPreference().setBool(SpKeys().isLoggedIn, true);
           BaseSharedPreference().setString(SpKeys().apiToken, response.data?.token??"");
+          BaseSharedPreference().setString(SpKeys().userId, response.data?.user?.sId??"");
           if ((response.data?.message??"").isNotEmpty) {
             BaseOverlays().showSnackBar(message: response.data?.message??"",title: response.message??"");
           }

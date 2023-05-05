@@ -318,29 +318,33 @@ class BaseOverlays {
     }
 
   /// Loading
-  void showLoader() {
-    showDialog(
-      context: Get.context!,
-      barrierDismissible: false,
-      builder: (context) => WillPopScope(
-        onWillPop: () async => false,
-        child: Container(
-          color: Colors.black26,
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: const Center(
-            child: CircularProgressIndicator.adaptive(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+  void showLoader({bool? showLoader}) {
+    if (showLoader??true) {
+      showDialog(
+        context: Get.context!,
+        barrierDismissible: false,
+        builder: (context) => WillPopScope(
+          onWillPop: () async => false,
+          child: Container(
+            color: Colors.black26,
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: const Center(
+              child: CircularProgressIndicator.adaptive(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    }
   }
 
   /// Dismiss Loader
-  void closeOverlay() {
-    Get.back(closeOverlays: true);
+  void closeOverlay({bool? showLoader}) {
+    if (showLoader??true) {
+      Get.back(closeOverlays: true);
+    }
   }
 
   void showSnackBar({String? title, required String message}) {

@@ -8,6 +8,7 @@ class BaseColors{
   static const Color textLightGreyColor = Color(0xffB4B9C1);
   static const Color lightBlueColor = Color(0xff92AADA);
   static const Color green = Color(0xff00A624);
+  static const Color black = Colors.black;
   static const Color greenLight = Color(0xffD1FFD1);
   static const Color greyColor = Color(0xffC9C9C9);
   static const Color textRedColor = Color(0xffE62626);

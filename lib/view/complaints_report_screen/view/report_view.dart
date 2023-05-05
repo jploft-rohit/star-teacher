@@ -62,20 +62,20 @@ class _ReportViewState extends State<ReportView> {
                 ),
                 const Divider(),
                 BaseDetailData(
-                  icon: "assets/images/user 1.svg",
+                  prefixIcon: "assets/images/user 1.svg",
                   detailsLabel: "Star",
                   detailsValue: controller.response?[index].student??"",
                 ),
                 Row(
                   children: [
                     BaseDetailData(
-                      icon: "assets/images/Vector (1).svg",
+                      prefixIcon: "assets/images/Vector (1).svg",
                       detailsLabel: "01/03/2022",
                       showDivider: false,
                     ),
                     BaseDetailData(
                       leftMargin: 10.w,
-                      icon: "assets/images/time_icon.svg",
+                      prefixIcon: "assets/images/time_icon.svg",
                       detailsLabel: "09:13pm",
                       showDivider: false,
                     ),
@@ -83,29 +83,29 @@ class _ReportViewState extends State<ReportView> {
                 ),
                 const Divider(),
                 BaseDetailData(
-                  icon: "assets/images/report.svg",
+                  prefixIcon: "assets/images/report.svg",
                   detailsLabel: "Type",
                   detailsValue: controller.response?[index].forEnquery??"",
                 ),
                 BaseDetailData(
-                  icon: "assets/images/user.svg",
+                  prefixIcon: "assets/images/user.svg",
                   detailsLabel: "Person",
                   detailsValue: controller.response?[index].complaintUser??"",
                 ),
                 BaseDetailData(
-                  icon: "assets/images/report.svg",
+                  prefixIcon: "assets/images/report.svg",
                   detailsLabel: "Complain Type",
                   detailsValue: controller.response?[index].complaintType??"",
                 ),
                 BaseDetailData(
-                  icon: "assets/images/report.svg",
+                  prefixIcon: "assets/images/report.svg",
                   detailsLabel: "Comment",
                   detailsValue: controller.response?[index].description??"",
                 ),
                 Visibility(
                   visible: false,
                   child: BaseDetailData(
-                    icon: "assets/images/report.svg",
+                    prefixIcon: "assets/images/report.svg",
                     detailsLabel: "Feedback",
                     detailsValue: "Please upload the feedback of all the stars in suggested class into the excel worksheet.",
                   ),

@@ -15,6 +15,7 @@ class CustomTextField extends StatelessWidget {
   TextInputType? textInputType;
   String? errorText;
   int? maxLine;
+  final bool? underLine;
   final int? maxLength;
   EdgeInsetsGeometry? contentPadding;
   Widget? suffixIcon;
@@ -26,7 +27,7 @@ class CustomTextField extends StatelessWidget {
   double? hintTxtSize;
   final String? Function(String?)? validator;
   Color? hintTextColor;
-  CustomTextField({Key? key, required this.controller, this.obscureText, required this.hintText, this.textInputAction, this.textInputType, this.textInputFormatter, this.suffixIcon, this.prefixIcon, this.errorText, this.borderRadius, this.fillColor, this.txtColor, this.borderColor, this.maxLine, this.contentPadding, this.hintTxtSize, this.onTap, this.readOnly, this.hintTextColor, this.validator, this.maxLength}) : super(key: key);
+  CustomTextField({Key? key, required this.controller, this.obscureText, required this.hintText, this.textInputAction, this.textInputType, this.textInputFormatter, this.suffixIcon, this.prefixIcon, this.errorText, this.borderRadius, this.fillColor, this.txtColor, this.borderColor, this.maxLine, this.contentPadding, this.hintTxtSize, this.onTap, this.readOnly, this.hintTextColor, this.validator, this.maxLength, this.underLine = false}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -46,7 +47,7 @@ class CustomTextField extends StatelessWidget {
         contentPadding: contentPadding ?? EdgeInsets.only(top: 16.sp, bottom: 16.sp, left: 10.0, right: 10.0),
         isDense: true,
         hintMaxLines: 2,
-        border: const OutlineInputBorder(borderSide: BorderSide(color: BaseColors.txtFiledBorderColor)),
+
         hintText: hintText,
         errorText: errorText,
         counter: SizedBox.shrink(),
@@ -60,6 +61,7 @@ class CustomTextField extends StatelessWidget {
         suffixIcon: suffixIcon,
         prefixIcon: prefixIcon,
         fillColor: fillColor ?? Colors.transparent,
+        border: const OutlineInputBorder(borderSide: BorderSide(color: BaseColors.txtFiledBorderColor)),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: borderColor ?? BaseColors.txtFiledBorderColor, width: 1.0),
           borderRadius: BorderRadius.circular(borderRadius??8.0),

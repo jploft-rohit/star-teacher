@@ -8,6 +8,7 @@ import 'package:staff_app/view/assignments_screen/assignment_screen.dart';
 import 'package:staff_app/view/attendance_screen/attendance_screen.dart';
 import 'package:staff_app/view/chat_screen/chat_screen.dart';
 import 'package:staff_app/view/complaints_report_screen/view/complaints_report_screen.dart';
+import 'package:staff_app/view/my_profile_screen/controller/my_profile_ctrl.dart';
 import 'package:staff_app/view/performance_screen/performance_screen.dart';
 import 'package:staff_app/view/star_attendance_screen/star_attendance_screen.dart';
 import 'package:staff_app/view/star_evaluation_screen/star_evaluation_screen.dart';
@@ -21,48 +22,56 @@ class StatisticsView extends StatefulWidget {
 }
 
 class _StatisticsViewState extends State<StatisticsView> {
-  List<Map<String, dynamic>> list = [
-    {
-      "title": "15",
-      "subTitle": "Pending Task",
-    },
-    {
-      "title": "25",
-      "subTitle": "Unclosed Compliant",
-    },
-    {
-      "title": "25",
-      "subTitle": "Stars Evaluation Pending",
-    },
-    {
-      "title": "18",
-      "subTitle": "Assignment to Review",
-    },
-    {
-      "title": "97%",
-      "subTitle": "Attendance Record",
-    },
-    {
-      "title": "4.3",
-      "subTitle": "Performance",
-    },
-    {
-      "title": "299",
-      "subTitle": "Linked Stars",
-    },
-    {
-      "title": "3",
-      "subTitle": "Allocated Schools",
-    },
-    {
-      "title": "13/20",
-      "subTitle": "Total Classes Attended This Week",
-    },
-    {
-      "title": "10",
-      "subTitle": "Average of Interacting with chatting",
-    },
-  ];
+  MyProfileCtrl controller = Get.find<MyProfileCtrl>();
+
+  List<Map<String, dynamic>> list = [];
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    list = [
+      {
+        "title": controller.response.value.data?.statistics?.pendingTask??"0",
+        "subTitle": "Pending Task",
+      },
+      {
+        "title": controller.response.value.data?.statistics?.unclosedComplaint??"0",
+        "subTitle": "Unclosed Compliant",
+      },
+      {
+        "title": controller.response.value.data?.statistics?.starsEvaluationPending??"0",
+        "subTitle": "Stars Evaluation Pending",
+      },
+      {
+        "title": controller.response.value.data?.statistics?.assignmentToReview??"0",
+        "subTitle": "Assignment to Review",
+      },
+      {
+        "title": controller.response.value.data?.statistics?.attendanceRecord??"0",
+        "subTitle": "Attendance Record",
+      },
+      {
+        "title": controller.response.value.data?.statistics?.performance??"0",
+        "subTitle": "Performance",
+      },
+      {
+        "title": controller.response.value.data?.statistics?.linkedStars??"0",
+        "subTitle": "Linked Stars",
+      },
+      {
+        "title": controller.response.value.data?.statistics?.allocatedSchools??"0",
+        "subTitle": "Allocated Schools",
+      },
+      {
+        "title": controller.response.value.data?.statistics?.totalClassesAttendedThisWeek??"0",
+        "subTitle": "Total Classes Attended This Week",
+      },
+      {
+        "title": controller.response.value.data?.statistics?.avgOfInteractingWithChatting??"0",
+        "subTitle": "Average of Interacting with chatting",
+      },
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,10 +130,8 @@ class _StatisticsViewState extends State<StatisticsView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(list[index]['title'], style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 25.sp),),
-            SizedBox(
-              height: 1.h,
-            ),
+            Text(controller.response.value.data?.statistics?.pendingTask??"0", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 25.sp),),
+            SizedBox(height: 1.h),
             Text(list[index]['subTitle'], style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),textAlign: TextAlign.center,),
           ],
         ),

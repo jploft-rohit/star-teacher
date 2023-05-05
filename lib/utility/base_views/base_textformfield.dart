@@ -19,6 +19,7 @@ class BaseTextFormField extends StatefulWidget {
   final String? prefixIcon;
   final String? suffixIcon;
   final bool isDropDown;
+  final bool? underLine;
   final int? maxLine;
   final String? Function(String?)? validator;
   final List<DropdownMenuItem>? items;
@@ -27,7 +28,7 @@ class BaseTextFormField extends StatefulWidget {
   final ValueChanged? onChanged;
   final TextInputType? keyboardType;
   final TextEditingController controller;
-  BaseTextFormField({Key? key, this.title, required this.controller, this.hintText, this.keyboardType, this.prefixIcon, this.suffixIcon, this.isDropDown = false, this.dropDownValue, this.items = const [], this.onChanged, this.onTap, this.bottomMargin, this.topMargin, this.leftMargin, this.rightMargin, this.maxLine, this.errorText, this.validator}) : super(key: key);
+  BaseTextFormField({Key? key, this.title, required this.controller, this.hintText, this.keyboardType, this.prefixIcon, this.suffixIcon, this.isDropDown = false, this.dropDownValue, this.items = const [], this.onChanged, this.onTap, this.bottomMargin, this.topMargin, this.leftMargin, this.rightMargin, this.maxLine, this.errorText, this.validator, this.underLine = false}) : super(key: key);
 
   @override
   State<BaseTextFormField> createState() => _BaseTextFormFieldState();
@@ -101,7 +102,7 @@ class _BaseTextFormFieldState extends State<BaseTextFormField> {
                           alignment: Alignment.centerLeft,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value){
-                            if((value??"").isEmpty){
+                            if((widget.controller.text).isEmpty){
                               return widget.errorText;
                             }
                             return null;

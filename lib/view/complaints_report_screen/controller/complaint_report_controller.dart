@@ -114,4 +114,15 @@ class ComplainReportController extends GetxController{
       }
     });
   }
+
+  // getAllData(){
+  //   response?.value = [];
+  //   BaseAPI().get(url: ApiEndPoints().getAllComplaintReport,queryParameters: type.isNotEmpty ? {"type":type} : null).then((value){
+  //     if (value?.statusCode ==  200) {
+  //       response?.value = AllComplainReportResponse.fromJson(value?.data).data??[];
+  //     }else{
+  //       BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+  //     }
+  //   });
+  // }
 }
