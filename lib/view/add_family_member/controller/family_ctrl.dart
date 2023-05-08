@@ -40,16 +40,16 @@ class FamilyCtrl extends GetxController{
         "document": "6450a9e2e2719e102c7459cd",//nativeLanguageCtrl.text.trim(),
         "language": "6450a9e2e2719e102c7459cd",//religionCtrl.text.trim(),
       });
-      BaseAPI().post(url: ApiEndPoints().createFamilyMember, data: data).then((value){
-        if (value?.statusCode == 200) {
-          successResponse = BaseSuccessResponse.fromJson(value?.data);
-          Get.back();
-          BaseOverlays().showSnackBar(message: successResponse.message??"",title: "Success");
-          myProfileCtrl.getData();
-        }else{
-          // BaseDialogs().showSnackBar(message: ,title: response.message??"");
-        }
-      });
+      // BaseAPI().post(url: ApiEndPoints().createFamilyMember, data: data).then((value){
+      //   if (value?.statusCode == 200) {
+      //     successResponse = BaseSuccessResponse.fromJson(value?.data);
+      //     Get.back();
+      //     BaseOverlays().showSnackBar(message: successResponse.message??"",title: "Success");
+      //     myProfileCtrl.getData();
+      //   }else{
+      //     // BaseDialogs().showSnackBar(message: ,title: response.message??"");
+      //   }
+      // });
     }
   }
 
@@ -65,16 +65,16 @@ class FamilyCtrl extends GetxController{
         "document": "6450a9e2e2719e102c7459cd",//nativeLanguageCtrl.text.trim(),
         "language": "6450a9e2e2719e102c7459cd",//religionCtrl.text.trim(),
       });
-      BaseAPI().patch(url: ApiEndPoints().editFamilyMember+familyMemberId, data: data).then((value){
-        if (value?.statusCode == 200) {
-          successResponse = BaseSuccessResponse.fromJson(value?.data);
-          Get.back();
-          BaseOverlays().showSnackBar(message: successResponse.message??"",title: "Success");
-          myProfileCtrl.getData();
-        }else{
-          // BaseDialogs().showSnackBar(message: ,title: response.message??"");
-        }
-      });
+      // BaseAPI().patch(url: ApiEndPoints().editFamilyMember+familyMemberId, data: data).then((value){
+      //   if (value?.statusCode == 200) {
+      //     successResponse = BaseSuccessResponse.fromJson(value?.data);
+      //     Get.back();
+      //     BaseOverlays().showSnackBar(message: successResponse.message??"",title: "Success");
+      //     myProfileCtrl.getData();
+      //   }else{
+      //     // BaseDialogs().showSnackBar(message: ,title: response.message??"");
+      //   }
+      // });
     }
   }
 }

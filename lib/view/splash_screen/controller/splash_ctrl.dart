@@ -32,36 +32,36 @@ class SplashCtrl extends GetxController{
 
   getSchoolData({bool? showLoader}){
     schoolListData = SchoolListResponse();
-    BaseAPI().get(url: ApiEndPoints().getSchoolList, showLoader: showLoader??true).then((value){
-      if (value?.statusCode ==  200) {
-        schoolListData = SchoolListResponse.fromJson(value?.data);
-      }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
-      }
-     },
-   );
+   //  BaseAPI().get(url: ApiEndPoints().getSchoolList, showLoader: showLoader??true).then((value){
+   //    if (value?.statusCode ==  200) {
+   //      schoolListData = SchoolListResponse.fromJson(value?.data);
+   //    }else{
+   //      BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+   //    }
+   //   },
+   // );
   }
-
-  getComplaintTypeData({bool? showLoader}) async {
-    final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
-    complaintTypeResponse = ComplaintTypeResponse();
-    BaseAPI().get(url: ApiEndPoints().getComplaintType+userId,showLoader: showLoader).then((value){
-      if (value?.statusCode ==  200) {
-        complaintTypeResponse = ComplaintTypeResponse.fromJson(value?.data);
-      }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
-      }
-    });
-  }
-
-  getRolesList({bool? showLoader}) async {
-    rolesListResponse = RolesListResponse();
-    BaseAPI().get(url: ApiEndPoints().getAllRoles,showLoader: showLoader).then((value){
-      if (value?.statusCode ==  200) {
-        rolesListResponse = RolesListResponse.fromJson(value?.data);
-      }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
-      }
-    });
-  }
+  //
+  // getComplaintTypeData({bool? showLoader}) async {
+  //   final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
+  //   complaintTypeResponse = ComplaintTypeResponse();
+  //   BaseAPI().get(url: ApiEndPoints().getComplaintType+userId,showLoader: showLoader).then((value){
+  //     if (value?.statusCode ==  200) {
+  //       complaintTypeResponse = ComplaintTypeResponse.fromJson(value?.data);
+  //     }else{
+  //       BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+  //     }
+  //   });
+  // }
+  //
+  // getRolesList({bool? showLoader}) async {
+  //   rolesListResponse = RolesListResponse();
+  //   BaseAPI().get(url: ApiEndPoints().getAllRoles,showLoader: showLoader).then((value){
+  //     if (value?.statusCode ==  200) {
+  //       rolesListResponse = RolesListResponse.fromJson(value?.data);
+  //     }else{
+  //       BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+  //     }
+  //   });
+  // }
 }

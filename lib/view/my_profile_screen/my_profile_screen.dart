@@ -65,7 +65,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
           boxShadow: [getLightBoxShadow()],
         ),child: Column(
         children: [
-          profileProgress(value: (controller.response.value.data?.profileCompletePercentage??0).toDouble(), profileCompletionData: (controller.response.value.data?.profileCompleteDate).toString()),
+          profileProgress(value: (controller.response.value.data?.profileCompletePercentage??50).toDouble(), profileCompletionData: (controller.response.value.data?.profileCompleteDate??"25 July, 2022").toString()),
           GestureDetector(
             onTap: (){
               Get.to(const MyProfileView());
@@ -93,9 +93,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(controller.response.value.data?.name??na, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 17.sp)),
+                          Text(controller.response.value.data?.name??"Rafiq Khan", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 17.sp)),
                           SizedBox(height: 0.5.h),
-                          BaseDetailData(detailsLabel: translate(context).designation,detailsValue: controller.response.value.data?.role??na),
+                          BaseDetailData(detailsLabel: translate(context).designation,detailsValue: controller.response.value.data?.role??"Teacher"),
                         ],
                       ),
                     ),
@@ -116,7 +116,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
           ),
           Row(
             children: [
-              Expanded(flex: 3,child: BaseButton(title: translate(context).print_QR,  textSize: mediumButtonTs,onPressed: (){
+              Expanded(flex: 3,child: BaseButton(title: translate(context).print_QR, textSize: mediumButtonTs,onPressed: (){
                 Get.to(const PrintQrScreen());
               },borderRadius: 100,verticalPadding: 1.h,rightMargin: 1.5.w,)),
               Expanded(flex: 4,child: BaseButton(title: translate(context).programme_NFC, textSize: mediumButtonTs, onPressed: (){

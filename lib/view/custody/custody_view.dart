@@ -3,22 +3,33 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/constants-classes/color_constants.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_views/base_dropdown.dart';
+import 'package:staff_app/utility/custom_filter_dropdown.dart';
+import 'package:staff_app/utility/dummy_lists.dart';
+import 'package:staff_app/utility/filter_textformfield.dart';
 import 'package:staff_app/utility/images_icon_path.dart';
 import 'package:staff_app/utility/utility.dart';
 import 'package:staff_app/view/custody/custody_controller.dart';
 
 import '../../utility/custom_text_field.dart';
 
-class CustodyView extends GetView<CustodyController> {
+
+class CustodyView extends StatefulWidget {
   const CustodyView({Key? key}) : super(key: key);
+
+  @override
+  State<CustodyView> createState() => _CustodyViewState();
+}
+
+class _CustodyViewState extends State<CustodyView> {
   @override
   Widget build(BuildContext context) {
     Get.lazyPut<CustodyController>(
-      () => CustodyController(),
+          () => CustodyController(),
     );
     return Scaffold(
       backgroundColor: BaseColors.white,
@@ -30,84 +41,46 @@ class CustodyView extends GetView<CustodyController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                padding: EdgeInsets.symmetric(vertical: 3),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15.0),
-                  border: Border.all(
-                      color: BaseColors.borderColor
-                  ),
+                  borderRadius: BorderRadius.circular(15),
+                  border: Border.all(color: ColorConstants.borderColor),
                 ),
                 child: Column(
                   children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Flexible(
-                          flex: 1,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10.0,),
-                            child: Row(
-                              children: [
-                                SvgPicture.asset(classTakenSvg,height: 15,),
-                                SizedBox(
-                                  width: 2.w,
-                                ),
-                                Text("School", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                                const Spacer(),
-                                const Icon(
-                                  Icons.arrow_drop_down,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
+                        CustomFilterDropDown(
+                          initialValue: DummyLists.initialSchool, hintText: 'School',
+                          listData: DummyLists.schoolData, onChange: (value) {
+                          setState(() {
+                            DummyLists.initialSchool=value;
+                          });
+                        },icon: classTakenSvg,),
                       ],
                     ),
-                    const Divider(height: 0.0,),
+                    Divider(
+                      height: 1,
+                      thickness: 1,
+                    ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Flexible(
-                          flex: 1,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10.0,),
-                            child: Row(
-                              children: [
-                                SvgPicture.asset(classTakenSvg,height: 15,),
-                                SizedBox(
-                                  width: 2.w,
-                                ),
-                                Text("Class", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                                const Spacer(),
-                                const Icon(
-                                  Icons.arrow_drop_down,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: 1,
-                          height: 25,
-                          color: BaseColors.borderColor,
-                        ),
-                        Flexible(
-                          flex: 1,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
-                            child: Row(
-                              children: [
-                                SvgPicture.asset(classTakenSvg,height: 15,),
-                                SizedBox(
-                                  width: 2.w,
-                                ),
-                                Text("Grade", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                                const Spacer(),
-                                const Icon(
-                                  Icons.arrow_drop_down,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
+                        CustomFilterDropDown(
+                          initialValue: DummyLists.initialClass, hintText: 'Classs',
+                          listData: DummyLists.classData, onChange: (value) {
+                          setState(() {
+                            DummyLists.initialClass=value;
+                          });
+                        },icon: classTakenSvg,),
+                        Container(child: VerticalDivider(width: 1,),height: 4.h,width: 1,),
+                        CustomFilterDropDown(
+                          initialValue: DummyLists.initialGrade, hintText: 'Grade',
+                          listData: DummyLists.gradeData, onChange: (value) {
+                          setState(() {
+                            DummyLists.initialGrade=value;
+                          });
+                        },icon: classTakenSvg,),
                       ],
                     ),
                   ],
@@ -118,7 +91,7 @@ class CustodyView extends GetView<CustodyController> {
                 margin: EdgeInsets.symmetric(vertical: 10, horizontal: 2),
                 width: 100.w,
                 padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
                 decoration: BoxDecoration(
                   color: BaseColors.white,
                   borderRadius: BorderRadius.circular(13),
@@ -229,37 +202,37 @@ class CustodyView extends GetView<CustodyController> {
                               ]
                                   .map(
                                     (e) => TableRow(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(10),
-                                          child: addText(
-                                            e['title']!,
-                                            13,
-                                            BaseColors.black,
-                                            FontWeight.w400,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(10),
-                                          child: addTextCenter(
-                                            e['quantity']!,
-                                            13,
-                                            BaseColors.black,
-                                            FontWeight.w400,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(10),
-                                          child: addTextCenter(
-                                            e['price']!,
-                                            13,
-                                            BaseColors.black,
-                                            FontWeight.w400,
-                                          ),
-                                        ),
-                                      ],
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: addText(
+                                        e['title']!,
+                                        13,
+                                        BaseColors.black,
+                                        FontWeight.w400,
+                                      ),
                                     ),
-                                  )
+                                    Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: addTextCenter(
+                                        e['quantity']!,
+                                        13,
+                                        BaseColors.black,
+                                        FontWeight.w400,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: addTextCenter(
+                                        e['price']!,
+                                        13,
+                                        BaseColors.black,
+                                        FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
                                   .toList()),
                         ),
                         Container(
@@ -337,37 +310,37 @@ class CustodyView extends GetView<CustodyController> {
                               ]
                                   .map(
                                     (e) => TableRow(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(10),
-                                          child: addText(
-                                            e['title']!,
-                                            13,
-                                            BaseColors.black,
-                                            FontWeight.w400,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(10),
-                                          child: addTextCenter(
-                                            e['quantity']!,
-                                            13,
-                                            BaseColors.black,
-                                            FontWeight.w400,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(10),
-                                          child: addTextCenter(
-                                            e['price']!,
-                                            13,
-                                            BaseColors.black,
-                                            FontWeight.w400,
-                                          ),
-                                        ),
-                                      ],
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: addText(
+                                        e['title']!,
+                                        13,
+                                        BaseColors.black,
+                                        FontWeight.w400,
+                                      ),
                                     ),
-                                  )
+                                    Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: addTextCenter(
+                                        e['quantity']!,
+                                        13,
+                                        BaseColors.black,
+                                        FontWeight.w400,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: addTextCenter(
+                                        e['price']!,
+                                        13,
+                                        BaseColors.black,
+                                        FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
                                   .toList()),
                         ),
                         Container(
@@ -386,8 +359,6 @@ class CustodyView extends GetView<CustodyController> {
       ),
     );
   }
-
-
   Widget buildDetailRow(icon, title, body, {bool divider = true}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -39,16 +41,7 @@ class _MapScreenState extends State<MapScreen> {
                     borderRadius: BorderRadius.circular(20)),
               ),
               SizedBox(height :4.h),
-              // BaseButton(
-              //     child: addText(
-              //         'Change Route'.toUpperCase(),
-              //         getNormalTextFontSIze(),
-              //         CustomColors.primaryColor,
-              //         FontWeight.w500),
-              //     onTap: () {
-              //       Get.back();
-              //     }),
-              // spaceheight(4.h)
+              BaseButton(title: 'Notify', onPressed: () {Get.back();},),
             ],
           ),
         ),

@@ -14,6 +14,7 @@ import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/validators.dart';
 import 'package:staff_app/view/account_activation_screen/account_activation_screen.dart';
 import 'package:staff_app/view/login_screen/login_ctrl.dart';
+import 'package:staff_app/view/otp_screen/otp_screen.dart';
 
 class LoginScreen extends GetView<LoginCtrl> {
 
@@ -68,8 +69,9 @@ class LoginScreen extends GetView<LoginCtrl> {
                       SizedBox(height: 4.h),
                       Center(
                         child: BaseButton(btnType: largeButton,title: translate(context).sent_otp_btn_txt, onPressed: (){
-                          controller.loginApi();
-                          },borderRadius: 19,),
+                          // controller.loginApi();
+                          Get.to(OTPScreen(mobile: controller.mobileCtrl.text.trim()));
+                          },borderRadius: 19),
                       ),
                       SizedBox(height: 10.h),
                       Row(

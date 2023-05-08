@@ -5,20 +5,25 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_views/base_dropdown.dart';
+import 'package:staff_app/utility/custom_dropdown_widget.dart';
+import 'package:staff_app/utility/dummy_lists.dart';
 import 'package:staff_app/utility/images_icon_path.dart';
 import 'package:staff_app/utility/utility.dart';
 import 'package:staff_app/view/route_destination/controller/route_description_controller.dart';
 
 import '../../utility/sizes.dart';
 
-class RouteDescriptionView extends GetView<RouteDescriptionController> {
+
+class RouteDescriptionView extends StatefulWidget {
   const RouteDescriptionView({Key? key}) : super(key: key);
+
+  @override
+  State<RouteDescriptionView> createState() => _RouteDescriptionViewState();
+}
+
+class _RouteDescriptionViewState extends State<RouteDescriptionView> {
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut<RouteDescriptionController>(
-      () => RouteDescriptionController(),
-    );
-
     return Scaffold(
       backgroundColor: BaseColors.white,
       appBar: BaseAppBar(title: "Route Description"),
@@ -27,7 +32,23 @@ class RouteDescriptionView extends GetView<RouteDescriptionController> {
           padding: EdgeInsets.all(scaffoldPadding),
           child: Column(
             children: [
-              BaseDropDown(),
+              CustomDropDown(
+                initialValue: DummyLists.initialSchool,
+                hintText: "Select School",
+                listData: DummyLists.schoolData,
+                onChange: (value) {
+                  setState(() {
+                    DummyLists.initialSchool = value;
+                  });
+                },
+                topPadding: 5,
+                bottomPadding: 5,
+                icon: Icon(
+                  Icons.arrow_drop_down, color: Color(0xFFC4C4C4), size: 25,),
+              ),
+              SizedBox(
+                height: 2.h,
+              ),
               Container(
                 alignment: Alignment.topLeft,
                 width: 100.w,
@@ -62,7 +83,7 @@ class RouteDescriptionView extends GetView<RouteDescriptionController> {
                       'United Arab Emirates',
                     ),
                     buildDetailRow(
-                      icReport,
+                      icMessage,
                       'Address : ',
                       'hypermarket - Al Qusais, behind Stadium Metro Station - Dubai opossite',
                       divider: false,
@@ -86,7 +107,7 @@ class RouteDescriptionView extends GetView<RouteDescriptionController> {
                       'United Arab Emirates',
                     ),
                     buildDetailRow(
-                      icReport,
+                      icMessage,
                       'Address : ',
                       'hypermarket - Al Qusais, behind Stadium Metro Station - Dubai opossite',
                       divider: false,
@@ -110,14 +131,14 @@ class RouteDescriptionView extends GetView<RouteDescriptionController> {
                       'United Arab Emirates',
                     ),
                     buildDetailRow(
-                      icReport,
+                      icMessage,
                       'Address : ',
                       'hypermarket - Al Qusais, behind Stadium Metro Station - Dubai opossite',
                       divider: false,
                     ),
                     SizedBox(height: 30),
                     addText(
-                      'End Destination',
+                      'Route Number',
                       16,
                       Colors.black,
                       FontWeight.w700,
@@ -129,17 +150,17 @@ class RouteDescriptionView extends GetView<RouteDescriptionController> {
                       '550',
                     ),
                     buildDetailRow(
-                      icReport,
+                      "assets/images/bus_img.svg",
                       'Bus ID : ',
                       '#145254825',
                     ),
                     buildDetailRow(
-                      icReport,
+                      "assets/images/chauffeur 1.svg",
                       'Driver : ',
                       'Rafiq Khan',
                     ),
                     buildDetailRow(
-                      icReport,
+                      "assets/images/nurse_img.svg",
                       'Supervisor : ',
                       'Rafiq Khan',
                       divider: false,
@@ -153,7 +174,6 @@ class RouteDescriptionView extends GetView<RouteDescriptionController> {
       ),
     );
   }
-
   Widget buildDetailRow(icon, title, body, {bool divider = true}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -161,10 +181,9 @@ class RouteDescriptionView extends GetView<RouteDescriptionController> {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SvgPicture.asset(icon),
+            SvgPicture.asset(icon,height: 16,width: 16),
             SizedBox(width: 5),
-            addText(
-                title, detailLabelTs, BaseColors.black, FontWeight.w400),
+            addText(title, detailLabelTs, BaseColors.black, FontWeight.w400),
             Expanded(
               child: addText(body, detailValueTs, BaseColors.primaryColor,
                   FontWeight.w700),
@@ -175,7 +194,6 @@ class RouteDescriptionView extends GetView<RouteDescriptionController> {
       ],
     );
   }
-
   Container mainDropDown() {
     return Container(
       decoration: BoxDecoration(
@@ -225,7 +243,6 @@ class RouteDescriptionView extends GetView<RouteDescriptionController> {
       ),
     );
   }
-
   Container divider({double height = 10}) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: height),

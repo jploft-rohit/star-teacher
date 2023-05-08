@@ -27,7 +27,7 @@ class _FeedbackHelpScreenState extends State<FeedbackHelpScreen> with TickerProv
   @override
   void initState() {
     tabCtrl = TabController(length: 3, vsync: this)..addListener(() {
-      controller.getData(type: (tabCtrl?.index??0) == 0 ? "" : (tabCtrl?.index??0) == 1 ? "feedback" : "help");
+      // controller.getData(type: (tabCtrl?.index??0) == 0 ? "" : (tabCtrl?.index??0) == 1 ? "feedback" : "help");
     });
     super.initState();
   }

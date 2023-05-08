@@ -16,12 +16,12 @@ class FeedbackHelpController extends GetxController{
 
   getData({required String type}){
     response.value.data?.feedbackHelp = [];
-    BaseAPI().get(url: ApiEndPoints().getAllFeedbackHelp,/*queryParameters: type.isNotEmpty ? {"type":type} : null*/).then((value){
-      if (value?.statusCode ==  200) {
-        response.value = AllFeedbackHelpResponse.fromJson(value?.data);
-      }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
-      }
-    });
+    // BaseAPI().get(url: ApiEndPoints().getAllFeedbackHelp,/*queryParameters: type.isNotEmpty ? {"type":type} : null*/).then((value){
+    //   if (value?.statusCode ==  200) {
+    //     response.value = AllFeedbackHelpResponse.fromJson(value?.data);
+    //   }else{
+    //     BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+    //   }
+    // });
   }
 }

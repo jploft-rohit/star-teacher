@@ -120,9 +120,9 @@ class _BehaviourViewState extends State<BehaviourView> {
                         padding: EdgeInsets.all(15.sp),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
-                            border: Border.all(
-                                color: BaseColors.borderColor
-                            )
+                            border: ctrl.list[index]['isSelected'].value
+                                ? Border.all(color: BaseColors.primaryColor)
+                                : Border.all(color: Colors.grey.shade400),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -19,15 +19,15 @@ class LoginCtrl extends GetxController{
       Map<String, dynamic> data = {
         "mobile": mobileCtrl.text.trim()
       };
-      BaseAPI().post(url: ApiEndPoints().loginNewUser,data: data).then((value){
-        if (value?.statusCode == 200) {
-          response = LoginResponse.fromJson(value?.data);
-            if ((response.data?.message??"").isNotEmpty) {
-              BaseOverlays().showSnackBar(message: response.data?.message??"",title: response.message??"");
-            }
-            Get.to(OTPScreen(mobile: mobileCtrl.text.trim()));
-        }
-      });
+      // BaseAPI().post(url: ApiEndPoints().loginNewUser,data: data).then((value){
+      //   if (value?.statusCode == 200) {
+      //     response = LoginResponse.fromJson(value?.data);
+      //       if ((response.data?.message??"").isNotEmpty) {
+      //         BaseOverlays().showSnackBar(message: response.data?.message??"",title: response.message??"");
+      //       }
+      //       Get.to(OTPScreen(mobile: mobileCtrl.text.trim()));
+      //   }
+      // });
     }
   }
 
