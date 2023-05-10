@@ -69,8 +69,8 @@ class LoginScreen extends GetView<LoginCtrl> {
                       SizedBox(height: 4.h),
                       Center(
                         child: BaseButton(btnType: largeButton,title: translate(context).sent_otp_btn_txt, onPressed: (){
-                          // controller.loginApi();
-                          Get.to(OTPScreen(mobile: controller.mobileCtrl.text.trim()));
+                          controller.loginApi();
+                          // Get.to(OTPScreen(mobile: controller.mobileCtrl.text.trim()));
                           },borderRadius: 19),
                       ),
                       SizedBox(height: 10.h),

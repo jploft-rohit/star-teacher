@@ -13,30 +13,30 @@ class MyProfileCtrl extends GetxController{
   @override
   void onInit() {
     super.onInit();
-    // getData();
+    getData();
   }
 
   getData(){
     FocusScope.of(Get.context!).requestFocus(FocusNode());
-    // BaseAPI().get(url: ApiEndPoints().getMyProfile).then((value){
-    //   if (value?.statusCode == 200) {
-    //     response.value = MyProfileResponse.fromJson(value?.data);
-    //   }else{
-    //     // BaseDialogs().showSnackBar(message: ,title: response.message??"");
-    //   }
-    // });
+    BaseAPI().get(url: ApiEndPoints().getMyProfile).then((value){
+      if (value?.statusCode == 200) {
+        response.value = MyProfileResponse.fromJson(value?.data);
+      }else{
+        // BaseDialogs().showSnackBar(message: ,title: response.message??"");
+      }
+    });
   }
 
   deleteFamilyMember({required String memberId,required int index}){
-    // BaseAPI().delete(url: ApiEndPoints().deleteFamilyMember+memberId).then((value){
-    //   if (value?.statusCode == 200) {
-    //     successResponse = BaseSuccessResponse.fromJson(value?.data);
-    //     BaseOverlays().showSnackBar(message: successResponse.message??"",title: "Success");
-    //     response.value.data?.familyMembers?.removeAt(index);
-    //     update();
-    //   }else{
-    //     // BaseDialogs().showSnackBar(message: ,title: response.message??"");
-    //   }
-    // });
+    BaseAPI().delete(url: ApiEndPoints().deleteFamilyMember+memberId).then((value){
+      if (value?.statusCode == 200) {
+        successResponse = BaseSuccessResponse.fromJson(value?.data);
+        BaseOverlays().showSnackBar(message: successResponse.message??"",title: "Success");
+        response.value.data?.familyMembers?.removeAt(index);
+        update();
+      }else{
+        // BaseDialogs().showSnackBar(message: ,title: response.message??"");
+      }
+    });
   }
 }

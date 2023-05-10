@@ -62,17 +62,17 @@ class UpdateMyProfileCtrl extends GetxController{
         "school": "6450a9e2e2719e102c7459cd",//schoolCtrl.text.trim(),
         "profilePic": profilePath.value.trim(),
       });
-      // BaseAPI().patch(url: (ApiEndPoints().updateMyProfile),data: data,concatUserId: true).then((value){
-      //   if (value?.statusCode == 200) {
-      //     response = BaseSuccessResponse.fromJson(value?.data);
-      //     if ((response.data?["message"]??"").isNotEmpty) {
-      //       Get.back();
-      //       BaseOverlays().showSnackBar(message: response.data?["message"]??"",title: "Success");
-      //       myProfileCtrl.getData();
-      //    }
-      //   }
-      //  },
-      // );
+      BaseAPI().patch(url: (ApiEndPoints().updateMyProfile),data: data,concatUserId: true).then((value){
+        if (value?.statusCode == 200) {
+          response = BaseSuccessResponse.fromJson(value?.data);
+          if ((response.data?["message"]??"").isNotEmpty) {
+            Get.back();
+            BaseOverlays().showSnackBar(message: response.data?["message"]??"",title: "Success");
+            myProfileCtrl.getData();
+         }
+        }
+       },
+      );
      }
    }
  }
