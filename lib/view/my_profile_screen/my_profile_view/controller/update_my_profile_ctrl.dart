@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:image_picker/image_picker.dart';
 import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/backend/responses_model/base_success_response.dart';
@@ -25,6 +26,8 @@ class UpdateMyProfileCtrl extends GetxController{
   TextEditingController roleCtrl = TextEditingController();
   TextEditingController schoolCtrl = TextEditingController();
   TextEditingController alternativeMobileCtrl = TextEditingController();
+  XFile? xFile;
+  Rx<String> imageData = "".obs;
   RxString profilePath = "".obs;
   final formKey = GlobalKey<FormState>();
   BaseSuccessResponse response = BaseSuccessResponse();

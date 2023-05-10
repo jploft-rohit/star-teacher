@@ -8,7 +8,7 @@ import 'package:staff_app/utility/base_views/base_toggle_tab_bar.dart';
 
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/wallet/sub_screens/events_view.dart';
 import 'package:staff_app/view/wallet/sub_screens/purchases_view.dart';

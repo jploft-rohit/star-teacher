@@ -4,7 +4,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 
 import 'package:staff_app/utility/base_views/base_colors.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 
 class NewsDetailScreen extends StatefulWidget {
   final bool isShowAcknw;

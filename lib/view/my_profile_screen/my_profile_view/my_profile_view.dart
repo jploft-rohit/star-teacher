@@ -1,19 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
-
-
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
-import 'package:staff_app/utility/base_views/base_textformfield.dart';
 import 'package:staff_app/view/map_screen.dart';
 import 'package:staff_app/view/my_profile_screen/my_profile_view/controller/update_my_profile_ctrl.dart';
 
@@ -39,27 +37,34 @@ class _MyProfileViewState extends State<MyProfileView> {
               children: [
                 Flexible(
                     flex: 2,
-                    child: Center(
-                      child: Container(
-                        alignment: Alignment.topCenter,
-                        child: Stack(
-                          alignment: Alignment.topRight,
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.all(5),
-                              padding: const EdgeInsets.only(left: 15, right: 15, top: 10.0, bottom: 10.0),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  border: Border.all(
-                                      color: BaseColors.primaryColor)),
-                              child: SvgPicture.asset(
-                                manSvg,
-                                height: 8.h,
+                    child: GestureDetector(
+                      onTap: (){
+                        controller.xFile = BaseOverlays().showMediaPickerDialog();
+                        controller.imageData.value = controller.xFile?.path??"";
+                      },
+                      child: Center(
+                        child: Container(
+                          alignment: Alignment.topCenter,
+                          child: Stack(
+                            alignment: Alignment.topRight,
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.all(5),
+                                padding: const EdgeInsets.only(left: 15, right: 15, top: 10.0, bottom: 10.0),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    border: Border.all(color: BaseColors.primaryColor)),
+                                child: controller.imageData.value.isNotEmpty
+                                    ? Image.file(File(controller.imageData.value))
+                                    : SvgPicture.asset(
+                                  manSvg,
+                                  height: 8.h,
+                                ),
                               ),
-                            ),
-                            iconButton(() {}, "assets/images/upload_img.svg")
-                          ],
+                              iconButton(() {}, "assets/images/upload_img.svg")
+                            ],
+                          ),
                         ),
                       ),
                     )),

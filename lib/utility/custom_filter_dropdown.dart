@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/constants-classes/color_constants.dart';
 
 import '../packages/drop_downbutton2/src/dropdown_button2.dart';
 
 class CustomFilterDropDown extends StatelessWidget {
-  final String? initialValue;
   final String hintText;
-  final List<String> listData;
   final String icon;
+  final String? initialValue;
+  final List<String>? listData;
+  final List<DropdownMenuItem<dynamic>>? item;
   final Function(dynamic value) onChange;
-  CustomFilterDropDown({Key? key, required this.initialValue,required this.hintText,
-    required this.listData,required this.onChange,required this.icon}) : super(key: key);
+  CustomFilterDropDown({Key? key, required this.hintText,
+    this.item,required this.onChange,required this.icon, this.initialValue, this.listData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,23 +32,14 @@ class CustomFilterDropDown extends StatelessWidget {
                   iconStyleData: IconStyleData(
                     icon: Icon(Icons.arrow_drop_down, color: ColorConstants.black,),
                   ),
-                  dropdownStyleData: DropdownStyleData( offset: Offset(0,-10),),
+                  dropdownStyleData: DropdownStyleData(offset: Offset(0,-10)),
                   //menuItemStyleData: MenuItemStyleData(padding: EdgeInsets.symmetric(horizontal: 2.h),),
-                  value: initialValue,
                   alignment: AlignmentDirectional.centerStart,
                   hint: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 1.8.h,),
                     child: addText(hintText, 14.sp,ColorConstants.black, FontWeight.w700),
                   ),
-                  items: listData.map((String data) {
-                    return DropdownMenuItem(
-                      value: data,
-                      alignment: AlignmentDirectional.centerStart,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 1.8.h,),
-                        child: addText(data, 14.sp, Colors.black,FontWeight.w700),
-                      ),);
-                  }).toList(),
+                  items: item,
                   onChanged: onChange),
             ),
             Align(

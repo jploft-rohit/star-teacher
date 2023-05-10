@@ -7,6 +7,7 @@ import 'package:staff_app/utility/base_views/base_tab_bar.dart';
 import 'package:staff_app/Utility/custom_dropdown_widget.dart';
 import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/view/complaints_report_screen/controller/complaint_report_controller.dart';
 import 'package:staff_app/view/complaints_report_screen/view/all_complaints_view.dart';
 import 'package:staff_app/view/complaints_report_screen/view/complaints_view.dart';
@@ -41,12 +42,12 @@ class _ComplaintsReportScreenState extends State<ComplaintsReportScreen> with Ti
         title: translate(context).complain_or_report,
       ),
       body: Padding(
-        padding: EdgeInsets.all(15.sp),
+        padding: EdgeInsets.all(scaffoldPadding),
         child: Column(
           children: [
           CustomDropDown(
           initialValue: DummyLists.initialSchool,
-          hintText: "Select School",
+          hintText: DummyLists.initialSchool??"Select School",
           listData:DummyLists.schoolData,
           onChange: (value) {
             setState(() {

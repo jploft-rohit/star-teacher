@@ -6,7 +6,7 @@ import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/constants-classes/color_constants.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 
-import '../../../Utility/utility.dart';
+import '../../../Utility/base_utility.dart';
 
 class EditOrderView extends StatefulWidget {
 

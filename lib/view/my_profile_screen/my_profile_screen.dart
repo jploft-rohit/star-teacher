@@ -11,7 +11,7 @@ import 'package:staff_app/utility/base_views/base_tab_bar.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/Dashboard_screen/dashboard_screen_ctrl.dart';
 import 'package:staff_app/view/my_profile_screen/account_view/account_view.dart';
@@ -108,7 +108,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
                           version: QrVersions.auto,
                           size: 70,
                           gapless: false,
-                        )),
+                        ),
+                    ),
                   ],
                 ),
             ),

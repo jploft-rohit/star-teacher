@@ -10,7 +10,7 @@ import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/star_reward_screen/create_reward_screen.dart';
 import 'package:staff_app/view/star_reward_screen/reward_screen_ctrl.dart';
 
-import '../../Utility/utility.dart';
+import '../../Utility/base_utility.dart';
 
 class RewardView extends StatefulWidget {
   const RewardView({super.key});

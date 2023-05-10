@@ -8,7 +8,7 @@ import 'package:staff_app/utility/base_views/base_button.dart';
 
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/view/shop_screen/cart/cart_card_detail.dart';
 import 'package:staff_app/view/shop_screen/shop_screen_ctrl.dart';
 import 'package:staff_app/view/wallet/sub_screens/cartd_detail_popup.dart';

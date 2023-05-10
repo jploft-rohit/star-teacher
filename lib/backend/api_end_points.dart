@@ -36,4 +36,14 @@ class ApiEndPoints {
 
   /// Roles EndPoints
   final String getAllRoles = "role/getAll";
+
+  /// Notebook EndPoints
+  final String getNotebookList = "notebook/list";
+  final String updateNotebook = "notebook/update/";
+  final String createNotebook = "notebook/create";
+  final String getDetailNotebook = "notebook/detail/";
+  final String deleteNotebook = "notebook/delete/";
+
+  /// Get Staff Data
+  final String getStaffData = "complaintReport/staff";
 }

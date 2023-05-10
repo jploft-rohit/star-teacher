@@ -502,3 +502,11 @@ Future<void> selectTime(BuildContext context) async {
 
   });
 }
+
+String getFormattedDate(String dateString, {String separator = '-'}) {
+  DateTime date = DateTime.parse(dateString);
+  String day = date.day.toString().padLeft(2, '0');
+  String month = date.month.toString().padLeft(2, '0');
+  String year = date.year.toString().substring(0);
+  return '$day$separator$month$separator$year';
+}

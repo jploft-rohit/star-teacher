@@ -7,7 +7,7 @@ import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/view/about_us.dart';
@@ -215,6 +215,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                       );
                     },
                     child: buildTile1(translate(context).logout)),
+                SizedBox(height: 10.h)
               ],
             ),
           ),

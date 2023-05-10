@@ -10,7 +10,7 @@ import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/route_manager/route_name.dart';
 import 'package:staff_app/utility/base_views/base_detail_data.dart';
@@ -545,7 +545,7 @@ class _DetailViewState extends State<DetailView> {
                       alignment: Alignment.center,
                       child: BaseButton(borderRadius: 20,btnType: mediumLargeButton,title: translate(context).delete.toUpperCase(), onPressed: () {
                         controller.deleteFamilyMember(memberId: controller.response.value.data?.familyMembers?[index].sId??"", index: index);
-                        BaseOverlays().closeOverlay();
+                        BaseOverlays().dismissOverlay();
                         controller.update();
                         },
                       ),

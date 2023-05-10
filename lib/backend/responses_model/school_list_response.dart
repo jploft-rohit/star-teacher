@@ -54,27 +54,27 @@ class Data {
 class SchoolData {
   String? sId;
   String? name;
-  SchoolCategory? schoolCategory;
-  SchoolSector? schoolSector;
-  SchoolSector? schoolArea;
-  String? address;
-  Language? language;
-  String? schoolId;
-  int? helplineNo;
-  String? email;
-  String? secondoryEmail;
-  String? website;
-  int? mobile;
-  Language? schoolType;
-  String? user;
-  Status? status;
-  CreatedBy? createdBy;
-  String? createdAt;
-  String? updatedAt;
-  int? iV;
-  Location? location;
-  CreatedBy? updatedBy;
-  ParentSchool? parentSchool;
+  dynamic schoolCategory;
+  dynamic schoolSector;
+  dynamic schoolArea;
+  dynamic address;
+  dynamic language;
+  dynamic schoolId;
+  dynamic helplineNo;
+  dynamic email;
+  dynamic secondoryEmail;
+  dynamic website;
+  dynamic mobile;
+  dynamic schoolType;
+  dynamic user;
+  dynamic status;
+  dynamic createdBy;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic iV;
+  dynamic location;
+  dynamic updatedBy;
+  dynamic parentSchool;
 
   SchoolData({this.sId, this.name, this.schoolCategory, this.schoolSector, this.schoolArea, this.address, this.language, this.schoolId, this.helplineNo, this.email, this.secondoryEmail, this.website, this.mobile, this.schoolType, this.user, this.status, this.createdBy, this.createdAt, this.updatedAt, this.iV, this.location, this.updatedBy, this.parentSchool});
 
@@ -154,12 +154,12 @@ class SchoolData {
 }
 
 class SchoolCategory {
-  String? sId;
-  String? name;
-  String? status;
-  String? createdAt;
-  String? updatedAt;
-  int? iV;
+  dynamic sId;
+  dynamic name;
+  dynamic status;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic iV;
 
   SchoolCategory({this.sId, this.name, this.status, this.createdAt, this.updatedAt, this.iV});
 
@@ -375,7 +375,7 @@ class ParentSchool {
   String? website;
   int? mobile;
   String? schoolType;
-  Null? user;
+  dynamic user;
   String? status;
   String? createdBy;
   String? createdAt;

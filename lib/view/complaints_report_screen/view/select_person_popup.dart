@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/backend/responses_model/roles_list_response.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 
 import 'package:staff_app/utility/base_views/base_colors.dart';
@@ -11,19 +12,34 @@ import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/filter_textformfield.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/view/complaints_report_screen/controller/complaint_report_controller.dart';
+import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 
 class SelectPersonPopup extends StatefulWidget {
-  const SelectPersonPopup({Key? key}) : super(key: key);
+  final String selectedSchoolId;
+  const SelectPersonPopup({Key? key, required this.selectedSchoolId}) : super(key: key);
 
   @override
   State<SelectPersonPopup> createState() => _SelectPersonPopupState();
 }
 
 class _SelectPersonPopupState extends State<SelectPersonPopup> {
+  BaseCtrl baseCtrl = Get.find<BaseCtrl>();
+  ComplainReportController complainReportController = Get.find<ComplainReportController>();
   TextEditingController searchCtrl = TextEditingController();
 
-  int selectedFMOPos = 0;
+  int selectedFMOPos = -1;
+  String selectedRoleId = "";
+
+  @override
+  void initState() {
+    super.initState();
+    complainReportController.getStaffData(
+        selectedSchoolId: widget.selectedSchoolId,
+        selectedRoleId: baseCtrl.rolesListResponse.data?.first.sId??""
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,12 +84,20 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                       Row(
                         children: [
                           CustomFilterDropDown(
-                            initialValue: DummyLists.initialRole, hintText: 'Teacher',
-                            listData: DummyLists.roleData, onChange: (value) {
+                            initialValue: DummyLists.initialRole,
+                            hintText: DummyLists.initialRole??'Teacher',
+                            item: baseCtrl.rolesListResponse.data?.map((Data value){
+                              return DropdownMenuItem<dynamic>(
+                                value: value,
+                                child: addText(value.name??"", 16.sp, Colors.black, FontWeight.w400));
+                            }).toList(),
+                            onChange: (value) {
+                              selectedRoleId = value.sId??"";
                             setState(() {
-                              DummyLists.initialRole=value;
+                              DummyLists.initialRole=value.name??"";
                             });
-                          },icon: jobDetailSvg,),
+                            complainReportController.getStaffData(selectedRoleId: selectedRoleId, selectedSchoolId: widget.selectedSchoolId);
+                          },icon: jobDetailSvg),
                         ],
                       ),
                       Divider(height: 1,thickness: 1,),
@@ -86,105 +110,114 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                 SizedBox(
                   height: 3.h,
                 ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 5,
-                  padding: EdgeInsets.zero,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 10.0),
-                      child: GestureDetector(
-                        onTap: (){
-                          selectedFMOPos = index;
-                          setState(() {});
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: selectedFMOPos == index ? BaseColors.backgroundColor : Colors.transparent,
-                              borderRadius: BorderRadius.circular(10.0),
-                              border: Border.all(
-                                  color: BaseColors.borderColor
-                              )
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
+                SizedBox(
+                  height: 35.h,
+                  child: Obx(()=> complainReportController.isStaffLoading.value
+                      ? Center(child: SizedBox(height: 30,width: 30,child: CircularProgressIndicator()))
+                      : ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: complainReportController.staffData.length,
+                        padding: EdgeInsets.zero,
+                        itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 10.0),
+                          child: GestureDetector(
+                            onTap: (){
+                              selectedFMOPos = index;
+                              complainReportController.selectedPersonId.value = complainReportController.staffData[index].sId??"";
+                              complainReportController.personController.value.text = complainReportController.staffData[index].user?.name??"";
+                              complainReportController.formKey.currentState?.validate();
+                              setState(() {});
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: selectedFMOPos == index ? BaseColors.backgroundColor : Colors.transparent,
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  border: Border.all(
+                                      color: BaseColors.borderColor
+                                  )
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Container(
-                                    padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: BaseColors.primaryColor
-                                      ),
-                                      borderRadius: BorderRadius.circular(10.0),
-                                    ),
-                                    child: SvgPicture.asset(manSvg,height: 30,),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 10.sp),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text("Abdul Khan", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
-                                        SizedBox(
-                                          height: .5.h,
+                                  Row(
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: BaseColors.primaryColor
+                                          ),
+                                          borderRadius: BorderRadius.circular(10.0),
                                         ),
-                                        Row(
+                                        child: SvgPicture.asset(manSvg,height: 30,),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 10.sp),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            buildInfoItems("Subject", "English"),
+                                            Text(complainReportController.staffData[index].user?.name??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                                             SizedBox(
-                                              width: 5.w,
+                                              height: .5.h,
                                             ),
-                                            buildInfoItems("ID", "#562356"),
+                                            Row(
+                                              children: [
+                                                buildInfoItems("Subject", complainReportController.staffData[index].subject?.name??""),
+                                                SizedBox(
+                                                  width: 5.w,
+                                                ),
+                                                buildInfoItems("ID", complainReportController.staffData[index].employeeId??""),
+                                              ],
+                                            ),
                                           ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
+
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 10.0, left: 10.0),
+                                    child: Container(
+                                      height: 20,
+                                      width: 20,
+                                      // padding: const EdgeInsets.symmetric(horizontal: 9),
+                                      decoration: BoxDecoration(
+                                          color: selectedFMOPos == index
+                                              ? BaseColors.backgroundColor
+                                              : BaseColors.borderColor,
+                                          boxShadow: [getLightBoxShadow()],
+                                          border: selectedFMOPos == index
+                                              ? Border.all(
+                                              color: BaseColors.primaryColor, width: 1.5)
+                                              : Border.all(
+                                              color: Colors.transparent, width: 1.5),
+                                          borderRadius: BorderRadius.circular(30.0)),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: BaseColors.white, width: 1.5),
+                                            shape: BoxShape.circle,
+                                            boxShadow: [getBoxShadow()],
+                                            color: selectedFMOPos == index
+                                                ? BaseColors.primaryColor
+                                                : BaseColors.borderColor
+                                        ),
+                                        child: Center(
+                                          child: Icon(Icons.check, color: BaseColors.white,
+                                              size: 16.sp),
+                                        ),
+                                      ),
+                                    ),
+                                  )
                                 ],
                               ),
-
-                              Padding(
-                                padding: const EdgeInsets.only(right: 10.0, left: 10.0),
-                                child: Container(
-                                  height: 20,
-                                  width: 20,
-                                  // padding: const EdgeInsets.symmetric(horizontal: 9),
-                                  decoration: BoxDecoration(
-                                      color: selectedFMOPos == index
-                                          ? BaseColors.backgroundColor
-                                          : BaseColors.borderColor,
-                                      boxShadow: [getLightBoxShadow()],
-                                      border: selectedFMOPos == index
-                                          ? Border.all(
-                                          color: BaseColors.primaryColor, width: 1.5)
-                                          : Border.all(
-                                          color: Colors.transparent, width: 1.5),
-                                      borderRadius: BorderRadius.circular(30.0)),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: BaseColors.white, width: 1.5),
-                                        shape: BoxShape.circle,
-                                        boxShadow: [getBoxShadow()],
-                                        color: selectedFMOPos == index
-                                            ? BaseColors.primaryColor
-                                            : BaseColors.borderColor
-                                    ),
-                                    child: Center(
-                                      child: Icon(Icons.check, color: BaseColors.white,
-                                          size: 16.sp),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
-                    );
-                  },
+                        );
+                      },
+                    ),
+                  ),
                 ),
                 SizedBox(
                   height: 2.h,

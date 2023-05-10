@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_detail_data.dart';
 import 'package:staff_app/utility/images_icon_path.dart';
@@ -128,9 +128,8 @@ class _SchoolsViewState extends State<SchoolsView> {
                   height: 0.5.h,
                 ),
                 buildTile(translate(context).place_of_class, controller.response.value.data?.schoolStaff?[index].school?.staffsubjects?.classSection?[0].roomNo??na, classTakenSvg),
-                SizedBox(
-                  height: 0.5.h,
-                ),
+                // buildTile(translate(context).place_of_class,"1,2", classTakenSvg),
+                SizedBox(height: 0.5.h),
                 buildTile(translate(context).grade_class, "G3 : H1 ,H2 , H3 , C5 , C3\nG4 : J4 , K5 ,K9 ,F2 ,F3", jobDetailSvg),
                 const SizedBox(height: 20,),
               ]),

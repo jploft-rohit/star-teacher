@@ -10,7 +10,7 @@ import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/storage/sp_keys.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 
-class SplashCtrl extends GetxController{
+class BaseCtrl extends GetxController{
 
   SchoolListResponse schoolListData = SchoolListResponse();
   ComplaintTypeResponse complaintTypeResponse = ComplaintTypeResponse();
@@ -20,14 +20,13 @@ class SplashCtrl extends GetxController{
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    // WidgetsBinding.instance.addPostFrameCallback((_) async {
-    //   final String token = await BaseSharedPreference().getString(SpKeys().apiToken)??"";
-    //   if ((token).isNotEmpty) {
-    //     getSchoolData(showLoader: false);
-    //     getComplaintTypeData(showLoader: false);
-    //     getRolesList(showLoader: false);
-    //   }
-    // });
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final String token = await BaseSharedPreference().getString(SpKeys().apiToken)??"";
+      if ((token).isNotEmpty) {
+        getRolesList(showLoader: false);
+        getSchoolData(showLoader: false);
+      }
+    });
   }
 
   getSchoolData({bool? showLoader}){
@@ -35,6 +34,7 @@ class SplashCtrl extends GetxController{
     BaseAPI().get(url: ApiEndPoints().getSchoolList, showLoader: showLoader??true).then((value){
       if (value?.statusCode ==  200) {
         schoolListData = SchoolListResponse.fromJson(value?.data);
+        getComplaintTypeData(showLoader: false, initialSchoolId: schoolListData.data?.data?.first.sId??"");
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
       }
@@ -42,10 +42,9 @@ class SplashCtrl extends GetxController{
    );
   }
 
-  getComplaintTypeData({bool? showLoader}) async {
-    final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
+  getComplaintTypeData({bool? showLoader, required String initialSchoolId}) async {
     complaintTypeResponse = ComplaintTypeResponse();
-    BaseAPI().get(url: ApiEndPoints().getComplaintType+userId,showLoader: showLoader).then((value){
+    BaseAPI().get(url: ApiEndPoints().getComplaintType+"643e7e76786e2a1898ace622",showLoader: showLoader).then((value){
       if (value?.statusCode ==  200) {
         complaintTypeResponse = ComplaintTypeResponse.fromJson(value?.data);
       }else{

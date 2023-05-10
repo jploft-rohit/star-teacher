@@ -47,7 +47,7 @@ class Data {
   String? name;
   String? type;
   String? status;
-  Null? createdBy;
+  String? createdBy;
   String? createdAt;
   String? updatedAt;
 
@@ -84,11 +84,11 @@ class Data {
 }
 
 class Pagination {
-  int? totalCount;
-  int? totalPages;
-  int? currentPage;
-  Null? nextPage;
-  Null? prevPage;
+  dynamic totalCount;
+  dynamic totalPages;
+  dynamic currentPage;
+  dynamic  nextPage;
+  dynamic  prevPage;
 
   Pagination(
       {this.totalCount,

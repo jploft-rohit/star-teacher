@@ -6,7 +6,7 @@ import 'package:staff_app/utility/base_views/base_button.dart';
 
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/view/notification_screen/reschedule_visit_request_popup.dart';
@@ -130,7 +130,7 @@ class _ClinicVisitRequestState extends State<ClinicVisitRequest> {
                     GestureDetector(
                       onTap: (){
                         // Get.to(DriverRatingScreen(title: 'Driver Rating',));
-                        BaseOverlays().closeOverlay();
+                        BaseOverlays().dismissOverlay();
                         showGeneralDialog(
                           context: context,
                           pageBuilder: (context, animation, secondaryAnimation) {

@@ -13,7 +13,7 @@ class BaseIcons{
       onTap: (){
         BaseOverlays().showConfirmationDialog(
             title: title??"Are you sure you want to delete this data?",
-            onRightButtonPressed: onRightButtonPressed??(){BaseOverlays().closeOverlay();}
+            onRightButtonPressed: onRightButtonPressed??(){BaseOverlays().dismissOverlay();}
         );
       },
       child: Padding(
@@ -29,7 +29,7 @@ class BaseIcons{
       onTap: (){
         BaseOverlays().showConfirmationDialog(
             title: title??"Are you sure you want to edit this data?",
-            onRightButtonPressed: onRightButtonPressed??(){BaseOverlays().closeOverlay();}
+            onRightButtonPressed: onRightButtonPressed??(){BaseOverlays().dismissOverlay();}
         );
       },
       child: Padding(

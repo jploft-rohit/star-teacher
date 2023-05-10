@@ -7,7 +7,7 @@ import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 
 class StarCalledPopup extends StatefulWidget {
   const StarCalledPopup({Key? key}) : super(key: key);

@@ -8,7 +8,7 @@ import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/route_manager/route_name.dart';
 import 'package:staff_app/view/Dashboard_screen/dashboard_screen.dart';
-import 'package:staff_app/view/splash_screen/controller/splash_ctrl.dart';
+import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 
 
 class SplashScreen extends StatefulWidget {
@@ -20,7 +20,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 
-  SplashCtrl splashCtrl = Get.put(SplashCtrl());
+  BaseCtrl splashCtrl = Get.put(BaseCtrl());
 
   @override
   void initState() {

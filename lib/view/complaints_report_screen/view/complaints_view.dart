@@ -10,7 +10,7 @@ import 'package:staff_app/utility/base_views/base_icons.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/constants-classes/color_constants.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
@@ -38,7 +38,7 @@ class _ComplaintsViewState extends State<ComplaintsView> {
     return Obx(()=>ListView.builder(
       itemCount: controller.response?.length??0,
       shrinkWrap: true,
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: EdgeInsets.only(bottom: 8.h),
       itemBuilder: (context, index) {
         return Card(
           elevation: 3,
@@ -53,7 +53,7 @@ class _ComplaintsViewState extends State<ComplaintsView> {
                   editTitle: controller.response?[index].forEnquery??"",
                   deleteTitle: controller.response?[index].forEnquery??"",
                   onEditProceed: (){
-                    BaseOverlays().closeOverlay();
+                    BaseOverlays().dismissOverlay();
                     Get.to(RaiseComplaintReportScreen(isUpdating: true,data: controller.response?[index]));
                   },
                   onDeleteProceed: (){
@@ -90,12 +90,12 @@ class _ComplaintsViewState extends State<ComplaintsView> {
                 BaseDetailData(
                   prefixIcon: "assets/images/user.svg",
                   detailsLabel: "Person",
-                  detailsValue: controller.response?[index].complaintUser??"",
+                  detailsValue: controller.response?[index].complaintUser?.name??"",
                 ),
                 BaseDetailData(
                   prefixIcon: "assets/images/report.svg",
                   detailsLabel: "Complain Type",
-                  detailsValue: controller.response?[index].complaintType??"",
+                  detailsValue: controller.response?[index].complaintType?.name??"",
                 ),
                 BaseDetailData(
                   prefixIcon: "assets/images/report.svg",

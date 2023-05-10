@@ -20,8 +20,8 @@ class BaseAPI {
     _dio = Dio(
       BaseOptions(
         baseUrl: 'http://3.28.14.143:4000/star-backend/api/',
-        connectTimeout: const Duration(seconds: 10),
-        receiveTimeout: const Duration(seconds: 10),
+        connectTimeout: const Duration(seconds: 20),
+        receiveTimeout: const Duration(seconds: 20),
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
@@ -40,10 +40,10 @@ class BaseAPI {
         FocusScope.of(X.Get.context!).requestFocus(new FocusNode());
         final String token = await BaseSharedPreference().getString(SpKeys().apiToken);
         final response = await _dio.get(url, options: Options(headers: {"Authorization": "Bearer $token"}),queryParameters: queryParameters,);
-        BaseOverlays().closeOverlay(showLoader: showLoader??true);
+        BaseOverlays().dismissOverlay(showLoader: showLoader??true);
         return response;
       } on DioError catch (e) {
-        BaseOverlays().closeOverlay(showLoader: showLoader??true);
+        BaseOverlays().dismissOverlay(showLoader: showLoader??true);
         _handleError(e);
         rethrow;
       }
@@ -54,17 +54,17 @@ class BaseAPI {
   }
 
   /// POST Method
-  Future<Response?> post({required String url, dynamic data, Map<String, dynamic>? headers}) async {
+  Future<Response?> post({required String url, dynamic data, Map<String, dynamic>? headers,bool? showLoader}) async {
     if (await checkInternetConnection()) {
       try {
-        BaseOverlays().showLoader();
+        BaseOverlays().showLoader(showLoader: showLoader);
         FocusScope.of(X.Get.context!).requestFocus(new FocusNode());
         final String token = await BaseSharedPreference().getString(SpKeys().apiToken)??"";
         final response = await _dio.post(url, data: data, options: Options(headers: headers??{"Authorization": "Bearer $token"}));
-        BaseOverlays().closeOverlay();
+        BaseOverlays().dismissOverlay(showLoader: showLoader);
         return response;
       } on DioError catch (e) {
-        BaseOverlays().closeOverlay();
+        BaseOverlays().dismissOverlay(showLoader: showLoader);
         _handleError(e);
         rethrow;
       }
@@ -84,10 +84,10 @@ class BaseAPI {
         final String token = await BaseSharedPreference().getString(SpKeys().apiToken)??"";
         final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
         final response = await _dio.patch(url+((concatUserId??false) ? userId : ""), data: data, options: Options(headers: headers??{"Authorization": "Bearer $token"}));
-        BaseOverlays().closeOverlay();
+        BaseOverlays().dismissOverlay();
         return response;
       } on DioError catch (e) {
-        BaseOverlays().closeOverlay();
+        BaseOverlays().dismissOverlay();
         _handleError(e);
         rethrow;
       }
@@ -99,17 +99,17 @@ class BaseAPI {
   }
 
   /// Delete Method
-  Future<Response?> delete({required String url, Map<String, dynamic>? headers}) async {
+  Future<Response?> delete({required String url, Map<String, dynamic>? headers, dynamic data}) async {
     FocusScope.of(X.Get.context!).requestFocus(FocusNode());
     if (await checkInternetConnection()) {
       try {
         BaseOverlays().showLoader();
         final String token = await BaseSharedPreference().getString(SpKeys().apiToken);
-        final response = await _dio.delete(url, options: Options(headers: headers??{"Authorization": "Bearer $token"}));
-        BaseOverlays().closeOverlay();
+        final response = await _dio.delete(url, data: data, options: Options(headers: headers??{"Authorization": "Bearer $token"}));
+        BaseOverlays().dismissOverlay();
         return response;
       } on DioError catch (e) {
-        BaseOverlays().closeOverlay();
+        BaseOverlays().dismissOverlay();
         _handleError(e);
         rethrow;
       }

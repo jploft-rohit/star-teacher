@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/utility.dart';
 import 'package:staff_app/constants-classes/color_constants.dart';
+import 'package:staff_app/utility/base_utility.dart';
 
 import '../packages/drop_downbutton2/src/dropdown_button2.dart';
 
@@ -25,7 +25,7 @@ class CustomDropDown extends StatelessWidget {
       {Key? key,
       this.backgroundColor = ColorConstants.primaryColorLight,
       this.borderColor = ColorConstants.borderColor,
-      required this.initialValue,
+        this.initialValue,
       required this.hintText,
       required this.listData,
       required this.onChange,
@@ -76,7 +76,7 @@ class CustomDropDown extends StatelessWidget {
                 child: DropdownButton2<dynamic>(
                     isExpanded: true,
                     isDense: true,
-                    value: initialValue,
+                    // value: initialValue??"",
                     hint: addText(hintText, 15.sp, Color(0xff000000), FontWeight.w400),
                     iconStyleData: IconStyleData(
                       icon: Padding(

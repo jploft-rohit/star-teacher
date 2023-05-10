@@ -1,7 +1,7 @@
 class AllComplainReportResponse {
   int? statusCode;
   String? message;
-  List<AllComplainReportData>? data;
+  List<Data>? data;
 
   AllComplainReportResponse({this.statusCode, this.message, this.data});
 
@@ -9,9 +9,9 @@ class AllComplainReportResponse {
     statusCode = json['statusCode'];
     message = json['message'];
     if (json['data'] != null) {
-      data = <AllComplainReportData>[];
+      data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new AllComplainReportData.fromJson(v));
+        data!.add(new Data.fromJson(v));
       });
     }
   }
@@ -27,25 +27,25 @@ class AllComplainReportResponse {
   }
 }
 
-class AllComplainReportData {
+class Data {
   String? forEnquery;
   bool? isDeleted;
   String? sId;
   String? school;
-  String? complaintUser;
-  String? complaintType;
+  ComplaintUser? complaintUser;
+  ComplaintType? complaintType;
   String? title;
   String? description;
   String? document;
-  User? user;
   String? student;
   String? createdBy;
   String? updatedBy;
   String? status;
   String? createdAt;
   String? updatedAt;
+  User? user;
 
-  AllComplainReportData(
+  Data(
       {this.forEnquery,
         this.isDeleted,
         this.sId,
@@ -55,26 +55,205 @@ class AllComplainReportData {
         this.title,
         this.description,
         this.document,
-        this.user,
         this.student,
+        this.createdBy,
+        this.updatedBy,
+        this.status,
+        this.createdAt,
+        this.updatedAt,
+        this.user});
+
+  Data.fromJson(Map<String, dynamic> json) {
+    forEnquery = json['forEnquery'];
+    isDeleted = json['isDeleted'];
+    sId = json['_id'];
+    school = json['school'];
+    complaintUser = json['complaintUser'] != null
+        ? new ComplaintUser.fromJson(json['complaintUser'])
+        : null;
+    complaintType = json['complaintType'] != null
+        ? new ComplaintType.fromJson(json['complaintType'])
+        : null;
+    title = json['title'];
+    description = json['description'];
+    document = json['document'];
+    student = json['student'];
+    createdBy = json['createdBy'];
+    updatedBy = json['updatedBy'];
+    status = json['status'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['forEnquery'] = this.forEnquery;
+    data['isDeleted'] = this.isDeleted;
+    data['_id'] = this.sId;
+    data['school'] = this.school;
+    if (this.complaintUser != null) {
+      data['complaintUser'] = this.complaintUser!.toJson();
+    }
+    if (this.complaintType != null) {
+      data['complaintType'] = this.complaintType!.toJson();
+    }
+    data['title'] = this.title;
+    data['description'] = this.description;
+    data['document'] = this.document;
+    data['student'] = this.student;
+    data['createdBy'] = this.createdBy;
+    data['updatedBy'] = this.updatedBy;
+    data['status'] = this.status;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    if (this.user != null) {
+      data['user'] = this.user!.toJson();
+    }
+    return data;
+  }
+}
+
+class ComplaintUser {
+  bool? isMobileVerified;
+  String? gender;
+  List<String>? idDocument;
+  String? deviceType;
+  dynamic parentId;
+  bool? isDeleted;
+  String? sId;
+  String? name;
+  String? mobile;
+  int? dob;
+  String? nationality;
+  String? emirateId;
+  String? emirateIdExpire;
+  String? nativeLanguage;
+  String? religion;
+  String? profilePic;
+  String? role;
+  String? createdAt;
+  String? updatedAt;
+  dynamic address;
+  dynamic country;
+  dynamic email;
+  String? otp;
+  String? deviceToken;
+  String? deviceVoip;
+
+  ComplaintUser(
+      {this.isMobileVerified,
+        this.gender,
+        this.idDocument,
+        this.deviceType,
+        this.parentId,
+        this.isDeleted,
+        this.sId,
+        this.name,
+        this.mobile,
+        this.dob,
+        this.nationality,
+        this.emirateId,
+        this.emirateIdExpire,
+        this.nativeLanguage,
+        this.religion,
+        this.profilePic,
+        this.role,
+        this.createdAt,
+        this.updatedAt,
+        this.address,
+        this.country,
+        this.email,
+        this.otp,
+        this.deviceToken,
+        this.deviceVoip});
+
+  ComplaintUser.fromJson(Map<String, dynamic> json) {
+    isMobileVerified = json['isMobileVerified'];
+    gender = json['gender'];
+    idDocument = json['idDocument'].cast<String>();
+    deviceType = json['deviceType'];
+    parentId = json['parentId'];
+    isDeleted = json['isDeleted'];
+    sId = json['_id'];
+    name = json['name'];
+    mobile = json['mobile'];
+    dob = json['dob'];
+    nationality = json['nationality'];
+    emirateId = json['emirateId'];
+    emirateIdExpire = json['emirateIdExpire'];
+    nativeLanguage = json['nativeLanguage'];
+    religion = json['religion'];
+    profilePic = json['profilePic'];
+    role = json['role'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    address = json['address'];
+    country = json['country'];
+    email = json['email'];
+    otp = json['otp'];
+    deviceToken = json['deviceToken'];
+    deviceVoip = json['deviceVoip'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['isMobileVerified'] = this.isMobileVerified;
+    data['gender'] = this.gender;
+    data['idDocument'] = this.idDocument;
+    data['deviceType'] = this.deviceType;
+    data['parentId'] = this.parentId;
+    data['isDeleted'] = this.isDeleted;
+    data['_id'] = this.sId;
+    data['name'] = this.name;
+    data['mobile'] = this.mobile;
+    data['dob'] = this.dob;
+    data['nationality'] = this.nationality;
+    data['emirateId'] = this.emirateId;
+    data['emirateIdExpire'] = this.emirateIdExpire;
+    data['nativeLanguage'] = this.nativeLanguage;
+    data['religion'] = this.religion;
+    data['profilePic'] = this.profilePic;
+    data['role'] = this.role;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    data['address'] = this.address;
+    data['country'] = this.country;
+    data['email'] = this.email;
+    data['otp'] = this.otp;
+    data['deviceToken'] = this.deviceToken;
+    data['deviceVoip'] = this.deviceVoip;
+    return data;
+  }
+}
+
+class ComplaintType {
+  bool? isDeleted;
+  String? sId;
+  Null? school;
+  String? name;
+  String? createdBy;
+  String? updatedBy;
+  String? status;
+  String? createdAt;
+  String? updatedAt;
+
+  ComplaintType(
+      {this.isDeleted,
+        this.sId,
+        this.school,
+        this.name,
         this.createdBy,
         this.updatedBy,
         this.status,
         this.createdAt,
         this.updatedAt});
 
-  AllComplainReportData.fromJson(Map<String, dynamic> json) {
-    forEnquery = json['forEnquery'];
+  ComplaintType.fromJson(Map<String, dynamic> json) {
     isDeleted = json['isDeleted'];
     sId = json['_id'];
     school = json['school'];
-    complaintUser = json['complaintUser'];
-    complaintType = json['complaintType'];
-    title = json['title'];
-    description = json['description'];
-    document = json['document'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
-    student = json['student'];
+    name = json['name'];
     createdBy = json['createdBy'];
     updatedBy = json['updatedBy'];
     status = json['status'];
@@ -84,19 +263,10 @@ class AllComplainReportData {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['forEnquery'] = this.forEnquery;
     data['isDeleted'] = this.isDeleted;
     data['_id'] = this.sId;
     data['school'] = this.school;
-    data['complaintUser'] = this.complaintUser;
-    data['complaintType'] = this.complaintType;
-    data['title'] = this.title;
-    data['description'] = this.description;
-    data['document'] = this.document;
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
-    }
-    data['student'] = this.student;
+    data['name'] = this.name;
     data['createdBy'] = this.createdBy;
     data['updatedBy'] = this.updatedBy;
     data['status'] = this.status;
@@ -107,32 +277,29 @@ class AllComplainReportData {
 }
 
 class User {
-  Location? location;
   bool? isMobileVerified;
   String? gender;
-  List<String>? idDocument;
+  dynamic idDocument;
   String? deviceType;
-  List<String>? parentId;
+  dynamic parentId;
   bool? isDeleted;
   String? sId;
   String? name;
   String? email;
   String? mobile;
-  String? password;
+  String? role;
   int? dob;
-  String? createdAt;
-  String? updatedAt;
-  String? otp;
-  String? address;
   String? emirateId;
   String? emirateIdExpire;
-  String? deviceToken;
-  String? deviceVoip;
-  String? role;
+  String? createdBy;
+  String? updatedBy;
+  String? status;
+  String? createdAt;
+  String? updatedAt;
+  String? profilePic;
 
   User(
-      {this.location,
-        this.isMobileVerified,
+      {this.isMobileVerified,
         this.gender,
         this.idDocument,
         this.deviceType,
@@ -142,25 +309,21 @@ class User {
         this.name,
         this.email,
         this.mobile,
-        this.password,
+        this.role,
         this.dob,
-        this.createdAt,
-        this.updatedAt,
-        this.otp,
-        this.address,
         this.emirateId,
         this.emirateIdExpire,
-        this.deviceToken,
-        this.deviceVoip,
-        this.role});
+        this.createdBy,
+        this.updatedBy,
+        this.status,
+        this.createdAt,
+        this.updatedAt,
+        this.profilePic});
 
   User.fromJson(Map<String, dynamic> json) {
-    location = json['location'] != null
-        ? new Location.fromJson(json['location'])
-        : null;
     isMobileVerified = json['isMobileVerified'];
     gender = json['gender'];
-    idDocument = json['idDocument'].cast<String>();
+    idDocument = json['idDocument'];
     deviceType = json['deviceType'];
     parentId = json['parentId'].cast<String>();
     isDeleted = json['isDeleted'];
@@ -168,27 +331,25 @@ class User {
     name = json['name'];
     email = json['email'];
     mobile = json['mobile'];
-    password = json['password'];
+    role = json['role'];
     dob = json['dob'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-    otp = json['otp'];
-    address = json['address'];
     emirateId = json['emirateId'];
     emirateIdExpire = json['emirateIdExpire'];
-    deviceToken = json['deviceToken'];
-    deviceVoip = json['deviceVoip'];
-    role = json['role'];
+    createdBy = json['createdBy'];
+    updatedBy = json['updatedBy'];
+    status = json['status'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    profilePic = json['profilePic'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.location != null) {
-      data['location'] = this.location!.toJson();
-    }
     data['isMobileVerified'] = this.isMobileVerified;
     data['gender'] = this.gender;
-    data['idDocument'] = this.idDocument;
+    if (this.idDocument != null) {
+      data['idDocument'] = this.idDocument!.map((v) => v.toJson()).toList();
+    }
     data['deviceType'] = this.deviceType;
     data['parentId'] = this.parentId;
     data['isDeleted'] = this.isDeleted;
@@ -196,36 +357,16 @@ class User {
     data['name'] = this.name;
     data['email'] = this.email;
     data['mobile'] = this.mobile;
-    data['password'] = this.password;
+    data['role'] = this.role;
     data['dob'] = this.dob;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    data['otp'] = this.otp;
-    data['address'] = this.address;
     data['emirateId'] = this.emirateId;
     data['emirateIdExpire'] = this.emirateIdExpire;
-    data['deviceToken'] = this.deviceToken;
-    data['deviceVoip'] = this.deviceVoip;
-    data['role'] = this.role;
-    return data;
-  }
-}
-
-class Location {
-  String? type;
-  List<double>? coordinates;
-
-  Location({this.type, this.coordinates});
-
-  Location.fromJson(Map<String, dynamic> json) {
-    type = json['type'];
-    coordinates = json['coordinates'].cast<double>();
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['type'] = this.type;
-    data['coordinates'] = this.coordinates;
+    data['createdBy'] = this.createdBy;
+    data['updatedBy'] = this.updatedBy;
+    data['status'] = this.status;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    data['profilePic'] = this.profilePic;
     return data;
   }
 }

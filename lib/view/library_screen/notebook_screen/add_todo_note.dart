@@ -7,8 +7,8 @@ import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
-import 'package:staff_app/view/library_screen/notebook_screen/notebook_screen_ctrl.dart';
+import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/view/library_screen/ctrl/notebook_ctrl.dart';
 
 class AddToDoNote extends StatefulWidget {
   final bool isEditing;
@@ -21,7 +21,7 @@ class AddToDoNote extends StatefulWidget {
 class _AddToDoNoteState extends State<AddToDoNote> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  NotebookScreenCtrl ctrl = Get.put(NotebookScreenCtrl());
+  NotebookCtrl ctrl = Get.put(NotebookCtrl());
 
   @override
   void initState() {
@@ -93,7 +93,7 @@ class _AddToDoNoteState extends State<AddToDoNote> {
                 },
                 child: Row(
                   children: [
-                    GetBuilder<NotebookScreenCtrl>(
+                    GetBuilder<NotebookCtrl>(
                       builder: (ctrl) {
                         return GestureDetector(
                           onTap: () {

@@ -15,12 +15,12 @@ import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/filter_textformfield.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/constants-classes/color_constants.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/library_screen/notebook_screen/add_todo_note.dart';
 import 'package:staff_app/view/library_screen/notebook_screen/notebook_detail_screen.dart';
-import 'package:staff_app/view/library_screen/notebook_screen/notebook_screen_ctrl.dart';
+import 'package:staff_app/view/library_screen/ctrl/notebook_ctrl.dart';
 
 class NoteBookScreen extends StatefulWidget {
   const NoteBookScreen({Key? key}) : super(key: key);
@@ -30,6 +30,7 @@ class NoteBookScreen extends StatefulWidget {
 }
 
 class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProviderStateMixin{
+  NotebookCtrl controller = Get.put(NotebookCtrl());
   late TabController tabController;
 
   @override
@@ -174,7 +175,7 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
                             borderRadius: BorderRadius.circular(15.0),
                             border: Border.all(color: BaseColors.primaryColor)
                         ),
-                        child: SvgPicture.asset(girlSvg, height: 6.h,),
+                        child: SvgPicture.asset(girlSvg, height: 6.h),
                       ),
                       SizedBox(
                         width: 3.w,

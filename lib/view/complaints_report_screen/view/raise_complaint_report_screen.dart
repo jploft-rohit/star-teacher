@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/backend/responses_model/all_complaint_reports_model.dart';
+import 'package:staff_app/backend/responses_model/school_list_response.dart' as SchoolData;
+import 'package:staff_app/backend/responses_model/comlaint_type_reponse.dart' as ComplaintTypeData;
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
+import 'package:staff_app/utility/base_views/base_dropdown_2.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
-import 'package:staff_app/Utility/custom_dropdown_widget.dart';
 import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/view/complaints_report_screen/controller/complaint_report_controller.dart';
 import 'package:staff_app/view/complaints_report_screen/view/select_person_popup.dart';
+import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 
 class RaiseComplaintReportScreen extends StatefulWidget {
   final bool isUpdating;
-  final AllComplainReportData? data;
+  final Data? data;
   const RaiseComplaintReportScreen({Key? key, this.isUpdating = false, this.data}) : super(key: key);
 
   @override
@@ -23,6 +28,8 @@ class RaiseComplaintReportScreen extends StatefulWidget {
 
 class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen> {
   ComplainReportController controller = Get.find<ComplainReportController>();
+  BaseCtrl baseCtrl = Get.find<BaseCtrl>();
+  String? selectedSchool, selectedComplaintTypeId, selectedPerson, selectedSchoolId;
 
   @override
   void initState() {
@@ -42,31 +49,36 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
             padding: EdgeInsets.all(scaffoldPadding),
             child: Column(
               children: [
-                CustomDropDown(
-                  initialValue: DummyLists.initialSchool,
-                  hintText: "Select School",
-                  listData:DummyLists.schoolData,
-                  onChange: (value) {
+                BaseDropDown2(
+                  controller: controller.selectSchoolController.value,
+                  errorText: "Please select school",
+                  hintText: selectedSchool??"Select School",
+                  listData: baseCtrl.schoolListData.data?.data?.map((SchoolData.SchoolData data){
+                    return DropdownMenuItem(
+                      value: data,
+                      child: addText(data.name??"", 15.sp, Colors.black, FontWeight.w400),
+                    );
+                  }).toList(),
+                  onChange: (value) async {
+                    controller.selectSchoolController.value.text = value?.name??"";
+                    selectedSchoolId = value?.sId??"";
                     setState(() {
-                      DummyLists.initialSchool=value.toString();
+                      selectedSchool = value?.name??"";
                     });
+                    await baseCtrl.getComplaintTypeData(initialSchoolId: value?.sId??"");
                   },
-                  topPadding: 5,
-                  bottomPadding: 5,
-                  icon: Icon(Icons.arrow_drop_down,color: Color(0xFFC4C4C4),size: 25,),
-                  bottomMargin: 2.h,
                 ),
                 Visibility(
                   visible: !widget.isUpdating,
                   child: BaseTextFormField(
-                    controller: controller.complaintOrReportController,
+                    controller: controller.complaintOrReportController.value,
                     hintText: "Select complaint or report",
                     isDropDown: true,
                     errorText: "Please select type",
-                    dropDownValue: controller.complaintOrReportController.text,
+                    dropDownValue: controller.complaintOrReportController.value.text,
                     onChanged: (newValue){
                       setState(() {
-                        controller.complaintOrReportController.text = newValue.toString();
+                        controller.complaintOrReportController.value.text = newValue.toString();
                       });},
                     items: DummyLists().complaintList.map((value) {
                       return DropdownMenuItem(
@@ -75,65 +87,83 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                     }).toList(),
                   ),
                 ),
-                BaseTextFormField(
-                  controller: controller.personController,
-                  hintText: "Select person",
-                  suffixIcon: "assets/images/ic_down.svg",
-                  // errorText: "Please select person",
-                  onTap: (){
-                    showGeneralDialog(
-                      context: context,
-                      pageBuilder:  (context, animation, secondaryAnimation) {
-                        return const SelectPersonPopup();
-                      },
-                    );
-                  },
-                  bottomMargin: 1.h,
+                Obx(()=>BaseTextFormField(
+                    controller: controller.personController.value,
+                    hintText: "Select person",
+                    suffixIcon: "assets/images/ic_down.svg",
+                    // errorText: "Please select person",
+                    onTap: (){
+                      if ((selectedSchoolId??"").isNotEmpty) {
+                        showGeneralDialog(
+                          context: context,
+                          pageBuilder: (context, animation, secondaryAnimation) {
+                            return SelectPersonPopup(selectedSchoolId: selectedSchoolId??"",);
+                          },
+                        );
+                      }else{
+                        Fluttertoast.cancel();
+                        Fluttertoast.showToast(msg: "Please first select school");
+                      }
+                    },
+                    validator: (val){
+                      if ((controller.selectedPersonId.value).isEmpty) {
+                        return "Please select person";
+                      }
+                      return null;
+                    },
+                    bottomMargin: 1.h,
+                  ),
+                ),
+                Obx(()=>BaseTextFormField(
+                    controller: controller.typeController.value,
+                    hintText: controller.typeController.value.text.isEmpty ? "Complaint Type" : controller.typeController.value.text.trim(),
+                    isDropDown: true,
+                    dropDownValue: controller.typeController.value.text,
+                    errorText: "Please select complaint type",
+                    items: baseCtrl.complaintTypeResponse.data?.map((ComplaintTypeData.Data value) {
+                      return DropdownMenuItem<ComplaintTypeData.Data>(
+                        value: value,
+                        child: addText(value.name??"", 16.sp, Colors.black, FontWeight.w400),);
+                    }).toList(),
+                    onChanged: (value){
+                      selectedComplaintTypeId = value.sId??"";
+                      controller.typeController.value.text = value.name??"";
+                },
+                  ),
                 ),
                 BaseTextFormField(
-                  controller: controller.typeController,
-                  hintText: "Complaint Type",
-                  isDropDown: true,
-                  dropDownValue: controller.typeController.text,
-                  errorText: "Please select complaint type",
-                  onChanged: (newValue){
-                    setState(() {
-                      controller.typeController.text = newValue.toString();
-                    });},
-                  items: DummyLists().complainttypeList.map((value) {
-                    return DropdownMenuItem(
-                      value: value,
-                      child: addText(value, 16.sp, Colors.black, FontWeight.w400),);
-                  }).toList(),
-                ),
-                BaseTextFormField(
-                  controller: controller.titleController,
+                  controller: controller.titleController.value,
                   hintText: "Title",
                   bottomMargin: 1.h,
                   validator: (val){
-                    if ((val??"").isEmpty) {
+                    if (controller.titleController.value.text.isEmpty) {
                       return "Please enter the title";
                     }
                     return null;
                   },
                 ),
-                BaseTextFormField(
-                  controller: controller.messageController,
-                  maxLine: 4,
-                  hintText: "Message",
-                  bottomMargin: 1.h,
-                  validator: (val){
-                    if ((val??"").isEmpty) {
-                      return "Please enter the message";
-                    }
-                    return null;
-                  },
+                Obx(()=>BaseTextFormField(
+                    controller: controller.messageController.value,
+                    maxLine: 4,
+                    hintText: "Message",
+                    bottomMargin: 1.h,
+                    validator: (val){
+                      if (controller.messageController.value.text.isEmpty) {
+                        return "Please enter the message";
+                      }
+                      return null;
+                    },
+                  ),
                 ),
-                BaseTextFormField(
-                  controller: controller.uploadController,
-                  hintText: "Upload file or Photo",
-                  suffixIcon: "assets/images/upload_icon.svg",
-                  bottomMargin: 4.h,
+                Obx(()=>BaseTextFormField(
+                    controller: controller.uploadController.value,
+                    hintText: "Upload file or Photo",
+                    suffixIcon: "assets/images/upload_icon.svg",
+                    bottomMargin: 4.h,
+                    onTap: (){
+                      BaseOverlays().showMediaPickerDialog();
+                    },
+                  ),
                 ),
                 BaseButton(title: "SUBMIT", onPressed: (){
                   if (widget.isUpdating) {
@@ -141,20 +171,20 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                       itemId: widget.data?.sId??"",
                       school: DummyLists.initialSchool,
                       forEnquiry: widget.data?.forEnquery??"",
-                      title: controller.titleController.text.trim(),
+                      title: controller.titleController.value.text.trim(),
                       complaintUser: widget.data?.complaintUser,
                       description: controller.messageController,
                       complaintType: widget.data?.forEnquery??""
                     );
                   }else{
                     controller.createComplainReportAPI(
-                        itemId: widget.data?.sId??"",
-                        school: DummyLists.initialSchool,
-                        forEnquiry: "complaint",
-                        title: controller.titleController.text.trim(),
-                        complaintUser: widget.data?.complaintUser,
-                        description: controller.messageController,
-                        complaintType: widget.data?.forEnquery??"",
+                        school: selectedSchoolId,
+                        forEnquiry: controller.complaintOrReportController.value.text.trim().toLowerCase(),
+                        complaintUser: controller.selectedPersonId.value,
+                        complaintType: selectedComplaintTypeId??"",
+                        title: controller.titleController.value.text.trim(),
+                        description: controller.messageController.value.text.trim(),
+                        document: "doc.pdf"
                     );
                   }
                 },btnType: largeButton,)
