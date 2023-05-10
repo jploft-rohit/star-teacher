@@ -109,7 +109,7 @@ class _OTPScreenState extends State<OTPScreen> {
                             style: Style.montserratBoldStyle().copyWith(color: const Color(0xff7C7C7C), fontSize: onBoardingSubTitleTs),
                             children: [
                               TextSpan(recognizer: TapGestureRecognizer()..onTap = (){
-                                loginCtrl.loginApi(isResend: true);
+                                // loginCtrl.loginApi(isResend: true);
                               },text: ' ${translate(context).sent_again}', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: onBoardingSubTitleTs)),
                             ],
                           ),

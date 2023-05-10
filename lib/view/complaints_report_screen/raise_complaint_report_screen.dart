@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
-import 'package:staff_app/utility/base_views/base_dropdown.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
-
-
-import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_dropdown_widget.dart';
-import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/utility.dart';
@@ -89,6 +84,7 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                     },
                   );
                 },
+                bottomMargin: 1.h,
               ),
               BaseTextFormField(
                 controller: complaintOrReportController,
@@ -108,11 +104,13 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
               BaseTextFormField(
                 controller: titleController,
                 hintText: "Title",
+                bottomMargin: 1.h,
               ),
               BaseTextFormField(
                 controller: messageController,
                 maxLine: 4,
                 hintText: "Message",
+                bottomMargin: 1.h,
               ),
               BaseTextFormField(
                 controller: uploadController,
@@ -120,7 +118,9 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                 suffixIcon: "assets/images/upload_icon.svg",
                 bottomMargin: 4.h,
               ),
-              BaseButton(title: "SUBMIT", onPressed: (){},btnType: largeButton,)
+              BaseButton(title: "SUBMIT", onPressed: (){
+                Get.back();
+              },btnType: largeButton)
             ],
           ),
         ),
@@ -138,7 +138,6 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
       titleController.text = "Unacceptable Behavior";
       messageController.text = "Behavior of the driver are not good with me please take some action or ask him to understand the concern.";
       uploadController.text = "doc.pdf";
-
     }
   }
 }

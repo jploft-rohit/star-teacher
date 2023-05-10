@@ -21,4 +21,6 @@ samples, guidance on mobile development, and a full API reference.
 # git add .
 # git commit -m ""
 # git push -u origin branch_name
+// Launcher icon generation
+# flutter pub run flutter_launcher_icons
 

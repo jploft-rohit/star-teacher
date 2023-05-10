@@ -95,7 +95,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
                         children: [
                           Text(controller.response.value.data?.name??"Rafiq Khan", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 17.sp)),
                           SizedBox(height: 0.5.h),
-                          BaseDetailData(detailsLabel: translate(context).designation,detailsValue: controller.response.value.data?.role??"Teacher"),
+                          BaseDetailData(detailsLabel: translate(context).designation,detailsValue: /*controller.response.value.data?.role??*/"Teacher"),
                         ],
                       ),
                     ),
@@ -108,10 +108,11 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
                           version: QrVersions.auto,
                           size: 70,
                           gapless: false,
-                        )),
+                        ),
+                    ),
                   ],
                 ),
-            ),
+              ),
             ),
           ),
           Row(

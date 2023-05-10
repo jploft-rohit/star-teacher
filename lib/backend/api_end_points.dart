@@ -6,27 +6,27 @@ class ApiEndPoints {
   final String otp = "auth/login";
 
   /// Complaint & Report EndPoints
-  final String getAllComplaintReport = "complaintReport/get-all";
-  final String updateComplaintReport = "complaintReport/update/";
-  final String createComplaintReport = "complaintReport/add";
-  final String deleteComplaintReport = "complaintReport/delete/";
-  final String getComplaintType = "complaintType/get-all/";
+  // final String getAllComplaintReport = "complaintReport/get-all";
+  // final String updateComplaintReport = "complaintReport/update/";
+  // final String createComplaintReport = "complaintReport/add";
+  // final String deleteComplaintReport = "complaintReport/delete/";
+  // final String getComplaintType = "complaintType/get-all/";
 
   /// Feedback & Help EndPoints
-  final String getAllFeedbackHelp = "feedbackHelp/get-all";
-  final String updateFeedbackHelp = "feedbackHelp/update/";
-  final String createFeedbackHelp = "feedbackHelp/add";
-  final String deleteFeedbackHelp = "feedbackHelp/delete/";
+  // final String getAllFeedbackHelp = "feedbackHelp/get-all";
+  // final String updateFeedbackHelp = "feedbackHelp/update/";
+  // final String createFeedbackHelp = "feedbackHelp/add";
+  // final String deleteFeedbackHelp = "feedbackHelp/delete/";
 
   /// Lost & Found EndPoints
-  final String getAllLostFound = "lostFound/get-all";
+  // final String getAllLostFound = "lostFound/get-all";
 
   /// My Profile EndPoints
   final String getMyProfile = "user/profileDetails";
   final String updateMyProfile = "staff/update/";
 
   /// School Data EndPoints
-  final String getSchoolList = "school/get/list";
+  // final String getSchoolList = "school/get/list";
 
   /// Family EndPoints
   final String familyMemberDetail = "staff/family/detail/";
@@ -35,5 +35,5 @@ class ApiEndPoints {
   final String editFamilyMember = "staff/family/update/";
 
   /// Roles EndPoints
-  final String getAllRoles = "role/getAll";
+  // final String getAllRoles = "role/getAll";
 }
