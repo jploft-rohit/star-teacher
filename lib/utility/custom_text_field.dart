@@ -47,7 +47,6 @@ class CustomTextField extends StatelessWidget {
         contentPadding: contentPadding ?? EdgeInsets.only(top: 16.sp, bottom: 16.sp, left: 10.0, right: 10.0),
         isDense: true,
         hintMaxLines: 2,
-
         hintText: hintText,
         errorText: errorText,
         counter: SizedBox.shrink(),

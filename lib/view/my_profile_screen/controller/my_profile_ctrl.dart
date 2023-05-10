@@ -32,7 +32,8 @@ class MyProfileCtrl extends GetxController{
       if (value?.statusCode == 200) {
         successResponse = BaseSuccessResponse.fromJson(value?.data);
         BaseOverlays().showSnackBar(message: successResponse.message??"",title: "Success");
-        response.value.data?.familyMembers?.removeAt(index);
+        getData();
+        // response.value.data?.familyMembers?.removeAt(index);
         update();
       }else{
         // BaseDialogs().showSnackBar(message: ,title: response.message??"");
