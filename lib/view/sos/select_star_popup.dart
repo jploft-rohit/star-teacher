@@ -123,7 +123,7 @@ class _SelectStarPopupState extends State<SelectStarPopup> {
                               color: selectedFMOPos == index ? BaseColors.backgroundColor : Colors.transparent,
                               borderRadius: BorderRadius.circular(15.0),
                               border: Border.all(
-                                  color: BaseColors.borderColor
+                                  color: selectedFMOPos == index ? BaseColors.primaryColor : BaseColors.borderColor
                               )
                           ),
                           child: Row(
@@ -138,6 +138,7 @@ class _SelectStarPopupState extends State<SelectStarPopup> {
                                           color: BaseColors.primaryColor
                                       ),
                                       borderRadius: BorderRadius.circular(10.0),
+                                      color: Colors.white,
                                     ),
                                     child: SvgPicture.asset(manSvg,height: 5.h,width: 5.h,),
                                   ),

@@ -118,6 +118,9 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                                           color: BaseColors.primaryColor
                                       ),
                                       borderRadius: BorderRadius.circular(10.0),
+                                      color: selectedFMOPos == index
+                                          ? BaseColors.white
+                                          : BaseColors.white,
                                     ),
                                     child: SvgPicture.asset(manSvg,height: 30,),
                                   ),

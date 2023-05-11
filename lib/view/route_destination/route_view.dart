@@ -31,7 +31,7 @@ class _RouteViewState extends State<RouteView> {
           () => RouteController(),
     );
     return Scaffold(
-      appBar: BaseAppBar(title: "Route"),
+      appBar: const BaseAppBar(title: "Route"),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(scaffoldPadding),
@@ -48,7 +48,7 @@ class _RouteViewState extends State<RouteView> {
                 },
                 topPadding: 5,
                 bottomPadding: 5,
-                icon: Icon(
+                icon: const Icon(
                   Icons.arrow_drop_down, color: Color(0xFFC4C4C4), size: 25,),
               ),
               SizedBox(
@@ -56,7 +56,7 @@ class _RouteViewState extends State<RouteView> {
               ),
               ListView.builder(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: 4,
                 itemBuilder: (context, index) {
                   return card(index);
@@ -72,7 +72,7 @@ class _RouteViewState extends State<RouteView> {
   Widget card(index) {
     return GestureDetector(
       onTap: () {
-        Get.to(RouteDescriptionView());
+        Get.to(const RouteDescriptionView());
       },
       child: Container(
         alignment: Alignment.topLeft,
@@ -88,7 +88,7 @@ class _RouteViewState extends State<RouteView> {
                 color: Colors.black.withOpacity(0.2),
                 blurRadius: 3,
                 spreadRadius: 1,
-                offset: Offset(0, 0)
+                offset: const Offset(0, 0)
             )
           ],
         ),
@@ -104,7 +104,7 @@ class _RouteViewState extends State<RouteView> {
                     Colors.black,
                     FontWeight.w700,
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   buildDetailRow('Start Destination : ', 'Hypermarket'),
                   buildDetailRow('End Destination : ', 'UAE School'),
                   buildDetailRow('Stoppage : ', '11'),
@@ -116,7 +116,7 @@ class _RouteViewState extends State<RouteView> {
             ),
             GestureDetector(
               onTap: () {
-                Get.to(MapScreen());
+                Get.to(const MapScreen());
               },
               child: Padding(
                 padding: const EdgeInsets.only(right: 10),
@@ -147,7 +147,7 @@ class _RouteViewState extends State<RouteView> {
             ),
           ],
         ),
-        SizedBox(height: 5),
+        const SizedBox(height: 5),
       ],
     );
   }

@@ -41,7 +41,7 @@ class DashboardScreen extends GetView<DashboardScreenCtrl>{
                 // animationCurve: Curves.easeInOut,
                 index: 2,
                 color: BaseColors.backgroundColor,
-                height: Platform.isIOS?85.0:75.0,
+                height: kBottomNavigationBarHeight + 15,
                 items: <Widget>[
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 8),

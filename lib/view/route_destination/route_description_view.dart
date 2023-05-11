@@ -160,7 +160,7 @@ class _RouteDescriptionViewState extends State<RouteDescriptionView> {
                       'Rafiq Khan',
                     ),
                     buildDetailRow(
-                      "assets/images/nurse_img.svg",
+                      "assets/images/ic_supervisor.svg",
                       'Supervisor : ',
                       'Rafiq Khan',
                       divider: false,

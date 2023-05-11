@@ -28,7 +28,7 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(title: "Star Gallery"),
+      appBar: const BaseAppBar(title: "Create Gallery"),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(scaffoldPadding),
@@ -37,14 +37,14 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
               CustomDropDown(
                 initialValue: categoryInitial,
                 hintText: "Select Category",
-                listData: ["Select Category", "School","Achievements","Events"],
+                listData: const ["Select Category", "School","Achievements","Events"],
                 onChange: (value) {
                   setState(() {
                     categoryInitial=value;
                   });
                 },
                 isBackground: true,
-                icon: Icon(
+                icon: const Icon(
                   Icons.keyboard_arrow_down,
                   size: 24,
                   color: Colors.black,
@@ -73,7 +73,7 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
                       icon: classTakenSvg,
                     ),
                     Container(
-                      child: VerticalDivider(
+                      child: const VerticalDivider(
                         width: 1,
                       ),
                       height: 5.5.h,
@@ -98,75 +98,98 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
               BaseTextFormField(controller: uploadController,hintText: "Upload Images & Video",suffixIcon: "assets/images/upload_icon.svg",
               onTap: (){
                 BaseOverlays().showMediaPickerDialog();
-              }),
+              },bottomMargin: 0),
+              Row(
+                children: [
+                  Text("Max : 10 photo/video",style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w900),),
+                ],
+              ),
               SizedBox(height: 3.h,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                      child: Container(
-                        height: 110,
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: ColorConstants.primaryColor,),borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsetsDirectional.only(top: 10),
-                              child: SvgPicture.asset("assets/images/school.svg",height: 70,width: 70,fit: BoxFit.scaleDown,),
+                      child: Column(
+                        children: [
+                          Text("1st Photo",style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w900)),
+                          Container(
+                            margin: EdgeInsets.only(top: 1.1.h),
+                            height: 110,
+                            padding: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: ColorConstants.primaryColor,),borderRadius: BorderRadius.circular(20),
                             ),
-                            Align(
-                              alignment: AlignmentDirectional.topEnd,
-                              child: Icon(Icons.close,size: 20,color: Color(0xFF929292),),
-                            )
-                          ],
-                        ),
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsetsDirectional.only(top: 10),
+                                  child: SvgPicture.asset("assets/images/school.svg",height: 70,width: 70,fit: BoxFit.scaleDown,),
+                                ),
+                                const Align(
+                                  alignment: AlignmentDirectional.topEnd,
+                                  child: Icon(Icons.close,size: 20,color: Color(0xFF929292),),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
                       )),
-                  SizedBox(width: 10,),
+                  const SizedBox(width: 10,),
                   Expanded(
-                      child: Container(
-                        height: 110,
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: ColorConstants.primaryColor,),borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsetsDirectional.only(top: 10),
-                              child: SvgPicture.asset("assets/images/school.svg",height: 70,width: 70,fit: BoxFit.scaleDown,),
+                      child: Column(
+                        children: [
+                          Text("2nd Photo",style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w900)),
+                          Container(
+                            margin: EdgeInsets.only(top: 1.1.h),
+                            height: 110,
+                            padding: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: ColorConstants.primaryColor,),borderRadius: BorderRadius.circular(20),
                             ),
-                            Align(
-                              alignment: AlignmentDirectional.topEnd,
-                              child: Icon(Icons.close,size: 20,color: Color(0xFF929292),),
-                            )
-                          ],
-                        ),
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsetsDirectional.only(top: 10),
+                                  child: SvgPicture.asset("assets/images/school.svg",height: 70,width: 70,fit: BoxFit.scaleDown,),
+                                ),
+                                const Align(
+                                  alignment: AlignmentDirectional.topEnd,
+                                  child: Icon(Icons.close,size: 20,color: Color(0xFF929292),),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
                       )),
-                  SizedBox(width: 10,),
+                  const SizedBox(width: 10,),
                   Expanded(
-                      child: Container(
-                        height: 110,
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: ColorConstants.primaryColor,),borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsetsDirectional.only(top: 10),
-                              child: SvgPicture.asset("assets/images/school.svg",height: 70,width: 70,fit: BoxFit.scaleDown,),
+                      child: Column(
+                        children: [
+                          Text("3rd Photo",style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w900)),
+                          Container(
+                            margin: EdgeInsets.only(top: 1.1.h),
+                            height: 110,
+                            padding: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: ColorConstants.primaryColor,),borderRadius: BorderRadius.circular(20),
                             ),
-                            Align(
-                              alignment: AlignmentDirectional.topEnd,
-                              child: Icon(Icons.close,size: 20,color: Color(0xFF929292),),
-                            )
-                          ],
-                        ),
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsetsDirectional.only(top: 10),
+                                  child: SvgPicture.asset("assets/images/school.svg",height: 70,width: 70,fit: BoxFit.scaleDown,),
+                                ),
+                                const Align(
+                                  alignment: AlignmentDirectional.topEnd,
+                                  child: Icon(Icons.close,size: 20,color: Color(0xFF929292),),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
                       )),
                 ],
               ),

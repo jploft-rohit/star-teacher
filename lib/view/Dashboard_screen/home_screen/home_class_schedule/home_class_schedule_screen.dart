@@ -53,7 +53,7 @@ class _HomeClassScheduleScreenState extends State<HomeClassScheduleScreen> {
                 },
                 topPadding: 5,
                 bottomPadding: 5,
-                icon: Icon(Icons.arrow_drop_down,color: Color(0xFFC4C4C4),size: 25,),
+                icon: const Icon(Icons.arrow_drop_down,color: Color(0xFFC4C4C4),size: 25,),
               ),
               SizedBox(
                 height: 2.h,

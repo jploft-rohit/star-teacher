@@ -60,7 +60,7 @@ class _OTPScreenState extends State<OTPScreen> {
                       SizedBox(height: 0.5.h),
                       Text(translate(context).enter_4_digit_otp,style: Style.montserratRegularStyle().copyWith(color: const Color(0xff6B6B6B), fontSize: onBoardingSubTitleTs, height: 1.5),),
                       SizedBox(height: 0.3.h),
-                      Text(widget.mobile,style: Style.montserratRegularStyle().copyWith(color: const Color(0xff6B6B6B), fontSize: onBoardingSubTitleTs, height: 1.5),),
+                      Text("05x-xxxxxxxxx",style: Style.montserratRegularStyle().copyWith(color: const Color(0xff6B6B6B), fontSize: onBoardingSubTitleTs, height: 1.5),),
                       SizedBox(height: 1.0.h),
                       PinCodeTextField(
                         controller: controller.otpController,
