@@ -39,6 +39,7 @@ class MySeparator extends StatelessWidget {
 
 class StepProgressView extends StatelessWidget {
   final double _width;
+  final String? selectedTitle;
   double? height;
   double? btnWidth;
   double? textSize;
@@ -58,7 +59,8 @@ class StepProgressView extends StatelessWidget {
       required List<String> titles,
       required double width,
       required Color color,
-      required List<String> statuses})
+      required List<String> statuses,
+        this.selectedTitle})
       : _titles = titles,
         _curStep = curStep,
         _width = width,

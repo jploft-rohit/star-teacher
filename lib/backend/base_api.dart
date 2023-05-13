@@ -28,7 +28,7 @@ class BaseAPI {
         },
       ),
     );
-    _dio.interceptors.add(LogInterceptor(responseBody: true,request: true));
+    _dio.interceptors.add(LogInterceptor(responseBody: true,request: true,requestBody: true));
 
   }
 

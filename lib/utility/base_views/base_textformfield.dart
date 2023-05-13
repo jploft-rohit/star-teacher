@@ -1,9 +1,9 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/packages/drop_downbutton2/dropdown_button2.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
@@ -66,10 +66,21 @@ class BaseTextFormField extends StatelessWidget {
                       child: DropdownButtonFormField2<dynamic>(
                           isExpanded: true,
                           isDense: true,
-                          style: TextStyle(color: Colors.black,fontSize: 13.sp),
+                        dropdownStyleData: DropdownStyleData(offset: Offset(0, -10),
+                            padding: EdgeInsets.symmetric(vertical: 1.h,horizontal: 2.8.w)),
+                        menuItemStyleData: MenuItemStyleData(
+                          padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 0),
+                        ),
+                        iconStyleData: IconStyleData(
+                          icon: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 1.2.h),
+                            child: Icon(Icons.keyboard_arrow_down_rounded,color: Colors.black,size: 25),
+                          ),
+                        ),
+                          style: TextStyle(color: Colors.black,fontSize: textFormFieldHintTs),
                             decoration: InputDecoration(
                               hintStyle: TextStyle(color: Colors.black,fontSize: textFormFieldHintTs),
-                              contentPadding: EdgeInsets.only(top: 10,bottom: 10,right: 0,left: 10),
+                              contentPadding: EdgeInsets.only(top: 10,bottom: 10,right: 0,left: 0),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(color: BaseColors.txtFiledBorderColor, width: 1.0),
                                 borderRadius: BorderRadius.circular(5),
@@ -100,8 +111,8 @@ class BaseTextFormField extends StatelessWidget {
                             return null;
                           },
                           hint: Text(controller.text.isEmpty ? hintText??"" : controller.text,style: TextStyle(color: Colors.black,fontSize: textFormFieldHintTs),textAlign: TextAlign.start,),
-                          icon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0),
-                          itemPadding: EdgeInsets.zero,
+                          // icon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0),
+                          // itemPadding: EdgeInsets.zero,
                           items: items,
                           onChanged: onChanged,
                       ),

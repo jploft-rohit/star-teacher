@@ -639,5 +639,7 @@
  "please_select_any_one" : "Please select any one",
  "empty_mobile_error" : "Can't be empty",
  "something_went_wrong" : "Something went wrong, please try again",
- "na" : "N/A"
+ "na" : "N/A",
+ "evaluation" : "Evaluation",
+ "weekly_plan" : "Weekly Plan"
 }

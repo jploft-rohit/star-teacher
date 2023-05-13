@@ -39,7 +39,15 @@ class CustomFilterDropDown extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 1.8.h,),
                     child: addText(hintText, 14.sp,ColorConstants.black, FontWeight.w700),
                   ),
-                  items: item,
+                  items: item??listData?.map((String data) {
+                    return DropdownMenuItem(
+                      value: data,
+                      alignment: AlignmentDirectional.centerStart,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 1.8.h,),
+                        child: addText(data, 14.sp, Colors.black,FontWeight.w700),
+                      ),);
+                  }).toList(),
                   onChanged: onChange),
             ),
             Align(

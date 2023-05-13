@@ -9,10 +9,8 @@ import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/view/complaints_report_screen/controller/complaint_report_controller.dart';
-import 'package:staff_app/view/complaints_report_screen/view/all_complaints_view.dart';
-import 'package:staff_app/view/complaints_report_screen/view/complaints_view.dart';
+import 'package:staff_app/view/complaints_report_screen/view/complaint_list_tile.dart';
 import 'package:staff_app/view/complaints_report_screen/view/raise_complaint_report_screen.dart';
-import 'package:staff_app/view/complaints_report_screen/view/report_view.dart';
 
 class ComplaintsReportScreen extends StatefulWidget {
   const ComplaintsReportScreen({Key? key}) : super(key: key);
@@ -69,9 +67,9 @@ class _ComplaintsReportScreenState extends State<ComplaintsReportScreen> with Ti
               child: TabBarView(
                 controller: tabCtrl,
                 children: const [
-                  AllComplaintsView(),
-                  ComplaintsView(),
-                  ReportView(),
+                  ComplaintsListTile(),
+                  ComplaintsListTile(),
+                  ComplaintsListTile(),
                 ],
               ),
             )

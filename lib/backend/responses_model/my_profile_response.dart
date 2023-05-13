@@ -44,6 +44,7 @@ class Data {
   String? updatedAt;
   String? placesOfClass;
   int? iV;
+  String? designation;
   String? otp;
   String? deviceToken;
   String? deviceVoip;
@@ -56,10 +57,11 @@ class Data {
   Statistics? statistics;
   List<FamilyMembers>? familyMembers;
 
-  Data({this.sId, this.isMobileVerified, this.gender, this.idDocument, this.deviceType, this.parentId, this.isDeleted, this.name, this.mobile, this.dob, this.nationality, this.emirateId, this.emirateIdExpire, this.nativeLanguage, this.religion, this.profilePic, this.role, this.createdAt, this.updatedAt, this.iV, this.otp, this.deviceToken, this.deviceVoip, this.schoolStaff, this.familyMembers, this.alternativeMobile, this.profileCompletePercentage, this.profileCompleteDate, this.barcode, this.jobDetails, this.statistics});
+  Data({this.designation,this.sId, this.isMobileVerified, this.gender, this.idDocument, this.deviceType, this.parentId, this.isDeleted, this.name, this.mobile, this.dob, this.nationality, this.emirateId, this.emirateIdExpire, this.nativeLanguage, this.religion, this.profilePic, this.role, this.createdAt, this.updatedAt, this.iV, this.otp, this.deviceToken, this.deviceVoip, this.schoolStaff, this.familyMembers, this.alternativeMobile, this.profileCompletePercentage, this.profileCompleteDate, this.barcode, this.jobDetails, this.statistics});
 
   Data.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
+    designation = json['designation'];
     isMobileVerified = json['isMobileVerified'];
     gender = json['gender'];
     idDocument = json['idDocument'].cast<String>();
@@ -109,6 +111,7 @@ class Data {
     data['isDeleted'] = this.isDeleted;
     data['name'] = this.name;
     data['mobile'] = this.mobile;
+    data['designation'] = this.designation;
     data['dob'] = this.dob;
     if (this.familyMembers != null) {
       data['familyMembers'] = this.familyMembers!.map((v) => v.toJson()).toList();

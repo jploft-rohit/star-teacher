@@ -11,12 +11,16 @@ class ApiEndPoints {
   final String createComplaintReport = "complaintReport/add";
   final String deleteComplaintReport = "complaintReport/delete/";
   final String getComplaintType = "complaintType/get-all/";
+  final String acceptComplaintReport = "complaintReport/resolve/";
+  final String addCommentComplaintReport = "complaintReport/add-comment/";
 
   /// Feedback & Help EndPoints
   final String getAllFeedbackHelp = "feedbackHelp/get-all";
   final String updateFeedbackHelp = "feedbackHelp/update/";
   final String createFeedbackHelp = "feedbackHelp/add";
   final String deleteFeedbackHelp = "feedbackHelp/delete/";
+  final String sendCommentFeedbackHelp = "feedbackHelp/add-comment/";
+  final String acceptFeedbackHelp = "feedbackHelp/resolve/";
 
   /// Lost & Found EndPoints
   final String getAllLostFound = "lostFound/get-all";

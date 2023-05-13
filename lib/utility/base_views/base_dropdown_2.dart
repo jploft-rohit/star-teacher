@@ -67,6 +67,11 @@ class BaseDropDown2 extends StatelessWidget {
               child: DropdownButtonFormField2<dynamic>(
                   isExpanded: true,
                   isDense: true,
+                dropdownStyleData: DropdownStyleData(offset: Offset(0, -10),
+                    padding: EdgeInsets.symmetric(vertical: 1.h,horizontal: 2.8.w)),
+                menuItemStyleData: MenuItemStyleData(
+                  padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 0),
+                ),
                   hint: addText(hintText, 15.sp, Color(0xff000000), FontWeight.w400),
                   iconStyleData: IconStyleData(
                     icon: Padding(
@@ -74,14 +79,11 @@ class BaseDropDown2 extends StatelessWidget {
                       child: Icon(Icons.arrow_drop_down,color: Color(0xFFC4C4C4),size: 25),
                     ),
                   ),
-                  dropdownStyleData: DropdownStyleData(offset: Offset(0, -10),
-                      padding: EdgeInsets.symmetric(vertical: 1.h)),
-                  menuItemStyleData: MenuItemStyleData(
-                    padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 0.h),
-                  ),
+
+
                 decoration: InputDecoration(
                   hintStyle: TextStyle(color: Colors.black,fontSize: textFormFieldHintTs),
-                  contentPadding: EdgeInsets.only(top: 10,bottom: 10,right: 0,left: 10),
+                  contentPadding: EdgeInsets.only(top: 10,bottom: 10,right: 0,left: 0),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: BaseColors.txtFiledBorderColor, width: 1.0),
                     borderRadius: BorderRadius.circular(5),

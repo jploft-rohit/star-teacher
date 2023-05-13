@@ -7,6 +7,7 @@ import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/constants-classes/color_constants.dart';
 
 class BaseStudentFilter extends StatefulWidget {
+
   final double? bottomMargin, topMargin, rightMargin, leftMargin;
   const BaseStudentFilter({Key? key, this.bottomMargin, this.topMargin, this.rightMargin, this.leftMargin}) : super(key: key);
 

@@ -18,7 +18,7 @@ GetPageRoute<dynamic> generateRoute(RouteSettings settings) {
       return GetPageRoute(page: () => const SplashScreen());
 
     case dashboardScreenRoute:
-      return GetPageRoute(page: () => const DashboardScreen());
+      return GetPageRoute(page: () => DashboardScreen());
 
     case chooseLanguageScreenRoute:
       return GetPageRoute(page: () => const ChooseLangaugeScreen());

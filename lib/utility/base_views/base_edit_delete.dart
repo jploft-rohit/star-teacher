@@ -7,7 +7,8 @@ class BaseEditDelete extends StatelessWidget {
   final Function()? onEditProceed, onDeleteProceed;
   final String editTitle, deleteTitle;
   final String? heading;
-  const BaseEditDelete({Key? key, this.onEditProceed, this.onDeleteProceed, required this.editTitle, required this.deleteTitle, this.heading}) : super(key: key);
+  final bool? showDeleteViewIcons;
+  const BaseEditDelete({Key? key, this.onEditProceed, this.onDeleteProceed, required this.editTitle, required this.deleteTitle, this.heading, this.showDeleteViewIcons = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

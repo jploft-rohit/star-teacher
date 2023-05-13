@@ -8,6 +8,7 @@ import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/utility/intl/src/intl/date_format.dart';
 
 import '../constants-classes/color_constants.dart';
 import 'images_icon_path.dart';
@@ -66,6 +67,19 @@ BoxShadow getBoxShadow() {
   );
 }
 
+List<BoxShadow> baseContainerShadow() {
+  return [
+    BoxShadow(
+    color: Colors.grey.withOpacity(0.8),
+    offset: Offset(
+      0.0,
+      1.0,
+    ),
+    blurRadius: 2.0,
+    spreadRadius: 0.0,
+  )];
+}
+
 Widget buildInfoItems(String title,String description,{Function()? onSvgClick,String? svgPath}) {
   return RichText(
     text: TextSpan(
@@ -85,8 +99,7 @@ Widget buildInfoItems(String title,String description,{Function()? onSvgClick,St
   );
 }
 
-Widget walletToogleButton(
-    onTap1, isPurchases, onTap2, isEvents) {
+Widget walletToogleButton(onTap1, isPurchases, onTap2, isEvents) {
   return Row(
     children: [
       Expanded(
@@ -163,6 +176,7 @@ Widget walletToogleButton(
     ],
   );
 }
+
 Widget purchasesToogleButton(onTap1, isTransaction, onTap2, isTopup) {
   return Row(
     children: [
@@ -210,6 +224,7 @@ Widget purchasesToogleButton(onTap1, isTransaction, onTap2, isTopup) {
     ],
   );
 }
+
 Widget calenderDownButton(label, onTap) {
   return GestureDetector(
     onTap: (){
@@ -509,4 +524,14 @@ String getFormattedDate(String dateString, {String separator = '-'}) {
   String month = date.month.toString().padLeft(2, '0');
   String year = date.year.toString().substring(0);
   return '$day$separator$month$separator$year';
+}
+
+String convertDateFormat3(String dateString1) {
+  DateTime date = DateTime.parse(dateString1);
+  print("date1");
+  print(date);
+  String formattedDate = DateFormat("MMM dd,\nhh:mm a").format(date);
+  print("date1");
+  print(formattedDate);
+  return formattedDate;
 }

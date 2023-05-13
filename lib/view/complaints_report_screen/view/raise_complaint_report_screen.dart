@@ -29,7 +29,6 @@ class RaiseComplaintReportScreen extends StatefulWidget {
 class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen> {
   ComplainReportController controller = Get.find<ComplainReportController>();
   BaseCtrl baseCtrl = Get.find<BaseCtrl>();
-  String? selectedSchool, selectedComplaintTypeId, selectedPerson, selectedSchoolId;
 
   @override
   void initState() {
@@ -49,43 +48,41 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
             padding: EdgeInsets.all(scaffoldPadding),
             child: Column(
               children: [
-                BaseDropDown2(
-                  controller: controller.selectSchoolController.value,
-                  errorText: "Please select school",
-                  hintText: selectedSchool??"Select School",
-                  listData: baseCtrl.schoolListData.data?.data?.map((SchoolData.SchoolData data){
-                    return DropdownMenuItem(
-                      value: data,
-                      child: addText(data.name??"", 15.sp, Colors.black, FontWeight.w400),
-                    );
-                  }).toList(),
-                  onChange: (value) async {
-                    controller.selectSchoolController.value.text = value?.name??"";
-                    selectedSchoolId = value?.sId??"";
-                    setState(() {
-                      selectedSchool = value?.name??"";
-                    });
-                    await baseCtrl.getComplaintTypeData(initialSchoolId: value?.sId??"");
-                  },
-                ),
-                Visibility(
-                  visible: !widget.isUpdating,
-                  child: BaseTextFormField(
-                    controller: controller.complaintOrReportController.value,
-                    hintText: "Select complaint or report",
-                    isDropDown: true,
-                    errorText: "Please select type",
-                    dropDownValue: controller.complaintOrReportController.value.text,
-                    onChanged: (newValue){
-                      setState(() {
-                        controller.complaintOrReportController.value.text = newValue.toString();
-                      });},
-                    items: DummyLists().complaintList.map((value) {
+                Obx(()=>BaseDropDown2(
+                    controller: controller.selectSchoolController.value,
+                    errorText: "Please select school",
+                    hintText: controller.selectSchoolController.value.text.isEmpty ? "Select School" : controller.selectSchoolController.value.text,
+                    listData: baseCtrl.schoolListData.data?.data?.map((SchoolData.SchoolData data){
                       return DropdownMenuItem(
-                        value: value,
-                        child: addText(value, 16.sp, Colors.black, FontWeight.w400),);
+                        value: data,
+                        child: addText(data.name??"", 15.sp, Colors.black, FontWeight.w400),
+                      );
                     }).toList(),
-                  ),
+                    onChange: (value) async {
+                      controller.selectSchoolController.value.text = value?.name??"";
+                      controller.selectedSchoolId.value = value?.sId??"";
+                      setState(() {
+                        controller.selectSchoolController.value.text = value?.name??"";
+                      });
+                      await baseCtrl.getComplaintTypeData(initialSchoolId: value?.sId??"");
+                    },
+                  )),
+                Obx(()=>BaseTextFormField(
+                  controller: controller.complaintOrReportController.value,
+                  hintText: "Select complaint or report",
+                  isDropDown: true,
+                  errorText: "Please select type",
+                  dropDownValue: controller.complaintOrReportController.value.text,
+                  onChanged: (newValue){
+                    setState(() {
+                      controller.complaintOrReportController.value.text = newValue.toString();
+                    });},
+                  items: DummyLists().complaintList.map((value) {
+                    return DropdownMenuItem(
+                      value: value,
+                      child: addText(value, 16.sp, Colors.black, FontWeight.w400),);
+                  }).toList(),
+                ),
                 ),
                 Obx(()=>BaseTextFormField(
                     controller: controller.personController.value,
@@ -93,16 +90,16 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                     suffixIcon: "assets/images/ic_down.svg",
                     // errorText: "Please select person",
                     onTap: (){
-                      if ((selectedSchoolId??"").isNotEmpty) {
+                      if ((controller.selectedSchoolId.value).isNotEmpty) {
                         showGeneralDialog(
                           context: context,
                           pageBuilder: (context, animation, secondaryAnimation) {
-                            return SelectPersonPopup(selectedSchoolId: selectedSchoolId??"",);
+                            return SelectPersonPopup(selectedSchoolId: controller.selectedSchoolId.value,);
                           },
                         );
                       }else{
                         Fluttertoast.cancel();
-                        Fluttertoast.showToast(msg: "Please first select school");
+                        Fluttertoast.showToast(msg: "Please first select school",gravity: ToastGravity.CENTER);
                       }
                     },
                     validator: (val){
@@ -126,21 +123,22 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                         child: addText(value.name??"", 16.sp, Colors.black, FontWeight.w400),);
                     }).toList(),
                     onChanged: (value){
-                      selectedComplaintTypeId = value.sId??"";
+                      controller.selectedComplaintTypeId.value = value.sId??"";
                       controller.typeController.value.text = value.name??"";
-                },
+                    },
                   ),
                 ),
-                BaseTextFormField(
-                  controller: controller.titleController.value,
-                  hintText: "Title",
-                  bottomMargin: 1.h,
-                  validator: (val){
-                    if (controller.titleController.value.text.isEmpty) {
-                      return "Please enter the title";
-                    }
-                    return null;
-                  },
+                Obx(()=>BaseTextFormField(
+                    controller: controller.titleController.value,
+                    hintText: "Title",
+                    bottomMargin: 1.h,
+                    validator: (val){
+                      if (controller.titleController.value.text.isEmpty) {
+                        return "Please enter the title";
+                      }
+                      return null;
+                    },
+                  ),
                 ),
                 Obx(()=>BaseTextFormField(
                     controller: controller.messageController.value,
@@ -169,8 +167,8 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                   if (widget.isUpdating) {
                     controller.updateComplainReportAPI(
                       itemId: widget.data?.sId??"",
-                      school: DummyLists.initialSchool,
-                      forEnquiry: widget.data?.forEnquery??"",
+                      school: controller.selectedSchoolId.value,
+                      forEnquiry: (widget.data?.forEnquery??"").toLowerCase(),
                       title: controller.titleController.value.text.trim(),
                       complaintUser: widget.data?.complaintUser,
                       description: controller.messageController,
@@ -178,10 +176,10 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                     );
                   }else{
                     controller.createComplainReportAPI(
-                        school: selectedSchoolId,
+                        school: controller.selectedSchoolId.value,
                         forEnquiry: controller.complaintOrReportController.value.text.trim().toLowerCase(),
                         complaintUser: controller.selectedPersonId.value,
-                        complaintType: selectedComplaintTypeId??"",
+                        complaintType: controller.selectedComplaintTypeId.value,
                         title: controller.titleController.value.text.trim(),
                         description: controller.messageController.value.text.trim(),
                         document: "doc.pdf"

@@ -17,10 +17,13 @@ import 'package:staff_app/view/Dashboard_screen/home_screen/home_screen.dart';
 import 'package:staff_app/view/chat_screen/chat_screen.dart';
 import 'package:staff_app/view/my_profile_screen/my_profile_screen.dart';
 import 'package:staff_app/view/search_screen/search_screen.dart';
+import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 import 'package:staff_app/view/task_or_reminder_screen/task_or_reminder_screen.dart';
 
 class DashboardScreen extends GetView<DashboardScreenCtrl>{
-  const DashboardScreen({super.key});
+  DashboardScreen({super.key});
+
+  final BaseCtrl splashCtrl = Get.put(BaseCtrl());
 
   @override
   Widget build(BuildContext context) {
