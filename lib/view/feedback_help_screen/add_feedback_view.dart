@@ -61,6 +61,8 @@ class _AddFeedbackViewState extends State<AddFeedbackView> {
                     onChange: (value) async {
                       controller.schoolController.value.text = value?.name??"";
                       controller.selectedSchoolId.value = value?.sId??"";
+                      controller.personController.value.text = "";
+                      controller.selectedPersonId.value = "";
                       setState(() {
                         controller.schoolController.value.text = value?.name??"";
                       });
@@ -165,5 +167,11 @@ class _AddFeedbackViewState extends State<AddFeedbackView> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    controller.setData(isUpdating: false);
+    super.dispose();
   }
 }

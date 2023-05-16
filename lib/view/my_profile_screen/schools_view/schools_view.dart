@@ -127,7 +127,9 @@ class _SchoolsViewState extends State<SchoolsView> {
                 SizedBox(
                   height: 0.5.h,
                 ),
-                buildTile(translate(context).place_of_class, controller.response.value.data?.schoolStaff?[index].school?.staffsubjects?.classSection?[0].roomNo??na, classTakenSvg),
+                (controller.response.value.data?.schoolStaff?[index].school?.staffsubjects?.classSection??[]).isNotEmpty
+                    ? buildTile(translate(context).place_of_class, controller.response.value.data?.schoolStaff?[index].school?.staffsubjects?.classSection?[0].roomNo??na, classTakenSvg)
+                    : SizedBox.shrink(),
                 // buildTile(translate(context).place_of_class,"1,2", classTakenSvg),
                 SizedBox(height: 0.5.h),
                 buildTile(translate(context).grade_class, "G3 : H1 ,H2 , H3 , C5 , C3\nG4 : J4 , K5 ,K9 ,F2 ,F3", jobDetailSvg),

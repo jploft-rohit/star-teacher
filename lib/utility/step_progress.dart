@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/base_utility.dart';
@@ -93,7 +94,7 @@ class StepProgressView extends StatelessWidget {
             Container(
               height: 25,
               alignment: Alignment.center,
-              child: Text(_statuses[i], style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: textSize ?? stepperTitleTs),textAlign: TextAlign.center,),
+              child: Text(toBeginningOfSentenceCase(_statuses[i])??"N/A", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: textSize ?? stepperTitleTs),textAlign: TextAlign.center,),
             ),
             const SizedBox(
               height: 5,

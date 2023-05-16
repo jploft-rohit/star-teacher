@@ -7,6 +7,8 @@ import 'package:staff_app/backend/responses_model/all_complaint_reports_model.da
 import 'package:staff_app/backend/responses_model/base_success_response.dart';
 import 'package:staff_app/backend/responses_model/staff_list_response.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/storage/base_shared_preference.dart';
+import 'package:staff_app/storage/sp_keys.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
@@ -62,7 +64,8 @@ class ComplainReportController extends GetxController{
     }
   }
 
-  createComplainReportAPI({school,forEnquiry,complaintUser,complaintType,title,description,document}){
+  createComplainReportAPI({school,forEnquiry,complaintUser,complaintType,title,description,document}) async {
+    final String userId = await BaseSharedPreference().getString(SpKeys().userId??"")??"";
     if (formKey.currentState?.validate()??false) {
       var formData = dio.FormData.fromMap({
         'school': school.toString(),
@@ -70,7 +73,8 @@ class ComplainReportController extends GetxController{
         'complaintUser': complaintUser.toString(),
         'complaintType': complaintType.toString(),
         'title': title,
-        'description': description
+        'description': description,
+        'star':userId,
         // 'document': document
       });
       BaseAPI().post(url: ApiEndPoints().createComplaintReport,
@@ -117,6 +121,8 @@ class ComplainReportController extends GetxController{
       uploadController.value.text = "";
       selectedPersonId.value = "";
       selectSchoolController.value.text = "";
+      selectedSchoolId.value = "";
+      personController.value.text = "";
     }
   }
 

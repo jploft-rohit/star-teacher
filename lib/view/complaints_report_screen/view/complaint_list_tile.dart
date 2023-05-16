@@ -69,20 +69,20 @@ class _ComplaintsListTileState extends State<ComplaintsListTile> {
                 const Divider(),
                 BaseDetailData(
                   prefixIcon: "assets/images/user 1.svg",
-                  detailsLabel: "Teacher",
-                  detailsValue: controller.response?[index].user?.role?.name??"N/A",
+                  detailsLabel: toBeginningOfSentenceCase(controller.response?[index].user?.role?.name)??"N/A",
+                  detailsValue: controller.response?[index].user?.name??"N/A",
                 ),
                 Row(
                   children: [
                     BaseDetailData(
                       prefixIcon: "assets/images/Vector (1).svg",
-                      detailsLabel: "01/03/2022",
+                      detailsLabel: getFormattedDate(controller.response?[index].createdAt??""),
                       showDivider: false,
                     ),
                     BaseDetailData(
                       leftMargin: 10.w,
                       prefixIcon: "assets/images/time_icon.svg",
-                      detailsLabel: "09:13pm",
+                      detailsLabel: getFormattedTime(controller.response?[index].createdAt??""),
                       showDivider: false,
                     ),
                   ],
@@ -105,7 +105,7 @@ class _ComplaintsListTileState extends State<ComplaintsListTile> {
                 ),
                 BaseDetailData(
                   prefixIcon: "assets/images/report.svg",
-                  detailsLabel: "Comment",
+                  detailsLabel: "Description",
                   detailsValue: controller.response?[index].description??"",
                 ),
                 Visibility(

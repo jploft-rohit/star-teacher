@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
-
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -534,4 +534,19 @@ String convertDateFormat3(String dateString1) {
   print("date1");
   print(formattedDate);
   return formattedDate;
+}
+
+String getFormattedTime(String dateString1){
+  DateTime date = DateTime.parse(dateString1);
+  print("date1");
+  print(date);
+  String formattedTime = DateFormat('hh:mm a').format(date.toLocal());
+  print("date1");
+  print(formattedTime);
+  return formattedTime;
+}
+
+baseToast({required String message}){
+  Fluttertoast.cancel();
+  Fluttertoast.showToast(msg: message);
 }

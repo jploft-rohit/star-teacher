@@ -65,6 +65,7 @@ class FeedbackHelpController extends GetxController{
       uploadController.value.text = "";
       selectedPersonId.value = "";
       schoolController.value.text = "";
+      selectedSchoolId.value = "";
     }
   }
 

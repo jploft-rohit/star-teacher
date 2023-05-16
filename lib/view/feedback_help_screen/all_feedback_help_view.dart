@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/constants-classes/color_constants.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 
 import 'package:staff_app/utility/base_views/base_colors.dart';
@@ -12,10 +11,8 @@ import 'package:staff_app/utility/base_views/base_detail_data.dart';
 import 'package:staff_app/utility/base_views/base_edit_delete.dart';
 import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
-import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
-import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/utility/custom_text_field.dart';
 import 'package:staff_app/utility/intl/intl.dart';
 import 'package:staff_app/view/feedback_help_screen/add_feedback_view.dart';
@@ -73,20 +70,20 @@ class _AllFeedbackHelpViewState extends State<AllFeedbackHelpView> {
                 const Divider(),
                 BaseDetailData(
                   prefixIcon: "assets/images/user 1.svg",
-                  detailsLabel: "Star",
-                  detailsValue: controller.response?[index].student??"",
+                  detailsLabel: toBeginningOfSentenceCase(controller.response?[index].user?.role?.name)??"N/A",
+                  detailsValue: controller.response?[index].user?.name??"N/A",
                 ),
                 Row(
                   children: [
                     BaseDetailData(
                       prefixIcon: "assets/images/Vector (1).svg",
-                      detailsLabel: "01/03/2022",
+                      detailsLabel: getFormattedDate(controller.response?[index].createdAt??""),
                       showDivider: false,
                     ),
                     BaseDetailData(
                       leftMargin: 10.w,
                       prefixIcon: "assets/images/time_icon.svg",
-                      detailsLabel: "09:13pm",
+                      detailsLabel: getFormattedTime(controller.response?[index].createdAt??""),
                       showDivider: false,
                     ),
                   ],
@@ -104,7 +101,7 @@ class _AllFeedbackHelpViewState extends State<AllFeedbackHelpView> {
                 ),
                 BaseDetailData(
                   prefixIcon: "assets/images/report.svg",
-                  detailsLabel: "Comment",
+                  detailsLabel: "Description",
                   detailsValue: controller.response?[index].description??"",
                 ),
                 Visibility(

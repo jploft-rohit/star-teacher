@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/backend/responses_model/news_broadcast_response.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 
@@ -13,6 +14,7 @@ import 'package:staff_app/Utility/filter_textformfield.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/constants-classes/color_constants.dart';
+import 'package:staff_app/view/Dashboard_screen/dashboard_screen_ctrl.dart';
 import 'package:staff_app/view/news_screen/news_details_screen.dart';
 
 class NewsScreen extends StatefulWidget {
@@ -23,6 +25,8 @@ class NewsScreen extends StatefulWidget {
 }
 
 class _NewsScreenState extends State<NewsScreen> {
+  final DashboardScreenCtrl controller = Get.find<DashboardScreenCtrl>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,11 +89,11 @@ class _NewsScreenState extends State<NewsScreen> {
             SizedBox(height: 2.h),
             ListView.builder(
               shrinkWrap: true,
-              itemCount: 2,
+              itemCount: controller.list?.length??0,
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: (){
-                    Get.to(const NewsDetailScreen());
+                    Get.to(NewsBroadCastData());
                   },
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 15.0),
@@ -110,21 +114,21 @@ class _NewsScreenState extends State<NewsScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Principal’s Honouring Ceremony", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w500, fontSize: 16.sp),),
+                            Text(controller.list?[index].title??"", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w500, fontSize: 16.sp),),
                             SizedBox(
                               height: 1.h,
                             ),
-                            Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam mauris arcu eleifend aliquam.", style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp, color: const Color(0xff072D4B), height: 2.0),),
+                            Text(controller.list?[index].message??"", style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp, color: const Color(0xff072D4B), height: 2.0),),
                             SizedBox(
                               height: 2.h,
                             ),
                             Row(
                               children: [
-                                addText("School Admin", 13.sp, Colors.grey, FontWeight.w400),
+                                addText(controller.list?[index].user?.name??"", 13.sp, Colors.grey, FontWeight.w400),
                                 SizedBox(
                                   width: 10.w,
                                 ),
-                                addText("15 mins ago", 13.sp, Colors.grey, FontWeight.w400),
+                                addText(getFormattedDate(controller.list?[index].updatedAt??""), 13.sp, Colors.grey, FontWeight.w400),
                               ],
                             ),
                             SizedBox(

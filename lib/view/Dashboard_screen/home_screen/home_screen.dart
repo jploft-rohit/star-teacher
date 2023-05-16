@@ -11,6 +11,7 @@ import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/view/Dashboard_screen/dashboard_screen_ctrl.dart';
 import 'package:staff_app/view/Dashboard_screen/home_screen/home_class_schedule/home_class_schedule_screen.dart';
 import 'package:staff_app/view/Dashboard_screen/home_screen/tabs/newsbroadcast_tab.dart';
 import 'package:staff_app/view/Dashboard_screen/home_screen/tabs/star_gallery_tab.dart';
@@ -31,6 +32,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
+
   final GlobalKey<ScaffoldState> _key = GlobalKey();
   late TabController tabController;
 
@@ -488,16 +490,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 2.h,
-                ),
+                SizedBox(height: 2.h),
                 BaseToggleTabBar(
                     controller: tabController,
                     tabs: [
                     BaseTabButton(title: "News/Broadcast", isSelected: tabController.index == 0,type: toggleLargeButton,),
                     BaseTabButton(title: "Star Gallery", isSelected: tabController.index == 1,type: toggleLargeButton,),
                 ],bottomMargin: 2.h),
-                SizedBox(height: 1.h,),
+                SizedBox(height: 1.h),
                 AutoScaleTabBarView(
                   controller: tabController,
                   children: [

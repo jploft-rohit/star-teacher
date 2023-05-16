@@ -5,6 +5,9 @@ class ApiEndPoints {
   final String loginNewUser = "auth/send-otp";
   final String otp = "auth/login";
 
+  /// DashBoard EndPoints
+  final String getNewsBroadCast = "newsBroadcast/list";
+
   /// Complaint & Report EndPoints
   final String getAllComplaintReport = "complaintReport/get-all";
   final String updateComplaintReport = "complaintReport/update/";
@@ -50,4 +53,7 @@ class ApiEndPoints {
 
   /// Get Staff Data
   final String getStaffData = "complaintReport/staff";
+
+  /// Notifications EndPoints
+  final String getNotificationList = "notification/list";
 }

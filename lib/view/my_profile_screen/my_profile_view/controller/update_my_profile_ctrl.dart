@@ -61,7 +61,7 @@ class UpdateMyProfileCtrl extends GetxController{
         "emirateIdExpire": expiryDateCtrl.text.trim(),
         "nativeLanguage": "6450a9e2e2719e102c7459cd",//nativeLanguageCtrl.text.trim(),
         "religion": "6450a9e2e2719e102c7459cd",//religionCtrl.text.trim(),
-        "role": "staff",
+        "role": "teacher",
         "school": "6450a9e2e2719e102c7459cd",//schoolCtrl.text.trim(),
         "profilePic": profilePath.value.trim(),
       });

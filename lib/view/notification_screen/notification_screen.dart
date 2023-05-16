@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_toggle_tab_bar.dart';
-
-import 'package:staff_app/utility/base_views/base_colors.dart';
-import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
-import 'package:staff_app/view/notification_screen/bus_at_door_popup.dart';
-import 'package:staff_app/view/notification_screen/clinic_visit_request.dart';
+import 'package:staff_app/view/notification_screen/controller/notification_ctrl.dart';
+import 'package:staff_app/view/notification_screen/notification_list_tile.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({Key? key}) : super(key: key);
@@ -21,16 +17,21 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> with SingleTickerProviderStateMixin{
+  NotificationCtrl controller = Get.put(NotificationCtrl());
   int index = 0;
   late TabController tabController;
 
   @override
   void initState() {
     super.initState();
+    controller.getData(page: "1", limit: "10", type: "school");
     tabController = TabController(length: 2, vsync: this)..addListener(() {
+      controller.tabIndex.value = tabController.index;
+      controller.getData(page: "1", limit: "10", type: tabController.index == 0 ? "school" : "transportation");
       setState(() {});
     });
   }
+
   @override
   void dispose() {
     tabController.dispose();
@@ -39,6 +40,7 @@ class _NotificationScreenState extends State<NotificationScreen> with SingleTick
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: BaseAppBar(title: translate(context).notifications,showNotification: false),
       body: Padding(
         padding: EdgeInsets.all(20.sp),
@@ -63,84 +65,12 @@ class _NotificationScreenState extends State<NotificationScreen> with SingleTick
               child: TabBarView(
                 controller: tabController,
                   children: [
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  padding: EdgeInsets.only(top: 15.sp),
-                  itemCount: 3,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: (){
-                        showGeneralDialog(
-                          context: context,
-                          pageBuilder: (context, animation, secondaryAnimation) {
-                            return const BusAtDoorPopup();
-                          },
-                        );
-                      },
-                      child: buildTile("Sania", "Absent from English Class.", "7:30 pm  - 05/05/2022"),
-                    );
-                  },
-                ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  padding: EdgeInsets.only(top: 15.sp),
-                  itemCount: 2,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: (){
-                        showGeneralDialog(
-                          context: context,
-                          pageBuilder: (context, animation, secondaryAnimation) {
-                            return const ClinicVisitRequest();
-                          },
-                        );
-                      },
-                      child: buildTile("Sania", "No Show, Departure to school","7:30 pm  - 05/05/2022"),
-                    );
-                  },
-                )
+                    NotificationListTile(),
+                    NotificationListTile(),
               ]),
             ),
           ],
         ),
-      ),
-    );
-  }
-  Widget buildTile(String title, String subtitle, String tralingText){
-    return Container(
-      color: Colors.white,
-      padding: EdgeInsets.only(bottom: 15.sp),
-      child: Row(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                  color: BaseColors.primaryColor
-              ),
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(horizontal: 12,vertical: 7.5),
-            child: SvgPicture.asset(girlSvg,height: 5.h,width: 5.h,),
-          ),
-          SizedBox(
-            width: 3.w,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
-              SizedBox(
-                height: 0.5.h,
-              ),
-              Text(subtitle, style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
-            ],
-          ),
-          const Spacer(),
-          Text(tralingText, style: Style.montserratMediumStyle().copyWith(color: BaseColors.textLightGreyColor, fontSize: 14.sp),),
-        ],
       ),
     );
   }

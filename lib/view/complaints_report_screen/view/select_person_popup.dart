@@ -35,6 +35,7 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
   @override
   void initState() {
     super.initState();
+    DummyLists.initialRole = "Select Person";
     complainReportController.getStaffData(
         selectedSchoolId: widget.selectedSchoolId,
         selectedRoleId: baseCtrl.rolesListResponse.data?.first.sId??""
@@ -85,7 +86,7 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                         children: [
                           CustomFilterDropDown(
                             initialValue: DummyLists.initialRole,
-                            hintText: DummyLists.initialRole??'Teacher',
+                            hintText: DummyLists.initialRole??'Select Person',
                             item: baseCtrl.rolesListResponse.data?.map((Data value){
                               return DropdownMenuItem<dynamic>(
                                 value: value,

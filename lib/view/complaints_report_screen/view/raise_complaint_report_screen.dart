@@ -59,6 +59,8 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                       );
                     }).toList(),
                     onChange: (value) async {
+                      controller.selectedPersonId.value = '';
+                      controller.personController.value.text = "";
                       controller.selectSchoolController.value.text = value?.name??"";
                       controller.selectedSchoolId.value = value?.sId??"";
                       setState(() {
@@ -111,21 +113,30 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                     bottomMargin: 1.h,
                   ),
                 ),
-                Obx(()=>BaseTextFormField(
-                    controller: controller.typeController.value,
-                    hintText: controller.typeController.value.text.isEmpty ? "Complaint Type" : controller.typeController.value.text.trim(),
-                    isDropDown: true,
-                    dropDownValue: controller.typeController.value.text,
-                    errorText: "Please select complaint type",
-                    items: baseCtrl.complaintTypeResponse.data?.map((ComplaintTypeData.Data value) {
-                      return DropdownMenuItem<ComplaintTypeData.Data>(
-                        value: value,
-                        child: addText(value.name??"", 16.sp, Colors.black, FontWeight.w400),);
-                    }).toList(),
-                    onChanged: (value){
-                      controller.selectedComplaintTypeId.value = value.sId??"";
-                      controller.typeController.value.text = value.name??"";
-                    },
+                Obx(()=>GestureDetector(
+                  onTap: controller.complaintOrReportController.value.text.isEmpty ? (){
+                    Fluttertoast.cancel();
+                    Fluttertoast.showToast(msg: "Please first select Complaint or Report");
+                  } : null,
+                  child: AbsorbPointer(
+                    absorbing: controller.complaintOrReportController.value.text.isEmpty,
+                    child: BaseTextFormField(
+                        controller: controller.typeController.value,
+                        hintText: controller.typeController.value.text.isEmpty ? "${controller.complaintOrReportController.value.text} Type" : controller.typeController.value.text.trim(),
+                        isDropDown: true,
+                        dropDownValue: controller.typeController.value.text,
+                        errorText: "Please select ${controller.complaintOrReportController.value.text} type",
+                        items: baseCtrl.complaintTypeResponse.data?.map((ComplaintTypeData.Data value) {
+                          return DropdownMenuItem<ComplaintTypeData.Data>(
+                            value: value,
+                            child: addText(value.name??"", 16.sp, Colors.black, FontWeight.w400),);
+                        }).toList(),
+                        onChanged: (value){
+                          controller.selectedComplaintTypeId.value = value.sId??"";
+                          controller.typeController.value.text = value.name??"";
+                        },
+                      ),
+                  ),
                   ),
                 ),
                 Obx(()=>BaseTextFormField(
