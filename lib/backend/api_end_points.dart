@@ -52,6 +52,13 @@ class ApiEndPoints {
   final String getDetailNotebook = "notebook/detail/";
   final String deleteNotebook = "notebook/delete/";
 
+  /// Sticky Notes (My Notes)
+  final String getStickyNotesList = "stickyNotes/list";
+  final String createStickyNote = "stickyNotes/create";
+  final String getStickyNoteDetail = "stickyNotes/detail/";
+  final String updateStickyNote = "stickyNotes/update/";
+  final String deleteStickyNote = "stickyNotes/delete/";
+
   /// Staff EndPoints
   final String getStaffData = "complaintReport/staff";
 
@@ -68,4 +75,9 @@ class ApiEndPoints {
   final String createReward = "reward/add";
   final String giveReward = "reward/add-reward";
   final String updateRewardImage = "reward/update/";
+
+  /// Star Attendance EndPoints
+  final String getStarAttendanceList = "starAttendence/list";
+  final String addStarAttendance = "starAttendence/add";
+  final String changeStarAttendanceStatus = "starAttendence/change-status/";
 }

@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
@@ -15,7 +16,8 @@ import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/library_screen/notebook_screen/notebook_screen.dart';
 import 'package:staff_app/view/library_screen/ctrl/notebook_ctrl.dart';
-import '../library_screen/notebook_screen/add_todo_note.dart';
+import 'package:staff_app/view/my_notes/add_todo_note.dart';
+import 'package:staff_app/view/my_notes/ctrl/sticky_note_ctrl.dart';
 
 class MyNotesScreen extends StatefulWidget {
   const MyNotesScreen({Key? key}) : super(key: key);
@@ -25,13 +27,7 @@ class MyNotesScreen extends StatefulWidget {
 }
 
 class _MyNotesScreenState extends State<MyNotesScreen> {
-  late NotebookCtrl notesController;
-
-  @override
-  void initState() {
-    notesController = Get.put(NotebookCtrl());
-    super.initState();
-  }
+  StickyNoteCtrl controller = Get.put(StickyNoteCtrl());
 
   @override
   Widget build(BuildContext context) {
@@ -49,17 +45,18 @@ class _MyNotesScreenState extends State<MyNotesScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Obx(() => StaggeredGrid.count(
+              Obx(() => (controller.unCheckedNotes?.length??0) == 0 && (controller.checkedNotes?.length??0) == 0
+                  ? BaseNoData(topMargin: 40.h)
+                  : StaggeredGrid.count(
                     crossAxisCount: 2,
                     crossAxisSpacing: 10.0,
                     mainAxisSpacing: 10.0,
-                    children: List.generate(notesController.unDoneNotesList.length, (index) {
+                    children: List.generate(controller.unCheckedNotes?.length??0, (index) {
                       return Container(
+                        height: 15.h,
                         clipBehavior: Clip.antiAliasWithSaveLayer,
                         decoration: BoxDecoration(
-                          color: index == 2 || index == 3
-                              ? const Color(0xffFFF7AA)
-                              : const Color(0xffFFE7E9),
+                          color: Color(int.tryParse("0xff${controller.unCheckedNotes?[index].color??""}")??0xFFFFFFFF),
                           borderRadius: BorderRadius.circular(5.0),
                         ),
                         child: Column(
@@ -82,9 +79,7 @@ class _MyNotesScreenState extends State<MyNotesScreen> {
                                     children: [
                                       Expanded(
                                           child: Text(
-                                              notesController
-                                                  .unDoneNotesList[index]
-                                                  .heading,
+                                              controller.unCheckedNotes?[index].title??"",
                                               style: TextStyle(
                                                   fontSize: 15.sp,
                                                   color:
@@ -99,40 +94,28 @@ class _MyNotesScreenState extends State<MyNotesScreen> {
                                             width: 10,
                                             child: Checkbox(
                                               checkColor: Colors.white,
-                                              activeColor:
-                                                  BaseColors.primaryColor,
-                                              value: notesController
-                                                  .unDoneNotesList[index]
-                                                  .isTaskDone,
-                                              materialTapTargetSize:
-                                                  MaterialTapTargetSize
-                                                      .shrinkWrap,
-                                              side: const BorderSide(
-                                                  color:
-                                                      BaseColors.primaryColor),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(3),
-                                              ),
+                                              activeColor: BaseColors.primaryColor,
+                                              value: ((controller.unCheckedNotes?[index].noteStatus?.name??"") != "completed" ? false : true),
+                                              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                              side: const BorderSide(color: BaseColors.primaryColor),
+                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3),),
                                               onChanged: (bool? value) {
-                                                log(value.toString());
-                                                notesController
-                                                    .unDoneNotesList[index]
-                                                    .isTaskDone = value!;
-                                                notesController.doneNotesList
-                                                    .add(notesController
-                                                            .unDoneNotesList[
-                                                        index]);
-                                                notesController.unDoneNotesList
-                                                    .removeAt(index);
-                                                notesController.update();
+                                                controller.updateStickyNoteStatus(id: controller.unCheckedNotes?[index].sId??"",index: index);
+                                                // controller.unCheckedNotes?[index].noteStatus?.name = "completed";
+                                                // controller.checkedNotes?.add(controller.unCheckedNotes![index]);
+                                                // controller.unCheckedNotes?.removeAt(index);
                                               },
                                             ),
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              Get.to(
-                                                  AddToDoNote(isEditing: true));
+                                              BaseOverlays().showConfirmationDialog(
+                                                  title: "Are you sure you want to edit this Note?",
+                                                  onRightButtonPressed: () {
+                                                    BaseOverlays().dismissOverlay();
+                                                    Get.to(AddToDoNote(isEditing: true, data: controller.unCheckedNotes?[index]));
+                                                  },
+                                              );
                                             },
                                             child: Padding(
                                               padding: EdgeInsets.only(
@@ -145,18 +128,10 @@ class _MyNotesScreenState extends State<MyNotesScreen> {
                                           ),
                                           GestureDetector(
                                               onTap: () {
-                                                BaseOverlays()
-                                                    .showConfirmationDialog(
-                                                        title:
-                                                            "Are you sure you want to delete this Note?",
-                                                        onRightButtonPressed:
-                                                            () {
-                                                          notesController
-                                                              .unDoneNotesList
-                                                              .removeAt(index);
-                                                          notesController
-                                                              .update();
-                                                          Get.back();
+                                                BaseOverlays().showConfirmationDialog(
+                                                        title: "Are you sure you want to delete this Note?",
+                                                        onRightButtonPressed: () {
+                                                          controller.deleteStickyNote(id: controller.unCheckedNotes?[index].sId??"", index: index);
                                                         });
                                               },
                                               child: SvgPicture.asset(
@@ -165,57 +140,14 @@ class _MyNotesScreenState extends State<MyNotesScreen> {
                                       )
                                     ],
                                   ),
-                                  SizedBox(
-                                    height: 1.h,
+                                  SizedBox(height: 1.5.h),
+                                  addText(
+                                      controller.unCheckedNotes?[index].description??"",
+                                      14.sp,
+                                      BaseColors.textBlackColor,
+                                      FontWeight.w400,
                                   ),
-                                  Row(
-                                    children: [
-                                      MyBullet(),
-                                      SizedBox(
-                                        width: 2.w,
-                                      ),
-                                      addText(
-                                          "Hang washing",
-                                          14.sp,
-                                          BaseColors.textBlackColor,
-                                          FontWeight.w400),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 1.h,
-                                  ),
-                                  Row(
-                                    children: [
-                                      MyBullet(),
-                                      SizedBox(
-                                        width: 2.w,
-                                      ),
-                                      addText(
-                                          "Hang washing",
-                                          14.sp,
-                                          BaseColors.textBlackColor,
-                                          FontWeight.w400),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 1.h,
-                                  ),
-                                  Row(
-                                    children: [
-                                      MyBullet(),
-                                      SizedBox(
-                                        width: 2.w,
-                                      ),
-                                      addText(
-                                          "Hang washing",
-                                          14.sp,
-                                          BaseColors.textBlackColor,
-                                          FontWeight.w400),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 2.h,
-                                  ),
+                                  SizedBox(height: 2.h),
                                 ],
                               ),
                             )
@@ -225,7 +157,7 @@ class _MyNotesScreenState extends State<MyNotesScreen> {
                     }),
                   )),
               Obx(() => Visibility(
-                    visible: notesController.doneNotesList.length > 0,
+                    visible: (controller.checkedNotes?.length??0) > 0,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: Text("Completed",
@@ -237,21 +169,17 @@ class _MyNotesScreenState extends State<MyNotesScreen> {
                     crossAxisCount: 2,
                     crossAxisSpacing: 10.0,
                     mainAxisSpacing: 10.0,
-                    children: List.generate(
-                        notesController.doneNotesList.length, (index) {
+                    children: List.generate(controller.checkedNotes?.length??0, (index) {
                       return Container(
+                        height: 15.h,
                         clipBehavior: Clip.antiAliasWithSaveLayer,
                         decoration: BoxDecoration(
                           color: Colors.grey.shade300,
                           borderRadius: BorderRadius.circular(5.0),
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Stack(
+                          alignment: Alignment.topCenter,
                           children: [
-                            Container(
-                              height: 4,
-                              color: Colors.grey,
-                            ),
                             Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: Column(
@@ -263,8 +191,7 @@ class _MyNotesScreenState extends State<MyNotesScreen> {
                                     children: [
                                       Expanded(
                                           child: Text(
-                                              notesController
-                                                  .doneNotesList[index].heading,
+                                              controller.checkedNotes?[index].title??"",
                                               style: TextStyle(
                                                   fontSize: 15.sp,
                                                   color:
@@ -274,52 +201,38 @@ class _MyNotesScreenState extends State<MyNotesScreen> {
                                       Row(
                                         children: [
                                           const SizedBox(width: 1),
-                                          // SizedBox(
-                                          //   height: 10,
-                                          //   width: 10,
-                                          //   child: Checkbox(
-                                          //     checkColor: Colors.white,
-                                          //     activeColor:
-                                          //         BaseColors.primaryColor,
-                                          //     value: notesController
-                                          //         .doneNotesList[index]
-                                          //         .isTaskDone,
-                                          //     materialTapTargetSize:
-                                          //         MaterialTapTargetSize
-                                          //             .shrinkWrap,
-                                          //     side: const BorderSide(
-                                          //         color:
-                                          //             BaseColors.primaryColor),
-                                          //     shape: RoundedRectangleBorder(
-                                          //       borderRadius:
-                                          //           BorderRadius.circular(3),
-                                          //     ),
-                                          //     onChanged: (bool? value) {
-                                          //       notesController
-                                          //           .doneNotesList[index]
-                                          //           .isTaskDone = value!;
-                                          //       notesController.unDoneNotesList
-                                          //           .add(notesController
-                                          //               .doneNotesList[index]);
-                                          //       notesController.doneNotesList
-                                          //           .removeAt(index);
-                                          //       notesController.update();
-                                          //       // setState(() {});
-                                          //     },
-                                          //   ),
-                                          // ),
                                           SizedBox(
                                             width: 3.5.w,
                                           ),
-                                          Image.asset(
-                                            editPng,
-                                            height: 15.0,
+                                          GestureDetector(
+                                            onTap: () {
+                                              BaseOverlays().showConfirmationDialog(
+                                                title: "Are you sure you want to edit this Note?",
+                                                onRightButtonPressed: () {
+                                                  BaseOverlays().dismissOverlay();
+                                                  Get.to(AddToDoNote(isEditing: true, data: controller.checkedNotes?[index]));
+                                                },
+                                              );
+                                            },
+                                            child: Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: 3.5.w, right: 2.w),
+                                              child: Image.asset(
+                                                editPng,
+                                                height: 15.0,
+                                              ),
+                                            ),
                                           ),
-                                          SizedBox(
-                                            width: 2.w,
-                                          ),
-                                          SvgPicture.asset(
-                                              "assets/images/delete 4.svg"),
+                                          GestureDetector(
+                                              onTap: () {
+                                                BaseOverlays().showConfirmationDialog(
+                                                    title: "Are you sure you want to delete this Note?",
+                                                    onRightButtonPressed: () {
+                                                      controller.deleteStickyNote(id: controller.checkedNotes?[index].sId??"", index: index);
+                                                    });
+                                              },
+                                              child: SvgPicture.asset(
+                                                  "assets/images/delete 4.svg")),
                                         ],
                                       )
                                     ],
@@ -327,51 +240,12 @@ class _MyNotesScreenState extends State<MyNotesScreen> {
                                   SizedBox(
                                     height: 1.h,
                                   ),
-                                  Row(
-                                    children: [
-                                      MyBullet(),
-                                      SizedBox(
-                                        width: 2.w,
-                                      ),
-                                      addText(
-                                          "Hang washing",
-                                          14.sp,
-                                          BaseColors.textBlackColor,
-                                          FontWeight.w400),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 1.h,
-                                  ),
-                                  Row(
-                                    children: [
-                                      MyBullet(),
-                                      SizedBox(
-                                        width: 2.w,
-                                      ),
-                                      addText(
-                                          "Hang washing",
-                                          14.sp,
-                                          BaseColors.textBlackColor,
-                                          FontWeight.w400),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 1.h,
-                                  ),
-                                  Row(
-                                    children: [
-                                      MyBullet(),
-                                      SizedBox(
-                                        width: 2.w,
-                                      ),
-                                      addText(
-                                          "Hang washing",
-                                          14.sp,
-                                          BaseColors.textBlackColor,
-                                          FontWeight.w400),
-                                    ],
-                                  ),
+                                  addText(
+                                      controller.checkedNotes?[index].description??"",
+                                      14.sp,
+                                      BaseColors.textBlackColor,
+                                      FontWeight.w400),
+                                  Spacer(),
                                   Divider(color: Colors.white),
                                   Center(
                                       child: Text(
@@ -383,7 +257,11 @@ class _MyNotesScreenState extends State<MyNotesScreen> {
                                   )),
                                 ],
                               ),
-                            )
+                            ),
+                            Container(
+                              height: 4,
+                              color: Colors.grey,
+                            ),
                           ],
                         ),
                       );
