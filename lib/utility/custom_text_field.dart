@@ -27,6 +27,7 @@ class CustomTextField extends StatelessWidget {
   double? hintTxtSize;
   final String? Function(String?)? validator;
   Color? hintTextColor;
+
   CustomTextField({Key? key, required this.controller, this.obscureText, required this.hintText, this.textInputAction, this.textInputType, this.textInputFormatter, this.suffixIcon, this.prefixIcon, this.errorText, this.borderRadius, this.fillColor, this.txtColor, this.borderColor, this.maxLine, this.contentPadding, this.hintTxtSize, this.onTap, this.readOnly, this.hintTextColor, this.validator, this.maxLength, this.underLine = false}) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -47,7 +48,6 @@ class CustomTextField extends StatelessWidget {
         contentPadding: contentPadding ?? EdgeInsets.only(top: 16.sp, bottom: 16.sp, left: 10.0, right: 10.0),
         isDense: true,
         hintMaxLines: 2,
-
         hintText: hintText,
         errorText: errorText,
         counter: SizedBox.shrink(),

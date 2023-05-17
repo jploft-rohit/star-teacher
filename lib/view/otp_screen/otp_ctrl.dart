@@ -38,6 +38,7 @@ class OtpCtrl extends GetxController{
         response = OtpResponse.fromJson(value?.data);
         if (response.statusCode == 200) {
           otpController.clear();
+          otpController.text = "";
           BaseSharedPreference().setBool(SpKeys().isLoggedIn, true);
           BaseSharedPreference().setString(SpKeys().apiToken, response.data?.token??"");
           BaseSharedPreference().setString(SpKeys().userId, response.data?.user?.sId??"");

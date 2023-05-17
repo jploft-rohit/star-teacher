@@ -5,6 +5,7 @@ import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/backend/responses_model/comlaint_type_reponse.dart';
 import 'package:staff_app/backend/responses_model/roles_list_response.dart';
 import 'package:staff_app/backend/responses_model/school_list_response.dart';
+import 'package:staff_app/backend/responses_model/stars_list_response.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/storage/sp_keys.dart';
@@ -15,6 +16,7 @@ class BaseCtrl extends GetxController{
   SchoolListResponse schoolListData = SchoolListResponse();
   ComplaintTypeResponse complaintTypeResponse = ComplaintTypeResponse();
   RolesListResponse rolesListResponse = RolesListResponse();
+  RxList<StarsListData>? starsList = <StarsListData>[].obs;
 
   @override
   void onInit() {
@@ -25,6 +27,7 @@ class BaseCtrl extends GetxController{
       if ((token).isNotEmpty) {
         getRolesList(showLoader: false);
         getSchoolData(showLoader: false);
+        getStarsList(showLoader: false);
       }
     });
   }
@@ -59,6 +62,17 @@ class BaseCtrl extends GetxController{
       if (value?.statusCode ==  200) {
         rolesListResponse = RolesListResponse.fromJson(value?.data);
       }else{
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+      }
+    });
+  }
+
+  getStarsList({bool? showLoader}) async {
+    starsList?.value = [];
+    BaseAPI().get(url: ApiEndPoints().getStarsList, showLoader: showLoader).then((value){
+      if (value?.statusCode ==  200) {
+        starsList?.value = StarsListResponse.fromJson(value?.data).data??[];
+      } else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
       }
     });

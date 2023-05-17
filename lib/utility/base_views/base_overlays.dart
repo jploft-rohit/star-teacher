@@ -347,8 +347,7 @@ class BaseOverlays {
                           child: GestureDetector(
                         onTap: () async {
                           Get.back();
-                          imageData = await picker.pickImage(
-                              source: ImageSource.camera);
+                          imageData = await picker.pickImage(source: ImageSource.camera);
                         },
                         child: Column(
                           children: [

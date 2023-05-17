@@ -28,7 +28,7 @@ class _PresentViewState extends State<PresentView> {
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         return Padding(
-          padding: const EdgeInsets.only(bottom: 15.0),
+          padding: const EdgeInsets.only(bottom: 15),
           child: Stack(
             clipBehavior: Clip.antiAliasWithSaveLayer,
             alignment: Alignment.centerLeft,

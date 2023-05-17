@@ -1,6 +1,6 @@
 class AllComplainReportResponse {
-  int? statusCode;
-  String? message;
+  dynamic statusCode;
+  dynamic message;
   List<Data>? data;
 
   AllComplainReportResponse({this.statusCode, this.message, this.data});
@@ -28,27 +28,27 @@ class AllComplainReportResponse {
 }
 
 class Data {
-  String? forEnquery;
-  String? inProgress;
-  bool? isDeleted;
-  String? sId;
-  String? school;
+  dynamic forEnquery;
+  dynamic inProgress;
+  dynamic isDeleted;
+  dynamic sId;
+  dynamic school;
   ComplaintUser? complaintUser;
   ComplaintType? complaintType;
-  String? title;
-  String? description;
-  String? document;
-  String? createdBy;
-  String? updatedBy;
+  dynamic title;
+  dynamic description;
+  dynamic document;
+  dynamic createdBy;
+  dynamic updatedBy;
   Status? status;
-  String? createdAt;
-  String? updatedAt;
-  int? iV;
-  String? resolverComment;
-  String? selfComment;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic iV;
+  dynamic resolverComment;
+  dynamic selfComment;
   List<ComplaintStatus>? complaintStatus;
   User? user;
-  String? student;
+  dynamic student;
 
   Data(
       {this.forEnquery,
@@ -146,37 +146,37 @@ class Data {
 }
 
 class ComplaintUser {
-  bool? isMobileVerified;
-  String? gender;
-  List<String>? idDocument;
-  String? deviceType;
+  dynamic isMobileVerified;
+  dynamic gender;
+  dynamic idDocument;
+  dynamic deviceType;
   dynamic parentId;
-  bool? isDeleted;
-  String? sId;
-  String? name;
-  String? mobile;
-  int? dob;
-  String? nationality;
-  String? emirateId;
-  String? emirateIdExpire;
-  String? nativeLanguage;
-  String? religion;
-  String? profilePic;
-  String? role;
-  String? createdAt;
-  String? updatedAt;
-  int? iV;
+  dynamic isDeleted;
+  dynamic sId;
+  dynamic name;
+  dynamic mobile;
+  dynamic dob;
+  dynamic nationality;
+  dynamic emirateId;
+  dynamic emirateIdExpire;
+  dynamic nativeLanguage;
+  dynamic religion;
+  dynamic profilePic;
+  dynamic role;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic iV;
   dynamic address;
   dynamic country;
   dynamic email;
-  String? otp;
-  String? deviceToken;
-  String? deviceVoip;
+  dynamic otp;
+  dynamic deviceToken;
+  dynamic deviceVoip;
   Location? location;
-  String? maritalStatus;
-  String? sector;
-  String? locationType;
-  String? slotNo;
+  dynamic maritalStatus;
+  dynamic sector;
+  dynamic locationType;
+  dynamic slotNo;
 
   ComplaintUser(
       {this.isMobileVerified,
@@ -214,7 +214,7 @@ class ComplaintUser {
   ComplaintUser.fromJson(Map<String, dynamic> json) {
     isMobileVerified = json['isMobileVerified'];
     gender = json['gender'];
-    idDocument = json['idDocument'].cast<String>();
+    idDocument = json['idDocument'];
     deviceType = json['deviceType'];
     parentId = json['parentId'];
     isDeleted = json['isDeleted'];
@@ -289,14 +289,14 @@ class ComplaintUser {
 }
 
 class Location {
-  String? type;
-  List<int>? coordinates;
+  dynamic type;
+  dynamic coordinates;
 
   Location({this.type, this.coordinates});
 
   Location.fromJson(Map<String, dynamic> json) {
     type = json['type'];
-    coordinates = json['coordinates'].cast<int>();
+    coordinates = json['coordinates'];
   }
 
   Map<String, dynamic> toJson() {
@@ -308,16 +308,16 @@ class Location {
 }
 
 class ComplaintType {
-  bool? isDeleted;
-  String? sId;
+  dynamic isDeleted;
+  dynamic sId;
   dynamic school;
-  String? name;
-  String? createdBy;
-  String? updatedBy;
-  String? status;
-  String? createdAt;
-  String? updatedAt;
-  int? iV;
+  dynamic name;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic status;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic iV;
 
   ComplaintType(
       {this.isDeleted,
@@ -361,14 +361,14 @@ class ComplaintType {
 }
 
 class Status {
-  bool? isDeleted;
-  String? sId;
-  String? name;
-  String? type;
-  String? createdBy;
-  String? createdAt;
-  String? updatedAt;
-  int? iV;
+  dynamic isDeleted;
+  dynamic sId;
+  dynamic name;
+  dynamic type;
+  dynamic createdBy;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic iV;
 
   Status(
       {this.isDeleted,
@@ -406,15 +406,15 @@ class Status {
 }
 
 class ComplaintStatus {
-  bool? isDeleted;
-  String? sId;
-  String? name;
-  String? type;
-  String? createdBy;
-  String? createdAt;
-  String? updatedAt;
-  int? iV;
-  String? time;
+  dynamic isDeleted;
+  dynamic sId;
+  dynamic name;
+  dynamic type;
+  dynamic createdBy;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic iV;
+  dynamic time;
 
   ComplaintStatus(
       {this.isDeleted,
@@ -455,27 +455,27 @@ class ComplaintStatus {
 }
 
 class User {
-  bool? isMobileVerified;
-  String? gender;
+  dynamic isMobileVerified;
+  dynamic gender;
   dynamic idDocument;
-  String? deviceType;
+  dynamic deviceType;
   dynamic parentId;
-  bool? isDeleted;
-  String? sId;
-  String? name;
-  String? email;
-  String? mobile;
+  dynamic isDeleted;
+  dynamic sId;
+  dynamic name;
+  dynamic email;
+  dynamic mobile;
   Role? role;
-  int? dob;
-  String? emirateId;
-  String? emirateIdExpire;
-  String? createdBy;
-  String? updatedBy;
-  String? status;
-  String? createdAt;
-  String? updatedAt;
-  int? iV;
-  String? profilePic;
+  dynamic dob;
+  dynamic emirateId;
+  dynamic emirateIdExpire;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic status;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic iV;
+  dynamic profilePic;
 
   User(
       {this.isMobileVerified,

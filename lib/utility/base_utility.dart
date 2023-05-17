@@ -548,5 +548,5 @@ String getFormattedTime(String dateString1){
 
 baseToast({required String message}){
   Fluttertoast.cancel();
-  Fluttertoast.showToast(msg: message);
+  Fluttertoast.showToast(msg: message,gravity: ToastGravity.CENTER);
 }

@@ -1,6 +1,7 @@
 /// baseUrl: 'http://3.28.14.143:4000/star-backend/api/',
 
 class ApiEndPoints {
+  final String imageBaseUrl = "http://3.28.14.143:4000/star-backend/";
   /// OnBoarding EndPoints
   final String loginNewUser = "auth/send-otp";
   final String otp = "auth/login";
@@ -51,9 +52,20 @@ class ApiEndPoints {
   final String getDetailNotebook = "notebook/detail/";
   final String deleteNotebook = "notebook/delete/";
 
-  /// Get Staff Data
+  /// Staff EndPoints
   final String getStaffData = "complaintReport/staff";
 
   /// Notifications EndPoints
   final String getNotificationList = "notification/list";
+
+  /// Stars EndPoints
+  // Star List
+  final String getStarsList = "registerStar/star_list";
+
+  /// Star Reward EndPoints
+  final String getStarsReward = "reward/get-all?user[]=";
+  final String viewRewardHistory = "reward/view-history/";
+  final String createReward = "reward/add";
+  final String giveReward = "reward/add-reward";
+  final String updateRewardImage = "reward/update/";
 }

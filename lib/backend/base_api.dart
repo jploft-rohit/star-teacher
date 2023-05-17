@@ -65,6 +65,7 @@ class BaseAPI {
         return response;
       } on DioError catch (e) {
         BaseOverlays().dismissOverlay(showLoader: showLoader);
+
         _handleError(e);
         rethrow;
       }

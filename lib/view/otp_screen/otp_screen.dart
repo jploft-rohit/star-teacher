@@ -121,8 +121,6 @@ class _OTPScreenState extends State<OTPScreen> {
                           if (widget.isFromActivation??false) {
                             Get.toNamed(ruleScreenRoute);
                           }else{
-                            controller.otpController.clear();
-                            controller.otpController.text = "";
                             controller.otpApi(mobile: widget.mobile);
                           }
                         },borderRadius: 19),

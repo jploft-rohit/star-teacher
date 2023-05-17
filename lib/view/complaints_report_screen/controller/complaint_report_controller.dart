@@ -65,7 +65,7 @@ class ComplainReportController extends GetxController{
   }
 
   createComplainReportAPI({school,forEnquiry,complaintUser,complaintType,title,description,document}) async {
-    final String userId = await BaseSharedPreference().getString(SpKeys().userId??"")??"";
+    final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
     if (formKey.currentState?.validate()??false) {
       var formData = dio.FormData.fromMap({
         'school': school.toString(),
