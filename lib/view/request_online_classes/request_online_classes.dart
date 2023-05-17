@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/base_textformfield.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
+import 'package:staff_app/utility/base_views/base_textformfield.dart';
 
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/Utility/custom_dropdown_widget.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
+import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 
 class RequestOnlineClasses extends StatefulWidget {
@@ -44,22 +46,18 @@ class _RequestOnlineClassesState extends State<RequestOnlineClasses> {
         padding: EdgeInsets.all(20.sp),
         child: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-              decoration: BoxDecoration(
-                color: BaseColors.backgroundColor,
-                borderRadius: BorderRadius.circular(5.0),
-                border: Border.all(
-                  color: BaseColors.borderColor
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Select School", style: Style.montserratRegularStyle().copyWith(color: Colors.black, fontSize: 16.sp),),
-                  const Icon(Icons.arrow_drop_down, color: Color(0xffC4C4C4),size: 35.0,)
-                ],
-              ),
+            CustomDropDown(
+              initialValue: DummyLists.initialSchool,
+              hintText: "Select School",
+              listData:DummyLists.schoolData,
+              onChange: (value) {
+                setState(() {
+                  DummyLists.initialSchool=value;
+                });
+              },
+              topPadding: 5,
+              bottomPadding: 5,
+              icon: Icon(Icons.arrow_drop_down,color: Color(0xFFC4C4C4),size: 25,),
             ),
             SizedBox(
               height: 2.h,
@@ -68,7 +66,6 @@ class _RequestOnlineClassesState extends State<RequestOnlineClasses> {
                 controller: fromDateController,
                 title: "${translate(context).from_date}:",
                 prefixIcon: calenderDateSvg,
-                suffixIcon: "assets/images/ic_down.svg",
                 hintText: "dd/mm/yyyy",
                 keyboardType: TextInputType.datetime,
                 onTap: (){selectDate(context);},
@@ -77,7 +74,6 @@ class _RequestOnlineClassesState extends State<RequestOnlineClasses> {
               controller: toDateController,
               title: "${translate(context).to_date}:",
               prefixIcon: calenderDateSvg,
-              suffixIcon: "assets/images/ic_down.svg",
               hintText: "dd/mm/yyyy",
               keyboardType: TextInputType.datetime,
               onTap: (){selectDate(context);},
@@ -92,7 +88,7 @@ class _RequestOnlineClassesState extends State<RequestOnlineClasses> {
             ),
             BaseButton(title: translate(context).submit_btn_txt, onPressed: (){
               Get.back();
-            },),
+            },btnType: largeButton,),
           ],
         ),
       ),

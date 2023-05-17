@@ -2,20 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_floating_action_button.dart';
-import 'package:staff_app/Utility/base_tab_button.dart';
-import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
+import 'package:staff_app/utility/base_views/base_tab_button.dart';
+import 'package:staff_app/utility/base_views/base_toggle_tab_bar.dart';
+import 'package:staff_app/Utility/custom_dropdown_widget.dart';
+import 'package:staff_app/Utility/dummy_lists.dart';
 
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/assignments_screen/assignment_by_me_view/assigned_by_me_view.dart';
 import 'package:staff_app/view/assignments_screen/assignment_screen_ctrl.dart';
 import 'package:staff_app/view/assignments_screen/assignment_to_me_view/assignment_to_me_view.dart';
 import 'package:staff_app/view/create_task_or_assignment/create_task_or_assignment.dart';
 
-import '../../Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 
 class AssignmentScreen extends StatefulWidget {
   const AssignmentScreen({Key? key}) : super(key: key);
@@ -55,29 +57,25 @@ class _AssignmentScreenState extends State<AssignmentScreen> with SingleTickerPr
           padding: EdgeInsets.all(15.sp),
           child: Column(
             children: [
-              Container(
-                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                decoration: BoxDecoration(
-                  color: BaseColors.backgroundColor,
-                  borderRadius: BorderRadius.circular(5.0),
-                  border: Border.all(
-                      color: BaseColors.borderColor
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Ignite Public School", style: Style.montserratRegularStyle().copyWith(color: Colors.black, fontSize: 16.sp),),
-                    const Icon(Icons.arrow_drop_down, color: Color(0xffC4C4C4),size: 35.0,)
-                  ],
-                ),
+              CustomDropDown(
+                initialValue: DummyLists.initialSchool,
+                hintText: "Select School",
+                listData:DummyLists.schoolData,
+                onChange: (value) {
+                  setState(() {
+                    DummyLists.initialSchool=value;
+                  });
+                },
+                topPadding: 5,
+                bottomPadding: 5,
+                icon: Icon(Icons.arrow_drop_down,color: Color(0xFFC4C4C4),size: 25,),
               ),
               SizedBox(
-                height: 2.h,
+                height: 1.h,
               ),
               BaseToggleTabBar(controller: tabController, tabs: [
-                BaseTabButton(title: translate(context).assigned_by_me, isSelected: tabController.index == 0),
-                BaseTabButton(title: translate(context).assigned_to_me, isSelected: tabController.index == 1),
+                BaseTabButton(title: translate(context).assigned_by_me, isSelected: tabController.index == 0,type: toggleLargeButton,),
+                BaseTabButton(title: translate(context).assigned_to_me, isSelected: tabController.index == 1,type: toggleLargeButton,),
               ]),
               SizedBox(
                 height: 2.h,
@@ -88,7 +86,7 @@ class _AssignmentScreenState extends State<AssignmentScreen> with SingleTickerPr
                   children: [
                   AssignedByMeView(),
                   AssignedByMeView(),
-                  // AssignedToMeView()
+                  //AssignedToMeView()
                 ]),
               ),
             ],

@@ -2,15 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/Utility/custom_filter_dropdown.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
+import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/create_task_or_assignment/create_task_or_assignment_screen_ctrl.dart';
+
+import '../../Utility/filter_textformfield.dart';
 
 class AssignAssignmentPopup1 extends StatefulWidget {
   const AssignAssignmentPopup1({Key? key}) : super(key: key);
@@ -50,7 +54,7 @@ class _AssignAssignmentPopup1State extends State<AssignAssignmentPopup1> {
                   children: [
                     const Text(""),
                     Text("Assigned To", style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: Colors.black),),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back();
                       },
@@ -61,91 +65,73 @@ class _AssignAssignmentPopup1State extends State<AssignAssignmentPopup1> {
                   height: 2.h,
                 ),
                 Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.0),
-                    border: Border.all(
-                        color: BaseColors.borderColor
-                    ),
-                  ),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),border: Border.all(color: Color(0xFFCECECE),width: 1)),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Flexible(
-                            flex: 1,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 10.0,),
-                              child: Row(
-                                children: [
-                                  SvgPicture.asset(classTakenSvg,height: 15,),
-                                  SizedBox(
-                                    width: 2.w,
-                                  ),
-                                  Text("Grade 3", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                                  const Spacer(),
-                                  const Icon(
-                                    Icons.arrow_drop_down,
-                                  )
-                                ],
-                              ),
-                            ),
+                          CustomFilterDropDown(
+                            initialValue: DummyLists.initialGrade,
+                            hintText: 'Grade 3',
+                            listData: DummyLists.gradeData,
+                            onChange: (value) {
+                              setState(() {
+                                DummyLists.initialGrade = value;
+                              });
+                            },
+                            icon: classTakenSvg,
                           ),
                           Container(
-                            width: 1,
-                            height: 25,
-                            color: BaseColors.borderColor,
-                          ),
-                          Flexible(
-                            flex: 1,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
-                              child: Row(
-                                children: [
-                                  SvgPicture.asset(classTakenSvg,height: 15,),
-                                  SizedBox(
-                                    width: 2.w,
-                                  ),
-                                  Text("H1", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                                  const Spacer(),
-                                  const Icon(
-                                    Icons.arrow_drop_down,
-                                  )
-                                ],
-                              ),
+                            child: VerticalDivider(
+                              width: 1,
                             ),
+                            height: 4.h,
+                            width: 1,
+                          ),
+                          CustomFilterDropDown(
+                            initialValue: DummyLists.initialClass,
+                            hintText: 'H1',
+                            listData: DummyLists.classData,
+                            onChange: (value) {
+                              setState(() {
+                                DummyLists.initialClass = value;
+                              });
+                            },
+                            icon: classTakenSvg,
                           ),
                         ],
                       ),
-                      const Divider(height: 0.0,),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0,),
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(jobDetailSvg,height: 15,),
-                            SizedBox(
-                              width: 2.w,
-                            ),
-                            Text("Term 1", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                            const Spacer(),
-                            const Icon(
-                              Icons.arrow_drop_down,
-                            )
-                          ],
-                        ),
+                      Divider(
+                        height: 1,
+                        thickness: 1,
                       ),
-                      const Divider(height: 0.0,),
-                      CustomTextField(
-                        controller: searchCtrl,
-                        hintText: translate(context).search_by_id,
-                        borderColor: Colors.transparent,
-                        contentPadding: const EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
-                        prefixIcon: const Padding(
-                          padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                          child: Icon(
-                            Icons.search,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CustomFilterDropDown(
+                            initialValue: DummyLists.initialTerm,
+                            hintText: 'Term 1',
+                            listData: DummyLists.termData,
+                            onChange: (value) {
+                              setState(() {
+                                DummyLists.initialTerm = value;
+                              });
+                            },
+                            icon: jobDetailSvg,
                           ),
-                        ),
-                      )
+                        ],
+                      ),
+                      Divider(
+                        height: 1,
+                        thickness: 1,
+                      ),
+                      FilterTextFormField(
+                        onChange: (String val) {},
+                        hintText: "Search Star,ID...",
+                        keyBoardType: TextInputType.name,
+                      ),
                     ],
                   ),
                 ),
@@ -185,7 +171,7 @@ class _AssignAssignmentPopup1State extends State<AssignAssignmentPopup1> {
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 10.0),
-                      child: InkWell(
+                      child: GestureDetector(
                         onTap: (){
                           selectedFMOPos = index;
                           setState(() {});

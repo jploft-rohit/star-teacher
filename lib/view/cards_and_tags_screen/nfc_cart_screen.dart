@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
 
-import 'package:staff_app/Utility/base_colors.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/view/cards_and_tags_screen/card_tag_ctrl.dart';
 import 'package:staff_app/view/cards_and_tags_screen/wallet_pay_popup.dart';
 import 'package:staff_app/view/shop_screen/cart/cart_card_detail.dart';
@@ -44,7 +44,7 @@ class _NFCCartScreenState extends State<NFCCartScreen> {
                 shrinkWrap: true,
                 itemCount: 2,
                 itemBuilder: (context, index) => buildCartCard(
-                    'assets/images/Rectangle 429.png', 'NFC Tags', '15 AED', 2),
+                    'assets/delete/Rectangle 429.png', 'NFC Tags', '15 AED', 2),
               ),
               SizedBox(height:2.h),
               Container(
@@ -75,7 +75,7 @@ class _NFCCartScreenState extends State<NFCCartScreen> {
                         radioButton(() {
                           controller.schoolDelivertSelected();
                         }, controller.isSchoolDelivery.value,
-                            'Pick-up from school'),
+                            'Handover to school'),
                       ],
                     )),
                     SizedBox(height:1.h),
@@ -94,7 +94,7 @@ class _NFCCartScreenState extends State<NFCCartScreen> {
               Row(
                 children: [
                   Expanded(
-                    child: BaseButton(title: "PROCEED TO PAY", onPressed: (){
+                    child: BaseButton(removeHorizontalPadding: true,title: "PROCEED TO PAY", onPressed: (){
                       showGeneralDialog(
                         context: context,
                         pageBuilder:  (context, animation, secondaryAnimation) {

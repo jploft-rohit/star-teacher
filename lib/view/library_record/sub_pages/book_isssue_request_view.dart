@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/base_tab_button.dart';
-import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
+import 'package:staff_app/utility/base_views/base_tab_button.dart';
+import 'package:staff_app/utility/base_views/base_toggle_tab_bar.dart';
 
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/library_record/library_record_controller.dart';
 
@@ -228,7 +228,7 @@ class _BookIssueViewState extends State<BookIssueView> with SingleTickerProvider
                     children: [
                       SizedBox(width: 1.h),
                       Image.asset(
-                        'assets/images/Rectangle 704.png',
+                        'assets/delete/Rectangle 704.png',
                       ),
                       SizedBox(width: 1.h),
                       Expanded(
@@ -286,8 +286,7 @@ class _BookIssueViewState extends State<BookIssueView> with SingleTickerProvider
     return Row(
       children: [
         Expanded(
-          child: InkWell(
-            borderRadius: BorderRadius.circular(8),
+          child: GestureDetector(
             onTap: onTap1,
             child: Container(
               alignment: Alignment.center,
@@ -311,8 +310,7 @@ class _BookIssueViewState extends State<BookIssueView> with SingleTickerProvider
         ),
         SizedBox(width: 0.7.h),
         Expanded(
-          child: InkWell(
-            borderRadius: BorderRadius.circular(8),
+          child: GestureDetector(
             onTap: onTap2,
             child: Container(
               alignment: Alignment.center,
@@ -336,8 +334,7 @@ class _BookIssueViewState extends State<BookIssueView> with SingleTickerProvider
         ),
         SizedBox(width: 0.7.h),
         Expanded(
-          child: InkWell(
-            borderRadius: BorderRadius.circular(8),
+          child: GestureDetector(
             onTap: onTap3,
             child: Container(
               alignment: Alignment.center,
@@ -361,8 +358,7 @@ class _BookIssueViewState extends State<BookIssueView> with SingleTickerProvider
         ),
         SizedBox(width: 0.7.h),
         Expanded(
-          child: InkWell(
-            borderRadius: BorderRadius.circular(8),
+          child: GestureDetector(
             onTap: onTap4,
             child: Container(
               alignment: Alignment.center,

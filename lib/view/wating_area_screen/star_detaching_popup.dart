@@ -3,9 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 
 class StarDetachingPopup extends StatefulWidget {
   const StarDetachingPopup({Key? key}) : super(key: key);
@@ -41,7 +41,7 @@ class _StarDetachingPopupState extends State<StarDetachingPopup> {
                   children: [
                     Text(""),
                     Text("Star Detaching", style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: Colors.black),),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back();
                       },
@@ -106,7 +106,7 @@ class _StarDetachingPopupState extends State<StarDetachingPopup> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         index = 0;
                         setState(() {});
@@ -134,7 +134,7 @@ class _StarDetachingPopupState extends State<StarDetachingPopup> {
                     SizedBox(
                       width: 5.w,
                     ),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         index = 1;
                         setState(() {});

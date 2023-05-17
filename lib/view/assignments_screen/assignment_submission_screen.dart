@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/assignments_screen/assignment_screen_ctrl.dart';
 import 'package:text_to_speech/text_to_speech.dart';
@@ -127,7 +128,7 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                     ),
                     child: Stack(
                       children: [
-                        Image.asset("assets/images/Rectangle 446.png"),
+                        Image.asset("assets/delete/Rectangle 446.png"),
                         Center(
                           child: Container(
                             height: 200.0,
@@ -164,12 +165,12 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                           width: 2.w,
                         ),
                         Flexible(
-                          child: InkWell(
+                          child: GestureDetector(
                             onTap: () async {
                               await tts.speak(ctrl.mcqList[pageIndex]['question']);
                             },
                             child: Text("${ctrl.mcqList[pageIndex]['question']}",
-                            style: Style.montserratBoldStyle().copyWith(fontSize: 20.sp, color: BaseColors.primaryColor, fontWeight: FontWeight.w700),textAlign: TextAlign.center,),
+                            style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: BaseColors.primaryColor, fontWeight: FontWeight.w700),textAlign: TextAlign.center,),
                           ),
                         ),
                       ],
@@ -184,7 +185,7 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
-                      return InkWell(
+                      return GestureDetector(
                         onTap: () async {
                           selectedFMOPos = index;
                           await tts.speak(ctrl.mcqList[pageIndex]['ans'][index]);
@@ -202,10 +203,10 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              addText(ctrl.mcqList[pageIndex]['ans'][index], 17.sp, selectedFMOPos == index ? BaseColors.primaryColor : BaseColors.textBlackColor, selectedFMOPos == index ? FontWeight.w700 : FontWeight.w400),
+                              addText(ctrl.mcqList[pageIndex]['ans'][index], 16.sp, selectedFMOPos == index ? BaseColors.primaryColor : BaseColors.textBlackColor, selectedFMOPos == index ? FontWeight.w700 : FontWeight.w400),
                               Row(
                                 children: [
-                                  SvgPicture.asset(soundOnImg, height: 18.sp,),
+                                  SvgPicture.asset(soundOnImg, height: 16.sp,),
                                   SizedBox(
                                     width: 2.w,
                                   ),
@@ -384,7 +385,7 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                     }else{
                       Get.back();
                     }
-                  }),
+                  },btnType: largeButton,),
                   SizedBox(
                     height: 1.h,
                   ),

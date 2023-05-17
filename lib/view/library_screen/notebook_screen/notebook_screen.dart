@@ -3,20 +3,24 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_floating_action_button.dart';
-import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
+import 'package:staff_app/utility/base_views/base_toggle_tab_bar.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
-import 'package:staff_app/Utility/base_dialogs.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/Utility/custom_filter_dropdown.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
+import 'package:staff_app/Utility/dummy_lists.dart';
+import 'package:staff_app/Utility/filter_textformfield.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/constants-classes/color_constants.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/library_screen/notebook_screen/add_todo_note.dart';
 import 'package:staff_app/view/library_screen/notebook_screen/notebook_detail_screen.dart';
-import 'package:staff_app/view/library_screen/notebook_screen/notebook_screen_ctrl.dart';
+import 'package:staff_app/view/library_screen/ctrl/notebook_ctrl.dart';
 
 class NoteBookScreen extends StatefulWidget {
   const NoteBookScreen({Key? key}) : super(key: key);
@@ -26,6 +30,7 @@ class NoteBookScreen extends StatefulWidget {
 }
 
 class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProviderStateMixin{
+  NotebookCtrl controller = Get.put(NotebookCtrl());
   late TabController tabController;
 
   @override
@@ -71,91 +76,75 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
         children: [
           Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15.0),
+              borderRadius: BorderRadius.circular(10.0),
               border: Border.all(
-                  color: BaseColors.borderColor
+                  color: ColorConstants.borderColor
               ),
             ),
             child: Column(
               children: [
                 Row(
                   children: [
-                    Flexible(
-                      flex: 1,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0,),
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(classTakenSvg,height: 15,),
-                            SizedBox(
-                              width: 2.w,
-                            ),
-                            Text("Grade 3", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                            const Spacer(),
-                            const Icon(
-                              Icons.arrow_drop_down,
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: 1,
-                      height: 25,
-                      color: BaseColors.borderColor,
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(classTakenSvg,height: 15,),
-                            SizedBox(
-                              width: 2.w,
-                            ),
-                            Text("H1", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                            const Spacer(),
-                            const Icon(
-                              Icons.arrow_drop_down,
-                            )
-                          ],
-                        ),
-                      ),
+                    CustomFilterDropDown(
+                      initialValue: DummyLists.initialSchool,
+                      hintText: 'School',
+                      listData: DummyLists.schoolData,
+                      onChange: (value) {
+                        setState(() {
+                          DummyLists.initialSchool = value;
+                        });
+                      },
+                      icon: classTakenSvg,
                     ),
                   ],
                 ),
-                const Divider(height: 0.0,),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0,),
-                  child: Row(
-                    children: [
-                      SvgPicture.asset(jobDetailSvg,height: 15,),
-                      SizedBox(
-                        width: 2.w,
-                      ),
-                      Text("Term 1", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                      const Spacer(),
-                      const Icon(
-                        Icons.arrow_drop_down,
-                      )
-                    ],
-                  ),
+                Divider(
+                  height: 1,
+                  thickness: 1,
                 ),
-                const Divider(height: 0.0),
-                CustomTextField(
-                  controller: TextEditingController(),
-                  hintText: translate(context).search_by_id,
-                  borderColor: Colors.transparent,
-                  hintTextColor: BaseColors.textLightGreyColor,
-                  contentPadding: const EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
-                  prefixIcon: const Padding(
-                    padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                    child: Icon(
-                      Icons.search,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomFilterDropDown(
+                      initialValue: DummyLists.initialGrade,
+                      hintText: 'Grade 3',
+                      listData: DummyLists.gradeData,
+                      onChange: (value) {
+                        setState(() {
+                          DummyLists.initialGrade = value;
+                        });
+                      },
+                      icon: classTakenSvg,
                     ),
-                  ),
-                )
+                    Container(
+                      child: VerticalDivider(
+                        width: 1,
+                      ),
+                      height: 4.h,
+                      width: 1,
+                    ),
+                    CustomFilterDropDown(
+                      initialValue: DummyLists.initialClass,
+                      hintText: 'H1',
+                      listData: DummyLists.classData,
+                      onChange: (value) {
+                        setState(() {
+                          DummyLists.initialClass = value;
+                        });
+                      },
+                      icon: classTakenSvg,
+                    ),
+                  ],
+                ),
+                Divider(
+                  height: 1,
+                  thickness: 1,
+                ),
+                FilterTextFormField(
+                  onChange: (String val) {},
+                  hintText: "Search Star,ID...",
+                  keyBoardType: TextInputType.name,
+                ),
               ],
             ),
           ),
@@ -167,7 +156,7 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemBuilder: (context, index) {
-              return InkWell(
+              return GestureDetector(
                 onTap: (){
                   Get.to(const NotebookDetailScreen());
                 },
@@ -186,7 +175,7 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
                             borderRadius: BorderRadius.circular(15.0),
                             border: Border.all(color: BaseColors.primaryColor)
                         ),
-                        child: SvgPicture.asset(girlSvg, height: 6.h,),
+                        child: SvgPicture.asset(girlSvg, height: 6.h),
                       ),
                       SizedBox(
                         width: 3.w,
@@ -196,7 +185,7 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
                         children: [
                           Text("Sania", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                           SizedBox(
-                            height: .2.h,
+                            height: .5.h,
                           ),
                           Container(
                             width: 30.w,
@@ -204,11 +193,11 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
                             color: BaseColors.borderColor,
                           ),
                           SizedBox(
-                            height: .2.h,
+                            height: .5.h,
                           ),
                           Text("#562665", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                           SizedBox(
-                            height: .2.h,
+                            height: .5.h,
                           ),
                           Container(
                             width: 30.w,
@@ -216,7 +205,7 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
                             color: BaseColors.borderColor,
                           ),
                           SizedBox(
-                            height: .2.h,
+                            height: .5.h,
                           ),
                           Row(
                             children: [
@@ -225,7 +214,7 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
                             ],
                           ),
                           SizedBox(
-                            height: .2.h,
+                            height: .5.h,
                           ),
                           Container(
                             width: 30.w,
@@ -233,7 +222,7 @@ class _NoteBookScreenState extends State<NoteBookScreen> with SingleTickerProvid
                             color: BaseColors.borderColor,
                           ),
                           SizedBox(
-                            height: .2.h,
+                            height: .5.h,
                           ),
                           Row(
                             children: [

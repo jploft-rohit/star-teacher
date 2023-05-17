@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/view/shop_screen/cart/cart_card_detail.dart';
 import 'package:staff_app/view/shop_screen/shop_screen_ctrl.dart';
 import 'package:staff_app/view/wallet/sub_screens/cartd_detail_popup.dart';
 
 class CartView extends StatefulWidget {
-  const CartView({super.key});
+  final bool? isStationery, isStarsStore;
+  const CartView({super.key, this.isStationery, this.isStarsStore});
 
   @override
   State<CartView> createState() => _CartViewState();
@@ -34,16 +35,14 @@ class _CartViewState extends State<CartView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              addText('Items', 15.sp,
-                  BaseColors.textBlackColor, FontWeight.w400),
+              addText('Items', 15.sp, BaseColors.textBlackColor, FontWeight.w400),
               SizedBox(height: 2.h),
               ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 padding: EdgeInsets.zero,
                 shrinkWrap: true,
                 itemCount: 2,
-                itemBuilder: (context, index) => buildCartCard(
-                    'assets/images/Rectangle 429.png', 'NFC Tags', '15 AED', 2),
+                itemBuilder: (context, index) => buildCartCard((widget.isStationery??false) ? "assets/delete/pen_notebook.png" : 'assets/delete/Rectangle 429.png', (widget.isStationery??false) ? "Notebook" : 'NFC Tags', '15 AED', 2),
               ),
               SizedBox(height:2.h),
               Container(
@@ -98,7 +97,7 @@ class _CartViewState extends State<CartView> {
                       return const CartCardDetail();
                     },
                   );
-                }),
+                },btnType: largeButton,),
               ),
               SizedBox(height:3.h),
             ],

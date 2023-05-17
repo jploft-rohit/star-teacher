@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/backend/responses_model/my_profile_response.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 
 class FamilyDetailsScreen extends StatefulWidget {
-  const FamilyDetailsScreen({Key? key}) : super(key: key);
+  final FamilyMembers? data;
+  const FamilyDetailsScreen({Key? key, required this.data}) : super(key: key);
 
   @override
   State<FamilyDetailsScreen> createState() => _FamilyDetailsScreenState();
 }
 
 class _FamilyDetailsScreenState extends State<FamilyDetailsScreen> {
+  final String na = translate(Get.context!).na;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,17 +35,17 @@ class _FamilyDetailsScreenState extends State<FamilyDetailsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(width: double.infinity),
-                buildInfoItems(translate(context).name, 'Salma Khan'),
+                buildInfoItems(translate(context).name, widget.data?.fullName??na),
                 const SizedBox(height: 10),
-                buildInfoItems(translate(context).relation, 'Mother'),
+                buildInfoItems(translate(context).relation, widget.data?.relation??na),
                 const SizedBox(height: 10),
-                buildInfoItems(translate(context).dob, '14/12/1997'),
+                buildInfoItems(translate(context).dob, widget.data?.dob??na),
                 const SizedBox(height: 10),
-                buildInfoItems(translate(context).mobile_no, '9314117117'),
+                buildInfoItems(translate(context).mobile_no, widget.data?.mobile??na),
                 const SizedBox(height: 10),
                 buildInfoItems(translate(context).upload_id, 'doc.pdf'),
                 const SizedBox(height: 10),
-                buildInfoItems(translate(context).expiry_date, '15/10/2020'),
+                buildInfoItems(translate(context).expiry_date, widget.data?.emirateIdExpire??na),
               ],
             ),
           ),

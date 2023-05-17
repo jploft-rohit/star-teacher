@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/assignments_screen/assignment_screen.dart';
 import 'package:staff_app/view/library_screen/notebook_screen/notebook_screen.dart';
@@ -119,7 +119,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   hintText: translate(context).search,
                   suffixIcon: controller.selectedFMOPos.value == 2 ? const SizedBox() : Padding(
                     padding: const EdgeInsetsDirectional.only(end: 10.0),
-                    child: SvgPicture.asset(controller.fmoImageList[controller.selectedFMOPos.value]),
+                    child: SvgPicture.asset(controller.fmoImageList[controller.selectedFMOPos.value],color: BaseColors.primaryColor,),
                   ),
                 );
               },

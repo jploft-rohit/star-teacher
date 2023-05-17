@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/view/star_gallery/star_gallery_screen.dart';
 
 class HomePhotoTab extends StatefulWidget {
   const HomePhotoTab({Key? key}) : super(key: key);
@@ -30,20 +31,26 @@ class _HomePhotoTabState extends State<HomePhotoTab> {
         physics: NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
-          mainAxisExtent: 90,
-          mainAxisSpacing: 5,
-          crossAxisSpacing: 5,
+          mainAxisSpacing: 1.5.h,
+          crossAxisSpacing: 1.h,
+          mainAxisExtent: 17.h,
         ),
         itemBuilder: (context,index){
-          return Container(
-            height: 60,
-            width: 60,
-            padding: EdgeInsets.all(4),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: BaseColors.primaryColor,width: 1),
+          return GestureDetector(
+            onTap: (){
+              Get.to(StarGalleryScreen());
+            },
+            child: Container(
+              padding: EdgeInsets.all(2),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                border: Border.all(color: BaseColors.primaryColor,width: 1),
+              ),
+              child:
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(13),
+                  child: Image.asset(imagesList[index],fit: BoxFit.cover,)),
             ),
-            child: Image.asset(imagesList[index],fit: BoxFit.fill,height: 60,width: 60,),
           );
         });
   }

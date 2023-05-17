@@ -4,14 +4,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_floating_action_button.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/my_profile_screen/medical_report_view/add_medical_file_popup.dart';
 import 'package:staff_app/view/my_profile_screen/medical_report_view/medical_report_view_ctrl.dart';
@@ -165,11 +165,12 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                         ],
                       ),
                     ),
+                    SizedBox(width: 6),
                     Column(
                       children: [
-                        buildDeactivated(),
+                        // buildDeactivated(),
                         const SizedBox(height: 5,),
-                        InkWell(onTap: (){
+                        GestureDetector(onTap: (){
                           showScanQrDialogue(context, false);
                         },child: SvgPicture.asset(qrCodeSvg, height: 5.h,))
                       ],
@@ -202,737 +203,11 @@ class _MedicalReportViewState extends State<MedicalReportView> {
         child: Theme(
           data: Theme.of(context)
               .copyWith(dividerColor: Colors.transparent),
-          // child: ExpansionTile(
-          //     childrenPadding: EdgeInsets.zero,
-          //     iconColor: CustomColors.primaryColor,
-          //     collapsedIconColor: CustomColors.primaryColor,
-          //     tilePadding: EdgeInsets.zero,
-          //     initiallyExpanded: true,
-          //     title: Row(
-          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //       children: [
-          //         Text(
-          //           translate(context).medical_survey, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp),),
-          //         GestureDetector(
-          //           onTap: () {
-          //
-          //           },
-          //           child: buildSaveButton(),
-          //         ),
-          //       ],
-          //     ),
-          //     backgroundColor: CustomColors.white,
-          //     expandedCrossAxisAlignment: CrossAxisAlignment.start,
-          //     children: <Widget>[
-          //
-          //       SizedBox(height: 1.h,),
-          //       Text(translate(context).do_you_want_to_use_school_canteen_services, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
-          //       SizedBox(height: 1.h,),
-          //       Align(
-          //         alignment: AlignmentDirectional.topStart,
-          //         child: SizedBox(
-          //           height: 4.h,
-          //           child: ListView.builder(
-          //             itemCount: yesNoList.length,
-          //             scrollDirection: Axis.horizontal,
-          //             shrinkWrap: true,
-          //             physics: const NeverScrollableScrollPhysics(),
-          //             itemBuilder: (context, index) {
-          //               return GestureDetector (
-          //                 onTap: (){
-          //                   allergicSelectedPos = index;
-          //                   setState(() {});
-          //                 },
-          //                 child: Container(
-          //                   height: 4.h,
-          //                   width: 20.w,
-          //                   margin: const EdgeInsets.only(right: 10),
-          //                   decoration: allergicSelectedPos == index ? getPrimaryDecoration() : getEditTextDecoration(),
-          //                   child: Center(child: Text(yesNoList[index], style: Style.montserratRegularStyle().copyWith(color: allergicSelectedPos == index ? CustomColors.primaryColor : CustomColors.borderColor, fontSize: 15.sp),)),
-          //                 ),
-          //               );
-          //             },
-          //           ),
-          //         ),
-          //       ),
-          //       Container(
-          //         width: 100.w,
-          //         margin: const EdgeInsets.symmetric(vertical: 20),
-          //         padding: const EdgeInsets.all(20),
-          //         decoration: BoxDecoration(
-          //             border: Border.all(color: CustomColors.primaryColor),
-          //             color: CustomColors.white,
-          //             borderRadius: BorderRadius.circular(10.0),
-          //         ), child: Column(
-          //         crossAxisAlignment: CrossAxisAlignment.start,
-          //         children: [
-          //           Text(translate(context).are_you_allergic_to_any_food,style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
-          //           SizedBox(height: 1.h,),
-          //           SizedBox(
-          //             height: 4.h,
-          //             child: ListView.builder(
-          //               itemCount: yesNoList.length,
-          //               scrollDirection: Axis.horizontal,
-          //               shrinkWrap: true,
-          //               physics: const NeverScrollableScrollPhysics(),
-          //               itemBuilder: (context, index) {
-          //                 return GestureDetector (
-          //                   onTap: (){
-          //                     useCanteenServicesPos = index;
-          //                     setState(() {});
-          //                   },
-          //                   child: Container(
-          //                     height: 4.h,
-          //                     width: 20.w,
-          //                     margin: const EdgeInsets.only(right: 10),
-          //                     decoration: useCanteenServicesPos == index ? getPrimaryDecoration() : getEditTextDecoration(),
-          //                     child: Center(child: Text(yesNoList[index], style: Style.montserratRegularStyle().copyWith(color: useCanteenServicesPos == index ? CustomColors.primaryColor : CustomColors.borderColor, fontSize: 15.sp),)),
-          //                   ),
-          //                 );
-          //               },
-          //             ),
-          //           ),
-          //           SizedBox(height: 1.h,),
-          //           Visibility(
-          //             visible: useCanteenServicesPos == 0,
-          //             child: ListView.builder(
-          //               itemCount: allergyFoodList.length,
-          //               physics: const NeverScrollableScrollPhysics(),
-          //               shrinkWrap: true,
-          //               itemBuilder: (_, int index) {
-          //                 return CheckboxListTile(
-          //                   contentPadding: EdgeInsets.zero,
-          //                   visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
-          //                   activeColor: CustomColors.backgroundColor,
-          //                   checkColor: CustomColors.primaryColor,
-          //                   dense: true,
-          //                   checkboxShape: RoundedRectangleBorder(
-          //                     borderRadius: BorderRadius.circular(2.0),
-          //                   ),
-          //                   side: MaterialStateBorderSide.resolveWith(
-          //                         (states) => const BorderSide(width: 1.0, color: CustomColors.primaryColor,),
-          //                   ),
-          //                   title: Text(allergyFoodList[index],style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
-          //                   value: selectedAllergicFoodList.contains(allergyFoodList[index]),
-          //                   onChanged: (_) {
-          //                     if (selectedAllergicFoodList.contains(allergyFoodList[index])) {
-          //                       selectedAllergicFoodList.remove(allergyFoodList[index]);  // unselect
-          //                     } else {
-          //                       selectedAllergicFoodList.add(allergyFoodList[index]); // select
-          //                     }
-          //                     setState(() {});
-          //                   },
-          //                   controlAffinity: ListTileControlAffinity.leading,
-          //                 );
-          //               },
-          //             ),
-          //           ),
-          //
-          //           Visibility(
-          //             visible: useCanteenServicesPos == 0,
-          //             child: Center(child: GestureDetector(
-          //               onTap: () {
-          //
-          //               },
-          //               child: buildSaveButton(),
-          //             )),
-          //           )
-          //         ],
-          //       ),
-          //       ),
-          //
-          //       //medical History
-          //       Align(
-          //           alignment: AlignmentDirectional.topStart,
-          //           child: Text(translate(context).medical_history,style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),)),
-          //
-          //       Divider(
-          //         color: CustomColors.borderColor,
-          //         thickness: 1.0,
-          //       ),
-          //
-          //
-          //       Container(
-          //         color: Colors.white,
-          //         child: Table(
-          //           columnWidths: const {
-          //             0: FlexColumnWidth(3),
-          //             1: FlexColumnWidth(1),
-          //             2: FlexColumnWidth(1),
-          //             3: FlexColumnWidth(2),
-          //           },
-          //           children: [
-          //             TableRow(
-          //                 children: [
-          //               Center(child: Text(translate(context).infectious_diseases,style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
-          //               Center(child: Text(translate(context).yes.toUpperCase(),style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
-          //               Center(child: Text(translate(context).no.toUpperCase(),style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
-          //               Center(child: Text(translate(context).details.toUpperCase(),style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
-          //             ]),
-          //           ],
-          //         ),
-          //       ),
-          //
-          //
-          //       SizedBox(height: 2.h,),
-          //
-          //       GetBuilder<MedicalReportViewCtrl>(
-          //         builder: (controller) {
-          //           return ListView.builder(
-          //             itemCount: controller.infectiousDiseaseList.length,
-          //             scrollDirection: Axis.vertical,
-          //             shrinkWrap: true,
-          //             physics: const NeverScrollableScrollPhysics(),
-          //             itemBuilder: (context, index) {
-          //               return Container(
-          //                 color: Colors.white,
-          //                 child: Table(
-          //                   border: TableBorder.all(color: CustomColors.borderColor.withOpacity(0.5),width: 1),
-          //                   columnWidths: const {
-          //                     0: FlexColumnWidth(3),
-          //                     1: FlexColumnWidth(1),
-          //                     2: FlexColumnWidth(1),
-          //                     3: FlexColumnWidth(2),
-          //                   },
-          //                   children: [
-          //                     TableRow(
-          //                         children: [
-          //                           Padding(
-          //                             padding:  EdgeInsets.symmetric(vertical: 2.h,horizontal: 1.w),
-          //                             child: Text(controller.infectiousDiseaseList[index]['title'], style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
-          //                           ),
-          //                           Padding(
-          //                             padding:  EdgeInsets.symmetric(vertical: 0.h),
-          //                             child: Radio(
-          //                                 toggleable: true,
-          //                                 activeColor: CustomColors.primaryColor, fillColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-          //                                 focusColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-          //                                 overlayColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-          //                                 value: index,
-          //                                 groupValue: controller.infectiousDiseaseList[index]['isSelected'],
-          //                                 onChanged: (index1) {
-          //                                   controller.infectiousDiseaseList[index]['isSelected1'] = -1;
-          //                                   controller.infectiousDiseaseList[index]['isSelected'] = int.tryParse(index1.toString()) ?? 0;
-          //                                   controller.update();
-          //                                 }),
-          //                           ),
-          //                           Padding(
-          //                             padding:  EdgeInsets.symmetric(vertical: 0.h),
-          //                             child: SizedBox(
-          //                               width : 10.w,
-          //                               child: Radio(
-          //                                 activeColor: CustomColors.primaryColor,
-          //                                 fillColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-          //                                 focusColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-          //                                 overlayColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-          //                                 toggleable: true,
-          //                                 value: index, groupValue: controller.infectiousDiseaseList[index]['isSelected1'],
-          //                                 onChanged: (index1) {
-          //                                   print("adfasf1: $index1");
-          //                                   controller.infectiousDiseaseList[index]['isSelected'] = -1;
-          //                                   controller.infectiousDiseaseList[index]['isSelected1'] = int.tryParse(index1.toString()) ?? 0;
-          //                                   controller.update();
-          //                                 },
-          //                               ),
-          //                             ),
-          //                           ),
-          //                           controller.infectiousDiseaseList[index]['isSelected'] >= 0 ?
-          //                           Padding(
-          //                             padding:  EdgeInsets.symmetric(vertical: 2.h,horizontal: 2.w),
-          //                             child: SvgPicture.asset(uploadDocSvg,),
-          //                           ) : SizedBox(),
-          //                         ]),
-          //                   ],
-          //                 ),
-          //               );
-          //             },
-          //           );
-          //         },
-          //       ),
-          //
-          //       SizedBox(height: 2.h,),
-          //
-          //       Center(
-          //         child: GestureDetector(
-          //           onTap: (){},
-          //           child: buildSaveButton(),
-          //         ),
-          //       ),
-          //
-          //       Divider(
-          //         color: CustomColors.borderColor,
-          //         thickness: 1.0,
-          //       ),
-          //       SizedBox(height: 2.h,),
-          //       Container(
-          //         color: Colors.white,
-          //         child: Table(
-          //           columnWidths: const {
-          //             0: FlexColumnWidth(3),
-          //             1: FlexColumnWidth(1),
-          //             2: FlexColumnWidth(1),
-          //             3: FlexColumnWidth(2),
-          //           },
-          //           children: [
-          //             TableRow(children: [
-          //               Center(child: Text(translate(context).disease_condition,style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
-          //               Center(child: Text(translate(context).yes.toUpperCase(),style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
-          //               Center(child: Text(translate(context).no.toUpperCase(),style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
-          //               Center(child: Text(translate(context).details.toUpperCase(),style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),)),
-          //             ]),
-          //           ],
-          //         ),
-          //       ),
-          //
-          //       SizedBox(height: 2.h,),
-          //
-          //       GetBuilder<MedicalReportViewCtrl>(
-          //         builder: (controller) {
-          //           return ListView.builder(
-          //             itemCount: controller.diseaseConditionList.length,
-          //             scrollDirection: Axis.vertical,
-          //             shrinkWrap: true,
-          //             physics: const NeverScrollableScrollPhysics(),
-          //             itemBuilder: (context, index) {
-          //               return Container(
-          //                 color: Colors.white,
-          //                 child: Table(
-          //                   border: TableBorder.all(color: CustomColors.borderColor.withOpacity(0.5),width: 1),
-          //                   columnWidths: const {
-          //                     0: FlexColumnWidth(3),
-          //                     1: FlexColumnWidth(1),
-          //                     2: FlexColumnWidth(1),
-          //                     3: FlexColumnWidth(2),
-          //                   },
-          //                   children: [
-          //                     TableRow(
-          //                         children: [
-          //                           Padding(
-          //                             padding:  EdgeInsets.symmetric(vertical: 2.h,horizontal: 1.w),
-          //                             child: Text(controller.diseaseConditionList[index]['title'],style: Style.montserratRegularStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
-          //                           ),
-          //                           Padding(
-          //                             padding:  EdgeInsets.symmetric(vertical: 0.h),
-          //                             child: Radio(
-          //                                 toggleable: true,
-          //                                 activeColor: CustomColors.primaryColor, fillColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-          //                                 focusColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-          //                                 overlayColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-          //                                 value: index, groupValue: controller.diseaseConditionList[index]['isSelected'],
-          //                                 onChanged: (index1) {
-          //                                   controller.diseaseConditionList[index]['isSelected1'] = -1;
-          //                                   controller.diseaseConditionList[index]['isSelected'] = int.tryParse(index1.toString()) ?? 0;
-          //                                   controller.update();
-          //                                 }),
-          //                           ),
-          //                           Padding(
-          //                             padding:  EdgeInsets.symmetric(vertical: 0.h),
-          //                             child: SizedBox(
-          //                               width : 10.w,
-          //                               child: Radio(
-          //                                   activeColor: CustomColors.primaryColor, fillColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-          //                                   focusColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-          //                                   overlayColor: MaterialStateColor.resolveWith((states) => CustomColors.primaryColor),
-          //                                   toggleable: true,
-          //                                   value: index, groupValue: controller.diseaseConditionList[index]['isSelected1'], onChanged: (index1) {
-          //                                 controller.diseaseConditionList[index]['isSelected'] = -1;
-          //                                 controller.diseaseConditionList[index]['isSelected1'] = int.tryParse(index1.toString()) ?? 0;
-          //                                 controller.update();
-          //                               }),
-          //                             ),
-          //                           ),
-          //                           controller.diseaseConditionList[index]['isSelected'] >= 0 ?
-          //                           Padding(
-          //                             padding:  EdgeInsets.symmetric(vertical: 2.h,horizontal: 2.w),
-          //                             child: SvgPicture.asset(uploadDocSvg,),
-          //                           ) : SizedBox(),
-          //                         ]),
-          //                   ],
-          //                 ),
-          //               );
-          //             },
-          //           );
-          //         },
-          //       ),
-          //       SizedBox(height: 2.h,),
-          //
-          //       Center(
-          //         child: GestureDetector(
-          //           onTap: (){},
-          //           child: buildSaveButton(),
-          //         ),
-          //       ),
-          //       SizedBox(height: 2.h,),
-          //       Align(
-          //         alignment: AlignmentDirectional.topStart,
-          //         child: Text('${translate(context).history_of} :',style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),),
-          //       ),
-          //       Row(
-          //         children: [
-          //
-          //           Expanded(
-          //               flex: 3,
-          //               child: Text('${translate(context).blood_transfusion} :',style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),)),
-          //
-          //           Flexible(
-          //             flex: 2,
-          //             child: RadioButton(
-          //                 description: translate(Get.context!).yes,
-          //                 value: translate(Get.context!).yes,
-          //                 groupValue: bloodTransfusionValue,
-          //                 fillColor: CustomColors.primaryColor,
-          //                 activeColor: CustomColors.primaryColor,
-          //                 onChanged: (value) {
-          //                   bloodTransfusionValue = value.toString();
-          //                   setState(() {});
-          //                 }
-          //             ),
-          //           ),
-          //
-          //           Flexible(
-          //             flex: 2,
-          //             child: RadioButton(
-          //                 description: translate(Get.context!).no,
-          //                 value: translate(Get.context!).no,
-          //                 groupValue: bloodTransfusionValue,
-          //                 fillColor: CustomColors.primaryColor,
-          //                 activeColor: CustomColors.primaryColor,
-          //                 onChanged: (value) {
-          //                   bloodTransfusionValue = value.toString();
-          //                   setState(() {});
-          //                 }
-          //             ),
-          //           ),
-          //             SizedBox(
-          //               width: 2.w,
-          //             ),
-          //           SvgPicture.asset(uploadDocSvg,color: bloodTransfusionValue == translate(Get.context!).no ? CustomColors.white : null,),
-          //         ],
-          //       ),
-          //       Divider(
-          //         color: CustomColors.borderColor.withOpacity(0.5),
-          //         thickness: 2,
-          //         height: 1.h,
-          //       ),
-          //       Row(
-          //         children: [
-          //           Expanded(
-          //               flex: 3,
-          //               child: Text('${translate(context).hospitalization} :',style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),)),
-          //           Flexible(
-          //             flex: 2,
-          //             child: RadioButton(
-          //                 description: translate(Get.context!).yes,
-          //                 value: translate(Get.context!).yes,
-          //                 groupValue: hospitalizationValue,
-          //                 fillColor: CustomColors.primaryColor,
-          //                 activeColor: CustomColors.primaryColor,
-          //                 onChanged: (value) {
-          //                   hospitalizationValue = value.toString();
-          //                   setState(() {});
-          //                 }
-          //             ),
-          //           ),
-          //
-          //           Flexible(
-          //             flex: 2,
-          //             child:RadioButton(
-          //                 description: translate(Get.context!).no,
-          //                 value: translate(Get.context!).no,
-          //                 groupValue: hospitalizationValue,
-          //                 fillColor: CustomColors.primaryColor,
-          //                 activeColor: CustomColors.primaryColor,
-          //                 onChanged: (value) {
-          //                   hospitalizationValue = value.toString();
-          //                   setState(() {});
-          //                 }
-          //             ),
-          //           ),
-          //           // Spacer(),
-          //             SizedBox(
-          //               width: 2.w,
-          //             ),
-          //           SvgPicture.asset(uploadDocSvg,color: hospitalizationValue == translate(Get.context!).no ? CustomColors.white : null,),
-          //
-          //
-          //         ],
-          //       ),
-          //       Divider(
-          //         color: CustomColors.borderColor.withOpacity(0.5),
-          //         thickness: 2,
-          //         height: 1.h,
-          //       ),
-          //       Row(
-          //         crossAxisAlignment: CrossAxisAlignment.start,
-          //         children: [
-          //           Flexible(
-          //               flex: 1,
-          //               child: Container(
-          //                   margin: EdgeInsets.only(top: 1.5.h),
-          //                   child: Text('${translate(context).currently_using} :',style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),))),
-          //           Flexible(
-          //             flex: 1,
-          //             child: ListView.builder(
-          //               itemCount: currentlyUsingList.length,
-          //               physics: const NeverScrollableScrollPhysics(),
-          //               shrinkWrap: true,
-          //               itemBuilder: (_, int index) {
-          //                 return CheckboxListTile(
-          //                   contentPadding: EdgeInsets.zero,
-          //                   visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-          //                   activeColor: CustomColors.backgroundColor,
-          //                   checkColor: CustomColors.primaryColor,
-          //                   dense: true,
-          //                   checkboxShape: RoundedRectangleBorder(
-          //                     borderRadius: BorderRadius.circular(2.0),
-          //                   ),
-          //                   side: MaterialStateBorderSide.resolveWith(
-          //                         (states) => const BorderSide(width: 1.0, color: CustomColors.primaryColor,),
-          //                   ),
-          //                   title: Text(currentlyUsingList[index],style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
-          //                   value: selectedCurrentlyUsingList.contains(currentlyUsingList[index]),
-          //                   onChanged: (_) {
-          //                     if (selectedCurrentlyUsingList.contains(currentlyUsingList[index])) {
-          //                       selectedCurrentlyUsingList.remove(currentlyUsingList[index]);  // unselect
-          //                     } else {
-          //                       selectedCurrentlyUsingList.add(currentlyUsingList[index]); // select
-          //                     }
-          //                     setState(() {});
-          //                   },
-          //                   controlAffinity: ListTileControlAffinity.leading,
-          //                 );
-          //               },
-          //             ),)
-          //         ],
-          //       ),
-          //
-          //       Divider(
-          //         color: CustomColors.borderColor,
-          //         thickness: 1.0,
-          //       ),
-          //       Center(
-          //         child: GestureDetector(
-          //           onTap: (){},
-          //           child: buildSaveButton(),
-          //         ),
-          //       ),
-          //       SizedBox(height: 3.h,),
-          //       Align(
-          //         alignment: AlignmentDirectional.topStart,
-          //         child: Text('${translate(context).family_history} :', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),),
-          //       ),
-          //       SizedBox(height: 1.h,),
-          //       Text('Heart Disease/Diabetes/Hypertension/Mental Disorder/Stroke/Tuberculosis. Others, specify', style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp, fontWeight: FontWeight.w500),),
-          //       SizedBox(height: 1.h,),
-          //
-          //       Container(
-          //         height: 10.h,
-          //         decoration: getEditTextDecoration(),
-          //         child: CustomTextField(controller: familyHistoryController, hintText: "My grandfather has diabetes", borderColor: Colors.transparent,hintTxtSize: 15.sp,),
-          //       ),
-          //       SizedBox(height: 1.h,),
-          //       Center(
-          //         child: GestureDetector(
-          //           onTap: (){},
-          //           child: buildSaveButton(),
-          //         ),
-          //       ),
-          //       SizedBox(height: 2.h,),
-          //       // // Align(alignment: Alignment.topLeft,
-          //       // //   child: Text('Medical Examination Consent', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),),),
-          //       // // Divider(
-          //       // //   color: CustomColors.borderColor,
-          //       // //   thickness: 1.0,
-          //       // // ),
-          //       // SizedBox(height: 2.h,),
-          //       // Align(
-          //       //   alignment: Alignment.topRight,
-          //       //   child: GestureDetector(
-          //       //     onTap: () {
-          //       //
-          //       //     },
-          //       //     child: buildSaveButton(),
-          //       //   ),
-          //       // ),
-          //
-          //       Align(
-          //           alignment: AlignmentDirectional.topStart,
-          //           child: Text(translate(context).medical_examination_consent, style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),)),
-          //       SizedBox(height: 1.h,),
-          //       Text(medicalExaminationConsent, style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
-          //       Divider(
-          //         color: CustomColors.borderColor,
-          //         thickness: 1.0,
-          //       ),
-          //       Row(
-          //         crossAxisAlignment: CrossAxisAlignment.center,
-          //         mainAxisAlignment: MainAxisAlignment.start,
-          //         children: [
-          //           Checkbox(
-          //             checkColor: Colors.white,
-          //             activeColor: CustomColors.primaryColor,
-          //             value: isConsentChecked,
-          //
-          //             visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-          //             side: const BorderSide(color: CustomColors.primaryColor),
-          //             shape: RoundedRectangleBorder(
-          //               borderRadius: BorderRadius.circular(3),
-          //             ),
-          //             onChanged: (bool? value) {
-          //               isConsentChecked = value!;
-          //             },
-          //           ),
-          //
-          //           Text(translate(context).i_agree_to_attend_the_school_examination, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),)
-          //         ],
-          //       ),
-          //       SizedBox(height: 1.h,),
-          //       Center(
-          //         child: GestureDetector(
-          //           onTap: (){},
-          //           child: buildSaveButton(),
-          //         ),
-          //       ),
-          //       SizedBox(height: 2.h,),
-          //       Align(
-          //           alignment: AlignmentDirectional.topStart,
-          //           child: Text(translate(context).medication_policy, style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),)),
-          //       Divider(
-          //         color: CustomColors.borderColor,
-          //         thickness: 1.0,
-          //       ),
-          //       SizedBox(height: 1.h,),
-          //       Row(
-          //         crossAxisAlignment: CrossAxisAlignment.center,
-          //         mainAxisAlignment: MainAxisAlignment.start,
-          //         children: [
-          //           Checkbox(
-          //             checkColor: Colors.white,
-          //             activeColor: CustomColors.primaryColor,
-          //             value: isMedicationPolicyChecked,
-          //
-          //             visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-          //             side: const BorderSide(color: CustomColors.primaryColor),
-          //             shape: RoundedRectangleBorder(
-          //               borderRadius: BorderRadius.circular(3),
-          //             ),
-          //             onChanged: (bool? value) {
-          //               isMedicationPolicyChecked = value!;
-          //               setState(() {});
-          //             },
-          //           ),
-          //
-          //           Text(translate(context).i_agree_with, style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
-          //
-          //         ],
-          //       ),
-          //
-          //       SizedBox(height: 1.h,),
-          //       Text(medicationPolicy, style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
-          //       SizedBox(height: 1.h,),
-          //       Container(
-          //         width: 100.w,
-          //         margin: const EdgeInsets.symmetric(vertical: 20),
-          //         padding: const EdgeInsets.all(20),
-          //         decoration: BoxDecoration(
-          //             border: Border.all(color: CustomColors.primaryColor),
-          //             color: CustomColors.white,
-          //             boxShadow: [getBoxShadow()],
-          //             borderRadius: BorderRadius.circular(15.0)
-          //         ), child: Column(
-          //         crossAxisAlignment: CrossAxisAlignment.start,
-          //         children: [
-          //           Text(translate(context).are_you_allergic_to_any_medication, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
-          //           SizedBox(height: 1.h,),
-          //           SizedBox(
-          //             height: 4.h,
-          //             child: ListView.builder(
-          //               itemCount: yesNoList.length,
-          //               scrollDirection: Axis.horizontal,
-          //               shrinkWrap: true,
-          //               physics: const NeverScrollableScrollPhysics(),
-          //               itemBuilder: (context, index) {
-          //                 return GestureDetector(
-          //                   onTap: (){
-          //                     allergicMedicationSelectedPos = index;
-          //                     setState(() {});
-          //                   },
-          //                   child: Container(
-          //                     height: 4.h,
-          //                     width: 20.w,
-          //                     margin: const EdgeInsets.only(right: 10),
-          //                     decoration: allergicMedicationSelectedPos == index ? getPrimaryDecoration() : getEditTextDecoration(),
-          //                     child: Center(child: Text(yesNoList[index], style: Style.montserratBoldStyle().copyWith(color: allergicMedicationSelectedPos == index ? CustomColors.primaryColor : CustomColors.borderColor, fontSize: 15.sp),)),
-          //                   ),
-          //                 );
-          //               },
-          //             ),
-          //           ),
-          //           SizedBox(height: 1.h,),
-          //           CustomTextField(controller: allergicMedicineController, hintText: translate(context).type_here),
-          //         ],
-          //       ),
-          //       ),
-          //       Center(
-          //         child: GestureDetector(
-          //           onTap: () {
-          //
-          //           },
-          //           child: buildSaveButton(),
-          //         ),
-          //       ),
-          //
-          //
-          //
-          //
-          //       SizedBox(height: 2.h,),
-          //
-          //       Align(
-          //           alignment: AlignmentDirectional.topStart,
-          //           child: Text(translate(context).sickness_exclusion_policy, style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 15.sp),)),
-          //       Divider(
-          //         color: CustomColors.borderColor,
-          //         thickness: 1.0,
-          //       ),
-          //       SizedBox(height: 1.h,),
-          //       Row(
-          //         crossAxisAlignment: CrossAxisAlignment.center,
-          //         mainAxisAlignment: MainAxisAlignment.start,
-          //         children: [
-          //           Checkbox(
-          //             checkColor: Colors.white,
-          //             activeColor: CustomColors.primaryColor,
-          //             value: isSicknessPolicyChecked,
-          //
-          //             visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-          //             side: const BorderSide(color: CustomColors.primaryColor),
-          //             shape: RoundedRectangleBorder(
-          //               borderRadius: BorderRadius.circular(3),
-          //             ),
-          //             onChanged: (bool? value) {
-          //               isSicknessPolicyChecked = value!;
-          //             },
-          //           ),
-          //
-          //           Text(translate(context).i_agree_to, style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 15.sp),),
-          //         ],
-          //       ),
-          //       SizedBox(height: 1.h,),
-          //       Text(sicknessPolicy, style: Style.montserratMediumStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 14.sp),),
-          //       SizedBox(height: 2.h,),
-          //       Center(
-          //         child: GestureDetector(
-          //           onTap: (){},
-          //           child: buildSaveButton(),
-          //         ),
-          //       ),
-          //       SizedBox(height: 2.h,),
-          //     ]),
           child: Padding(
             padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
             child: Column(
               children: [
-                InkWell(
+                GestureDetector(
                   onTap: (){
                     isShowMedicalSurvey = !isShowMedicalSurvey;
                     setState(() {});
@@ -1580,6 +855,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                       itemBuilder: (context, index) {
                                         return GestureDetector (
                                           onTap: (){
+                                            useCanteenServicesPos = 1;
                                             allergicSelectedPos = index;
                                             setState(() {});
                                           },
@@ -1598,8 +874,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                   Visibility(
                                     visible: allergicSelectedPos == 0,
                                     child: Container(
-                                      width: 100.w,
-                                      margin: const EdgeInsets.symmetric(vertical: 20),
+                                      margin: const EdgeInsets.only(top: 20,bottom: 20,right: 10),
                                       padding: const EdgeInsets.all(20),
                                       decoration: BoxDecoration(
                                         border: Border.all(color: BaseColors.primaryColor),
@@ -1718,111 +993,11 @@ class _MedicalReportViewState extends State<MedicalReportView> {
         child: Theme(
           data: Theme.of(context)
               .copyWith(dividerColor: Colors.transparent),
-          // child: ExpansionTile(
-          //     childrenPadding: EdgeInsets.zero,
-          //     iconColor: CustomColors.primaryColor,
-          //     collapsedIconColor: CustomColors.primaryColor,
-          //     tilePadding: EdgeInsets.zero,
-          //     initiallyExpanded: false,
-          //     title: Padding(
-          //       padding: const EdgeInsets.only(left: 10.0),
-          //       child: Text(
-          //         translate(context).medical_records, style: Style.montserratBoldStyle().copyWith(color: CustomColors.textBlackColor, fontSize: 16.sp),),
-          //     ),
-          //     backgroundColor: CustomColors.white,
-          //     children: List.generate(2, (index) {
-          //       return Padding(
-          //         padding: const EdgeInsets.only(bottom: 10.0, left: 5, right: 5, top: 5),
-          //         child: Card(
-          //           elevation: 5,
-          //           margin: EdgeInsets.zero,
-          //           child: Padding(
-          //             padding: const EdgeInsets.all(10.0),
-          //             child: Column(
-          //               crossAxisAlignment: CrossAxisAlignment.start,
-          //               mainAxisSize: MainAxisSize.min,
-          //               children: [
-          //                 buildInfoItems(translate(context).time, "Food Allergy"),
-          //                 Container(
-          //                   width: Get.width,
-          //                   height: 1,
-          //                   margin: EdgeInsets.only(top: 8, bottom: 8),
-          //                   color: CustomColors.borderColor,
-          //                 ),
-          //                 Row(
-          //                   crossAxisAlignment: CrossAxisAlignment.start,
-          //                   children: [
-          //                     SvgPicture.asset("assets/images/report.svg"),
-          //                     SizedBox(
-          //                       width: 2.w,
-          //                     ),
-          //                     Flexible(child: buildInfoItems(translate(context).deactivation_reason, "Suspected to have Covid-19 symptoms and is deactivated for the awareness of the students."))
-          //                   ],
-          //                 ),
-          //                 Container(
-          //                   width: Get.width,
-          //                   height: 1,
-          //                   margin: EdgeInsets.only(top: 8, bottom: 8),
-          //                   color: CustomColors.borderColor,
-          //                 ),
-          //                 Row(
-          //                   crossAxisAlignment: CrossAxisAlignment.start,
-          //                   children: [
-          //                     SvgPicture.asset("assets/images/Vector (1).svg"),
-          //                     SizedBox(
-          //                       width: 2.w,
-          //                     ),
-          //                     Flexible(child: buildInfoItems(translate(context).due_date, "12/07/2022"))
-          //                   ],
-          //                 ),
-          //                 Container(
-          //                   width: Get.width,
-          //                   height: 1,
-          //                   margin: EdgeInsets.only(top: 8, bottom: 8),
-          //                   color: CustomColors.borderColor,
-          //                 ),
-          //                 InkWell(
-          //                   onTap: (){
-          //                     showGeneralDialog(
-          //                       context: context,
-          //                       pageBuilder:  (context, animation, secondaryAnimation) {
-          //                         return OpenPdfPopup(title: translate(context).document_support);
-          //                       },
-          //                     );
-          //                   },
-          //                   child: Row(
-          //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //                     children: [
-          //                       Text('medication.doc', style: Style.montserratBoldStyle().copyWith(color: CustomColors.primaryColor, fontSize: 14.sp)),
-          //                       Row(
-          //                         children: [
-          //                           InkWell(
-          //                               onTap: (){
-          //                                 showGeneralDialog(
-          //                                   context: context,
-          //                                   pageBuilder:  (context, animation, secondaryAnimation) {
-          //                                     return OpenPdfPopup(title: "");
-          //                                   },
-          //                                 );
-          //                               },child: Icon(Icons.remove_red_eye_outlined,color: CustomColors.primaryColor,size: 20.sp,)),
-          //                           SizedBox(width: 10,),
-          //                           Icon(Icons.download_for_offline,color: CustomColors.primaryColor,size: 20.sp,)
-          //                         ],
-          //                       ),
-          //                     ],
-          //                   ),
-          //                 ),
-          //               ],
-          //             ),
-          //           ),
-          //         ),
-          //       );
-          //     })),
           child: Padding(
             padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
             child: Column(
               children: [
-                InkWell(
+                GestureDetector(
                   onTap: (){
                     isShowMedicalRecord = !isShowMedicalRecord;
                     setState(() {});
@@ -1845,6 +1020,9 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                       padding: const EdgeInsets.only(bottom: 10.0, left: 0, right: 0, top: 5),
                       child: Card(
                         elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)
+                        ),
                         margin: EdgeInsets.zero,
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
@@ -1852,6 +1030,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: [
+                              SizedBox(height: 1.h,),
                               buildInfoItems(translate(context).time, "Food Allergy"),
                               Container(
                                 width: Get.width,
@@ -1891,7 +1070,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                 margin: const EdgeInsets.only(top: 8, bottom: 8),
                                 color: BaseColors.borderColor,
                               ),
-                              InkWell(
+                              GestureDetector(
                                 onTap: (){
                                   showGeneralDialog(
                                     context: context,
@@ -1906,12 +1085,12 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                     Text('medication.doc', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp)),
                                     Row(
                                       children: [
-                                        InkWell(
+                                        GestureDetector(
                                             onTap: (){
                                               showGeneralDialog(
                                                 context: context,
                                                 pageBuilder:  (context, animation, secondaryAnimation) {
-                                                  return OpenPdfPopup(title: "");
+                                                  return OpenPdfPopup(title: translate(context).document_support);
                                                 },
                                               );
                                             },child: Icon(Icons.remove_red_eye_outlined,color: BaseColors.primaryColor,size: 20.sp,)),
@@ -1922,6 +1101,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                   ],
                                 ),
                               ),
+                              SizedBox(height: 1.h,),
                             ],
                           ),
                         ),
@@ -1975,7 +1155,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
         child: Center(
           child: Text(
             translate(context).deactivated,
-            style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 13.sp),),
+            style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 13.sp)),
         ),
       ),
     );

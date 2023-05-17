@@ -12,6 +12,16 @@ class ClassScheduleScreenCtrl extends GetxController{
     "14:30",
   ];
 
+  List<String> weekList = [
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat",
+    "Sun",
+  ];
+
   List<String> monList = [
     "G1-H3",
     "Break",
@@ -20,7 +30,7 @@ class ClassScheduleScreenCtrl extends GetxController{
     "G8-H2",
     "G9-H3",
     "G10-H13",
-    "G2-H1",
+    // "G2-H1",
   ];
   List<String> tueList = [
     "G1-H3",
@@ -30,7 +40,7 @@ class ClassScheduleScreenCtrl extends GetxController{
     "G8-H2",
     "G9-H3",
     "G10-H13",
-    "G2-H1"
+    // "G2-H1"
   ];
   List<String> wedList = [
     "-",
@@ -40,7 +50,7 @@ class ClassScheduleScreenCtrl extends GetxController{
     "-",
     "-",
     "-",
-    "-"
+    // "-"
   ];
   List<String> thuList = [
     "-",
@@ -50,7 +60,7 @@ class ClassScheduleScreenCtrl extends GetxController{
     "-",
     "-",
     "-",
-    "-"
+    // "-"
   ];
   List<String> friList = [
     "-",
@@ -60,7 +70,7 @@ class ClassScheduleScreenCtrl extends GetxController{
     "-",
     "-",
     "-",
-    "-"
+    // "-"
   ];
   List<String> satList = [
     "-",
@@ -70,7 +80,7 @@ class ClassScheduleScreenCtrl extends GetxController{
     "-",
     "-",
     "-",
-    "-"
+    // "-"
   ];
   List<String> sunList = [
     "-",
@@ -80,6 +90,6 @@ class ClassScheduleScreenCtrl extends GetxController{
     "-",
     "-",
     "-",
-    "-"
+    // "-"
   ];
 }

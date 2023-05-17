@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
-import 'package:staff_app/Utility/base_switch.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_switch.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/step_progress.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/cards_and_tags_screen/request_nfc_card_screen.dart';
 import 'package:staff_app/view/star_evaluation_screen/success_dialog_screen.dart';
@@ -60,7 +61,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
                       border: Border.all(
                           color: BaseColors.primaryColor
                       ),
-                      borderRadius: BorderRadius.circular(15.0),
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: SvgPicture.asset(manSvg),
                   ),
@@ -85,7 +86,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
                       ),
                     ],
                   ),
-                  trailing: InkWell(
+                  trailing: GestureDetector(
                     onTap: (){
                       showScanQrDialogue(context, false);
                     },
@@ -99,18 +100,15 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
               SizedBox(
                 height: 1.h,
               ),
-              InkWell(
-                onTap: (){
-                  Get.to(const RequestNFCCardScreen());
-                },
-                child: buildTile(translate(context).request_cards_tags),),
-              InkWell(
-                onTap: (){
-                  showNFCDialog(context,"");
-                },
-                child: buildTile(translate(context).synchronize_nfc_to_cards_tags),),
+              BaseButton(title: translate(context).request_cards_tags, onPressed: (){
+                Get.to(const RequestNFCCardScreen());
+              },btnType: "iconButton"),
+              SizedBox(height: 1.h,),
+              BaseButton(title: translate(context).synchronize_nfc_to_cards_tags, onPressed: (){
+                showNFCDialog(context,"");
+              },btnType: "iconButton"),
               SizedBox(
-                height: 1.h,
+                height: 2.h,
               ),
               Text("${translate(context).linked_card_tag} :", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),),
               SizedBox(
@@ -178,67 +176,71 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
                         children: [
                           Row(
                             children: [
-                              SvgPicture.asset("assets/images/Layer_1.svg", height: 10.0,),
+                              SvgPicture.asset("assets/images/Layer_1.svg", height: 2.h),
                               SizedBox(
                                 width: 2.w,
                               ),
                               buildInfoItems(translate(context).deactivation_card_no, "4587  9857  4587  6521"),
                             ],
                           ),
-                          const Divider(
+                          Divider(
                             color: BaseColors.borderColor,
                             thickness: 1.0,
+                            height: 3.h,
                           ),
                           Row(
                             children: [
-                              SvgPicture.asset("assets/images/report.svg"),
+                              SvgPicture.asset("assets/images/report.svg",height: 2.1.h),
                               SizedBox(
                                 width: 2.w,
                               ),
                               Text("${translate(context).reason} : ", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
-                              Flexible(child: Text("Lorem Ipsum is simply dummy text", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),maxLines: 1, overflow: TextOverflow.ellipsis,)),
+                              Flexible(child: Text("Lorem Ipsum is simply dummy text", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),maxLines: 1, overflow: TextOverflow.ellipsis,)),
                             ],
                           ),
-                          const Divider(
+                          Divider(
                             color: BaseColors.borderColor,
                             thickness: 1.0,
+                            height: 3.h,
                           ),
                           Row(
                             children: [
-                              Row(
-                                children: [
-                                  SvgPicture.asset("assets/images/Vector (1).svg"),
-                                  SizedBox(
-                                    width: 2.w,
-                                  ),
-                                  Text("01/03/2022", style: Style.montserratRegularStyle(),)
-                                ],
-                              ),
-                              SizedBox(
-                                width: 10.w,
+                              Expanded(
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    SvgPicture.asset("assets/images/Vector (1).svg",height: 2.h),
+                                    SizedBox(
+                                      width: 2.w,
+                                    ),
+                                    Text("01/03/2022", style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp),)
+                                  ],
+                                ),
                               ),
                               Container(
-                                height: 20.0,
+                                height: 3.h,
                                 width: 1.0,
                                 color: BaseColors.borderColor,
+                                margin: EdgeInsets.symmetric(horizontal: 10.w),
                               ),
-                              SizedBox(
-                                width: 10.w,
-                              ),
-                              Row(
-                                children: [
-                                  SvgPicture.asset("assets/images/time_icon.svg"),
-                                  SizedBox(
-                                    width: 2.w,
-                                  ),
-                                  Text("09:13pm", style: Style.montserratRegularStyle(),)
-                                ],
+                              Expanded(
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    SvgPicture.asset("assets/images/time_icon.svg",height: 2.h),
+                                    SizedBox(
+                                      width: 2.w,
+                                    ),
+                                    Text("09:13pm", style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp),)
+                                  ],
+                                ),
                               ),
                             ],
                           ),
-                          const Divider(
+                           Divider(
                             color: BaseColors.borderColor,
                             thickness: 1.0,
+                            height: 3.h,
                           ),
                           StepProgressView(
                             width: MediaQuery.of(context).size.width,
@@ -296,7 +298,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         children: [
-          SvgPicture.asset("assets/images/Layer_1.svg"),
+          SvgPicture.asset("assets/images/Layer_1.svg",height: 2.h),
           SizedBox(
             width: 1.w,
           ),
@@ -304,7 +306,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
           const Spacer(),
           Row(
             children: [
-              Text("Off", style: Style.montserratRegularStyle().copyWith(fontSize: 15.sp),),
+              Text("Off", style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp),),
               SizedBox(
                 width: 1.w,
               ),
@@ -323,7 +325,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
               SizedBox(
                 width: 1.w,
               ),
-              Text("On", style: Style.montserratRegularStyle().copyWith(fontSize: 15.sp),),
+              Text("On", style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp),),
             ],
           )
         ],

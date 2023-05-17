@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_floating_action_button.dart';
-import 'package:staff_app/Utility/base_tab_bar.dart';
-import 'package:staff_app/Utility/base_tab_button.dart';
-import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
+import 'package:staff_app/utility/base_views/base_tab_bar.dart';
+import 'package:staff_app/utility/base_views/base_tab_button.dart';
+import 'package:staff_app/utility/base_views/base_toggle_tab_bar.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/attendance_screen/attendance_screen_ctrl.dart';
 import 'package:staff_app/view/attendance_screen/attendance_screen_view/absent_screen_view.dart';
@@ -59,10 +59,11 @@ class _AttendanceScreenState extends State<AttendanceScreen> with TickerProvider
       appBar: BaseAppBar(title: translate(context).attendance),
       floatingActionButton: BaseFloatingActionButton(
         onTap: () {Get.to(const CalenderView());},
-        title: translate(context).view_on_calender,
+        title: "View on\nCalendar",
+        isCalendar: true,
       ),
       body: Padding(
-        padding: EdgeInsets.all(20.sp),
+        padding: EdgeInsets.symmetric(horizontal: 10),
         child: Column(
           children: [
             Container(
@@ -101,7 +102,9 @@ class _AttendanceScreenState extends State<AttendanceScreen> with TickerProvider
                     Text("English Teacher", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                   ],
                 ),
-                trailing: SvgPicture.asset(qrCodeSvg),
+                trailing: GestureDetector(child: SvgPicture.asset(qrCodeSvg),onTap: (){
+                  showScanQrDialogue(context, false);
+                },),
               ),
             ),
             SizedBox(

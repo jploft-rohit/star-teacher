@@ -3,27 +3,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/storage/base_shared_preference.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/view/about_us.dart';
 import 'package:staff_app/view/assignments_screen/assignment_screen.dart';
+import 'package:staff_app/view/custody/custody_view.dart';
 import 'package:staff_app/view/delegation/delegation_screen.dart';
 import 'package:staff_app/view/events/events_screen.dart';
+import 'package:staff_app/view/exam_time_table/exam_time_table_screen.dart';
 import 'package:staff_app/view/feedback_help_screen/feedback_help_screen.dart';
-import 'package:staff_app/view/library_record/library_record_view.dart';
-import 'package:staff_app/view/library_screen/library_screen.dart';
 import 'package:staff_app/view/library_screen/notebook_screen/notebook_screen.dart';
-import 'package:staff_app/view/lost_or_found_screen/lost_or_found_view.dart';
+import 'package:staff_app/view/login_screen/login_screen.dart';
+import 'package:staff_app/view/lost_or_found_screen/lost_or_found_screen.dart';
 import 'package:staff_app/view/my_profile_screen/my_profile_screen.dart';
+import 'package:staff_app/view/route_destination/route_view.dart';
 import 'package:staff_app/view/schedule_meeting_screen/schedule_meeting_screen.dart';
 import 'package:staff_app/view/shop_screen/shop_screen.dart';
 import 'package:staff_app/view/star_attendance_screen/star_attendance_screen.dart';
 import 'package:staff_app/view/star_evaluation_screen/star_evaluation_screen.dart';
 import 'package:staff_app/view/star_reward_screen/star_reward_screen.dart';
 import 'package:staff_app/view/task_or_reminder_screen/task_or_reminder_screen.dart';
+import 'package:staff_app/view/weekly_plan/weekly_plan_screen.dart';
+import 'package:staff_app/view/worksheet/worksheet_screen.dart';
 
 
 class DrawerScreen extends StatefulWidget {
@@ -43,6 +49,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
       child: Padding(
         padding: EdgeInsets.all(20.sp),
         child: SafeArea(
+          bottom: false,
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -66,123 +73,177 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   ],
                 ),
                 buildExpensionTile(translate(context).my_profile, [
-                  InkWell(
+                  GestureDetector(
                     onTap: (){
                       Get.to(MyProfileScreen(isFromDrawer: true,index: 0,));
                     },
                     child: buildTile(translate(context).account),
                   ),
-                  InkWell(
+                  GestureDetector(
                     onTap: (){
                       Get.to(MyProfileScreen(isFromDrawer: true,index: 1,));
                     },
                     child: buildTile(translate(context).job_details),
                   ),
-                  InkWell(
+                  GestureDetector(
                     onTap: (){
                       Get.to(MyProfileScreen(isFromDrawer: true,index: 2,));
                     },
                     child: buildTile(translate(context).statistics),),
-                  InkWell(
+                  GestureDetector(
                     onTap: (){
                       Get.to(MyProfileScreen(isFromDrawer: true,index: 3,));
                     },
                     child: buildTile(translate(context).assigned_schools),),
                 ]),
                 buildExpensionTile(translate(context).stars, [
-                  InkWell(
+                  GestureDetector(
                     onTap: (){
                       Get.to(const StarAttendanceScreen());
                     },
-                    child: buildTile(translate(context).stars_attendance),
+                    child: buildTile(translate(context).attendance),
                   ),
-                  InkWell(
+                  GestureDetector(
                     onTap: (){
                       Get.to(const StarEvaluationScreen());
                     },
-                    child: buildTile(translate(context).star_evaluation),
+                    child: buildTile(translate(context).evaluation),
                   ),
-                  InkWell(
+                  GestureDetector(
                     onTap: (){
                       Get.to(const AssignmentScreen());
                     },
                     child: buildTile(translate(context).assignments),
                   ),
-                  InkWell(
+                  GestureDetector(
                     onTap: (){
                       Get.to(const NoteBookScreen());
                     },
                     child: buildTile(translate(context).notebook),
                   ),
-                  InkWell(
-                    onTap: (){
-                      Get.to(const LibraryScreen());
-                    },
-                    child: buildTile(translate(context).library),
-                  ),
-                  InkWell(
+                  // GestureDetector(
+                  //   onTap: (){
+                  //     Get.to(const LibraryScreen());
+                  //   },
+                  //   child: buildTile(translate(context).library),
+                  // ),
+                  GestureDetector(
                     onTap: (){
                       Get.to(const StarRewardScreen());
                     },
-                    child: buildTile(translate(context).star_rewards),
+                    child: buildTile(translate(context).rewards),
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                      Get.to(const WeeklyPlanScreen());
+                    },
+                    child: buildTile(translate(context).weekly_plan),
                   ),
                 ]),
                 buildExpensionTile(translate(context).roles_delegation, [
-                  InkWell(
+                  GestureDetector(
                     onTap: (){
                       Get.to(const DelegationScreen());
                     },
                     child: buildTile(translate(context).delegated_to_me),
                   ),
                 ]),
+                buildExpensionTile("Awareness", [
+                  GestureDetector(
+                    onTap: (){
+                      Get.to(const WorkSheetScreen());
+                    },
+                    child: buildTile("Worksheet"),
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                      // Get.to(const DelegationScreen());
+                    },
+                    child: buildTile("Courses"),
+                  ),
+                ]),
                 SizedBox(
                   height: 2.h,
                 ),
-                InkWell(
+                GestureDetector(
                   onTap: (){
                     Get.to(const ShopView());
                   },
                   child: buildTile1(translate(context).shop),),
-                InkWell(
-                  onTap: (){
-                    Get.to(const LibraryRecordsView());
-                  },
-                  child: buildTile1(translate(context).school_library),),
-                InkWell(
+                // GestureDetector(
+                //   onTap: (){
+                //     Get.to(const LibraryRecordsView());
+                //   },
+                //   child: buildTile1(translate(context).school_library),),
+                GestureDetector(
                   onTap: (){
                     Get.to(TaskOrReminderScreen(isFromBtmBar: false,));
                   },
                   child: buildTile1(translate(context).tasks_reminders),),
-                // InkWell(
+                // GestureDetector(
                 //   onTap: (){
                 //     Get.to(ComplaintsReportScreen());
                 //   },
                 //   child: buildTile1(translate(context).complaints_reports),),
-                InkWell(
+                GestureDetector(
                   onTap: (){
                     Get.to(const ScheduleMeetingScreen());
                   },
                   child: buildTile1(translate(context).schedule_meeting),),
-                InkWell(
+                GestureDetector(
                   onTap: (){
                     Get.to(const LostAndFoundScreen());
                   },
                   child: buildTile1(translate(context).lost_found),),
-                InkWell(
+                GestureDetector(
                   onTap: (){
                     Get.to(const FeedbackHelpScreen());
                   },
                   child: buildTile1(translate(context).help_feedback),),
-                InkWell(
-                  onTap: (){
-                    Get.to(const AboutUs());
-                  },
-                  child: buildTile1(translate(context).about_app)),
-                InkWell(
+                GestureDetector(
                     onTap: (){
                       Get.to(const EventsScreen());
                     },
                     child: buildTile1("Events")),
+                GestureDetector(
+                    onTap: (){
+                      Get.to(const RouteView());
+                    },
+                    child: buildTile1("Route")),
+                GestureDetector(
+                    onTap: (){
+                      Get.to(const CustodyView());
+                    },
+                    child: buildTile1("Custody")),
+                GestureDetector(
+                    onTap: (){
+                      Get.to(const ExamTimeTableScreen());
+                    },
+                    child: buildTile1("Exam Time Table")),
+                GestureDetector(
+                    onTap: (){
+                      Get.to(const AboutUs());
+                    },
+                    child: buildTile1(translate(context).about_app)),
+                GestureDetector(
+                    onTap: (){
+                      Get.back();
+                      BaseOverlays().showConfirmationDialog(
+                        title: "Are you sure do you want to logout this app?",
+                        rightButtonTitle: "YES",
+                        leftButtonTitle: "NO",
+                        onRightButtonPressed: (){
+                          Get.back(closeOverlays: true);
+                          BaseOverlays().showLoader();
+                          Future.delayed(const Duration(seconds: 2), () {
+                            Get.offAll(LoginScreen());
+                            BaseSharedPreference().clearLoginSession();
+                          });
+                        }
+                      );
+                    },
+                    child: buildTile1(translate(context).logout)),
+                SizedBox(height: 10.h)
               ],
             ),
           ),

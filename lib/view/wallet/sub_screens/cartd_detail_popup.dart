@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/confirmation_popup.dart';
 
@@ -53,7 +54,7 @@ class _CardDetailPopupState extends State<CardDetailPopup> {
                         style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),
                       ),
                     ),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back();
                       },
@@ -73,10 +74,11 @@ class _CardDetailPopupState extends State<CardDetailPopup> {
                       flex: 1,
                       child: CustomTextField(controller: expiryCtrl, hintText: translate(context).expiry, suffixIcon: Padding(
                         padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                        child: InkWell(onTap: (){
+                        child: GestureDetector(
+                            onTap: (){
                           selectDate(context);
                         },child: SvgPicture.asset(calenderSvg,height:17.sp,)),
-                      ),hintTextColor: BaseColors.textLightGreyColor,),
+                      ),hintTextColor: BaseColors.textLightGreyColor,readOnly: true,),
                     ),
                     SizedBox(
                       width: 2.w,
@@ -100,7 +102,8 @@ class _CardDetailPopupState extends State<CardDetailPopup> {
                 Center(
                   child: BaseButton(
                     title: translate(context).pay.toUpperCase(),
-                    btnWidth: 25.w,
+                    borderRadius: 20,
+                    btnType: mediumButton,
                     onPressed: (){
                       Get.back();
                       showGeneralDialog(

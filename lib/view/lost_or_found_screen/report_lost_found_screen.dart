@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
 
-import 'package:staff_app/Utility/base_colors.dart';
-import 'package:staff_app/Utility/base_dropdown.dart';
-import 'package:staff_app/Utility/base_textformfield.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_dropdown.dart';
+import 'package:staff_app/utility/base_views/base_textformfield.dart';
+import 'package:staff_app/Utility/custom_dropdown_widget.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
+import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 
 class ReportLostFoundScreen extends StatefulWidget {
@@ -39,54 +42,30 @@ class _ReportLostFoundScreenState extends State<ReportLostFoundScreen> {
     return Scaffold(
       appBar: BaseAppBar(title: widget.isUpdating ? widget.type == "Lost" ? "Update Lost Report" : "Update Found Report" : widget.type == "Lost" ? "Report Lost" : "Report Found"),
       body: Padding(
-        padding: EdgeInsets.all(20.sp),
+        padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
-            BaseDropDown(),
+            CustomDropDown(
+              initialValue: DummyLists.initialSchool,
+              hintText: "Select School",
+              listData:DummyLists.schoolData,
+              onChange: (value) {
+                setState(() {
+                  DummyLists.initialSchool=value;
+                });
+              },
+              topPadding: 5,
+              bottomPadding: 5,
+              icon: Icon(Icons.arrow_drop_down,color: Color(0xFFC4C4C4),size: 25,),
+            ),
+            SizedBox(height: 1.h,),
             BaseTextFormField(controller: titleController,hintText: translate(context).title,),
-            BaseTextFormField(controller: dateController,hintText: "${widget.type} Date",onTap: (){selectDate(context);}),
+            BaseTextFormField(controller: dateController,hintText: "${widget.type} Date",onTap: (){selectDate(context);},suffixIcon: "assets/images/ic_calendar_black.svg",),
             BaseTextFormField(controller: whereController,hintText: translate(context).where,),
             BaseTextFormField(bottomMargin: 3.h,controller: uploadController,hintText: translate(context).upload_photo,suffixIcon: "assets/images/upload_icon.svg",onTap: (){}),
-            // SizedBox(
-            //   height: 2.h,
-            // ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     Flexible(
-            //       flex: 1,
-            //       child: Text(translate(context).id_expiry_date, style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: CustomColors.textBlackColor),),
-            //     ),
-            //     Flexible(
-            //       flex: 3,
-            //       child: Container(
-            //         child: Row(
-            //           children: [
-            //             SvgPicture.asset(calenderDateSvg,),
-            //             SizedBox(
-            //               width: 2.w,
-            //             ),
-            //             Expanded(
-            //               child: CustomTextField(
-            //                 controller: idExpiryController,
-            //                 onTap: (){
-            //                   selectDate(context);
-            //                 },
-            //                 readOnly: true,
-            //                 hintText: "dd/mm/yyyy",
-            //                 fillColor: CustomColors.txtFieldTextColor,
-            //                 borderRadius: 5.0,
-            //               ),
-            //             )
-            //           ],
-            //         ),
-            //       ),
-            //     )
-            //   ],
-            // ),
             BaseButton(title: widget.isUpdating ? translate(context).update : translate(context).submit_btn_txt, onPressed: (){
               Get.back();
-            })
+            },btnType: largeButton,)
           ],
         ),
       ),

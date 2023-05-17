@@ -1,15 +1,22 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/constants-classes/color_constants.dart';
+import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/utility/base_utility.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
-import 'package:staff_app/Utility/base_dialogs.dart';
-import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_detail_data.dart';
+import 'package:staff_app/utility/base_views/base_edit_delete.dart';
+import 'package:staff_app/utility/base_views/base_no_data.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/utility/custom_text_field.dart';
+import 'package:staff_app/utility/intl/intl.dart';
 import 'package:staff_app/view/feedback_help_screen/add_feedback_view.dart';
+import 'package:staff_app/view/feedback_help_screen/controller/feedback_help_controller.dart';
 
 class AllFeedbackHelpView extends StatefulWidget {
   const AllFeedbackHelpView({Key? key}) : super(key: key);
@@ -19,184 +26,208 @@ class AllFeedbackHelpView extends StatefulWidget {
 }
 
 class _AllFeedbackHelpViewState extends State<AllFeedbackHelpView> {
-  final List<String> pendingMeetingdates = ['July 2, 8:30PM', 'July 3, 10:30AM', ''];
 
-  final List<String> heading = [
-    'Concern\nRaised',
-    'InProgress',
-    'Concern\nSolved',
-  ];
+  FeedbackHelpController controller = Get.find<FeedbackHelpController>();
+
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: 3,
+    return Obx(()=>(controller.response?.length??0) == 0 ? BaseNoData() : ListView.builder(
+      itemCount: controller.response?.length??0,
       shrinkWrap: true,
+      padding: EdgeInsets.only(bottom: 8.h),
       itemBuilder: (context, index) {
+        int stepperIndex = -5;
+        controller.statusTime.value = [];
+        controller.statusTitle.value = [];
+        controller.response?[index].complaintStatus?.asMap().forEach((loopIndex,element) {
+          controller.statusTitle.add(element.name??"");
+          controller.statusTime.add(convertDateFormat3(element.createdAt??""));
+          if ((element.name??"") == (controller.response?[index].status?.name??"")) {
+            stepperIndex = loopIndex;
+          }
+        });
         return Card(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0)
-          ),
+          elevation: 3,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           child: Padding(
             padding: EdgeInsets.all(15.sp),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                BaseEditDelete(
+                  heading: controller.response?[index].title??"Unacceptable Behavior",
+                  editTitle: controller.response?[index].forEnquery??"",
+                  deleteTitle: controller.response?[index].forEnquery??"",
+                  onEditProceed: (){
+                    BaseOverlays().dismissOverlay();
+                    Get.to(AddFeedbackView(isUpdating: true,data: controller.response?[index]));
+                  },
+                  onDeleteProceed: (){
+                    // Get.back();
+                    controller.deleteItem(id: controller.response?[index].sId??"", index: index);
+                  },
+                ),
+                const Divider(),
+                BaseDetailData(
+                  prefixIcon: "assets/images/user 1.svg",
+                  detailsLabel: toBeginningOfSentenceCase(controller.response?[index].user?.role?.name)??"N/A",
+                  detailsValue: controller.response?[index].user?.name??"N/A",
+                ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    addText("App is not working", 16.sp, BaseColors.textBlackColor, FontWeight.w700),
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: (){
-                            BaseDialogs().showConfirmationDialog(title: "Are you sure you want to\ndelete this Help?");
-                          },
-                          child: Icon(
-                            CupertinoIcons.delete,
-                            color: BaseColors.primaryColor,
-                            size: 18.sp,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 5.w,
-                        ),
-                        InkWell(
-                          onTap: (){
-                            Get.to(AddFeedbackView(isUpdating: true));
-                          },
-                          child: Image.asset(editPng, color: BaseColors.primaryColor,height: 18.sp,),
-                        ),
-                      ],
+                    BaseDetailData(
+                      prefixIcon: "assets/images/Vector (1).svg",
+                      detailsLabel: getFormattedDate(controller.response?[index].createdAt??""),
+                      showDivider: false,
+                    ),
+                    BaseDetailData(
+                      leftMargin: 10.w,
+                      prefixIcon: "assets/images/time_icon.svg",
+                      detailsLabel: getFormattedTime(controller.response?[index].createdAt??""),
+                      showDivider: false,
                     ),
                   ],
                 ),
                 const Divider(),
-                Row(
-                  children: [
-                    SvgPicture.asset("assets/images/user 1.svg"),
-                    SizedBox(
-                      width: 2.w,
-                    ),
-                    addText("Star :", 15.sp, BaseColors.textBlackColor, FontWeight.w400),
-                    const SizedBox(width: 3),
-                    addText("Najma Suheil", 15.sp, BaseColors.primaryColor, FontWeight.w600),
-                  ],
+                BaseDetailData(
+                  prefixIcon: "assets/images/report.svg",
+                  detailsLabel: "Type",
+                  detailsValue: toBeginningOfSentenceCase(controller.response?[index].forEnquery??"")??"",
                 ),
-                const Divider(),
-                Row(
-                  children: [
-                    SvgPicture.asset("assets/images/Vector (1).svg"),
-                    SizedBox(
-                      width: 2.w,
-                    ),
-                    addText("01/03/2022", 15.sp, BaseColors.textBlackColor, FontWeight.w400),
-                    SizedBox(
-                      width: 5.w,
-                    ),
-                    Container(
-                      height: 20.0,
-                      width: 1,
-                      color: BaseColors.borderColor,
-                    ),
-                    SizedBox(
-                      width: 5.w,
-                    ),
-                    SvgPicture.asset("assets/images/time_icon.svg"),
-                    SizedBox(
-                      width: 2.w,
-                    ),
-                    addText("09:13pm", 15.sp, BaseColors.textBlackColor, FontWeight.w400),
-                  ],
+                BaseDetailData(
+                  prefixIcon: "assets/images/user.svg",
+                  detailsLabel: "${toBeginningOfSentenceCase(controller.response?[index].forEnquery??"")??""} For",
+                  detailsValue: controller.response?[index].person?.name??"",
                 ),
-                const Divider(),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SvgPicture.asset("assets/images/family_img.svg"),
-                    SizedBox(
-                      width: 2.w,
-                    ),
-                    Flexible(child: buildInfoItems("Type", "Help"))
-                  ],
+                BaseDetailData(
+                  prefixIcon: "assets/images/report.svg",
+                  detailsLabel: "Description",
+                  detailsValue: controller.response?[index].description??"",
                 ),
-                const Divider(),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SvgPicture.asset("assets/images/family_img.svg"),
-                    SizedBox(
-                      width: 2.w,
-                    ),
-                    Flexible(child: buildInfoItems("Help for", "App not working"))
-                  ],
+                Visibility(
+                  visible: (controller.response?[index].reply??"").isNotEmpty,
+                  child: BaseDetailData(
+                    prefixIcon: "assets/images/report.svg",
+                    detailsLabel: "Feedback",
+                    detailsValue: controller.response?[index].reply??"",
+                  ),
                 ),
-                const Divider(),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SvgPicture.asset("assets/images/report.svg"),
-                    SizedBox(
-                      width: 2.w,
-                    ),
-                    Flexible(child: buildInfoItems("Message", "Hi, I'm facing some issues with the application's speed..it's not working as fast as I expect."))
-                  ],
+                Visibility(
+                  visible: (controller.response?[index].selfReply??"").isNotEmpty,
+                  child: BaseDetailData(
+                    prefixIcon: "assets/images/report.svg",
+                    detailsLabel: "Comment",
+                    detailsValue: controller.response?[index].selfReply??"",
+                  ),
                 ),
-                const Divider(),
-                // Row(
-                //   crossAxisAlignment: CrossAxisAlignment.start,
-                //   children: [
-                //     SvgPicture.asset("assets/images/chat_img.svg"),
-                //     SizedBox(
-                //       width: 2.w,
-                //     ),
-                //     Flexible(child: buildInfoItems("Revert", "Thanks for your feedback, the support team will solve the issue and update you."))
-                //   ],
-                // ),
-                // SizedBox(
-                //   height: 1.h,
-                // ),
-                // const Divider(),
-                // SizedBox(
-                //   height: 1.h,
-                // ),
-                // Row(
-                //   children: [
-                //     Flexible(
-                //       flex: 1,
-                //       child: BaseButton(text: "ESCALATE", onPressed: (){}, btnHeight: 35, boxShadow: [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 16.sp,),
-                //     ),
-                //     SizedBox(
-                //       width: 2.w,
-                //     ),
-                //     Flexible(
-                //       flex: 1,
-                //       child: BaseButton(text: "COMMENTS", onPressed: (){
-                //
-                //       }, btnHeight: 35, boxShadow: [], borderRadius: 10.0, btnColor: Colors.white, borderColor: CustomColors.borderColor,textColor: CustomColors.textLightGreyColor, textSize: 16.sp,),
-                //     ),
-                //     SizedBox(
-                //       width: 2.w,
-                //     ),
-                //     Flexible(
-                //       flex: 1,
-                //       child: BaseButton(text: "ACCEPT", onPressed: (){}, btnHeight: 35, borderRadius: 10.0,textSize: 16.sp,),
-                //     ),
-                //   ],
-                // ),
-                // SizedBox(
-                //   height: 2.h,
-                // ),
+                Visibility(
+                  visible: stepperIndex == 1,
+                  child: Row(
+                    children: [
+                      Expanded(child: BaseButton(title: translate(context).accept.toUpperCase(), onPressed: (){
+                        controller.acceptItem(itemId: controller.response?[index].sId??"");
+                      },rightMargin: 1.5.w,isActive: false,removeHorizontalPadding: true,btnType: mediumLargeButton,)),
+                      Expanded(child: BaseButton(title: translate(context).comment.toUpperCase(), onPressed: (){
+                        showCommentDialog(itemId: controller.response?[index].sId??"");
+                      },leftMargin: 1.5.w,removeHorizontalPadding: true,btnType: mediumLargeButton,)),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 1.h,
+                ),
                 StepProgressView(
                   width: MediaQuery.of(context).size.width,
-                  curStep: index+1,
+                  curStep: stepperIndex+1,
+                  selectedTitle: controller.response?[index].status?.name??"",
                   color: BaseColors.primaryColor,
-                  titles: pendingMeetingdates,
-                  statuses: heading,
+                  titles: controller.statusTime,
+                  statuses: controller.statusTitle,
                 ),
               ],
             ),
           ),
         );
       },
+    ),
+    );
+  }
+  showCommentDialog({itemId}){
+    TextEditingController commentController = TextEditingController();
+    final formKey = GlobalKey<FormState>();
+    showDialog(
+      context: Get.context!,
+      barrierDismissible: false,
+      builder: (_) => StatefulBuilder(
+        builder: (BuildContext context, void Function(void Function()) setState) {
+          return Form(
+            key: formKey,
+            child: AlertDialog(
+              backgroundColor: ColorConstants.white,
+              elevation: 10,
+              scrollable: true,
+              title: Stack(
+                children: [
+                  Align(alignment: Alignment.center,
+                    child: Padding(
+                      padding: const EdgeInsetsDirectional.only(top: 15),
+                      child: addAlignedText(
+                          "Add Comment",
+                          16.sp,
+                          Color(0xFF000000),
+                          FontWeight.w600),
+                    ),
+                  ),
+                  Align(
+                    alignment: AlignmentDirectional.topEnd,
+                    child: GestureDetector(
+                      onTap: (){
+                        BaseOverlays().dismissOverlay();
+                      },
+                      child: Icon(Icons.close,color: Color(0xFF929292),),
+                    ),
+                  )
+                ],
+              ),
+              contentPadding: const EdgeInsets.all(5),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              content: SizedBox(
+                width: 100.w,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomTextField(
+                        controller: commentController,
+                        hintText: "Comment",maxLine: 4,
+                        validator: (val){
+                          if ((val??"").isEmpty) {
+                            return "Please enter comment";
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 2.h ,),
+                      Align(
+                          alignment: Alignment.topCenter,
+                          child: BaseButton(title: 'SUBMIT', onPressed: () {
+                            if (formKey.currentState?.validate()??false) {
+                              controller.sendComment(itemId: itemId, comment: commentController.text.trim());
+                            }
+                          }, btnType: 'mediumlarge',borderRadius: 20,)
+                      ),
+                      SizedBox(height: 1.h),
+
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

@@ -3,6 +3,13 @@ import 'package:staff_app/Utility/images_icon_path.dart';
 
 class StarEvaluationScreenCtrl extends GetxController{
   final isChecked = false.obs;
+  final selectedFMOPos = 0.obs;
+
+  var fmoImageList = [
+    nfcSvg,
+    barcodeSvg,
+    handSvg,
+  ];
 
   RxList<Map<String, dynamic>> list = <Map<String, dynamic>>[
     {

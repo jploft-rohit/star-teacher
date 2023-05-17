@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 
 
@@ -46,7 +46,7 @@ class _ReasonPopupState extends State<ReasonPopup> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text("March 01, 2022", style: Style.montserratMediumStyle().copyWith(fontSize: 15.sp),),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back();
                       },
@@ -61,13 +61,12 @@ class _ReasonPopupState extends State<ReasonPopup> {
                   height: 2.h,
                 ),
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: Text("${translate(context).reason}: ", style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),),
-                    ),
-                    Expanded(child: CustomTextField(controller: reasonCtrl, hintText: translate(context).type_here, maxLine: 2,)),
+                    SizedBox(
+                        width: 8.h,
+                        child: Text("${translate(context).reason}: ", style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),)),
+                    Expanded(child: CustomTextField(controller: reasonCtrl, hintText: translate(context).type_here, maxLine: 1,)),
                   ],
                 ),
                 SizedBox(
@@ -76,24 +75,29 @@ class _ReasonPopupState extends State<ReasonPopup> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: Text("${translate(context).upload_evidence1} : ", style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),),
-                    ),
+                    SizedBox(
+                      width: 8.h,
+                        child: Text("Upload\nEvidence : ", style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),)),
                     Expanded(
                       child: Column(
                         children: [
                           Container(
                             width: Get.width,
-                            height: 35,
+                            height: 5.5.h,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5.0),
+                              borderRadius: BorderRadius.circular(10.0),
                               border: Border.all(
                                 color: BaseColors.txtFiledBorderColor
                               )
                             ),
-                            alignment: Alignment.center,
-                            child: Text(translate(context).upload_document, style: TextStyle(color: Colors.black,fontSize: 14.sp),),
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(translate(context).upload_document, style: TextStyle(color: Colors.black,fontSize: 14.sp),),
+                                SvgPicture.asset("assets/images/upload_icon.svg")
+                              ],
+                            ),
                           ),
                           SizedBox(
                             height: .5.h,
@@ -109,9 +113,9 @@ class _ReasonPopupState extends State<ReasonPopup> {
                 ),
                 Divider(),
                 Center(
-                  child: BaseButton(btnType: dialogButton,title: translate(context).submit_btn_txt, onPressed: (){
+                  child: BaseButton(btnType: mediumButton,title: translate(context).submit_btn_txt, onPressed: (){
                     Get.back();
-                  }),
+                  },borderRadius: 20,),
                 ),
               ],
             ),

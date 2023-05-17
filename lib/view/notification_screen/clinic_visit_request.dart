@@ -2,14 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/view/notification_screen/reschedule_visit_request_popup.dart';
 import 'package:staff_app/view/performance_screen/performance_screen.dart';
+import 'package:staff_app/view/rating_screens/driver_rating_screen.dart';
+import 'package:staff_app/view/star_evaluation_screen/star_rating_popup.dart';
+import 'package:staff_app/view/star_evaluation_screen/star_view.dart';
+
+import '../../Utility/sizes.dart';
 
 class ClinicVisitRequest extends StatefulWidget {
   const ClinicVisitRequest({Key? key}) : super(key: key);
@@ -44,7 +50,7 @@ class _ClinicVisitRequestState extends State<ClinicVisitRequest> {
                   children: [
                     const Text(""),
                     Text(translate(context).clinic_visit_request, style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: Colors.black),),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back();
                       },
@@ -110,7 +116,7 @@ class _ClinicVisitRequestState extends State<ClinicVisitRequest> {
                                 SizedBox(
                                   height: 1.h,
                                 ),
-                                buildInfoItems(translate(context).user_type, "Teacher"),
+                                buildInfoItems(translate(context).user_type, "Star"),
                                 SizedBox(
                                   height: 1.h,
                                 ),
@@ -121,9 +127,16 @@ class _ClinicVisitRequestState extends State<ClinicVisitRequest> {
                         ],
                       ),
                     ),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
-                        Get.to(PerformanceScreen(index: 1,));
+                        // Get.to(DriverRatingScreen(title: 'Driver Rating',));
+                        BaseOverlays().dismissOverlay();
+                        showGeneralDialog(
+                          context: context,
+                          pageBuilder: (context, animation, secondaryAnimation) {
+                            return const StarRatingPopup();
+                          },
+                        );
                       },
                       child: Container(
                         padding: const EdgeInsets.all(5),
@@ -151,7 +164,7 @@ class _ClinicVisitRequestState extends State<ClinicVisitRequest> {
                           showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation) {
                             return const RescheduleVisitRequestPopup();
                           },);
-                        }),
+                        },btnType: toggleLargeButton,),
                       ),
                     ),
                     SizedBox(width: 3.w),
@@ -159,7 +172,7 @@ class _ClinicVisitRequestState extends State<ClinicVisitRequest> {
                       child: Center(
                         child: BaseButton(removeHorizontalPadding: true,borderRadius: 100,title: translate(context).acknowledge, onPressed: (){
                           Get.back();
-                        }),
+                        },btnType: toggleLargeButton,),
                       ),
                     ),
                   ],

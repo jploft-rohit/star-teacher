@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/view/assignments_screen/assignment_screen_ctrl.dart';
 import 'package:staff_app/view/assignments_screen/assignment_to_me_view/submit_assignment_popup.dart';
 
@@ -77,7 +78,7 @@ class _StartPendingAssignmentState extends State<StartPendingAssignment> {
                       ),
                       child: Stack(
                         children: [
-                          Image.asset("assets/images/Rectangle 446.png"),
+                          Image.asset("assets/delete/Rectangle 446.png"),
                           Center(
                             child: Container(
                               height: 200.0,
@@ -114,7 +115,7 @@ class _StartPendingAssignmentState extends State<StartPendingAssignment> {
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-                        return InkWell(
+                        return GestureDetector(
                           onTap: (){
                             selectedFMOPos = index;
                             setState(() {});
@@ -131,7 +132,7 @@ class _StartPendingAssignmentState extends State<StartPendingAssignment> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Flexible(child: addText("${ctrl.pendingAssignmentList[pageIndex]['ans'][index]}", 17.sp, selectedFMOPos == index ? BaseColors.primaryColor : BaseColors.textBlackColor, selectedFMOPos == index ? FontWeight.w700 : FontWeight.w400)),
+                                Flexible(child: addText("${ctrl.pendingAssignmentList[pageIndex]['ans'][index]}", 16.sp, selectedFMOPos == index ? BaseColors.primaryColor : BaseColors.textBlackColor, selectedFMOPos == index ? FontWeight.w700 : FontWeight.w400)),
                                 Row(
                                   children: [
                                     SvgPicture.asset(soundOnImg, height: 18.sp,),
@@ -203,7 +204,7 @@ class _StartPendingAssignmentState extends State<StartPendingAssignment> {
                         },
                       );
                     }
-                  }),
+                  },btnType: largeButton,),
                   SizedBox(
                     height: 1.h,
                   ),

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/class_schedule_screen/notifiy_authority_popup.dart';
 
@@ -67,11 +67,6 @@ class _DayScheduleViewState extends State<DayScheduleView> {
         SizedBox(
           height: 2.h,
         ),
-        // BaseButton(text: translate(context).leave_request.toUpperCase(), onPressed: (){
-        //   showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation) {
-        //     return const NotifyAuthorityPopup();
-        //   },);
-        // },borderRadius: 5.0,btnHeight: 35,textSize: 16.sp,btnWidth: 40.w,),
         SizedBox(
           height: 3.h,
         ),
@@ -156,15 +151,12 @@ class _DayScheduleViewState extends State<DayScheduleView> {
                           SizedBox(
                             height: 1.h,
                           ),
-                          SizedBox(
-                            width: 150,
-                            height: 29,
-                            child: BaseButton(btnType: mediumButton,verticalPadding: 0.0,removeHorizontalPadding: true,title: translate(context).notify_admin, onPressed: (){
-                              showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation) {
-                                return const NotifyAuthorityPopup();
-                              });
-                            },textSize: 14.sp),
-                          ),
+                          BaseButton(btnType: mediumLargeButton,verticalPadding: 1.2.h,
+                              removeHorizontalPadding: true,title: translate(context).notify_admin, onPressed: (){
+                            showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation) {
+                              return const NotifyAuthorityPopup();
+                            });
+                          },textSize: 14.sp),
                         ],
                       ),
                     ),

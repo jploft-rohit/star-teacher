@@ -1,25 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/base_floating_action_button.dart';
-import 'package:staff_app/Utility/base_tab_bar.dart';
-
-
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
+import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
+import 'package:staff_app/utility/base_views/base_tab_bar.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/Utility/custom_dropdown_widget.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
+import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/view/chat_screen/chating_screen.dart';
 import 'package:staff_app/view/schedule_meeting_screen/choose_meeting_date_time_popup.dart';
 import 'package:staff_app/view/schedule_meeting_screen/create_meeting_screen.dart';
 import 'package:staff_app/view/schedule_meeting_screen/meeting_cancel_reason_popup.dart';
 import 'package:staff_app/view/schedule_meeting_screen/schedule_meeting_screen_ctrl.dart';
-import 'package:staff_app/view/schedule_meeting_screen/schedule_with_popup.dart';
 import 'package:staff_app/view/task_or_reminder_screen/add_task_or_reminder_screen.dart';
 
 import '../../language_classes/language_constants.dart';
@@ -71,22 +72,18 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
         padding: EdgeInsets.all(15.sp),
         child: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-              decoration: BoxDecoration(
-                color: BaseColors.backgroundColor,
-                borderRadius: BorderRadius.circular(5.0),
-                border: Border.all(
-                    color: BaseColors.borderColor
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Ignite Public School", style: Style.montserratRegularStyle().copyWith(color: Colors.black, fontSize: 16.sp),),
-                  const Icon(Icons.arrow_drop_down, color: Color(0xffC4C4C4),size: 35.0,)
-                ],
-              ),
+            CustomDropDown(
+              initialValue: DummyLists.initialSchool,
+              hintText: "Select School",
+              listData:DummyLists.schoolData,
+              onChange: (value) {
+                setState(() {
+                  DummyLists.initialSchool=value;
+                });
+              },
+              topPadding: 5,
+              bottomPadding: 5,
+              icon: Icon(Icons.arrow_drop_down,color: Color(0xFFC4C4C4),size: 25,),
             ),
             SizedBox(
               height: 2.h,
@@ -200,7 +197,9 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                           SizedBox(
                             width: 2.w,
                           ),
-                          SvgPicture.asset("assets/images/chat_img.svg"),
+                          GestureDetector(
+                              onTap: (){Get.to(ChatingScreen());},
+                              child: SvgPicture.asset("assets/images/chat_img.svg")),
                         ],
                       ),
                     ),
@@ -214,14 +213,28 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                   children: [
                     Flexible(
                       flex: 1,
-                      child: BaseButton(removeHorizontalPadding: true,title: "RESCHEDULE", onPressed: (){}, isActive: false, textSize: 15.sp),
+                      child: BaseButton(removeHorizontalPadding: true,title: "RESCHEDULE", onPressed: (){
+                        showGeneralDialog(
+                          context: context,
+                          pageBuilder:  (context, animation, secondaryAnimation) {
+                            return ChooseMeetingDateTimePopup(title: "Reschedule",);
+                          },
+                        );
+                      }, isActive: false, textSize: 15.sp),
                     ),
                     SizedBox(
                       width: 2.w,
                     ),
                     Flexible(
                       flex: 1,
-                      child: BaseButton(title: "CANCEL", onPressed: (){}, isActive: false, textSize: 15.sp,),
+                      child: BaseButton(title: "CANCEL", onPressed: (){
+                        showGeneralDialog(
+                          context: context,
+                          pageBuilder:  (context, animation, secondaryAnimation) {
+                            return const MeetingCancelReasonPopup();
+                          },
+                        );
+                      }, isActive: false, textSize: 15.sp,),
                     ),
                     SizedBox(
                       width: 2.w,
@@ -319,7 +332,9 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                           SizedBox(
                             width: 2.w,
                           ),
-                          SvgPicture.asset("assets/images/chat_img.svg"),
+                          GestureDetector(
+                              onTap: (){Get.to(ChatingScreen());},
+                              child: SvgPicture.asset("assets/images/chat_img.svg")),
                         ],
                       ),
                     ),
@@ -438,7 +453,9 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                     SizedBox(
                       width: 2.w,
                     ),
-                    SvgPicture.asset("assets/images/chat_img.svg"),
+                    GestureDetector(
+                        onTap: (){Get.to(ChatingScreen());},
+                        child: SvgPicture.asset("assets/images/chat_img.svg")),
                   ],
                 ),
                 const Divider(),
@@ -566,7 +583,9 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                     SizedBox(
                       width: 2.w,
                     ),
-                    SvgPicture.asset("assets/images/chat_img.svg"),
+                    GestureDetector(
+                        onTap: (){Get.to(ChatingScreen());},
+                        child: SvgPicture.asset("assets/images/chat_img.svg")),
                   ],
                 ),
                 const Divider(),
@@ -638,6 +657,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
                     textSize: smallButtonTs,
                     onPressed: () {
                       isTap = true;
+                      showMeetingFeedbackDialogue(context);
                       setState(() {});
                     },
                 ),
@@ -659,5 +679,95 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
         );
       },
     );
+  }
+  showMeetingFeedbackDialogue(BuildContext context) {
+    showGeneralDialog(
+        barrierColor: Colors.black.withOpacity(0.5),
+        transitionBuilder: (context, a1, a2, widget) {
+          return Transform.scale(
+            scale: a1.value,
+            child: Opacity(
+              opacity: a1.value,
+              child: Dialog(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                insetPadding: EdgeInsets.all(10),
+                child: StatefulBuilder(builder: (context, setSta) {
+                  return Container(
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
+                    padding: EdgeInsets.symmetric(vertical: 12,horizontal: 15),
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Stack(
+                          children: [
+                            Align(alignment: AlignmentDirectional.topEnd,
+                                child: GestureDetector(
+                                  onTap: (){
+                                    Navigator.pop(context);
+                                  },
+                                  child: Icon(Icons.close,color: Colors.grey,),
+                                )),
+                            Padding(
+                              padding: EdgeInsets.only(top: 10),
+                              child: Center(
+                                child: addAlignedText('Meeting Feedback', 18,
+                                    Colors.black, FontWeight.w700),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 2.h,),
+                        RatingBar.builder(
+                          itemSize: 30,
+                          initialRating: 5,
+                          minRating: 1,
+                          direction: Axis.horizontal,
+                          allowHalfRating: true,
+                          itemCount: 5,
+                          itemBuilder: (context, _) => Padding(
+                            padding: const EdgeInsets.all(1.0),
+                            child: Icon(
+                              CupertinoIcons.star_fill,
+                              color: BaseColors.primaryColor,
+                              size: 16.sp,
+                            ),
+                          ),
+                          onRatingUpdate: (rating) {
+                            print(rating);
+                          },
+                        ),
+                        SizedBox(height: 2.h,),
+                        Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: CustomTextField(
+                              controller: TextEditingController(),
+                              hintText: "Add feedback...",
+                              maxLine: 4,
+                            )),
+                        SizedBox(height: 1.h,),
+                        BaseButton(
+                          btnType: 'mediumlarge',
+                          title: 'SUBMIT',
+                          onPressed: (){
+                            Navigator.pop(context);
+                          },borderRadius: 20,),
+                        SizedBox(height: 2.h,),
+                      ],
+                    ),
+                  );
+                }),
+              ),
+            ),
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 200),
+        barrierDismissible: true,
+        barrierLabel: '',
+        context: context,
+        pageBuilder: (context, animation1, animation2) {
+          return const SizedBox();
+        });
   }
 }

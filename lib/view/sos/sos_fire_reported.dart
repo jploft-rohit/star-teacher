@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/sos/ask_for_help.dart';
 import 'package:staff_app/view/sos/sos_warden_view.dart';
@@ -47,17 +48,17 @@ class _FireReportedViewState extends State<FireReportedView> {
             SizedBox(height: 3.4.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 12.sp),
-              child: Text(widget.from, style: Style.montserratBoldStyle().copyWith(fontSize: 25.sp, color: BaseColors.white),),
+              child: Text(widget.from, style: Style.montserratBoldStyle().copyWith(fontSize: 22.sp, color: BaseColors.white),),
             ),
             SizedBox(height: 3.7.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 12.sp),
-              child: Text(translate(context).fire_reported_at_please_report_to_assembly_point_for_evacuation, style: Style.montserratBoldStyle().copyWith(fontSize: 19.sp, color: BaseColors.white, height: 1.3),textAlign: TextAlign.center,),
+              child: Text(translate(context).fire_reported_at_please_report_to_assembly_point_for_evacuation, style: Style.montserratBoldStyle().copyWith(fontSize: 17.sp, color: BaseColors.white, height: 1.3),textAlign: TextAlign.center,),
             ),
             SizedBox(height: 5.h),
-            BaseButton(title: translate(context).reached.toUpperCase(), onPressed: (){Get.off(SOSWardenView());}),
+            BaseButton(title: translate(context).reached.toUpperCase(), onPressed: (){Get.off(SOSWardenView());},btnType: largeButton,),
             SizedBox(height: 3.7.h),
-            BaseButton(title: translate(context).help_me.toUpperCase(), onPressed: (){Get.off(AskForHelpView());}),
+            BaseButton(title: translate(context).help_me.toUpperCase(), onPressed: (){Get.off(AskForHelpView());},btnType: largeButton,),
             SizedBox(height: 2.8.h),
             Text('${translate(context).reported_by}: Ahmed (Teacher)', style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: BaseColors.white),),
             SizedBox(height: 3.h),

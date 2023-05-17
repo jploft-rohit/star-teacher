@@ -5,8 +5,8 @@ import 'package:staff_app/view/schedule_meeting_screen/schedule_meeting_screen_c
 import 'package:table_calendar/table_calendar.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_colors.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 
 class ChooseMeetingDateTimePopup extends StatefulWidget {
   String title;
@@ -170,7 +170,7 @@ class _ChooseMeetingDateTimePopupState extends State<ChooseMeetingDateTimePopup>
                   children: [
                     Text(""),
                     Text("      ${widget.title}", style: Style.montserratBoldStyle().copyWith(fontSize: 17.sp, color: Colors.black),),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back();
                       },
@@ -270,13 +270,14 @@ class _ChooseMeetingDateTimePopupState extends State<ChooseMeetingDateTimePopup>
                   itemCount: 4,
                   padding: EdgeInsets.zero,
                   itemBuilder: (context, index) {
-                    return InkWell(
+                    return GestureDetector(
                       onTap: (){
                         for(var i in list){
                           i['isSelected'] = false;
                         }
                         list[index]['isSelected'] = !list[index]['isSelected'];
                         setState(() {});
+                        Get.back();
                       },
                       child: Container(
                         margin: EdgeInsets.only(bottom: 8.0),

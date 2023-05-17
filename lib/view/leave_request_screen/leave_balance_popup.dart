@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_colors.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 
 class LeaveBalancePopup extends StatefulWidget {
@@ -101,7 +101,7 @@ class _LeaveBalancePopupState extends State<LeaveBalancePopup> {
                   children: [
                     Text(""),
                     Text(translate(context).leave_balance, style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: Colors.black),),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Navigator.pop(context);
                       },
@@ -159,7 +159,7 @@ class _LeaveBalancePopupState extends State<LeaveBalancePopup> {
                                         SizedBox(
                                           width: 2.w,
                                         ),
-                                        // InkWell(
+                                        // GestureDetector(
                                         //   onTap: (){
                                         //     SuperTooltip(
                                         //       popupDirection: TooltipDirection.down,
@@ -173,67 +173,33 @@ class _LeaveBalancePopupState extends State<LeaveBalancePopup> {
                                         //     ).show(context);
                                         //   },
                                         //   child: SvgPicture.asset("assets/images/information-button(1) 1.svg"),)
-                                        JustTheTooltip(
-                                          controller: tooltipController,
-                                          tailBaseWidth: 10,
-                                          tailLength: 10,
-                                          elevation: 10.0,
-                                          borderRadius: BorderRadius.circular(10.0),
-                                          child: Material(
-                                            shape: const CircleBorder(),
-                                            elevation: 4.0,
-                                            child: SvgPicture.asset("assets/images/information-button(1) 1.svg"),
+                                        Tooltip(
+                                          showDuration: const Duration(seconds: 10),
+                                          margin: const EdgeInsets.symmetric(horizontal: 30),
+                                          textStyle: TextStyle(
+                                            color: BaseColors.primaryColor,
+                                            fontSize: 1.8.h - 1,
                                           ),
-                                          content:  Padding(
-                                              padding: EdgeInsets.all(18.sp),
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  addText(translate(context).evidence_required_for_the_approval, 14, Colors.black, FontWeight.w700),
-                                                  SizedBox(
-                                                    height: 1.h,
-                                                  ),
-                                                  Row(
-                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                    mainAxisSize: MainAxisSize.min,
-                                                    children: [
-                                                      Container(
-                                                        width: 3.0,
-                                                        height: 3.0,
-                                                        alignment: Alignment.center,
-                                                        decoration: BoxDecoration(
-                                                            shape: BoxShape.circle,
-                                                            color: Colors.black
-                                                        ),
-                                                      ),
-                                                      SizedBox(width: 5,),
-                                                      addText("Medical Certificate Health", 12, Colors.black, FontWeight.normal),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    height: .5.h,
-                                                  ),
-                                                  Row(
-                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                    mainAxisSize: MainAxisSize.min,
-                                                    children: [
-                                                      Container(
-                                                        alignment: Alignment.center,
-                                                        width: 3.0,
-                                                        height: 3.0,
-                                                        decoration: BoxDecoration(
-                                                            shape: BoxShape.circle,
-                                                            color: Colors.black
-                                                        ),
-                                                      ),
-                                                      SizedBox(width: 5,),
-                                                      addText("Health Condition Certificate", 12, Colors.black, FontWeight.normal),
-                                                    ],
-                                                  ),
-                                                ],
-                                              )
+                                          decoration: BoxDecoration(
+                                            color: BaseColors.secondaryColor,
+                                            border: Border.all(color: BaseColors.primaryColor),
+                                            // boxShadow: [getDeepBoxShadow()],
+                                            borderRadius: BorderRadius.circular(20),
                                           ),
+                                          triggerMode: TooltipTriggerMode.tap,
+                                          padding: const EdgeInsets.symmetric(horizontal: 6),
+                                          // controller: tooltipController,
+                                          // tailBaseWidth: 10,
+                                          // tailLength: 10,
+                                          // elevation: 10.0,
+                                          // borderRadius: BorderRadius.circular(10.0),
+                                          // child: Material(
+                                          //   shape: const CircleBorder(),
+                                          //   elevation: 4.0,
+                                          //   child: SvgPicture.asset("assets/images/information-button(1) 1.svg"),
+                                          // ),
+                                          message: "Medical Certificate Health",
+                                          child:  SvgPicture.asset("assets/images/information-button(1) 1.svg"),
                                         )
                                       ],
                                     ),

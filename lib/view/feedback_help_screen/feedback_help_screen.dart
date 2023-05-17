@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_dropdown.dart';
-import 'package:staff_app/Utility/base_floating_action_button.dart';
-import 'package:staff_app/Utility/base_tab_bar.dart';
-
-
-import 'package:staff_app/Utility/base_colors.dart';
-import 'package:staff_app/Utility/custom_text_field.dart';
-import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
+import 'package:staff_app/utility/base_views/base_tab_bar.dart';
+import 'package:staff_app/utility/custom_dropdown_widget.dart';
+import 'package:staff_app/utility/dummy_lists.dart';
 import 'package:staff_app/view/feedback_help_screen/add_feedback_view.dart';
-import 'package:staff_app/view/feedback_help_screen/add_help_view.dart';
 import 'package:staff_app/view/feedback_help_screen/all_feedback_help_view.dart';
-import 'package:staff_app/view/feedback_help_screen/feedback_view.dart';
-import 'package:staff_app/view/feedback_help_screen/help_view.dart';
+import 'package:staff_app/view/feedback_help_screen/controller/feedback_help_controller.dart';
+
+import '../../utility/sizes.dart';
+
 
 class FeedbackHelpScreen extends StatefulWidget {
   const FeedbackHelpScreen({Key? key}) : super(key: key);
@@ -25,65 +22,80 @@ class FeedbackHelpScreen extends StatefulWidget {
 }
 
 class _FeedbackHelpScreenState extends State<FeedbackHelpScreen> with TickerProviderStateMixin{
+  FeedbackHelpController controller = Get.put(FeedbackHelpController());
   TabController? tabCtrl;
 
   @override
   void initState() {
-    tabCtrl = TabController(length: 3, vsync: this);
+    tabCtrl = TabController(length: 3, vsync: this)..addListener(() {
+      controller.getData(type: (tabCtrl?.index??0) == 0 ? "" : (tabCtrl?.index??0) == 1 ? "help" : "feedback");
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const BaseAppBar(title: "Feedback & Help"),
+      appBar: BaseAppBar(title: translate(context).feedback_help),
       floatingActionButton: BaseFloatingActionButton(
         title: 'Feedback &\nHelp',
         onTap: () {
-          showGeneralDialog(
-            context: context,
-            pageBuilder:  (context, animation, secondaryAnimation) {
-              return tabCtrl?.index == 2 ? const AddFeedbackView() : const AddHelpView();
-            },
-          );
+          Get.to(const AddFeedbackView());
         },
-
       ),
       body: Padding(
-        padding: EdgeInsets.all(15.sp),
+        padding: EdgeInsets.all(scaffoldPadding),
         child: Column(
           children: [
-            BaseDropDown(),
-            BaseTabBar(
-              controller: tabCtrl,
-              tabs:  const [
-                Tab(
-                  text: 'All',
-                ),
-                Tab(
-                  text: 'Help',
-                ),
-                Tab(
-                  text: 'Feedback',
-                ),
-              ],
+            CustomDropDown(
+              initialValue: DummyLists.initialSchool,
+              hintText: DummyLists.initialSchool??"Select School",
+              listData:DummyLists.schoolData,
+              onChange: (value) {
+                setState(() {
+                  DummyLists.initialSchool=value;
+                });
+              },
+              topPadding: 5,
+              bottomPadding: 5,
+              icon: Icon(Icons.arrow_drop_down,color: Color(0xFFC4C4C4),size: 25,),
             ),
             SizedBox(
-              height: 2.h,
+              height: 1.h,
+            ),
+            buildTabBar(),
+            SizedBox(
+              height: 1.h,
             ),
             Expanded(
               child: TabBarView(
                 controller: tabCtrl,
                 children: const [
                   AllFeedbackHelpView(),
-                  HelpView(),
-                  FeedbackView(),
+                  AllFeedbackHelpView(),
+                  AllFeedbackHelpView(),
                 ],
               ),
             )
           ],
         ),
       ),
+    );
+  }
+  Widget buildTabBar() {
+    return BaseTabBar(
+      controller: tabCtrl,
+      tabs:  [
+        Tab(
+          text: translate(context).all,
+        ),
+        Tab(
+          text: translate(context).help,
+        ),
+        Tab(
+          text: translate(context).feedback,
+        ),
+      ],
     );
   }
 }

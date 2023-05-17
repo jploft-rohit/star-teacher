@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/view/wating_area_screen/star_called_popup.dart';
 import 'package:staff_app/view/wating_area_screen/star_detaching_popup.dart';
 
@@ -173,7 +173,7 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                   children: [
                     Flexible(
                       flex: 1,
-                      child: InkWell(
+                      child: GestureDetector(
                         onTap: (){
                           index = 0;
                           setState(() {});
@@ -207,7 +207,7 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                     ),
                     Flexible(
                       flex: 1,
-                      child: InkWell(
+                      child: GestureDetector(
                         onTap: (){
                           index = 1;
                           setState(() {});
@@ -252,7 +252,7 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 10.0),
-                        child: InkWell(
+                        child: GestureDetector(
                           onTap: (){
                             showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation) {
                               return StarCalledPopup();
@@ -343,7 +343,7 @@ class _WaitingAreaScreenState extends State<WaitingAreaScreen> {
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 10.0),
-                        child: InkWell(
+                        child: GestureDetector(
                           onTap: (){
                             showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation) {
                               return StarDetachingPopup();

@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_tab_button.dart';
-import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_tab_button.dart';
+import 'package:staff_app/utility/base_views/base_toggle_tab_bar.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/chat_screen/chating_screen.dart';
 import 'package:staff_app/view/schedule_meeting_screen/schedule_meeting_screen.dart';
@@ -41,8 +42,8 @@ class _ChatParentsTabState extends State<ChatParentsTab> with SingleTickerProvid
       child: Column(
         children: [
           BaseToggleTabBar(controller: tabController, tabs: [
-            BaseTabButton(title: translate(context).individual, isSelected: tabController.index == 0),
-            BaseTabButton(title: translate(context).group, isSelected: tabController.index == 1),
+            BaseTabButton(title: translate(context).individual, isSelected: tabController.index == 0,type: toggleLargeButton,),
+            BaseTabButton(title: translate(context).group, isSelected: tabController.index == 1,type: toggleLargeButton,),
           ]),
           SizedBox(
             height: 2.h,
@@ -109,7 +110,7 @@ class _ChatParentsTabState extends State<ChatParentsTab> with SingleTickerProvid
                                       ),
                                     ],
                                   ),
-                                  InkWell(
+                                  GestureDetector(
                                     onTap: (){
                                       Get.to(const ScheduleMeetingScreen());
                                     },
@@ -126,7 +127,7 @@ class _ChatParentsTabState extends State<ChatParentsTab> with SingleTickerProvid
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(right: 10.0),
-                                    child: InkWell(
+                                    child: GestureDetector(
                                       onTap: (){
                                         Get.to(const ChatingScreen());
                                       },
@@ -222,7 +223,7 @@ class _ChatParentsTabState extends State<ChatParentsTab> with SingleTickerProvid
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                                child: InkWell(
+                                child: GestureDetector(
                                   onTap: (){
                                     Get.to(const ChatingScreen());
                                   },

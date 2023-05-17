@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
 
 class AboutUs extends StatefulWidget {
   const AboutUs({Key? key}) : super(key: key);

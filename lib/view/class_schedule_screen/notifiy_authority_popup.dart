@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/class_schedule_screen/reschedule_class_popup.dart';
 
@@ -65,7 +65,7 @@ class _NotifyAuthorityPopupState extends State<NotifyAuthorityPopup> {
                   children: [
                     const Text(""),
                     Text(translate(context).notify_admin, style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: Colors.black),),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back();
                       },
@@ -80,7 +80,7 @@ class _NotifyAuthorityPopupState extends State<NotifyAuthorityPopup> {
                     itemCount: 4,
                     padding: EdgeInsets.zero,
                     itemBuilder: (context, index) {
-                      return InkWell(
+                      return GestureDetector(
                         onTap: (){
                           for(var i in list){
                             i['isSelected'] = false;

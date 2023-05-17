@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_tab_bar.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_tab_bar.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/salary_slip_screen/salary_slip_poup.dart';
 
@@ -112,7 +112,7 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                             ),
                           ),
                           const SizedBox(height: 5,),
-                          InkWell(
+                          GestureDetector(
                               onTap: (){
                                 showScanQrDialogue(context, false);
                               },child: SvgPicture.asset(qrCodeSvg, height: 5.h,))
@@ -289,7 +289,7 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                   Text(translate(context).medical_certificate, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp)),
                   Row(
                     children: [
-                      InkWell(
+                      GestureDetector(
                           onTap: (){
                             showGeneralDialog(
                               context: context,
@@ -422,7 +422,7 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                   Text(translate(context).medical_certificate, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp)),
                   Row(
                     children: [
-                      InkWell(onTap: (){
+                      GestureDetector(onTap: (){
                         showGeneralDialog(
                           context: context,
                           pageBuilder:  (context, animation, secondaryAnimation) {

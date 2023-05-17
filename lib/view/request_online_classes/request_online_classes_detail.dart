@@ -3,21 +3,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/Utility/custom_dropdown_widget.dart';
+import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
+import 'package:staff_app/view/leave_request_screen/upload_evidence_popup.dart';
 import 'package:staff_app/view/request_online_classes/request_online_classes.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/confirmation_popup.dart';
 
-import '../../Utility/base_floating_action_button.dart';
+import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
 
-class RequestOnlineClassesDetail extends StatelessWidget {
+class RequestOnlineClassesDetail extends StatefulWidget {
   RequestOnlineClassesDetail({Key? key}) : super(key: key);
+
+  @override
+  State<RequestOnlineClassesDetail> createState() => _RequestOnlineClassesDetailState();
+}
+
+class _RequestOnlineClassesDetailState extends State<RequestOnlineClassesDetail> {
   final List<String> pendingMeetingdates = ['July 2,\n8:30PM', '', '', ''];
 
   final List<String> heading = [
@@ -26,6 +36,7 @@ class RequestOnlineClassesDetail extends StatelessWidget {
     'Evidence\nSubmit',
     'Evidence\nApproved'
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,22 +51,18 @@ class RequestOnlineClassesDetail extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-              decoration: BoxDecoration(
-                color: BaseColors.backgroundColor,
-                borderRadius: BorderRadius.circular(5.0),
-                border: Border.all(
-                    color: BaseColors.borderColor
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Select School", style: Style.montserratRegularStyle().copyWith(color: Colors.black, fontSize: 16.sp),),
-                  const Icon(Icons.arrow_drop_down, color: Color(0xffC4C4C4),size: 35.0,)
-                ],
-              ),
+            CustomDropDown(
+              initialValue: DummyLists.initialSchool,
+              hintText: "Select School",
+              listData:DummyLists.schoolData,
+              onChange: (value) {
+                setState(() {
+                  DummyLists.initialSchool=value;
+                });
+              },
+              topPadding: 5,
+              bottomPadding: 5,
+              icon: Icon(Icons.arrow_drop_down,color: Color(0xFFC4C4C4),size: 25,),
             ),
             SizedBox(
               height: 2.h,
@@ -95,7 +102,7 @@ class RequestOnlineClassesDetail extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Rafiq Khan", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 17.sp),),
+                          Text("Rafiq Khan", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),),
                           SizedBox(
                             height: 0.5.h,
                           ),
@@ -126,22 +133,33 @@ class RequestOnlineClassesDetail extends StatelessWidget {
                           SizedBox(
                             width: 5.w,
                           ),
-                          Column(
-                            children: [
-                              SvgPicture.asset(uploadDocSvg),
-                              const SizedBox(
-                                height: 2.0,
-                              ),
-                              Text(translate(context).upload_evidence, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 13.sp),textAlign: TextAlign.center,)
-                            ],
+                          GestureDetector(
+                            onTap: (){
+                              showGeneralDialog(
+                                context: context,
+                                pageBuilder:  (context, animation, secondaryAnimation) {
+                                  return const UploadEvidencePopup();
+                                },
+                              );
+                            },
+                            child: Column(
+                              children: [
+                                SvgPicture.asset(uploadDocSvg),
+                                const SizedBox(
+                                  height: 2.0,
+                                ),
+                                Text(translate(context).upload_evidence, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 13.sp),textAlign: TextAlign.center,)
+                              ],
+                            ),
                           ),
                         ],
                       )
                     ],
                   ),
-                  const Divider(
+                   Divider(
                     color: BaseColors.borderColor,
                     thickness: 1.0,
+                    height: 3.h,
                   ),
                   Row(
                     children: [
@@ -164,9 +182,10 @@ class RequestOnlineClassesDetail extends StatelessWidget {
                       Text("05/03/2022", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                     ],
                   ),
-                  const Divider(
+                  Divider(
                     color: BaseColors.borderColor,
                     thickness: 1.0,
+                    height: 3.h,
                   ),
                   Row(
                     children: [
@@ -178,9 +197,10 @@ class RequestOnlineClassesDetail extends StatelessWidget {
                       Text("Due to sickness", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                     ],
                   ),
-                  const Divider(
+                  Divider(
                     color: BaseColors.borderColor,
                     thickness: 1.0,
+                    height: 3.h,
                   ),
         StepProgressView(
           width: MediaQuery.of(context).size.width,

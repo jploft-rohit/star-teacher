@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/confirmation_popup.dart';
 import 'package:staff_app/view/transportation_screen/activation_request_detail_screen.dart';
@@ -97,7 +97,7 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
                             ),
                           ),
                           const SizedBox(height: 5,),
-                          InkWell(
+                          GestureDetector(
                               onTap: (){
                                 showScanQrDialogue(context, false);
                               },child: SvgPicture.asset(qrCodeSvg, height: 5.h,))
@@ -215,7 +215,7 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
             SizedBox(
               height: 3.h,
             ),
-            Center(child: BaseButton(title: translate(context).request_for_activation, onPressed: (){
+            Center(child: BaseButton(removeHorizontalPadding: true, title: translate(context).request_for_activation, onPressed: (){
               showGeneralDialog(
                 context: context,
                 pageBuilder: (context, animation, secondaryAnimation) {
@@ -224,7 +224,7 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
               ).then((value){
                 Get.to(const ActivationRequestDetailScreen());
               });
-            }, btnWidth: 70.w,))
+            }))
           ],
         ),
       ),

@@ -1,20 +1,20 @@
-import 'package:autoscale_tabbarview/autoscale_tabbarview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_tab_button.dart';
-import 'package:staff_app/Utility/base_toggle_tab_bar.dart';
-
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_tab_button.dart';
+import 'package:staff_app/utility/base_views/base_toggle_tab_bar.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/Utility/custom_dropdown_widget.dart';
+import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/shop_screen/cart/cart_view.dart';
 import 'package:staff_app/view/shop_screen/cart/tray_view.dart';
-import 'package:staff_app/view/shop_screen/orders/order_view.dart';
-import 'package:staff_app/view/shop_screen/shop_detail_screen.dart';
+import 'package:staff_app/view/shop_screen/tabs/order_tab.dart';
+import 'package:staff_app/view/shop_screen/tabs/shop_tab.dart';
 import 'package:staff_app/view/shop_screen/shop_screen_ctrl.dart';
 
 
@@ -49,85 +49,52 @@ class _ShopViewState extends State<ShopView> with SingleTickerProviderStateMixin
       child: Scaffold(
         backgroundColor: BaseColors.white,
         appBar: const BaseAppBar(title: "Shop"),
-        floatingActionButton: Obx(
-              () => controller.selectedIndex.value == 0
-              ? shopFloatingButton(() {
-            if (controller.selectedIndex1.value == 2) {
-              Get.to(const TrayView());
-            } else {
-              Get.to(const CartView());
-            }
-          })
-              : const SizedBox.shrink(),
-        ),
+        // floatingActionButton: Obx(
+        //       () => controller.selectedIndex.value == 0
+        //       ? shopFloatingButton(() {
+        //     if (controller.selectedIndex1.value == 2) {
+        //       Get.to(const TrayView());
+        //     } else {
+        //       Get.to(const CartView());
+        //     }
+        //   })
+        //       : const SizedBox.shrink(),
+        // ),
         body: Padding(
           padding: EdgeInsets.all(15.sp),
           child: Column(
             children: [
               BaseToggleTabBar(controller: tabController, tabs: [
-                BaseTabButton(title: translate(context).shop, isSelected: tabController.index == 0),
-                BaseTabButton(title: translate(context).orders, isSelected: tabController.index == 1),
+                BaseTabButton(title: translate(context).shop, isSelected: tabController.index == 0,type: toggleLargeButton,),
+                BaseTabButton(title: translate(context).orders, isSelected: tabController.index == 1,type: toggleLargeButton,),
               ]),
               SizedBox(height:2.h),
-              Container(
-                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                decoration: BoxDecoration(
-                  color: BaseColors.backgroundColor,
-                  borderRadius: BorderRadius.circular(5.0),
-                  border: Border.all(
-                      color: BaseColors.borderColor
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Ignite Public School", style: Style.montserratRegularStyle().copyWith(color: Colors.black, fontSize: 16.sp),),
-                    const Icon(Icons.arrow_drop_down, color: Color(0xffC4C4C4),size: 35.0,)
-                  ],
-                ),
+              CustomDropDown(
+                initialValue: DummyLists.initialSchool,
+                hintText: "Select School",
+                listData:DummyLists.schoolData,
+                onChange: (value) {
+                  setState(() {
+                    DummyLists.initialSchool=value;
+                  });
+                },
+                topPadding: 5,
+                bottomPadding: 5,
+                icon: Icon(Icons.arrow_drop_down,color: Color(0xFFC4C4C4),size: 25,),
               ),
-              SizedBox(height:1.h),
+              SizedBox(height: 1.h,),
               Expanded(
                 child: TabBarView(
                   controller: tabController,
                   children: [
-                  ShopDetailView(),
-                  OrderView()
+                  ShopTab(),
+                  OrderTab()
                 ]),
               ),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  Widget shopFloatingButton(onTap) {
-    return Stack(
-      alignment: Alignment.topRight,
-      children: [
-        InkWell(
-          onTap: onTap,
-          child: Container(
-            margin: const EdgeInsets.all(2),
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: BaseColors.backgroundColor,
-                border: Border.all(color: BaseColors.primaryColor)),
-            child: SvgPicture.asset('assets/images/shopping-cart 1.svg'),
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(5),
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            color: BaseColors.primaryColor,
-          ),
-          child: addText(
-              '3', 12.sp, BaseColors.white, FontWeight.w400),
-        )
-      ],
     );
   }
 }

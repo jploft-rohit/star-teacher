@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/wallet/sub_screens/cartd_detail_popup.dart';
 import 'package:staff_app/view/wallet/wallet_controller.dart';
@@ -21,7 +21,7 @@ class _TopupYourFamilyPopupState extends State<TopupYourFamilyPopup> {
   WalletController controller = Get.put(WalletController());
   @override
   Widget build(BuildContext context) {
-    amtCtrl.text = '20 AED';
+    amtCtrl.text = 'AED 1000';
     return Scaffold(
       backgroundColor: Colors.black.withOpacity(0.5),
       body: Dialog(
@@ -54,7 +54,7 @@ class _TopupYourFamilyPopupState extends State<TopupYourFamilyPopup> {
                               ],
                             ),
                           ),
-                          InkWell(
+                          GestureDetector(
                             onTap: (){
                               Get.back();
                             },
@@ -74,21 +74,21 @@ class _TopupYourFamilyPopupState extends State<TopupYourFamilyPopup> {
                       ),
                       Container(
                         alignment: Alignment.topLeft,
-                        height: 2.h,
+                        height: 3.h,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
                           padding: EdgeInsets.zero,
                           itemBuilder: (context, index) => GestureDetector(
                             onTap: () {
-                              amtCtrl.text = controller.amount[index].toString() +" AED";
+                              amtCtrl.text = "AED "+controller.amount[index].toString();
                               amtCtrl.selection = TextSelection.fromPosition(TextPosition(offset: (controller.amount[index].toString() +" AED").length));
                               Get.find<WalletController>().update();
                             },
                             child: Container(
-                              height: 2.h,
+                              height: 3.h,
                               margin: EdgeInsets.symmetric(horizontal: 5),
-                              padding: EdgeInsets.symmetric(horizontal: 5),
+                              padding: EdgeInsets.symmetric(horizontal: 10,vertical: 1),
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
                                   color: BaseColors.backgroundColor,
@@ -97,9 +97,9 @@ class _TopupYourFamilyPopupState extends State<TopupYourFamilyPopup> {
                                       width: 0.3,
                                       color: BaseColors.primaryColor)),
                               child: addText("+AED ${Get.find<WalletController>().amount[index]}",
-                                  13.sp,
+                                  14.sp,
                                   BaseColors.primaryColor,
-                                  FontWeight.w400),
+                                  FontWeight.w700),
                             ),
                           ),
                           itemCount: Get.find<WalletController>().amount.length,
@@ -112,7 +112,8 @@ class _TopupYourFamilyPopupState extends State<TopupYourFamilyPopup> {
                         child: BaseButton(
                           title: "${translate(context).top_up.toUpperCase()} ${amtCtrl.text.trim()}",
                           btnWidth: 50.w,
-                          textSize: 16.sp,
+                          textSize: 15.sp,
+                          borderRadius: 20,
                           onPressed: (){
                             Get.back();
                             showGeneralDialog(

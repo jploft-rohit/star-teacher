@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/base_colors.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/lost_or_found_screen/report_lost_found_screen.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/confirmation_popup.dart';
 
@@ -43,7 +45,7 @@ class _FoundTabState extends State<FoundTab> {
                     ],
                   ),
                   const Divider(),
-                  buildInfoItems("Found Date", "28-11-2022"),
+                  buildInfoItems(translate(context).found_date, "28-11-2022"),
                   const Divider(),
                   buildInfoItems("Where", "In Computer Lab"),
                   SizedBox(
@@ -54,7 +56,7 @@ class _FoundTabState extends State<FoundTab> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0)
                     ),
-                    child: Image.asset("assets/images/Rectangle 360.png"),
+                    child: Image.asset("assets/delete/Rectangle 360.png"),
                   ),
                   SizedBox(
                     height: 1.5.h,
@@ -67,7 +69,8 @@ class _FoundTabState extends State<FoundTab> {
                           return ConfirmationDialog(msg: "Return request is successfully sent", isShowBtn: true,btnText: "OK",);
                         });
                       },
-                      textSize: 15.sp,
+                      btnType: toggleLargeButton,
+                      borderRadius: 20,
                     ),
                   ),
                 ],

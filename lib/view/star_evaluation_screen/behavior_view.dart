@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/star_evaluation_screen/mark_selected_popup.dart';
 import 'package:staff_app/view/star_evaluation_screen/star_evaluation_screen_ctrl.dart';
@@ -77,7 +77,7 @@ class _BehaviourViewState extends State<BehaviourView> {
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.only(bottom: 10.0),
-              child: InkWell(
+              child: GestureDetector(
                 onTap: (){
                   ctrl.list[index]['isSelected'].value = !ctrl.list[index]['isSelected'].value;
                 },
@@ -175,7 +175,7 @@ class _BehaviourViewState extends State<BehaviourView> {
                                   SizedBox(
                                     width: 1.w,
                                   ),
-                                  InkWell(
+                                  GestureDetector(
                                     onTap: (){
                                       if(ctrl.list[index]['count'].value > 1) ctrl.list[index]['count'].value = ctrl.list[index]['count'].value - 1;
                                     },
@@ -195,7 +195,7 @@ class _BehaviourViewState extends State<BehaviourView> {
                                   SizedBox(
                                     width: 1.w,
                                   ),
-                                  InkWell(
+                                  GestureDetector(
                                     onTap: (){
                                       ctrl.list[index]['count'].value = ctrl.list[index]['count'].value + 1;
                                     },
@@ -220,7 +220,8 @@ class _BehaviourViewState extends State<BehaviourView> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            BaseButton(btnType: mediumLargeButton,title: translate(context).save, onPressed: (){}, btnWidth: 30.w),
+            BaseButton(btnType: mediumLargeButton,title: translate(context).save, onPressed: (){}, btnWidth: 30.w,
+            borderRadius: 19,),
             BaseButton(btnType: mediumLargeButton,title: translate(context).next_btn_txt, onPressed: (){
               showGeneralDialog(
                 context: context,
@@ -228,7 +229,7 @@ class _BehaviourViewState extends State<BehaviourView> {
                   return MarkSelectedPopup(isShowCount: true,);
                 },
               );
-            }),
+            },borderRadius: 19,),
           ],
         ),
         SizedBox(

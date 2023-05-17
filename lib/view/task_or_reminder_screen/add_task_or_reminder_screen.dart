@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/time_picker.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/task_or_reminder_screen/task_or_reminder_screen.dart';
 
@@ -40,15 +40,16 @@ class _AddTaskOrReminderScreenState extends State<AddTaskOrReminderScreen> {
   @override
   Widget build(BuildContext context) {
 
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: BaseAppBar(title: widget.isUpdating ? "Edit Task or Reminder" : translate(context).add_task_or_remainders),
-        body: ListView(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: BaseAppBar(title: widget.isUpdating ? "Edit Task or Reminder" : translate(context).add_task_or_remainders),
+      body: SafeArea(
+        bottom: false,
+        child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15.0),
           children: [
             addText(translate(context).when_to_remind, 16, Colors.black, FontWeight.normal),
-            SizedBox(height: 15,),
+            SizedBox(height: 15),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -71,7 +72,7 @@ class _AddTaskOrReminderScreenState extends State<AddTaskOrReminderScreen> {
                         },
                       ),
                     ),
-                    SizedBox(width: 5,),
+                    SizedBox(width: 5),
                     addText(translate(context).daily, radioButtonTitleTs, Colors.black, FontWeight.w400)
                   ],
                 ),
@@ -220,8 +221,8 @@ class _AddTaskOrReminderScreenState extends State<AddTaskOrReminderScreen> {
             Align(
               alignment: Alignment.topCenter,
               child: BaseButton(title: translate(context).set_reminder.toUpperCase(), onPressed: (){
-                Get.to(TaskOrReminderScreen(isFromBtmBar: false,));
-              }),
+                Get.back();
+              },btnType: largeButton,),
             ),
           ],
         ),

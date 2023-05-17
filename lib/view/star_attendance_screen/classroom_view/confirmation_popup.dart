@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 
 class ConfirmationDialog extends StatefulWidget {
   String msg;
@@ -41,7 +41,7 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(""),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back(result: false);
                       },

@@ -2,8 +2,8 @@ import 'package:autoscale_tabbarview/autoscale_tabbarview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_colors.dart';
-import 'package:staff_app/Utility/base_tab_bar.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_tab_bar.dart';
 import 'package:staff_app/view/Dashboard_screen/home_screen/tabs/sub_tabs/home_photo_tab.dart';
 import 'package:staff_app/view/Dashboard_screen/home_screen/tabs/sub_tabs/home_photo_video_tab.dart';
 import 'package:staff_app/view/Dashboard_screen/home_screen/tabs/sub_tabs/home_video_tab.dart';
@@ -43,7 +43,7 @@ class _StarGalleryTabState extends State<StarGalleryTab> with TickerProviderStat
           ]),
           SizedBox(height: 15),
           SizedBox(
-            height: 40.h,
+            height: 60.h,
             child: AutoScaleTabBarView(
               controller: tabController,
               children: [

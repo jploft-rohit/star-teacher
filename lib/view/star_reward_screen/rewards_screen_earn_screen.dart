@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/star_reward_screen/create_reward_screen.dart';
 import 'package:staff_app/view/star_reward_screen/reward_screen_ctrl.dart';
 
-import '../../Utility/utility.dart';
+import '../../Utility/base_utility.dart';
 
 class RewardView extends StatefulWidget {
   const RewardView({super.key});

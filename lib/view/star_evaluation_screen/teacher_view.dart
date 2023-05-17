@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/star_evaluation_screen/mark_selected_popup.dart';
 import 'package:staff_app/view/star_evaluation_screen/star_evaluation_screen_ctrl.dart';
@@ -85,7 +86,7 @@ class _TeacherViewState extends State<TeacherView> {
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.only(bottom: 10.0),
-              child: InkWell(
+              child: GestureDetector(
                 onTap: (){
                   ctrl.list[index]['isSelected'].value = !ctrl.list[index]['isSelected'].value;
                 },
@@ -193,17 +194,16 @@ class _TeacherViewState extends State<TeacherView> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Expanded(flex: 2,child: BaseButton(title: translate(context).save.toUpperCase(), onPressed: (){}, btnWidth: 30.w)),
+            BaseButton(btnType: mediumButton,title: translate(context).save, onPressed: (){}, btnWidth: 30.w,borderRadius: 19,),
             SizedBox(width: 3.5.w),
-            Expanded(flex: 4,child: BaseButton(title: translate(context).submit_for_review.toUpperCase(), onPressed: (){
-                showGeneralDialog(
-                  context: context,
-                  pageBuilder: (context, animation, secondaryAnimation) {
-                    return MarkSelectedPopup(isShowCount: false,);
-                  },
-                );
-              }),
-            ),
+            Expanded(flex: 4,child: BaseButton(btnType: mediumButton,title: translate(context).submit_for_review.toUpperCase(), onPressed: (){
+              showGeneralDialog(
+                context: context,
+                pageBuilder: (context, animation, secondaryAnimation) {
+                  return MarkSelectedPopup(isShowCount: false,);
+                },
+              );
+            },borderRadius: 19,)),
           ],
         ),
         SizedBox(

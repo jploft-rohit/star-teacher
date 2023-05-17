@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/create_task_or_assignment/create_task_or_assignment_screen_ctrl.dart';
 import 'package:staff_app/view/schedule_meeting_screen/schedule_with_popup1.dart';
@@ -48,7 +48,7 @@ class _ScheduleWithPopupState extends State<ScheduleWithPopup> {
                   children: [
                     const Text(""),
                     Text("Select Role", style: Style.montserratBoldStyle().copyWith(fontSize: 17.sp, color: Colors.black),),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
                         Get.back();
                       },
@@ -158,7 +158,7 @@ class _ScheduleWithPopupState extends State<ScheduleWithPopup> {
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 10.0),
-                      child: InkWell(
+                      child: GestureDetector(
                         onTap: (){
                           selectedFMOPos = index;
                           setState(() {});

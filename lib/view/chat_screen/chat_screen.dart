@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_tab_bar.dart';
-import 'package:staff_app/Utility/base_colors.dart';
-import 'package:staff_app/Utility/custom_text_field.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_tab_bar.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/Utility/custom_filter_dropdown.dart';
+import 'package:staff_app/Utility/dummy_lists.dart';
+import 'package:staff_app/Utility/filter_textformfield.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/utility.dart';
-import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/view/Dashboard_screen/dashboard_screen_ctrl.dart';
 import 'package:staff_app/view/chat_screen/chat_screen_ctrl.dart';
 import 'package:staff_app/view/chat_screen/views/chat_admins_tab.dart';
@@ -61,42 +61,27 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin{
           children: [
             Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15.0),
-                border: Border.all(
-                  color: BaseColors.borderColor,
-                ),
-              ),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Color(0xFFCECECE), width: 1)),
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0,),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(classTakenSvg,height: 15,),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        Text("School", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                        const Spacer(),
-                        const Icon(
-                          Icons.arrow_drop_down,
-                        )
-                      ],
-                    ),
-                  ),
-                  const Divider(height: 0.0,),
-                  CustomTextField(
-                    controller: TextEditingController(),
-                    hintText: translate(context).search_by_id,
-                    borderColor: Colors.transparent,
-                    hintTextColor: BaseColors.textLightGreyColor,
-                    contentPadding: const EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
-                    prefixIcon: const Padding(
-                      padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                      child: Icon(
-                        Icons.search,
+                  Row(
+                    children: [
+                            CustomFilterDropDown(initialValue: DummyLists.initialSchool, hintText: 'School', listData: DummyLists.schoolData, onChange: (value) {
+                              setState(() {
+                                DummyLists.initialSchool=value;
+                              });
+                            },icon: classTakenSvg,
                       ),
-                    ),
+                    ],
+                    mainAxisAlignment: MainAxisAlignment.start,
+                  ),
+                  Divider(
+                    height: 1,
+                    thickness: 1,
+                  ),
+                  FilterTextFormField(onChange: (String val) {
+                  }, hintText: "Search Star,ID...", keyBoardType: TextInputType.name,
                   )
                 ],
               ),

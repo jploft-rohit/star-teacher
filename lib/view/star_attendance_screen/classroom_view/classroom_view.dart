@@ -3,16 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/base_tab_bar.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
+import 'package:staff_app/utility/base_views/base_student_filter.dart';
+import 'package:staff_app/utility/base_views/base_tab_bar.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/Utility/custom_filter_dropdown.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
+import 'package:staff_app/Utility/dummy_lists.dart';
+import 'package:staff_app/Utility/filter_textformfield.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/utility/base_views/base_type_search.dart';
 import 'package:staff_app/view/performance_screen/performance_screen.dart';
+import 'package:staff_app/view/sos/sos_scanQR.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/absent_view.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/classroom_view_ctrl.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/confirmation_popup.dart';
@@ -48,138 +54,16 @@ class _ClassRoomViewState extends State<ClassRoomView> with SingleTickerProvider
       child: Column(
         children: [
           /// Top Section
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15.0),
-              border: Border.all(
-                  color: BaseColors.borderColor
-              ),
-            ),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Flexible(
-                      flex: 1,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0,),
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(classTakenSvg,height: 15,),
-                            SizedBox(
-                              width: 2.w,
-                            ),
-                            Text("School", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                            const Spacer(),
-                            const Icon(
-                              Icons.arrow_drop_down,
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: 1,
-                      height: 25,
-                      color: BaseColors.borderColor,
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(classTakenSvg,height: 15,),
-                            SizedBox(
-                              width: 2.w,
-                            ),
-                            Text("Classroom", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                            const Spacer(),
-                            const Icon(
-                              Icons.arrow_drop_down,
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const Divider(height: 0.0,),
-                Row(
-                  children: [
-                    Flexible(
-                      flex: 1,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0,),
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(jobDetailSvg,height: 15,),
-                            SizedBox(
-                              width: 2.w,
-                            ),
-                            Text("Grade 3", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                            const Spacer(),
-                            const Icon(
-                              Icons.arrow_drop_down,
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: 1,
-                      height: 25,
-                      color: BaseColors.borderColor,
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(classTakenSvg,height: 15,),
-                            SizedBox(
-                              width: 2.w,
-                            ),
-                            Text("H1", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 15.sp),),
-                            const Spacer(),
-                            const Icon(
-                              Icons.arrow_drop_down,
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const Divider(height: 0.0,),
-                CustomTextField(
-                  controller: controller.searchCtrl,
-                  hintText: translate(context).search_by_id,
-                  borderColor: Colors.transparent,
-                  hintTextColor: BaseColors.textLightGreyColor,
-                  contentPadding: const EdgeInsets.only(top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
-                  prefixIcon: const Padding(
-                    padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                    child: Icon(
-                      Icons.search,
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          //
-          SizedBox(
-            height: 1.5.h,
-          ),
+          BaseStudentFilter(),
+          // BaseTypeSearch(searchController: TextEditingController()),
           Obx((){
             return controller.selectedIndex.value == 0
                 ? GridView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: controller.fmoImageList.length,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                shrinkWrap: true,
+                padding: EdgeInsets.symmetric(horizontal: 1),
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: controller.fmoImageList.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     crossAxisSpacing: 15,
                     // mainAxisSpacing: 15,
@@ -189,6 +73,9 @@ class _ClassRoomViewState extends State<ClassRoomView> with SingleTickerProvider
                     GestureDetector(
                       onTap: () {
                         controller.selectedFMOPos.value = index;
+                        if(index == 1){
+                          Get.to(ScanQrCodeScreen());
+                        }
                       },
                       child: Obx(() {
                         return Container(
@@ -201,9 +88,9 @@ class _ClassRoomViewState extends State<ClassRoomView> with SingleTickerProvider
                               boxShadow: [getBoxShadow()],
                               border: controller.selectedFMOPos.value == index
                                   ? Border.all(
-                                  color: BaseColors.primaryColor, width: 1.5)
+                                  color: BaseColors.primaryColor, width: 1)
                                   : null,
-                              borderRadius: BorderRadius.circular(15.0)),
+                              borderRadius: BorderRadius.circular(10.0)),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             // crossAxisAlignment: CrossAxisAlignment.center,
@@ -245,7 +132,10 @@ class _ClassRoomViewState extends State<ClassRoomView> with SingleTickerProvider
                         return controller.selectedFMOPos.value == 1
                             ? Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                                child: SvgPicture.asset(qrCodeSvg, height: 25.sp))
+                                child: GestureDetector(child: SvgPicture.asset(qrCodeSvg, height: 25.sp,color: BaseColors.primaryColor,),onTap: (){
+                                  // showScanQrDialogue(context, true);
+                                  Get.to(ScanQrCodeScreen());
+                                },))
                             : const SizedBox();
                       }),
                     ],
@@ -296,7 +186,7 @@ class _ClassRoomViewState extends State<ClassRoomView> with SingleTickerProvider
                           clipBehavior: Clip.antiAliasWithSaveLayer,
                           alignment: Alignment.centerLeft,
                           children: [
-                            InkWell(
+                            GestureDetector(
                               onTap: (){
                                 showGeneralDialog(
                                   context: context,
@@ -325,7 +215,7 @@ class _ClassRoomViewState extends State<ClassRoomView> with SingleTickerProvider
                                             Row(
                                               children: [
                                                 Container(
-                                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                                                   decoration: BoxDecoration(
                                                       borderRadius: BorderRadius.circular(15),
                                                       border: Border.all(
@@ -341,6 +231,7 @@ class _ClassRoomViewState extends State<ClassRoomView> with SingleTickerProvider
                                                       height: 0.5.h,
                                                     ),
                                                     Wrap(
+                                                      alignment: WrapAlignment.start,
                                                       children: List.generate(controller.statusList.length, (index) {
                                                         return Row(
                                                           children: [
@@ -367,16 +258,7 @@ class _ClassRoomViewState extends State<ClassRoomView> with SingleTickerProvider
                                                     )
                                                   ],
                                                 ),
-                                                SizedBox(width: 10.w,),
-                                                // Column(
-                                                //   children: [
-                                                //     Text('Present', style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: CustomColors.green),),
-                                                //     SizedBox(
-                                                //       height: 0.5.h,
-                                                //     ),
-                                                //     Text('7:30 am', style: Style.montserratMediumStyle().copyWith(fontSize: 13.sp, color: CustomColors.textBlackColor),),
-                                                //   ],
-                                                // ),
+                                                SizedBox(width: 2.w,),
                                               ],
                                             ),
                                           ],
@@ -412,7 +294,7 @@ class _ClassRoomViewState extends State<ClassRoomView> with SingleTickerProvider
                               //   ),
                               //   child: SvgPicture.asset(starSvg, height: 18.sp,),
                               // ),
-                              child: InkWell(
+                              child: GestureDetector(
                                 onTap: (){
                                   controller.selectedFMOPos1.value = index;
                                   setState(() {
@@ -452,59 +334,29 @@ class _ClassRoomViewState extends State<ClassRoomView> with SingleTickerProvider
                                 ),
                               ),
                             ),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 3.0),
-                                child: InkWell(
-                                  onTap: (){
-                                    Get.to(PerformanceScreen(index: 2,));
-                                  },
-                                  child: Container(
-                                    padding: const EdgeInsets.all(3),
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        shape: BoxShape.circle,
-                                        boxShadow: [
-                                          getBoxShadow()
-                                        ]
-                                    ),
-                                    child: SvgPicture.asset(starSvg, height: 18.sp,),
-                                  ),
-                                ),
-                                // child: Container(
-                                //   height: 20,
-                                //   width: 20,
-                                //   // padding: const EdgeInsets.symmetric(horizontal: 9),
-                                //   decoration: BoxDecoration(
-                                //       color: controller.selectedFMOPos.value == index
-                                //           ? CustomColors.backgroundColor
-                                //           : CustomColors.borderColor,
-                                //       boxShadow: [getLightBoxShadow()],
-                                //       border: controller.selectedFMOPos.value == index
-                                //           ? Border.all(
-                                //           color: CustomColors.primaryColor, width: 1.5)
-                                //           : Border.all(
-                                //           color: Colors.transparent, width: 1.5),
-                                //       borderRadius: BorderRadius.circular(30.0)),
-                                //   child: Container(
-                                //     decoration: BoxDecoration(
-                                //         border: Border.all(
-                                //             color: CustomColors.white, width: 1.5),
-                                //         shape: BoxShape.circle,
-                                //         boxShadow: [getBoxShadow()],
-                                //         color: controller.selectedFMOPos.value == index
-                                //             ? CustomColors.primaryColor
-                                //             : CustomColors.borderColor
-                                //     ),
-                                //     child: Center(
-                                //       child: Icon(Icons.check, color: CustomColors.white,
-                                //           size: 16.sp),
-                                //     ),
-                                //   ),
-                                // ),
-                              ),
-                            ),
+                            // Align(
+                            //   alignment: Alignment.centerRight,
+                            //   child: Padding(
+                            //     padding: const EdgeInsets.only(right: 3.0),
+                            //     child: GestureDetector(
+                            //       onTap: (){
+                            //         Get.to(PerformanceScreen(index: 2,));
+                            //       },
+                            //       child: Container(
+                            //         padding: const EdgeInsets.all(3),
+                            //         decoration: BoxDecoration(
+                            //             color: Colors.white,
+                            //             shape: BoxShape.circle,
+                            //             boxShadow: [
+                            //               getBoxShadow()
+                            //             ]
+                            //         ),
+                            //         child: SvgPicture.asset(starSvg, height: 18.sp,),
+                            //       ),
+                            //     ),
+                            //
+                            //   ),
+                            // ),
                           ],
                         ),
                       );
@@ -514,21 +366,21 @@ class _ClassRoomViewState extends State<ClassRoomView> with SingleTickerProvider
                     children: [
                       Flexible(
                         flex: 1,
-                        child: BaseButton(title: translate(context).present.toUpperCase(), onPressed: (){}),
+                        child: BaseButton(title: translate(context).present.toUpperCase(), onPressed: (){},btnType: mediumLargeButton,),
                       ),
                       SizedBox(
                         width: 4.w,
                       ),
                       Flexible(
                         flex: 1,
-                        child: BaseButton(title: translate(context).late.toUpperCase(), onPressed: (){}),
+                        child: BaseButton(title: translate(context).absent.toUpperCase(), onPressed: (){},btnType: mediumLargeButton,),
                       ),
                       SizedBox(
                         width: 4.w,
                       ),
                       Flexible(
                         flex: 1,
-                        child: BaseButton(title: translate(context).late.toUpperCase(), onPressed: (){}),
+                        child: BaseButton(title: translate(context).late.toUpperCase(), onPressed: (){},btnType: mediumLargeButton,),
                       ),
                     ],
                   ),

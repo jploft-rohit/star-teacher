@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/step_progress.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/view/library_record/library_record_controller.dart';
 import 'package:staff_app/view/salary_slip_screen/salary_slip_poup.dart';
 
@@ -75,7 +75,7 @@ class _ReturnViewState extends State<ReturnView> {
                       SizedBox(width: 1.h),
                       buildInfoItems("Books", "Global GK, World GK by AR Rehman"),
                       SizedBox(width: 0.5.h),
-                      InkWell(
+                      GestureDetector(
                         onTap: (){
                           showGeneralDialog(
                             context: context,

@@ -2,15 +2,17 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_app_bar.dart';
-import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/base_dropdown.dart';
-import 'package:staff_app/Utility/base_textformfield.dart';
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
+import 'package:staff_app/utility/base_views/base_dropdown.dart';
+import 'package:staff_app/utility/base_views/base_textformfield.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/Utility/custom_dropdown_widget.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
+import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 
 class AddLeaveRequestView extends StatefulWidget {
@@ -51,7 +53,20 @@ class _AddLeaveRequestViewState extends State<AddLeaveRequestView> {
           padding: EdgeInsets.all(15.sp),
           child: Column(
             children: [
-              BaseDropDown(title: "Ignite Public School",belowMargin: 3.h),
+              CustomDropDown(
+                initialValue: DummyLists.initialSchool,
+                hintText: "Select School",
+                listData:DummyLists.schoolData,
+                onChange: (value) {
+                  setState(() {
+                    DummyLists.initialSchool=value;
+                  });
+                },
+                topPadding: 5,
+                bottomPadding: 5,
+                icon: Icon(Icons.arrow_drop_down,color: Color(0xFFC4C4C4),size: 25,),
+              ),
+              SizedBox(height: 1.h,),
               BaseTextFormField(
                 controller: leaveTypeController,
                 title: "${translate(context).leave_type}:",
@@ -72,12 +87,19 @@ class _AddLeaveRequestViewState extends State<AddLeaveRequestView> {
                 title: "${translate(context).leave_start}:",
                 prefixIcon: calenderDateSvg,
                 hintText: "dd/mm/yyyy",
+                onTap: (){
+                  selectDate(context);
+                },
               ),
               BaseTextFormField(
                 controller: endDateCtrl,
                 title: "${translate(context).leave_end}:",
                 prefixIcon: calenderDateSvg,
                 hintText: "dd/mm/yyyy",
+                onTap: (){
+                  selectDate(context);
+                },
+
               ),
               BaseTextFormField(
                 controller: reasonController,
@@ -91,7 +113,7 @@ class _AddLeaveRequestViewState extends State<AddLeaveRequestView> {
                 onTap: (){},
                 bottomMargin: 10.h,
               ),
-              BaseButton(title: translate(context).submit_btn_txt, onPressed: (){},textSize: largeButtonTs)
+              BaseButton(title: translate(context).submit_btn_txt, onPressed: (){},btnType: largeButton,)
             ],
           ),
         ),

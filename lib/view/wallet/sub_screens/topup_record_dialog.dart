@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_button.dart';
-import 'package:staff_app/Utility/base_colors.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/wallet/wallet_controller.dart';
 
@@ -35,7 +36,7 @@ class _TopUpRecordPopUpState extends State<TopUpRecordPopUp> {
                   children: [
                     Align(
                       alignment: Alignment.topRight,
-                      child: InkWell(
+                      child: GestureDetector(
                         onTap: (){
                           Get.back();
                         },
@@ -81,8 +82,8 @@ class _TopUpRecordPopUpState extends State<TopUpRecordPopUp> {
                                     mainAxisSize: MainAxisSize.max,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text("100", style: Style.montserratBoldStyle().copyWith(fontSize: 22.sp, color: BaseColors.primaryColor),),
-                                      Text("AED", style: Style.montserratRegularStyle().copyWith(fontSize: 18.sp, color: BaseColors.primaryColor),),
+                                      Text("100", style: Style.montserratBoldStyle().copyWith(fontSize: 20.sp, color: BaseColors.primaryColor),),
+                                      Text("AED", style: Style.montserratRegularStyle().copyWith(fontSize: 16.sp, color: BaseColors.primaryColor),),
                                     ],
                                   ),
                                 ),
@@ -95,7 +96,7 @@ class _TopUpRecordPopUpState extends State<TopUpRecordPopUp> {
                                     mainAxisSize: MainAxisSize.min,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text('Amount Added', style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
+                                      Text('Amount Added', style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
                                       const SizedBox(height: 8),
                                       Text('TR No : 2587961', style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
                                     ],
@@ -121,7 +122,7 @@ class _TopUpRecordPopUpState extends State<TopUpRecordPopUp> {
                       ),
                       // Padding(
                       //   padding: const EdgeInsets.only(left: 3.0),
-                      //   child: InkWell(
+                      //   child: GestureDetector(
                       //     onTap: (){
                       //     },
                       //     child: Container(
@@ -146,8 +147,8 @@ class _TopUpRecordPopUpState extends State<TopUpRecordPopUp> {
                     Expanded(
                       child: BaseButton(
                         title: translate(context).print_receipt.toUpperCase(),
-                        btnWidth: 40.w,
-                        textSize: 16.sp,
+                        btnType: mediumLargeButton,
+                        borderRadius: 20,
                         onPressed: (){
                           Get.back();
                         },
@@ -157,8 +158,8 @@ class _TopUpRecordPopUpState extends State<TopUpRecordPopUp> {
                     Expanded(
                       child: BaseButton(
                         title: "SAVE RECEIPT",
-                        btnWidth: 40.w,
-                        textSize: 16.sp,
+                        btnType: mediumLargeButton,
+                        borderRadius: 20,
                         onPressed: (){
                           Get.back();
                         },

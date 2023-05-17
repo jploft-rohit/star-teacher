@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_button.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 
-import 'package:staff_app/Utility/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
-import 'package:staff_app/Utility/utility.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/view/shop_screen/cart/cart_view.dart';
 import 'package:staff_app/view/shop_screen/shop_screen_ctrl.dart';
 
@@ -48,7 +48,7 @@ class _StationaryShopAllViewState extends State<StationaryShopAllView> {
                   mainAxisExtent: 30.h,
                   mainAxisSpacing: 3.h,
                   crossAxisSpacing: 3.h),
-              itemBuilder: (context, index) => InkWell(
+              itemBuilder: (context, index) => GestureDetector(
                 onTap: (){
                   Get.to(const CartView());
                 },
