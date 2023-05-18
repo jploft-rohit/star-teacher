@@ -71,9 +71,7 @@ class _ChooseLangaugeScreenState extends State<ChooseLangaugeScreen> {
                               print("country Code1: ${_locale.languageCode}");
                               Get.updateLocale(_locale);
                             },
-                            child: Obx(
-                                  () =>
-                                    Container(
+                            child: Obx(() => Container(
                                        width: 38.w,
                                        margin: EdgeInsets.symmetric(horizontal: 2.w),
                                        padding: EdgeInsets.symmetric(vertical: 1.5.h),

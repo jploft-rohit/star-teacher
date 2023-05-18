@@ -7,6 +7,7 @@ import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -180,7 +181,9 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
               SizedBox(
                 height: 2.h,
               ),
-              Obx(()=>ListView.builder(
+              Obx(()=>(controller.notebookList?.length??0) == 0
+                  ? BaseNoData(topMargin: Get.height/4)
+                  : ListView.builder(
                   itemCount: controller.notebookList?.length??0,
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
@@ -278,7 +281,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 const Divider(),
-                                buildInfoItems("Comment", controller.notebookList?[index].comment??na),
+                                buildInfoItems("Comment", controller.notebookList?[index].description??na),
                                 const Divider(),
                                 buildInfoItems("Recommendation", controller.notebookList?[index].recommandation??na),
                                 SizedBox(

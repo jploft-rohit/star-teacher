@@ -1,6 +1,6 @@
 class NoteBookListResponse {
-  int? statusCode;
-  String? message;
+  dynamic statusCode;
+  dynamic message;
   Data? data;
   Pagination? pagination;
 
@@ -61,17 +61,17 @@ class Data {
 }
 
 class StarData {
-  String? sId;
-  String? language;
-  String? school;
+  dynamic sId;
+  dynamic language;
+  dynamic school;
   Class? classes;
-  String? section;
-  String? batch;
-  String? studentId;
-  bool? isDeleted;
+  dynamic section;
+  dynamic batch;
+  dynamic studentId;
+  dynamic isDeleted;
   User? user;
   Classsection? classsection;
-  String? barcode;
+  dynamic barcode;
 
   StarData(
       {this.sId,
@@ -126,9 +126,9 @@ class StarData {
 }
 
 class Class {
-  String? sId;
-  String? school;
-  String? name;
+  dynamic sId;
+  dynamic school;
+  dynamic name;
 
   Class({this.sId, this.school, this.name});
 
@@ -148,26 +148,26 @@ class Class {
 }
 
 class User {
-  String? sId;
-  bool? isMobileVerified;
-  String? gender;
-  List<String>? idDocument;
-  List<String>? parentId;
-  bool? isDeleted;
-  String? name;
-  String? email;
-  String? mobile;
-  String? role;
-  int? dob;
-  String? emirateId;
-  String? emirateIdExpire;
-  String? createdBy;
-  String? updatedBy;
-  String? status;
-  String? createdAt;
-  String? updatedAt;
-  int? iV;
-  String? profilePic;
+  dynamic sId;
+  dynamic isMobileVerified;
+  dynamic gender;
+  dynamic idDocument;
+  dynamic parentId;
+  dynamic isDeleted;
+  dynamic name;
+  dynamic email;
+  dynamic mobile;
+  dynamic role;
+  dynamic dob;
+  dynamic emirateId;
+  dynamic emirateIdExpire;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic status;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic iV;
+  dynamic profilePic;
 
   User(
       {this.sId,
@@ -195,8 +195,8 @@ class User {
     sId = json['_id'];
     isMobileVerified = json['isMobileVerified'];
     gender = json['gender'];
-    idDocument = json['idDocument'].cast<String>();
-    parentId = json['parentId'].cast<String>();
+    idDocument = json['idDocument'];
+    parentId = json['parentId'];
     isDeleted = json['isDeleted'];
     name = json['name'];
     email = json['email'];
@@ -241,12 +241,12 @@ class User {
 }
 
 class Classsection {
-  String? sId;
-  String? school;
-  String? classes;
-  String? name;
-  String? roomNo;
-  String? status;
+  dynamic sId;
+  dynamic school;
+  dynamic classes;
+  dynamic name;
+  dynamic roomNo;
+  dynamic status;
 
   Classsection(
       {this.sId,
@@ -278,22 +278,22 @@ class Classsection {
 }
 
 class NotebookList {
-  String? sId;
-  String? type;
-  String? title;
+  dynamic sId;
+  dynamic type;
+  dynamic title;
   Class? classes;
-  String? date;
-  String? description;
-  String? teacher;
+  dynamic date;
+  dynamic description;
+  dynamic teacher;
   Subject? subject;
-  String? comment;
-  String? recommandation;
-  String? status;
-  bool? isDeleted;
+  dynamic comment;
+  dynamic recommandation;
+  dynamic status;
+  dynamic isDeleted;
   User? user;
-  String? createdAt;
-  String? updatedAt;
-  int? iV;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic iV;
 
   NotebookList(
       {this.sId,
@@ -362,10 +362,10 @@ class NotebookList {
 }
 
 class Subject {
-  String? sId;
-  String? language;
-  String? name;
-  String? status;
+  dynamic sId;
+  dynamic language;
+  dynamic name;
+  dynamic status;
 
   Subject({this.sId, this.language, this.name, this.status});
 
@@ -387,11 +387,11 @@ class Subject {
 }
 
 class Pagination {
-  int? totalCount;
-  int? totalPages;
-  int? currentPage;
-  int? nextPage;
-  int? prevPage;
+  dynamic totalCount;
+  dynamic totalPages;
+  dynamic currentPage;
+  dynamic nextPage;
+  dynamic prevPage;
 
   Pagination(
       {this.totalCount,

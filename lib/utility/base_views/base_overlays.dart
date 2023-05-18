@@ -504,6 +504,7 @@ class BaseOverlays {
       {required String title,
       required TextEditingController controller,
       Function()? onProceed}) {
+    controller.text = "";
     showDialog(
       context: Get.context!,
       barrierDismissible: false,

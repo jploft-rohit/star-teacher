@@ -11,14 +11,14 @@ import 'package:staff_app/view/worksheet/worksheet_ctrl.dart';
 import '../../../utility/images_icon_path.dart';
 import '../../../utility/sizes.dart';
 
-class CreateWorkSheet extends StatefulWidget {
-  const CreateWorkSheet({Key? key}) : super(key: key);
+class CreateAssignment extends StatefulWidget {
+  const CreateAssignment({Key? key}) : super(key: key);
 
   @override
-  State<CreateWorkSheet> createState() => _CreateWorkSheetState();
+  State<CreateAssignment> createState() => _CreateAssignmentState();
 }
 
-class _CreateWorkSheetState extends State<CreateWorkSheet> with SingleTickerProviderStateMixin{
+class _CreateAssignmentState extends State<CreateAssignment> with SingleTickerProviderStateMixin{
   WorkSheetCtrl controller = Get.put(WorkSheetCtrl());
 
   TextEditingController startDateCtrl = TextEditingController();
