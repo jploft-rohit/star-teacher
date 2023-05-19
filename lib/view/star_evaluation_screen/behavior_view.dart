@@ -21,27 +21,31 @@ class BehaviourView extends StatefulWidget {
 
 class _BehaviourViewState extends State<BehaviourView> {
   StarEvaluationScreenCtrl ctrl = Get.put(StarEvaluationScreenCtrl());
+  bool isNextDone = false;
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Text(isNextDone ? "Punctuality" : "Communication Skills",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 15.sp)),
+        SizedBox(height: 1.5.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
               children: [
-                addText("21 of 60 selected ", 16.sp, BaseColors.greyColor, FontWeight.w400),
-                // SizedBox(
-                //   width: 1.w,
-                // ),
-                // Container(
-                //   padding: EdgeInsets.only(left: 25.sp, right: 25.sp,),
-                //   decoration: BoxDecoration(
-                //       border: Border.all(color: BaseColors.borderColor),
-                //       borderRadius: BorderRadius.circular(6.0)
-                //   ),
-                //   child: addText("5", 15.sp, BaseColors.primaryColor, FontWeight.w700),
-                // )
+                addText("${translate(context).assessment_score}: ", 14.sp, BaseColors.textBlackColor, FontWeight.w400),
+                SizedBox(
+                  width: 1.w,
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 15.sp, right: 15.sp,),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: BaseColors.borderColor),
+                      borderRadius: BorderRadius.circular(6.0)
+                  ),
+                  child: addText("100", 15.sp, BaseColors.textRedColor, FontWeight.w700),
+                ),
               ],
             ),
             Row(
@@ -121,7 +125,7 @@ class _BehaviourViewState extends State<BehaviourView> {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
                             border: Border.all(
-                                color: BaseColors.borderColor
+                                color: ctrl.list[index]['isSelected'].value ? BaseColors.primaryColor : BaseColors.borderColor
                             )
                         ),
                         child: Row(
@@ -148,14 +152,14 @@ class _BehaviourViewState extends State<BehaviourView> {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      addText("Najma Suheil", 16.sp, ctrl.list[index]['isSelected'].value == true ? BaseColors.primaryColor : BaseColors.textLightGreyColor, FontWeight.w700),
+                                      addText("Najma Suheil", 16.sp, BaseColors.primaryColor, FontWeight.w700),
                                       SizedBox(
                                         height: 1.h,
                                       ),
                                       Row(
                                         children: [
-                                          addText("ID: ", 14.sp, ctrl.list[index]['isSelected'].value == true ? BaseColors.textBlackColor : BaseColors.textLightGreyColor, FontWeight.w700),
-                                          addText("#632541", 14.sp, ctrl.list[index]['isSelected'].value == true ? BaseColors.primaryColor : BaseColors.textLightGreyColor, FontWeight.w700),
+                                          addText("ID: ", 14.sp, BaseColors.textBlackColor, FontWeight.w700),
+                                          addText("#632541", 14.sp, BaseColors.primaryColor, FontWeight.w700),
                                         ],
                                       ),
                                     ],
@@ -220,16 +224,22 @@ class _BehaviourViewState extends State<BehaviourView> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            BaseButton(btnType: mediumLargeButton,title: translate(context).save, onPressed: (){}, btnWidth: 30.w,
-            borderRadius: 19,),
-            BaseButton(btnType: mediumLargeButton,title: translate(context).next_btn_txt, onPressed: (){
-              showGeneralDialog(
-                context: context,
-                pageBuilder: (context, animation, secondaryAnimation) {
-                  return MarkSelectedPopup(isShowCount: true,);
-                },
-              );
-            },borderRadius: 19,),
+            // BaseButton(btnType: mediumLargeButton,title: translate(context).save, onPressed: (){}, btnWidth: 30.w,
+            // borderRadius: 19,),
+            SizedBox(
+              width: 60.w,
+              child: BaseButton(removeHorizontalPadding: true,title: isNextDone ? "SUBMIT FOR REVIEW" : translate(context).next_btn_txt, onPressed: (){
+                setState(() {
+                  isNextDone = true;
+                });
+                // showGeneralDialog(
+                //   context: context,
+                //   pageBuilder: (context, animation, secondaryAnimation) {
+                //     return MarkSelectedPopup(isShowCount: true,);
+                //   },
+                // );
+              },borderRadius: 19,),
+            ),
           ],
         ),
         SizedBox(

@@ -1,6 +1,6 @@
 class BaseSuccessResponse {
-  int? statusCode;
-  String? message;
+  dynamic statusCode;
+  dynamic message;
   dynamic data;
 
   BaseSuccessResponse({this.statusCode, this.message, this.data});

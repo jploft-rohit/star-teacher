@@ -10,6 +10,7 @@ class AssignmentScreenCtrl extends GetxController{
   final selectedIndex1 = 0.obs;
   final tabIndex = 0.obs;
 
+
   List<Map<String, dynamic>> mcqList = [
       {
         "question" : "It was Sunday on Jan 1, 2006. What was the day of the week Jan 1, 2010?",

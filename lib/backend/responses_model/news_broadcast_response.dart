@@ -254,7 +254,7 @@ class Sender {
   dynamic email;
   dynamic emirateId;
   dynamic emirateIdExpire;
-  List<String>? idDocument;
+  dynamic idDocument;
   dynamic isEmailVerified;
   dynamic isMobileVerified;
   dynamic name;
@@ -308,7 +308,7 @@ class Sender {
     email = json['email'];
     emirateId = json['emirateId'];
     emirateIdExpire = json['emirateIdExpire'];
-    idDocument = json['idDocument'].cast<String>();
+    idDocument = json['idDocument'];
     isEmailVerified = json['isEmailVerified'];
     isMobileVerified = json['isMobileVerified'];
     name = json['name'];
@@ -361,7 +361,7 @@ class User {
   dynamic sId;
   dynamic isMobileVerified;
   dynamic gender;
-  List<String>? idDocument;
+  dynamic idDocument;
   dynamic deviceType;
   dynamic parentId;
   dynamic isDeleted;
@@ -427,7 +427,7 @@ class User {
     sId = json['_id'];
     isMobileVerified = json['isMobileVerified'];
     gender = json['gender'];
-    idDocument = json['idDocument'].cast<String>();
+    idDocument = json['idDocument'];
     deviceType = json['deviceType'];
     parentId = json['parentId'];
     isDeleted = json['isDeleted'];

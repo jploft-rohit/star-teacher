@@ -1,8 +1,8 @@
 class SchoolListResponse {
   Data? data;
-  bool? success;
-  int? statusCode;
-  String? message;
+  dynamic success;
+  dynamic statusCode;
+  dynamic message;
 
   SchoolListResponse({this.data, this.success, this.statusCode, this.message});
 
@@ -52,8 +52,8 @@ class Data {
 }
 
 class SchoolData {
-  String? sId;
-  String? name;
+  dynamic sId;
+  dynamic name;
   dynamic schoolCategory;
   dynamic schoolSector;
   dynamic schoolArea;
@@ -185,15 +185,15 @@ class SchoolCategory {
 }
 
 class SchoolSector {
-  String? sId;
-  String? name;
+  dynamic sId;
+  dynamic name;
   Location? location;
-  String? status;
-  String? createdBy;
-  String? createdAt;
-  String? updatedAt;
-  int? iV;
-  String? updatedBy;
+  dynamic status;
+  dynamic createdBy;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic iV;
+  dynamic updatedBy;
 
   SchoolSector({this.sId, this.name, this.location, this.status, this.createdBy, this.createdAt, this.updatedAt, this.iV, this.updatedBy});
 
@@ -227,7 +227,7 @@ class SchoolSector {
 }
 
 class Location {
-  String? type;
+  dynamic type;
   List<double>? coordinates;
 
   Location({this.type, this.coordinates});
@@ -246,14 +246,14 @@ class Location {
 }
 
 class Language {
-  String? sId;
-  String? name;
-  String? status;
-  String? createdBy;
-  String? createdAt;
-  String? updatedAt;
-  int? iV;
-  String? updatedBy;
+  dynamic sId;
+  dynamic name;
+  dynamic status;
+  dynamic createdBy;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic iV;
+  dynamic updatedBy;
 
   Language({this.sId, this.name, this.status, this.createdBy, this.createdAt, this.updatedAt, this.iV, this.updatedBy});
 
@@ -283,12 +283,12 @@ class Language {
 }
 
 class Status {
-  String? sId;
-  String? name;
-  String? type;
-  String? createdAt;
-  String? updatedAt;
-  int? iV;
+  dynamic sId;
+  dynamic name;
+  dynamic type;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic iV;
 
   Status({this.sId, this.name, this.type, this.createdAt, this.updatedAt, this.iV});
 
@@ -314,26 +314,26 @@ class Status {
 }
 
 class CreatedBy {
-  String? sId;
+  dynamic sId;
   // Gender? gender;
-  bool? isMobileVerified;
-  List<String>? idDocument;
-  List<String>? parentId;
-  String? name;
-  String? email;
-  String? role;
-  String? password;
-  String? createdAt;
-  String? updatedAt;
-  int? iV;
+  dynamic isMobileVerified;
+  dynamic idDocument;
+  dynamic parentId;
+  dynamic name;
+  dynamic email;
+  dynamic role;
+  dynamic password;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic iV;
 
   CreatedBy({this.sId, this.isMobileVerified, this.idDocument, this.parentId, this.name, this.email, this.role, this.password, this.createdAt, this.updatedAt, this.iV});
 
   CreatedBy.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     isMobileVerified = json['isMobileVerified'];
-    idDocument = json['idDocument'].cast<String>();
-    parentId = json['parentId'].cast<String>();
+    idDocument = json['idDocument'];
+    parentId = json['parentId'];
     name = json['name'];
     email = json['email'];
     role = json['role'];
@@ -361,28 +361,28 @@ class CreatedBy {
 }
 
 class ParentSchool {
-  String? sId;
-  String? name;
-  String? schoolCategory;
-  String? schoolSector;
-  String? schoolArea;
-  String? address;
-  String? language;
-  String? schoolId;
-  int? helplineNo;
-  String? email;
-  String? secondoryEmail;
-  String? website;
-  int? mobile;
-  String? schoolType;
+  dynamic sId;
+  dynamic name;
+  dynamic schoolCategory;
+  dynamic schoolSector;
+  dynamic schoolArea;
+  dynamic address;
+  dynamic language;
+  dynamic schoolId;
+  dynamic helplineNo;
+  dynamic email;
+  dynamic secondoryEmail;
+  dynamic website;
+  dynamic mobile;
+  dynamic schoolType;
   dynamic user;
-  String? status;
-  String? createdBy;
-  String? createdAt;
-  String? updatedAt;
-  int? iV;
+  dynamic status;
+  dynamic createdBy;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic iV;
   Location? location;
-  String? updatedBy;
+  dynamic updatedBy;
 
   ParentSchool({this.sId, this.name, this.schoolCategory, this.schoolSector, this.schoolArea, this.address, this.language, this.schoolId, this.helplineNo, this.email, this.secondoryEmail, this.website, this.mobile, this.schoolType, this.user, this.status, this.createdBy, this.createdAt, this.updatedAt, this.iV, this.location, this.updatedBy});
 
@@ -442,11 +442,11 @@ class ParentSchool {
 }
 
 class Pagination {
-  int? totalCount;
-  int? totalPages;
-  int? currentPage;
-  int? nextPage;
-  int? prevPage;
+  dynamic totalCount;
+  dynamic totalPages;
+  dynamic currentPage;
+  dynamic nextPage;
+  dynamic prevPage;
 
   Pagination({this.totalCount, this.totalPages, this.currentPage, this.nextPage, this.prevPage});
 

@@ -1,9 +1,9 @@
 class RolesListResponse {
   List<Data>? data;
   Pagination? pagination;
-  bool? success;
-  int? statusCode;
-  String? message;
+  dynamic success;
+  dynamic statusCode;
+  dynamic message;
 
   RolesListResponse(
       {this.data,
@@ -43,13 +43,13 @@ class RolesListResponse {
 }
 
 class Data {
-  String? sId;
-  String? name;
-  String? type;
-  String? status;
-  String? createdBy;
-  String? createdAt;
-  String? updatedAt;
+  dynamic sId;
+  dynamic name;
+  dynamic type;
+  dynamic status;
+  dynamic createdBy;
+  dynamic createdAt;
+  dynamic updatedAt;
 
   Data(
       {this.sId,

@@ -1,6 +1,6 @@
 class GetComplaintReportsModel {
-  int? statusCode;
-  String? message;
+  dynamic statusCode;
+  dynamic message;
   Data? data;
 
   GetComplaintReportsModel({this.statusCode, this.message, this.data});
@@ -23,22 +23,22 @@ class GetComplaintReportsModel {
 }
 
 class Data {
-  String? forEnquery;
-  bool? isDeleted;
-  String? sId;
-  String? school;
-  String? complaintUser;
-  String? complaintType;
-  String? title;
-  String? description;
-  String? document;
-  String? user;
-  String? student;
-  String? createdBy;
-  String? updatedBy;
-  String? status;
-  String? createdAt;
-  String? updatedAt;
+  dynamic forEnquery;
+  dynamic isDeleted;
+  dynamic sId;
+  dynamic school;
+  dynamic complaintUser;
+  dynamic complaintType;
+  dynamic title;
+  dynamic description;
+  dynamic document;
+  dynamic user;
+  dynamic student;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic status;
+  dynamic createdAt;
+  dynamic updatedAt;
 
   Data(
       {this.forEnquery,

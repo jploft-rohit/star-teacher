@@ -8,17 +8,72 @@ import 'package:staff_app/utility/images_icon_path.dart';
 
 class BaseIcons{
   /// Delete Icon With Functionality
-  delete({String? title, Function()? onRightButtonPressed,double? leftMargin, double? rightMargin, double? topMargin, double? bottomMargin}){
+  delete({String? title, Function()? onRightButtonPressed,double? leftMargin, double? rightMargin, double? topMargin, double? bottomMargin,bool? showDeleteReason}){
     return GestureDetector(
       onTap: (){
-        BaseOverlays().showConfirmationDialog(
-            title: title??"Are you sure you want to delete this data?",
-            onRightButtonPressed: onRightButtonPressed??(){BaseOverlays().dismissOverlay();}
-        );
+        if (showDeleteReason??false) {
+          BaseOverlays().showReasonDeleteDialog(
+            title: title??"Delete",
+            controller: TextEditingController(),
+          );
+        }else{
+          BaseOverlays().showConfirmationDialog(
+              title: title??"Are you sure you want to delete this data?",
+              onRightButtonPressed: onRightButtonPressed??(){BaseOverlays().dismissOverlay();}
+          );
+        }
       },
       child: Padding(
         padding: EdgeInsets.only(top: topMargin??0,bottom: bottomMargin??0,right: rightMargin??0,left: leftMargin??0),
         child: SvgPicture.asset(icDelete,height: 2.h,width: 2.h,)
+      ),
+    );
+  }
+
+  /// Save Icon With Functionality
+  save({String? title, Function()? onRightButtonPressed,double? leftMargin, double? rightMargin, double? topMargin, double? bottomMargin}){
+    return GestureDetector(
+      onTap: (){
+        BaseOverlays().showConfirmationDialog(
+            title: title??"Are you sure you want to save this data?",
+            onRightButtonPressed: onRightButtonPressed??(){BaseOverlays().dismissOverlay();}
+        );
+      },
+      child: Padding(
+          padding: EdgeInsets.only(top: topMargin??0,bottom: bottomMargin??0,right: rightMargin??0,left: leftMargin??0),
+          child: SvgPicture.asset(icSave,height: 2.h,width: 2.h,)
+      ),
+    );
+  }
+
+  /// View Icon With Functionality
+  view({String? title, Function()? onRightButtonPressed,double? leftMargin, double? rightMargin, double? topMargin, double? bottomMargin}){
+    return GestureDetector(
+      onTap: (){
+        BaseOverlays().showConfirmationDialog(
+            title: title??"Are you sure you want to view this data?",
+            onRightButtonPressed: onRightButtonPressed??(){BaseOverlays().dismissOverlay();}
+        );
+      },
+      child: Padding(
+          padding: EdgeInsets.only(top: topMargin??0,bottom: bottomMargin??0,right: rightMargin??0,left: leftMargin??0),
+          child: SvgPicture.asset(icEye,height: 2.5.h,width: 2.5.h,)
+      ),
+    );
+  }
+
+  /// Download Icon With Functionality
+  download({String? title, Function()? onRightButtonPressed,double? leftMargin, double? rightMargin, double? topMargin, double? bottomMargin}){
+    return GestureDetector(
+      onTap: (){
+        BaseOverlays().showConfirmationDialog(
+            title: title??"Are you sure you want to download this data?",
+            onRightButtonPressed: onRightButtonPressed??(){BaseOverlays().dismissOverlay();}
+        );
+      },
+      child: Padding(
+          padding: EdgeInsets.only(top: topMargin??0,bottom: bottomMargin??0,right: rightMargin??0,left: leftMargin??0),
+          child: SvgPicture.asset(icDownload,height: 2.h,width: 2.h,)
       ),
     );
   }

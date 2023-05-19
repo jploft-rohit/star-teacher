@@ -1,6 +1,6 @@
 class AllLostFoundResponse {
-  int? statusCode;
-  String? message;
+  dynamic statusCode;
+  dynamic message;
   List<Data>? data;
 
   AllLostFoundResponse({this.statusCode, this.message, this.data});
@@ -28,20 +28,20 @@ class AllLostFoundResponse {
 }
 
 class Data {
-  String? type;
-  bool? isDeleted;
-  String? sId;
-  String? title;
-  String? date;
-  String? location;
-  String? school;
-  String? document;
-  String? user;
-  String? createdBy;
-  String? updatedBy;
-  String? status;
-  String? createdAt;
-  String? updatedAt;
+  dynamic type;
+  dynamic isDeleted;
+  dynamic sId;
+  dynamic title;
+  dynamic date;
+  dynamic location;
+  dynamic school;
+  dynamic document;
+  dynamic user;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic status;
+  dynamic createdAt;
+  dynamic updatedAt;
 
   Data(
       {this.type,
