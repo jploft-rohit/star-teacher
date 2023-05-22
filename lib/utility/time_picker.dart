@@ -1777,6 +1777,7 @@ class TimePickerDialogs extends StatefulWidget {
     this.cancelText,
     this.confirmText,
     this.helpText,
+    required this.onChange,
     this.errorInvalidText,
     this.hourLabelText,
     this.minuteLabelText,
@@ -1789,7 +1790,7 @@ class TimePickerDialogs extends StatefulWidget {
   /// The time initially selected when the dialog is shown.
   final TimeOfDay initialTime;
   final bool isShowdate;
-
+  final Function(TimeOfDay?) onChange;
   /// The entry mode for the picker. Whether it's text input or a dial.
   final TimePickerEntryMode initialEntryMode;
 
@@ -2073,6 +2074,7 @@ class _TimePickerDialogsState extends State<TimePickerDialogs> with RestorationM
     _vibrate();
     setState(() {
       _selectedTime.value = value;
+      widget.onChange(value);
     });
   }
 

@@ -80,4 +80,10 @@ class ApiEndPoints {
   final String getStarAttendanceList = "starAttendence/list";
   final String addStarAttendance = "starAttendence/add";
   final String changeStarAttendanceStatus = "starAttendence/change-status/";
+
+  /// Task & Reminder EndPoints
+  final String getAllTaskReminders = "reminder/get-all";
+  final String deleteTaskReminder = "reminder/delete/";
+  final String updateTaskReminder = "reminder/update/";
+  final String createTaskReminder = "reminder/add-request";
 }
