@@ -1,10 +1,15 @@
 /// baseUrl: 'http://3.28.14.143:4000/star-backend/api/',
 
 class ApiEndPoints {
+
   final String imageBaseUrl = "http://3.28.14.143:4000/star-backend/";
+
   /// OnBoarding EndPoints
   final String loginNewUser = "auth/send-otp";
   final String otp = "auth/login";
+
+  /// About Us EndPoints
+  final String aboutUs = "settings/page/aboutus";
 
   /// DashBoard EndPoints
   final String getNewsBroadCast = "newsBroadcast/list";
@@ -28,6 +33,9 @@ class ApiEndPoints {
 
   /// Lost & Found EndPoints
   final String getAllLostFound = "lostFound/get-all";
+  final String deleteLostFound = "lostFound/delete/";
+  final String returnLostFound = "lostFound/return-request/";
+  final String createLostFound = "lostFound/add-request";
 
   /// My Profile EndPoints
   final String getMyProfile = "user/profileDetails";
@@ -86,4 +94,9 @@ class ApiEndPoints {
   final String deleteTaskReminder = "reminder/delete/";
   final String updateTaskReminder = "reminder/update/";
   final String createTaskReminder = "reminder/add-request";
+
+  /// Schedule Meeting EndPoints
+  final String scheduleNewMeeting = "requestRoutes/create";
+  final String getScheduledMeetings = "requestRoutes/list";
+  final String updateScheduledMeeting = "requestRoutes/update/6454af664f8be79673c4cd49";
 }

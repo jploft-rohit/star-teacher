@@ -9,9 +9,9 @@ import 'package:staff_app/Utility/custom_dropdown_widget.dart';
 import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/view/lost_or_found_screen/controller/lost_found_controller.dart';
 import 'package:staff_app/view/lost_or_found_screen/report_lost_found_screen.dart';
-import 'package:staff_app/view/lost_or_found_screen/tabs/found_tab.dart';
-import 'package:staff_app/view/lost_or_found_screen/tabs/lost_tab.dart';
+import 'package:staff_app/view/lost_or_found_screen/tabs/lost_found_tab.dart';
 
 class LostAndFoundScreen extends StatefulWidget {
   const LostAndFoundScreen({Key? key}) : super(key: key);
@@ -21,14 +21,19 @@ class LostAndFoundScreen extends StatefulWidget {
 }
 
 class _LostAndFoundScreenState extends State<LostAndFoundScreen> with TickerProviderStateMixin {
+  LostFoundController controller = Get.put(LostFoundController());
   late TabController tabController;
 
   @override
   void initState() {
-    tabController = TabController(length: 2, vsync: this)
-      ..addListener(() {
+    controller.getData(type: "found");
+    tabController = TabController(length: 2, vsync: this)..addListener(() {
+      controller.selectedTabIndex.value = tabController.index;
+      controller.getData(type: tabController.index == 0 ? "found" : "request");
+      if (mounted) {
         setState(() {});
-      });
+      }
+    });
     super.initState();
   }
 
@@ -40,8 +45,7 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> with TickerProv
         appBar: BaseAppBar(title: translate(context).lost_found),
         floatingActionButton: BaseFloatingActionButton(
           onTap: () {
-            Get.to(ReportLostFoundScreen(
-                type: tabController.index == 1 ? 'Lost' : 'Found'));
+            Get.to(CreateLostFound(type: tabController.index == 1 ? 'Lost' : 'Found'));
           },
           title: tabController.index == 1
               ? 'Report Lost\nItem'
@@ -57,13 +61,12 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> with TickerProv
                 tabs: [
                   BaseTabButton(
                       title: 'Found',
-                      isSelected: tabController.index == 0 ? true : false,type: toggleLargeButton,),
+                      isSelected: tabController.index == 0 ? true : false,type: toggleLargeButton),
                   BaseTabButton(
                       title: 'Request',
-                      isSelected: tabController.index == 1 ? true : false,type: toggleLargeButton,),
+                      isSelected: tabController.index == 1 ? true : false,type: toggleLargeButton),
                 ],
               ),
-              SizedBox(height: 2.h,),
               CustomDropDown(
                 initialValue: DummyLists.initialSchool,
                 hintText: "Select School",
@@ -80,8 +83,8 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> with TickerProv
               SizedBox(height: 1.h,),
               Expanded(
                 child: TabBarView(controller: tabController, children: [
-                  FoundTab(),
-                  LostTab(),
+                  LostFoundTab(),
+                  LostFoundTab(),
                 ]),
               ),
             ],

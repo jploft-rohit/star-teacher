@@ -24,6 +24,8 @@ class BaseCtrl extends GetxController{
     super.onInit();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final String token = await BaseSharedPreference().getString(SpKeys().apiToken)??"";
+      final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
+      print("User Id -----> "+userId);
       if ((token).isNotEmpty) {
         getRolesList(showLoader: false);
         getSchoolData(showLoader: false);

@@ -1,36 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
-
-
 import 'package:staff_app/utility/base_views/base_colors.dart';
-import 'package:staff_app/utility/base_views/base_dropdown.dart';
+import 'package:staff_app/utility/base_views/base_dropdown_2.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
-import 'package:staff_app/Utility/custom_dropdown_widget.dart';
-import 'package:staff_app/Utility/custom_text_field.dart';
-import 'package:staff_app/Utility/dummy_lists.dart';
-import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/backend/responses_model/school_list_response.dart' as SchoolData;
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/view/lost_or_found_screen/controller/lost_found_controller.dart';
+import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 
-class ReportLostFoundScreen extends StatefulWidget {
+class CreateLostFound extends StatefulWidget {
   final String type;
   final bool isUpdating;
-  const ReportLostFoundScreen({Key? key,this.isUpdating = false, required this.type}) : super(key: key);
+  const CreateLostFound({Key? key,this.isUpdating = false, required this.type}) : super(key: key);
 
   @override
-  State<ReportLostFoundScreen> createState() => _ReportLostFoundScreenState();
+  State<CreateLostFound> createState() => _CreateLostFoundState();
 }
 
-class _ReportLostFoundScreenState extends State<ReportLostFoundScreen> {
-  TextEditingController titleController = TextEditingController();
-  TextEditingController dateController = TextEditingController();
-  TextEditingController whereController = TextEditingController();
-  TextEditingController uploadController = TextEditingController();
+class _CreateLostFoundState extends State<CreateLostFound> {
+  LostFoundController controller = Get.find<LostFoundController>();
+  BaseCtrl baseCtrl = Get.find<BaseCtrl>();
 
   @override
   void initState() {
@@ -43,36 +38,87 @@ class _ReportLostFoundScreenState extends State<ReportLostFoundScreen> {
       appBar: BaseAppBar(title: widget.isUpdating ? widget.type == "Lost" ? "Update Lost Report" : "Update Found Report" : widget.type == "Lost" ? "Report Lost" : "Report Found"),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          children: [
-            CustomDropDown(
-              initialValue: DummyLists.initialSchool,
-              hintText: "Select School",
-              listData:DummyLists.schoolData,
-              onChange: (value) {
-                setState(() {
-                  DummyLists.initialSchool=value;
-                });
-              },
-              topPadding: 5,
-              bottomPadding: 5,
-              icon: Icon(Icons.arrow_drop_down,color: Color(0xFFC4C4C4),size: 25,),
-            ),
-            SizedBox(height: 1.h,),
-            BaseTextFormField(controller: titleController,hintText: translate(context).title,),
-            BaseTextFormField(controller: dateController,hintText: "${widget.type} Date",onTap: (){selectDate(context);},suffixIcon: "assets/images/ic_calendar_black.svg",),
-            BaseTextFormField(controller: whereController,hintText: translate(context).where,),
-            BaseTextFormField(bottomMargin: 3.h,controller: uploadController,hintText: translate(context).upload_photo,suffixIcon: "assets/images/upload_icon.svg",onTap: (){}),
-            BaseButton(title: widget.isUpdating ? translate(context).update : translate(context).submit_btn_txt, onPressed: (){
-              Get.back();
-            },btnType: largeButton,)
-          ],
+        child: Form(
+          key: controller.formKey,
+          child: Obx(()=>SingleChildScrollView(
+            child: Column(
+                children: [
+                  BaseDropDown2(
+                    controller: controller.schoolController.value,
+                    errorText: "Please select school",
+                    hintText: controller.schoolController.value.text.isEmpty ? "Select School" : controller.schoolController.value.text,
+                    listData: baseCtrl.schoolListData.data?.data?.map((SchoolData.SchoolData data){
+                      return DropdownMenuItem(
+                        value: data,
+                        child: addText(data.name??"", 15.sp, Colors.black, FontWeight.w400),
+                      );
+                    }).toList(),
+                    onChange: (value) async {
+                      controller.schoolController.value.text = value?.name??"";
+                      controller.selectedSchoolName.value = value?.name??"";
+                      controller.selectedSchoolId.value = value?.sId??"";
+                    },
+                  ),
+                  BaseTextFormField(
+                    controller: controller.titleController.value,
+                    hintText: translate(context).title,
+                    validator: (val){
+                      if (controller.titleController.value.text.isEmpty) {
+                        return "Please enter title";
+                      }
+                      return null;
+                    },
+                  ),
+                  BaseTextFormField(
+                    controller: controller.dateController.value,
+                    hintText: "${widget.type} Date",
+                    onTap: (){
+                      selectDate(context).then((picked) {
+                        if(picked != null){
+                          controller.dateController.value.text = "${picked.day.toString().padLeft(2,'0')}-${picked.month.toString().padLeft(2,'0')}-${picked.year.toString()}";;
+                        }
+                      });
+                      },
+                    suffixIcon: "assets/images/ic_calendar_black.svg",
+                    validator: (val){
+                      if (controller.dateController.value.text.isEmpty) {
+                        return "Please select found date";
+                      }
+                      return null;
+                    },
+                  ),
+                  BaseTextFormField(
+                    controller: controller.whereController.value,
+                    hintText: translate(context).where,
+                    validator: (val){
+                      if (controller.whereController.value.text.isEmpty) {
+                        return "Please enter, where you ${widget.type}";
+                      }
+                      return null;
+                    },
+                  ),
+                  BaseTextFormField(
+                      bottomMargin: 3.h,
+                      controller: controller.uploadController.value,
+                      hintText: translate(context).upload_photo,
+                      suffixIcon: "assets/images/upload_icon.svg",
+                      onTap: (){
+                        BaseOverlays().showMediaPickerDialog();
+                      },
+                  ),
+                  BaseButton(title: widget.isUpdating ? translate(context).update : translate(context).submit_btn_txt, onPressed: (){
+                    controller.createLostFound();
+                  },btnType: largeButton)
+                ],
+              ),
+          ),
+          ),
         ),
       ),
     );
   }
-  Future<void> selectDate(BuildContext context) async {
-    showDatePicker(
+  Future<DateTime?> selectDate(BuildContext context) async {
+    return showDatePicker(
         context: context,
         builder: (context, child) {
           return Theme(
@@ -87,16 +133,19 @@ class _ReportLostFoundScreenState extends State<ReportLostFoundScreen> {
         initialDate: DateTime.now(),
         firstDate: DateTime(1600, 8),
         lastDate: DateTime.now()
-    ).then((picked){
-
-    });
+    );
   }
   setData(){
     if(widget.isUpdating){
-      titleController.text = "${widget.type} a book in the computer lab.";
-      dateController.text = "28-11-2022";
-      whereController.text = "In Computer Lab";
-      uploadController.text = "doc.pdf";
+      controller.titleController.value.text = "${widget.type} a book in the computer lab.";
+      controller.dateController.value.text = "28-11-2022";
+      controller.whereController.value.text = "In Computer Lab";
+      controller.uploadController.value.text = "doc.pdf";
+    }else{
+      controller.titleController.value.text = "";
+      controller.dateController.value.text = "";
+      controller.whereController.value.text = "";
+      controller.uploadController.value.text = "";
     }
   }
 }

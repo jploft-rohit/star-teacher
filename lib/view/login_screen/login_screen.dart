@@ -10,7 +10,6 @@ import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
-import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/validators.dart';
 import 'package:staff_app/view/account_activation_screen/account_activation_screen.dart';
 import 'package:staff_app/view/login_screen/login_ctrl.dart';
