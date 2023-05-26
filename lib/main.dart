@@ -6,7 +6,6 @@ import 'package:staff_app/route_manager/route_manager.dart' as route;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/view/login_screen/login_ctrl.dart';
-import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 import 'route_manager/route_name.dart';
 import 'view/Dashboard_screen/dashboard_screen_ctrl.dart';
 
@@ -78,7 +77,7 @@ class _MyAppState extends State<MyApp> {
           ),
           builder: (BuildContext context, Widget? child){
             return MediaQuery(
-              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0,alwaysUse24HourFormat: true),
               child: child!,
             );
           },

@@ -154,7 +154,9 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
                 child: BaseButton(
                     isActive: false,
                     title: translate(context).edit.toUpperCase(),
-                    onPressed: () {Get.to(AddTaskOrReminderScreen(isUpdating: true,data: controller.list?[index]));},
+                    onPressed: () {
+                      // Get.to(AddTaskOrReminderScreen(isUpdating: true,data: controller.list?[index]));
+                      },
                     btnType: mediumLargeButton),
               ),
               SizedBox(width:2.h),
@@ -165,7 +167,7 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
                       BaseOverlays().showConfirmationDialog(
                         title: "Are you sure you want to delete this Task or Reminder ?",
                         onRightButtonPressed: (){
-                          controller.deleteTaskReminder(id: controller.list?[index].sId??"", index: index);
+                          // controller.deleteTaskReminder(id: controller.list?[index].sId??"", index: index);
                         }
                       );
                     },btnType: mediumLargeButton),

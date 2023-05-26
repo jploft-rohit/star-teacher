@@ -27,14 +27,18 @@ class AddTaskOrReminderScreen extends StatefulWidget {
 
 class _AddTaskOrReminderScreenState extends State<AddTaskOrReminderScreen> {
 
-  TaskReminderCtrl controller = Get.find<TaskReminderCtrl>();
+  late TaskReminderCtrl controller;
 
   XFile? xFile;
   @override
   void initState() {
     super.initState();
+    if(Get.isRegistered<TaskReminderCtrl>()){
+      controller = Get.find<TaskReminderCtrl>();
+    }else{
+      controller = Get.put(TaskReminderCtrl());
+    }
     controller.setData(isUpdating: widget.isUpdating, data: widget.data);
-
   }
 
   @override
@@ -240,7 +244,7 @@ class _AddTaskOrReminderScreenState extends State<AddTaskOrReminderScreen> {
                 Align(
                   alignment: Alignment.topCenter,
                   child: BaseButton(title: translate(context).set_reminder.toUpperCase(), onPressed: (){
-                    controller.createTaskReminder(file: xFile);
+                    // controller.createTaskReminder(file: xFile);
                   },btnType: largeButton),
                 ),
               ],

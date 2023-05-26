@@ -14,7 +14,7 @@ import 'package:staff_app/utility/intl/src/intl/date_format.dart';
 class TaskReminderCtrl extends GetxController{
   RxList<TaskReminderListData>? list = <TaskReminderListData>[].obs;
   RxString remindType = "daily".obs;
-  RxString selectedTime = ((TimeOfDay.now()).toString()).obs;
+  RxString selectedTime = TimeOfDay.now().to24hours().obs;
   RxString selectedDate = getFormattedDate(DateTime.now().toString()).obs;
   RxBool isShowDate = false.obs;
   List<String> updatedTime = [];
@@ -27,7 +27,6 @@ class TaskReminderCtrl extends GetxController{
   @override
   void onInit() {
     super.onInit();
-    selectedTime.value = "${TimeOfDay.now().format(Get.context!).toString()}";
     getTaskReminders();
   }
 

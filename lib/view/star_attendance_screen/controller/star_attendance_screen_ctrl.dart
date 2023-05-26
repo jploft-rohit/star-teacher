@@ -18,6 +18,7 @@ class StarAttendanceScreenCtrl extends GetxController{
   final RxString selectedClassId = "".obs;
   final RxString selectedSectionName = "".obs;
   final RxString selectedSectionId = "".obs;
+  final RxBool isManualListChecked = false.obs;
   RxList<StarAttendanceData>? list = <StarAttendanceData>[].obs;
 
   List<Map<String, dynamic>> reasonList = [
@@ -76,7 +77,7 @@ class StarAttendanceScreenCtrl extends GetxController{
 
   TabController? tabCtrl;
 
-  final isRulesChecked = false.obs;
+  final isSelectAll = false.obs;
 
   /// Get Stars Attendance List
   getStarsAttendanceList({required int selectedClassIndex,required int selectedAttendanceIndex}) async {
@@ -113,7 +114,7 @@ class StarAttendanceScreenCtrl extends GetxController{
       if (value?.statusCode ==  200) {
         baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
         BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: "Success");
-        // list?.removeAt(index);
+        getStarsAttendanceList(selectedClassIndex: selectedClassType.value, selectedAttendanceIndex: selectedAttendanceTabIndex.value);
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
       }

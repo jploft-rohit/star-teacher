@@ -37,6 +37,14 @@ class Style{
   }
 }
 
+extension TimeOfDayConverter on TimeOfDay {
+  String to24hours() {
+    final hour = this.hour.toString().padLeft(2, "0");
+    final min = this.minute.toString().padLeft(2, "0");
+    return "$hour:$min";
+  }
+}
+
 double getHeight(BuildContext context){
   return MediaQuery.of(context).size.height;
 }
@@ -524,6 +532,14 @@ String getFormattedDate(String dateString, {String separator = '-'}) {
   String month = date.month.toString().padLeft(2, '0');
   String year = date.year.toString().substring(0);
   return '$day$separator$month$separator$year';
+}
+
+String getFormattedDate2(String dateString, {String separator = '-'}) {
+  DateTime date = DateTime.parse(dateString);
+  String day = date.day.toString().padLeft(2, '0');
+  String month = date.month.toString().padLeft(2, '0');
+  String year = date.year.toString().substring(0);
+  return '$year$separator$month$separator$day';
 }
 
 String convertDateFormat3(String dateString1) {

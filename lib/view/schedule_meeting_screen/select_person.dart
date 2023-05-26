@@ -2,30 +2,42 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/backend/responses_model/roles_list_response.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_filter_dropdown.dart';
-import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/filter_textformfield.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/base_utility.dart';
-import 'package:staff_app/language_classes/language_constants.dart';
-import 'package:staff_app/view/create_task_or_assignment/create_task_or_assignment_screen_ctrl.dart';
+import 'package:staff_app/view/complaints_report_screen/controller/complaint_report_controller.dart';
+import 'package:staff_app/view/schedule_meeting_screen/controller/schedule_meeting_screen_ctrl.dart';
+import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 
-class ScheduleWithPopup1 extends StatefulWidget {
-  const ScheduleWithPopup1({Key? key}) : super(key: key);
+class SelectPersonPopup extends StatefulWidget {
+  final String selectedSchoolId;
+  const SelectPersonPopup({Key? key, required this.selectedSchoolId}) : super(key: key);
 
   @override
-  State<ScheduleWithPopup1> createState() => _ScheduleWithPopup1State();
+  State<SelectPersonPopup> createState() => _SelectPersonPopupState();
 }
 
-class _ScheduleWithPopup1State extends State<ScheduleWithPopup1> {
+class _SelectPersonPopupState extends State<SelectPersonPopup> {
+  BaseCtrl baseCtrl = Get.find<BaseCtrl>();
+  ScheduleMeetingScreenCtrl controller = Get.find<ScheduleMeetingScreenCtrl>();
   TextEditingController searchCtrl = TextEditingController();
 
-  int selectedFMOPos = 0;
+  int selectedFMOPos = -1;
+
+  @override
+  void initState() {
+    super.initState();
+    DummyLists.initialRole = "Select Person";
+    controller.staffData.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +62,7 @@ class _ScheduleWithPopup1State extends State<ScheduleWithPopup1> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(""),
-                    Text("Schedule With", style: Style.montserratBoldStyle().copyWith(fontSize: 17.sp, color: Colors.black),),
+                    Text("Select Person", style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: Colors.black),),
                     GestureDetector(
                       onTap: (){
                         Get.back();
@@ -62,45 +74,45 @@ class _ScheduleWithPopup1State extends State<ScheduleWithPopup1> {
                   height: 2.h,
                 ),
                 Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border:
-                      Border.all(color: Color(0xFFCECECE), width: 1)),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),border: Border.all(color: Color(0xFFCECECE),width: 1)),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
                           CustomFilterDropDown(
-                            initialValue: DummyLists.initialRole,
-                            hintText: 'Star Admin',
-                            listData: DummyLists.roleData,
-                            onChange: (value) {
-                              setState(() {
-                                DummyLists.initialRole = value;
-                              });
-                            },
-                            icon: jobDetailSvg,
-                          ),
+                              initialValue: DummyLists.initialRole,
+                              hintText: DummyLists.initialRole??'Select Person',
+                              item: baseCtrl.rolesListResponse.data?.map((RolesData value){
+                                return DropdownMenuItem<RolesData>(
+                                    value: value,
+                                    child: addText(value.name??"", 16.sp, Colors.black, FontWeight.w400));
+                              }).toList(),
+                              onChange: (value) {
+                                controller.selectedRoleId.value = value.sId??"";
+                                controller.selectedRoleName.value = value.name??"";
+                                setState(() {
+                                  DummyLists.initialRole=value.name??"";
+                                });
+                              controller.getStaffData(selectedRoleId: controller.selectedRoleId.value, selectedSchoolId: widget.selectedSchoolId);
+                              },icon: jobDetailSvg),
                         ],
                       ),
-                      Divider(
-                        height: 1,
-                        thickness: 1,
-                      ),
-                      FilterTextFormField(
-                        onChange: (String val) {},
-                        hintText: "Search By ID...",
-                        keyBoardType: TextInputType.name,
+                      Divider(height: 1,thickness: 1),
+                      FilterTextFormField(onChange: (String val) {
+                      }, hintText: "Search By ID...", keyBoardType: TextInputType.name,
                       ),
                     ],
                   ),
                 ),
                 SizedBox(
-                  height: 2.h,
+                  height: 3.h,
                 ),
-                ListView.builder(
+                Obx(()=> controller.isStaffLoading.value
+                    ? Center(child: SizedBox(height: 30,width: 30,child: CircularProgressIndicator()))
+                    : ListView.builder(
                   shrinkWrap: true,
-                  itemCount: 4,
+                  itemCount: controller.staffData.length,
                   padding: EdgeInsets.zero,
                   itemBuilder: (context, index) {
                     return Padding(
@@ -108,12 +120,14 @@ class _ScheduleWithPopup1State extends State<ScheduleWithPopup1> {
                       child: GestureDetector(
                         onTap: (){
                           selectedFMOPos = index;
+                          controller.selectedPersonId.value = controller.staffData[index].user?.sId??"";
+                          controller.selectedPersonController.value.text = controller.staffData[index].user?.name??"";
                           setState(() {});
                         },
                         child: Container(
                           decoration: BoxDecoration(
                               color: selectedFMOPos == index ? BaseColors.backgroundColor : Colors.transparent,
-                              borderRadius: BorderRadius.circular(15.0),
+                              borderRadius: BorderRadius.circular(10.0),
                               border: Border.all(
                                   color: BaseColors.borderColor
                               )
@@ -125,11 +139,13 @@ class _ScheduleWithPopup1State extends State<ScheduleWithPopup1> {
                                 children: [
                                   Container(
                                     padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
+                                    margin: EdgeInsets.only(left: 2),
                                     decoration: BoxDecoration(
                                       border: Border.all(
                                           color: BaseColors.primaryColor
                                       ),
-                                      borderRadius: BorderRadius.circular(15.0),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      color: Colors.white,
                                     ),
                                     child: SvgPicture.asset(manSvg,height: 30,),
                                   ),
@@ -138,11 +154,19 @@ class _ScheduleWithPopup1State extends State<ScheduleWithPopup1> {
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text("Abdul Khan", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
+                                        Text(controller.staffData[index].user?.name??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                                         SizedBox(
                                           height: .5.h,
                                         ),
-                                        buildInfoItems("Designation", "Star Admin")
+                                        Row(
+                                          children: [
+                                            buildInfoItems("Subject", controller.staffData[index].subject?.name??""),
+                                            SizedBox(
+                                              width: 5.w,
+                                            ),
+                                            buildInfoItems("ID", controller.staffData[index].employeeId??""),
+                                          ],
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -189,6 +213,7 @@ class _ScheduleWithPopup1State extends State<ScheduleWithPopup1> {
                       ),
                     );
                   },
+                ),
                 ),
                 SizedBox(
                   height: 2.h,

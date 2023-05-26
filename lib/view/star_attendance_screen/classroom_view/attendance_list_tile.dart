@@ -36,6 +36,7 @@ class _AttendanceListTileState extends State<AttendanceListTile> {
               children: [
                 Container(
                   margin: const EdgeInsets.only(left: 15),
+                  padding: EdgeInsets.symmetric(vertical: 5),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(color: controller.selectedAttendanceTabIndex == 0 ? BaseColors.green : controller.selectedAttendanceTabIndex == 1 ? BaseColors.textRedColor : Color(0xffEC9C00))),
@@ -45,7 +46,7 @@ class _AttendanceListTileState extends State<AttendanceListTile> {
                         Expanded(
                           flex: 2,
                           child: Container(
-                            margin: const EdgeInsets.fromLTRB(12.0,8,0,8),
+                            margin: const EdgeInsets.fromLTRB(16,8,0,8),
                             padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 8),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
@@ -60,36 +61,39 @@ class _AttendanceListTileState extends State<AttendanceListTile> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Padding(
-                                padding: EdgeInsets.only(left: 2.w),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text('${toBeginningOfSentenceCase(controller.list?[index].student?.user?.name??"")} #${controller.list?[index].student?.studentId??""}', style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: BaseColors.primaryColor),),
-                                    SizedBox(height: 0.8.h),
-                                    GestureDetector(
-                                      onTap: (){
-                                        showGeneralDialog(
-                                          context: context,
-                                          pageBuilder: (context, animation, secondaryAnimation) {
-                                            return ChangeStatusPopup(isFromLateView: false, index: index,);
-                                          },
-                                        );
-                                      },
-                                      child: Container(
-                                        width: 12.h,
-                                        height: 3.h,
-                                        // padding: EdgeInsets.symmetric(vertical: 0, horizontal: 4),
-                                        decoration: BoxDecoration(
-                                            color: BaseColors.backgroundColor,
-                                            boxShadow: [getBoxShadow()],
-                                            border: Border.all(color: BaseColors.borderColor, width: 1.5),
-                                            borderRadius: BorderRadius.circular(30.0)),
-                                        child: Center(child: Text(translate(context).change_Status, style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp),)),
-                                      ),
-                                    )
-                                  ],
+                              Expanded(
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 2.w),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text('${toBeginningOfSentenceCase(controller.list?[index].student?.user?.name??"")} #${controller.list?[index].student?.studentId??""}', style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: BaseColors.primaryColor),),
+                                      SizedBox(height: 0.8.h),
+                                      GestureDetector(
+                                        onTap: (){
+                                          showGeneralDialog(
+                                            context: context,
+                                            pageBuilder: (context, animation, secondaryAnimation) {
+                                              return ChangeStatusPopup(isFromLateView: false, index: index,);
+                                            },
+                                          );
+                                        },
+                                        child: Container(
+                                          width: 12.h,
+                                          height: 3.h,
+                                          margin: EdgeInsets.only(bottom: 2),
+                                          // padding: EdgeInsets.symmetric(vertical: 0, horizontal: 4),
+                                          decoration: BoxDecoration(
+                                              color: BaseColors.backgroundColor,
+                                              boxShadow: [getBoxShadow()],
+                                              border: Border.all(color: BaseColors.borderColor, width: 1.5),
+                                              borderRadius: BorderRadius.circular(30.0)),
+                                          child: Center(child: Text(translate(context).change_Status, style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp),)),
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                               Column(

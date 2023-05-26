@@ -349,6 +349,7 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 10.0),
                   child: Container(
+                    height: 46,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15.0),
                         border: Border.all(
@@ -361,14 +362,17 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
                        Row(
                          children: [
                            Container(
-                             padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
+                             height: 50,
+                             //width: 46,
+                             padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                             margin: EdgeInsets.only(left: 3,top: 3,bottom: 3,right: 3),
                              decoration: BoxDecoration(
-                               border: Border.all(
-                                   color: BaseColors.primaryColor
-                               ),
-                               borderRadius: BorderRadius.circular(15.0),
+                               borderRadius: BorderRadius.circular(10.0),
+                               border: Border.all(color: BaseColors.primaryColor),
                              ),
-                             child: SvgPicture.asset(manSvg),
+                             child: SvgPicture.asset(
+                               manSvg,
+                             ),
                            ),
                            Padding(
                              padding: EdgeInsets.all(10.sp),
@@ -426,6 +430,7 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
                           children: [
                             Container(
                               padding: const EdgeInsets.all(8),
+                              margin: EdgeInsets.only(left: 3,top: 3,bottom: 3),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10.0),
                                 border: Border.all(color: BaseColors.primaryColor),
@@ -490,13 +495,15 @@ class _SOSWardenViewState extends State<SOSWardenView> with SingleTickerProvider
                                 height: 50,
                                 //width: 46,
                                 padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                                margin: EdgeInsets.only(left: 3,top: 3,bottom: 3),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10.0),
                                   border: Border.all(color: BaseColors.primaryColor),
                                 ),
                                 child: SvgPicture.asset(
                                   manSvg,
-                                ),),
+                                ),
+                              ),
                               SizedBox(width: 1.5.h),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,

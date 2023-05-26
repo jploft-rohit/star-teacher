@@ -89,7 +89,7 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                           CustomFilterDropDown(
                             initialValue: DummyLists.initialRole,
                             hintText: DummyLists.initialRole??'Select Person',
-                            item: baseCtrl.rolesListResponse.data?.map((Data value){
+                            item: baseCtrl.rolesListResponse.data?.map((RolesData value){
                               return DropdownMenuItem<dynamic>(
                                 value: value,
                                 child: addText(value.name??"", 16.sp, Colors.black, FontWeight.w400));

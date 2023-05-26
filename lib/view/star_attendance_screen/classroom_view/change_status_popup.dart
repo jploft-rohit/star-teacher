@@ -225,12 +225,13 @@ class _ChangeStatusPopupState extends State<ChangeStatusPopup> {
                     height: 2.h,
                   ),
                   Center(
-                    child: BaseButton(btnType: dialogButton,title: translate(Get.context!).submit_btn_txt, onPressed: (){
-                      if (type.toLowerCase() == "other") {
-                        type = reasonController.text.trim();
-                      }
-                      controller.changeStarsAttendanceStatus(index: widget.index, attendanceType: type, reason: type);
-                      controller.list?[widget.index].sId??"";
+                    child: BaseButton(removeHorizontalPadding: true,btnType: dialogButton,title: translate(Get.context!).submit_btn_txt,
+                        onPressed: (){
+                           if (type.toLowerCase() == "other") {
+                             type = reasonController.text.trim();
+                           }
+                           controller.changeStarsAttendanceStatus(index: widget.index, attendanceType: type, reason: type);
+                           controller.list?[widget.index].sId??"";
                     }, btnWidth: 35.w),
                   ),
                 ],

@@ -128,13 +128,13 @@ class _NotifyAuthorityPopupState extends State<NotifyAuthorityPopup> {
                 ),
 
                 Center(
-                  child: BaseButton(borderRadius: 100,btnType: mediumButton,title: translate(context).submit_btn_txt, onPressed: (){
+                  child: BaseButton(removeHorizontalPadding: true,borderRadius: 100,btnType: mediumButton,title: translate(context).submit_btn_txt, onPressed: (){
                     print((list.length-3).toString());
                       Get.back();
                       if (list.last['isSelected']) {
                         showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation) {
                           return const RescheduleClassPopup();
-                        },);
+                        });
                       }
                   }),
                 ),

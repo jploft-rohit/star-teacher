@@ -24,12 +24,11 @@ class _StarAttendanceScreenState extends State<StarAttendanceScreen> with Single
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    controller.selectedAttendanceTabIndex.value = 0;
     tabController = TabController(length: 3, vsync: this)..addListener(() {
       controller.selectedAttendanceTabIndex.value = 0;
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         controller.selectedClassType.value = tabController.index;
-        await controller.getStarsAttendanceList(selectedClassIndex: controller.selectedClassType.value, selectedAttendanceIndex: controller.selectedAttendanceTabIndex.value);
+        controller.getStarsAttendanceList(selectedClassIndex: controller.selectedClassType.value, selectedAttendanceIndex: controller.selectedAttendanceTabIndex.value);
         if (mounted) {
           setState(() {});
         }

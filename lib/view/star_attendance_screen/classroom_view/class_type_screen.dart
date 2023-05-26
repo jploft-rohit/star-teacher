@@ -37,11 +37,13 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    controller.selectedAttendanceTabIndex.value = 0;
+    controller.selectedFMOPos.value = 0;
     controller.getStarsAttendanceList(selectedClassIndex: controller.selectedClassType.value, selectedAttendanceIndex: controller.selectedAttendanceTabIndex.value);
     tabController = TabController(length: 3, vsync: this)..addListener(() {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         controller.selectedAttendanceTabIndex.value = tabController.index;
-        await controller.getStarsAttendanceList(selectedClassIndex: controller.selectedClassType.value, selectedAttendanceIndex: controller.selectedAttendanceTabIndex.value);
+        controller.getStarsAttendanceList(selectedClassIndex: controller.selectedClassType.value, selectedAttendanceIndex: controller.selectedAttendanceTabIndex.value);
         if (mounted) {
           setState(() {});
         }
@@ -239,13 +241,14 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
                 Checkbox(
                   checkColor: Colors.white,
                   activeColor: BaseColors.primaryColor,
-                  value: controller.isRulesChecked.value,
+                  value: controller.isSelectAll.value,
                   side: const BorderSide(color: BaseColors.primaryColor),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(3),
                   ),
                   onChanged: (bool? value) {
-                    controller.isRulesChecked.value = value!;
+                    controller.isSelectAll.value = value!;
+                    controller.selectedFMOPos1.value = int.parse(value.toString());
                     setState(() {});
                   },
                 ),
@@ -256,7 +259,14 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
         ),
         Obx(()=>Visibility(
             visible: controller.selectedFMOPos.value == 2,
-            child: ManualAttendanceListTile(),
+            child: Expanded(
+                child: ListView.builder(
+                  padding: EdgeInsets.only(bottom: 2.h),
+                  itemCount: 4,
+                  shrinkWrap: true,
+                  itemBuilder: (context,index){
+                    return ManualAttendanceListTile(index: index);
+                })),
           )),
         Obx(()=>Visibility(
             visible: controller.selectedFMOPos.value == 2,

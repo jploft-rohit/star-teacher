@@ -72,7 +72,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(controller.starData?.value.user?.name??na, style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
+                              Text(controller.starData?.value.user?.name??"Sania", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                               SizedBox(height: 0.5.h,),
                               Container(
                                 width: 30.w,
@@ -82,7 +82,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                               SizedBox(
                                 height: .5.h,
                               ),
-                              Text("#"+(controller.starData?.value.studentId??na), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
+                              Text("#"+(controller.starData?.value.studentId??"#562665"), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                               SizedBox(
                                 height: .5.h,
                               ),
@@ -94,7 +94,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                               SizedBox(
                                 height: .5.h,
                               ),
-                              Text("${controller.starData?.value.classes?.name??na}-${controller.starData?.value.classsection?.name??na}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
+                              Text("${controller.starData?.value.classes?.name??"H1"}-${controller.starData?.value.classsection?.name??"G"}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                             ],
                           ),
                         ],

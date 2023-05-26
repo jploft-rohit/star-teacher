@@ -31,43 +31,33 @@ class _StatisticsViewState extends State<StatisticsView> {
     super.didChangeDependencies();
     list = [
       {
-        "title": controller.response.value.data?.statistics?.pendingTask??"0",
         "subTitle": "Pending Task",
       },
       {
-        "title": controller.response.value.data?.statistics?.unclosedComplaint??"0",
         "subTitle": "Unclosed Compliant",
       },
       {
-        "title": controller.response.value.data?.statistics?.starsEvaluationPending??"0",
         "subTitle": "Stars Evaluation Pending",
       },
       {
-        "title": controller.response.value.data?.statistics?.assignmentToReview??"0",
         "subTitle": "Assignment to Review",
       },
       {
-        "title": controller.response.value.data?.statistics?.attendanceRecord??"0",
         "subTitle": "Attendance Record",
       },
       {
-        "title": controller.response.value.data?.statistics?.performance??"0",
         "subTitle": "Performance",
       },
       {
-        "title": controller.response.value.data?.statistics?.linkedStars??"0",
         "subTitle": "Linked Stars",
       },
       {
-        "title": controller.response.value.data?.statistics?.allocatedSchools??"0",
         "subTitle": "Allocated Schools",
       },
       {
-        "title": controller.response.value.data?.statistics?.totalClassesAttendedThisWeek??"0",
         "subTitle": "Total Classes Attended This Week",
       },
       {
-        "title": controller.response.value.data?.statistics?.avgOfInteractingWithChatting??"0",
         "subTitle": "Average of Interacting with chatting",
       },
     ];
@@ -80,20 +70,21 @@ class _StatisticsViewState extends State<StatisticsView> {
     );
   }
   Widget buildGrids(){
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const AlwaysScrollableScrollPhysics(),
-      padding: EdgeInsets.zero,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
+    return Obx(()=>GridView.builder(
+        shrinkWrap: true,
+        physics: const AlwaysScrollableScrollPhysics(),
+        padding: EdgeInsets.zero,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+        ),
+        itemBuilder: (context, index) => Padding(
+          padding: EdgeInsets.all(5),
+          child: buildItem(index),
+        ),
+        itemCount: controller.staticsCountList.length,
       ),
-      itemBuilder: (context, index) => Padding(
-        padding: EdgeInsets.all(5),
-        child: buildItem(index),
-      ),
-      itemCount: 10,
     );
   }
   buildItem(int index) {
@@ -130,9 +121,9 @@ class _StatisticsViewState extends State<StatisticsView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(controller.response.value.data?.statistics?.pendingTask??"0", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 25.sp),),
+            Text(controller.staticsCountList[index], style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 25.sp),),
             SizedBox(height: 1.h),
-            Text(list[index]['subTitle'], style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),textAlign: TextAlign.center,),
+            Text(list[index]["subTitle"], style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),textAlign: TextAlign.center,),
           ],
         ),
       ),

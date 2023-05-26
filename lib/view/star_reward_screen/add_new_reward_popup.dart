@@ -77,9 +77,14 @@ class _AddNewRewardPopupState extends State<AddNewRewardPopup> {
                       children: [
                         Expanded(
                           child: BaseButton(btnType: mediumButton,title: translate(context).yes, onPressed: (){
-                            int points = int.parse((rewardScreenCtrl.rewardList?[widget.index].points.toString())??"0");
-                            BaseOverlays().dismissOverlay();
-                            rewardScreenCtrl.giveReward(points: points, rewardId: rewardScreenCtrl.rewardList?[widget.index].sId??"", selectedUserId: rewardScreenCtrl.selectedStarId.value);
+                            if (rewardScreenCtrl.myRewards?.first.ratings > 0) {
+                              int points = int.parse((rewardScreenCtrl.rewardList?[widget.index].points.toString())??"0");
+                              BaseOverlays().dismissOverlay();
+                              rewardScreenCtrl.giveReward(points: points, rewardId: rewardScreenCtrl.rewardList?[widget.index].sId??"", selectedUserId: rewardScreenCtrl.selectedStarId.value);
+                            }else{
+                              BaseOverlays().dismissOverlay();
+                              baseToast(message: "No enough reward points");
+                            }
                           }, isActive: false,borderRadius: 20,),
                         ),
                         SizedBox(width: 2.w),
