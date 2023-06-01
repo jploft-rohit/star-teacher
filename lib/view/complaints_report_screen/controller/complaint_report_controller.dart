@@ -38,7 +38,6 @@ class ComplainReportController extends GetxController{
     super.onInit();
     baseCtrl = Get.find<BaseCtrl>();
     getData(type: '');
-
   }
 
   updateComplainReportAPI({required String itemId,school,forEnquiry,complaintUser,complaintType,title,description,document}){

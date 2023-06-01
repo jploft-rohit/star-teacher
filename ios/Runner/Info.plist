@@ -10,6 +10,8 @@
     <true/>
     <key>NSCameraUsageDescription</key>
     <string>This app needs camera access to scan QR codes</string>
+    <key>NSAppTransportSecurity</key>
+    <string>In testing server we need this permission, so app can play online video with http</string>
     <key>NSPhotoLibraryUsageDescription</key>
     <string>This app requires access to the camera.</string>
 	<key>CFBundleExecutable</key>

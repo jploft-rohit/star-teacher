@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/packages/drop_downbutton2/dropdown_button2.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/base_utility.dart';
-import 'package:staff_app/utility/validators.dart';
 
 class BaseTextFormField extends StatelessWidget {
   final double? bottomMargin,topMargin,leftMargin,rightMargin;
@@ -28,7 +25,8 @@ class BaseTextFormField extends StatelessWidget {
   final ValueChanged? onChanged;
   final TextInputType? keyboardType;
   final TextEditingController controller;
-  BaseTextFormField({Key? key, this.title, required this.controller, this.hintText, this.keyboardType, this.prefixIcon, this.suffixIcon, this.isDropDown = false, this.dropDownValue, this.items = const [], this.onChanged, this.onTap, this.bottomMargin, this.topMargin, this.leftMargin, this.rightMargin, this.maxLine, this.errorText, this.validator, this.underLine = false}) : super(key: key);
+  final bool? hideBorders;
+  BaseTextFormField({Key? key, this.title, required this.controller, this.hintText, this.keyboardType, this.prefixIcon, this.suffixIcon, this.isDropDown = false, this.dropDownValue, this.items = const [], this.onChanged, this.onTap, this.bottomMargin, this.topMargin, this.leftMargin, this.rightMargin, this.maxLine, this.errorText, this.validator, this.underLine = false, this.hideBorders}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -81,23 +79,23 @@ class BaseTextFormField extends StatelessWidget {
                             decoration: InputDecoration(
                               hintStyle: TextStyle(color: Colors.black,fontSize: textFormFieldHintTs),
                               contentPadding: EdgeInsets.only(top: 10,bottom: 10,right: 0,left: 0),
-                              focusedBorder: OutlineInputBorder(
+                              focusedBorder: (hideBorders??false) ? InputBorder.none : OutlineInputBorder(
                                 borderSide: BorderSide(color: BaseColors.txtFiledBorderColor, width: 1.0),
                                 borderRadius: BorderRadius.circular(5),
                               ),
-                              disabledBorder: OutlineInputBorder(
+                              disabledBorder: (hideBorders??false) ? InputBorder.none : OutlineInputBorder(
                                 borderSide: BorderSide(color: BaseColors.txtFiledBorderColor, width: 1.0),
                                 borderRadius: BorderRadius.circular(5),
                               ),
-                              enabledBorder: OutlineInputBorder(
+                              enabledBorder: (hideBorders??false) ? InputBorder.none : OutlineInputBorder(
                                 borderSide: BorderSide(color: BaseColors.txtFiledBorderColor, width: 1.0),
                                 borderRadius: BorderRadius.circular(5),
                               ),
-                              errorBorder: OutlineInputBorder(
+                              errorBorder: (hideBorders??false) ? InputBorder.none : OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.red, width: 1.0),
                                 borderRadius: BorderRadius.circular(5),
                               ),
-                              focusedErrorBorder: OutlineInputBorder(
+                              focusedErrorBorder: (hideBorders??false) ? InputBorder.none : OutlineInputBorder(
                                 borderSide: BorderSide(color: BaseColors.txtFiledBorderColor, width: 1.0),
                                 borderRadius: BorderRadius.circular(5),
                               ),

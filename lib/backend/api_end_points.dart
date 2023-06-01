@@ -74,7 +74,6 @@ class ApiEndPoints {
   final String getNotificationList = "notification/list";
 
   /// Stars EndPoints
-  // Star List
   final String getStarsList = "registerStar/star_list";
 
   /// Star Reward EndPoints
@@ -100,4 +99,13 @@ class ApiEndPoints {
   final String getScheduledMeetings = "requestRoutes/list";
   final String rescheduleMeeting = "requestRoutes/updateRequestStatus/";
   final String updateScheduledMeetingStatus = "requestRoutes/updateRequestStatus/";
+
+  /// Star Gallery EndPoints
+  final String getStarGallery = "starGallery/list";
+  final String getStarGalleryCategory = "starGallery/galleryCategory";
+  final String createStarGallery = "starGallery/create";
+
+  /// Class EndPoints
+  final String getClasses = "class/getAllClass";
+  final String getClassSection = "class/section/getall";
 }

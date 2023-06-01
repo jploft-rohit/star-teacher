@@ -64,7 +64,7 @@ class _NewsBroadCastTabState extends State<NewsBroadCastTab> {
               itemCount: controller.list?.length??0,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              padding: EdgeInsets.only(bottom: 14.h),
+              padding: EdgeInsets.only(bottom: 1.h),
               itemBuilder: (context,index){
                 return GestureDetector(
                   onTap: (){
@@ -133,7 +133,8 @@ class _NewsBroadCastTabState extends State<NewsBroadCastTab> {
                     ),
                   ),
                 );
-              }),
+              },
+           ),
         ),
       ],
     );

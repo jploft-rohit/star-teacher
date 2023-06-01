@@ -9,12 +9,13 @@ import '../packages/drop_downbutton2/src/dropdown_button2.dart';
 class CustomFilterDropDown extends StatelessWidget {
   final String hintText;
   final String icon;
+  final String? errorMessage;
   final String? initialValue;
   final List<String>? listData;
   final List<DropdownMenuItem<dynamic>>? item;
   final Function(dynamic value) onChange;
   CustomFilterDropDown({Key? key, required this.hintText,
-    this.item,required this.onChange,required this.icon, this.initialValue, this.listData}) : super(key: key);
+    this.item,required this.onChange,required this.icon, this.initialValue, this.listData, this.errorMessage}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
