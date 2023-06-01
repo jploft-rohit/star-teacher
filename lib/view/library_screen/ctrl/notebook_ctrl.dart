@@ -12,10 +12,12 @@ import 'package:staff_app/utility/base_views/base_overlays.dart';
 class NotebookCtrl extends GetxController{
 
   final formKey = GlobalKey<FormState>();
+  RxString selectedSchoolId = "".obs;
   RxList<NotebookList>? notebookList = <NotebookList>[].obs;
   Rx<StarData>? starData = StarData().obs;
 
   /// Add Notebook Field Controller
+  Rx<TextEditingController> schoolController = TextEditingController().obs;
   TextEditingController titleController = TextEditingController();
   TextEditingController gradeController = TextEditingController();
   TextEditingController dateController = TextEditingController();
@@ -51,7 +53,7 @@ class NotebookCtrl extends GetxController{
   addNotebook(){
     if (formKey.currentState?.validate()??false) {
       var data = dio.FormData.fromMap({
-        "school": "643e7e76786e2a1898ace622",
+        "school": selectedSchoolId.value,
         "type": selectedIndex3.value == 0 ? "talent" : "improvement",
         "title": titleController.text.trim(),
         "date": dateController.text.trim(),
@@ -79,7 +81,7 @@ class NotebookCtrl extends GetxController{
   updateNotebook({required id}){
     if (formKey.currentState?.validate()??false) {
       var data = dio.FormData.fromMap({
-        "school": "643e7e76786e2a1898ace622",
+        "school": selectedSchoolId.value,
         "type": selectedIndex3.value == 0 ? "talent" : "improvement",
         "title": titleController.text.trim(),
         "date": dateController.text.trim(),
@@ -105,19 +107,21 @@ class NotebookCtrl extends GetxController{
 
   /// Delete Notebook
   deleteNotebook({required String notebookId, String? reason,required int index}){
-    BaseOverlays().dismissOverlay();
-      final data = {
-        "deletedReason": reason??""
-      };
-      BaseAPI().delete(url: ApiEndPoints().deleteNotebook+notebookId,data: data).then((value){
-        if (value?.statusCode == 200) {
-          notebookList?.removeAt(index);
-          BaseSuccessResponse response = BaseSuccessResponse.fromJson(value?.data);
-          if ((response.message??"").isNotEmpty) {
-            BaseOverlays().showSnackBar(message: response.message??"",title: "Success");
+    if (formKey.currentState?.validate()??false) {
+      BaseOverlays().dismissOverlay();
+        final data = {
+          "deletedReason": reason??""
+        };
+        BaseAPI().delete(url: ApiEndPoints().deleteNotebook+notebookId,data: data).then((value){
+          if (value?.statusCode == 200) {
+            notebookList?.removeAt(index);
+            BaseSuccessResponse response = BaseSuccessResponse.fromJson(value?.data);
+            if ((response.message??"").isNotEmpty) {
+              BaseOverlays().showSnackBar(message: response.message??"",title: "Success");
+            }
           }
-        }
-      });
+        });
+    }
   }
 
   /// Get Notebook Notes

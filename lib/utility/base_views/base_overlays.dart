@@ -502,8 +502,9 @@ class BaseOverlays {
 
   showReasonDeleteDialog(
       {required String title,
-      required TextEditingController controller,
-      Function()? onProceed}) {
+        required TextEditingController controller,
+        GlobalKey? formKey,
+        Function()? onProceed}) {
     controller.text = "";
     showDialog(
       context: Get.context!,
@@ -517,53 +518,66 @@ class BaseOverlays {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         content: Padding(
           padding: const EdgeInsets.all(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(bottom: 2.h),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: StatefulBuilder(
+            builder: (BuildContext context, void Function(void Function()) setState) {
+              return Form(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(Icons.close, color: Colors.transparent),
-                    Text(title, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 17.sp)),
-                    GestureDetector(
-                      onTap: () {Get.back();},
-                      child: const Icon(
-                        Icons.close,
-                        color: Colors.black,
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 2.h),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Icon(Icons.close, color: Colors.transparent),
+                          Text(title, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 17.sp)),
+                          GestureDetector(
+                            onTap: () {Get.back();},
+                            child: const Icon(
+                              Icons.close,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
+                    Text(
+                      "${translate(Get.context!).reason}: ",
+                      style: Style.montserratBoldStyle().copyWith(
+                          color: BaseColors.textBlackColor, fontSize: 15.sp),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    CustomTextField(
+                      controller: controller,
+                      hintText: translate(Get.context!).type_here,
+                      borderRadius: 5.0,
+                      maxLine: 3,
+                      validator: (val){
+                        if ((val??"").isEmpty) {
+                          return "Please enter the reason.";
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 2.h),
+                    Align(
+                      alignment: Alignment.center,
+                      child: BaseButton(
+                        borderRadius: 20,
+                        btnType: mediumLargeButton,
+                        title: translate(Get.context!).delete.toUpperCase(),
+                        onPressed: onProceed ?? () {
+                          BaseOverlays().dismissOverlay();
+                        },
+                      ),
+                    )
                   ],
                 ),
-              ),
-              Text(
-                "${translate(Get.context!).reason}: ",
-                style: Style.montserratBoldStyle().copyWith(
-                    color: BaseColors.textBlackColor, fontSize: 15.sp),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              CustomTextField(
-                controller: controller,
-                hintText: translate(Get.context!).type_here,
-                borderRadius: 5.0,
-                maxLine: 3,
-              ),
-              SizedBox(height: 2.h),
-              Align(
-                alignment: Alignment.center,
-                child: BaseButton(
-                  borderRadius: 20,
-                  btnType: mediumLargeButton,
-                  title: translate(Get.context!).delete.toUpperCase(),
-                  onPressed: onProceed ?? () {
-                    BaseOverlays().dismissOverlay();
-                  },
-                ),
-              )
-            ],
+              );
+            },
           ),
         ),
       ),

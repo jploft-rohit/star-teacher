@@ -230,8 +230,9 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                                           BaseOverlays().showReasonDeleteDialog(
                                               title: "Delete Note",
                                               controller: controller.reasonController,
+                                              formKey: controller.formKey,
                                               onProceed: (){
-                                                controller.deleteNotebook(notebookId: controller.notebookList?[index].sId??"",index: index);
+                                                controller.deleteNotebook(notebookId: controller.notebookList?[index].sId??"",index: index,reason: controller.reasonController.text.trim());
                                               }
                                           );
                                         },

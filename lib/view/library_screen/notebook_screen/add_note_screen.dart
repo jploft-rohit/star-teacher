@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/backend/responses_model/notebook_list_response.dart';
+import 'package:staff_app/backend/responses_model/school_list_response.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
@@ -15,6 +16,7 @@ import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 import 'package:staff_app/view/task_or_reminder_screen/add_task_or_reminder_screen.dart';
 
 import '../ctrl/notebook_ctrl.dart';
@@ -30,6 +32,7 @@ class AddNoteScreen extends StatefulWidget {
 
 class _AddNoteScreenState extends State<AddNoteScreen> {
   NotebookCtrl controller = Get.find<NotebookCtrl>();
+  BaseCtrl baseCtrl = Get.find<BaseCtrl>();
 
   @override
   void initState() {
@@ -49,20 +52,22 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
             padding: EdgeInsets.all(15.sp),
             child: Column(
               children: [
-                CustomDropDown(
-                  initialValue: DummyLists.initialSchool,
-                  hintText: "Select School",
-                  listData:DummyLists.schoolData,
-                  onChange: (value) {
-                    setState(() {
-                      DummyLists.initialSchool=value;
-                    });
+                BaseTextFormField(
+                  controller: controller.schoolController.value,
+                  errorText: "Please select school",
+                  isDropDown: true,
+                  hintText: controller.schoolController.value.text.isEmpty ? "Select School" : controller.schoolController.value.text,
+                  items: baseCtrl.schoolListData.data?.data?.map((SchoolData data){
+                    return DropdownMenuItem(
+                      value: data,
+                      child: addText(data.name??"", 15.sp, Colors.black, FontWeight.w400),
+                    );
+                  }).toList(),
+                  onChanged: (value) async {
+                    controller.schoolController.value.text = value?.name??"";
+                    controller.selectedSchoolId.value = value?.sId??"";
                   },
-                  topPadding: 5,
-                  bottomPadding: 5,
-                  icon: Icon(Icons.arrow_drop_down,color: Color(0xFFC4C4C4),size: 25,),
                 ),
-                SizedBox(height: 1.h),
                 Row(
                   children: [
                     Obx(() => Flexible(
@@ -265,9 +270,9 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                 SizedBox(height: 2.h),
                 BaseButton(title: widget.isUpdating ? "UPDATE" : "SUBMIT", onPressed: (){
                   if (widget.isUpdating) {
-                    // controller.updateNotebook(id: widget.data?.sId??"");
+                    controller.updateNotebook(id: widget.data?.sId??"");
                   }else{
-                    // controller.addNotebook();
+                    controller.addNotebook();
                   }
                 },btnType: largeButton,)
               ],
