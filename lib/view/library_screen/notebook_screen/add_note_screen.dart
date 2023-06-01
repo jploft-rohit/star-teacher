@@ -5,6 +5,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/backend/responses_model/notebook_list_response.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
+import 'package:staff_app/utility/base_views/base_school_selection.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
 
 
@@ -49,20 +50,13 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
             padding: EdgeInsets.all(15.sp),
             child: Column(
               children: [
-                CustomDropDown(
-                  initialValue: DummyLists.initialSchool,
-                  hintText: "Select School",
-                  listData:DummyLists.schoolData,
-                  onChange: (value) {
-                    setState(() {
-                      DummyLists.initialSchool=value;
-                    });
-                  },
-                  topPadding: 5,
-                  bottomPadding: 5,
-                  icon: Icon(Icons.arrow_drop_down,color: Color(0xFFC4C4C4),size: 25,),
+                BaseSchoolDropDown(
+                    textEditingController: controller.schoolController.value,
+                    onChanged: (value){
+                      controller.schoolController.value.text = value.name??"";
+                      controller.selectedSchoolId.value = value.sId??"";
+                    },
                 ),
-                SizedBox(height: 1.h),
                 Row(
                   children: [
                     Obx(() => Flexible(
@@ -188,7 +182,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                                       lastDate: DateTime.now()
                                   ).then((picked){
                                     if (picked != null) {
-                                      controller.dateController..text = "${picked.year.toString()}-${picked.month.toString().padLeft(2,'0')}-${picked.day.toString().padLeft(2,'0')}";;
+                                      controller.dateController..text = "${picked.year.toString()}-${picked.month.toString().padLeft(2,'0')}-${picked.day.toString().padLeft(2,'0')}";
                                     }
                                   });
                                 },
@@ -265,9 +259,9 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                 SizedBox(height: 2.h),
                 BaseButton(title: widget.isUpdating ? "UPDATE" : "SUBMIT", onPressed: (){
                   if (widget.isUpdating) {
-                    // controller.updateNotebook(id: widget.data?.sId??"");
+                    controller.updateNotebook(id: widget.data?.sId??"");
                   }else{
-                    // controller.addNotebook();
+                    controller.addNotebook();
                   }
                 },btnType: largeButton,)
               ],

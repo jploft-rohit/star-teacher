@@ -108,4 +108,8 @@ class ApiEndPoints {
   /// Class EndPoints
   final String getClasses = "class/getAllClass";
   final String getClassSection = "class/section/getall";
+
+  /// Annual Schedule EndPoints
+  final String getAnnualScheduled = "annualSchedule/get-all";
+  final String createAnnualSchedule = "annualSchedule/add";
 }

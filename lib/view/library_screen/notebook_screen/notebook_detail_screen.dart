@@ -72,7 +72,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(controller.starData?.value.user?.name??"Sania", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
+                              Text(controller.starData?.value.user?.name??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                               SizedBox(height: 0.5.h,),
                               Container(
                                 width: 30.w,
@@ -82,7 +82,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                               SizedBox(
                                 height: .5.h,
                               ),
-                              Text("#"+(controller.starData?.value.studentId??"#562665"), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
+                              Text("#"+(controller.starData?.value.studentId??""), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                               SizedBox(
                                 height: .5.h,
                               ),
@@ -94,7 +94,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                               SizedBox(
                                 height: .5.h,
                               ),
-                              Text("${controller.starData?.value.classes?.name??"H1"}-${controller.starData?.value.classsection?.name??"G"}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
+                              Text("${controller.starData?.value.classes?.name??""}-${controller.starData?.value.classsection?.name??"G"}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                             ],
                           ),
                         ],
@@ -230,8 +230,11 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                                           BaseOverlays().showReasonDeleteDialog(
                                               title: "Delete Note",
                                               controller: controller.reasonController,
+                                              formKey: controller.formKey,
                                               onProceed: (){
-                                                controller.deleteNotebook(notebookId: controller.notebookList?[index].sId??"",index: index);
+                                                if (controller.formKey.currentState?.validate()??false) {
+                                                  controller.deleteNotebook(notebookId: controller.notebookList?[index].sId??"",index: index,reason: controller.reasonController.text.trim());
+                                                }
                                               }
                                           );
                                         },

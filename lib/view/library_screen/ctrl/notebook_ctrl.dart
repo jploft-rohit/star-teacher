@@ -14,8 +14,9 @@ class NotebookCtrl extends GetxController{
   final formKey = GlobalKey<FormState>();
   RxList<NotebookList>? notebookList = <NotebookList>[].obs;
   Rx<StarData>? starData = StarData().obs;
-
+  RxString selectedSchoolId = "".obs;
   /// Add Notebook Field Controller
+  Rx<TextEditingController> schoolController = TextEditingController().obs;
   TextEditingController titleController = TextEditingController();
   TextEditingController gradeController = TextEditingController();
   TextEditingController dateController = TextEditingController();
@@ -24,7 +25,6 @@ class NotebookCtrl extends GetxController{
   TextEditingController subjectController = TextEditingController();
   TextEditingController commentController = TextEditingController();
   TextEditingController reasonController = TextEditingController();
-
 
   /// Set Data for Add Notebook Field Controller
   setData({bool? isUpdating, required NotebookList? data}){
@@ -44,6 +44,8 @@ class NotebookCtrl extends GetxController{
       recommendationController.text = "";
       subjectController.text = "";
       commentController.text = "";
+      schoolController.value.text = "";
+      selectedSchoolId.value = "";
     }
   }
 
@@ -51,7 +53,7 @@ class NotebookCtrl extends GetxController{
   addNotebook(){
     if (formKey.currentState?.validate()??false) {
       var data = dio.FormData.fromMap({
-        "school": "643e7e76786e2a1898ace622",
+        "school": selectedSchoolId.value,
         "type": selectedIndex3.value == 0 ? "talent" : "improvement",
         "title": titleController.text.trim(),
         "date": dateController.text.trim(),
@@ -79,7 +81,7 @@ class NotebookCtrl extends GetxController{
   updateNotebook({required id}){
     if (formKey.currentState?.validate()??false) {
       var data = dio.FormData.fromMap({
-        "school": "643e7e76786e2a1898ace622",
+        "school": selectedSchoolId.value,
         "type": selectedIndex3.value == 0 ? "talent" : "improvement",
         "title": titleController.text.trim(),
         "date": dateController.text.trim(),

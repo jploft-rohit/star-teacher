@@ -39,13 +39,14 @@ class LostFoundController extends GetxController{
     });
   }
 
-  requestReturn({required String id}) {
+  requestReturn({required String id,required index}) {
     BaseOverlays().dismissOverlay();
     BaseSuccessResponse baseSuccessResponse = BaseSuccessResponse();
     BaseAPI().get(url: ApiEndPoints().returnLostFound+id).then((value){
       if (value?.statusCode ==  200) {
         baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
         BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: "Success");
+        list?.removeAt(index);
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
       }

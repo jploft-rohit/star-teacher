@@ -1,7 +1,7 @@
 class AnnualScheduleResponse {
   dynamic statusCode;
   dynamic message;
-  List<Data>? data;
+  List<AnnualScheduleData>? data;
   Pagination? pagination;
 
   AnnualScheduleResponse(
@@ -11,9 +11,9 @@ class AnnualScheduleResponse {
     statusCode = json['statusCode'];
     message = json['message'];
     if (json['data'] != null) {
-      data = <Data>[];
+      data = <AnnualScheduleData>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(new AnnualScheduleData.fromJson(v));
       });
     }
     pagination = json['pagination'] != null
@@ -35,7 +35,7 @@ class AnnualScheduleResponse {
   }
 }
 
-class Data {
+class AnnualScheduleData {
   dynamic forUser;
   dynamic type;
   dynamic sId;
@@ -49,7 +49,7 @@ class Data {
   dynamic color;
   dynamic icon;
 
-  Data(
+  AnnualScheduleData(
       {this.forUser,
         this.type,
         this.sId,
@@ -63,7 +63,7 @@ class Data {
         this.color,
         this.icon});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  AnnualScheduleData.fromJson(Map<String, dynamic> json) {
     forUser = json['forUser'];
     type = json['type'];
     sId = json['_id'];

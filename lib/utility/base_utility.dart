@@ -556,6 +556,12 @@ String convertDateFormat3(String dateString1) {
   return formattedDate;
 }
 
+String getMonthDate(String dateString1) {
+  DateTime date = DateTime.parse(dateString1);
+  String formattedDate = DateFormat("MMM dd").format(date);
+  return formattedDate;
+}
+
 String getFormattedTime(String dateString1){
   DateTime date = DateTime.parse(dateString1);
   print("date1");

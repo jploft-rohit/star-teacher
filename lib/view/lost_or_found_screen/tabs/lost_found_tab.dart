@@ -68,7 +68,7 @@ class _LostFoundTabState extends State<LostFoundTab> {
                           title: "Request for Return",
                           onPressed: (){
                             BaseOverlays().showConfirmationDialog(onRightButtonPressed: (){
-                              controller.requestReturn(id: controller.list?[index].sId??"");
+                              controller.requestReturn(id: controller.list?[index].sId??"",index: index);
                             },title: "Are you sure, you want to return this ?");
                           },
                           btnType: toggleLargeButton,

@@ -56,8 +56,7 @@ class _AddToDoNoteState extends State<AddToDoNote> {
                             width: 27,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: Color(
-                                  int.tryParse("0xff${controller.colorList[index]}")!),
+                              color: Color(int.tryParse("0xff${controller.colorList[index]}")??0),
                             ),
                             child: controller.selectedColorIndex.value == index
                                 ? SvgPicture.asset(
