@@ -43,7 +43,7 @@ class RewardScreenCtrl extends GetxController{
           "school": selectedSchoolId.value,
           "title": rewardTitleCtrl.value.text.trim(),
           "points": pointValueCtrl.value.text.trim(),
-          "image": await dio.MultipartFile.fromFile(file.path??"",filename: file.name??"")
+          "image": await dio.MultipartFile.fromFile(file.path,filename: file.name)
         });
       }else{
         data = dio.FormData.fromMap({

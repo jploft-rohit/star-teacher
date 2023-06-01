@@ -76,6 +76,29 @@ class BaseAPI {
     }
   }
 
+  /// PUT Method
+  Future<Response?> put({required String url, dynamic data, Map<String, dynamic>? headers,bool? showLoader}) async {
+    if (await checkInternetConnection()) {
+      try {
+        BaseOverlays().showLoader(showLoader: showLoader);
+        FocusScope.of(X.Get.context!).requestFocus(new FocusNode());
+        final String token = await BaseSharedPreference().getString(SpKeys().apiToken)??"";
+        final response = await _dio.put(url, data: data, options: Options(headers: headers??{"Authorization": "Bearer $token"}));
+        BaseOverlays().dismissOverlay(showLoader: showLoader);
+        return response;
+      } on DioError catch (e) {
+        BaseOverlays().dismissOverlay(showLoader: showLoader);
+
+        _handleError(e);
+        rethrow;
+      }
+    }else{
+      // BaseDialogs().dismissLoader();
+      BaseOverlays().showSnackBar(message: translate(X.Get.context!).no_internet_connection);
+      return null;
+    }
+  }
+
   /// PATCH Method
   Future<Response?> patch({required String url, dynamic data, Map<String, dynamic>? headers,bool? concatUserId}) async {
     if (await checkInternetConnection()) {

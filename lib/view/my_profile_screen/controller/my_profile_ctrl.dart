@@ -9,6 +9,18 @@ import 'package:staff_app/utility/base_views/base_overlays.dart';
 class MyProfileCtrl extends GetxController{
   Rx<MyProfileResponse> response = MyProfileResponse().obs;
   BaseSuccessResponse successResponse = BaseSuccessResponse();
+  RxList<String> staticsCountList = <String>[
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+  ].obs;
 
   @override
   void onInit() {
@@ -21,10 +33,26 @@ class MyProfileCtrl extends GetxController{
     BaseAPI().get(url: ApiEndPoints().getMyProfile).then((value){
       if (value?.statusCode == 200) {
         response.value = MyProfileResponse.fromJson(value?.data);
+        setStatics();
       }else{
         // BaseDialogs().showSnackBar(message: ,title: response.message??"");
       }
     });
+  }
+
+  setStatics(){
+    staticsCountList[0] = (response.value.data?.statistics?.pendingTask??"0").toString();
+    staticsCountList[1] = (response.value.data?.statistics?.unclosedComplaint??"0").toString();
+    staticsCountList[2] = (response.value.data?.statistics?.starsEvaluationPending??"0").toString();
+    staticsCountList[3] = (response.value.data?.statistics?.assignmentToReview??"0").toString();
+    staticsCountList[4] = (response.value.data?.statistics?.attendanceRecord??"0").toString();
+    staticsCountList[5] = (response.value.data?.statistics?.performance??"0").toString();
+    staticsCountList[6] = (response.value.data?.statistics?.linkedStars??"0").toString();
+    staticsCountList[7] = (response.value.data?.statistics?.allocatedSchools??"0").toString();
+    staticsCountList[8] = (response.value.data?.statistics?.totalClassesAttendedThisWeek??"0").toString();
+    staticsCountList[9] = (response.value.data?.statistics?.avgOfInteractingWithChatting??"0").toString();
+    // staticsCountList.refresh();
+    // update();
   }
 
   deleteFamilyMember({required String memberId,required int index}){

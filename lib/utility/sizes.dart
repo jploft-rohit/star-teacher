@@ -46,4 +46,7 @@ const String toggleMediumButton = "toggleMediumButton";
 const String toggleLargeButton = "togglelarge";
 const String buttonIcon = "iconButton";
 const String dialogButton = "dialogButton";
+/// Image Picker Quality
+const int cameraQuality = 20;
+const int galleryQuality = 10;
 

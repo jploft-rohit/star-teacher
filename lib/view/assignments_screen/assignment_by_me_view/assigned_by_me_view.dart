@@ -9,7 +9,7 @@ import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/assignments_screen/assignment_by_me_view/assignment_staff_view.dart';
 import 'package:staff_app/view/assignments_screen/assignment_by_me_view/assignment_star_view.dart';
-import 'package:staff_app/view/assignments_screen/assignment_screen_ctrl.dart';
+import 'package:staff_app/view/assignments_screen/controller/assignment_screen_ctrl.dart';
 
 class AssignedByMeView extends StatefulWidget {
   const AssignedByMeView({Key? key}) : super(key: key);

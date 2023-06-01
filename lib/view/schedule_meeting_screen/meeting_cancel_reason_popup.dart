@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
-
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/base_utility.dart';
-import 'package:staff_app/view/schedule_meeting_screen/choose_meeting_date_time_popup.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/view/schedule_meeting_screen/controller/schedule_meeting_screen_ctrl.dart';
 
 class MeetingCancelReasonPopup extends StatefulWidget {
-  const MeetingCancelReasonPopup({Key? key}) : super(key: key);
+  final String id;
+  const MeetingCancelReasonPopup({Key? key, required this.id}) : super(key: key);
 
   @override
   State<MeetingCancelReasonPopup> createState() => _MeetingCancelReasonPopupState();
@@ -19,6 +18,8 @@ class MeetingCancelReasonPopup extends StatefulWidget {
 
 class _MeetingCancelReasonPopupState extends State<MeetingCancelReasonPopup> {
   TextEditingController commentCtrl = TextEditingController();
+  ScheduleMeetingScreenCtrl controller = Get.find<ScheduleMeetingScreenCtrl>();
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -55,13 +56,28 @@ class _MeetingCancelReasonPopupState extends State<MeetingCancelReasonPopup> {
                 SizedBox(
                   height: 2.h,
                 ),
-                CustomTextField(controller: commentCtrl, hintText: "Type here...", maxLine: 3,),
+                Form(
+                  key: formKey,
+                  child: CustomTextField(
+                    controller: commentCtrl,
+                    hintText: "Type here...",
+                    maxLine: 3,
+                    validator: (val){
+                      if ((val??"").isEmpty) {
+                        return "Please enter cancel reason";
+                      }
+                      return null;
+                    },
+                  ),
+                ),
                 SizedBox(
                   height: 2.h,
                 ),
                 Center(
                   child: BaseButton(title: "SUBMIT", onPressed: (){
-                    Get.back();
+                    if (formKey.currentState?.validate()??false) {
+                      // controller.updateStatus(id: widget.id, type: "cancel");
+                    }
                   },btnType: mediumButton,borderRadius: 20,),
                 ),
               ],

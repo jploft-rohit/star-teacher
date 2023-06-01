@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
@@ -10,16 +11,17 @@ import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/view/Dashboard_screen/dashboard_screen_ctrl.dart';
 import 'package:staff_app/view/salary_slip_screen/salary_slip_poup.dart';
-import 'package:staff_app/view/star_attendance_screen/classroom_view/confirmation_popup.dart';
 import 'package:staff_app/view/task_or_reminder_screen/add_task_or_reminder_screen.dart';
 
 import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/view/task_or_reminder_screen/controller/task_reminder_ctrl.dart';
 import '../../Utility/base_utility.dart';
 
 class TaskOrReminderScreen extends StatefulWidget {
-  bool isFromBtmBar;
+  final bool isFromBtmBar;
   TaskOrReminderScreen({Key? key, required this.isFromBtmBar}) : super(key: key);
 
   @override
@@ -28,6 +30,7 @@ class TaskOrReminderScreen extends StatefulWidget {
 
 class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
   DashboardScreenCtrl ctrl = Get.find<DashboardScreenCtrl>();
+  TaskReminderCtrl controller = Get.put(TaskReminderCtrl());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -38,24 +41,26 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
             ctrl.bottomNavigationKey.currentState?.setPage(2);
           }else{
             Navigator.pop(context);
-          }
+           }
           }
         ),
         floatingActionButton: BaseFloatingActionButton(
           onTap: () {Get.to(const AddTaskOrReminderScreen());},
           title: translate(context).add_task,
         ),
-        body: ListView.builder(
-          itemCount: 3,
-          padding: EdgeInsets.all(14.sp),
-          itemBuilder: (context, index) {
-            return buildDailyTaskCard();
-          },
+        body: Obx(()=>ListView.builder(
+            itemCount: controller.list?.length??0,
+            padding: EdgeInsets.all(14.sp),
+            itemBuilder: (context, index) {
+              return buildDailyTaskCard(index: index);
+            },
+          ),
         ),
       ),
     );
   }
-  Widget buildDailyTaskCard() {
+  Widget buildDailyTaskCard({index}) {
+    String na = translate(context).na;
     return Container(
       alignment: Alignment.topLeft,
       margin: EdgeInsets.only(bottom: 2.h),
@@ -80,7 +85,7 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
               SizedBox(
                 width: 2.w,
               ),
-              addText("Submit your daily log", 15.sp, BaseColors.textBlackColor, FontWeight.w700)
+              addText(toBeginningOfSentenceCase(controller.list?[index].remider??na)??na, 15.sp, BaseColors.textBlackColor, FontWeight.w700)
             ],
           ),
           const Divider(),
@@ -89,7 +94,7 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
             children: [
               SvgPicture.asset("assets/images/time_icon.svg"),
               SizedBox(width: 1.h),
-              addText('09:13pm', 14.sp,
+              addText(DateFormat.Hm().format(DateTime.parse(controller.list?[index].time??"")), 14.sp,
                   BaseColors.textBlackColor, FontWeight.w400),
             ],
           ),
@@ -105,7 +110,7 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
                   text: '${translate(context).remind_star} : ',
                   style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),
                   children: <TextSpan>[
-                    TextSpan(text: "Daily", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp, height: 1.2)),
+                    TextSpan(text: toBeginningOfSentenceCase(controller.list?[index].type??na)??na, style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp, height: 1.2)),
                   ],
                 ),
               ),
@@ -122,7 +127,7 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
                   text: '${translate(context).file} : ',
                   style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),
                   children: <TextSpan>[
-                    TextSpan(text: "Str_task.file", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp, height: 1.2)),
+                    TextSpan(text: "", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp, height: 1.2)),
                   ],
                 ),
               ),
@@ -149,20 +154,23 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
                 child: BaseButton(
                     isActive: false,
                     title: translate(context).edit.toUpperCase(),
-                    onPressed: () {Get.to(const AddTaskOrReminderScreen(isUpdating: true));},btnType: mediumLargeButton,),
+                    onPressed: () {
+                      // Get.to(AddTaskOrReminderScreen(isUpdating: true,data: controller.list?[index]));
+                      },
+                    btnType: mediumLargeButton),
               ),
               SizedBox(width:2.h),
               Expanded(
                 child: BaseButton(
                     title: translate(context).delete.toUpperCase(),
                     onPressed: () {
-                      showGeneralDialog(
-                        context: context,
-                        pageBuilder: (context, animation, secondaryAnimation) {
-                          return ConfirmationDialog(msg: translate(context).are_you_sure_to_cancel_this_reminder,isShowBtn: true,);
-                        },
+                      BaseOverlays().showConfirmationDialog(
+                        title: "Are you sure you want to delete this Task or Reminder ?",
+                        onRightButtonPressed: (){
+                          // controller.deleteTaskReminder(id: controller.list?[index].sId??"", index: index);
+                        }
                       );
-                    },btnType: mediumLargeButton,),
+                    },btnType: mediumLargeButton),
               ),
               SizedBox(width:3.h),
             ],

@@ -168,7 +168,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                             Expanded(
                               child: CustomTextField(
                                 controller: controller.dateController,
-                                hintText: "dd/mm/yyyy",
+                                hintText: "yyyy/mm/dd",
                                 readOnly: true,
                                 onTap: (){
                                   showDatePicker(
@@ -249,12 +249,12 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                     hintText: "Subject",
                     borderRadius: 5.0,
                     fillColor: BaseColors.txtFieldTextColor,
-                    validator: (val){
-                      if((val??"").isEmpty){
-                        return "Please enter subject";
-                      }
-                      return null;
-                    },
+                    // validator: (val){
+                    //   if((val??"").isEmpty){
+                    //     return "Please enter subject";
+                    //   }
+                    //   return null;
+                    // },
                 ),
                 SizedBox(height: 2.h),
                 // CustomTextField(controller: commentController, hintText: "Comment", borderRadius: 5.0,fillColor: CustomColors.txtFieldTextColor),
@@ -264,7 +264,11 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                 },child: Text("Remind Me On",style: TextStyle(color: BaseColors.primaryColor,fontSize: 15.sp,fontWeight: FontWeight.w700),)),
                 SizedBox(height: 2.h),
                 BaseButton(title: widget.isUpdating ? "UPDATE" : "SUBMIT", onPressed: (){
-                  controller.addNotebook();
+                  if (widget.isUpdating) {
+                    // controller.updateNotebook(id: widget.data?.sId??"");
+                  }else{
+                    // controller.addNotebook();
+                  }
                 },btnType: largeButton,)
               ],
             ),

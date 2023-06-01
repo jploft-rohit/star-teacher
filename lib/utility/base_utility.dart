@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
@@ -9,6 +12,7 @@ import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/intl/src/intl/date_format.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 import '../constants-classes/color_constants.dart';
 import 'images_icon_path.dart';
@@ -34,6 +38,14 @@ class Style{
       fontFamily: "Arial",
       fontSize: 15.sp,
     );
+  }
+}
+
+extension TimeOfDayConverter on TimeOfDay {
+  String to24hours() {
+    final hour = this.hour.toString().padLeft(2, "0");
+    final min = this.minute.toString().padLeft(2, "0");
+    return "$hour:$min";
   }
 }
 
@@ -524,6 +536,14 @@ String getFormattedDate(String dateString, {String separator = '-'}) {
   String month = date.month.toString().padLeft(2, '0');
   String year = date.year.toString().substring(0);
   return '$day$separator$month$separator$year';
+}
+
+String getFormattedDate2(String dateString, {String separator = '-'}) {
+  DateTime date = DateTime.parse(dateString);
+  String day = date.day.toString().padLeft(2, '0');
+  String month = date.month.toString().padLeft(2, '0');
+  String year = date.year.toString().substring(0);
+  return '$year$separator$month$separator$day';
 }
 
 String convertDateFormat3(String dateString1) {

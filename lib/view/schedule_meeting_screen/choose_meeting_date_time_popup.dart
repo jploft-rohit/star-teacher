@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
-import 'package:staff_app/view/schedule_meeting_screen/schedule_meeting_screen_ctrl.dart';
+import 'package:staff_app/backend/responses_model/scheduled_meeting_response.dart';
+import 'package:staff_app/view/schedule_meeting_screen/controller/schedule_meeting_screen_ctrl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -9,9 +10,9 @@ import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/base_utility.dart';
 
 class ChooseMeetingDateTimePopup extends StatefulWidget {
-  String title;
-
-  ChooseMeetingDateTimePopup({Key? key, required this.title}) : super(key: key);
+  final String title;
+  final ScheduledMeetingData? data;
+  ChooseMeetingDateTimePopup({Key? key, required this.title, this.data}) : super(key: key);
 
   @override
   State<ChooseMeetingDateTimePopup> createState() => _ChooseMeetingDateTimePopupState();
@@ -20,19 +21,19 @@ class ChooseMeetingDateTimePopup extends StatefulWidget {
 class _ChooseMeetingDateTimePopupState extends State<ChooseMeetingDateTimePopup> {
   List<Map<String, dynamic>> list = [
     {
-      "title":"9:00am",
+      "title":"09:00:00",
       "isSelected":true,
     },
     {
-      "title":"9:30am",
+      "title":"09:30:00",
       "isSelected":false,
     },
     {
-      "title":"10:00am",
+      "title":"10:00:00",
       "isSelected":false,
     },
     {
-      "title":"10:30am",
+      "title":"10:30:00",
       "isSelected":false,
     },
   ];
@@ -59,94 +60,9 @@ class _ChooseMeetingDateTimePopupState extends State<ChooseMeetingDateTimePopup>
     "November",
     "December",
   ];
+
   @override
   Widget build(BuildContext context) {
-    // final calendarCarouselNoHeader = CalendarCarousel<Event>(
-    //   onDayPressed: (date, events) {},
-    //   daysHaveCircularBorder: true,
-    //   showOnlyCurrentMonthDate: false,
-    //   selectedDateTime: DateTime.now(),
-    //   weekendTextStyle: TextStyle(
-    //       color: CustomColors.primaryColor,
-    //       fontWeight: FontWeight.normal,
-    //       fontSize: 16),
-    //   daysTextStyle: TextStyle(
-    //       color: CustomColors.textBlackColor,
-    //       fontWeight: FontWeight.normal,
-    //       fontSize: 16),
-    //   // thisMonthDayBorderColor: Colors.grey,
-    //   weekFormat: false,
-    //   markedDatesMap: EventList<Event>(
-    //     events: {},
-    //   ),
-    //   height: 45.h,
-    //
-    //   selectedDayButtonColor: Colors.transparent,
-    //   selectedDayBorderColor: Colors.transparent,
-    //   customGridViewPhysics: const NeverScrollableScrollPhysics(),
-    //   leftButtonIcon: Icon(
-    //     Icons.arrow_back_ios,
-    //     color: CustomColors.primaryColor,
-    //     size: 2.h,
-    //   ),
-    //   rightButtonIcon: Icon(
-    //     Icons.arrow_forward_ios,
-    //     color: CustomColors.primaryColor,
-    //     size: 2.h,
-    //   ),
-    //   // markedDateMoreCustomTextStyle: const TextStyle(color: CustomColors.white),
-    //   // markedDateMoreCustomDecoration: const BoxDecoration(color: CustomColors.gretTextColor, shape: BoxShape.circle),
-    //   // markedDateCustomShapeBorder: const CircleBorder(side: BorderSide(color: CustomColors.blue,strokeAlign: StrokeAlign.inside)),
-    //   markedDateCustomTextStyle: const TextStyle(
-    //       color: CustomColors.textBlackColor,
-    //       fontWeight: FontWeight.normal,
-    //       fontSize: 16),
-    //   // markedDateShowIcon: true,
-    //   // markedDateIconMaxShown: 2,
-    //   // markedDateIconBuilder: (event) {
-    //   //   return event.icon;
-    //   // },
-    //   markedDateMoreShowTotal: true,
-    //   showHeader: true,
-    //   headerTextStyle: TextStyle(
-    //       color: CustomColors.textBlackColor,
-    //       fontWeight: FontWeight.bold,
-    //       fontSize: 1.9.h),
-    //   showHeaderButton: true,
-    //   weekDayFormat: WeekdayFormat.narrow,
-    //   todayTextStyle: TextStyle(
-    //       color: CustomColors.textBlackColor,
-    //       fontWeight: FontWeight.normal,
-    //       fontSize: 16),
-    //   todayButtonColor: Colors.transparent,
-    //   todayBorderColor: Colors.transparent,
-    //   selectedDayTextStyle: TextStyle(
-    //       color: CustomColors.textLightGreyColor,
-    //       fontWeight: FontWeight.normal,
-    //       fontSize: 16),
-    //   minSelectedDate: DateTime.now().subtract(const Duration(days: 360)),
-    //   maxSelectedDate: DateTime.now().add(const Duration(days: 360)),
-    //   prevDaysTextStyle: TextStyle(
-    //       color: CustomColors.textLightGreyColor,
-    //       fontWeight: FontWeight.normal,
-    //       fontSize: 16),
-    //   nextDaysTextStyle: TextStyle(
-    //       color: CustomColors.textLightGreyColor,
-    //       fontWeight: FontWeight.normal,
-    //       fontSize: 16),
-    //   weekdayTextStyle: TextStyle(
-    //       color: CustomColors.primaryColor,
-    //       fontWeight: FontWeight.normal,
-    //       fontSize: 16),
-    //   inactiveDaysTextStyle: TextStyle(
-    //       color: CustomColors.textLightGreyColor,
-    //       fontWeight: FontWeight.normal,
-    //       fontSize: 16),
-    //   onCalendarChanged: (DateTime date) {},
-    //   onDayLongPressed: (DateTime date) {
-    //     Get.log('long pressed date $date');
-    //   },
-    // );
     return Scaffold(
       backgroundColor: Colors.black.withOpacity(0.5),
       body: Dialog(
@@ -192,8 +108,8 @@ class _ChooseMeetingDateTimePopupState extends State<ChooseMeetingDateTimePopup>
                           return weekDayList[date.weekday-1];
                         },
                       ),
-                      firstDay: DateTime.utc(2010, 10, 16),
-                      lastDay: DateTime.utc(2030, 3, 14),
+                      firstDay: DateTime.now(),
+                      lastDay: DateTime.utc(DateTime.now().year+1, 12, 1),
                       focusedDay: Get.find<ScheduleMeetingScreenCtrl>().selectedDay,
                       calendarFormat: Get.find<ScheduleMeetingScreenCtrl>().format,
                       startingDayOfWeek: StartingDayOfWeek.monday,
@@ -216,12 +132,9 @@ class _ChooseMeetingDateTimePopupState extends State<ChooseMeetingDateTimePopup>
                         // controller.update();
                       },
                       //Day Changed on select
-                      onDaySelected:
-                          (DateTime selectDay, DateTime focusDay) {
-                        controller.selectedDay =
-                            selectDay;
-                        controller.focusedDay =
-                            focusDay;
+                      onDaySelected: (DateTime selectDay, DateTime focusDay) {
+                        controller.selectedDay = selectDay;
+                        controller.focusedDay = focusDay;
                         controller.update();
                       },
                       selectedDayPredicate: (DateTime date) {
@@ -265,52 +178,66 @@ class _ChooseMeetingDateTimePopupState extends State<ChooseMeetingDateTimePopup>
                 SizedBox(
                   height: 1.h,
                 ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 4,
-                  padding: EdgeInsets.zero,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: (){
-                        for(var i in list){
-                          i['isSelected'] = false;
-                        }
-                        list[index]['isSelected'] = !list[index]['isSelected'];
-                        setState(() {});
-                        Get.back();
+                GetBuilder<ScheduleMeetingScreenCtrl>(
+                  builder: (controller) {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: 4,
+                      padding: EdgeInsets.zero,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            for (var i in list) {
+                              i['isSelected'] = false;
+                            }
+                            list[index]['isSelected'] = !list[index]['isSelected'];
+                            for (var i in list) {
+                              if(i['isSelected']){
+                                controller.selectedTime.value = i['title'];
+                              }
+                            }
+                            setState(() {});
+                            Get.back();
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: 8.0),
+                            padding: EdgeInsets.all(14.sp),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.0),
+                                border: Border.all(
+                                    color: BaseColors.primaryColor)
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(""),
+                                Text(list[index]['title'],
+                                  style: Style.montserratMediumStyle().copyWith(
+                                      color: BaseColors.primaryColor,
+                                      fontSize: 17.sp),),
+                                Checkbox(
+                                  visualDensity: VisualDensity(vertical: -4, horizontal: -4),
+                                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                  side: BorderSide(color: Colors.transparent),
+                                  activeColor: BaseColors.primaryColor,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50.0),
+                                  ),
+                                  value: list[index]['isSelected'],
+                                  onChanged: (value) {
+                                    for (var i in list) {
+                                      i['isSelected'] = false;
+                                    }
+                                    list[index]['isSelected'] = !list[index]['isSelected'];
+                                    setState(() {});
+                                  },
+                                )
+                              ],
+                            ),
+                          ),
+                        );
                       },
-                      child: Container(
-                        margin: EdgeInsets.only(bottom: 8.0),
-                        padding: EdgeInsets.all(14.sp),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            border: Border.all(color: BaseColors.primaryColor)
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(""),
-                            Text(list[index]['title'], style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 17.sp),),
-                            Checkbox(
-                              visualDensity: VisualDensity(vertical: -4, horizontal: -4),
-                              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              side: BorderSide(color: Colors.transparent),
-                              activeColor: BaseColors.primaryColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50.0),
-                              ),
-                              value: list[index]['isSelected'],
-                              onChanged: (value){
-                                for(var i in list){
-                                  i['isSelected'] = false;
-                                }
-                                list[index]['isSelected'] = !list[index]['isSelected'];
-                                setState(() {});
-                              },
-                            )
-                          ],
-                        ),
-                      ),
                     );
                   },
                 ),

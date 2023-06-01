@@ -10,17 +10,19 @@ import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
-import 'package:staff_app/view/about_us.dart';
+import 'package:staff_app/view/about_us/about_us.dart';
 import 'package:staff_app/view/assignments_screen/assignment_screen.dart';
 import 'package:staff_app/view/custody/custody_view.dart';
 import 'package:staff_app/view/delegation/delegation_screen.dart';
+import 'package:staff_app/view/e_library/e_library_assignments.dart';
 import 'package:staff_app/view/events/events_screen.dart';
 import 'package:staff_app/view/exam_time_table/exam_time_table_screen.dart';
 import 'package:staff_app/view/feedback_help_screen/feedback_help_screen.dart';
 import 'package:staff_app/view/library_screen/notebook_screen/notebook_screen.dart';
 import 'package:staff_app/view/login_screen/login_screen.dart';
-import 'package:staff_app/view/lost_or_found_screen/lost_or_found_screen.dart';
+import 'package:staff_app/view/lost_or_found_screen/create_lost_found.dart';
 import 'package:staff_app/view/my_profile_screen/my_profile_screen.dart';
+import 'package:staff_app/view/new_assignments/new_assignments_screen.dart';
 import 'package:staff_app/view/route_destination/route_view.dart';
 import 'package:staff_app/view/schedule_meeting_screen/schedule_meeting_screen.dart';
 import 'package:staff_app/view/shop_screen/shop_screen.dart';
@@ -96,6 +98,14 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     },
                     child: buildTile(translate(context).assigned_schools),),
                 ]),
+                buildExpensionTile(translate(context).add_new, [
+                  GestureDetector(
+                    onTap: (){
+                      Get.to(NewAssignmentScreen());
+                    },
+                    child: buildTile(translate(context).new_assignment),
+                  ),
+                ]),
                 buildExpensionTile(translate(context).stars, [
                   GestureDetector(
                     onTap: (){
@@ -164,6 +174,12 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 ]),
                 SizedBox(
                   height: 2.h,
+                ),
+                GestureDetector(
+                  onTap: (){
+                    Get.to(ELibraryScreen());
+                  },
+                  child: buildTile1("E-Library"),
                 ),
                 GestureDetector(
                   onTap: (){

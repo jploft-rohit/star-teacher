@@ -13,7 +13,7 @@ import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/assignments_screen/assignment_by_me_view/assigned_by_me_view.dart';
-import 'package:staff_app/view/assignments_screen/assignment_screen_ctrl.dart';
+import 'package:staff_app/view/assignments_screen/controller/assignment_screen_ctrl.dart';
 import 'package:staff_app/view/assignments_screen/assignment_to_me_view/assignment_to_me_view.dart';
 import 'package:staff_app/view/create_task_or_assignment/create_task_or_assignment.dart';
 

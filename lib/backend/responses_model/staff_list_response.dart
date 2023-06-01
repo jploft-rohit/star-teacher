@@ -1,6 +1,6 @@
 class StaffListResponse {
-  int? statusCode;
-  String? message;
+  dynamic statusCode;
+  dynamic message;
   List<StaffListData>? data;
 
   StaffListResponse({this.statusCode, this.message, this.data});
@@ -26,7 +26,7 @@ class StaffListResponse {
 }
 
 class StaffListData {
-  String? sId;
+  dynamic sId;
   dynamic isDeleted;
   User? user;
   dynamic school;
@@ -34,7 +34,7 @@ class StaffListData {
   dynamic dateOfEmployment;
   dynamic designation;
   dynamic classPerWeek;
-  String? employeeId;
+  dynamic employeeId;
   dynamic employmentCertificate;
   dynamic jobCertificate;
   dynamic jobGrade;
@@ -119,14 +119,14 @@ class StaffListData {
 }
 
 class User {
-  String? sId;
+  dynamic sId;
   dynamic isMobileVerified;
   dynamic gender;
   dynamic idDocument;
   dynamic deviceType;
   dynamic parentId;
   dynamic isDeleted;
-  String? name;
+  dynamic name;
   dynamic mobile;
   dynamic dob;
   dynamic nationality;
@@ -210,9 +210,9 @@ class User {
 }
 
 class Role {
-  String? sId;
+  dynamic sId;
   dynamic isDeleted;
-  String? name;
+  dynamic name;
   dynamic type;
   dynamic status;
   dynamic createdBy;
@@ -250,7 +250,7 @@ class Role {
 }
 
 class Staffsubject {
-  String? sId;
+  dynamic sId;
   dynamic school;
   dynamic schoolStaff;
   dynamic classes;
@@ -281,9 +281,9 @@ class Staffsubject {
 }
 
 class Subject {
-  String? sId;
+  dynamic sId;
   dynamic language;
-  String? name;
+  dynamic name;
   dynamic status;
 
   Subject({this.sId, this.language, this.name, this.status});

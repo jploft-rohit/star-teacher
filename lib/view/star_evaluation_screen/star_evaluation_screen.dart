@@ -22,7 +22,7 @@ class _StarEvaluationScreenState extends State<StarEvaluationScreen> with Ticker
 
   @override
   void initState() {
-    tabCtrl = TabController(length: 3, vsync: this);
+    tabCtrl = TabController(length: 2, vsync: this);
     super.initState();
   }
 
@@ -41,17 +41,16 @@ class _StarEvaluationScreenState extends State<StarEvaluationScreen> with Ticker
               tabs:  [
                 Tab(text: translate(context).behaviour),
                 Tab(text: translate(context).assessment),
-                Tab(text: translate(context).teacher),
+                // Tab(text: translate(context).teacher),
               ],
             ),
             Expanded(
               child: TabBarView(
                 controller: tabCtrl,
-                physics: const NeverScrollableScrollPhysics(),
                 children: const [
                   BehaviourView(),
                   AssesmentView(),
-                  TeacherView(),
+                  // TeacherView(),
                 ],
               ),
             )

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dio;
-import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/backend/custom_models/notes_model.dart';
 import 'package:staff_app/backend/responses_model/base_success_response.dart';
 import 'package:staff_app/backend/responses_model/notebook_list_response.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 
 class NotebookCtrl extends GetxController{
@@ -31,7 +31,7 @@ class NotebookCtrl extends GetxController{
     if (isUpdating??false) {
       titleController.text = data?.title??"";
       gradeController.text = "5th";
-      dateController.text = getFormattedDate(data?.date??"");
+      dateController.text = getFormattedDate2(data?.date??"");
       descriptionController.text = data?.description??"";
       recommendationController.text = data?.recommandation??"";
       subjectController.text = data?.subject?.name??"";
@@ -46,6 +46,7 @@ class NotebookCtrl extends GetxController{
       commentController.text = "";
     }
   }
+
   /// Add Notebook
   addNotebook(){
     if (formKey.currentState?.validate()??false) {
@@ -62,6 +63,34 @@ class NotebookCtrl extends GetxController{
         "teacher": "645255336784ea41b08b3ea8",
       });
       BaseAPI().post(url: ApiEndPoints().createNotebook,data: data).then((value){
+        if (value?.statusCode == 200) {
+          Get.back();
+          BaseSuccessResponse response = BaseSuccessResponse.fromJson(value?.data);
+          if ((response.message??"").isNotEmpty) {
+            BaseOverlays().showSnackBar(message: response.message??"",title: "Success");
+          }
+          getNotebookNotes(type: selectedIndex3.value == 0 ? "talent" : "improvement", pageIndex: 1);
+        }
+      });
+    }
+  }
+
+  /// Update Notebook
+  updateNotebook({required id}){
+    if (formKey.currentState?.validate()??false) {
+      var data = dio.FormData.fromMap({
+        "school": "643e7e76786e2a1898ace622",
+        "type": selectedIndex3.value == 0 ? "talent" : "improvement",
+        "title": titleController.text.trim(),
+        "date": dateController.text.trim(),
+        "description": descriptionController.text.trim(),
+        "recommandation": recommendationController.text.trim(),
+        "subject": "644fbba746bcbe93b0074a91",
+        "class": "644bb468017ff679ae0d6f0c",
+        "starId": "6443a18eed5d074580c2b2a0",
+        "teacher": "645255336784ea41b08b3ea8",
+      });
+      BaseAPI().patch(url: ApiEndPoints().updateNotebook+id,data: data).then((value){
         if (value?.statusCode == 200) {
           Get.back();
           BaseSuccessResponse response = BaseSuccessResponse.fromJson(value?.data);

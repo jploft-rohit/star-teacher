@@ -1,6 +1,6 @@
 class ComplaintTypeResponse {
-  int? statusCode;
-  String? message;
+  dynamic statusCode;
+  dynamic message;
   List<Data>? data;
 
   ComplaintTypeResponse({this.statusCode, this.message, this.data});
@@ -28,15 +28,15 @@ class ComplaintTypeResponse {
 }
 
 class Data {
-  bool? isDeleted;
-  String? sId;
+  dynamic isDeleted;
+  dynamic sId;
   dynamic school;
-  String? name;
-  String? createdBy;
-  String? updatedBy;
-  String? status;
-  String? createdAt;
-  String? updatedAt;
+  dynamic name;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic status;
+  dynamic createdAt;
+  dynamic updatedAt;
 
   Data(
       {this.isDeleted,

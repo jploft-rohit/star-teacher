@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -312,7 +314,7 @@ class BaseOverlays {
         });
   }
 
-  XFile? showMediaPickerDialog() {
+  showMediaPickerDialog({Function()? onCameraClick, Function()? onGalleryClick}) {
     final ImagePicker picker = ImagePicker();
     XFile? imageData;
     showGeneralDialog(
@@ -345,9 +347,13 @@ class BaseOverlays {
                     children: [
                       Expanded(
                           child: GestureDetector(
-                        onTap: () async {
+                        onTap: onCameraClick ?? () async {
                           Get.back();
-                          imageData = await picker.pickImage(source: ImageSource.camera);
+                          await picker.pickImage(source: ImageSource.camera).then((value){
+                            if (value != null) {
+                              imageData = value;
+                            }
+                          });
                         },
                         child: Column(
                           children: [
@@ -360,10 +366,13 @@ class BaseOverlays {
                       )),
                       Expanded(
                           child: GestureDetector(
-                        onTap: () async {
+                        onTap: onGalleryClick ?? () async {
                           Get.back();
-                          imageData = await picker.pickImage(
-                              source: ImageSource.gallery);
+                          await picker.pickImage(source: ImageSource.gallery).then((value){
+                            if (value != null) {
+                              imageData = value;
+                            }
+                          });
                         },
                         child: Column(
                           children: [
@@ -381,8 +390,8 @@ class BaseOverlays {
               ),
             ),
           );
-        });
-    return imageData;
+        },
+    );
   }
 
   showRejectDialog({
@@ -504,6 +513,7 @@ class BaseOverlays {
       {required String title,
       required TextEditingController controller,
       Function()? onProceed}) {
+    controller.text = "";
     showDialog(
       context: Get.context!,
       barrierDismissible: false,

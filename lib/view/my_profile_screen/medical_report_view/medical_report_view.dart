@@ -151,12 +151,14 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                   color: Color(0xffEBEBEB),
                                   height: 5.0,
                                   thickness: 1.0,
+                                  endIndent: 40,
                                 ),
                                 Text('#632541', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                                 const Divider(
                                   color: Color(0xffEBEBEB),
                                   height: 5.0,
                                   thickness: 1.0,
+                                  endIndent: 40,
                                 ),
                                 buildInfoItems(translate(context).blood_type, 'A+'),
                               ],
@@ -212,28 +214,31 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                     isShowMedicalSurvey = !isShowMedicalSurvey;
                     setState(() {});
                   },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        translate(context).medical_survey, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),),
-                      Row(
-                        children: [
-                          if(isShowMedicalSurvey)
-                          GestureDetector(
-                            onTap: () {
-                              isShowMedicalSurvey = false;
-                              setState(() {});
-                            },
-                            child: buildSaveButton(),
-                          ),
-                          SizedBox(
-                            width: 2.w,
-                          ),
-                          Icon(isShowMedicalSurvey ? Icons.keyboard_arrow_down :CupertinoIcons.forward, size:isShowMedicalSurvey? 25 : 20,color: BaseColors.primaryColor,),
-                        ],
-                      ),
-                    ],
+                  child: Container(
+                    color: Colors.white,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          translate(context).medical_survey, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),),
+                        Row(
+                          children: [
+                            if(isShowMedicalSurvey)
+                            GestureDetector(
+                              onTap: () {
+                                isShowMedicalSurvey = false;
+                                setState(() {});
+                              },
+                              child: buildSaveButton(),
+                            ),
+                            SizedBox(
+                              width: 2.w,
+                            ),
+                            Icon(isShowMedicalSurvey ? Icons.keyboard_arrow_down :CupertinoIcons.forward, size:isShowMedicalSurvey? 25 : 20,color: BaseColors.primaryColor,),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 if(isShowMedicalSurvey)
@@ -281,7 +286,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                         ),
 
 
-                        SizedBox(height: 2.h,),
+                        SizedBox(height: 2.h),
 
                         GetBuilder<MedicalReportViewCtrl>(
                           builder: (controller) {
@@ -294,7 +299,11 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                 return Container(
                                   color: Colors.white,
                                   child: Table(
-                                    border: TableBorder.all(color: BaseColors.borderColor.withOpacity(0.5),width: 1),
+                                    border: TableBorder(
+                                      top: BorderSide(width: 1, color: BaseColors.borderColor),
+                                      verticalInside: BorderSide(width: 1, color: BaseColors.borderColor),
+                                      // bottom: BorderSide(width: 1, color: Colors.black),
+                                    ),
                                     columnWidths: const {
                                       0: FlexColumnWidth(3),
                                       1: FlexColumnWidth(1),
@@ -404,7 +413,12 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                 return Container(
                                   color: Colors.white,
                                   child: Table(
-                                    border: TableBorder.all(color: BaseColors.borderColor.withOpacity(0.5),width: 1),
+                                    border: TableBorder(
+                                      top: BorderSide(width: 1, color: BaseColors.borderColor),
+                                      verticalInside: BorderSide(width: 1, color: BaseColors.borderColor),
+                                      // bottom: BorderSide(width: 1, color: Colors.black),
+                                    ),
+
                                     columnWidths: const {
                                       0: FlexColumnWidth(3),
                                       1: FlexColumnWidth(1),
@@ -776,7 +790,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                               ),
                             ),
                             SizedBox(height: 1.h,),
-                            CustomTextField(controller: allergicMedicineController, hintText: translate(context).type_here),
+                            Visibility(visible: allergicMedicationSelectedPos == 0,child: CustomTextField(controller: allergicMedicineController, hintText: translate(context).type_here)),
                           ],
                         ),
                         ),
@@ -876,6 +890,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                     child: Container(
                                       margin: const EdgeInsets.only(top: 20,bottom: 20,right: 10),
                                       padding: const EdgeInsets.all(20),
+                                      width: double.infinity,
                                       decoration: BoxDecoration(
                                         border: Border.all(color: BaseColors.primaryColor),
                                         color: BaseColors.white,
@@ -950,7 +965,6 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                           visible: useCanteenServicesPos == 0,
                                           child: Center(child: GestureDetector(
                                             onTap: () {
-
                                             },
                                             child: buildSaveButton(),
                                           )),
@@ -978,7 +992,6 @@ class _MedicalReportViewState extends State<MedicalReportView> {
     );
   }
 
-
   Widget buildMedicalRecords(BuildContext context){
     return Card(
       elevation: 2,
@@ -1002,15 +1015,18 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                     isShowMedicalRecord = !isShowMedicalRecord;
                     setState(() {});
                   },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        translate(context).medical_records, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),),
+                  child: Container(
+                    color: Colors.white,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          translate(context).medical_records, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),),
 
-                      Icon(isShowMedicalRecord ? Icons.keyboard_arrow_down :CupertinoIcons.forward, size:isShowMedicalRecord? 25 : 20,color: BaseColors.primaryColor,),
+                        Icon(isShowMedicalRecord ? Icons.keyboard_arrow_down :CupertinoIcons.forward, size:isShowMedicalRecord? 25 : 20,color: BaseColors.primaryColor,),
 
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 if(isShowMedicalRecord)

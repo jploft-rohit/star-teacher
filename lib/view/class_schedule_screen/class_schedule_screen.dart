@@ -40,7 +40,7 @@ class _ClassScheduleScreenState extends State<ClassScheduleScreen> with SingleTi
       length: 2,
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: BaseAppBar(title: translate(context).schedule),
+        appBar: BaseAppBar(title: translate(context).class_schedule),
         body: Padding(
           padding: EdgeInsets.all(15.sp),
           child: Column(

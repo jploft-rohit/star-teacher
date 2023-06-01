@@ -133,10 +133,12 @@ class _SelectStarPopupState extends State<SelectStarPopup> {
                                 children: [
                                   Container(
                                     padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 12.sp, right: 12.sp),
+                                    margin: EdgeInsets.only(left: 3,top: 3,bottom: 3),
                                     decoration: BoxDecoration(
                                       border: Border.all(
                                           color: BaseColors.primaryColor
                                       ),
+                                      color: Colors.white,
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
                                     child: SvgPicture.asset(manSvg,height: 5.h,width: 5.h,),

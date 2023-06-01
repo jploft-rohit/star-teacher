@@ -1,9 +1,9 @@
 class RolesListResponse {
-  List<Data>? data;
+  List<RolesData>? data;
   Pagination? pagination;
-  bool? success;
-  int? statusCode;
-  String? message;
+  dynamic success;
+  dynamic statusCode;
+  dynamic message;
 
   RolesListResponse(
       {this.data,
@@ -14,9 +14,9 @@ class RolesListResponse {
 
   RolesListResponse.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      data = <Data>[];
+      data = <RolesData>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(new RolesData.fromJson(v));
       });
     }
     pagination = json['pagination'] != null
@@ -42,16 +42,16 @@ class RolesListResponse {
   }
 }
 
-class Data {
-  String? sId;
-  String? name;
-  String? type;
-  String? status;
-  String? createdBy;
-  String? createdAt;
-  String? updatedAt;
+class RolesData {
+  dynamic sId;
+  dynamic name;
+  dynamic type;
+  dynamic status;
+  dynamic createdBy;
+  dynamic createdAt;
+  dynamic updatedAt;
 
-  Data(
+  RolesData(
       {this.sId,
         this.name,
         this.type,
@@ -60,7 +60,7 @@ class Data {
         this.createdAt,
         this.updatedAt});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  RolesData.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     name = json['name'];
     type = json['type'];

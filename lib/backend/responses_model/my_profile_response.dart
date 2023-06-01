@@ -1,6 +1,6 @@
 class MyProfileResponse {
-  int? statusCode;
-  String? message;
+  dynamic statusCode;
+  dynamic message;
   Data? data;
 
   MyProfileResponse({this.statusCode, this.message, this.data});
@@ -23,36 +23,36 @@ class MyProfileResponse {
 }
 
 class Data {
-  String? sId;
-  bool? isMobileVerified;
-  String? gender;
-  List<String>? idDocument;
-  String? deviceType;
-  List<String>? parentId;
-  bool? isDeleted;
-  String? name;
-  String? mobile;
-  String? dob;
-  String? nationality;
-  String? emirateId;
-  String? emirateIdExpire;
-  String? nativeLanguage;
-  String? religion;
-  String? profilePic;
-  String? role;
-  String? createdAt;
-  String? updatedAt;
-  String? placesOfClass;
-  int? iV;
-  String? designation;
-  String? otp;
-  String? deviceToken;
-  String? deviceVoip;
+  dynamic sId;
+  dynamic isMobileVerified;
+  dynamic gender;
+  dynamic idDocument;
+  dynamic deviceType;
+  dynamic parentId;
+  dynamic isDeleted;
+  dynamic name;
+  dynamic mobile;
+  dynamic dob;
+  dynamic nationality;
+  dynamic emirateId;
+  dynamic emirateIdExpire;
+  dynamic nativeLanguage;
+  dynamic religion;
+  dynamic profilePic;
+  dynamic role;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic placesOfClass;
+  dynamic iV;
+  dynamic designation;
+  dynamic otp;
+  dynamic deviceToken;
+  dynamic deviceVoip;
   List<SchoolStaff>? schoolStaff;
-  String? alternativeMobile;
-  int? profileCompletePercentage;
-  String? profileCompleteDate;
-  String? barcode;
+  dynamic alternativeMobile;
+  dynamic profileCompletePercentage;
+  dynamic profileCompleteDate;
+  dynamic barcode;
   SchoolStaff? jobDetails;
   Statistics? statistics;
   List<FamilyMembers>? familyMembers;
@@ -64,9 +64,9 @@ class Data {
     designation = json['designation'];
     isMobileVerified = json['isMobileVerified'];
     gender = json['gender'];
-    idDocument = json['idDocument'].cast<String>();
+    idDocument = json['idDocument'];
     deviceType = json['deviceType'];
-    parentId = json['parentId'].cast<String>();
+    parentId = json['parentId'];
     isDeleted = json['isDeleted'];
     name = json['name'];
     mobile = json['mobile'];
@@ -147,28 +147,28 @@ class Data {
 }
 
 class SchoolStaff {
-  String? sId;
-  bool? isDeleted;
-  String? user;
+  dynamic sId;
+  dynamic isDeleted;
+  dynamic user;
   School? school;
-  String? role;
-  String? dateOfEmployment;
-  String? designation;
-  String? classPerWeek;
-  String? employeeId;
-  String? employmentCertificate;
-  String? jobCertificate;
-  String? jobGrade;
-  String? jobTitle;
-  String? salaryCertificate;
-  String? slotNumber;
-  String? slotType;
-  String? studentGender;
-  String? titleGrade;
-  String? weekDays;
-  String? createdAt;
-  String? updatedAt;
-  int? iV;
+  dynamic role;
+  dynamic dateOfEmployment;
+  dynamic designation;
+  dynamic classPerWeek;
+  dynamic employeeId;
+  dynamic employmentCertificate;
+  dynamic jobCertificate;
+  dynamic jobGrade;
+  dynamic jobTitle;
+  dynamic salaryCertificate;
+  dynamic slotNumber;
+  dynamic slotType;
+  dynamic studentGender;
+  dynamic titleGrade;
+  dynamic weekDays;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic iV;
 
   SchoolStaff({this.sId, this.isDeleted, this.user, this.school, this.role, this.dateOfEmployment, this.designation, this.classPerWeek, this.employeeId, this.employmentCertificate, this.jobCertificate, this.jobGrade, this.jobTitle, this.salaryCertificate, this.slotNumber, this.slotType, this.studentGender, this.titleGrade, this.weekDays, this.createdAt, this.updatedAt, this.iV});
 
@@ -228,29 +228,29 @@ class SchoolStaff {
 }
 
 class School {
-  String? sId;
-  bool? isDeleted;
-  String? name;
+  dynamic sId;
+  dynamic isDeleted;
+  dynamic name;
   SchoolCategory? schoolCategory;
   SchoolSector? schoolSector;
   SchoolSector? schoolArea;
   SchoolType? schoolType;
-  String? address;
-  String? language;
-  String? schoolId;
-  String? status;
-  int? helplineNo;
-  String? email;
+  dynamic address;
+  dynamic language;
+  dynamic schoolId;
+  dynamic status;
+  dynamic helplineNo;
+  dynamic email;
   User? user;
-  String? secondoryEmail;
-  String? website;
-  int? mobile;
-  String? parentSchool;
-  String? createdBy;
-  String? createdAt;
-  String? updatedAt;
-  int? iV;
-  String? updatedBy;
+  dynamic secondoryEmail;
+  dynamic website;
+  dynamic mobile;
+  dynamic parentSchool;
+  dynamic createdBy;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic iV;
+  dynamic updatedBy;
   Staffsubjects? staffsubjects;
   Location? location;
 
@@ -330,9 +330,9 @@ class School {
 }
 
 class Staffsubjects {
-  String? sId;
-  String? school;
-  String? schoolStaff;
+  dynamic sId;
+  dynamic school;
+  dynamic schoolStaff;
   List<Class>? classes;
   List<ClassSection>? classSection;
   Subject? subject;
@@ -373,9 +373,9 @@ class Staffsubjects {
 }
 
 class Class {
-  String? sId;
-  String? school;
-  String? name;
+  dynamic sId;
+  dynamic school;
+  dynamic name;
 
   Class({this.sId, this.school, this.name});
 
@@ -395,12 +395,12 @@ class Class {
 }
 
 class ClassSection {
-  String? sId;
-  String? school;
-  String? classes;
-  String? name;
-  String? roomNo;
-  String? status;
+  dynamic sId;
+  dynamic school;
+  dynamic classes;
+  dynamic name;
+  dynamic roomNo;
+  dynamic status;
 
   ClassSection({this.sId, this.school, this.classes, this.name, this.roomNo, this.status});
 
@@ -426,10 +426,10 @@ class ClassSection {
 }
 
 class Subject {
-  String? sId;
-  String? language;
-  String? name;
-  String? status;
+  dynamic sId;
+  dynamic language;
+  dynamic name;
+  dynamic status;
 
   Subject({this.sId, this.language, this.name, this.status});
 
@@ -451,7 +451,7 @@ class Subject {
 }
 
 class Location {
-  String? type;
+  dynamic type;
   List<double>? coordinates;
 
   Location({this.type, this.coordinates});
@@ -470,16 +470,16 @@ class Location {
 }
 
 class Statistics {
-  String? pendingTask;
-  String? unclosedComplaint;
-  String? starsEvaluationPending;
-  String? assignmentToReview;
-  String? attendanceRecord;
-  String? performance;
-  String? linkedStars;
-  String? allocatedSchools;
-  String? totalClassesAttendedThisWeek;
-  String? avgOfInteractingWithChatting;
+  dynamic pendingTask;
+  dynamic unclosedComplaint;
+  dynamic starsEvaluationPending;
+  dynamic assignmentToReview;
+  dynamic attendanceRecord;
+  dynamic performance;
+  dynamic linkedStars;
+  dynamic allocatedSchools;
+  dynamic totalClassesAttendedThisWeek;
+  dynamic avgOfInteractingWithChatting;
 
   Statistics({this.pendingTask, this.unclosedComplaint, this.starsEvaluationPending, this.assignmentToReview, this.attendanceRecord, this.performance, this.linkedStars, this.allocatedSchools, this.totalClassesAttendedThisWeek, this.avgOfInteractingWithChatting});
 
@@ -513,31 +513,31 @@ class Statistics {
 }
 
 class FamilyMembers {
-  String? sId;
-  bool? isDeleted;
-  String? fullName;
-  String? mobile;
-  String? profession;
-  String? dob;
-  String? nationality;
-  String? emirateId;
-  String? emirateIdExpire;
-  String? nativeLanguage;
-  String? religion;
-  String? locationType;
-  String? relation;
-  String? villaNumber;
-  String? address;
-  String? firstName;
-  String? user;
-  String? gender;
+  dynamic sId;
+  dynamic isDeleted;
+  dynamic fullName;
+  dynamic mobile;
+  dynamic profession;
+  dynamic dob;
+  dynamic nationality;
+  dynamic emirateId;
+  dynamic emirateIdExpire;
+  dynamic nativeLanguage;
+  dynamic religion;
+  dynamic locationType;
+  dynamic relation;
+  dynamic villaNumber;
+  dynamic address;
+  dynamic firstName;
+  dynamic user;
+  dynamic gender;
   Location? location;
-  String? createdBy;
-  String? updatedBy;
-  String? status;
-  String? createdAt;
-  String? updatedAt;
-  int? iV;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic status;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic iV;
 
   FamilyMembers({this.sId, this.isDeleted, this.fullName, this.mobile, this.profession, this.dob, this.nationality, this.emirateId, this.emirateIdExpire, this.nativeLanguage, this.religion, this.locationType, this.relation, this.villaNumber, this.address, this.firstName, this.user, this.gender, this.location, this.createdBy, this.updatedBy, this.status, this.createdAt, this.updatedAt, this.iV});
 
@@ -603,14 +603,14 @@ class FamilyMembers {
 }
 
 class SchoolCategory {
-  String? sId;
-  bool? isDeleted;
-  String? name;
-  String? status;
-  String? createdAt;
-  String? updatedAt;
-  int? iV;
-  String? updatedBy;
+  dynamic sId;
+  dynamic isDeleted;
+  dynamic name;
+  dynamic status;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic iV;
+  dynamic updatedBy;
 
   SchoolCategory({this.sId, this.isDeleted, this.name, this.status, this.createdAt, this.updatedAt, this.iV, this.updatedBy});
 
@@ -640,15 +640,15 @@ class SchoolCategory {
 }
 
 class SchoolSector {
-  String? sId;
-  bool? isDeleted;
-  String? name;
+  dynamic sId;
+  dynamic isDeleted;
+  dynamic name;
   Location? location;
-  String? status;
-  String? createdBy;
-  String? createdAt;
-  String? updatedAt;
-  int? iV;
+  dynamic status;
+  dynamic createdBy;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic iV;
 
   SchoolSector({this.sId, this.isDeleted, this.name, this.location, this.status, this.createdBy, this.createdAt, this.updatedAt, this.iV});
 
@@ -682,9 +682,9 @@ class SchoolSector {
 }
 
 class SchoolType {
-  String? sId;
-  String? name;
-  String? status;
+  dynamic sId;
+  dynamic name;
+  dynamic status;
 
   SchoolType({this.sId, this.name, this.status});
 
@@ -704,28 +704,28 @@ class SchoolType {
 }
 
 class User {
-  String? sId;
-  bool? isMobileVerified;
-  String? gender;
-  List<String>? idDocument;
-  List<String>? parentId;
-  bool? isDeleted;
-  String? name;
-  String? email;
-  String? mobile;
-  String? role;
-  int? dob;
-  String? address;
-  String? locationType;
+  dynamic sId;
+  dynamic isMobileVerified;
+  dynamic gender;
+  dynamic idDocument;
+  dynamic parentId;
+  dynamic isDeleted;
+  dynamic name;
+  dynamic email;
+  dynamic mobile;
+  dynamic role;
+  dynamic dob;
+  dynamic address;
+  dynamic locationType;
   Location? location;
-  String? emirateId;
-  String? emirateIdExpire;
-  String? createdBy;
-  String? updatedBy;
-  String? status;
-  String? createdAt;
-  String? updatedAt;
-  int? iV;
+  dynamic emirateId;
+  dynamic emirateIdExpire;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic status;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic iV;
 
   User({this.sId, this.isMobileVerified, this.gender, this.idDocument, this.parentId, this.isDeleted, this.name, this.email, this.mobile, this.role, this.dob, this.address, this.locationType, this.location, this.emirateId, this.emirateIdExpire, this.createdBy, this.updatedBy, this.status, this.createdAt, this.updatedAt, this.iV});
 
@@ -733,8 +733,8 @@ class User {
     sId = json['_id'];
     isMobileVerified = json['isMobileVerified'];
     gender = json['gender'];
-    idDocument = json['idDocument'].cast<String>();
-    parentId = json['parentId'].cast<String>();
+    idDocument = json['idDocument'];
+    parentId = json['parentId'];
     isDeleted = json['isDeleted'];
     name = json['name'];
     email = json['email'];

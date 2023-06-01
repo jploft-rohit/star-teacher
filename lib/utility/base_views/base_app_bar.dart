@@ -11,13 +11,13 @@ import 'package:staff_app/view/sos/sos_screen.dart';
 
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
-  final bool? showSos;
-  final bool? showNotification;
-  final bool? showBackIcon;
+  final bool? showSos,showNotification,showBackIcon;
   final Function()? onDrawerPressed;
   final Function()? onBackPressed;
+  final Widget? bottomChild;
+  final double? bottomWidgetHeight;
 
-  const BaseAppBar({Key? key, this.title, this.showSos = false, this.onBackPressed, this.showNotification = true, this.showBackIcon = true, this.onDrawerPressed})
+  const BaseAppBar({Key? key, this.title, this.showSos = false, this.onBackPressed, this.showNotification = true, this.showBackIcon = true, this.onDrawerPressed, this.bottomChild, this.bottomWidgetHeight})
       : super(key: key);
 
   @override
@@ -28,6 +28,8 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0.0,
       centerTitle: true,
       automaticallyImplyLeading: false,
+      bottom: PreferredSize(preferredSize: Size.fromHeight(bottomWidgetHeight??0),
+      child: bottomChild??SizedBox.shrink()),
       leading: onDrawerPressed != null
       ///   Drawer Icon
           ? GestureDetector(onTap: onDrawerPressed, child: Padding(
@@ -93,5 +95,5 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => Size.fromHeight(kToolbarHeight+(bottomWidgetHeight??0));
 }

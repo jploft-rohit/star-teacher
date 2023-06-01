@@ -641,5 +641,10 @@
  "something_went_wrong" : "Something went wrong, please try again",
  "na" : "N/A",
  "evaluation" : "Evaluation",
- "weekly_plan" : "Weekly Plan"
+ "weekly_plan" : "Weekly Plan",
+ "create_assignment" : "Create Assignment",
+ "new_assignment" : "New Assignment",
+ "ongoing" : "Ongoing",
+ "submitted" : "Submitted",
+ "overdue" : "Overdue"
 }

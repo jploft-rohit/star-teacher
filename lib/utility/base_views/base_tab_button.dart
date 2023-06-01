@@ -11,7 +11,9 @@ class BaseTabButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Tab(
       child: BaseButton(
-        title: title,onPressed: null,verticalPadding: 0,
+        title: title,
+        onPressed: null,
+        verticalPadding: 0,
         isActive: isSelected,isToggle: isSelected,
         btnType: type,
         removeHorizontalPadding: true,
