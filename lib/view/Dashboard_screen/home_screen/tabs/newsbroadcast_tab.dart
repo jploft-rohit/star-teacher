@@ -43,7 +43,7 @@ class _NewsBroadCastTabState extends State<NewsBroadCastTab> {
                         shape: BoxShape.circle,
                         color: BaseColors.primaryColor
                     ),
-                    child: Center(child: Text("2", style: Style.montserratRegularStyle().copyWith(color: Colors.white),)),
+                    child: Center(child: Text((controller.list?.length??0).toString(), style: Style.montserratRegularStyle().copyWith(color: Colors.white),)),
                   )
                 ],
               ),

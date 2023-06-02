@@ -20,8 +20,8 @@ class BaseAPI {
     _dio = Dio(
       BaseOptions(
         baseUrl: 'http://3.28.14.143:4000/star-backend/api/',
-        connectTimeout: const Duration(seconds: 20),
-        receiveTimeout: const Duration(seconds: 20),
+        connectTimeout: const Duration(seconds: 60),
+        receiveTimeout: const Duration(seconds: 60),
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',

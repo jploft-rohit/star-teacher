@@ -100,4 +100,7 @@ class ApiEndPoints {
   final String getScheduledMeetings = "requestRoutes/list";
   final String rescheduleMeeting = "requestRoutes/updateRequestStatus/";
   final String updateScheduledMeetingStatus = "requestRoutes/updateRequestStatus/";
+
+  /// Subject EndPoint
+  final String getSubjects = "subject/get/all";
 }

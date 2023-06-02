@@ -6,6 +6,7 @@ import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/backend/custom_models/notes_model.dart';
 import 'package:staff_app/backend/responses_model/base_success_response.dart';
 import 'package:staff_app/backend/responses_model/notebook_list_response.dart';
+import 'package:staff_app/backend/responses_model/subjects_response.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 
@@ -13,8 +14,13 @@ class NotebookCtrl extends GetxController{
 
   final formKey = GlobalKey<FormState>();
   RxString selectedSchoolId = "".obs;
+  RxString selectedSubjectId = "".obs;
   RxList<NotebookList>? notebookList = <NotebookList>[].obs;
+  RxList<SubjectsData>? subjectsList = <SubjectsData>[].obs;
   Rx<StarData>? starData = StarData().obs;
+  final selectedIndex1 = 0.obs;
+  final selectedIndex3 = 0.obs;
+  final isChecked = false.obs;
 
   /// Add Notebook Field Controller
   Rx<TextEditingController> schoolController = TextEditingController().obs;
@@ -27,6 +33,12 @@ class NotebookCtrl extends GetxController{
   TextEditingController commentController = TextEditingController();
   TextEditingController reasonController = TextEditingController();
 
+  @override
+  void onInit() {
+    super.onInit();
+    getSubjects();
+  }
+
 
   /// Set Data for Add Notebook Field Controller
   setData({bool? isUpdating, required NotebookList? data}){
@@ -36,9 +48,14 @@ class NotebookCtrl extends GetxController{
       dateController.text = getFormattedDate2(data?.date??"");
       descriptionController.text = data?.description??"";
       recommendationController.text = data?.recommandation??"";
-      subjectController.text = data?.subject?.name??"";
       commentController.text = data?.comment??"";
+      schoolController.value.text = data?.school?.name??"";
+      selectedSchoolId.value = data?.school?.sId??"";
+      selectedSubjectId.value = data?.subject?.sId??"";
+      subjectController.text = data?.subject?.name??"";
+      selectedIndex3.value = (data?.type??"") == "talent" ? 0 : 1;
     }else{
+      selectedIndex3.value = 0;
       titleController.text = "";
       gradeController.text = "";
       dateController.text = "";
@@ -46,6 +63,9 @@ class NotebookCtrl extends GetxController{
       recommendationController.text = "";
       subjectController.text = "";
       commentController.text = "";
+      selectedSchoolId.value = "";
+      schoolController.value.text = "";
+      selectedSubjectId.value = "";
     }
   }
 
@@ -59,7 +79,7 @@ class NotebookCtrl extends GetxController{
         "date": dateController.text.trim(),
         "description": descriptionController.text.trim(),
         "recommandation": recommendationController.text.trim(),
-        "subject": "644fbba746bcbe93b0074a91",
+        "subject": selectedSubjectId.value,
         "class": "644bb468017ff679ae0d6f0c",
         "starId": "6443a18eed5d074580c2b2a0",
         "teacher": "645255336784ea41b08b3ea8",
@@ -87,7 +107,7 @@ class NotebookCtrl extends GetxController{
         "date": dateController.text.trim(),
         "description": descriptionController.text.trim(),
         "recommandation": recommendationController.text.trim(),
-        "subject": "644fbba746bcbe93b0074a91",
+        "subject": selectedSubjectId.value,
         "class": "644bb468017ff679ae0d6f0c",
         "starId": "6443a18eed5d074580c2b2a0",
         "teacher": "645255336784ea41b08b3ea8",
@@ -144,28 +164,14 @@ class NotebookCtrl extends GetxController{
    );
   }
 
-  List<NotesModel> unDoneNotesList = <NotesModel>[
-    NotesModel("To Do List", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s", false),
-    NotesModel("Things to Purchase", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s", false),
-    NotesModel("Home Work", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s", false),
-    NotesModel("To be learn", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s", false),
-  ].obs;
-  List<NotesModel> doneNotesList = <NotesModel>[].obs;
+  /// Get Subjects
+  getSubjects(){
+    BaseAPI().get(url: ApiEndPoints().getSubjects,showLoader: false).then((value){
+      if (value?.statusCode == 200) {
+        subjectsList?.value = SubjectResponse.fromJson(value?.data).data?.data??[];
+      }
+    },
+    );
+  }
 
-  final selectedIndex = 0.obs;
-  final selectedIndex1 = 0.obs;
-  final selectedIndex3 = 0.obs;
-  final selectedColor = 0.obs;
-  final isChecked = false.obs;
-
-  List<String> colorList = [
-    "FFE7E9",
-    "FFF7AA",
-    "037D00",
-    "EDB494",
-    "FFD081",
-    "E1C4EB",
-    "B5E3B9",
-    "CECECE",
-  ];
 }

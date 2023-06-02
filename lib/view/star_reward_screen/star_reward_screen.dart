@@ -95,7 +95,7 @@ class _StarRewardScreenState extends State<StarRewardScreen> {
                             DummyLists.initialClass=value;
                           });
                         },icon: classTakenSvg),
-                        Container(child: VerticalDivider(width: 1,),height: 4.h,width: 1,),
+                        Container(child: VerticalDivider(width: 1),height: 4.h,width: 1,),
                         CustomFilterDropDown(
                           initialValue: DummyLists.initialTerm, hintText: 'Term 1',
                           listData: DummyLists.termData, onChange: (value) {

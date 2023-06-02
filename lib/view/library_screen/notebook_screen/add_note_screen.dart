@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/backend/responses_model/notebook_list_response.dart';
 import 'package:staff_app/backend/responses_model/school_list_response.dart';
+import 'package:staff_app/backend/responses_model/subjects_response.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
@@ -38,6 +39,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
   void initState() {
     super.initState();
     controller.setData(isUpdating: widget.isUpdating, data: widget.data);
+    controller.getSubjects();
   }
 
   @override
@@ -249,17 +251,22 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                   }).toList(),
                   errorText: "Please select recommendation",
                 ),
-                CustomTextField(
-                    controller: controller.subjectController,
-                    hintText: "Subject",
-                    borderRadius: 5.0,
-                    fillColor: BaseColors.txtFieldTextColor,
-                    // validator: (val){
-                    //   if((val??"").isEmpty){
-                    //     return "Please enter subject";
-                    //   }
-                    //   return null;
-                    // },
+                Obx(()=>BaseTextFormField(
+                      controller: controller.subjectController,
+                      hintText: controller.subjectController.text.isEmpty ? "Subject" : controller.subjectController.text.trim(),
+                      isDropDown: true,
+                      errorText: "Please select subject",
+                      items: controller.subjectsList?.map((SubjectsData data){
+                        return DropdownMenuItem(
+                          value: data,
+                          child: addText(data.name??"", 15.sp, Colors.black, FontWeight.w400),
+                        );
+                      }).toList(),
+                      onChanged: (value) async {
+                        controller.subjectController.text = value?.name??"";
+                        controller.selectedSubjectId.value = value?.sId??"";
+                      },
+                  ),
                 ),
                 SizedBox(height: 2.h),
                 // CustomTextField(controller: commentController, hintText: "Comment", borderRadius: 5.0,fillColor: CustomColors.txtFieldTextColor),
@@ -274,7 +281,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                   }else{
                     controller.addNotebook();
                   }
-                },btnType: largeButton,)
+                },btnType: largeButton,bottomMargin: 20.h)
               ],
             ),
           ),

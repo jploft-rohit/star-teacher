@@ -79,14 +79,18 @@ class StickyNoteCtrl extends GetxController{
   }
 
   /// Delete Note
-  deleteStickyNote({required id,required index}){
+  deleteStickyNote({required id,required index,required bool isChecked}){
     BaseOverlays().dismissOverlay();
     BaseSuccessResponse baseSuccessResponse = BaseSuccessResponse();
     BaseAPI().delete(url: ApiEndPoints().deleteStickyNote+id).then((value){
       if (value?.statusCode ==  200) {
         baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
         BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: "Success");
-        unCheckedNotes?.removeAt(index);
+        if (isChecked) {
+          checkedNotes?.removeAt(index);
+        }else{
+          unCheckedNotes?.removeAt(index);
+        }
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
       }

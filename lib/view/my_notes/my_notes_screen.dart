@@ -131,7 +131,7 @@ class _MyNotesScreenState extends State<MyNotesScreen> {
                                                 BaseOverlays().showConfirmationDialog(
                                                         title: "Are you sure you want to delete this Note?",
                                                         onRightButtonPressed: () {
-                                                          controller.deleteStickyNote(id: controller.unCheckedNotes?[index].sId??"", index: index);
+                                                          controller.deleteStickyNote(id: controller.unCheckedNotes?[index].sId??"", index: index,isChecked: false);
                                                         });
                                               },
                                               child: SvgPicture.asset(
@@ -228,7 +228,7 @@ class _MyNotesScreenState extends State<MyNotesScreen> {
                                                 BaseOverlays().showConfirmationDialog(
                                                     title: "Are you sure you want to delete this Note?",
                                                     onRightButtonPressed: () {
-                                                      controller.deleteStickyNote(id: controller.checkedNotes?[index].sId??"", index: index);
+                                                      controller.deleteStickyNote(id: controller.checkedNotes?[index].sId??"", index: index,isChecked: true);
                                                     });
                                               },
                                               child: SvgPicture.asset(

@@ -286,6 +286,8 @@ class NotebookList {
   dynamic description;
   dynamic teacher;
   Subject? subject;
+  School? school;
+  CreatedBy? createdBy;
   dynamic comment;
   dynamic recommandation;
   dynamic status;
@@ -301,12 +303,14 @@ class NotebookList {
       this.title,
       this.classes,
       this.date,
+      this.createdBy,
       this.description,
       this.teacher,
       this.subject,
       this.comment,
       this.recommandation,
       this.status,
+        this.school,
       this.isDeleted,
       this.user,
       this.createdAt,
@@ -317,8 +321,10 @@ class NotebookList {
     sId = json['_id'];
     type = json['type'];
     title = json['title'];
+    school = json['school'] != null ? new School.fromJson(json['school']) : null;
     classes = json['class'] != null ? new Class.fromJson(json['class']) : null;
     date = json['date'];
+    createdBy = json['createdBy'] != null ? new CreatedBy.fromJson(json['createdBy']) : null;
     description = json['description'];
     teacher = json['teacher'];
     subject =
@@ -338,6 +344,12 @@ class NotebookList {
     data['_id'] = this.sId;
     data['type'] = this.type;
     data['title'] = this.title;
+    if (this.createdBy != null) {
+      data['createdBy'] = this.createdBy!.toJson();
+    }
+    if (this.school != null) {
+      data['school'] = this.school!.toJson();
+    }
     if (this.classes != null) {
       data['class'] = this.classes!.toJson();
     }
@@ -415,6 +427,198 @@ class Pagination {
     data['currentPage'] = this.currentPage;
     data['nextPage'] = this.nextPage;
     data['prevPage'] = this.prevPage;
+    return data;
+  }
+}
+
+
+class CreatedBy {
+  dynamic sId;
+  dynamic isMobileVerified;
+  dynamic gender;
+  dynamic idDocument;
+  dynamic deviceType;
+  dynamic parentId;
+  dynamic isDeleted;
+  dynamic name;
+  dynamic mobile;
+  dynamic dob;
+  dynamic nationality;
+  dynamic emirateId;
+  dynamic emirateIdExpire;
+  dynamic nativeLanguage;
+  dynamic religion;
+  dynamic profilePic;
+  dynamic role;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic iV;
+  dynamic otp;
+  dynamic deviceToken;
+  dynamic deviceVoip;
+  dynamic address;
+  dynamic country;
+  dynamic maritalStatus;
+  dynamic sector;
+  dynamic email;
+  dynamic locationType;
+  dynamic slotNo;
+  dynamic status;
+  dynamic state;
+  dynamic alternativeMobile;
+
+  CreatedBy({this.sId, this.isMobileVerified, this.gender, this.idDocument, this.deviceType, this.parentId, this.isDeleted, this.name, this.mobile, this.dob, this.nationality, this.emirateId, this.emirateIdExpire, this.nativeLanguage, this.religion, this.profilePic, this.role, this.createdAt, this.updatedAt, this.iV, this.otp, this.deviceToken, this.deviceVoip, this.address, this.country, this.maritalStatus, this.sector, this.email, this.locationType, this.slotNo, this.status, this.state, this.alternativeMobile});
+
+  CreatedBy.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    isMobileVerified = json['isMobileVerified'];
+    gender = json['gender'];
+    idDocument = json['idDocument'];
+    deviceType = json['deviceType'];
+    parentId = json['parentId'];
+    isDeleted = json['isDeleted'];
+    name = json['name'];
+    mobile = json['mobile'];
+    dob = json['dob'];
+    nationality = json['nationality'];
+    emirateId = json['emirateId'];
+    emirateIdExpire = json['emirateIdExpire'];
+    nativeLanguage = json['nativeLanguage'];
+    religion = json['religion'];
+    profilePic = json['profilePic'];
+    role = json['role'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    iV = json['__v'];
+    otp = json['otp'];
+    deviceToken = json['deviceToken'];
+    deviceVoip = json['deviceVoip'];
+    address = json['address'];
+    country = json['country'];
+    maritalStatus = json['maritalStatus'];
+    sector = json['sector'];
+    email = json['email'];
+    locationType = json['locationType'];
+    slotNo = json['slotNo'];
+    status = json['status'];
+    state = json['state'];
+    alternativeMobile = json['alternativeMobile'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['isMobileVerified'] = this.isMobileVerified;
+    data['gender'] = this.gender;
+    data['idDocument'] = this.idDocument;
+    data['deviceType'] = this.deviceType;
+    data['parentId'] = this.parentId;
+    data['isDeleted'] = this.isDeleted;
+    data['name'] = this.name;
+    data['mobile'] = this.mobile;
+    data['dob'] = this.dob;
+    data['nationality'] = this.nationality;
+    data['emirateId'] = this.emirateId;
+    data['emirateIdExpire'] = this.emirateIdExpire;
+    data['nativeLanguage'] = this.nativeLanguage;
+    data['religion'] = this.religion;
+    data['profilePic'] = this.profilePic;
+    data['role'] = this.role;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    data['__v'] = this.iV;
+    data['otp'] = this.otp;
+    data['deviceToken'] = this.deviceToken;
+    data['deviceVoip'] = this.deviceVoip;
+    data['address'] = this.address;
+    data['country'] = this.country;
+    data['maritalStatus'] = this.maritalStatus;
+    data['sector'] = this.sector;
+    data['email'] = this.email;
+    data['locationType'] = this.locationType;
+    data['slotNo'] = this.slotNo;
+    data['status'] = this.status;
+    data['state'] = this.state;
+    data['alternativeMobile'] = this.alternativeMobile;
+    return data;
+  }
+}
+
+class School {
+  dynamic sId;
+  dynamic isDeleted;
+  dynamic name;
+  dynamic schoolCategory;
+  dynamic schoolSector;
+  dynamic schoolArea;
+  dynamic address;
+  dynamic language;
+  dynamic schoolId;
+  dynamic helplineNo;
+  dynamic email;
+  dynamic secondoryEmail;
+  dynamic website;
+  dynamic mobile;
+  dynamic schoolType;
+  dynamic parentSchool;
+  dynamic status;
+  dynamic createdBy;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic iV;
+  dynamic updatedBy;
+
+  School({this.sId, this.isDeleted, this.name, this.schoolCategory, this.schoolSector, this.schoolArea, this.address, this.language, this.schoolId, this.helplineNo, this.email, this.secondoryEmail, this.website, this.mobile, this.schoolType, this.parentSchool, this.status, this.createdBy, this.createdAt, this.updatedAt, this.iV, this.updatedBy});
+
+  School.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    isDeleted = json['isDeleted'];
+    name = json['name'];
+    schoolCategory = json['schoolCategory'];
+    schoolSector = json['schoolSector'];
+    schoolArea = json['schoolArea'];
+    address = json['address'];
+    language = json['language'];
+    schoolId = json['schoolId'];
+    helplineNo = json['helplineNo'];
+    email = json['email'];
+    secondoryEmail = json['secondoryEmail'];
+    website = json['website'];
+    mobile = json['mobile'];
+    schoolType = json['schoolType'];
+    parentSchool = json['parentSchool'];
+    status = json['status'];
+    createdBy = json['createdBy'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    iV = json['__v'];
+    updatedBy = json['updatedBy'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['isDeleted'] = this.isDeleted;
+    data['name'] = this.name;
+    data['schoolCategory'] = this.schoolCategory;
+    data['schoolSector'] = this.schoolSector;
+    data['schoolArea'] = this.schoolArea;
+    data['address'] = this.address;
+    data['language'] = this.language;
+    data['schoolId'] = this.schoolId;
+    data['helplineNo'] = this.helplineNo;
+    data['email'] = this.email;
+    data['secondoryEmail'] = this.secondoryEmail;
+    data['website'] = this.website;
+    data['mobile'] = this.mobile;
+    data['schoolType'] = this.schoolType;
+    data['parentSchool'] = this.parentSchool;
+    data['status'] = this.status;
+    data['createdBy'] = this.createdBy;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    data['__v'] = this.iV;
+    data['updatedBy'] = this.updatedBy;
     return data;
   }
 }

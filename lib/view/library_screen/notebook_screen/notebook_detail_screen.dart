@@ -50,7 +50,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
               Obx(()=>Container(
                   padding: EdgeInsets.all(15.sp),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20.0),
+                      borderRadius: BorderRadius.circular(20),
                       border: Border.all(color: BaseColors.borderColor)
                   ),
                   child: Row(
@@ -64,16 +64,14 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                                 borderRadius: BorderRadius.circular(15.0),
                                 border: Border.all(color: BaseColors.primaryColor)
                             ),
-                            child: SvgPicture.asset(girlSvg, height: 6.h,),
+                            child: SvgPicture.asset(girlSvg, height: 6.h),
                           ),
-                          SizedBox(
-                            width: 3.w,
-                          ),
+                          SizedBox(width: 3.w),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(controller.starData?.value.user?.name??"Sania", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
-                              SizedBox(height: 0.5.h,),
+                              Text(controller.starData?.value.user?.name??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
+                              SizedBox(height: 0.5.h),
                               Container(
                                 width: 30.w,
                                 height: 1,
@@ -82,7 +80,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                               SizedBox(
                                 height: .5.h,
                               ),
-                              Text("#"+(controller.starData?.value.studentId??"#562665"), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
+                              Text("#"+(controller.starData?.value.studentId??"#"), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                               SizedBox(
                                 height: .5.h,
                               ),
@@ -94,7 +92,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                               SizedBox(
                                 height: .5.h,
                               ),
-                              Text("${controller.starData?.value.classes?.name??"H1"}-${controller.starData?.value.classsection?.name??"G"}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
+                              Text("${controller.starData?.value.classes?.name??""}-${controller.starData?.value.classsection?.name??""}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                             ],
                           ),
                         ],
@@ -249,7 +247,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                               const Divider(),
                               Row(
                                 children: [
-                                  buildInfoItems("Grade", "5th"),
+                                  buildInfoItems("Grade", controller.starData?.value.classes?.name??""),
                                   SizedBox(
                                     width: 10.w,
                                   ),
@@ -272,7 +270,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                               const Divider(),
                               buildInfoItems("Description", controller.notebookList?[index].description??na),
                               const Divider(),
-                              buildInfoItems("Teacher", controller.notebookList?[index].teacher??na),
+                              buildInfoItems("Teacher", controller.notebookList?[index].createdBy?.name??""),
                               const Divider(),
                               buildInfoItems("Subject", controller.notebookList?[index].subject?.name??na),
                           Visibility(
@@ -281,15 +279,15 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                const Divider(),
-                                buildInfoItems("Comment", controller.notebookList?[index].description??na),
+                                // const Divider(),
+                                // buildInfoItems("Comment", controller.notebookList?[index].comment??na),
                                 const Divider(),
                                 buildInfoItems("Recommendation", controller.notebookList?[index].recommandation??na),
                                 SizedBox(
                                   height: 1.h,
                                 ),
                               ],
-                            ),
+                               ),
                               ),
                             ],
                           ),
