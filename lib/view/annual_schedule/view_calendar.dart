@@ -108,6 +108,7 @@ class _AnnualViewCalendarScreenState extends State<AnnualViewCalendarScreen> {
             ),
             SizedBox(height: 2.h,),
             AbsorbPointer(
+              absorbing: false,
               child: SfDateRangePicker(
                 headerStyle: DateRangePickerHeaderStyle(
                   textAlign: TextAlign.center,

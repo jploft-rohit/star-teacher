@@ -111,5 +111,4 @@ class ApiEndPoints {
 
   /// Annual Schedule EndPoints
   final String getAnnualScheduled = "annualSchedule/get-all";
-  final String createAnnualSchedule = "annualSchedule/add";
 }
