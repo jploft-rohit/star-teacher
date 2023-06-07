@@ -309,80 +309,88 @@ class BaseOverlays {
               ),
             ),
           );
-        });
+        },
+    );
   }
 
-  XFile? showMediaPickerDialog() {
+  showMediaPickerDialog({Function()? onCameraClick, Function()? onGalleryClick}) {
     final ImagePicker picker = ImagePicker();
     XFile? imageData;
     showGeneralDialog(
-        context: Get.context!,
-        barrierDismissible: true,
-        barrierLabel: "",
-        pageBuilder: (context, a1, a2) {
-          return Dialog(
-            insetPadding: EdgeInsets.symmetric(horizontal: 3.w),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(14))),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(height: 12),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: GestureDetector(
-                        onTap: () {
-                          Get.back();
-                        },
-                        child: SvgPicture.asset("assets/images/ic_close.svg",
-                            height: 16)),
-                  ),
-                  SizedBox(height: 16),
-                  Row(
-                    children: [
-                      Expanded(
-                          child: GestureDetector(
-                        onTap: () async {
-                          Get.back();
-                          imageData = await picker.pickImage(source: ImageSource.camera);
-                        },
-                        child: Column(
-                          children: [
-                            Icon(Icons.camera_alt_outlined,
-                                color: BaseColors.primaryColor, size: 60),
-                            SizedBox(height: 8),
-                            Text("Camera"),
-                          ],
-                        ),
-                      )),
-                      Expanded(
-                          child: GestureDetector(
-                        onTap: () async {
-                          Get.back();
-                          imageData = await picker.pickImage(
-                              source: ImageSource.gallery);
-                        },
-                        child: Column(
-                          children: [
-                            Icon(Icons.photo_library_outlined,
-                                color: BaseColors.primaryColor, size: 60),
-                            SizedBox(height: 8),
-                            Text("Gallery"),
-                          ],
-                        ),
-                      )),
-                    ],
-                  ),
-                  const SizedBox(height: 40),
-                ],
-              ),
+      context: Get.context!,
+      barrierDismissible: true,
+      barrierLabel: "",
+      pageBuilder: (context, a1, a2) {
+        return Dialog(
+          insetPadding: EdgeInsets.symmetric(horizontal: 3.w),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(14))),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(height: 12),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: GestureDetector(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: SvgPicture.asset("assets/images/ic_close.svg",
+                          height: 16)),
+                ),
+                SizedBox(height: 16),
+                Row(
+                  children: [
+                    Expanded(
+                        child: GestureDetector(
+                          onTap: onCameraClick ?? () async {
+                            Get.back();
+                            await picker.pickImage(source: ImageSource.camera).then((value){
+                              if (value != null) {
+                                imageData = value;
+                              }
+                            });
+                          },
+                          child: Column(
+                            children: [
+                              Icon(Icons.camera_alt_outlined,
+                                  color: BaseColors.primaryColor, size: 60),
+                              SizedBox(height: 8),
+                              Text("Camera"),
+                            ],
+                          ),
+                        )),
+                    Expanded(
+                        child: GestureDetector(
+                          onTap: onGalleryClick ?? () async {
+                            Get.back();
+                            await picker.pickImage(source: ImageSource.gallery).then((value){
+                              if (value != null) {
+                                imageData = value;
+                              }
+                            });
+                          },
+                          child: Column(
+                            children: [
+                              Icon(Icons.photo_library_outlined,
+                                  color: BaseColors.primaryColor, size: 60),
+                              SizedBox(height: 8),
+                              Text("Gallery"),
+                            ],
+                          ),
+                        )),
+                  ],
+                ),
+                const SizedBox(height: 40),
+              ],
             ),
-          );
-        });
-    return imageData;
+          ),
+        );
+      },
+    );
   }
 
   showRejectDialog({

@@ -8,8 +8,8 @@ import 'package:staff_app/view/cards_and_tags_screen/cards_and_tags_screen.dart'
 import 'package:staff_app/view/class_schedule_screen/class_schedule_screen.dart';
 import 'package:staff_app/view/complaints_report_screen/view/complaints_report_screen.dart';
 import 'package:staff_app/view/feedback_help_screen/feedback_help_screen.dart';
-import 'package:staff_app/view/leave_request_screen/early_leave_screen.dart';
-import 'package:staff_app/view/leave_request_screen/leave_permission_screen.dart';
+import 'package:staff_app/view/early_leave/early_leave_screen.dart';
+import 'package:staff_app/view/leave_permission/leave_permission_screen.dart';
 import 'package:staff_app/view/leave_request_screen/leave_request_screen.dart';
 import 'package:staff_app/view/my_notes/my_notes_screen.dart';
 import 'package:staff_app/view/my_profile_screen/medical_report_view/medical_report_view.dart';

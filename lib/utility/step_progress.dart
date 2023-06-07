@@ -88,56 +88,58 @@ class StepProgressView extends StatelessWidget {
     _titles.asMap().forEach((i, icon) {
       var circleColor = (_curStep > i) ? _activeColor : _inactiveColor;
       list.add(
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              height: 25,
-              alignment: Alignment.center,
-              child: Text(_statuses[i], style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: textSize ?? stepperTitleTs),textAlign: TextAlign.center,),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            _titles.elementAt(i) != ""
-                ? Container(
-                    width: height ?? 25.0,
-                    height: btnWidth ?? 25.0,
-                    padding: const EdgeInsets.all(0),
-                    decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(22.0)),
-                        border: Border.all(
-                          color:  BaseColors.white,
-                          width: 2.0,
-                        ),
-                        boxShadow: [getBoxShadow()],
-                        color: circleColor),
-                    child: const Icon(
-                      Icons.check,
-                      color:  BaseColors.white,
-                      size: 12.0,
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                height: 25,
+                alignment: Alignment.center,
+                child: Text(_statuses[i], style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 13.sp),textAlign: TextAlign.center),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              _titles.elementAt(i) != ""
+                  ? Container(
+                      width: height ?? 25.0,
+                      height: btnWidth ?? 25.0,
+                      padding: const EdgeInsets.all(0),
+                      decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(22.0)),
+                          border: Border.all(
+                            color:  BaseColors.white,
+                            width: 2.0,
+                          ),
+                          boxShadow: [getBoxShadow()],
+                          color: circleColor),
+                      child: const Icon(
+                        Icons.check,
+                        color:  BaseColors.white,
+                        size: 12.0,
+                      ),
+                    )
+                  : Container(
+                      width: 15.0,
+                      height: 15.0,
+                      margin: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(22.0)),
+                          boxShadow: [getBoxShadow()],
+                          color: Color(0xFFD9D9D9)),
                     ),
-                  )
-                : Container(
-                    width: 15.0,
-                    height: 15.0,
-                    margin: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(22.0)),
-                        boxShadow: [getBoxShadow()],
-                        color: Color(0xFFD9D9D9)),
-                  ),
-            const SizedBox(
-              height: 5,
-            ),
-            Row(
-                    children: [
-                      Text(_titles.elementAt(i), style: Style.montserratBoldStyle().copyWith(color: BaseColors.textLightGreyColor, fontSize: textSize ?? stepperSubTitleTs),textAlign: TextAlign.center,),
-                    ],
-                  )
-          ],
+              const SizedBox(
+                height: 5,
+              ),
+              Row(
+                      children: [
+                        Text(_titles.elementAt(i), style: Style.montserratBoldStyle().copyWith(color: BaseColors.textLightGreyColor, fontSize: 13.sp),textAlign: TextAlign.center,),
+                      ],
+                    )
+            ],
+          ),
         ),
       );
 

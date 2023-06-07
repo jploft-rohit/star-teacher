@@ -170,7 +170,7 @@ class _AddToDoNoteState extends State<AddToDoNote> {
                           }else{
                             controller.createStickyNote(color: controller.colorList[controller.selectedColorIndex.value]);
                           }
-                        },btnType: largeButton,))
+                        },btnType: largeButton))
               ],
             ),
           ),

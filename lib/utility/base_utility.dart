@@ -543,13 +543,13 @@ String getFormattedDate2(String dateString, {String separator = '-'}) {
 }
 
 String convertDateFormat3(String dateString1) {
-  DateTime date = DateTime.parse(dateString1);
-  print("date1");
-  print(date);
-  String formattedDate = DateFormat("MMM dd,\nhh:mm a").format(date);
-  print("date1");
-  print(formattedDate);
-  return formattedDate;
+  if (dateString1.isNotEmpty) {
+    DateTime date = DateTime.parse(dateString1);
+    String formattedDate = DateFormat("MMM dd,\nhh:mm a").format(date);
+    return formattedDate;
+  }else{
+    return "";
+  }
 }
 
 String getFormattedTime(String dateString1){

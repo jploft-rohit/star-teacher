@@ -103,4 +103,9 @@ class ApiEndPoints {
 
   /// Subject EndPoint
   final String getSubjects = "subject/get/all";
+
+  /// Leave Request EndPoint
+  final String getLeaveRequests = "requestRoutes/list";
+  final String createLeaveRequest = "requestRoutes/create";
+  final String getLeaveTypes = "requestRoutes/leaveTypeList";
 }
