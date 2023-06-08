@@ -196,7 +196,7 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                         document: "doc.pdf"
                     );
                   }
-                },btnType: largeButton,)
+                },btnType: largeButton)
               ],
             ),
           ),
