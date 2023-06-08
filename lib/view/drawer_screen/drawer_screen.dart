@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/new_assignments/new_assignments_screen.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
@@ -14,7 +15,9 @@ import 'package:staff_app/view/about_us.dart';
 import 'package:staff_app/view/assignments_screen/assignment_screen.dart';
 import 'package:staff_app/view/custody/custody_view.dart';
 import 'package:staff_app/view/delegation/delegation_screen.dart';
+import 'package:staff_app/view/e_library/e_library_assignments.dart';
 import 'package:staff_app/view/events/events_screen.dart';
+import 'package:staff_app/view/exam_time_table/exam_time_table_screen.dart';
 import 'package:staff_app/view/feedback_help_screen/feedback_help_screen.dart';
 import 'package:staff_app/view/library_screen/notebook_screen/notebook_screen.dart';
 import 'package:staff_app/view/login_screen/login_screen.dart';
@@ -27,6 +30,7 @@ import 'package:staff_app/view/star_attendance_screen/star_attendance_screen.dar
 import 'package:staff_app/view/star_evaluation_screen/star_evaluation_screen.dart';
 import 'package:staff_app/view/star_reward_screen/star_reward_screen.dart';
 import 'package:staff_app/view/task_or_reminder_screen/task_or_reminder_screen.dart';
+import 'package:staff_app/view/worksheet/worksheet_screen.dart';
 
 
 class DrawerScreen extends StatefulWidget {
@@ -72,7 +76,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 buildExpensionTile(translate(context).my_profile, [
                   GestureDetector(
                     onTap: (){
-                      Get.to(MyProfileScreen(isFromDrawer: true,index: 0,));
+                      Get.to(MyProfileScreen(isFromDrawer: true,index: 0));
                     },
                     child: buildTile(translate(context).account),
                   ),
@@ -93,6 +97,14 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     },
                     child: buildTile(translate(context).assigned_schools),),
                 ]),
+                // buildExpensionTile(translate(context).add_new, [
+                //   GestureDetector(
+                //     onTap: (){
+                //       Get.to(const NewAssignmentScreen());
+                //     },
+                //     child: buildTile("New Assignment"),
+                //   ),
+                // ]),
                 buildExpensionTile(translate(context).stars, [
                   GestureDetector(
                     onTap: (){
@@ -137,6 +149,34 @@ class _DrawerScreenState extends State<DrawerScreen> {
                       Get.to(const DelegationScreen());
                     },
                     child: buildTile(translate(context).delegated_to_me),
+                  ),
+                ]),
+                buildExpensionTile("Assessment", [
+                  GestureDetector(
+                    onTap: (){
+                      Get.to(const NewAssignmentScreen());
+                    },
+                    child: buildTile("Awareness & Courses"),
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                      Get.to(const WorkSheetScreen());
+                    },
+                    child: buildTile("Worksheet"),
+                  ),
+                ]),
+                buildExpensionTile("E-Library", [
+                  GestureDetector(
+                    onTap: (){
+                      Get.to(const ELibraryScreen());
+                    },
+                    child: buildTile("Awareness & Courses"),
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                      Get.to(const ELibraryScreen(title: "Worksheet",));
+                    },
+                    child: buildTile("Worksheet"),
                   ),
                 ]),
                 SizedBox(
@@ -194,6 +234,11 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     child: buildTile1("Custody")),
                 GestureDetector(
                     onTap: (){
+                      Get.to(const ExamTimeTableScreen());
+                    },
+                    child: buildTile1("Exam Time Table")),
+                GestureDetector(
+                    onTap: (){
                       Get.to(const AboutUs());
                     },
                     child: buildTile1(translate(context).about_app)),
@@ -215,6 +260,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                       );
                     },
                     child: buildTile1(translate(context).logout)),
+                SizedBox(height: 10.h)
               ],
             ),
           ),

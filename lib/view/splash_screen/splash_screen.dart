@@ -25,11 +25,11 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 3), () async {
-      if (await BaseSharedPreference().getBool(SpKeys().isLoggedIn)??false) {
-        Get.to(DashboardScreen());
-      }else{
+      // if (await BaseSharedPreference().getBool(SpKeys().isLoggedIn)??false) {
+      //   Get.to(DashboardScreen());
+      // }else{
         Get.offAndToNamed(chooseLanguageScreenRoute);
-      }
+      // }
     });
     super.initState();
     FocusScope.of(Get.context!).requestFocus(FocusNode());

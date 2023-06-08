@@ -67,3 +67,6 @@ const String icDelete = "assets/images/ic_delete.svg";
 const String icCopy = "assets/images/copy 2.svg";
 const String icReport = "assets/images/report.svg";
 const String icMessage = "assets/images/ic_message.svg";
+const String icSave = "assets/images/ic_save.svg";
+const String icDownload = "assets/images/salary_slip_download_img.svg";
+const String icEye = "assets/images/ic_eye.svg";

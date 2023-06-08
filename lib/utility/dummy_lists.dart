@@ -5,6 +5,30 @@ class DummyLists{
     "Brother",
     "Sister",
   ];
+  List<String> assignmentCategoryList = [
+    "Worksheet",
+    "Awareness & courses",
+    "Assessment",
+    "Lab",
+  ];
+  List<String> questionTypeList = [
+    "Written Question",
+    "Photo with Question",
+    "Video with Question",
+    "Voice only",
+    "Match",
+    "Multiple choose on answer",
+    "Multiple choose more than one correct answer",
+    "Sequence Multiple choose",
+    "Complete the sentence",
+    "Complete the word",
+    "Draw",
+  ];
+  List<String> subQuestionType = [
+    "Subjective",
+    "Objective",
+    "Multiple select",
+  ];
   List<String> recommendationList = [
     "Recommendation 1",
     "Recommendation 2",
