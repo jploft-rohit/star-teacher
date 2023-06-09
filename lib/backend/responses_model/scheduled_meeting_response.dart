@@ -47,6 +47,7 @@ class ScheduledMeetingData {
   dynamic meetingFeedBackRating;
   dynamic meetingFeedBackDesc;
   User? user;
+  dynamic meetingType;
   LeaveType? leaveType;
   dynamic typeOfRequest;
   CreatedBy? createdBy;
@@ -68,6 +69,7 @@ class ScheduledMeetingData {
         this.sId,
         this.school,
         this.startDate,
+        this.meetingType,
         this.endDate,
         this.meetingFeedBackRating,
         this.meetingFeedBackDesc,
@@ -92,6 +94,7 @@ class ScheduledMeetingData {
     meetingUrl = json['meetingUrl'];
     isDeleted = json['isDeleted'];
     sId = json['_id'];
+    meetingType = json['meetingType'];
     school = json['school'] != null ? new School.fromJson(json['school']) : null;
     startDate = json['startDate'];
     endDate = json['endDate'];
@@ -136,6 +139,7 @@ class ScheduledMeetingData {
     if (this.school != null) {
       data['school'] = this.school!.toJson();
     }
+    data['meetingType'] = this.meetingType;
     if (this.requestStatus != null) {
       data['requestStatus'] =
           this.requestStatus!.map((v) => v.toJson()).toList();

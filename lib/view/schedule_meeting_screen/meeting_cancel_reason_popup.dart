@@ -76,7 +76,7 @@ class _MeetingCancelReasonPopupState extends State<MeetingCancelReasonPopup> {
                 Center(
                   child: BaseButton(title: "SUBMIT", onPressed: (){
                     if (formKey.currentState?.validate()??false) {
-                      // controller.updateStatus(id: widget.id, type: "cancel");
+                      controller.updateStatus(id: widget.id, type: "cancelled");
                     }
                   },btnType: mediumButton,borderRadius: 20,),
                 ),

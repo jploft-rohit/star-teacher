@@ -58,7 +58,7 @@ class ScheduleMeetingScreenCtrl extends GetxController{
 
   getScheduledMeetingData({type}){
     list?.clear();
-    BaseAPI().get(url: ApiEndPoints().getScheduledMeetings, queryParameters: {"status" : selectedTabIndex.value == 0 ? "request raised" : selectedTabIndex.value == 1 ? "planned on" : selectedTabIndex.value == 2 ? "cancelled" : "completed","typeOfRequest":"scheduleMeeting"}).then((value){
+    BaseAPI().get(url: ApiEndPoints().getScheduledMeetings, queryParameters: {"status" : selectedTabIndex.value == 0 ? "request raised" : selectedTabIndex.value == 1 ? "planned" : selectedTabIndex.value == 2 ? "cancelled" : "completed","typeOfRequest":"scheduleMeeting"}).then((value){
       if (value?.statusCode ==  200) {
         list?.value = ScheduledMeetingResponse.fromJson(value?.data).data??[];
       }else{

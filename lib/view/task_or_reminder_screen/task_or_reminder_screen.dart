@@ -3,19 +3,18 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
-
-
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/utility/base_views/show_document.dart';
 import 'package:staff_app/view/Dashboard_screen/dashboard_screen_ctrl.dart';
 import 'package:staff_app/view/salary_slip_screen/salary_slip_poup.dart';
 import 'package:staff_app/view/task_or_reminder_screen/add_task_or_reminder_screen.dart';
-
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/view/task_or_reminder_screen/controller/task_reminder_ctrl.dart';
 import '../../Utility/base_utility.dart';
@@ -132,17 +131,28 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
                 ),
               ),
               SizedBox(width:3.w),
-              SvgPicture.asset(salarySlipDownloadSvg, height: 18.0,),
+              GestureDetector(onTap: (){
+                if(!((controller.list?[index].document??"").toString().contains("pdf"))){
+                  baseToast(message: "File is not PDF");
+                }
+                downloadAndShowNotification(fileUrl: controller.list?[index].document??"");
+              },child: SvgPicture.asset(salarySlipDownloadSvg, height: 18.0,)),
               SizedBox(
                 width: 2.w,
               ),
               GestureDetector(onTap: (){
-                showGeneralDialog(
-                  context: context,
-                  pageBuilder:  (context, animation, secondaryAnimation) {
-                    return OpenPdfPopup(title: "");
-                  },
-                );
+                if (((controller.list?[index].document??"").toString().contains("pdf"))) {
+                  showGeneralDialog(context: context,
+                    pageBuilder: (context, animation,
+                        secondaryAnimation) {
+                      return ShowPdfViewDialog(
+                        url: (ApiEndPoints().imageBaseUrl) + controller.list?[index].document??"",
+                        title: "Feedback & Help",
+                      );
+                    },);
+                }else{
+                  baseToast(message: "No PDF found");
+                }
               },child: const Icon(Icons.remove_red_eye_outlined,color: BaseColors.primaryColor,)),
             ],
           ),
@@ -155,7 +165,7 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
                     isActive: false,
                     title: translate(context).edit.toUpperCase(),
                     onPressed: () {
-                      // Get.to(AddTaskOrReminderScreen(isUpdating: true,data: controller.list?[index]));
+                      Get.to(AddTaskOrReminderScreen(isUpdating: true,data: controller.list?[index]));
                       },
                     btnType: mediumLargeButton),
               ),
@@ -167,7 +177,7 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
                       BaseOverlays().showConfirmationDialog(
                         title: "Are you sure you want to delete this Task or Reminder ?",
                         onRightButtonPressed: (){
-                          // controller.deleteTaskReminder(id: controller.list?[index].sId??"", index: index);
+                          controller.deleteTaskReminder(id: controller.list?[index].sId??"", index: index);
                         }
                       );
                     },btnType: mediumLargeButton),

@@ -150,7 +150,7 @@ class _CreateMeetingScreenState extends State<CreateMeetingScreen> {
                     height: 5.h,
                   ),
                   BaseButton(title: "SUBMIT", onPressed: (){
-                    // controller.createScheduledMeeting();
+                    controller.createScheduledMeeting();
                   },btnType: largeButton,)
                 ],
               ),

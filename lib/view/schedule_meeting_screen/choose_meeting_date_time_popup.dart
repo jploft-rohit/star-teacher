@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_calendar_carousel/classes/event.dart';
-import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:staff_app/backend/responses_model/scheduled_meeting_response.dart';
 import 'package:staff_app/view/schedule_meeting_screen/controller/schedule_meeting_screen_ctrl.dart';
 import 'package:table_calendar/table_calendar.dart';

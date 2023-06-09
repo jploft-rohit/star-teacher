@@ -62,7 +62,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
     tabCtrl = TabController(length: 4, vsync: this)..addListener(() {
       ctrl.selectedTabIndex.value = tabCtrl?.index??0;
       ctrl.stepperTimeDate.value = ["","","",""];
-      ctrl.getScheduledMeetingData(type: ctrl.selectedTabIndex.value == 0 ? "request raised" : ctrl.selectedTabIndex.value == 1 ? "planned on" : ctrl.selectedTabIndex.value == 2 ? "cancelled" : "completed");
+      ctrl.getScheduledMeetingData(type: ctrl.selectedTabIndex.value == 0 ? "request raised" : ctrl.selectedTabIndex.value == 1 ? "planned" : ctrl.selectedTabIndex.value == 2 ? "cancelled" : "completed");
     });
   }
   @override

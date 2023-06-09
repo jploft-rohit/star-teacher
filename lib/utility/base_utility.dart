@@ -1,15 +1,21 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/intl/src/intl/date_format.dart';
-
+import 'package:staff_app/utility/notificationService.dart';
 import '../constants-classes/color_constants.dart';
 import 'images_icon_path.dart';
 
@@ -544,25 +550,100 @@ String getFormattedDate2(String dateString, {String separator = '-'}) {
 
 String convertDateFormat3(String dateString1) {
   DateTime date = DateTime.parse(dateString1);
-  print("date1");
-  print(date);
   String formattedDate = DateFormat("MMM dd,\nhh:mm a").format(date);
-  print("date1");
-  print(formattedDate);
   return formattedDate;
 }
 
 String getFormattedTime(String dateString1){
   DateTime date = DateTime.parse(dateString1);
-  print("date1");
-  print(date);
   String formattedTime = DateFormat('hh:mm a').format(date.toLocal());
-  print("date1");
-  print(formattedTime);
+  return formattedTime;
+}
+
+String getFormattedTime3(String dateString1){
+  DateTime date = DateTime.parse(dateString1);
+  String formattedTime = DateFormat('HH:mm').format(date.toLocal());
+  return formattedTime;
+}
+
+String getFormattedTime2(String dateString1){
+  String hours, minutes;
+  DateTime date = DateTime.parse(dateString1);
+  String formattedTime = DateFormat('H:m').format(date.toLocal());
+  var time = formattedTime.split(":");
+  hours = time[0].length == 1 ? ("0"+time[0].toString()) : (time[0].toString());
+  minutes = time[1].length == 1 ? ("0"+time[1].toString()) : (time[1].toString());
+  formattedTime = "$hours:$minutes";
+  return formattedTime;
+}
+
+String formatTime(DateTime dateTime) {
+  String amPm = 'am';
+  if (dateTime.hour >= 12) {
+    amPm = 'pm';
+  }
+
+  String hour = dateTime.hour.toString();
+  if (dateTime.hour < 10) {
+    hour = "0${(dateTime.hour)}";
+  }
+
+  String minute = dateTime.minute.toString();
+  if (dateTime.minute < 10) {
+    minute = '0${dateTime.minute}';
+  }
+
+  return '$hour:$minute';
+}
+
+String getHours(String dateString1){
+  DateTime date = DateTime.parse(dateString1);
+  String formattedTime = DateFormat('hh').format(date.toLocal());
+  return formattedTime;
+}
+String getMinutes(String dateString1){
+  DateTime date = DateTime.parse(dateString1);
+  String formattedTime = DateFormat('mm').format(date.toLocal());
   return formattedTime;
 }
 
 baseToast({required String message}){
   Fluttertoast.cancel();
   Fluttertoast.showToast(msg: message,gravity: ToastGravity.CENTER);
+}
+
+Future<void> downloadAndShowNotification({required String fileUrl}) async {
+  // Download the PDF file
+  if (fileUrl.isNotEmpty) {
+    BaseOverlays().showLoader();
+    final url = (ApiEndPoints().imageBaseUrl) + (fileUrl);
+    final request = await HttpClient().getUrl(Uri.parse(url));
+    final response = await request.close();
+    final bytes = await consolidateHttpClientResponseBytes(response);
+
+    // Save the PDF file to device storage
+    if (Platform.isIOS) {
+      print("asjagJSHags=");
+      final directory = await getTemporaryDirectory();
+      print("asjagJSHags==");
+      final filePath = '${directory.path}.pdf';
+      print("asjagJSHags===");
+      final file = File(filePath);
+      print("====");
+      await file.writeAsBytes(bytes);
+      print("=======");
+      print(filePath);
+      BaseOverlays().dismissOverlay();
+      NotificationService.display(0,'PDF Downloaded','The PDF file has been downloaded successfully.',filePath);
+    }
+    else{
+      final directory = await getExternalStorageDirectory();
+      final filePath = '${directory!.path}.pdf';
+      final file = File(filePath);
+      await file.writeAsBytes(bytes);
+      print(filePath);
+      BaseOverlays().dismissOverlay();
+      NotificationService.display(0,'PDF Downloaded','The PDF file has been downloaded successfully.',filePath);
+    }
+  }
 }

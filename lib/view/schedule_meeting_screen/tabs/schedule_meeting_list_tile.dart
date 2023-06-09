@@ -106,7 +106,7 @@ class ScheduleMeetingListTile extends StatelessWidget {
                                 showDivider: false,
                                 prefixIcon: "assets/images/Group (1).svg",
                                 detailsLabel:"Meeting Type",
-                                detailsValue:"Audio Call",
+                                detailsValue:controller.list?[index].meetingType??"",
                                 rightMargin: 2.w,
                             ),
                             GestureDetector(
@@ -194,7 +194,7 @@ class ScheduleMeetingListTile extends StatelessWidget {
                             BaseOverlays().showConfirmationDialog(
                               title: "Are you sure, you want to accept this meeting ?",
                                 onRightButtonPressed: (){
-                              // controller.updateStatus(id: controller.list?[index].sId??"",type: "accept");
+                              controller.updateStatus(id: controller.list?[index].sId??"",type: "accepted");
                             });
                           }, textSize: 15.sp,leftMargin: 1.w)),
                         ),
