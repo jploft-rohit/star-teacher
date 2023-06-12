@@ -93,8 +93,8 @@ class ScheduleMeetingListTile extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   BaseDetailData(prefixIcon: "assets/images/Vector (1).svg",detailsLabel:"Schedule Date", detailsValue:getFormattedDate(controller.list?[index].date??"")),
-                  BaseDetailData(prefixIcon: "assets/images/time_icon.svg",detailsLabel:"Time Slot", detailsValue:getFormattedTime(controller.list?[index].time??"")),
-                  BaseDetailData(prefixIcon: "assets/images/family_img.svg",detailsLabel:"Meeting with", detailsValue:controller.list?[index].user?.name??"N/A"),
+                  BaseDetailData(prefixIcon: "assets/images/time_icon.svg",detailsLabel:"Time Slot", detailsValue:getFormattedTime3(controller.list?[index].time??"")),
+                  BaseDetailData(prefixIcon: "assets/images/family_img.svg",detailsLabel:"Meeting with", detailsValue:controller.list?[index].teacher?.name??"N/A"),
                   BaseDetailData(prefixIcon: "assets/images/ic_designation.svg",detailsLabel:"Designation", detailsValue:"Teacher Admin"),
                   Row(
                     children: [

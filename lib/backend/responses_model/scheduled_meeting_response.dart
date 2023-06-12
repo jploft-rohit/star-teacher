@@ -44,6 +44,7 @@ class ScheduledMeetingData {
   dynamic startDate;
   dynamic endDate;
   dynamic reason;
+  Teacher? teacher;
   dynamic meetingFeedBackRating;
   dynamic meetingFeedBackDesc;
   User? user;
@@ -60,11 +61,11 @@ class ScheduledMeetingData {
   dynamic iV;
   List<RequestStatus>? requestStatus;
   dynamic date;
-  dynamic teacher;
 
   ScheduledMeetingData(
       {this.time,
         this.meetingUrl,
+        this.teacher,
         this.isDeleted,
         this.sId,
         this.school,
@@ -86,8 +87,8 @@ class ScheduledMeetingData {
         this.updatedAt,
         this.iV,
         this.requestStatus,
-        this.date,
-        this.teacher});
+        this.date
+      });
 
   ScheduledMeetingData.fromJson(Map<String, dynamic> json) {
     time = json['time'];
@@ -99,6 +100,7 @@ class ScheduledMeetingData {
     startDate = json['startDate'];
     endDate = json['endDate'];
     reason = json['reason'];
+    teacher = json['teacher'] != null ? new Teacher.fromJson(json['teacher']) : null;
     meetingFeedBackRating = json['meetingFeedBackRating'];
     meetingFeedBackDesc = json['meetingFeedBackDesc'];
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
@@ -125,7 +127,6 @@ class ScheduledMeetingData {
     }
     iV = json['__v'];
     date = json['date'];
-    teacher = json['teacher'];
   }
 
   Map<String, dynamic> toJson() {
@@ -134,6 +135,9 @@ class ScheduledMeetingData {
     data['meetingUrl'] = this.meetingUrl;
     data['isDeleted'] = this.isDeleted;
     data['_id'] = this.sId;
+    if (this.teacher != null) {
+      data['teacher'] = this.teacher!.toJson();
+    }
     data['meetingFeedBackRating'] = this.meetingFeedBackRating;
     data['meetingFeedBackDesc'] = this.meetingFeedBackDesc;
     if (this.school != null) {
@@ -171,7 +175,6 @@ class ScheduledMeetingData {
           this.requestStatus!.map((v) => v.toJson()).toList();
     }
     data['date'] = this.date;
-    data['teacher'] = this.teacher;
     return data;
   }
 }
@@ -641,6 +644,162 @@ class RequestStatus {
     data['updatedAt'] = this.updatedAt;
     data['__v'] = this.iV;
     data['time'] = this.time;
+    return data;
+  }
+}
+
+class Teacher {
+  dynamic isMobileVerified;
+  dynamic gender;
+  dynamic idDocument;
+  dynamic deviceType;
+  dynamic parentId;
+  dynamic isDeleted;
+  dynamic sId;
+  dynamic name;
+  dynamic mobile;
+  dynamic dob;
+  dynamic nationality;
+  dynamic emirateId;
+  dynamic emirateIdExpire;
+  dynamic nativeLanguage;
+  dynamic religion;
+  dynamic profilePic;
+  Role? role;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic status;
+
+  Teacher(
+      {this.isMobileVerified,
+        this.gender,
+        this.idDocument,
+        this.deviceType,
+        this.parentId,
+        this.isDeleted,
+        this.sId,
+        this.name,
+        this.mobile,
+        this.dob,
+        this.nationality,
+        this.emirateId,
+        this.emirateIdExpire,
+        this.nativeLanguage,
+        this.religion,
+        this.profilePic,
+        this.role,
+        this.createdBy,
+        this.updatedBy,
+        this.createdAt,
+        this.updatedAt,
+        this.status});
+
+  Teacher.fromJson(Map<String, dynamic> json) {
+    isMobileVerified = json['isMobileVerified'];
+    gender = json['gender'];
+    idDocument = json['idDocument'];
+    deviceType = json['deviceType'];
+    parentId = json['parentId'];
+    isDeleted = json['isDeleted'];
+    sId = json['_id'];
+    name = json['name'];
+    mobile = json['mobile'];
+    dob = json['dob'];
+    nationality = json['nationality'];
+    emirateId = json['emirateId'];
+    emirateIdExpire = json['emirateIdExpire'];
+    nativeLanguage = json['nativeLanguage'];
+    religion = json['religion'];
+    profilePic = json['profilePic'];
+    role = json['role'] != null ? new Role.fromJson(json['role']) : null;
+    createdBy = json['createdBy'];
+    updatedBy = json['updatedBy'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    status = json['status'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['isMobileVerified'] = this.isMobileVerified;
+    data['gender'] = this.gender;
+    data['idDocument'] = this.idDocument;
+    data['deviceType'] = this.deviceType;
+    data['parentId'] = this.parentId;
+    data['isDeleted'] = this.isDeleted;
+    data['_id'] = this.sId;
+    data['name'] = this.name;
+    data['mobile'] = this.mobile;
+    data['dob'] = this.dob;
+    data['nationality'] = this.nationality;
+    data['emirateId'] = this.emirateId;
+    data['emirateIdExpire'] = this.emirateIdExpire;
+    data['nativeLanguage'] = this.nativeLanguage;
+    data['religion'] = this.religion;
+    data['profilePic'] = this.profilePic;
+    if (this.role != null) {
+      data['role'] = this.role!.toJson();
+    }
+    data['createdBy'] = this.createdBy;
+    data['updatedBy'] = this.updatedBy;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    data['status'] = this.status;
+    return data;
+  }
+}
+
+class Role {
+  dynamic isDeleted;
+  dynamic sId;
+  dynamic name;
+  dynamic type;
+  dynamic status;
+  dynamic createdBy;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic filterType;
+  dynamic displayName;
+
+  Role(
+      {this.isDeleted,
+        this.sId,
+        this.name,
+        this.type,
+        this.status,
+        this.createdBy,
+        this.createdAt,
+        this.updatedAt,
+        this.filterType,
+        this.displayName});
+
+  Role.fromJson(Map<String, dynamic> json) {
+    isDeleted = json['isDeleted'];
+    sId = json['_id'];
+    name = json['name'];
+    type = json['type'];
+    status = json['status'];
+    createdBy = json['createdBy'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    filterType = json['filterType'];
+    displayName = json['displayName'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['isDeleted'] = this.isDeleted;
+    data['_id'] = this.sId;
+    data['name'] = this.name;
+    data['type'] = this.type;
+    data['status'] = this.status;
+    data['createdBy'] = this.createdBy;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    data['filterType'] = this.filterType;
+    data['displayName'] = this.displayName;
     return data;
   }
 }

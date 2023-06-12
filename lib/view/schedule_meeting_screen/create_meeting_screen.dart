@@ -94,7 +94,7 @@ class _CreateMeetingScreenState extends State<CreateMeetingScreen> {
                     controller: controller.meetingTypeController.value,
                     hintText: "Meeting Type",
                     isDropDown: true,
-                    errorText: "Please select meeting with",
+                    errorText: "Please select meeting type",
                     items: ["Audio","Video"].map((e){
                       return DropdownMenuItem(
                         value: e,
@@ -105,35 +105,39 @@ class _CreateMeetingScreenState extends State<CreateMeetingScreen> {
                       controller.meetingTypeController.value.text = value;
                     },
                   ),
-                  // BaseTextFormField(
-                  //   controller: controller.dateController.value,
-                  //   title:"Date:",
-                  //   hintText: "Select Date",
-                  //   prefixIcon: calenderDateSvg,
-                  //   onTap: (){
-                  //     showGeneralDialog(
-                  //       context: context,
-                  //       pageBuilder:  (context, animation, secondaryAnimation) {
-                  //         return ChooseMeetingDateTimePopup(title: "Select Date & Time");
-                  //       },
-                  //     );
-                  //   },
-                  // ),
+                  BaseTextFormField(
+                    controller: controller.dateController.value,
+                    title:"Date:",
+                    hintText: "Select Date",
+                    prefixIcon: calenderDateSvg,
+                    onTap: (){
+                      showGeneralDialog(
+                        context: context,
+                        pageBuilder:  (context, animation, secondaryAnimation) {
+                          return ChooseMeetingDateTimePopup(title: "Select Date & Time");
+                        },
+                      );
+                    },
+                    validator: (val){
+                      if (controller.dateController.value.text.isEmpty) {
+                        return "Please select date";
+                      }
+                      return null;
+                    },
+                  ),
                   Row(
                     children: [
                       Text("Selected Slot:", style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: BaseColors.textBlackColor),),
-                      SizedBox(
-                        width: 2.w,
-                      ),
+                      SizedBox(width: 2.w),
                       GestureDetector(
-                        onTap: (){
-                          showGeneralDialog(
-                            context: context,
-                            pageBuilder:  (context, animation, secondaryAnimation) {
-                              return ChooseMeetingDateTimePopup(title: "Select Date & Time",);
-                            },
-                          );
-                        },
+                        // onTap: (){
+                        //   showGeneralDialog(
+                        //     context: context,
+                        //     pageBuilder:  (context, animation, secondaryAnimation) {
+                        //       return ChooseMeetingDateTimePopup(title: "Select Date & Time",);
+                        //     },
+                        //   );
+                        // },
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 3.0),
                           decoration: BoxDecoration(
@@ -141,7 +145,7 @@ class _CreateMeetingScreenState extends State<CreateMeetingScreen> {
                               borderRadius: BorderRadius.circular(50.0),
                               border: Border.all(color: BaseColors.primaryColor)
                           ),
-                          child: addText(controller.selectedTime.value.isEmpty ? TimeOfDay.now().format(context)+":00" : controller.selectedTime.value, 13.sp, BaseColors.primaryColor, FontWeight.w700),
+                          child: addText(controller.selectedTime.value.isEmpty ? "Time" : controller.selectedTime.value, 13.sp, BaseColors.primaryColor, FontWeight.w700),
                         ),
                       )
                     ],

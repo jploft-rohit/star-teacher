@@ -10,10 +10,10 @@ import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/e_library/controller/e_library_controller.dart';
 import 'package:staff_app/view/e_library/create_e_library_assignment.dart';
 import 'package:staff_app/view/e_library/e_library_list_tile.dart';
-import 'package:staff_app/view/new_assignments/create_assignment.dart';
 
 class ELibraryScreen extends StatefulWidget {
-  const ELibraryScreen({Key? key}) : super(key: key);
+  final String? title;
+  const ELibraryScreen({Key? key, this.title}) : super(key: key);
 
   @override
   State<ELibraryScreen> createState() => _ELibraryScreenState();
@@ -25,11 +25,11 @@ class _ELibraryScreenState extends State<ELibraryScreen> with SingleTickerProvid
 
   @override
   void initState() {
+    super.initState();
     tabController = TabController(length: 2, vsync: this)..addListener(() {
       controller.tabIndex.value = tabController.index;
       setState(() {});
     });
-    super.initState();
   }
   @override
   void dispose() {
@@ -40,24 +40,26 @@ class _ELibraryScreenState extends State<ELibraryScreen> with SingleTickerProvid
   Widget build(BuildContext context) {
     return DefaultTabController(
         length: 2,
-        child: Scaffold(
+        child: Obx(()=>Scaffold(
           floatingActionButton: BaseFloatingActionButton(title: 'Add New',onTap: (){
-            Get.to(CreateELibraryAssignment());
+            Get.to(const CreateELibraryAssignment());
           }),
-          appBar: BaseAppBar(title: translate(context).assignments,
-            bottomChild: BaseToggleTabBar(controller: tabController, tabs: [
-              BaseTabButton(title: "Myself", isSelected: tabController.index==0),
-              BaseTabButton(title: "Public", isSelected: tabController.index==1),
-            ],rightMargin: scaffoldPadding,leftMargin: scaffoldPadding),bottomWidgetHeight: 8.h),
+          appBar: BaseAppBar(title: widget.title ?? "Awareness & Courses",
+              bottomChild: BaseToggleTabBar(controller: tabController, tabs: [
+                BaseTabButton(title: "Myself", isSelected: controller.tabIndex.value==0,type: toggleLargeButton),
+                BaseTabButton(title: "Public", isSelected: controller.tabIndex.value==1,type: toggleLargeButton),
+              ],rightMargin: scaffoldPadding,leftMargin: scaffoldPadding,bottomMargin: 1.h),bottomWidgetHeight: 8.h),
           body: Padding(
             padding: EdgeInsets.all(scaffoldPadding),
             child: TabBarView(
                 controller: tabController,
-                children: [
+                physics: const NeverScrollableScrollPhysics(),
+                children: const [
                   ELibraryListTile(),
                   ELibraryListTile(),
                 ]),
           ),
+        ),
         )
     );
   }

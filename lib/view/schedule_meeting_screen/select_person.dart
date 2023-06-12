@@ -139,7 +139,7 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                                 children: [
                                   Container(
                                     padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
-                                    margin: EdgeInsets.only(left: 2),
+                                    margin: EdgeInsets.only(left: 2,bottom: 2,top: 2),
                                     decoration: BoxDecoration(
                                       border: Border.all(
                                           color: BaseColors.primaryColor

@@ -144,8 +144,8 @@ class TaskReminderCtrl extends GetxController{
       remindType.value = data?.type??"daily";
       selectedTime.value = formatTime(DateTime.parse(data?.time??""));
       selectedSpecificDays.value = (data?.typeValue??"").toString().split(",");
-      selectedPdf.value = File((data?.document??""));
-      uploadController.value.text = data?.document.split("/").last??"";
+      selectedPdf.value = File("");
+      uploadController.value.text = (data?.document??"").split("/").last??"";
     }else{
       reminderInput.value.text = "";
       uploadController.value.text = "";

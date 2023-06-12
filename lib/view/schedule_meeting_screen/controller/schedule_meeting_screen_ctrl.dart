@@ -35,12 +35,13 @@ class ScheduleMeetingScreenCtrl extends GetxController{
   Rx<TextEditingController> selectSchoolController = TextEditingController().obs;
   Rx<TextEditingController> searchRoleDataController = TextEditingController().obs;
   Rx<TextEditingController> selectedPersonController = TextEditingController().obs;
+  Rx<TextEditingController> schoolController = TextEditingController().obs;
   Rx<TextEditingController> dateController = TextEditingController().obs;
 
   @override
   void onInit() {
     super.onInit();
-    getScheduledMeetingData(type: "request raised");
+    getScheduledMeetingData();
   }
 
   clearData(){
@@ -54,11 +55,15 @@ class ScheduleMeetingScreenCtrl extends GetxController{
     selectedRoleName.value = "";
     selectedPersonId.value = "";
     selectedTime.value = "";
+    dateController.value.text = "";
   }
 
-  getScheduledMeetingData({type}){
+  getScheduledMeetingData(){
     list?.clear();
-    BaseAPI().get(url: ApiEndPoints().getScheduledMeetings, queryParameters: {"status" : selectedTabIndex.value == 0 ? "request raised" : selectedTabIndex.value == 1 ? "planned" : selectedTabIndex.value == 2 ? "cancelled" : "completed","typeOfRequest":"scheduleMeeting"}).then((value){
+    BaseAPI().get(url: ApiEndPoints().getScheduledMeetings, queryParameters: {
+      "status" : selectedTabIndex.value == 0 ? "request raised" : selectedTabIndex.value == 1 ? "planned" : selectedTabIndex.value == 2 ? "cancelled" : "completed","typeOfRequest":"scheduleMeeting",
+      "school" : selectedSchoolId.value,
+    }).then((value){
       if (value?.statusCode ==  200) {
         list?.value = ScheduledMeetingResponse.fromJson(value?.data).data??[];
       }else{
@@ -76,8 +81,9 @@ class ScheduleMeetingScreenCtrl extends GetxController{
           "user[0]":userId,
           "typeOfRequest":"scheduleMeeting",
           "date":"${(DateFormat('yyyy-MM-dd').format(selectedDay)).toString()}",
-          "time":(selectedTime.value).toString(),
-          "meetingType":meetingTypeController.value.text.trim()
+          "time":(selectedTime.value).toString()+":00",
+          "meetingType":meetingTypeController.value.text.trim(),
+          "teacher":selectedPersonId.value,
         });
         BaseSuccessResponse baseSuccessResponse = BaseSuccessResponse();
         BaseAPI().post(url: ApiEndPoints().scheduleNewMeeting,data: data).then((value){
@@ -125,7 +131,7 @@ class ScheduleMeetingScreenCtrl extends GetxController{
         BaseOverlays().dismissOverlay();
         baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
         BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: "Success");
-        getScheduledMeetingData(type: "request raised");
+        getScheduledMeetingData();
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
       }
@@ -145,7 +151,7 @@ class ScheduleMeetingScreenCtrl extends GetxController{
       if (value?.statusCode ==  200) {
         baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
         BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: "Success");
-        getScheduledMeetingData(type: selectedTabIndex.value == 0 ? "request raised" : selectedTabIndex.value == 1 ? "planned on" : selectedTabIndex.value == 2 ? "cancelled" : "completed");
+        getScheduledMeetingData();
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
       }

@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/backend/responses_model/school_list_response.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
@@ -12,18 +12,12 @@ import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_dropdown_widget.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/dummy_lists.dart';
-import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/Utility/base_utility.dart';
-import 'package:staff_app/view/chat_screen/chating_screen.dart';
-import 'package:staff_app/view/schedule_meeting_screen/choose_meeting_date_time_popup.dart';
+import 'package:staff_app/utility/base_views/base_textformfield.dart';
 import 'package:staff_app/view/schedule_meeting_screen/create_meeting_screen.dart';
-import 'package:staff_app/view/schedule_meeting_screen/meeting_cancel_reason_popup.dart';
 import 'package:staff_app/view/schedule_meeting_screen/controller/schedule_meeting_screen_ctrl.dart';
 import 'package:staff_app/view/schedule_meeting_screen/tabs/schedule_meeting_list_tile.dart';
-import 'package:staff_app/view/task_or_reminder_screen/add_task_or_reminder_screen.dart';
-
+import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 import '../../language_classes/language_constants.dart';
 
 class ScheduleMeetingScreen extends StatefulWidget {
@@ -39,6 +33,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
   final List<String> pendingMeetingdates2 = ['July 2, 8:30PM', 'July 2, 8:30PM', 'July 3, 10:30AM', "July 3, 10:30AM"];
   final List<String> pendingMeetingdates1 = ['July 2, 8:30PM', 'July 3, 10:30AM',];
   ScheduleMeetingScreenCtrl ctrl = Get.put(ScheduleMeetingScreenCtrl());
+  BaseCtrl baseCtrl = Get.find<BaseCtrl>();
   final List<String> heading = [
     'Request\nRaised',
     'Accepted',
@@ -55,6 +50,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
     'Request\nRaised',
     'Request\nCancelled',
   ];
+
   bool isTap = false;
   @override
   void initState() {
@@ -62,7 +58,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
     tabCtrl = TabController(length: 4, vsync: this)..addListener(() {
       ctrl.selectedTabIndex.value = tabCtrl?.index??0;
       ctrl.stepperTimeDate.value = ["","","",""];
-      ctrl.getScheduledMeetingData(type: ctrl.selectedTabIndex.value == 0 ? "request raised" : ctrl.selectedTabIndex.value == 1 ? "planned" : ctrl.selectedTabIndex.value == 2 ? "cancelled" : "completed");
+      ctrl.getScheduledMeetingData();
     });
   }
   @override
@@ -77,21 +73,22 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
         padding: EdgeInsets.all(15.sp),
         child: Column(
           children: [
-            CustomDropDown(
-              initialValue: DummyLists.initialSchool,
-              hintText: "Select School",
-              listData:DummyLists.schoolData,
-              onChange: (value) {
-                setState(() {
-                  DummyLists.initialSchool=value;
-                });
+            BaseTextFormField(
+              controller: ctrl.schoolController.value,
+              errorText: "Please select school",
+              isDropDown: true,
+              hintText: ctrl.schoolController.value.text.isEmpty ? "Select School" : ctrl.schoolController.value.text,
+              items: baseCtrl.schoolListData.data?.data?.map((SchoolData data){
+                return DropdownMenuItem(
+                  value: data,
+                  child: addText(data.name??"", 15.sp, Colors.black, FontWeight.w400),
+                );
+              }).toList(),
+              onChanged: (value) async {
+                ctrl.schoolController.value.text = value?.name??"";
+                ctrl.selectedSchoolId.value = value?.sId??"";
+                ctrl.getScheduledMeetingData();
               },
-              topPadding: 5,
-              bottomPadding: 5,
-              icon: Icon(Icons.arrow_drop_down,color: Color(0xFFC4C4C4),size: 25),
-            ),
-            SizedBox(
-              height: 2.h,
             ),
             buildTabBar(),
             SizedBox(

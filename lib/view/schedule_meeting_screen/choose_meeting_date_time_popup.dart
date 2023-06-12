@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:staff_app/backend/responses_model/scheduled_meeting_response.dart';
+import 'package:staff_app/utility/intl/src/intl/date_format.dart';
 import 'package:staff_app/view/schedule_meeting_screen/controller/schedule_meeting_screen_ctrl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:get/get.dart';
@@ -19,19 +20,19 @@ class ChooseMeetingDateTimePopup extends StatefulWidget {
 class _ChooseMeetingDateTimePopupState extends State<ChooseMeetingDateTimePopup> {
   List<Map<String, dynamic>> list = [
     {
-      "title":"09:00:00",
+      "title":"09:00",
       "isSelected":true,
     },
     {
-      "title":"09:30:00",
+      "title":"09:30",
       "isSelected":false,
     },
     {
-      "title":"10:00:00",
+      "title":"10:00",
       "isSelected":false,
     },
     {
-      "title":"10:30:00",
+      "title":"10:30",
       "isSelected":false,
     },
   ];
@@ -133,6 +134,7 @@ class _ChooseMeetingDateTimePopupState extends State<ChooseMeetingDateTimePopup>
                       onDaySelected: (DateTime selectDay, DateTime focusDay) {
                         controller.selectedDay = selectDay;
                         controller.focusedDay = focusDay;
+                        controller.dateController.value.text = "${(DateFormat('yyyy-MM-dd').format(controller.selectedDay)).toString()}";
                         controller.update();
                       },
                       selectedDayPredicate: (DateTime date) {

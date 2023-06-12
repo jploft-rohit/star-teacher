@@ -13,7 +13,6 @@ import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/show_document.dart';
 import 'package:staff_app/view/Dashboard_screen/dashboard_screen_ctrl.dart';
-import 'package:staff_app/view/salary_slip_screen/salary_slip_poup.dart';
 import 'package:staff_app/view/task_or_reminder_screen/add_task_or_reminder_screen.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/view/task_or_reminder_screen/controller/task_reminder_ctrl.dart';
@@ -32,28 +31,26 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
   TaskReminderCtrl controller = Get.put(TaskReminderCtrl());
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: BaseAppBar(title: translate(context).task_or_reminder,
-          onBackPressed: (){
-          if(widget.isFromBtmBar){
-            ctrl.bottomNavigationKey.currentState?.setPage(2);
-          }else{
-            Navigator.pop(context);
-           }
-          }
-        ),
-        floatingActionButton: BaseFloatingActionButton(
-          onTap: () {Get.to(const AddTaskOrReminderScreen());},
-          title: translate(context).add_task,
-        ),
-        body: Obx(()=>ListView.builder(
-            itemCount: controller.list?.length??0,
-            padding: EdgeInsets.all(14.sp),
-            itemBuilder: (context, index) {
-              return buildDailyTaskCard(index: index);
-            },
-          ),
+    return Scaffold(
+      appBar: BaseAppBar(title: translate(context).task_or_reminder,
+        onBackPressed: (){
+        if(widget.isFromBtmBar){
+          ctrl.bottomNavigationKey.currentState?.setPage(2);
+        }else{
+          Navigator.pop(context);
+         }
+        }
+      ),
+      floatingActionButton: BaseFloatingActionButton(
+        onTap: () {Get.to(const AddTaskOrReminderScreen());},
+        title: translate(context).add_task,
+      ),
+      body: Obx(()=>ListView.builder(
+          itemCount: controller.list?.length??0,
+          padding: EdgeInsets.all(14.sp),
+          itemBuilder: (context, index) {
+            return buildDailyTaskCard(index: index);
+          },
         ),
       ),
     );
@@ -106,7 +103,7 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
               ),
               RichText(
                 text: TextSpan(
-                  text: '${translate(context).remind_star} : ',
+                  text: 'Reminder : ',
                   style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),
                   children: <TextSpan>[
                     TextSpan(text: toBeginningOfSentenceCase(controller.list?[index].type??na)??na, style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp, height: 1.2)),
@@ -147,7 +144,7 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
                         secondaryAnimation) {
                       return ShowPdfViewDialog(
                         url: (ApiEndPoints().imageBaseUrl) + controller.list?[index].document??"",
-                        title: "Feedback & Help",
+                        title: "Task & Reminder",
                       );
                     },);
                 }else{

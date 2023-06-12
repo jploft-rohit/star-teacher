@@ -20,7 +20,6 @@ class CustomFilterDropDown extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        height: 4.h,
         alignment: Alignment.center,
         child: Stack(
           alignment: Alignment.center,
@@ -32,7 +31,7 @@ class CustomFilterDropDown extends StatelessWidget {
                   iconStyleData: IconStyleData(
                     icon: Icon(Icons.arrow_drop_down, color: ColorConstants.black,),
                   ),
-                  dropdownStyleData: DropdownStyleData(offset: Offset(0,-10)),
+                  dropdownStyleData: DropdownStyleData(offset: Offset(0,-10),maxHeight: 45.h),
                   //menuItemStyleData: MenuItemStyleData(padding: EdgeInsets.symmetric(horizontal: 2.h),),
                   alignment: AlignmentDirectional.centerStart,
                   hint: Padding(

@@ -50,230 +50,228 @@ class _AddTaskOrReminderScreenState extends State<AddTaskOrReminderScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: BaseAppBar(title: widget.isUpdating ? "Edit Task or Reminder" : translate(context).add_task_or_remainders),
-      body: SafeArea(
-        bottom: false,
-        child: Obx(()=>Form(
-          key: controller.formKey,
-          child: ListView(
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15.0),
-              children: [
-                addText(translate(context).when_to_remind, 16, Colors.black, FontWeight.normal),
-                SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        SizedBox(
-                          height: 15,
-                          width: 15,
-                          child: Radio(
-                            value: "daily",
-                            groupValue: controller.remindType.value,
-                            activeColor: MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
-                            fillColor:
-                            MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
-                            onChanged: (value){
-                              controller.remindType.value = value.toString();
+      body: Obx(()=>Form(
+        key: controller.formKey,
+        child: ListView(
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15.0),
+            children: [
+              addText(translate(context).when_to_remind, 16, Colors.black, FontWeight.normal),
+              SizedBox(height: 15),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                        height: 15,
+                        width: 15,
+                        child: Radio(
+                          value: "daily",
+                          groupValue: controller.remindType.value,
+                          activeColor: MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
+                          fillColor:
+                          MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
+                          onChanged: (value){
+                            controller.remindType.value = value.toString();
+                            controller.isShowDate.value = false;
+                          },
+                        ),
+                      ),
+                      SizedBox(width: 5),
+                      addText(translate(context).daily, radioButtonTitleTs, Colors.black, FontWeight.w400)
+                    ],
+                  ),
+                  SizedBox(width: 20),
+                  Row(
+                    children: [
+                      SizedBox(
+                        height: 15,
+                        width: 15,
+                        child: Radio(
+                          value: "specific_days",
+                          activeColor: MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
+                          fillColor:
+                          MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
+                          groupValue: controller.remindType.value,
+                          onChanged: (value){
+                            controller.remindType.value = value.toString();
+                            setState(() {
                               controller.isShowDate.value = false;
-                            },
-                          ),
+                            });
+                          },
                         ),
-                        SizedBox(width: 5),
-                        addText(translate(context).daily, radioButtonTitleTs, Colors.black, FontWeight.w400)
-                      ],
-                    ),
-                    SizedBox(width: 20),
-                    Row(
-                      children: [
-                        SizedBox(
-                          height: 15,
-                          width: 15,
-                          child: Radio(
-                            value: "specific_days",
-                            activeColor: MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
-                            fillColor:
-                            MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
-                            groupValue: controller.remindType.value,
-                            onChanged: (value){
-                              controller.remindType.value = value.toString();
-                              setState(() {
-                                controller.isShowDate.value = false;
-                              });
-                            },
-                          ),
+                      ),
+                      SizedBox(width: 5),
+                      addText(translate(context).specific_days, radioButtonTitleTs, Colors.black, FontWeight.w400)
+                    ],
+                  ),
+                  SizedBox(width: 20),
+                  Row(
+                    children: [
+                      SizedBox(
+                        height: 15,
+                        width: 15,
+                        child: Radio(
+                          value: "specific_date",
+                          activeColor: MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
+                          fillColor: MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
+                          groupValue: controller.remindType.value,
+                          onChanged: (value){
+                            controller.remindType.value = value.toString();
+                            setState(() {
+                              controller.isShowDate.value = true;
+                             },
+                           );
+                          },
                         ),
-                        SizedBox(width: 5),
-                        addText(translate(context).specific_days, radioButtonTitleTs, Colors.black, FontWeight.w400)
-                      ],
-                    ),
-                    SizedBox(width: 20),
-                    Row(
-                      children: [
-                        SizedBox(
-                          height: 15,
-                          width: 15,
-                          child: Radio(
-                            value: "specific_date",
-                            activeColor: MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
-                            fillColor: MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
-                            groupValue: controller.remindType.value,
-                            onChanged: (value){
-                              controller.remindType.value = value.toString();
-                              setState(() {
-                                controller.isShowDate.value = true;
-                               },
-                             );
-                            },
-                          ),
-                        ),
-                        SizedBox(width: 5,),
-                        addText(translate(context).specific_date, radioButtonTitleTs, Colors.black, FontWeight.w400)
-                      ],
-                    ),
-                  ],
-                ),
-                controller.remindType.value=="specific_days" ? Card(
-                  elevation: 4.0,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
-                  margin: EdgeInsets.only(top: 15),
-                  child:  GridView.builder(
-                    shrinkWrap: true,
-                    physics: const ClampingScrollPhysics(),
-                    padding: EdgeInsets.all(10),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      mainAxisSpacing: 5,
-                      crossAxisSpacing: 5,
-                      mainAxisExtent: MediaQuery.of(context).size.height*0.03,
-                    ),
-                    itemCount: controller.specificDaysList.length,
-                    itemBuilder: (context, index) =>
-                        Row(
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(top: 3),
-                              child: Transform.scale(
-                                scale: 0.8,
-                                child: SizedBox(
-                                  width: 20,
-                                  child: Checkbox(
-                                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                    value: controller.selectedSpecificDays.contains((controller.specificDaysList[index])),
-                                    activeColor: Color(0xFFF7F7F7),
-                                    checkColor: Color(0xFFC19444),
-                                    side: MaterialStateBorderSide.resolveWith((Set<MaterialState> states) {
-                                        if (states.contains(MaterialState.selected)) {
-                                          return const BorderSide(color: Color(0xFFC19444));
-                                        }
+                      ),
+                      SizedBox(width: 5,),
+                      addText(translate(context).specific_date, radioButtonTitleTs, Colors.black, FontWeight.w400)
+                    ],
+                  ),
+                ],
+              ),
+              controller.remindType.value=="specific_days" ? Card(
+                elevation: 4.0,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
+                margin: EdgeInsets.only(top: 15),
+                child:  GridView.builder(
+                  shrinkWrap: true,
+                  physics: const ClampingScrollPhysics(),
+                  padding: EdgeInsets.all(10),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    mainAxisSpacing: 5,
+                    crossAxisSpacing: 5,
+                    mainAxisExtent: MediaQuery.of(context).size.height*0.03,
+                  ),
+                  itemCount: controller.specificDaysList.length,
+                  itemBuilder: (context, index) =>
+                      Row(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(top: 3),
+                            child: Transform.scale(
+                              scale: 0.8,
+                              child: SizedBox(
+                                width: 20,
+                                child: Checkbox(
+                                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                  value: controller.selectedSpecificDays.contains((controller.specificDaysList[index])),
+                                  activeColor: Color(0xFFF7F7F7),
+                                  checkColor: Color(0xFFC19444),
+                                  side: MaterialStateBorderSide.resolveWith((Set<MaterialState> states) {
+                                      if (states.contains(MaterialState.selected)) {
                                         return const BorderSide(color: Color(0xFFC19444));
-                                      },
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        if (controller.selectedSpecificDays.contains(controller.specificDaysList[index])) {
-                                          controller.selectedSpecificDays.remove(controller.specificDaysList[index]);  // unselect
-                                        } else {
-                                          controller.selectedSpecificDays.add(controller.specificDaysList[index]); // select
-                                        }
-                                      });
-                                      print(controller.selectedSpecificDays);
+                                      }
+                                      return const BorderSide(color: Color(0xFFC19444));
                                     },
                                   ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      if (controller.selectedSpecificDays.contains(controller.specificDaysList[index])) {
+                                        controller.selectedSpecificDays.remove(controller.specificDaysList[index]);  // unselect
+                                      } else {
+                                        controller.selectedSpecificDays.add(controller.specificDaysList[index]); // select
+                                      }
+                                    });
+                                    print(controller.selectedSpecificDays);
+                                  },
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              width: 1.w,
-                            ),
-                            addText(controller.specificDaysList[index], 13, Colors.black, FontWeight.normal)
-                            ////SizedBox/Text
-                          ], //<Widget>[]
-                        ), //R
-                  ),
-                ):SizedBox.shrink(),
-                TimePickerDialogs(
-                    initialTime: widget.isUpdating ? TimeOfDay(
-                        hour: int.parse(controller.updatedTime[0]),
-                        minute: int.parse(controller.updatedTime[1])) : TimeOfDay.now(),
-                    isShowdate: controller.isShowDate.value,
-                    onChange: (v){
-                      String localTime = "${(v?.hour??0) <= 9 ? "0" + (v?.hour??0).toString() : (v?.hour??0)}:"+"${(v?.minute??0) <= 9 ? "0"+(v?.minute??0).toString():(v?.minute??0)}";
-                      controller.selectedTime.value = localTime;
-                    },
+                          ),
+                          SizedBox(
+                            width: 1.w,
+                          ),
+                          addText(controller.specificDaysList[index], 13, Colors.black, FontWeight.normal)
+                          ////SizedBox/Text
+                        ], //<Widget>[]
+                      ), //R
                 ),
-                Visibility(
-                  visible: controller.remindType.value == "specific_date",
-                  child: DatePicker(
-                    DateTime.now(),
-                    initialSelectedDate: widget.isUpdating
-                        ? DateTime(
-                            int.parse(controller.updatedDate[2]),
-                            int.parse(controller.updatedDate[1]),
-                            int.parse(controller.updatedDate[0]),
-                          )
-                        : DateTime.now(),
-                    selectionColor: Colors.white,
-                    selectedTextColor: Colors.black,
-                    monthTextStyle: TextStyle(color: Color(0xFF7E7E7E),fontSize: 10),
-                    dateTextStyle: TextStyle(color: Color(0xFF7E7E7E),fontSize: 20),
-                    dayTextStyle: TextStyle(color: Color(0xFF7E7E7E),fontSize: 10),
-                    onDateChange: (date) {
-                      controller.selectedDate.value = getFormattedDate(date.toString());
-                    },
-                  ),
-                ),
-                SizedBox(height: 15),
-                CustomTextField(
-                  controller: controller.reminderInput.value,
-                  hintText: translate(context).reminder_text,
-                  maxLine: 4,
-                  validator: (val){
-                    if(controller.reminderInput.value.text.isEmpty){
-                      return "Reminder can't be empty";
-                    }
-                    return null;
+              ):SizedBox.shrink(),
+              TimePickerDialogs(
+                  initialTime: widget.isUpdating ? TimeOfDay(
+                      hour: int.parse(controller.updatedTime[0]),
+                      minute: int.parse(controller.updatedTime[1])) : TimeOfDay.now(),
+                  isShowdate: controller.isShowDate.value,
+                  onChange: (v){
+                    String localTime = "${(v?.hour??0) <= 9 ? "0" + (v?.hour??0).toString() : (v?.hour??0)}:"+"${(v?.minute??0) <= 9 ? "0"+(v?.minute??0).toString():(v?.minute??0)}";
+                    controller.selectedTime.value = localTime;
+                  },
+              ),
+              Visibility(
+                visible: controller.remindType.value == "specific_date",
+                child: DatePicker(
+                  DateTime.now(),
+                  initialSelectedDate: widget.isUpdating
+                      ? DateTime(
+                          int.parse(controller.updatedDate[2]),
+                          int.parse(controller.updatedDate[1]),
+                          int.parse(controller.updatedDate[0]),
+                        )
+                      : DateTime.now(),
+                  selectionColor: Colors.white,
+                  selectedTextColor: Colors.black,
+                  monthTextStyle: TextStyle(color: Color(0xFF7E7E7E),fontSize: 10),
+                  dateTextStyle: TextStyle(color: Color(0xFF7E7E7E),fontSize: 20),
+                  dayTextStyle: TextStyle(color: Color(0xFF7E7E7E),fontSize: 10),
+                  onDateChange: (date) {
+                    controller.selectedDate.value = getFormattedDate(date.toString());
                   },
                 ),
-                SizedBox(height: 2.h),
-                CustomTextField(controller: controller.uploadController.value, hintText: translate(context).upload_file_or_photo,
-                      suffixIcon: Padding(
-                        padding: EdgeInsets.only(right: 10),
-                        child: SvgPicture.asset("assets/images/upload_icon.svg"),
-                      ),
-                      readOnly: true,
-                      onTap: () async {
-                      File uploadID;
-                      var uploadImage = await FilePicker.platform.pickFiles(
-                        allowMultiple: false,
-                        allowedExtensions: ['pdf'],
-                        type: FileType.custom,
-                      );
-                      if(uploadImage != null)
-                      {
-                        uploadID = File(uploadImage.files.first.path??"");
-                        controller.selectedPdf.value = uploadID;
-                        setState(() {});
-                        controller.uploadController.value.text = uploadID.path.split("/").last;
-                      }},
-                      fillColor: BaseColors.txtFieldTextColor,
-                ),
-                SizedBox(height: 10),
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: BaseButton(title: translate(context).set_reminder.toUpperCase(), onPressed: (){
-                    if (widget.isUpdating) {
-                      controller.updateTaskReminder(id: widget.data?.sId??"");
-                    }else{
-                      controller.createTaskReminder();
-                    }
-                  },btnType: largeButton),
-                ),
-              ],
-            ),
+              ),
+              SizedBox(height: 15),
+              CustomTextField(
+                controller: controller.reminderInput.value,
+                hintText: translate(context).reminder_text,
+                maxLine: 4,
+                validator: (val){
+                  if(controller.reminderInput.value.text.isEmpty){
+                    return "Reminder can't be empty";
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 2.h),
+              CustomTextField(controller: controller.uploadController.value,
+                hintText: translate(context).upload_file_or_photo,
+                    suffixIcon: Padding(
+                      padding: EdgeInsets.only(right: 10),
+                      child: SvgPicture.asset("assets/images/upload_icon.svg"),
+                    ),
+                    readOnly: true,
+                    onTap: () async {
+                    File uploadID;
+                    var uploadImage = await FilePicker.platform.pickFiles(
+                      allowMultiple: false,
+                      allowedExtensions: ['pdf'],
+                      type: FileType.custom,
+                    );
+                    if(uploadImage != null)
+                    {
+                      uploadID = File(uploadImage.files.first.path??"");
+                      controller.selectedPdf.value = uploadID;
+                      setState(() {});
+                      controller.uploadController.value.text = uploadID.path.split("/").last;
+                    }},
+                    fillColor: BaseColors.txtFieldTextColor,
+              ),
+              SizedBox(height: 10),
+              Align(
+                alignment: Alignment.topCenter,
+                child: BaseButton(title: translate(context).set_reminder.toUpperCase(), onPressed: (){
+                  if (widget.isUpdating) {
+                    controller.updateTaskReminder(id: widget.data?.sId??"");
+                  }else{
+                    controller.createTaskReminder();
+                  }
+                },btnType: largeButton),
+              ),
+            ],
           ),
         ),
       ),
