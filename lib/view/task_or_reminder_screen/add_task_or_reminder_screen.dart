@@ -90,8 +90,7 @@ class _AddTaskOrReminderScreenState extends State<AddTaskOrReminderScreen> {
                         child: Radio(
                           value: "specific_days",
                           activeColor: MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
-                          fillColor:
-                          MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
+                          fillColor: MaterialStateColor.resolveWith((states) => BaseColors.primaryColor),
                           groupValue: controller.remindType.value,
                           onChanged: (value){
                             controller.remindType.value = value.toString();
@@ -148,7 +147,7 @@ class _AddTaskOrReminderScreenState extends State<AddTaskOrReminderScreen> {
                   itemCount: controller.specificDaysList.length,
                   itemBuilder: (context, index) =>
                       Row(
-                        children: <Widget>[
+                        children: [
                           Padding(
                             padding: const EdgeInsets.only(top: 3),
                             child: Transform.scale(
@@ -257,7 +256,8 @@ class _AddTaskOrReminderScreenState extends State<AddTaskOrReminderScreen> {
                       controller.selectedPdf.value = uploadID;
                       setState(() {});
                       controller.uploadController.value.text = uploadID.path.split("/").last;
-                    }},
+                    }
+                    },
                     fillColor: BaseColors.txtFieldTextColor,
               ),
               SizedBox(height: 10),

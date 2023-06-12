@@ -132,7 +132,7 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
                 if(!((controller.list?[index].document??"").toString().contains("pdf"))){
                   baseToast(message: "File is not PDF");
                 }
-                downloadAndShowNotification(fileUrl: controller.list?[index].document??"");
+                downloadFile(url: controller.list?[index].document??"");
               },child: SvgPicture.asset(salarySlipDownloadSvg, height: 18.0,)),
               SizedBox(
                 width: 2.w,

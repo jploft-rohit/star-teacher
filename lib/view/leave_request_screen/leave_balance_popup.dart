@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/utility/base_views/base_loader.dart';
+import 'package:staff_app/view/leave_request_screen/controller/leave_request_ctrl.dart';
 
 class LeaveBalancePopup extends StatefulWidget {
   const LeaveBalancePopup({Key? key}) : super(key: key);
@@ -14,7 +17,7 @@ class LeaveBalancePopup extends StatefulWidget {
 }
 
 class _LeaveBalancePopupState extends State<LeaveBalancePopup> {
-
+  LeaveRequestCtrl controller = Get.find<LeaveRequestCtrl>();
   List<Map<String, dynamic>> leaveBalanceList = [
     {
       "title": "Annual leave",
@@ -73,8 +76,13 @@ class _LeaveBalancePopupState extends State<LeaveBalancePopup> {
     },
 
   ];
-
   final tooltipController = JustTheController();
+
+  @override
+  void initState() {
+    super.initState();
+    controller.getLeaveBalance();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -132,88 +140,90 @@ class _LeaveBalancePopupState extends State<LeaveBalancePopup> {
                   ),
                 ),
                 Divider(),
-                ListView.builder(
-                  itemCount: leaveBalanceList.length,
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        Container(
-                          color: Colors.white,
-                          child: Table(
-                            border: TableBorder.all(color: Colors.transparent),
-                            columnWidths: const {
-                              0: FlexColumnWidth(3),
-                              1: FlexColumnWidth(1.5),
-                              2: FlexColumnWidth(1),
-                            },
-                            children: [
-                              TableRow(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(leaveBalanceList[index]['title'], style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
-                                        SizedBox(
-                                          width: 2.w,
-                                        ),
-                                        // GestureDetector(
-                                        //   onTap: (){
-                                        //     SuperTooltip(
-                                        //       popupDirection: TooltipDirection.down,
-                                        //       content: new Material(
-                                        //           child: Text(
-                                        //             "Lorem ipsum dolor sit amet, consetetur sadipscingelitr, "
-                                        //                 "sed diam nonumy eirmod tempor invidunt ut laboreet dolore magna aliquyam erat, "
-                                        //                 "sed diam voluptua. At vero eos et accusam et justoduo dolores et ea rebum. ",
-                                        //             softWrap: true,
-                                        //           )),
-                                        //     ).show(context);
-                                        //   },
-                                        //   child: SvgPicture.asset("assets/images/information-button(1) 1.svg"),)
-                                        Tooltip(
-                                          showDuration: const Duration(seconds: 10),
-                                          margin: const EdgeInsets.symmetric(horizontal: 30),
-                                          textStyle: TextStyle(
-                                            color: BaseColors.primaryColor,
-                                            fontSize: 1.8.h - 1,
+                Obx(()=> controller.isLeaveBalanceLoading.value
+                      ? BaseLoader()
+                      : ListView.builder(
+                        itemCount: controller.leaveBalanceList?.length??0,
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        padding: EdgeInsets.zero,
+                        itemBuilder: (context, index) {
+                        return Column(
+                        children: [
+                          Container(
+                            color: Colors.white,
+                            child: Table(
+                              border: TableBorder.all(color: Colors.transparent),
+                              columnWidths: const {
+                                0: FlexColumnWidth(3),
+                                1: FlexColumnWidth(1.5),
+                                2: FlexColumnWidth(1),
+                              },
+                              children: [
+                                TableRow(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(controller.leaveBalanceList?[index].leaveType?.name??"", style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
+                                          SizedBox(
+                                            width: 2.w,
                                           ),
-                                          decoration: BoxDecoration(
-                                            color: BaseColors.secondaryColor,
-                                            border: Border.all(color: BaseColors.primaryColor),
-                                            // boxShadow: [getDeepBoxShadow()],
-                                            borderRadius: BorderRadius.circular(20),
-                                          ),
-                                          triggerMode: TooltipTriggerMode.tap,
-                                          padding: const EdgeInsets.symmetric(horizontal: 6),
-                                          // controller: tooltipController,
-                                          // tailBaseWidth: 10,
-                                          // tailLength: 10,
-                                          // elevation: 10.0,
-                                          // borderRadius: BorderRadius.circular(10.0),
-                                          // child: Material(
-                                          //   shape: const CircleBorder(),
-                                          //   elevation: 4.0,
-                                          //   child: SvgPicture.asset("assets/images/information-button(1) 1.svg"),
-                                          // ),
-                                          message: "Medical Certificate Health",
-                                          child:  SvgPicture.asset("assets/images/information-button(1) 1.svg"),
-                                        )
-                                      ],
-                                    ),
-                                    Text(leaveBalanceList[index]['balance'], style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
-                                    Text(leaveBalanceList[index]['balance'], style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
-                                  ]),
-                            ],
+                                          // GestureDetector(
+                                          //   onTap: (){
+                                          //     SuperTooltip(
+                                          //       popupDirection: TooltipDirection.down,
+                                          //       content: new Material(
+                                          //           child: Text(
+                                          //             "Lorem ipsum dolor sit amet, consetetur sadipscingelitr, "
+                                          //                 "sed diam nonumy eirmod tempor invidunt ut laboreet dolore magna aliquyam erat, "
+                                          //                 "sed diam voluptua. At vero eos et accusam et justoduo dolores et ea rebum. ",
+                                          //             softWrap: true,
+                                          //           )),
+                                          //     ).show(context);
+                                          //   },
+                                          //   child: SvgPicture.asset("assets/images/information-button(1) 1.svg"),)
+                                          Tooltip(
+                                            showDuration: const Duration(seconds: 10),
+                                            margin: const EdgeInsets.symmetric(horizontal: 30),
+                                            textStyle: TextStyle(
+                                              color: BaseColors.primaryColor,
+                                              fontSize: 1.8.h - 1,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: BaseColors.secondaryColor,
+                                              border: Border.all(color: BaseColors.primaryColor),
+                                              // boxShadow: [getDeepBoxShadow()],
+                                              borderRadius: BorderRadius.circular(20),
+                                            ),
+                                            triggerMode: TooltipTriggerMode.tap,
+                                            padding: const EdgeInsets.symmetric(horizontal: 6),
+                                            // controller: tooltipController,
+                                            // tailBaseWidth: 10,
+                                            // tailLength: 10,
+                                            // elevation: 10.0,
+                                            // borderRadius: BorderRadius.circular(10.0),
+                                            // child: Material(
+                                            //   shape: const CircleBorder(),
+                                            //   elevation: 4.0,
+                                            //   child: SvgPicture.asset("assets/images/information-button(1) 1.svg"),
+                                            // ),
+                                            message: controller.leaveBalanceList?[index].leaveType?.description??"N/A",
+                                            child:  SvgPicture.asset("assets/images/information-button(1) 1.svg"),
+                                          )
+                                        ],
+                                      ),
+                                      Text(controller.leaveBalanceList?[index].totalLeave??"N/A", style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
+                                      Text(controller.leaveBalanceList?[index].remainLeave??"N/A", style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
+                                    ]),
+                              ],
+                            ),
                           ),
-                        ),
-                        if(leaveBalanceList.length - 1 != index)
-                        Divider(),
-                      ],
-                    );
-                  },
+                          if(leaveBalanceList.length - 1 != index)
+                          Divider(),
+                        ],
+                      );
+                    },
+                  ),
                 ),
               ],
             ),

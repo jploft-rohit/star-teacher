@@ -138,7 +138,7 @@ class _RequestOnlineClassesDetailState extends State<RequestOnlineClassesDetail>
                               showGeneralDialog(
                                 context: context,
                                 pageBuilder:  (context, animation, secondaryAnimation) {
-                                  return const UploadEvidencePopup();
+                                  return const UploadEvidencePopup(id: '');
                                 },
                               );
                             },

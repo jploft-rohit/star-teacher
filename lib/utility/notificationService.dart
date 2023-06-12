@@ -59,7 +59,7 @@ class NotificationService {
           iOS: DarwinInitializationSettings()
       );
       _notificationsPlugin.initialize(initializationSettings,onDidReceiveNotificationResponse: (payload)async{
-        print("on clivk ${payload.payload}");
+        print("on click ${payload.payload}");
         if (payload.payload != null) {
           final result = await OpenFile.open(filePath);
 
@@ -92,6 +92,41 @@ class NotificationService {
             );
           }
         }
+      });
+    } on Exception catch (e) {
+      print(e);
+    }
+  }
+
+  static void showMessage(int id,String title,String body) async {
+    try {
+      final id = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+      NotificationDetails notificationDetails = NotificationDetails(
+          android: AndroidNotificationDetails(
+            "Star Admin",
+            "pushnotificationappchannel",
+            icon: '@mipmap/ic_launcher',
+            importance: Importance.max,
+            priority: Priority.high,
+            playSound: true,
+          ),
+          iOS: DarwinNotificationDetails(presentAlert: true,presentSound: true)
+      );
+
+      await _notificationsPlugin.show(
+        id,
+        title,
+        body,
+        notificationDetails,
+      );
+      const InitializationSettings initializationSettings =
+      InitializationSettings(
+          android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+          iOS: DarwinInitializationSettings()
+      );
+      _notificationsPlugin.initialize(initializationSettings,onDidReceiveNotificationResponse: (payload)async{
+        print("on onclick ${payload.payload}");
+        if (payload.payload != null) {}
       });
     } on Exception catch (e) {
       print(e);

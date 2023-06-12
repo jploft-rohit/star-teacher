@@ -47,13 +47,14 @@ class BaseIcons{
   }
 
   /// View Icon With Functionality
-  view({String? title, Function()? onRightButtonPressed,double? leftMargin, double? rightMargin, double? topMargin, double? bottomMargin}){
+  view({bool? concatBaseUrl,String? title,String? url, Function()? onRightButtonPressed,double? leftMargin, double? rightMargin, double? topMargin, double? bottomMargin}){
     return GestureDetector(
       onTap: (){
-        BaseOverlays().showConfirmationDialog(
-            title: title??"Are you sure you want to view this data?",
-            onRightButtonPressed: onRightButtonPressed??(){BaseOverlays().dismissOverlay();}
-        );
+        if ((url??"").contains("pdf")) {
+          BaseOverlays().viewPdfDialog(url: url,concatBaseUrl: concatBaseUrl);
+        }else{
+          BaseOverlays().viewPhoto(url: url,concatBaseUrl: false);
+        }
       },
       child: Padding(
           padding: EdgeInsets.only(top: topMargin??0,bottom: bottomMargin??0,right: rightMargin??0,left: leftMargin??0),
@@ -68,7 +69,9 @@ class BaseIcons{
       onTap: (){
         BaseOverlays().showConfirmationDialog(
             title: title??"Are you sure you want to download this data?",
-            onRightButtonPressed: onRightButtonPressed??(){BaseOverlays().dismissOverlay();}
+            onRightButtonPressed: onRightButtonPressed??(){
+              BaseOverlays().dismissOverlay();
+            }
         );
       },
       child: Padding(

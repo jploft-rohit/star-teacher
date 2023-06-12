@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
@@ -10,6 +12,7 @@ import 'package:staff_app/Utility/otp_txt_field.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/utility/base_views/show_document.dart';
 import 'package:staff_app/utility/custom_text_field.dart';
 
 class BaseOverlays {
@@ -312,77 +315,163 @@ class BaseOverlays {
         });
   }
 
-  XFile? showMediaPickerDialog() {
+  showMediaPickerDialog({Function()? onCameraClick, Function()? onGalleryClick}) {
     final ImagePicker picker = ImagePicker();
     XFile? imageData;
     showGeneralDialog(
-        context: Get.context!,
-        barrierDismissible: true,
-        barrierLabel: "",
-        pageBuilder: (context, a1, a2) {
-          return Dialog(
-            insetPadding: EdgeInsets.symmetric(horizontal: 3.w),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(14))),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(height: 12),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: GestureDetector(
-                        onTap: () {
-                          Get.back();
-                        },
-                        child: SvgPicture.asset("assets/images/ic_close.svg",
-                            height: 16)),
-                  ),
-                  SizedBox(height: 16),
-                  Row(
-                    children: [
-                      Expanded(
-                          child: GestureDetector(
-                        onTap: () async {
-                          Get.back();
-                          imageData = await picker.pickImage(source: ImageSource.camera);
-                        },
-                        child: Column(
-                          children: [
-                            Icon(Icons.camera_alt_outlined,
-                                color: BaseColors.primaryColor, size: 60),
-                            SizedBox(height: 8),
-                            Text("Camera"),
-                          ],
-                        ),
-                      )),
-                      Expanded(
-                          child: GestureDetector(
-                        onTap: () async {
-                          Get.back();
-                          imageData = await picker.pickImage(
-                              source: ImageSource.gallery);
-                        },
-                        child: Column(
-                          children: [
-                            Icon(Icons.photo_library_outlined,
-                                color: BaseColors.primaryColor, size: 60),
-                            SizedBox(height: 8),
-                            Text("Gallery"),
-                          ],
-                        ),
-                      )),
-                    ],
-                  ),
-                  const SizedBox(height: 40),
-                ],
-              ),
+      context: Get.context!,
+      barrierDismissible: true,
+      barrierLabel: "",
+      pageBuilder: (context, a1, a2) {
+        return Dialog(
+          insetPadding: EdgeInsets.symmetric(horizontal: 3.w),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(14))),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(height: 12),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: GestureDetector(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: SvgPicture.asset("assets/images/ic_close.svg",
+                          height: 16)),
+                ),
+                SizedBox(height: 16),
+                Row(
+                  children: [
+                    Expanded(
+                        child: GestureDetector(
+                          onTap: onCameraClick ?? () async {
+                            Get.back();
+                            await picker.pickImage(source: ImageSource.camera).then((value){
+                              if (value != null) {
+                                imageData = value;
+                              }
+                            });
+                          },
+                          child: Column(
+                            children: [
+                              Icon(Icons.camera_alt_outlined,
+                                  color: BaseColors.primaryColor, size: 60),
+                              SizedBox(height: 8),
+                              Text("Camera"),
+                            ],
+                          ),
+                        )),
+                    Expanded(
+                        child: GestureDetector(
+                          onTap: onGalleryClick ?? () async {
+                            Get.back();
+                            await picker.pickImage(source: ImageSource.gallery).then((value){
+                              if (value != null) {
+                                imageData = value;
+                              }
+                            });
+                          },
+                          child: Column(
+                            children: [
+                              Icon(Icons.photo_library_outlined,
+                                  color: BaseColors.primaryColor, size: 60),
+                              SizedBox(height: 8),
+                              Text("Gallery"),
+                            ],
+                          ),
+                        )),
+                  ],
+                ),
+                const SizedBox(height: 40),
+              ],
             ),
-          );
-        });
-    return imageData;
+          ),
+        );
+      },
+    );
+  }
+
+  showMediaPDFPhotoDialog({Function()? onFileClick, Function()? onGalleryClick}) {
+    final ImagePicker picker = ImagePicker();
+    XFile? imageData;
+    showGeneralDialog(
+      context: Get.context!,
+      barrierDismissible: true,
+      barrierLabel: "",
+      pageBuilder: (context, a1, a2) {
+        return Dialog(
+          insetPadding: EdgeInsets.symmetric(horizontal: 3.w),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(14))),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(height: 12),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: GestureDetector(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: SvgPicture.asset("assets/images/ic_close.svg", height: 16)),
+                ),
+                SizedBox(height: 16),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Expanded(
+                        child: GestureDetector(
+                          onTap: onFileClick ?? () async {
+                            Get.back();
+                            await picker.pickImage(source: ImageSource.camera).then((value){
+                              if (value != null) {
+                                imageData = value;
+                              }
+                            });
+                          },
+                          child: Column(
+                            children: [
+                              SvgPicture.asset("assets/images/document 1.svg",height: 55),
+                              SizedBox(height: 8),
+                              Text("PDF"),
+                            ],
+                          ),
+                        )),
+                    Expanded(
+                        child: GestureDetector(
+                          onTap: onGalleryClick ?? () async {
+                            Get.back();
+                            await picker.pickImage(source: ImageSource.gallery).then((value){
+                              if (value != null) {
+                                imageData = value;
+                              }
+                            });
+                          },
+                          child: Column(
+                            children: [
+                              Icon(Icons.photo_library_outlined,
+                                  color: BaseColors.primaryColor, size: 60),
+                              SizedBox(height: 8),
+                              Text("Gallery"),
+                            ],
+                          ),
+                        )),
+                  ],
+                ),
+                const SizedBox(height: 40),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   showRejectDialog({
@@ -581,6 +670,52 @@ class BaseOverlays {
           ),
         ),
       ),
+    );
+  }
+
+  viewPdfDialog({String? url,bool? concatBaseUrl}){
+    showGeneralDialog(context: Get.context!,
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return ShowPdfViewDialog(
+          url: (concatBaseUrl??true) ? (ApiEndPoints().imageBaseUrl) + (url??"") : (url??""),
+          title: "Task & Reminder",
+        );
+      },
+    );
+  }
+
+  viewPhoto({String? url,bool? concatBaseUrl}){
+    showGeneralDialog(context: Get.context!,
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return Stack(
+          alignment: Alignment.bottomCenter,
+          clipBehavior: Clip.none,
+          children: [
+            PhotoView(
+              imageProvider: NetworkImage(concatBaseUrl??true ? ApiEndPoints().imageBaseUrl + (url??"") : (url??"")),
+              initialScale: PhotoViewComputedScale.contained * 1.0,
+              maxScale: PhotoViewComputedScale.contained * 3.0,
+              minScale: PhotoViewComputedScale.contained * 0.8,
+              loadingBuilder: (context, event) => Center(
+                child: Container(
+                  width: 20.0,
+                  height: 20.0,
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            ),
+            Positioned(child: GestureDetector(
+              onTap: (){
+                BaseOverlays().dismissOverlay();
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(40),
+                child: Icon(Icons.close_rounded,color: Colors.white,size: 40),
+              ),
+            )),
+          ],
+        );
+      },
     );
   }
 }

@@ -1,18 +1,22 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
-
-import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/view/leave_request_screen/controller/leave_request_ctrl.dart';
 
 class UploadEvidencePopup extends StatefulWidget {
-  const UploadEvidencePopup({Key? key}) : super(key: key);
+  final String id;
+  const UploadEvidencePopup({Key? key, required this.id}) : super(key: key);
 
   @override
   State<UploadEvidencePopup> createState() => _UploadEvidencePopupState();
@@ -20,6 +24,7 @@ class UploadEvidencePopup extends StatefulWidget {
 
 class _UploadEvidencePopupState extends State<UploadEvidencePopup> {
   TextEditingController titleCtrl = TextEditingController();
+  LeaveRequestCtrl controller = Get.find<LeaveRequestCtrl>();
 
   @override
   Widget build(BuildContext context) {
@@ -57,12 +62,12 @@ class _UploadEvidencePopupState extends State<UploadEvidencePopup> {
                   height: 3.h,
                 ),
                 BaseTextFormField(
-                    controller: titleCtrl,
+                  controller: TextEditingController(),
                     hintText: translate(context).reason,
                     bottomMargin: 1.h,
                 ),
                 BaseTextFormField(
-                  controller: titleCtrl,
+                  controller: TextEditingController(),
                   suffixIcon: calenderDateSvg,
                   hintText: translate(context).from_date,
                   onTap: (){
@@ -71,7 +76,7 @@ class _UploadEvidencePopupState extends State<UploadEvidencePopup> {
                   bottomMargin: 1.h,
                 ),
                 BaseTextFormField(
-                  controller: titleCtrl,
+                  controller: TextEditingController(),
                   hintText: translate(context).to_date,
                   suffixIcon: calenderDateSvg,
                   bottomMargin: 1.h,
@@ -79,13 +84,59 @@ class _UploadEvidencePopupState extends State<UploadEvidencePopup> {
                     selectDate(context);
                   },
                 ),
-                BaseTextFormField(controller: titleCtrl,
-                  hintText: translate(context).upload_file,
-                  bottomMargin: 3.h,
-                  suffixIcon: "assets/images/upload_icon.svg"),
-                BaseButton(btnType: dialogButton,title: translate(context).submit_btn_txt, onPressed: (){
-                  Get.back();
-                },removeHorizontalPadding: true,)
+                Form(
+                  key: controller.formKey,
+                  child: BaseTextFormField(controller: titleCtrl,
+                    hintText: translate(context).upload_file,
+                    bottomMargin: 3.h,
+                    suffixIcon: "assets/images/upload_icon.svg",
+                    validator: (val){
+                    if((val??"").isEmpty){
+                      return "Please select file or photo";
+                    }
+                    return null;
+                    },
+                    onTap: (){
+                      BaseOverlays().showMediaPDFPhotoDialog(onFileClick: () async {
+                        BaseOverlays().dismissOverlay();
+                        File uploadID;
+                        var uploadImage = await FilePicker.platform.pickFiles(
+                          allowMultiple: false,
+                          allowedExtensions: ['pdf'],
+                          type: FileType.custom,
+                        );
+                        if(uploadImage != null)
+                        {
+                          uploadID = File(uploadImage.files.first.path??"");
+                          controller.selectedFile?.value = uploadID;
+                          setState(() {});
+                          titleCtrl.text = uploadID.path.split("/").last;
+                        }
+                      },
+                          onGalleryClick: () async {
+                            BaseOverlays().dismissOverlay();
+                            ImagePicker picker = ImagePicker();
+                            await picker.pickImage(source: ImageSource.gallery).then((value){
+                              if (value != null) {
+                                controller.selectedFile?.value = File(value.path);
+                                titleCtrl.text = value.path.split("/").last;
+                              }
+                            });
+                          }
+                      );
+                    },
+                  ),
+                ),
+                BaseButton(
+                    btnType: dialogButton,
+                    title: translate(context).submit_btn_txt,
+                    onPressed: (){
+                      if(controller.formKey.currentState?.validate()??false){
+                        controller.uploadEvidence(id: widget.id);
+                      }
+                    },
+                    removeHorizontalPadding: true,
+                )
               ],
             ),
           ),

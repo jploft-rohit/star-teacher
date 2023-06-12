@@ -2,10 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:image_downloader/image_downloader.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/backend/api_end_points.dart';
@@ -541,17 +544,25 @@ String getFormattedDate(String dateString, {String separator = '-'}) {
 }
 
 String getFormattedDate2(String dateString, {String separator = '-'}) {
-  DateTime date = DateTime.parse(dateString);
-  String day = date.day.toString().padLeft(2, '0');
-  String month = date.month.toString().padLeft(2, '0');
-  String year = date.year.toString().substring(0);
-  return '$year$separator$month$separator$day';
+  if (dateString.isNotEmpty && dateString != "null") {
+    DateTime date = DateTime.parse(dateString);
+    String day = date.day.toString().padLeft(2, '0');
+    String month = date.month.toString().padLeft(2, '0');
+    String year = date.year.toString().substring(0);
+    return '$year$separator$month$separator$day';
+  }else{
+    return "";
+  }
 }
 
 String convertDateFormat3(String dateString1) {
-  DateTime date = DateTime.parse(dateString1);
-  String formattedDate = DateFormat("MMM dd,\nhh:mm a").format(date);
-  return formattedDate;
+  if (dateString1.isEmpty || dateString1 == "null") {
+    return "\n";
+  }else{
+    DateTime date = DateTime.parse(dateString1);
+    String formattedDate = DateFormat("MMM dd,\nhh:mm a").format(date);
+    return formattedDate;
+  }
 }
 
 String getFormattedTime(String dateString1){
@@ -612,38 +623,62 @@ baseToast({required String message}){
   Fluttertoast.showToast(msg: message,gravity: ToastGravity.CENTER);
 }
 
-Future<void> downloadAndShowNotification({required String fileUrl}) async {
+Future<void> downloadFile({required String url,bool? concatBaseUrl,bool? showLoader}) async {
   // Download the PDF file
-  if (fileUrl.isNotEmpty) {
-    BaseOverlays().showLoader();
-    final url = (ApiEndPoints().imageBaseUrl) + (fileUrl);
-    final request = await HttpClient().getUrl(Uri.parse(url));
-    final response = await request.close();
-    final bytes = await consolidateHttpClientResponseBytes(response);
+  if (url.isNotEmpty) {
+    /// Saving PDF
+    if (url.contains("pdf")) {
+      BaseOverlays().showLoader();
+      final finalUrl = (concatBaseUrl??true) ? (ApiEndPoints().imageBaseUrl) + (url) : url;
+      final request = await HttpClient().getUrl(Uri.parse(finalUrl));
+      final response = await request.close();
+      final bytes = await consolidateHttpClientResponseBytes(response);
 
-    // Save the PDF file to device storage
-    if (Platform.isIOS) {
-      print("asjagJSHags=");
-      final directory = await getTemporaryDirectory();
-      print("asjagJSHags==");
-      final filePath = '${directory.path}.pdf';
-      print("asjagJSHags===");
-      final file = File(filePath);
-      print("====");
-      await file.writeAsBytes(bytes);
-      print("=======");
-      print(filePath);
-      BaseOverlays().dismissOverlay();
-      NotificationService.display(0,'PDF Downloaded','The PDF file has been downloaded successfully.',filePath);
+      if (Platform.isIOS) {
+        final directory = await getTemporaryDirectory();
+        final filePath = '${directory.path}.pdf';
+        final file = File(filePath);
+        await file.writeAsBytes(bytes);
+        BaseOverlays().dismissOverlay();
+        NotificationService.display(0,'PDF Downloaded','The PDF file has been downloaded successfully.',filePath);
+      }
+      else{
+        final directory = await getExternalStorageDirectory();
+        final filePath = '${directory!.path}.pdf';
+        final file = File(filePath);
+        await file.writeAsBytes(bytes);
+        BaseOverlays().dismissOverlay();
+        NotificationService.display(0,'PDF Downloaded','The PDF file has been downloaded successfully.',filePath);
+      }
     }
+    /// Properly Saving Image
     else{
-      final directory = await getExternalStorageDirectory();
-      final filePath = '${directory!.path}.pdf';
-      final file = File(filePath);
-      await file.writeAsBytes(bytes);
-      print(filePath);
-      BaseOverlays().dismissOverlay();
-      NotificationService.display(0,'PDF Downloaded','The PDF file has been downloaded successfully.',filePath);
+      BaseOverlays().showLoader(showLoader: showLoader??true);
+      if (await Permission.storage.request().isGranted) {
+        try {
+          var imageId = await ImageDownloader.downloadImage((concatBaseUrl??true) ? ApiEndPoints().imageBaseUrl + url : url,destination: AndroidDestinationType.directoryPictures).
+          catchError((e){
+            BaseOverlays().dismissOverlay(showLoader: showLoader??true);
+            return e;
+          });
+          if (imageId == null) {
+            return;
+          }
+          var size = await ImageDownloader.findByteSize(imageId);
+          print("Image Url ---> "+url);
+          print("Downloaded Image Size ---> " + (size??0).toString());
+          NotificationService.showMessage(0,'Image Downloaded','The Image has been downloaded successfully.');
+        } on PlatformException catch (error) {
+          BaseOverlays().dismissOverlay(showLoader: showLoader??true);
+          print(error);
+        }
+
+      }else{
+        Map<Permission, PermissionStatus> statuses = await [
+          Permission.storage,
+        ].request();
+      }
+      BaseOverlays().dismissOverlay(showLoader: showLoader??true);
     }
   }
 }
