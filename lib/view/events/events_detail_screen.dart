@@ -6,7 +6,7 @@ import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/Utility/base_container_decoration.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/constants-classes/color_constants.dart';
 import 'package:staff_app/utility/base_views/base_detail_data.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';

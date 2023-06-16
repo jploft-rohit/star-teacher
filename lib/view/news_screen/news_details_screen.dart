@@ -3,7 +3,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/backend/responses_model/news_broadcast_response.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
-import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/utility/base_utility.dart';
 
 class NewsDetailScreen extends StatefulWidget {
   final bool isShowAcknw;
@@ -34,7 +34,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
               children: [
                 addText(widget.data.user?.name??"", 15, const Color(0xFF072D4B).withOpacity(0.4), FontWeight.w400),
                 SizedBox(width: 3.w  ,),
-                addText(getFormattedDate(widget.data.updatedAt??""), 15, const Color(0xFF072D4B).withOpacity(0.4), FontWeight.w400),
+                addText(formatBackendDate(widget.data.updatedAt??""), 15, const Color(0xFF072D4B).withOpacity(0.4), FontWeight.w400),
               ],
             ),
             SizedBox(height: 6.h,),

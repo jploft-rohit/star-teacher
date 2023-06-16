@@ -11,7 +11,7 @@ import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_qr.dart';
 import 'package:staff_app/view/library_screen/notebook_screen/add_note_screen.dart';
 import 'package:staff_app/view/library_screen/ctrl/notebook_ctrl.dart';
@@ -263,7 +263,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                                   SizedBox(
                                     width: 2.w,
                                   ),
-                                  buildInfoItems("Date", getFormattedDate(controller.notebookList?[index].date??na)),
+                                  buildInfoItems("Date", formatBackendDate(controller.notebookList?[index].date??na)),
                                   // buildInfoItems("Date", "07/07/2022"),
                                 ],
                               ),

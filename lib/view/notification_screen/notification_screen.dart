@@ -26,9 +26,13 @@ class _NotificationScreenState extends State<NotificationScreen> with SingleTick
     super.initState();
     controller.getData(page: "1", limit: "10", type: "school");
     tabController = TabController(length: 2, vsync: this)..addListener(() {
-      controller.tabIndex.value = tabController.index;
-      controller.getData(page: "1", limit: "10", type: tabController.index == 0 ? "school" : "transportation");
-      setState(() {});
+      if (!tabController.indexIsChanging) {
+        controller.tabIndex.value = tabController.index;
+        controller.getData(page: "1",
+            limit: "10",
+            type: tabController.index == 0 ? "school" : "transportation");
+        setState(() {});
+      }
     });
   }
 

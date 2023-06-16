@@ -9,7 +9,7 @@ import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_dropdown_widget.dart';
 import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/Dashboard_screen/home_screen/home_class_schedule/home_day_schedule_view.dart';
 import 'package:staff_app/view/Dashboard_screen/home_screen/home_class_schedule/home_week_schedule_view.dart';

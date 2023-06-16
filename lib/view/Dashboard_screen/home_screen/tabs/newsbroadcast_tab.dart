@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
-import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_loader.dart';
 import 'package:staff_app/view/Dashboard_screen/dashboard_screen_ctrl.dart';
@@ -101,7 +101,7 @@ class _NewsBroadCastTabState extends State<NewsBroadCastTab> {
                             SizedBox(
                               width: 10.w,
                             ),
-                            addText(getFormattedDate(controller.list?[index].updatedAt??""), 14.sp,  Colors.grey.shade500, FontWeight.w400),
+                            addText(formatBackendDate(controller.list?[index].updatedAt??""), 14.sp,  Colors.grey.shade500, FontWeight.w400),
                           ],
                         ),
                         Visibility(

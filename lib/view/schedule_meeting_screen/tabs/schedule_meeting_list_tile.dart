@@ -4,7 +4,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_views/base_detail_data.dart';
@@ -37,7 +37,7 @@ class ScheduleMeetingListTile extends StatelessWidget {
     'Request\nRaised',
     'Request\nCancelled',
   ];
-  final List<String> cancelledStepperDates = ['July 2,\n8:30PM',"July 2,\n8:30PM"];
+  List<String> cancelledStepperDates = [];
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +83,14 @@ class ScheduleMeetingListTile extends StatelessWidget {
           //     controller.stepperTimeDate[3] = convertDateFormat3(element.time??"");
           //   });
           // }
+          if (controller.selectedTabIndex.value == 2) {
+            cancelledStepperDates.clear();
+            controller.list?[index].requestStatus?.forEach((element) {
+              if (element.name.toString().toLowerCase() == "request raised" || element.name.toString().toLowerCase() == "cancelled") {
+                cancelledStepperDates.add(getFormattedTime2(element.time));
+              }
+            });
+          }
           return Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
@@ -92,7 +100,7 @@ class ScheduleMeetingListTile extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  BaseDetailData(prefixIcon: "assets/images/Vector (1).svg",detailsLabel:"Schedule Date", detailsValue:getFormattedDate(controller.list?[index].date??"")),
+                  BaseDetailData(prefixIcon: "assets/images/Vector (1).svg",detailsLabel:"Schedule Date", detailsValue:formatBackendDate(controller.list?[index].date??"")),
                   BaseDetailData(prefixIcon: "assets/images/time_icon.svg",detailsLabel:"Time Slot", detailsValue:getFormattedTime3(controller.list?[index].time??"")),
                   BaseDetailData(prefixIcon: "assets/images/family_img.svg",detailsLabel:"Meeting with", detailsValue:controller.list?[index].teacher?.name??"N/A"),
                   BaseDetailData(prefixIcon: "assets/images/ic_designation.svg",detailsLabel:"Designation", detailsValue:"Teacher Admin"),
@@ -182,14 +190,14 @@ class ScheduleMeetingListTile extends StatelessWidget {
                               showGeneralDialog(
                                 context: context,
                                 pageBuilder:  (context, animation, secondaryAnimation) {
-                                  return MeetingCancelReasonPopup(id: controller.list?[index].sId??"",);
+                                  return MeetingCancelReasonPopup(id: controller.list?[index].sId??"");
                                 },
                               );
                             }, isActive: false, textSize: 15.sp,leftMargin: 1.w,rightMargin: 1.w),
                           ),
                         ),
                         Visibility(
-                          visible: controller.selectedTabIndex.value == 0,
+                          visible: controller.selectedTabIndex.value == 0 && (controller.list?[index].createdBy?.sId??"") != (controller.userId??""),
                           child: Expanded(child: BaseButton(title: "ACCEPT", onPressed: (){
                             BaseOverlays().showConfirmationDialog(
                               title: "Are you sure, you want to accept this meeting ?",

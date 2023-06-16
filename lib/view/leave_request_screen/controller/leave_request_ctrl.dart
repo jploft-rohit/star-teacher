@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart'as dio;
 import 'package:image_picker/image_picker.dart';
-import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/backend/responses_model/base_success_response.dart';
@@ -43,9 +43,18 @@ class LeaveRequestCtrl extends GetxController{
     getLeaveTypes();
   }
 
-  setData({required bool isUpdating}){
+  setData({required bool isUpdating, LeaveRequestData? data}){
     if(isUpdating){
-
+      selectSchoolController.value.text = data?.school?.name??"";
+      selectedSchoolId.value = data?.school?.sId??"";
+      leaveTypeController.value.text = data?.leaveType?.name??"";
+      selectedLeaveTypeId.value = data?.leaveType?.sId??"";
+      startDateController.value.text = formatBackendDate(data?.startDate??"",getDayFirst: false);
+      endDateController.value.text = formatBackendDate(data?.endDate??"",getDayFirst: false);
+      reasonController.value.text = data?.reason??"";
+      uploadController.value.text = (data?.document??"").split("/").last;
+      xFile.value = XFile("");
+      selectedFile?.value = File("");
     }else{
       selectSchoolController.value.clear();
       leaveTypeController.value.clear();
@@ -131,8 +140,8 @@ class LeaveRequestCtrl extends GetxController{
           "user[0]": userId,
           "school":selectedSchoolId.value,
           "leaveType":selectedLeaveTypeId.value,
-          "startDate":getFormattedDate2(startDateController.value.text.trim()),
-          "endDate":getFormattedDate2(endDateController.value.text.trim()),
+          "startDate":formatBackendDate(startDateController.value.text.trim(),getDayFirst: false),
+          "endDate":formatBackendDate(endDateController.value.text.trim(),getDayFirst: false),
           "reason":reasonController.value.text.trim(),
           "typeOfRequest":"leave",
           "document": await dio.MultipartFile.fromFile(selectedFile?.value.path??"",filename: selectedFile?.value.path.split("/").last??"")
@@ -142,13 +151,56 @@ class LeaveRequestCtrl extends GetxController{
           "user[0]": userId,
           "school":selectedSchoolId.value,
           "leaveType":selectedLeaveTypeId.value,
-          "startDate":getFormattedDate2(startDateController.value.text.trim()),
-          "endDate":getFormattedDate2(endDateController.value.text.trim()),
+          "startDate":formatBackendDate(startDateController.value.text.trim(),getDayFirst: false),
+          "endDate":formatBackendDate(endDateController.value.text.trim(),getDayFirst: false),
           "typeOfRequest":"leave",
           "reason":reasonController.value.text.trim(),
         });
       }
       BaseAPI().post(url: ApiEndPoints().createLeaveRequest, data: data).then((value){
+        if (value?.statusCode ==  200) {
+          Get.back();
+          baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
+          BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: "Success");
+          selectedSchoolId.value = "";
+          selectedLeaveTypeId.value = "";
+          get();
+        }else{
+          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        }
+        selectedFile?.value = File("");
+      });
+    }
+  }
+
+  edit({required id}) async {
+    if (formKey.currentState?.validate()??false) {
+      BaseSuccessResponse baseSuccessResponse = BaseSuccessResponse();
+      dio.FormData data;
+      final String userId = await BaseSharedPreference().getString(SpKeys().userId);
+      if ((selectedFile?.value.path??"").isNotEmpty) {
+        data = dio.FormData.fromMap({
+          "user[0]": userId,
+          "school":selectedSchoolId.value,
+          "leaveType":selectedLeaveTypeId.value,
+          "startDate":formatBackendDate(startDateController.value.text.trim(),getDayFirst: false),
+          "endDate":formatBackendDate(endDateController.value.text.trim(),getDayFirst: false),
+          "reason":reasonController.value.text.trim(),
+          "typeOfRequest":"leave",
+          "document": await dio.MultipartFile.fromFile(selectedFile?.value.path??"",filename: selectedFile?.value.path.split("/").last??"")
+        });
+      }else{
+        data = dio.FormData.fromMap({
+          "user[0]": userId,
+          "school":selectedSchoolId.value,
+          "leaveType":selectedLeaveTypeId.value,
+          "startDate":formatBackendDate(startDateController.value.text.trim(),getDayFirst: false),
+          "endDate":formatBackendDate(endDateController.value.text.trim(),getDayFirst: false),
+          "typeOfRequest":"leave",
+          "reason":reasonController.value.text.trim(),
+        });
+      }
+      BaseAPI().put(url: ApiEndPoints().uploadEvidence+id, data: data).then((value){
         if (value?.statusCode ==  200) {
           Get.back();
           baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);

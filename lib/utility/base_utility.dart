@@ -242,20 +242,21 @@ Widget purchasesToogleButton(onTap1, isTransaction, onTap2, isTopup) {
   );
 }
 
-Widget calenderDownButton(label, onTap) {
+Widget calenderDownButton(label, onTap,{required bool isFrom}) {
   return GestureDetector(
     onTap: (){
       showDatePicker(
           context: Get.context!,
           initialDate: DateTime.now(),
-          firstDate: DateTime(2000, 8),
+          firstDate: DateTime(2023, 1, 1),
           lastDate: DateTime.now());
     },
     child: Container(
       decoration: BoxDecoration(
           color: BaseColors.white,
           borderRadius: BorderRadius.circular(5),
-          border: Border.all(color: BaseColors.borderColor)),
+          border: Border.all(color: BaseColors.borderColor),
+      ),
       padding: EdgeInsets.symmetric(horizontal: 1.2.w, vertical: 0.6.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -535,21 +536,17 @@ Future<void> selectTime(BuildContext context) async {
   });
 }
 
-String getFormattedDate(String dateString, {String separator = '-'}) {
-  DateTime date = DateTime.parse(dateString);
-  String day = date.day.toString().padLeft(2, '0');
-  String month = date.month.toString().padLeft(2, '0');
-  String year = date.year.toString().substring(0);
-  return '$day$separator$month$separator$year';
-}
-
-String getFormattedDate2(String dateString, {String separator = '-'}) {
+String formatBackendDate(String dateString, {bool? getDayFirst}) {
   if (dateString.isNotEmpty && dateString != "null") {
     DateTime date = DateTime.parse(dateString);
     String day = date.day.toString().padLeft(2, '0');
     String month = date.month.toString().padLeft(2, '0');
     String year = date.year.toString().substring(0);
-    return '$year$separator$month$separator$day';
+    if (getDayFirst??true) {
+      return '$day-$month-$year';
+    }else{
+      return '$year-$month-$day';
+    }
   }else{
     return "";
   }
@@ -559,22 +556,38 @@ String convertDateFormat3(String dateString1) {
   if (dateString1.isEmpty || dateString1 == "null") {
     return "\n";
   }else{
-    DateTime date = DateTime.parse(dateString1);
+    DateTime date = DateTime.parse(dateString1).toLocal();
     String formattedDate = DateFormat("MMM dd,\nhh:mm a").format(date);
     return formattedDate;
   }
 }
 
 String getFormattedTime(String dateString1){
-  DateTime date = DateTime.parse(dateString1);
-  String formattedTime = DateFormat('hh:mm a').format(date.toLocal());
-  return formattedTime;
+  if (dateString1.isNotEmpty) {
+    DateTime date = DateTime.parse(dateString1);
+    String formattedTime = DateFormat('hh:mm a').format(date.toLocal());
+    return formattedTime;
+  }else{
+    return "N/A";
+  }
+}
+
+String formatFlutterDateTime({required DateTime flutterDateTime,bool? getDayFirst}){
+   if (getDayFirst??false) {
+     return "${flutterDateTime.day.toString()}-${flutterDateTime.month.toString().padLeft(2,'0')}-${flutterDateTime.year.toString().padLeft(2,'0')}";
+   }else{
+     return "${flutterDateTime.year.toString()}-${flutterDateTime.month.toString().padLeft(2,'0')}-${flutterDateTime.day.toString().padLeft(2,'0')}";
+   }
 }
 
 String getFormattedTime3(String dateString1){
-  DateTime date = DateTime.parse(dateString1);
-  String formattedTime = DateFormat('HH:mm').format(date.toLocal());
-  return formattedTime;
+  if (dateString1.isNotEmpty) {
+    DateTime date = DateTime.parse(dateString1);
+    String formattedTime = DateFormat('HH:mm').format(date.toLocal());
+    return formattedTime;
+  }else{
+    return "N/A";
+  }
 }
 
 String getFormattedTime2(String dateString1){

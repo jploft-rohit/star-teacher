@@ -9,7 +9,7 @@ import 'package:staff_app/utility/base_views/base_textformfield.dart';
 import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/intl/src/intl/date_format.dart';
 import 'package:staff_app/view/add_family_member/controller/family_ctrl.dart';
@@ -99,7 +99,7 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
                         lastDate: DateTime.now()
                     ).then((picked){
                       if (picked != null) {
-                        ctrl.dobController..text = "${picked.year.toString()}-${picked.month.toString().padLeft(2,'0')}-${picked.day.toString().padLeft(2,'0')}";;
+                        ctrl.dobController..text = "${picked.year.toString()}-${picked.month.toString().padLeft(2,'0')}-${picked.day.toString().padLeft(2,'0')}";
                       }
                     });
                   },

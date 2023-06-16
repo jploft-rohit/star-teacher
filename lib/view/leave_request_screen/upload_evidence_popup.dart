@@ -10,7 +10,7 @@ import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/leave_request_screen/controller/leave_request_ctrl.dart';
 
@@ -97,21 +97,15 @@ class _UploadEvidencePopupState extends State<UploadEvidencePopup> {
                     return null;
                     },
                     onTap: (){
-                      BaseOverlays().showMediaPDFPhotoDialog(onFileClick: () async {
+                      BaseOverlays().showMediaPickerDialog(onCameraClick: () async {
                         BaseOverlays().dismissOverlay();
-                        File uploadID;
-                        var uploadImage = await FilePicker.platform.pickFiles(
-                          allowMultiple: false,
-                          allowedExtensions: ['pdf'],
-                          type: FileType.custom,
-                        );
-                        if(uploadImage != null)
-                        {
-                          uploadID = File(uploadImage.files.first.path??"");
-                          controller.selectedFile?.value = uploadID;
-                          setState(() {});
-                          titleCtrl.text = uploadID.path.split("/").last;
-                        }
+                        ImagePicker picker = ImagePicker();
+                        await picker.pickImage(source: ImageSource.camera).then((value){
+                          if (value != null) {
+                            controller.selectedFile?.value = File(value.path);
+                            controller.uploadController.value.text = value.path.split("/").last;
+                          }
+                        });
                       },
                           onGalleryClick: () async {
                             BaseOverlays().dismissOverlay();

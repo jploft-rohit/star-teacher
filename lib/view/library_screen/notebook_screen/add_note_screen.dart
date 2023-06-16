@@ -16,7 +16,7 @@ import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 import 'package:staff_app/view/task_or_reminder_screen/add_task_or_reminder_screen.dart';
 
@@ -195,7 +195,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                                       lastDate: DateTime.now()
                                   ).then((picked){
                                     if (picked != null) {
-                                      controller.dateController..text = "${picked.year.toString()}-${picked.month.toString().padLeft(2,'0')}-${picked.day.toString().padLeft(2,'0')}";;
+                                      controller.dateController..text = "${picked.year.toString()}-${picked.month.toString().padLeft(2,'0')}-${picked.day.toString().padLeft(2,'0')}";
                                     }
                                   });
                                 },

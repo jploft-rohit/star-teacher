@@ -21,8 +21,10 @@ class _AssignedByMeViewState extends State<AssignedByMeView> with SingleTickerPr
   @override
   void initState() {
     tabController = TabController(length: 4, vsync: this)..addListener(() {
-      controller.selectedIndex1.value = tabController.index;
-      setState(() {});
+      if (!tabController.indexIsChanging) {
+        controller.selectedIndex1.value = tabController.index;
+        setState(() {});
+      }
     });
     super.initState();
   }

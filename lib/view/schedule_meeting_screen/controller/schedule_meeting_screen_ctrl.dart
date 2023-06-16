@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/backend/responses_model/base_success_response.dart';
@@ -26,6 +26,7 @@ class ScheduleMeetingScreenCtrl extends GetxController{
   RxBool isStaffLoading = false.obs;
   RxString selectedPersonId = "".obs;
   RxInt selectedTabIndex = 0.obs;
+  String? userId;
   List<StaffListData> staffData = [];
   RxList<String> stepperTimeDate = ["","","",""].obs;
   final formKey = GlobalKey<FormState>();
@@ -39,9 +40,10 @@ class ScheduleMeetingScreenCtrl extends GetxController{
   Rx<TextEditingController> dateController = TextEditingController().obs;
 
   @override
-  void onInit() {
+  onInit() async {
     super.onInit();
     getScheduledMeetingData();
+    userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
   }
 
   clearData(){

@@ -5,7 +5,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/wallet/wallet_controller.dart';
 
@@ -34,12 +34,13 @@ class _EventScreenState extends State<EventScreen> {
                 padding: EdgeInsets.zero,
                 itemBuilder: (context, index) => buildEventCard(
                     index,
-                    controller.eventsList[index]['day']!,
-                    controller.eventsList[index]['month']!,
-                    controller.eventsList[index]['title']!,
-                    controller.eventsList[index]['totalcost']!,
-                    controller.eventsList[index]['eventcost']!,
-                    controller.eventsList[index]['starbudget']!),
+                    controller.eventsList[index]['day']??"",
+                    controller.eventsList[index]['month']??"",
+                    controller.eventsList[index]['title']??"",
+                    controller.eventsList[index]['totalcost']??"",
+                    controller.eventsList[index]['eventcost']??"",
+                    controller.eventsList[index]['starbudget']??"",
+                ),
                 itemCount: controller.eventsList.length,
               ),
               const Divider(
@@ -53,12 +54,13 @@ class _EventScreenState extends State<EventScreen> {
                 padding: EdgeInsets.zero,
                 itemBuilder: (context, index) => buildEventCard(
                     index,
-                    controller.eventsList[index]['day']!,
-                    controller.eventsList[index]['month']!,
-                    controller.eventsList[index]['title']!,
-                    controller.eventsList[index]['totalcost']!,
-                    controller.eventsList[index]['eventcost']!,
-                    controller.eventsList[index]['starbudget']!),
+                    controller.eventsList[index]['day']??"",
+                    controller.eventsList[index]['month']??"",
+                    controller.eventsList[index]['title']??"",
+                    controller.eventsList[index]['totalcost']??"",
+                    controller.eventsList[index]['eventcost']??"",
+                    controller.eventsList[index]['starbudget']??"",
+                ),
                 itemCount: controller.eventsList.length,
               ),
             ],

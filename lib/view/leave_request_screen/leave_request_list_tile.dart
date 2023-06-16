@@ -18,6 +18,7 @@ import 'package:staff_app/utility/base_views/base_icons.dart';
 import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/view/complaints_report_screen/controller/complaint_report_controller.dart';
+import 'package:staff_app/view/leave_request_screen/add_leave_request_view.dart';
 import 'package:staff_app/view/leave_request_screen/controller/leave_request_ctrl.dart';
 import 'package:staff_app/view/leave_request_screen/upload_evidence_popup.dart';
 import '../../utility/images_icon_path.dart';
@@ -68,7 +69,10 @@ class _LeaveRequestListTileState extends State<LeaveRequestListTile> {
                           heading: controller.list?[index].leaveType?.name??"N/A",
                           editTitle: "Leave Request",
                           deleteTitle: "Leave Request",
-                          onEditProceed: (){},
+                          onEditProceed: (){
+                            BaseOverlays().dismissOverlay();
+                            Get.to(AddLeaveRequestView(isUpdating: true,data: controller.list?[index]));
+                          },
                           onDeleteProceed: (){
                             controller.delete(id: controller.list?[index].sId??"", index: index);
                           },
@@ -101,15 +105,15 @@ class _LeaveRequestListTileState extends State<LeaveRequestListTile> {
                     children: [
                       BaseDetailData(
                         prefixIcon: "assets/images/Vector (1).svg",
-                        detailsLabel: getFormattedDate(controller.list?[index].startDate??""),
+                        detailsLabel: formatBackendDate(controller.list?[index].startDate??""),
                         showDivider: false,
                         rightMargin: 10.w,
                       ),
                       Text("to"),
                       BaseDetailData(
                         leftMargin: 10.w,
-                        prefixIcon: "assets/images/time_icon.svg",
-                        detailsLabel: getFormattedDate(controller.list?[index].endDate??""),
+                        prefixIcon: "assets/images/Vector (1).svg",
+                        detailsLabel: formatBackendDate(controller.list?[index].endDate??""),
                         showDivider: false,
                       ),
                     ],
@@ -118,7 +122,7 @@ class _LeaveRequestListTileState extends State<LeaveRequestListTile> {
                   BaseDetailData(
                     prefixIcon: "assets/images/report.svg",
                     detailsLabel: translate(context).reason,
-                    detailsValue: toBeginningOfSentenceCase(controller.list?[index].reason??"N/A")??"N/A",
+                    detailsValue: controller.list?[index].reason??"N/A",
                   ),
                   // BaseDetailData(
                   //   prefixIcon: "assets/images/user.svg",
@@ -127,18 +131,15 @@ class _LeaveRequestListTileState extends State<LeaveRequestListTile> {
                   // ),
                   Visibility(
                     visible: (controller.list?[index].document??"").isNotEmpty,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        BaseDetailData(
-                          prefixIcon: documentSvg,
-                          detailsLabel: translate(context).evidence,
-                          detailsValue: (controller.list?[index].document??"").toString().split("/").last,
-                          bottomMargin: 1.h,
-                        ),
+                    child: BaseDetailData(
+                      prefixIcon: documentSvg,
+                      detailsLabel: translate(context).evidence,
+                      detailsValue: (controller.list?[index].document??"").toString().split("/").last,
+                      bottomMargin: 1.h,
+                      suffixWidgetsList: [
                         BaseIcons().download(onRightButtonPressed: (){
-                          BaseOverlays().dismissOverlay();
-                          downloadFile(url: controller.list?[index].document??"",concatBaseUrl: false);
+                        BaseOverlays().dismissOverlay();
+                        downloadFile(url: controller.list?[index].document??"",concatBaseUrl: false);
                         },leftMargin: 2.w,
                         ),
                         BaseIcons().view(url: controller.list?[index].document??"",leftMargin: 2.w,concatBaseUrl: false),

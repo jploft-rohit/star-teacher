@@ -6,8 +6,6 @@ import 'package:staff_app/new_assignments/tabs/new_assignment_list_tile.dart';
 import 'package:staff_app/utility/base_views/base_tab_button.dart';
 import 'package:staff_app/utility/base_views/base_toggle_tab_bar.dart';
 
-import '../utility/sizes.dart';
-
 class AssessmentsAwarenessCourses extends StatefulWidget {
   const AssessmentsAwarenessCourses({Key? key}) : super(key: key);
 

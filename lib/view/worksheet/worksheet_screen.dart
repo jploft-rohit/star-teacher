@@ -28,8 +28,10 @@ class _WorkSheetScreenState extends State<WorkSheetScreen> with SingleTickerProv
   @override
   void initState() {
     tabController = TabController(length: 2, vsync: this)..addListener(() {
-      controller.tabIndex.value = tabController.index;
-      setState(() {});
+      if (!tabController.indexIsChanging) {
+        controller.tabIndex.value = tabController.index;
+        setState(() {});
+      }
     });
     super.initState();
   }

@@ -77,7 +77,7 @@ class _AllFeedbackHelpViewState extends State<AllFeedbackHelpView> {
                   children: [
                     BaseDetailData(
                       prefixIcon: "assets/images/Vector (1).svg",
-                      detailsLabel: getFormattedDate(controller.response?[index].createdAt??""),
+                      detailsLabel: formatBackendDate(controller.response?[index].createdAt??""),
                       showDivider: false,
                     ),
                     BaseDetailData(

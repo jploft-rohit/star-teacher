@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/backend/responses_model/leave_request_response.dart';
 import 'package:staff_app/backend/responses_model/leave_type_response.dart';
 import 'package:staff_app/backend/responses_model/school_list_response.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
@@ -14,14 +15,15 @@ import 'package:staff_app/utility/base_views/base_textformfield.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/leave_request_screen/controller/leave_request_ctrl.dart';
 import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 
 class AddLeaveRequestView extends StatefulWidget {
   final bool? isUpdating;
-  const AddLeaveRequestView({Key? key, this.isUpdating}) : super(key: key);
+  final LeaveRequestData? data;
+  const AddLeaveRequestView({Key? key, this.isUpdating, this.data}) : super(key: key);
 
   @override
   State<AddLeaveRequestView> createState() => _AddLeaveRequestViewState();
@@ -35,7 +37,7 @@ class _AddLeaveRequestViewState extends State<AddLeaveRequestView> {
   @override
   void initState() {
     super.initState();
-    controller.setData(isUpdating: widget.isUpdating??false);
+    controller.setData(isUpdating: widget.isUpdating??false,data: widget.data);
   }
 
   @override
@@ -86,7 +88,7 @@ class _AddLeaveRequestViewState extends State<AddLeaveRequestView> {
                     controller: controller.startDateController.value,
                     title: "${translate(context).leave_start}:",
                     prefixIcon: calenderDateSvg,
-                    hintText: "dd/mm/yyyy",
+                    hintText: "yyyy/mm/dd",
                     validator: (val){
                       if (controller.startDateController.value.text.isEmpty) {
                         return "Please select start date";
@@ -106,12 +108,21 @@ class _AddLeaveRequestViewState extends State<AddLeaveRequestView> {
                               child: child!,
                             );
                           },
-                          initialDate: DateTime.now(),
+                          initialDate: controller.startDateController.value.text.isEmpty ? DateTime.now() : DateTime.parse(controller.startDateController.value.text.trim()),
                           firstDate: DateTime.now(),
                           lastDate: DateTime(DateTime.now().year+1)
-                      ).then((picked){
-                        if (picked != null) {
-                          controller.startDateController.value.text = "${picked.year.toString()}-${picked.month.toString().padLeft(2,'0')}-${picked.day.toString().padLeft(2,'0')}";
+                      ).then((value){
+                        if (value != null) {
+                          if (controller.endDateController.value.text.trim().isNotEmpty) {
+                            DateTime endDate = DateTime.parse(controller.endDateController.value.text.trim());
+                            if (endDate.isAfter(value)) {
+                              controller.startDateController.value.text = formatFlutterDateTime(flutterDateTime: value);
+                            }else{
+                              baseToast(message: "\"Start Date\" can't be more than \"End Date\"");
+                            }
+                          }else{
+                            controller.startDateController.value.text = formatFlutterDateTime(flutterDateTime: value);
+                          }
                           controller.formKey.currentState?.validate();
                         }
                       });
@@ -121,7 +132,7 @@ class _AddLeaveRequestViewState extends State<AddLeaveRequestView> {
                     controller: controller.endDateController.value,
                     title: "${translate(context).leave_end}:",
                     prefixIcon: calenderDateSvg,
-                    hintText: "dd/mm/yyyy",
+                    hintText: "yyyy/mm/dd",
                     validator: (val){
                       if (controller.endDateController.value.text.isEmpty) {
                         return "Please select end date";
@@ -141,12 +152,21 @@ class _AddLeaveRequestViewState extends State<AddLeaveRequestView> {
                               child: child!,
                             );
                           },
-                          initialDate: DateTime.now(),
+                          initialDate: controller.endDateController.value.text.isEmpty ? DateTime.now() : DateTime.parse(controller.endDateController.value.text.trim()),
                           firstDate: DateTime.now(),
                           lastDate: DateTime(DateTime.now().year+1)
-                      ).then((picked){
-                        if (picked != null) {
-                          controller.endDateController.value.text = "${picked.year.toString()}-${picked.month.toString().padLeft(2,'0')}-${picked.day.toString().padLeft(2,'0')}";
+                      ).then((value){
+                        if (value != null) {
+                          if (controller.startDateController.value.text.trim().isNotEmpty) {
+                            DateTime startDate = DateTime.parse(controller.startDateController.value.text.trim());
+                            if (startDate.isBefore(value)) {
+                              controller.endDateController.value.text = formatFlutterDateTime(flutterDateTime: value);
+                            }else{
+                              baseToast(message: "\"End Date\" can't be less than \"Start Date\"");
+                            }
+                          }else{
+                            controller.endDateController.value.text = formatFlutterDateTime(flutterDateTime: value);
+                          }
                           controller.formKey.currentState?.validate();
                         }
                         },
@@ -172,21 +192,15 @@ class _AddLeaveRequestViewState extends State<AddLeaveRequestView> {
                     hintText: translate(context).upload_file_or_photo,
                     suffixIcon: "assets/images/upload_icon.svg",
                     onTap: (){
-                      BaseOverlays().showMediaPDFPhotoDialog(onFileClick: () async {
+                      BaseOverlays().showMediaPickerDialog(onCameraClick: () async {
                         BaseOverlays().dismissOverlay();
-                        File uploadID;
-                        var uploadImage = await FilePicker.platform.pickFiles(
-                          allowMultiple: false,
-                          allowedExtensions: ['pdf'],
-                          type: FileType.custom,
-                        );
-                        if(uploadImage != null)
-                        {
-                          uploadID = File(uploadImage.files.first.path??"");
-                          controller.selectedFile?.value = uploadID;
-                          setState(() {});
-                          controller.uploadController.value.text = uploadID.path.split("/").last;
-                        }
+                        ImagePicker picker = ImagePicker();
+                        await picker.pickImage(source: ImageSource.camera).then((value){
+                          if (value != null) {
+                            controller.selectedFile?.value = File(value.path);
+                            controller.uploadController.value.text = value.path.split("/").last;
+                          }
+                        });
                       },
                         onGalleryClick: () async {
                         BaseOverlays().dismissOverlay();
@@ -204,7 +218,11 @@ class _AddLeaveRequestViewState extends State<AddLeaveRequestView> {
                   ),
                   // Image.file(File()),
                   BaseButton(title: translate(context).submit_btn_txt, onPressed: (){
-                    controller.create();
+                    if (widget.isUpdating??false) {
+                      controller.edit(id: widget.data?.sId??"");
+                    }else{
+                      controller.create();
+                    }
                   },btnType: largeButton)
                 ],
               ),

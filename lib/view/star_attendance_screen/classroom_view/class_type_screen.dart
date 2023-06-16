@@ -10,7 +10,7 @@ import 'package:staff_app/utility/base_views/base_tab_bar.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/custom_filter_dropdown.dart';
 import 'package:staff_app/utility/dummy_lists.dart';
@@ -41,13 +41,18 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
     controller.selectedFMOPos.value = 0;
     controller.getStarsAttendanceList(selectedClassIndex: controller.selectedClassType.value, selectedAttendanceIndex: controller.selectedAttendanceTabIndex.value);
     tabController = TabController(length: 3, vsync: this)..addListener(() {
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
-        controller.selectedAttendanceTabIndex.value = tabController.index;
-        controller.getStarsAttendanceList(selectedClassIndex: controller.selectedClassType.value, selectedAttendanceIndex: controller.selectedAttendanceTabIndex.value);
-        if (mounted) {
-          setState(() {});
-        }
-      });
+      if (!tabController.indexIsChanging) {
+        WidgetsBinding.instance.addPostFrameCallback((_) async {
+          controller.selectedAttendanceTabIndex.value = tabController.index;
+          controller.getStarsAttendanceList(
+              selectedClassIndex: controller.selectedClassType.value,
+              selectedAttendanceIndex: controller.selectedAttendanceTabIndex
+                  .value);
+          if (mounted) {
+            setState(() {});
+          }
+        });
+      }
     });
   }
   @override

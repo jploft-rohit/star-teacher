@@ -12,7 +12,7 @@ import 'package:staff_app/Utility/custom_filter_dropdown.dart';
 import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/filter_textformfield.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/constants-classes/color_constants.dart';
 import 'package:staff_app/view/Dashboard_screen/dashboard_screen_ctrl.dart';
 import 'package:staff_app/view/news_screen/news_details_screen.dart';
@@ -128,7 +128,7 @@ class _NewsScreenState extends State<NewsScreen> {
                                 SizedBox(
                                   width: 10.w,
                                 ),
-                                addText(getFormattedDate(controller.list?[index].updatedAt??""), 13.sp, Colors.grey, FontWeight.w400),
+                                addText(formatBackendDate(controller.list?[index].updatedAt??""), 13.sp, Colors.grey, FontWeight.w400),
                               ],
                             ),
                             SizedBox(

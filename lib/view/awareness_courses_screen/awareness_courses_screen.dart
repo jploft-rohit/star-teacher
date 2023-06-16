@@ -8,7 +8,7 @@ import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
-import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/view/awareness_courses_screen/start_quiz_popup.dart';
 
 class AwarenessCoursesScreen extends StatefulWidget {

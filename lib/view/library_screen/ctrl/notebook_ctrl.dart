@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
-import 'package:staff_app/backend/custom_models/notes_model.dart';
 import 'package:staff_app/backend/responses_model/base_success_response.dart';
 import 'package:staff_app/backend/responses_model/notebook_list_response.dart';
 import 'package:staff_app/backend/responses_model/subjects_response.dart';
@@ -45,7 +44,7 @@ class NotebookCtrl extends GetxController{
     if (isUpdating??false) {
       titleController.text = data?.title??"";
       gradeController.text = "5th";
-      dateController.text = getFormattedDate2(data?.date??"");
+      dateController.text = formatBackendDate(data?.date??"",getDayFirst: false);
       descriptionController.text = data?.description??"";
       recommendationController.text = data?.recommandation??"";
       commentController.text = data?.comment??"";

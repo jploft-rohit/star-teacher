@@ -28,11 +28,12 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> with TickerProv
   void initState() {
     controller.getData(type: "found");
     tabController = TabController(length: 2, vsync: this)..addListener(() {
+      if (!tabController.indexIsChanging) {
       controller.selectedTabIndex.value = tabController.index;
       controller.getData(type: tabController.index == 0 ? "found" : "request");
       if (mounted) {
         setState(() {});
-      }
+      }}
     });
     super.initState();
   }

@@ -4,9 +4,8 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
-import 'package:staff_app/view/wallet/wallet_controller.dart';
 
 class TopUpRecordPopUp extends StatefulWidget {
   TopUpRecordPopUp({Key? key}) : super(key: key);
@@ -62,8 +61,8 @@ class _TopUpRecordPopUpState extends State<TopUpRecordPopUp> {
                     alignment: Alignment.centerRight,
                     children: [
                       Container(
-                        // margin: EdgeInsets.only(right: 3.w),
-                        decoration: BoxDecoration(
+                         // margin: EdgeInsets.only(right: 3.w),
+                            decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(color: BaseColors.greyColor)),
                         child: IntrinsicHeight(

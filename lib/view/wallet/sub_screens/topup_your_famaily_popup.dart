@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
-import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/wallet/sub_screens/cartd_detail_popup.dart';
 import 'package:staff_app/view/wallet/wallet_controller.dart';
@@ -19,9 +20,10 @@ class TopupYourFamilyPopup extends StatefulWidget {
 class _TopupYourFamilyPopupState extends State<TopupYourFamilyPopup> {
   TextEditingController amtCtrl = TextEditingController();
   WalletController controller = Get.put(WalletController());
+  var formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    amtCtrl.text = 'AED 1000';
+    amtCtrl.text = '1000';
     return Scaffold(
       backgroundColor: Colors.black.withOpacity(0.5),
       body: Dialog(
@@ -61,17 +63,31 @@ class _TopupYourFamilyPopupState extends State<TopupYourFamilyPopup> {
                             child: Icon(Icons.close, color: Colors.black,),)
                         ],
                       ),
-                      SizedBox(
-                        height: 2.h,
+                      SizedBox(height: 2.h),
+                      Form(
+                        key: formKey,
+                        child: CustomTextField(
+                          controller: amtCtrl,
+                          hintText: "0",
+                          prefixIcon: Padding(
+                            padding: EdgeInsets.only(left: 2.w,bottom: 1),
+                            child: Text("AED ",style: TextStyle(fontSize: 11)),
+                          ),
+                          textInputFormatter: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                          textInputType: TextInputType.number,
+                          borderColor: BaseColors.textBlackColor,
+                          validator: (val){
+                            if ((val??"").isEmpty) {
+                              return "Please enter or select amount";
+                            }
+                            if ((int.parse((val??"").toString()) < 10)) {
+                              return "Amount can't be less than AED 10";
+                            }
+                            return null;
+                          },
+                        ),
                       ),
-                      CustomTextField(
-                        controller: amtCtrl,
-                        hintText: "AED 20",
-                        borderColor: BaseColors.textBlackColor,
-                      ),
-                      SizedBox(
-                        height: 1.h,
-                      ),
+                      SizedBox(height: 1.h),
                       Container(
                         alignment: Alignment.topLeft,
                         height: 3.h,
@@ -81,8 +97,9 @@ class _TopupYourFamilyPopupState extends State<TopupYourFamilyPopup> {
                           padding: EdgeInsets.zero,
                           itemBuilder: (context, index) => GestureDetector(
                             onTap: () {
-                              amtCtrl.text = "AED "+controller.amount[index].toString();
-                              amtCtrl.selection = TextSelection.fromPosition(TextPosition(offset: (controller.amount[index].toString() +" AED").length));
+                              amtCtrl.text = controller.amount[index].toString();
+                              amtCtrl.selection = TextSelection.collapsed(offset: amtCtrl.text.length);
+                              amtCtrl.selection = TextSelection.fromPosition(TextPosition(offset: amtCtrl.text.length));
                               Get.find<WalletController>().update();
                             },
                             child: Container(
@@ -115,13 +132,16 @@ class _TopupYourFamilyPopupState extends State<TopupYourFamilyPopup> {
                           textSize: 15.sp,
                           borderRadius: 20,
                           onPressed: (){
-                            Get.back();
-                            showGeneralDialog(
-                              context: context,
-                              pageBuilder:  (context, animation, secondaryAnimation) {
-                                return CardDetailPopup();
-                              },
-                            );
+                            if (formKey.currentState?.validate()??false) {
+                              controller.selectedAmount.value = int.parse(amtCtrl.text.trim());
+                              Get.back();
+                              showGeneralDialog(
+                                context: context,
+                                pageBuilder:  (context, animation, secondaryAnimation) {
+                                  return CardDetailPopup();
+                                },
+                              );
+                            }
                           },
                         ),
                       )

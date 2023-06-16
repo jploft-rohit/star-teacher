@@ -12,7 +12,7 @@ import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_dropdown_widget.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/dummy_lists.dart';
-import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
 import 'package:staff_app/view/schedule_meeting_screen/create_meeting_screen.dart';
 import 'package:staff_app/view/schedule_meeting_screen/controller/schedule_meeting_screen_ctrl.dart';
@@ -28,7 +28,7 @@ class ScheduleMeetingScreen extends StatefulWidget {
 }
 
 class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with SingleTickerProviderStateMixin {
-  TabController? tabCtrl;
+  late TabController tabCtrl;
   final List<String> pendingMeetingdates = ['July 2,\n8:30PM', '', '', ""];
   final List<String> pendingMeetingdates2 = ['July 2, 8:30PM', 'July 2, 8:30PM', 'July 3, 10:30AM', "July 3, 10:30AM"];
   final List<String> pendingMeetingdates1 = ['July 2, 8:30PM', 'July 3, 10:30AM',];
@@ -56,9 +56,11 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
   void initState() {
     super.initState();
     tabCtrl = TabController(length: 4, vsync: this)..addListener(() {
-      ctrl.selectedTabIndex.value = tabCtrl?.index??0;
+      if (!tabCtrl.indexIsChanging) {
+      ctrl.selectedTabIndex.value = tabCtrl.index;
       ctrl.stepperTimeDate.value = ["","","",""];
       ctrl.getScheduledMeetingData();
+      }
     });
   }
   @override

@@ -11,7 +11,7 @@ import 'package:staff_app/utility/base_views/base_toggle_tab_bar.dart';
 
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/constants-classes/color_constants.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/attendance_screen/attendance_screen_ctrl.dart';

@@ -1,26 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:staff_app/backend/api_end_points.dart';
+import 'package:staff_app/backend/base_api.dart';
+import 'package:staff_app/backend/responses_model/transactions_history_response.dart';
+import 'package:staff_app/backend/responses_model/wallet_balance_response.dart';
+import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/storage/base_shared_preference.dart';
+import 'package:staff_app/storage/sp_keys.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
 
 class WalletController extends GetxController {
+
   TextEditingController titleController = TextEditingController();
-
-  var isPurachses = true.obs;
-  var isEvents = false.obs;
   var amount = [10, 20, 30, 40, 50];
-  var selectedAmount = 1000.obs;
-  var walletBalance = 213.obs;
-  var isTransaction = true.obs;
-  var isTopUpRecord = false.obs;
+  RxInt selectedAmount = 0.obs;
+  RxInt selectedTabIndex = 0.obs;
   var selectedPaymentIndex = 0.obs;
+  RxString fromDate = "".obs;
+  RxString toDate = "".obs;
+  Rx<WalletBalanceData?>? walletBalanceData = WalletBalanceData().obs;
+  RxList<TransactionHistoryData?>? list = <TransactionHistoryData>[].obs;
 
-  purchasesSelected() {
-    isPurachses.value = true;
-    isEvents.value = false;
-  }
-
-  eventsSelected() {
-    isEvents.value = true;
-    isPurachses.value = false;
+  @override
+  void onInit() {
+    super.onInit();
+    getHistory();
+    getWalletData();
   }
 
   var purchasesList = [
@@ -153,4 +158,69 @@ class WalletController extends GetxController {
       'event': 'Concluded',
     },
   ];
+
+  addWalletMoney() async {
+      final String userId = await BaseSharedPreference().getString(SpKeys().userId);
+      var data = {
+        "user": userId,
+        "wallet": "6464dbb5c129601ee8c610ed",
+        "txnId": "71253671526351",
+        "txnFor": "TOPUP", // purchase , fee
+        "txnType": "TOPUP", // transaction , topup
+        "txnMethod": "ONLINE", // online
+        "txnAmount": selectedAmount.value,
+        "description":"Top Up",
+        "paymentType": "Received",
+        "title": "Top Up",
+        "txnStatus": "SUCCESS",
+        "txnDueDate":await DateTime.now().toString(),
+        "paymentSlot": "payment slot"
+      };
+        BaseAPI().post(url: ApiEndPoints().addWalletMoney,data: data).then((value){
+          if (value?.statusCode ==  200) {
+            BaseOverlays().dismissOverlay();
+            BaseOverlays().showOkDialog(
+                title: translate(Get.context!).wallet_amount_has_been_credited_successful,
+                barrierDismissible: false,
+                onClose: (){
+                  BaseOverlays().dismissOverlay();
+                  getWalletData();
+                  getHistory();
+                },
+                onBtnPressed: (){
+                  BaseOverlays().dismissOverlay();
+                  getWalletData();
+                  getHistory();
+                });
+          }else{
+            BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+          }
+         },
+     );
+  }
+
+  getWalletData() async {
+    final String userId = await BaseSharedPreference().getString(SpKeys().userId);
+    BaseAPI().get(url: ApiEndPoints().getWalletData+userId).then((value){
+      if (value?.statusCode ==  200) {
+        walletBalanceData?.value = WalletBalanceResponse.fromJson(value?.data).data;
+      }else{
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+      }
+    },
+    );
+  }
+
+  getHistory() async {
+    list?.clear();
+    final String userId = await BaseSharedPreference().getString(SpKeys().userId);
+    BaseAPI().get(url: ApiEndPoints().getTransactionHistory+userId,queryParameters: {"from":fromDate.value,"to":toDate.value,"txnType":selectedTabIndex.value == 0 ? "TRANSACTION" : "TOPUP", "limit":100}).then((value){
+      if (value?.statusCode ==  200) {
+        list?.value = TransactionsHistoryResponse.fromJson(value?.data).data??[];
+      }else{
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+      }
+    },
+    );
+  }
 }

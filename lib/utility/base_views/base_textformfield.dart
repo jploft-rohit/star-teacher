@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -8,7 +9,7 @@ import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/validators.dart';
 
 class BaseTextFormField extends StatelessWidget {
@@ -19,8 +20,10 @@ class BaseTextFormField extends StatelessWidget {
   final String? prefixIcon;
   final String? suffixIcon;
   final bool isDropDown;
+  List<TextInputFormatter>? textInputFormatter;
   final bool? underLine;
   final int? maxLine;
+  final int? maxLength;
   final String? Function(String?)? validator;
   final List<DropdownMenuItem<dynamic>>? items;
   final String? dropDownValue;
@@ -28,7 +31,7 @@ class BaseTextFormField extends StatelessWidget {
   final ValueChanged? onChanged;
   final TextInputType? keyboardType;
   final TextEditingController controller;
-  BaseTextFormField({Key? key, this.title, required this.controller, this.hintText, this.keyboardType, this.prefixIcon, this.suffixIcon, this.isDropDown = false, this.dropDownValue, this.items = const [], this.onChanged, this.onTap, this.bottomMargin, this.topMargin, this.leftMargin, this.rightMargin, this.maxLine, this.errorText, this.validator, this.underLine = false}) : super(key: key);
+  BaseTextFormField({Key? key, this.title, required this.controller, this.hintText, this.keyboardType, this.prefixIcon, this.suffixIcon, this.isDropDown = false, this.dropDownValue, this.items = const [], this.onChanged, this.onTap, this.bottomMargin, this.topMargin, this.leftMargin, this.rightMargin, this.maxLine, this.errorText, this.validator, this.underLine = false, this.maxLength,this.textInputFormatter}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,24 +39,32 @@ class BaseTextFormField extends StatelessWidget {
       padding: EdgeInsets.only(top: topMargin??0,bottom: bottomMargin??2.h,right: rightMargin??0,left: leftMargin??0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Visibility(
             visible: (title??"").isNotEmpty,
             child: Expanded(
               flex: 1,
-              child: Text(title??"", style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp,
-                  color: BaseColors.textBlackColor)),
+              child: Padding(
+                padding: EdgeInsets.only(top: 2.h),
+                child: Text(title??"", style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp,
+                    color: BaseColors.textBlackColor)),
+              ),
             ),
           ),
           Expanded(
             flex: 3,
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Visibility(visible: (title??"").isNotEmpty,
-                    child: SvgPicture.asset(prefixIcon??calenderDateSvg,
-                        color: (prefixIcon??"").isEmpty
-                         ? Colors.transparent
-                         : null)),
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 1.6.h),
+                      child: SvgPicture.asset(prefixIcon??calenderDateSvg,
+                          color: (prefixIcon??"").isEmpty
+                           ? Colors.transparent
+                           : null),
+                    )),
                 Visibility(
                   visible: (title??"").isNotEmpty,
                   child: SizedBox(
@@ -80,7 +91,7 @@ class BaseTextFormField extends StatelessWidget {
                           style: TextStyle(color: Colors.black,fontSize: textFormFieldHintTs),
                             decoration: InputDecoration(
                               hintStyle: TextStyle(color: Colors.black,fontSize: textFormFieldHintTs),
-                              contentPadding: EdgeInsets.only(top: 10,bottom: 10,right: 0,left: 0),
+                              contentPadding: EdgeInsets.only(top: 0,bottom: 15,right: 0,left: 0),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(color: BaseColors.txtFiledBorderColor, width: 1.0),
                                 borderRadius: BorderRadius.circular(5),
@@ -119,18 +130,20 @@ class BaseTextFormField extends StatelessWidget {
                     ),
                     )
                     : Expanded(
-                    child: CustomTextField(
-                    controller: controller,
-                    hintText: hintText??"",
-                    fillColor: Colors.transparent,
-                    borderRadius: 5.0,
-                    errorText: errorText,
-                    validator: validator,
-                    maxLine: maxLine??null,
-                    readOnly: (onTap) == null ? false : true,
-                    onTap: onTap,
-                    textInputType: keyboardType,
-                    suffixIcon: Padding(
+                      child: CustomTextField(
+                      controller: controller,
+                      hintText: hintText??"",
+                      fillColor: Colors.transparent,
+                      borderRadius: 5.0,
+                      textInputFormatter: textInputFormatter,
+                      errorText: errorText,
+                      validator: validator,
+                      maxLine: maxLine??null,
+                      readOnly: (onTap) == null ? false : true,
+                      onTap: onTap,
+                      maxLength: maxLength??400,
+                      textInputType: keyboardType,
+                      suffixIcon: Padding(
                       padding: EdgeInsets.only(right: 1.8.w),
                       child: SvgPicture.asset(suffixIcon??""),
                     ),

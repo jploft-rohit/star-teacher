@@ -66,7 +66,7 @@ class NotificationListTile extends StatelessWidget {
                     ],
                   ),
                   const Spacer(),
-                  Text(getFormattedDate(controller.list?[index].sender?.createdAt??""), style: Style.montserratMediumStyle().copyWith(color: BaseColors.textLightGreyColor, fontSize: 14.sp),),
+                  Text(formatBackendDate(controller.list?[index].sender?.createdAt??""), style: Style.montserratMediumStyle().copyWith(color: BaseColors.textLightGreyColor, fontSize: 14.sp),),
                 ],
               ),
             ),

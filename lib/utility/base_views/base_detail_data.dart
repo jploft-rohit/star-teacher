@@ -10,13 +10,14 @@ import 'package:staff_app/utility/images_icon_path.dart';
 class BaseDetailData extends StatelessWidget {
   final String? prefixIcon;
   final String? suffixIcon;
+  final List<Widget>? suffixWidgetsList;
   final String detailsLabel;
   final String detailsValue;
   final double? topMargin,bottomMargin,rightMargin,leftMargin;
   final bool? showDivider;
   final bool? spacedSuffix;
 
-  BaseDetailData({Key? key,this.prefixIcon, required this.detailsLabel,this.detailsValue="", this.topMargin, this.bottomMargin, this.showDivider, this.rightMargin, this.leftMargin, this.suffixIcon, this.spacedSuffix}) : super(key: key);
+  BaseDetailData({Key? key,this.prefixIcon, required this.detailsLabel,this.detailsValue="", this.topMargin, this.bottomMargin, this.showDivider, this.rightMargin, this.leftMargin, this.suffixIcon, this.spacedSuffix, this.suffixWidgetsList}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class BaseDetailData extends StatelessWidget {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               Visibility(
@@ -79,10 +80,17 @@ class BaseDetailData extends StatelessWidget {
                     child: SvgPicture.asset(suffixIcon??"",height: 2.h,width: 2.h,),
                   ),
                 ),
+              ),
+              Visibility(
+                visible: suffixWidgetsList != null,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: suffixWidgetsList??[],
+                )
               )
             ],
           ),
-          Visibility(visible: showDivider??true, child: const Divider(color: BaseColors.dividerColor,)),
+          Visibility(visible: showDivider??true, child: const Divider(color: BaseColors.dividerColor)),
         ],
       ),
     );

@@ -23,12 +23,17 @@ class FeedbackHelpScreen extends StatefulWidget {
 
 class _FeedbackHelpScreenState extends State<FeedbackHelpScreen> with TickerProviderStateMixin{
   FeedbackHelpController controller = Get.put(FeedbackHelpController());
-  TabController? tabCtrl;
+  late TabController tabCtrl;
 
   @override
   void initState() {
     tabCtrl = TabController(length: 3, vsync: this)..addListener(() {
-      controller.getData(type: (tabCtrl?.index??0) == 0 ? "" : (tabCtrl?.index??0) == 1 ? "help" : "feedback");
+      if (!tabCtrl.indexIsChanging) {
+        controller.getData(
+            type: (tabCtrl.index) == 0 ? "" : (tabCtrl.index) == 1
+                ? "help"
+                : "feedback");
+      }
     });
     super.initState();
   }

@@ -6,7 +6,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
-import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/utility/base_utility.dart';
 
 class ChooseMeetingDateTimePopup extends StatefulWidget {
   final String title;

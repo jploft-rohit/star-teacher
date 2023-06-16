@@ -111,4 +111,9 @@ class ApiEndPoints {
   final String getLeaveTypes = "requestRoutes/leaveTypeList";
   final String uploadEvidence = "requestRoutes/update/";
   final String getLeaveBalance = "staffLeave/list";
+
+  /// Wallet
+  final String addWalletMoney = "wallet/transaction/create";
+  final String getTransactionHistory = "wallet/transaction/get/";
+  final String getWalletData = "wallet/get/";
 }

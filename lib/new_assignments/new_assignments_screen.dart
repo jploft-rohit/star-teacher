@@ -4,7 +4,6 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/new_assignments/assessments_awareness_courses.dart';
 import 'package:staff_app/new_assignments/controller/new_assignment_ctrl.dart';
 import 'package:staff_app/new_assignments/create_assignment.dart';
-import 'package:staff_app/new_assignments/tabs/new_assignment_list_tile.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
 import 'package:staff_app/utility/base_views/base_tab_button.dart';

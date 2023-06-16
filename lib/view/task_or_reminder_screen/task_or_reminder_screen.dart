@@ -143,7 +143,7 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
                     pageBuilder: (context, animation,
                         secondaryAnimation) {
                       return ShowPdfViewDialog(
-                        url: (ApiEndPoints().imageBaseUrl) + controller.list?[index].document??"",
+                        url: (ApiEndPoints().imageBaseUrl) + controller.list?[index].document,
                         title: "Task & Reminder",
                       );
                     },);

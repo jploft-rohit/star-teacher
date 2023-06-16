@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
-import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_loader.dart';
 import 'package:staff_app/view/leave_request_screen/controller/leave_request_ctrl.dart';

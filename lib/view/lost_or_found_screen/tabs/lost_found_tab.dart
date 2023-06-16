@@ -4,7 +4,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_detail_data.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
@@ -49,7 +49,7 @@ class _LostFoundTabState extends State<LostFoundTab> {
                       ],
                     ),
                     const Divider(),
-                    BaseDetailData(detailsLabel:controller.selectedTabIndex.value == 0 ? translate(context).found_date : "Lost Date", detailsValue:getFormattedDate(controller.list?[index].date??"")),
+                    BaseDetailData(detailsLabel:controller.selectedTabIndex.value == 0 ? translate(context).found_date : "Lost Date", detailsValue:formatBackendDate(controller.list?[index].date??"")),
                     BaseDetailData(detailsLabel:"Where", detailsValue:controller.list?[index].location??""),
                     Container(
                       clipBehavior: Clip.antiAliasWithSaveLayer,

@@ -15,7 +15,7 @@ import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/time_picker.dart';
-import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/show_document.dart';
@@ -219,7 +219,7 @@ class _AddTaskOrReminderScreenState extends State<AddTaskOrReminderScreen> {
                   dateTextStyle: TextStyle(color: Color(0xFF7E7E7E),fontSize: 20),
                   dayTextStyle: TextStyle(color: Color(0xFF7E7E7E),fontSize: 10),
                   onDateChange: (date) {
-                    controller.selectedDate.value = getFormattedDate(date.toString());
+                    controller.selectedDate.value = formatBackendDate(date.toString());
                   },
                 ),
               ),

@@ -10,7 +10,7 @@ import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
 import 'package:staff_app/Utility/otp_txt_field.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/show_document.dart';
 import 'package:staff_app/utility/custom_text_field.dart';
@@ -257,58 +257,62 @@ class BaseOverlays {
     String? btnTitle,
     String? iconSvg,
     bool? showOkButton,
+    bool? barrierDismissible,
   }) {
     showGeneralDialog(
         context: Get.context!,
-        barrierDismissible: true,
+        barrierDismissible: barrierDismissible??true,
         barrierLabel: "",
         pageBuilder: (context, a1, a2) {
-          return Dialog(
-            insetPadding: EdgeInsets.symmetric(horizontal: 3.w),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(14))),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(height: 12),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: GestureDetector(
-                        onTap: onClose ??
-                            () {
-                              Get.back();
-                            },
-                        child: SvgPicture.asset("assets/images/ic_close.svg",
-                            height: 16)),
-                  ),
-                  SizedBox(height: 16),
-                  Visibility(
-                      visible: (iconSvg ?? "").isNotEmpty,
-                      child: SvgPicture.asset(iconSvg ?? "")),
-                  SizedBox(height: 16),
-                  Text(title ?? "",
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 15,
-                          color: Colors.black)),
-                  Visibility(
-                      visible: showOkButton ?? true,
-                      child: const SizedBox(height: 20)),
-                  Visibility(
-                      visible: showOkButton ?? true,
-                      child: BaseButton(
-                          btnType: dialogButton,
-                          title: btnTitle ?? "OK",
-                          onPressed: onBtnPressed ??
+          return WillPopScope(
+            onWillPop: () async => false,
+            child: Dialog(
+              insetPadding: EdgeInsets.symmetric(horizontal: 3.w),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(14))),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(height: 12),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: GestureDetector(
+                          onTap: onClose ??
                               () {
                                 Get.back();
-                              })),
-                  const SizedBox(height: 20),
-                ],
+                              },
+                          child: SvgPicture.asset("assets/images/ic_close.svg",
+                              height: 16)),
+                    ),
+                    SizedBox(height: 16),
+                    Visibility(
+                        visible: (iconSvg ?? "").isNotEmpty,
+                        child: SvgPicture.asset(iconSvg ?? "")),
+                    SizedBox(height: 16),
+                    Text(title ?? "",
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15,
+                            color: Colors.black)),
+                    Visibility(
+                        visible: showOkButton ?? true,
+                        child: const SizedBox(height: 20)),
+                    Visibility(
+                        visible: showOkButton ?? true,
+                        child: BaseButton(
+                            btnType: dialogButton,
+                            title: btnTitle ?? "OK",
+                            onPressed: onBtnPressed ??
+                                () {
+                                  Get.back();
+                                })),
+                    const SizedBox(height: 20),
+                  ],
+                ),
               ),
             ),
           );

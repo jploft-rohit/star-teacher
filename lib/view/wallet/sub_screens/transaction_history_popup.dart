@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
-
 import 'package:staff_app/utility/base_views/base_colors.dart';
-import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/utility/base_views/base_image_network.dart';
 import 'package:staff_app/view/wallet/wallet_controller.dart';
 
 class TransactionHistoryPopup extends StatefulWidget {
-  int index;
+  final int index;
   TransactionHistoryPopup({Key? key, required this.index}) : super(key: key);
 
   @override
@@ -20,6 +18,9 @@ class TransactionHistoryPopup extends StatefulWidget {
 }
 
 class _TransactionHistoryPopupState extends State<TransactionHistoryPopup> {
+
+  WalletController controller = Get.find<WalletController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,64 +64,100 @@ class _TransactionHistoryPopupState extends State<TransactionHistoryPopup> {
                   clipBehavior: Clip.antiAliasWithSaveLayer,
                   alignment: Alignment.centerRight,
                   children: [
-                    Container(
-                      margin: EdgeInsets.only(right: 3.w),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: BaseColors.greyColor)),
-                      child: IntrinsicHeight(
-                        child: Row(
-                          children: [
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.fromLTRB(12.0,8,8,8),
-                                  child: Image.asset(Get.find<WalletController>().purchasesList[0]['image']!,height: 60,),
-                                ),
-                                Text('#632541', style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: BaseColors.primaryColor)),
-                              ],
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 15.0),
+                      child: Stack(
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        alignment: Alignment.centerRight,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: BaseColors.greyColor),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(width: 2.w),
-                                Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Cookies', style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: BaseColors.textBlackColor)),
-                                    const SizedBox(height: 4),
-                                    Text('Order ID : 659878', style: Style.montserratBoldStyle().copyWith(fontSize: 12.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w300)),
-                                    const SizedBox(height: 3),
-                                    Text('TR No : 258796', style: Style.montserratBoldStyle().copyWith(fontSize: 12.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w300)),
-                                    const SizedBox(height: 3),
-                                    Text('Purchase (Cookies)', style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
-                                    const SizedBox(height: 2),
-                                    Text.rich(TextSpan(children: [
-                                      TextSpan(text: "2 AED",style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
-                                      const WidgetSpan(child: SizedBox(width: 2)),
-                                      TextSpan(text: "Sent",style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: Colors.blue,fontWeight: FontWeight.w400)),
-                                    ])),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            const Spacer(),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 35),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
+                            child: IntrinsicHeight(
+                              child: Row(
                                 children: [
-                                  Text('20/10/2022', style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
-                                  const SizedBox(height: 8),
-                                  Text('09:00:30pm', style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
+                                  controller.selectedTabIndex.value == 0
+                                      ? BaseImageNetwork(
+                                    link: controller.list?[widget.index]?.productImage??"",
+                                    concatBaseUrl: false,
+                                    height: 6.h,
+                                    width: 7.h,
+                                    leftMargin: 0.6.w,
+                                    borderRadius: 10,
+                                  )
+                                      : Container(
+                                    width: 10.h,
+                                    padding: const EdgeInsets.only(top: 10.0,bottom: 10.0),
+                                    decoration: BoxDecoration(
+                                        color: BaseColors.backgroundColor,
+                                        border: Border.all(color: BaseColors.primaryColor),
+                                        borderRadius: BorderRadius.circular(10)),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(controller.list?[widget.index]?.txnAmount.toString()??"", style: Style.montserratBoldStyle().copyWith(fontSize: 20.sp, color: BaseColors.primaryColor),),
+                                        Text("AED", style: Style.montserratRegularStyle().copyWith(fontSize: 16.sp, color: BaseColors.primaryColor),),
+                                      ],
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(width: 2.w),
+                                      Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          controller.selectedTabIndex.value == 0
+                                              ? Text(controller.list?[widget.index]?.title??"", style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: BaseColors.textBlackColor))
+                                              : Text("Amount Added", style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
+                                          const SizedBox(height: 4),
+                                          controller.selectedTabIndex.value == 0
+                                              ? Text('#${controller.list?[widget.index]?.txnId??""}', style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.primaryColor))
+                                              : Text('TR No : ${controller.list?[widget.index]?.txnId??""}', style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp)),
+                                          Visibility(
+                                            visible: controller.selectedTabIndex.value == 0,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(top: 3),
+                                              child: Text(controller.list?[widget.index]?.description??"", style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
+                                            ),
+                                          ),
+                                          Visibility(
+                                            visible: controller.selectedTabIndex.value == 0,
+                                            child: Padding(
+                                              padding: EdgeInsets.only(top: 4),
+                                              child: Text.rich(TextSpan(children: [
+                                                TextSpan(text: "${controller.list?[widget.index]?.txnAmount.toString()??"0"} AED",style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
+                                                const WidgetSpan(child: SizedBox(width: 2)),
+                                                TextSpan(text: "Sent",style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: Colors.blue,fontWeight: FontWeight.w400)),
+                                              ])),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  const Spacer(),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 35,top: 2),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(formatBackendDate(controller.list?[widget.index]?.createdAt??""), style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
+                                        const SizedBox(height: 8),
+                                        Text(getFormattedTime(controller.list?[widget.index]?.createdAt??""), style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                     // Padding(

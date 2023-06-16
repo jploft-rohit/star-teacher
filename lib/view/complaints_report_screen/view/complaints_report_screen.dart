@@ -21,12 +21,14 @@ class ComplaintsReportScreen extends StatefulWidget {
 
 class _ComplaintsReportScreenState extends State<ComplaintsReportScreen> with TickerProviderStateMixin{
   ComplainReportController controller = Get.put(ComplainReportController());
-  TabController? tabCtrl;
+  late TabController tabCtrl;
 
   @override
   void initState() {
     tabCtrl = TabController(length: 3, vsync: this)..addListener(() {
-      controller.getData(type: (tabCtrl?.index??0) == 0 ? "" : (tabCtrl?.index??0) == 1 ? "complaint" : "report");
+      if (!tabCtrl.indexIsChanging) {
+        controller.getData(type: (tabCtrl.index) == 0 ? "" : (tabCtrl.index) == 1 ? "complaint" : "report");
+      }
     });
     super.initState();
   }

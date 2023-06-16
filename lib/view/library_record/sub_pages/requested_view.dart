@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/step_progress.dart';
-import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/view/library_record/library_record_controller.dart';
 import 'package:staff_app/view/salary_slip_screen/salary_slip_poup.dart';
 
