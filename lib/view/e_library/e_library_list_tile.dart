@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/storage/base_shared_preference.dart';
+import 'package:staff_app/storage/sp_keys.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 
 import 'package:staff_app/utility/base_views/base_colors.dart';
@@ -18,8 +20,10 @@ import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_detail_data.dart';
 import 'package:staff_app/utility/base_views/base_edit_delete.dart';
 import 'package:staff_app/utility/base_views/base_icons.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/view/assignments_screen/submitted_assignment_view.dart';
 import 'package:staff_app/view/e_library/controller/e_library_controller.dart';
+import 'package:staff_app/view/e_library/create_e_library_assignment.dart';
 import 'package:staff_app/view/salary_slip_screen/salary_slip_poup.dart';
 
 import '../assignments_screen/assignment_submission_screen.dart';
@@ -34,13 +38,22 @@ class ELibraryListTile extends StatefulWidget {
 class _ELibraryListTileState extends State<ELibraryListTile> {
   ELibraryController controller = Get.find<ELibraryController>();
   TextEditingController searchCtrl = TextEditingController();
+  String userId = "";
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      userId = await BaseSharedPreference().getString(SpKeys().userId);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Obx(()=>ListView.builder(
         padding: EdgeInsets.only(bottom: 8.h),
         shrinkWrap: true,
-        itemCount: controller.length.value,
+        itemCount: controller.list?.length??0,
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
             onTap: (){
@@ -56,20 +69,47 @@ class _ELibraryListTileState extends State<ELibraryListTile> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    BaseEditDelete(heading: "Assignments 1", editTitle: controller.tabIndex == 1 ? "" : "assignment", deleteTitle: controller.tabIndex == 1 ? "" : "Delete Assignment",showSaveIcon: controller.tabIndex == 1,showDeleteReason: true,),
-                    Divider(),
-                    BaseDetailData(detailsLabel: "Assignment Number",detailsValue: "1154",prefixIcon: "assets/images/report.svg"),
-                    BaseDetailData(detailsLabel: "Assignment Type",detailsValue: "Worksheet",prefixIcon: "assets/images/report.svg"),
-                    Visibility(visible: controller.tabIndex == 1, child: BaseDetailData(detailsLabel: "Assignment To",detailsValue: "Rashid Khan (Nurse)",prefixIcon: "assets/images/family_img.svg")),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        BaseDetailData(showDivider: false,detailsLabel: translate(context).post_date,detailsValue: "01/03/2022",prefixIcon: "assets/images/Vector (1).svg"),
-                        Container(height: 20.0,width: 1, color: BaseColors.borderColor,),
-                        BaseDetailData(showDivider: false,detailsLabel: translate(context).post_time,detailsValue: "9:30 AM",prefixIcon: "assets/images/time_icon.svg"),
-                      ],
+                    BaseEditDelete(
+                      heading: controller.list?[index]?.title??"",
+                      showDeleteReason: true,
+                      formKey: controller.formKey,
+                      deleteReasonController: controller.deleteReasonCtrl.value,
+                      /// On Edit
+                      editTitle: controller.tabIndex == 1
+                          ? ""
+                          : "assignment",
+                      onEditProceed: (){
+                        BaseOverlays().dismissOverlay();
+                        Get.to(CreateELibraryAssignment(isEditing: true, data: controller.list?[index]))?.then((value){
+                          controller.getData();
+                        });
+                      },
+                      /// On Delete
+                      deleteTitle: controller.tabIndex == 1
+                          ? ""
+                          : "Delete Assignment",
+                      onDeleteProceed: (){
+                        controller.deleteAssignment(id: controller.list?[index]?.sId??"", index: index);
+                      },
+                      /// On Save
+                      showSaveIcon: controller.tabIndex == 1,
+                      onSaveProceed: (){
+                        controller.saveAssignment(id: controller.list?[index]?.sId??"");
+                      },
                     ),
                     Divider(),
+                    BaseDetailData(detailsLabel: "Assignment Number",detailsValue: controller.list?[index]?.assignmentNo.toString()??"",prefixIcon: "assets/images/report.svg"),
+                    BaseDetailData(detailsLabel: "Assignment Type",detailsValue: controller.list?[index]?.category??"",prefixIcon: "assets/images/report.svg"),
+                    Visibility(visible: controller.tabIndex == 1, child: BaseDetailData(detailsLabel: "Assignment To",detailsValue: "Rashid Khan (Nurse)",prefixIcon: "assets/images/family_img.svg")),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: [
+                    //     BaseDetailData(showDivider: false,detailsLabel: translate(context).post_date,detailsValue: formatBackendDate(controller.list?[index]?.createdAt??""),prefixIcon: "assets/images/Vector (1).svg"),
+                    //     Container(height: 20.0,width: 1, color: BaseColors.borderColor),
+                    //     BaseDetailData(showDivider: false,detailsLabel: translate(context).post_time,detailsValue: getFormattedTime(controller.list?[index]?.createdAt??""),prefixIcon: "assets/images/time_icon.svg"),
+                    //   ],
+                    // ),
+                    // Divider(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -84,7 +124,7 @@ class _ELibraryListTileState extends State<ELibraryListTile> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("food_allergy.doc",style: TextStyle(fontWeight: FontWeight.w700,color: BaseColors.primaryColor,fontSize: 15.sp)),
+                        Text(controller.list?[index]?.createdAt??"",style: TextStyle(fontWeight: FontWeight.w700,color: BaseColors.primaryColor,fontSize: 15.sp)),
                         Row(mainAxisSize: MainAxisSize.min,children: [
                           BaseIcons().view(rightMargin: 2.5.w),
                           BaseIcons().download(leftMargin: 2.5.w),
@@ -95,12 +135,16 @@ class _ELibraryListTileState extends State<ELibraryListTile> {
                     Divider(),
                     SizedBox(height: 1.h),
                     Visibility(
-                      visible: controller.tabIndex == 0,
+                      visible: (controller.list?[index]?.createdBy??"") == userId,
                       child: Row(
                         children: [
                           Expanded(
-                            child: BaseButton(removeHorizontalPadding: true,leftMargin: 2.w,title: controller.tabIndex == 1 ? "STOP POST" : "POST".toUpperCase(), onPressed: (){
-                            },btnType: mediumButton,),
+                            child: BaseButton(removeHorizontalPadding: true,leftMargin: 2.w,title: controller.tabIndex == 1 ? "STOP POST" : "POST".toUpperCase(),
+                              onPressed: (){
+                                controller.postAssignment(id: controller.list?[index]?.sId??"", index: index);
+                              },
+                              btnType: mediumButton,
+                            ),
                           ),
                         ],
                       ),

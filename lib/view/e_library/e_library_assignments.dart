@@ -26,21 +26,21 @@ class _ELibraryScreenState extends State<ELibraryScreen> with SingleTickerProvid
   @override
   void initState() {
     super.initState();
+    controller.getData();
     tabController = TabController(length: 2, vsync: this)..addListener(() {
-      controller.tabIndex.value = tabController.index;
-      setState(() {});
+      if (!tabController.indexIsChanging) {
+        controller.tabIndex.value = tabController.index;
+        controller.getData();
+        setState(() {});
+      }
     });
   }
-  @override
-  void dispose() {
-    tabController.dispose();
-    super.dispose();
-  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
         length: 2,
-        child: Obx(()=>Scaffold(
+        child: Scaffold(
           floatingActionButton: BaseFloatingActionButton(title: 'Add New',onTap: (){
             Get.to(const CreateELibraryAssignment());
           }),
@@ -53,14 +53,18 @@ class _ELibraryScreenState extends State<ELibraryScreen> with SingleTickerProvid
             padding: EdgeInsets.all(scaffoldPadding),
             child: TabBarView(
                 controller: tabController,
-                physics: const NeverScrollableScrollPhysics(),
                 children: const [
                   ELibraryListTile(),
                   ELibraryListTile(),
                 ]),
           ),
         ),
-        )
     );
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
   }
 }

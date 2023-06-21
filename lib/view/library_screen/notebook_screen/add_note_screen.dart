@@ -39,7 +39,6 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
   void initState() {
     super.initState();
     controller.setData(isUpdating: widget.isUpdating, data: widget.data);
-    controller.getSubjects();
   }
 
   @override
@@ -232,9 +231,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                     return null;
                   },
                 ),
-                SizedBox(
-                  height: 2.h,
-                ),
+                SizedBox(height: 2.h),
                 BaseTextFormField(
                   controller: controller.recommendationController,
                   hintText: "Select Recommendation",
@@ -256,7 +253,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                       hintText: controller.subjectController.text.isEmpty ? "Subject" : controller.subjectController.text.trim(),
                       isDropDown: true,
                       errorText: "Please select subject",
-                      items: controller.subjectsList?.map((SubjectsData data){
+                      items: baseCtrl.subjectsList?.map((SubjectsData data){
                         return DropdownMenuItem(
                           value: data,
                           child: addText(data.name??"", 15.sp, Colors.black, FontWeight.w400),

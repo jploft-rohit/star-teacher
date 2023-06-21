@@ -15,7 +15,6 @@ class NotebookCtrl extends GetxController{
   RxString selectedSchoolId = "".obs;
   RxString selectedSubjectId = "".obs;
   RxList<NotebookList>? notebookList = <NotebookList>[].obs;
-  RxList<SubjectsData>? subjectsList = <SubjectsData>[].obs;
   Rx<StarData>? starData = StarData().obs;
   final selectedIndex1 = 0.obs;
   final selectedIndex3 = 0.obs;
@@ -31,13 +30,6 @@ class NotebookCtrl extends GetxController{
   TextEditingController subjectController = TextEditingController();
   TextEditingController commentController = TextEditingController();
   TextEditingController reasonController = TextEditingController();
-
-  @override
-  void onInit() {
-    super.onInit();
-    getSubjects();
-  }
-
 
   /// Set Data for Add Notebook Field Controller
   setData({bool? isUpdating, required NotebookList? data}){
@@ -162,15 +154,4 @@ class NotebookCtrl extends GetxController{
      },
    );
   }
-
-  /// Get Subjects
-  getSubjects(){
-    BaseAPI().get(url: ApiEndPoints().getSubjects,showLoader: false).then((value){
-      if (value?.statusCode == 200) {
-        subjectsList?.value = SubjectResponse.fromJson(value?.data).data?.data??[];
-      }
-    },
-    );
-  }
-
 }

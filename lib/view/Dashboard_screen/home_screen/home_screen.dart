@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/utility/base_views/base_tab_button.dart';
 import 'package:staff_app/utility/base_views/base_toggle_tab_bar.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
@@ -124,9 +125,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 2.h,
-                ),
+                SizedBox(height: 2.h),
                 Padding(
                   padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                   child: Row(
@@ -144,7 +143,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                 SizedBox(
                   height: 1.h,
                 ),
-                Obx(()=> ListView.builder(
+                Obx(()=> (controller.todayScheduledList?.length??0) == 0
+                    ? BaseNoData(message: "No Scheduled Class Found",topMargin: 3.h,bottomMargin: 3.h,)
+                    : ListView.builder(
                     shrinkWrap: true,
                     itemCount: (controller.todayScheduledList?.length??0) > 1 ? 2 : (controller.todayScheduledList?.length??0),
                     padding: const EdgeInsets.only(left: 10),

@@ -8,13 +8,15 @@ import 'package:staff_app/utility/images_icon_path.dart';
 
 class BaseIcons{
   /// Delete Icon With Functionality
-  delete({String? title, Function()? onRightButtonPressed,double? leftMargin, double? rightMargin, double? topMargin, double? bottomMargin,bool? showDeleteReason}){
+  delete({String? title, Function()? onRightButtonPressed,double? leftMargin, double? rightMargin, double? topMargin, double? bottomMargin,bool? showDeleteReason, TextEditingController? deleteReasonController, GlobalKey<FormState>? formKey}){
     return GestureDetector(
       onTap: (){
         if (showDeleteReason??false) {
           BaseOverlays().showReasonDeleteDialog(
             title: title??"Delete",
-            controller: TextEditingController(),
+            controller: deleteReasonController??TextEditingController(),
+            onProceed: onRightButtonPressed,
+            formKey: formKey,
           );
         }else{
           BaseOverlays().showConfirmationDialog(

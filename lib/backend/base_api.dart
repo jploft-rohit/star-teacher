@@ -39,7 +39,7 @@ class BaseAPI {
         BaseOverlays().showLoader(showLoader: showLoader??true);
         FocusScope.of(X.Get.context!).requestFocus(new FocusNode());
         final String token = await BaseSharedPreference().getString(SpKeys().apiToken);
-        final response = await _dio.get(url, options: Options(headers: {"Authorization": "Bearer $token"}),queryParameters: queryParameters,);
+        final response = await _dio.get(url, options: Options(headers: {"Authorization": "Bearer $token"}),queryParameters: queryParameters);
         BaseOverlays().dismissOverlay(showLoader: showLoader??true);
         return response;
       } on DioError catch (e) {

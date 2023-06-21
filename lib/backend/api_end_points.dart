@@ -15,6 +15,9 @@ class ApiEndPoints {
   final String getNewsBroadCast = "newsBroadcast/list";
   final String getHomeData = "home/teacher-home";
 
+  /// Class
+  final String getClassList = "class/getAll";
+
   /// Complaint & Report EndPoints
   final String getAllComplaintReport = "complaintReport/get-all";
   final String updateComplaintReport = "complaintReport/update/";
@@ -117,4 +120,12 @@ class ApiEndPoints {
   final String addWalletMoney = "wallet/transaction/create";
   final String getTransactionHistory = "wallet/transaction/get/";
   final String getWalletData = "wallet/get/";
+
+  /// Assignments
+  final String getAssignmentsList = "assignments/list";
+  final String createAssignment = "assignments/create";
+  final String deleteAssignment = "assignments/delete";
+  final String saveAssignment = "assignments/save/";
+  final String editAssignment = "assignments/update/";
+  final String postAssignment = "assignments/post/";
 }

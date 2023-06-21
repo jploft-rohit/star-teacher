@@ -596,7 +596,7 @@ class BaseOverlays {
   showReasonDeleteDialog(
       {required String title,
         required TextEditingController controller,
-        GlobalKey? formKey,
+        GlobalKey<FormState>? formKey,
         Function()? onProceed}) {
     controller.text = "";
     showDialog(
@@ -614,7 +614,7 @@ class BaseOverlays {
           child: StatefulBuilder(
             builder: (BuildContext context, void Function(void Function()) setState) {
               return Form(
-                key: formKey,
+                key: formKey??GlobalKey<FormState>(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

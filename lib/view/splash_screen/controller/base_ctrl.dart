@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
+import 'package:staff_app/backend/responses_model/class_response.dart';
 import 'package:staff_app/backend/responses_model/comlaint_type_reponse.dart';
 import 'package:staff_app/backend/responses_model/roles_list_response.dart';
 import 'package:staff_app/backend/responses_model/school_list_response.dart';
 import 'package:staff_app/backend/responses_model/stars_list_response.dart';
+import 'package:staff_app/backend/responses_model/subjects_response.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/storage/sp_keys.dart';
@@ -17,6 +19,8 @@ class BaseCtrl extends GetxController{
   ComplaintTypeResponse complaintTypeResponse = ComplaintTypeResponse();
   RolesListResponse rolesListResponse = RolesListResponse();
   RxList<StarsListData>? starsList = <StarsListData>[].obs;
+  RxList<ClassData>? classList = <ClassData>[].obs;
+  RxList<SubjectsData>? subjectsList = <SubjectsData>[].obs;
 
   @override
   void onInit() {
@@ -28,8 +32,10 @@ class BaseCtrl extends GetxController{
       print("User Id -----> "+userId);
       if ((token).isNotEmpty) {
         getRolesList(showLoader: false);
-        getSchoolData(showLoader: false);
+        await getSchoolData(showLoader: false);
         getStarsList(showLoader: false);
+        await getClassList(showLoader: false);
+        getSubjects();
       }
     });
   }
@@ -78,5 +84,26 @@ class BaseCtrl extends GetxController{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
       }
     });
+  }
+
+  getClassList({bool? showLoader}) async {
+    classList?.clear();
+    BaseAPI().get(url: ApiEndPoints().getClassList, showLoader: showLoader).then((value){
+      if (value?.statusCode ==  200) {
+        classList?.value = ClassResponse.fromJson(value?.data).data?.data??[];
+      } else{
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+      }
+    });
+  }
+
+  /// Get Subjects
+  getSubjects(){
+    BaseAPI().get(url: ApiEndPoints().getSubjects,showLoader: false).then((value){
+      if (value?.statusCode == 200) {
+        subjectsList?.value = SubjectResponse.fromJson(value?.data).data?.data??[];
+      }
+    },
+    );
   }
 }
