@@ -553,7 +553,7 @@ String formatBackendDate(String dateString, {bool? getDayFirst}) {
 }
 
 String convertDateFormat3(String dateString1) {
-  if (dateString1.isEmpty || dateString1 == "null") {
+  if (dateString1.isEmpty && dateString1 == "null") {
     return "\n";
   }else{
     DateTime date = DateTime.parse(dateString1).toLocal();
@@ -563,7 +563,7 @@ String convertDateFormat3(String dateString1) {
 }
 
 String getFormattedTime(String dateString1){
-  if (dateString1.isNotEmpty) {
+  if (dateString1.isNotEmpty && dateString1 != "null") {
     DateTime date = DateTime.parse(dateString1);
     String formattedTime = DateFormat('hh:mm a').format(date.toLocal());
     return formattedTime;
@@ -581,7 +581,7 @@ String formatFlutterDateTime({required DateTime flutterDateTime,bool? getDayFirs
 }
 
 String getFormattedTime3(String dateString1){
-  if (dateString1.isNotEmpty) {
+  if (dateString1.isNotEmpty && dateString1 != "null") {
     DateTime date = DateTime.parse(dateString1);
     String formattedTime = DateFormat('HH:mm').format(date.toLocal());
     return formattedTime;
@@ -591,14 +591,18 @@ String getFormattedTime3(String dateString1){
 }
 
 String getFormattedTime2(String dateString1){
-  String hours, minutes;
-  DateTime date = DateTime.parse(dateString1);
-  String formattedTime = DateFormat('H:m').format(date.toLocal());
-  var time = formattedTime.split(":");
-  hours = time[0].length == 1 ? ("0"+time[0].toString()) : (time[0].toString());
-  minutes = time[1].length == 1 ? ("0"+time[1].toString()) : (time[1].toString());
-  formattedTime = "$hours:$minutes";
-  return formattedTime;
+  if (dateString1.isNotEmpty && dateString1 != "null") {
+    String hours, minutes;
+    DateTime date = DateTime.parse(dateString1);
+    String formattedTime = DateFormat('H:m').format(date.toLocal());
+    var time = formattedTime.split(":");
+    hours = time[0].length == 1 ? ("0"+time[0].toString()) : (time[0].toString());
+    minutes = time[1].length == 1 ? ("0"+time[1].toString()) : (time[1].toString());
+    formattedTime = "$hours:$minutes";
+    return formattedTime;
+  }else{
+    return "";
+  }
 }
 
 String formatTime(DateTime dateTime) {
@@ -621,14 +625,22 @@ String formatTime(DateTime dateTime) {
 }
 
 String getHours(String dateString1){
-  DateTime date = DateTime.parse(dateString1);
-  String formattedTime = DateFormat('hh').format(date.toLocal());
-  return formattedTime;
+  if (dateString1.isNotEmpty && dateString1 != "null") {
+    DateTime date = DateTime.parse(dateString1);
+    String formattedTime = DateFormat('hh').format(date.toLocal());
+    return formattedTime;
+  }else{
+    return "";
+  }
 }
 String getMinutes(String dateString1){
-  DateTime date = DateTime.parse(dateString1);
-  String formattedTime = DateFormat('mm').format(date.toLocal());
-  return formattedTime;
+  if (dateString1.isNotEmpty && dateString1 != "null") {
+    DateTime date = DateTime.parse(dateString1);
+    String formattedTime = DateFormat('mm').format(date.toLocal());
+    return formattedTime;
+  }else{
+    return "";
+  }
 }
 
 baseToast({required String message}){

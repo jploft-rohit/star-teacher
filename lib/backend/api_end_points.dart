@@ -13,6 +13,7 @@ class ApiEndPoints {
 
   /// DashBoard EndPoints
   final String getNewsBroadCast = "newsBroadcast/list";
+  final String getHomeData = "home/teacher-home";
 
   /// Complaint & Report EndPoints
   final String getAllComplaintReport = "complaintReport/get-all";
