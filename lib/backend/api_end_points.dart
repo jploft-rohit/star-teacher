@@ -128,4 +128,10 @@ class ApiEndPoints {
   final String saveAssignment = "assignments/save/";
   final String editAssignment = "assignments/update/";
   final String postAssignment = "assignments/post/";
+
+  /// Early Leave
+  final String getEarlyLeaves = "requestRoutes/list?typeOfRequest=earlyLeave";
+  final String createEarlyLeave = "requestRoutes/create";
+  final String deleteEarlyLeave = "requestRoutes/delete/";
+  final String updateEarlyLeave = "requestRoutes/update/";
 }

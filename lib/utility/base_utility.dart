@@ -572,6 +572,16 @@ String getFormattedTime(String dateString1){
   }
 }
 
+String getFormattedTimeWithMonth(String dateString1){
+  if (dateString1.isNotEmpty && dateString1 != "null") {
+    DateTime date = DateTime.parse(dateString1);
+    String formattedTime = DateFormat('MMM dd,\nhh:mm a').format(date.toLocal());
+    return formattedTime;
+  }else{
+    return "N/A";
+  }
+}
+
 String formatFlutterDateTime({required DateTime flutterDateTime,bool? getDayFirst}){
    if (getDayFirst??false) {
      return "${flutterDateTime.day.toString()}-${flutterDateTime.month.toString().padLeft(2,'0')}-${flutterDateTime.year.toString().padLeft(2,'0')}";
