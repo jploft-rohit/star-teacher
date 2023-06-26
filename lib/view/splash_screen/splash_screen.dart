@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/storage/sp_keys.dart';
-import 'package:staff_app/utility/base_views/base_colors.dart';
-import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/route_manager/route_name.dart';
 import 'package:staff_app/view/Dashboard_screen/dashboard_screen.dart';
 
@@ -36,15 +34,22 @@ class _SplashScreenState extends State<SplashScreen> {
     body: Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
-      color: BaseColors.primaryColor,
+      color: Color(0xFFCBA864),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SvgPicture.asset(
-            splashLogoSvg,
-            width: 30.w,
-            height: 30.w,
-            fit: BoxFit.fill,
+          Container(
+            padding: EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.white),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: SvgPicture.asset(
+              "assets/images/app_logo_withou_bg.svg",
+              width: 20.w,
+              height: 20.w,
+              fit: BoxFit.fill,
+            ),
           ),
         ],
       ),

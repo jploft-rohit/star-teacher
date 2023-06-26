@@ -33,7 +33,7 @@ class _EarlyLeavePermissionState extends State<EarlyLeavePermission> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(title: translate(context).schedule_meeting),
+      appBar: BaseAppBar(title: "Early Leave & Permission"),
       floatingActionButton: BaseFloatingActionButton(
         onTap: () {Get.to(const CreateEarlyLeave());},
         title: 'Request',

@@ -19,12 +19,11 @@ import 'package:staff_app/view/Dashboard_screen/home_screen/tabs/star_gallery_ta
 import 'package:staff_app/view/Dashboard_screen/today_schedule_tile.dart';
 import 'package:staff_app/view/drawer_screen/drawer_screen.dart';
 import 'package:staff_app/view/library_screen/notebook_screen/notebook_screen.dart';
-import 'package:staff_app/view/news_screen/news_details_screen.dart';
-import 'package:staff_app/view/news_screen/news_screen.dart';
 import 'package:staff_app/view/performance_screen/performance_screen.dart';
 import 'package:staff_app/view/star_attendance_screen/star_attendance_screen.dart';
 import 'package:staff_app/view/star_evaluation_screen/star_evaluation_screen.dart';
 import 'package:staff_app/view/star_evaluation_screen/star_view.dart';
+import 'package:staff_app/view/today_schedule_module/today_schedule_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -131,11 +130,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(translate(context).today_schedule, style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp),),
+                      Text(translate(context).today_schedule, style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp)),
                       GestureDetector(
                         onTap: (){
-                          Get.to(const HomeClassScheduleScreen(index: 1,isViewAll: true));
-                        },
+                          Get.to(const TodayScheduleScreen());
+                          },
                           child: Text(translate(context).view_all, style: Style.montserratMediumStyle().copyWith(fontSize: 15.sp ,decoration: TextDecoration.underline, color: BaseColors.txtPrimaryColor),)),
                     ],
                   ),
@@ -155,9 +154,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                     },
                   ),
                 ),
-                SizedBox(
-                  height: 2.h,
-                ),
+                SizedBox(height: 2.h),
                 SizedBox(
                   height: 12.h,
                   child: Row(
@@ -181,7 +178,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Text(translate(context).performance, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),textAlign: TextAlign.center,),
-                                Text(controller.rationOfPerformance?.value.toString()??"", style: Style.montserratBoldStyle().copyWith(fontSize: 21.sp, color: BaseColors.txtPrimaryColor),textAlign: TextAlign.center,),
+                                Obx(()=> Text(controller.rationOfPerformance?.value.toString()??"", style: Style.montserratBoldStyle().copyWith(fontSize: 21.sp, color: BaseColors.txtPrimaryColor),textAlign: TextAlign.center,)),
                               ],
                             ),
                           ),

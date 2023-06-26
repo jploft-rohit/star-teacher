@@ -6,15 +6,13 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_tab_bar.dart';
-
 import 'package:staff_app/utility/base_views/base_colors.dart';
-import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
-import 'package:staff_app/view/performance_screen/performance_screen_ctrl.dart';
+import 'package:staff_app/view/performance_screen/controller/performance_screen_ctrl.dart';
 
 class PerformanceScreen extends StatefulWidget {
-  int index;
+  final int index;
   PerformanceScreen({Key? key,required this.index }) : super(key: key);
 
   @override
@@ -22,15 +20,18 @@ class PerformanceScreen extends StatefulWidget {
 }
 
 class _PerformanceScreenState extends State<PerformanceScreen> with TickerProviderStateMixin {
-  TabController? tabCtrl;
-
-  PerformanceScreenCtrl controller = Get.put(PerformanceScreenCtrl());
+  late TabController tabCtrl;
+  PerformanceController controller = Get.put(PerformanceController());
 
   @override
   void initState() {
-    tabCtrl = TabController(length: 4, vsync: this);
-    tabCtrl?.animateTo(widget.index);
     super.initState();
+    tabCtrl = TabController(length: 4, vsync: this)..addListener(() {
+      if (!(tabCtrl.indexIsChanging)) {
+        controller.selectedTabIndex.value = tabCtrl.index;
+        controller.getData();
+      }
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -62,45 +63,29 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
                     SizedBox(
                       height: 1.h,
                     ),
-                    addText("4.3", 20.sp, BaseColors.textBlackColor, FontWeight.w700),
+                    Obx(()=> addText(controller.averageRating.toString(), 20.sp, BaseColors.textBlackColor, FontWeight.w700)),
                     SizedBox(
                       height: 1.h,
                     ),
-                    // RatingBar(
-                    //   initialRating: 4.5,
-                    //   direction: Axis.horizontal,
-                    //   allowHalfRating: true,
-                    //   itemCount: 5,
-                    //   ratingWidget: RatingWidget(
-                    //     full: SvgPicture.asset('assets/images/full_rating_img.svg'),
-                    //     half: SvgPicture.asset('assets/images/full_rating_img.svg'),
-                    //     empty: SvgPicture.asset('assets/images/full_rating_img.svg'),
-                    //   ),
-                    //   itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                    //   onRatingUpdate: (rating) {
-                    //     print(rating);
-                    //   },
-                    // )
-                    RatingBar.builder(
-                      initialRating: 3,
-                      minRating: 1,
-                      direction: Axis.horizontal,
-                      allowHalfRating: true,
-                      itemCount: 5,
-                      itemPadding:
-                      const EdgeInsets.symmetric(horizontal: 4.0),
-                      itemSize: 28,
-                      itemBuilder: (context, _) => const Icon(
-                        CupertinoIcons.star_fill,
-                        color: BaseColors.primaryColor,
+                    Obx(()=>RatingBar.builder(
+                        initialRating: controller.averageRating.value,
+                        minRating: 1,
+                        maxRating: 5,
+                        ignoreGestures: true,
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        itemSize: 28,
+                        itemBuilder: (context, _) => const Icon(
+                          CupertinoIcons.star_fill,
+                          color: BaseColors.primaryColor,
+                        ),
+                        unratedColor: BaseColors.primaryColor.withOpacity(0.3),
+                        onRatingUpdate: (rating) {
+                          print(rating);
+                        },
                       ),
-                      unratedColor:
-                      BaseColors.primaryColor.withOpacity(
-                        0.3,
-                      ),
-                      onRatingUpdate: (rating) {
-                        print(rating);
-                      },
                     ),
                   ],
                 ),
@@ -132,7 +117,8 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
                       itemBuilder: (context, index) {
                         return Obx(() => GestureDetector(
                           onTap: (){
-                            controller.selectedIndex.value = index;
+                            controller.selectedRatingIndex.value = index;
+                            controller.getData();
                           },
                           child: Row(
                             children: [
@@ -142,12 +128,12 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
                                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                    color: controller.selectedIndex.value == index ? BaseColors.backgroundColor : BaseColors.screenBackgroundColor,
+                                    color: controller.selectedRatingIndex.value == index ? BaseColors.backgroundColor : BaseColors.screenBackgroundColor,
                                     border: Border.all(
-                                        color: controller.selectedIndex.value == index ? Colors.transparent : BaseColors.txtFiledBorderColor
+                                        color: controller.selectedRatingIndex.value == index ? Colors.transparent : BaseColors.txtFiledBorderColor
                                     ),
                                     boxShadow: [
-                                      if(controller.selectedIndex.value == index)
+                                      if(controller.selectedRatingIndex.value == index)
                                         const BoxShadow(
                                             color: BaseColors.darkShadowColor,
                                             spreadRadius: 1.0,
@@ -219,98 +205,98 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
     );
   }
   Widget tabBarViews(){
-    return ListView.builder(
-      itemCount: 5,
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        return Container(
-          padding: const EdgeInsets.only(left: 12.0, right: 12.0, top: 10.0, bottom: 10.0),
-          margin: const EdgeInsets.only(bottom: 10.0),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              border: Border.all(color: BaseColors.borderColor)
-          ),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  RatingBar(
-                    initialRating: controller.ratingList[index],
-                    direction: Axis.horizontal,
-                    allowHalfRating: true,
-                    itemCount: controller.ratingList[index].toInt(),
-                    itemSize: 20.sp,
-                    ignoreGestures: true,
-                    ratingWidget: RatingWidget(
-                      full: Icon(
+    return Obx(()=>ListView.builder(
+        itemCount: controller.list?.length??0,
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          return Container(
+            padding: const EdgeInsets.only(left: 12.0, right: 12.0, top: 10.0, bottom: 10.0),
+            margin: const EdgeInsets.only(bottom: 10.0),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                border: Border.all(color: BaseColors.borderColor)
+            ),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    RatingBar.builder(
+                      initialRating: double.parse(controller.list?[index]?.rating.toString()??"0.0"),
+                      direction: Axis.horizontal,
+                      allowHalfRating: true,
+                      maxRating: 5,
+                      minRating: 1,
+                      itemCount: 5,
+                      itemSize: 20.sp,
+                      ignoreGestures: true,
+                      itemBuilder: (context, _) => const Icon(
                         CupertinoIcons.star_fill,
-                        color: controller.ratingList[index] >= 3.0 ? BaseColors.primaryColor : BaseColors.halfRatingColor,
-                      ),
-                      half: SvgPicture.asset('assets/images/full_rating_img.svg'),
-                      empty: SvgPicture.asset('assets/images/full_rating_img.svg'),
-                    ),
-                    itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    onRatingUpdate: (rating) {
-                      print(rating);
-                    },
-                  ),
-                  if(controller.ratingList[index] < 3.0 || controller.ratingList[index] > 4.0)
-                    Tooltip(
-                      showDuration: const Duration(seconds: 10),
-                      margin: const EdgeInsets.symmetric(horizontal: 30),
-                      textStyle: TextStyle(
                         color: BaseColors.primaryColor,
-                        fontSize: 1.8.h - 1,
                       ),
-                      decoration: BoxDecoration(
-                        color: BaseColors.secondaryColor,
-                        border: Border.all(color: BaseColors.primaryColor),
-                        // boxShadow: [getDeepBoxShadow()],
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      padding: const EdgeInsets.all(20),
-                      message: 'Perrformance is not good, he dont know how to talk and drive bus. Management is also very poor',
-                      triggerMode: TooltipTriggerMode.tap,
-                      child: Container(
-                        padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0, bottom: 5.0),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            color: BaseColors.backgroundColor,
-                            border: Border.all(color: BaseColors.primaryColor)
-                        ),
-                        child: addText(controller.ratingList[index] < 3.0 ? "Performance not good" : "Good behaviour", 14.sp, BaseColors.primaryColor, FontWeight.w400),
-                      ),
+                      unratedColor: BaseColors.primaryColor.withOpacity(0.3),
+                      itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      onRatingUpdate: (rating) {
+                        print(rating);
+                      },
                     ),
-                ],
-              ),
-              SizedBox(
-                height: 1.h,
-              ),
-              Row(
-                children: [
-                  SvgPicture.asset("assets/images/time_icon.svg"),
-                  SizedBox(
-                    width: 1.w,
-                  ),
-                  addText("10:25pm", 15.sp, BaseColors.textBlackColor, FontWeight.w400),
-                  SizedBox(
-                    width: 10.w,
-                  ),
-                  SvgPicture.asset("assets/images/teacher_icon.svg"),
-                  SizedBox(
-                    width: 1.w,
-                  ),
-                  addText("Nora", 15.sp, BaseColors.textBlackColor, FontWeight.w400),
-                  SizedBox(
-                    width: 1.w,
-                  ),
-                  addText("(Security Staff)", 13.sp, BaseColors.primaryColor, FontWeight.w400)
-                ],
-              )
-            ],
-          ),
-        );
-      },
+                    if((controller.list?[index]?.comment??"").toString().isNotEmpty)
+                      Tooltip(
+                        showDuration: const Duration(seconds: 10),
+                        margin: const EdgeInsets.symmetric(horizontal: 30),
+                        textStyle: TextStyle(
+                          color: BaseColors.primaryColor,
+                          fontSize: 1.8.h - 1,
+                        ),
+                        decoration: BoxDecoration(
+                          color: BaseColors.secondaryColor,
+                          border: Border.all(color: BaseColors.primaryColor),
+                          // boxShadow: [getDeepBoxShadow()],
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        padding: const EdgeInsets.all(20),
+                        message: controller.list?[index]?.comment??"N/A",
+                        triggerMode: TooltipTriggerMode.tap,
+                        child: Container(
+                          padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0, bottom: 5.0),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: BaseColors.backgroundColor,
+                              border: Border.all(color: BaseColors.primaryColor)
+                          ),
+                          child: addText(controller.list?[index]?.comment??"N/A", 14.sp, BaseColors.primaryColor, FontWeight.w400),
+                        ),
+                      ),
+                  ],
+                ),
+                SizedBox(
+                  height: 1.h,
+                ),
+                Row(
+                  children: [
+                    SvgPicture.asset("assets/images/time_icon.svg"),
+                    SizedBox(
+                      width: 1.w,
+                    ),
+                    addText(getFormattedTime(controller.list?[index]?.createdAt??""), 15.sp, BaseColors.textBlackColor, FontWeight.w400),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    SvgPicture.asset("assets/images/teacher_icon.svg"),
+                    SizedBox(
+                      width: 1.w,
+                    ),
+                    addText(controller.list?[index]?.ratedBy?.name??"", 15.sp, BaseColors.textBlackColor, FontWeight.w400),
+                    SizedBox(
+                      width: 1.w,
+                    ),
+                    addText("(${controller.list?[index]?.ratedBy?.role?.displayName??""})", 13.sp, BaseColors.primaryColor, FontWeight.w400)
+                  ],
+                )
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }

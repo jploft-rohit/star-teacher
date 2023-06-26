@@ -42,7 +42,7 @@ class _CreateEarlyLeaveState extends State<CreateEarlyLeave> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: BaseAppBar(title: translate(context).early_leave),
+      appBar: BaseAppBar(title: "${(widget.isUpdating??false)? "Edit" : "Add"} Early Leave & Permission"),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(scaffoldPadding),
@@ -212,9 +212,9 @@ class _CreateEarlyLeaveState extends State<CreateEarlyLeave> {
                 ),
                 BaseButton(title: translate(context).submit_btn_txt, onPressed: (){
                   if (widget.isUpdating??false) {
-                    controller.createData();
-                  }else{
                     controller.updateData(id: widget.data?.sId??"");
+                  }else{
+                    controller.createData();
                   }
                 })
               ],

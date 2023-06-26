@@ -7,7 +7,6 @@ import 'package:staff_app/view/attendance_screen/attendance_screen.dart';
 import 'package:staff_app/view/cards_and_tags_screen/cards_and_tags_screen.dart';
 import 'package:staff_app/view/class_schedule_screen/class_schedule_screen.dart';
 import 'package:staff_app/view/complaints_report_screen/view/complaints_report_screen.dart';
-import 'package:staff_app/view/early_leave_and_permission/create_early_leave.dart';
 import 'package:staff_app/view/early_leave_and_permission/early_leave_permission.dart';
 import 'package:staff_app/view/feedback_help_screen/feedback_help_screen.dart';
 import 'package:staff_app/view/leave_permission/leave_permission_screen.dart';
@@ -36,8 +35,7 @@ class _AccountViewState extends State<AccountView> {
       translate(context).class_schedule,
       translate(context).attendance,
       translate(context).performance,
-      "Early Leave",
-      "Leave Permission",
+      "Early Leave & Permission",
       translate(context).leave_request,
       "My Notes",
       "Annual Schedule",
@@ -66,34 +64,34 @@ class _AccountViewState extends State<AccountView> {
                 Get.to(PerformanceScreen(index: 0));
               } else if(index == 3){
                 Get.to(const EarlyLeavePermission());
-              } else if(index == 4){
+              } /*else if(index == 4){
                 Get.to(const LeavePermissionScreen());
-              } else if(index == 5){
+              }*/ else if(index == 4){
                 Get.to(const LeaveRequestScreen());
               }
-              else if(index == 6){
+              else if(index == 5){
                 Get.to(MyNotesScreen());
               }
-              else if(index == 7){
+              else if(index == 6){
                 Get.to(AnnualScheduleScreen());
               }
-              else if(index == 8){
+              else if(index == 7){
                 Get.to(RequestOnlineClassesDetail());
-              } else if(index == 9){
+              } else if(index == 8){
                 Get.to(const MedicalReportView());
-              } else if(index == 10){
+              } else if(index == 9){
                 Get.to(const NotificationSettingScreen());
-              } else if(index == 11){
+              } else if(index == 10){
                 Get.to(const ComplaintsReportScreen());
-              } else if(index == 12){
+              } else if(index == 11){
                 Get.to(const FeedbackHelpScreen());
-              } else if(index == 13){
+              } else if(index == 12){
                 Get.to(const CardsAndTagsScreen());
-              } else if(index == 14){
+              } else if(index == 13){
                 Get.to(const LocationScreen());
-              } else if(index == 15){
+              } else if(index == 14){
                 Get.to(const WalletView());
-              } else if(index == 16){
+              } else if(index == 15){
                 Get.to(const TransportationScreen());
               }
             },

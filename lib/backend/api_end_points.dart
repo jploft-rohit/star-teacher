@@ -134,4 +134,27 @@ class ApiEndPoints {
   final String createEarlyLeave = "requestRoutes/create";
   final String deleteEarlyLeave = "requestRoutes/delete/";
   final String updateEarlyLeave = "requestRoutes/update/";
+
+  /// Medical Record
+  final String getAllDisease = "disease/get/all";
+  final String updateDisease = "registerStar/add-update-diease";
+  final String getAllFood = "food/get-all";
+  final String saveDisease = "registerStar/save_disease";
+  final String addMedicalRecord = "medicalRecord/add";
+  final String getAllMedicalRecord = "medicalRecord/get-all";
+  final String addMedicalSurvey = "registerStar/add-medical-survey";
+  final String getAllMedicalSurvey = "registerStar/get_medical_survey/";
+
+  /// Online Class Request
+  final String getOnlineClassRequests = "requestRoutes/list?typeOfRequest=onlineClass";
+  final String updateOnlineClassRequest = "requestRoutes/update/";
+  final String createOnlineClassRequest = "requestRoutes/create";
+  final String deleteOnlineClassRequest = "requestRoutes/delete/";
+
+  /// Performance
+  final String getPerformance = "teacherRating/get_performance";
+
+  /// Today Schedule List
+  final String getTodayScheduledList = "home/today-schedule";
+
 }

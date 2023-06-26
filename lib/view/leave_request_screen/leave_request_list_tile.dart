@@ -48,7 +48,7 @@ class _LeaveRequestListTileState extends State<LeaveRequestListTile> {
           controller.statusTitle.value = [];
           controller.list?[index].requestStatus?.toList().asMap().forEach((loopIndex,element) {
             controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"N/A")??"N/A");
-            controller.statusTime.add(convertDateFormat3(element.time??""));
+            controller.statusTime.add(getFormattedTimeWithMonth(element.time??""));
             if ((element.time??"").toString().isNotEmpty) {
               stepperIndex = loopIndex;
             }

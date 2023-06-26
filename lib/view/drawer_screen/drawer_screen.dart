@@ -151,7 +151,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     child: buildTile(translate(context).delegated_to_me),
                   ),
                 ]),
-                buildExpensionTile("Assessment", [
+                buildExpensionTile("Assignment", [
                   GestureDetector(
                     onTap: (){
                       Get.to(const NewAssignmentScreen());
