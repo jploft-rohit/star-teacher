@@ -18,6 +18,7 @@ import 'package:staff_app/Utility/time_picker.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/utility/base_views/base_textformfield.dart';
 import 'package:staff_app/utility/base_views/show_document.dart';
 import 'package:staff_app/view/task_or_reminder_screen/controller/task_reminder_ctrl.dart';
 
@@ -236,31 +237,35 @@ class _AddTaskOrReminderScreenState extends State<AddTaskOrReminderScreen> {
                 },
               ),
               SizedBox(height: 2.h),
-              CustomTextField(controller: controller.uploadController.value,
+              BaseTextFormField(
+                controller: controller.uploadController.value,
                 hintText: translate(context).upload_file_or_photo,
-                    suffixIcon: Padding(
-                      padding: EdgeInsets.only(right: 10),
-                      child: SvgPicture.asset("assets/images/upload_icon.svg"),
-                    ),
-                    readOnly: true,
-                    onTap: () async {
-                    File uploadID;
-                    var uploadImage = await FilePicker.platform.pickFiles(
-                      allowMultiple: false,
-                      allowedExtensions: ['pdf'],
-                      type: FileType.custom,
-                    );
-                    if(uploadImage != null)
-                    {
-                      uploadID = File(uploadImage.files.first.path??"");
-                      controller.selectedPdf.value = uploadID;
-                      setState(() {});
-                      controller.uploadController.value.text = uploadID.path.split("/").last;
-                    }
+                suffixIcon: "assets/images/upload_icon.svg",
+                onTap: (){
+                  BaseOverlays().showMediaPickerDialog(onCameraClick: () async {
+                    BaseOverlays().dismissOverlay();
+                    ImagePicker picker = ImagePicker();
+                    await picker.pickImage(source: ImageSource.camera).then((value){
+                      if (value != null) {
+                        controller.selectedFile?.value = File(value.path);
+                        controller.uploadController.value.text = value.path.split("/").last;
+                      }
                     },
-                    fillColor: BaseColors.txtFieldTextColor,
+                    );
+                  },
+                      onGalleryClick: () async {
+                        BaseOverlays().dismissOverlay();
+                        ImagePicker picker = ImagePicker();
+                        await picker.pickImage(source: ImageSource.gallery).then((value){
+                          if (value != null) {
+                            controller.selectedFile?.value = File(value.path);
+                            controller.uploadController.value.text = value.path.split("/").last;
+                          }
+                        });
+                      }
+                  );
+                },
               ),
-              SizedBox(height: 10),
               Align(
                 alignment: Alignment.topCenter,
                 child: BaseButton(title: translate(context).set_reminder.toUpperCase(), onPressed: (){

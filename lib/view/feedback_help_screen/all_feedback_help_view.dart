@@ -9,12 +9,14 @@ import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_views/base_detail_data.dart';
 import 'package:staff_app/utility/base_views/base_edit_delete.dart';
+import 'package:staff_app/utility/base_views/base_icons.dart';
 import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/utility/custom_text_field.dart';
 import 'package:staff_app/utility/intl/intl.dart';
+import 'package:staff_app/view/complaints_report_screen/view/raise_complaint_report_screen.dart';
 import 'package:staff_app/view/feedback_help_screen/add_feedback_view.dart';
 import 'package:staff_app/view/feedback_help_screen/controller/feedback_help_controller.dart';
 
@@ -40,8 +42,8 @@ class _AllFeedbackHelpViewState extends State<AllFeedbackHelpView> {
         controller.statusTime.value = [];
         controller.statusTitle.value = [];
         controller.response?[index].complaintStatus?.asMap().forEach((loopIndex,element) {
-          controller.statusTitle.add(element.name??"");
-          controller.statusTime.add(convertDateFormat3(element.createdAt??""));
+          controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
+          controller.statusTime.add(getFormattedTimeWithMonth(element.time??""));
           if ((element.name??"") == (controller.response?[index].status?.name??"")) {
             stepperIndex = loopIndex;
           }
@@ -54,18 +56,39 @@ class _AllFeedbackHelpViewState extends State<AllFeedbackHelpView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                BaseEditDelete(
-                  heading: controller.response?[index].title??"Unacceptable Behavior",
-                  editTitle: controller.response?[index].forEnquery??"",
-                  deleteTitle: controller.response?[index].forEnquery??"",
-                  onEditProceed: (){
-                    BaseOverlays().dismissOverlay();
-                    Get.to(AddFeedbackView(isUpdating: true,data: controller.response?[index]));
-                  },
-                  onDeleteProceed: (){
-                    // Get.back();
-                    controller.deleteItem(id: controller.response?[index].sId??"", index: index);
-                  },
+                Row(
+                  children: [
+                    Expanded(child: Text(controller.response?[index].title??"", style: TextStyle(fontSize: 16.sp, color: BaseColors.textBlackColor, fontWeight: FontWeight.w700))),
+                    BaseIcons().view(
+                      url: controller.response?[index].document??"",
+                      leftMargin: 3.w,
+                      concatBaseUrl: true,
+                    ),
+                    BaseIcons().download(onRightButtonPressed: (){
+                      BaseOverlays().dismissOverlay();
+                      downloadFile(url: controller.response?[index].document??"",concatBaseUrl: false);
+                    },
+                      leftMargin: 3.w,
+                    ),
+                    BaseIcons().edit(
+                      title: "Are you sure you want to edit this ${controller.response?[index].forEnquery??""}",
+                      onRightButtonPressed: (){
+                        BaseOverlays().dismissOverlay();
+                        Get.to(AddFeedbackView(isUpdating: true,data: controller.response?[index]));
+                      },
+                      leftMargin: 3.w,
+                    ),
+                    BaseIcons().delete(
+                      title: "Are you sure you want to delete this ${controller.response?[index].forEnquery??""}",
+                      onRightButtonPressed: (){
+                        controller.deleteItem(id: controller.response?[index].sId??"", index: index);
+                      },
+                      leftMargin: 3.w,
+                      showDeleteReason: true,
+                      deleteReasonController: controller.deleteReasonController.value,
+                      formKey: controller.formKey,
+                    ),
+                  ],
                 ),
                 const Divider(),
                 BaseDetailData(

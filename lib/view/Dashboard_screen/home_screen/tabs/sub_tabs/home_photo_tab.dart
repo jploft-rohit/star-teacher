@@ -38,7 +38,7 @@ class _HomePhotoTabState extends State<HomePhotoTab> {
         itemBuilder: (context,index){
           return GestureDetector(
             onTap: (){
-              Get.to(StarGalleryScreen());
+              Get.to(StarGalleryScreen(index: index));
             },
             child: Container(
               padding: EdgeInsets.all(2),

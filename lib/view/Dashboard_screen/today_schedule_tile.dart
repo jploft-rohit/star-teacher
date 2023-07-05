@@ -105,70 +105,70 @@ class _TodayScheduleTileState extends State<TodayScheduleTile> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                SvgPicture.asset(classTakenSvg, height: 15.0,),
-                                const SizedBox(
-                                  width: 5.0,
-                                ),
-                                Text("Classroom ${controller.todayScheduledList?[widget.index].section?.roomNo.toString()??""}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 14.sp),),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 2.0,
-                            ),
-                            Container(
-                              color: BaseColors.dividerColor,
-                              height: 1.0,
-                              width: getWidth(context) * 40 / 100,
-                            ),
-                            const SizedBox(
-                              height: 2.0,
-                            ),
-                            Row(
-                              children: [
-                                const Icon(Icons.person, color: BaseColors.primaryColor,size: 15.0,),
-                                const SizedBox(
-                                  width: 5.0,
-                                ),
-                                Text("${controller.todayScheduledList?[widget.index].classes?.name??""} - ${controller.todayScheduledList?[widget.index].section?.name??""}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 14.sp),),
-                                SizedBox(
-                                  width: 2.w,
-                                ),
-                                Container(
-                                  height: 15.0,
-                                  width: 1.0,
-                                  color: BaseColors.dividerColor,
-                                ),
-                                SizedBox(
-                                  width: 2.w,
-                                ),
-                                SvgPicture.asset(watchSvg),
-                                const SizedBox(
-                                  width: 5.0,
-                                ),
-                                Text(controller.todayScheduledList?[widget.index].subject?.name??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 14.sp),),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 2.0,
-                            ),
-                            Container(
-                              color: BaseColors.dividerColor,
-                              height: 1.0,
-                              width: getWidth(context) * 40 / 100,
-                            ),
-                          ],
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  SvgPicture.asset(classTakenSvg, height: 15.0,),
+                                  const SizedBox(
+                                    width: 5.0,
+                                  ),
+                                  Text("Classroom ${controller.todayScheduledList?[widget.index].section?.roomNo.toString()??""}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 14.sp),),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 2.0,
+                              ),
+                              Container(
+                                color: BaseColors.dividerColor,
+                                height: 1.0,
+                                width: getWidth(context) * 40 / 100,
+                              ),
+                              const SizedBox(
+                                height: 2.0,
+                              ),
+                              Row(
+                                children: [
+                                  const Icon(Icons.person, color: BaseColors.primaryColor,size: 15.0,),
+                                  const SizedBox(
+                                    width: 5.0,
+                                  ),
+                                  Expanded(child: Text("${controller.todayScheduledList?[widget.index].classes?.name??""} - ${controller.todayScheduledList?[widget.index].section?.name??""}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 14.sp),)),
+                                  SizedBox(
+                                    width: 2.w,
+                                  ),
+                                  Container(
+                                    height: 15.0,
+                                    width: 1.0,
+                                    color: BaseColors.dividerColor,
+                                  ),
+                                  SizedBox(
+                                    width: 2.w,
+                                  ),
+                                  SvgPicture.asset(watchSvg),
+                                  const SizedBox(
+                                    width: 5.0,
+                                  ),
+                                  Expanded(child: Text(controller.todayScheduledList?[widget.index].subject?.name??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 14.sp),)),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 2.0,
+                              ),
+                              Container(
+                                color: BaseColors.dividerColor,
+                                height: 1.0,
+                                width: getWidth(context) * 40 / 100,
+                              ),
+                            ],
+                          ),
                         ),
                         Row(
                           children: [
                             Text("Start time", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 14.sp),),
-                            SizedBox(
-                              width: 2.w,
-                            ),
+                            SizedBox(width: 2.w),
                             Container(
                               padding: const EdgeInsets.all(2.0),
                               decoration: BoxDecoration(

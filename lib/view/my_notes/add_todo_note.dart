@@ -11,6 +11,8 @@ import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/view/library_screen/ctrl/notebook_ctrl.dart';
 import 'package:staff_app/view/my_notes/ctrl/sticky_note_ctrl.dart';
+import 'package:staff_app/view/task_or_reminder_screen/add_task_or_reminder_screen.dart';
+import 'package:staff_app/view/task_or_reminder_screen/task_or_reminder_screen.dart';
 
 class AddToDoNote extends StatefulWidget {
   final bool isEditing;
@@ -106,6 +108,7 @@ class _AddToDoNoteState extends State<AddToDoNote> {
                 GestureDetector(
                   onTap: () {
                     ctrl.isChecked.value = !ctrl.isChecked.value;
+                    Get.to(AddTaskOrReminderScreen(isUpdating: false,));
                   },
                   child: Row(
                     children: [
@@ -150,11 +153,8 @@ class _AddToDoNoteState extends State<AddToDoNote> {
                           );
                         },
                       ),
-                      SizedBox(
-                        width: 2.w,
-                      ),
-                      addText("Set Reminder", 14.sp, BaseColors.textBlackColor,
-                          FontWeight.w400)
+                      SizedBox(width: 2.w),
+                      addText("Set Reminder", 14.sp, BaseColors.textBlackColor, FontWeight.w400)
                     ],
                   ),
                 ),

@@ -11,6 +11,7 @@ import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/view/transportation_screen/controller/transportation_screen_ctrl.dart';
 
 class BusArrivingSoonScreen extends StatefulWidget {
   const BusArrivingSoonScreen({Key? key}) : super(key: key);
@@ -20,6 +21,7 @@ class BusArrivingSoonScreen extends StatefulWidget {
 }
 
 class _BusArrivingSoonScreenState extends State<BusArrivingSoonScreen> {
+  TransportationScreenCtrl controller = Get.find<TransportationScreenCtrl>();
   List<Map<String, dynamic>> list = [
     {
       "title":translate(Get.context!).wait_5_mins,
@@ -38,6 +40,7 @@ class _BusArrivingSoonScreenState extends State<BusArrivingSoonScreen> {
       "isSelected":false,
     },
   ];
+  String selectedOption = translate(Get.context!).wait_5_mins;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,13 +51,9 @@ class _BusArrivingSoonScreenState extends State<BusArrivingSoonScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(translate(context).please_make_sure_you_are_ready_at_the_pickup_point, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp, height: 1.5),textAlign: TextAlign.center,),
-            SizedBox(
-              height: 5.h,
-            ),
+            SizedBox(height: 5.h),
             Text("${translate(context).notify}:", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp,),),
-            SizedBox(
-              height: 1.h,
-            ),
+            SizedBox(height: 1.h),
             ListView.builder(
               shrinkWrap: true,
               itemCount: 4,
@@ -65,6 +64,8 @@ class _BusArrivingSoonScreenState extends State<BusArrivingSoonScreen> {
                       i['isSelected'] = false;
                     }
                     list[index]['isSelected'] = !list[index]['isSelected'];
+                    selectedOption = list[index]['title'];
+                    print("Selected Option --> " + selectedOption);
                     setState(() {});
                   },
                   child: Container(
@@ -92,6 +93,8 @@ class _BusArrivingSoonScreenState extends State<BusArrivingSoonScreen> {
                               i['isSelected'] = false;
                             }
                             list[index]['isSelected'] = !list[index]['isSelected'];
+                            selectedOption = list[index]['title'];
+                            print("Selected Option --> " + selectedOption);
                             setState(() {});
                           },
                         )
@@ -105,11 +108,8 @@ class _BusArrivingSoonScreenState extends State<BusArrivingSoonScreen> {
               height: 3.h,
             ),
             Center(child: BaseButton(title: translate(context).notify.toUpperCase(), onPressed: (){
-              BaseOverlays().showOkDialog(title: "Notify Successfully",onBtnPressed: (){
-                Get.back();
-                Get.back();
-              });
-            },btnType: largeButton,))
+              controller.sendBusNotification(selectedOption: selectedOption);
+            },btnType: largeButton))
           ],
         ),
       ),

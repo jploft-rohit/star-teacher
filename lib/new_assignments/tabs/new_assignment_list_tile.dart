@@ -11,7 +11,8 @@ import 'package:staff_app/utility/base_views/base_icons.dart';
 import 'package:staff_app/view/assignments_screen/assignment_submission_screen.dart';
 
 class NewAssignmentListTile extends StatefulWidget {
-  const NewAssignmentListTile({Key? key}) : super(key: key);
+  final String title;
+  const NewAssignmentListTile({Key? key, required this.title}) : super(key: key);
 
   @override
   State<NewAssignmentListTile> createState() => _NewAssignmentListTileState();
@@ -30,7 +31,7 @@ class _NewAssignmentListTileState extends State<NewAssignmentListTile> {
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(
           onTap: (){
-            Get.to(const AssignmentSubmissionScreen());
+            Get.to(AssignmentSubmissionScreen(title: widget.title));
           },
           child: Card(
             shape: RoundedRectangleBorder(

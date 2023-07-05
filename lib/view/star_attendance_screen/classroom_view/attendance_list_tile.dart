@@ -8,6 +8,7 @@ import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_image_network.dart';
+import 'package:staff_app/view/chat_screen/chating_screen.dart';
 import 'package:staff_app/view/performance_screen/performance_screen.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/change_status_popup.dart';
 import 'package:staff_app/view/star_attendance_screen/controller/star_attendance_screen_ctrl.dart';
@@ -113,15 +114,20 @@ class _AttendanceListTileState extends State<AttendanceListTile> {
                         VerticalDivider(color: controller.selectedAttendanceTabIndex == 0 ? BaseColors.green : controller.selectedAttendanceTabIndex == 1 ? BaseColors.textRedColor : Color(0xffEC9C00)),
                         Expanded(
                           flex: 2,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(chatSvg1,),
-                              SizedBox(height:.5.h),
-                              Text(translate(context).chat_with_parents,style: Style.montserratRegularStyle().copyWith(fontSize: 13.sp, color: const Color(0xff686868), ),textAlign: TextAlign.center,),
-                            ],
+                          child: GestureDetector(
+                            onTap: (){
+                              Get.to(ChatingScreen());
+                            },
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(chatSvg1,),
+                                SizedBox(height:.5.h),
+                                Text(translate(context).chat_with_parents,style: Style.montserratRegularStyle().copyWith(fontSize: 13.sp, color: const Color(0xff686868), ),textAlign: TextAlign.center,),
+                              ],
+                            ),
                           ),
                         )
                       ],

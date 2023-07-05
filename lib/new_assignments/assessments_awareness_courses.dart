@@ -7,7 +7,8 @@ import 'package:staff_app/utility/base_views/base_tab_button.dart';
 import 'package:staff_app/utility/base_views/base_toggle_tab_bar.dart';
 
 class AssessmentsAwarenessCourses extends StatefulWidget {
-  const AssessmentsAwarenessCourses({Key? key}) : super(key: key);
+  final String title;
+  const AssessmentsAwarenessCourses({Key? key, required this.title}) : super(key: key);
 
   @override
   State<AssessmentsAwarenessCourses> createState() => _AssessmentsAwarenessCoursesState();
@@ -40,10 +41,10 @@ class _AssessmentsAwarenessCoursesState extends State<AssessmentsAwarenessCourse
           Expanded(
             child: TabBarView(
                 controller: tabController,
-                children: const [
-                  NewAssignmentListTile(),
-                  NewAssignmentListTile(),
-                  NewAssignmentListTile()
+                children: [
+                  NewAssignmentListTile(title: widget.title),
+                  NewAssignmentListTile(title: widget.title),
+                  NewAssignmentListTile(title: widget.title),
                 ]),
           ),
         ],

@@ -164,7 +164,7 @@ class _PurchasesViewState extends State<PurchasesView> with SingleTickerProvider
                 if (isFrom) {
                   if (controller.toDate.value.isNotEmpty) {
                     DateTime toDate = DateTime.parse(controller.toDate.value);
-                    if (toDate.isAfter(value)) {
+                    if (toDate.isAfter(value) || toDate.isAtSameMomentAs(value)) {
                       controller.fromDate.value = formatFlutterDateTime(flutterDateTime: value);
                       if (controller.fromDate.value.isNotEmpty && controller.toDate.value.isNotEmpty) {
                         controller.getHistory();
@@ -178,7 +178,7 @@ class _PurchasesViewState extends State<PurchasesView> with SingleTickerProvider
                 }else{
                   if (controller.fromDate.value.isNotEmpty) {
                     DateTime fromDate = DateTime.parse(controller.fromDate.value);
-                    if (fromDate.isBefore(value)) {
+                    if (fromDate.isBefore(value) || fromDate.isAtSameMomentAs(value)) {
                       controller.toDate.value = formatFlutterDateTime(flutterDateTime: value);
                       if (controller.fromDate.value.isNotEmpty && controller.toDate.value.isNotEmpty) {
                         controller.getHistory();

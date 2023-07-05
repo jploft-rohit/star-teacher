@@ -19,7 +19,7 @@ class TaskReminderCtrl extends GetxController{
   RxString selectedTime = TimeOfDay.now().to24hours().obs;
   RxString selectedDate = formatBackendDate(DateTime.now().toString()).obs;
   RxBool isShowDate = false.obs;
-  Rx<File> selectedPdf = File("").obs;
+  Rx<File?>? selectedFile = File("").obs;
   List<String> updatedTime = [];
   List<String> updatedDate = [];
   RxList<String> selectedSpecificDays = <String>[].obs;
@@ -61,7 +61,7 @@ class TaskReminderCtrl extends GetxController{
   createTaskReminder() async {
     if (formKey.currentState?.validate()??false) {
       var data;
-      if (selectedPdf.value.path.isEmpty) {
+      if ((selectedFile?.value?.path??"").isEmpty) {
         data = dio.FormData.fromMap({
           "type":remindType.value, // daily, specific_days, specific_date
           "time":(selectedTime+":00").toString(),
@@ -78,7 +78,7 @@ class TaskReminderCtrl extends GetxController{
           "typeValue":selectedSpecificDays.isNotEmpty ? selectedSpecificDays.join(",") : "", // For Specific Days
           "date":remindType.value == "specific_date" ? selectedDate.value : formatBackendDate(DateTime.now().toString()), // For Specific Date
           "forType":"mySelf",
-          "document":await dio.MultipartFile.fromFile(selectedPdf.value.path, filename: selectedPdf.value.path.split("/").last)
+          "document":await dio.MultipartFile.fromFile(selectedFile?.value?.path??"", filename: (selectedFile?.value?.path??"").split("/").last)
         });
       }
       BaseSuccessResponse baseSuccessResponse = BaseSuccessResponse();
@@ -98,7 +98,7 @@ class TaskReminderCtrl extends GetxController{
   updateTaskReminder({required id}) async {
     if (formKey.currentState?.validate()??false) {
       var data;
-      if (selectedPdf.value.path.isEmpty) {
+      if ((selectedFile?.value?.path??"").isEmpty) {
         data = dio.FormData.fromMap({
           "type":remindType.value, // daily, specific_days, specific_date
           "time":(selectedTime+":00"),
@@ -115,7 +115,7 @@ class TaskReminderCtrl extends GetxController{
           "typeValue":selectedSpecificDays.isNotEmpty ? selectedSpecificDays.join(",") : "", // For Specific Days
           "date":remindType.value == "specific_date" ? selectedDate.value : formatBackendDate(DateTime.now().toString()), // For Specific Date
           "forType":"mySelf",
-          "document":await dio.MultipartFile.fromFile(selectedPdf.value.path, filename: selectedPdf.value.path.split("/").last)
+          "document":await dio.MultipartFile.fromFile(selectedFile?.value?.path??"", filename: (selectedFile?.value?.path??"").split("/").last)
         });
       }
       BaseSuccessResponse baseSuccessResponse = BaseSuccessResponse();
@@ -144,7 +144,7 @@ class TaskReminderCtrl extends GetxController{
       remindType.value = data?.type??"daily";
       selectedTime.value = formatTime(DateTime.parse(data?.time??""));
       selectedSpecificDays.value = (data?.typeValue??"").toString().split(",");
-      selectedPdf.value = File("");
+      selectedFile?.value = File("");
       uploadController.value.text = (data?.document??"").split("/").last??"";
     }else{
       reminderInput.value.text = "";
@@ -152,7 +152,7 @@ class TaskReminderCtrl extends GetxController{
       selectedTime.value = "${TimeOfDay.now().format(Get.context!).toString()}";
       remindType = "daily".obs;
       selectedSpecificDays.value = [];
-      selectedPdf.value = File("");
+      selectedFile?.value = File("");
       updatedTime = [];
       updatedDate = [];
     }

@@ -4,11 +4,8 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/constants-classes/color_constants.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
-import 'package:staff_app/utility/custom_filter_dropdown.dart';
-import 'package:staff_app/utility/dummy_lists.dart';
-import 'package:staff_app/utility/filter_textformfield.dart';
-
-import '../../utility/images_icon_path.dart';
+import 'package:staff_app/utility/base_views/base_school_selection.dart';
+import 'package:staff_app/view/exam_time_table/controller/exam_time_table_controller.dart';
 
 class ExamTimeTableScreen extends StatefulWidget {
   const ExamTimeTableScreen({Key? key}) : super(key: key);
@@ -18,6 +15,9 @@ class ExamTimeTableScreen extends StatefulWidget {
 }
 
 class _ExamTimeTableScreenState extends State<ExamTimeTableScreen> {
+
+  ExamTimeTableController controller = Get.put(ExamTimeTableController());
+
   @override
   Widget build(BuildContext context) {
     final list = [
@@ -54,77 +54,14 @@ class _ExamTimeTableScreenState extends State<ExamTimeTableScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              margin: EdgeInsets.only(bottom: 3.h),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                border: Border.all(
-                    color: ColorConstants.borderColor
-                ),
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomFilterDropDown(
-                        initialValue: DummyLists.initialSchool,
-                        hintText: DummyLists.initialSchool??"School",
-                        listData: DummyLists.schoolData,
-                        onChange: (value) {
-                          setState(() {
-                            DummyLists.initialSchool = value;
-                          });
-                        },
-                        icon: classTakenSvg,
-                      ),
-                    ],
-                  ),
-                  Divider(
-                    height: 1,
-                    thickness: 1,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomFilterDropDown(
-                        initialValue: "Section",
-                        hintText: DummyLists.initialGrade??"Section",
-                        listData: DummyLists.classRoomData,
-                        onChange: (value) {
-                          setState(() {
-                            DummyLists.initialGrade = value;
-                          });
-                        },
-                        icon: classTakenSvg,
-                      ),
-                      Container(
-                        child: VerticalDivider(width: 1),
-                        height: 4.h,
-                        width: 1,
-                      ),
-                      CustomFilterDropDown(
-                        initialValue: DummyLists.initialClass,
-                        hintText: DummyLists.initialSchool??"Class",
-                        listData: DummyLists.classData,
-                        onChange: (value) {
-                          setState(() {
-                            DummyLists.initialClass = value;
-                          });
-                        },
-                        icon: classTakenSvg,
-                      ),
-                    ],
-                  ),
-                  Divider(height: 1,
-                      thickness: 1),
-                  FilterTextFormField(
-                    onChange: (String val) {},
-                    hintText: "Search by name",
-                    keyBoardType: TextInputType.name,
-                  ),
-                ],
-              ),
+            BaseSchoolDropDown(
+              controller: controller.selectedSchoolController,
+              onChanged: (val){
+                controller.selectedSchoolController.text = val.name??"";
+                controller.selectedSchoolId.value = val.sId??"";
+                controller.getData();
+              },
+              bottomMargin: 3.h,
             ),
             Padding(
               padding: EdgeInsets.only(left: 5.w),
@@ -143,8 +80,10 @@ class _ExamTimeTableScreenState extends State<ExamTimeTableScreen> {
             ),
             Table(
               columnWidths: {
-                1: FlexColumnWidth(1.2),
-                2: FlexColumnWidth(2),
+                0: FlexColumnWidth(2),
+                1: FlexColumnWidth(3),
+                2: FlexColumnWidth(2.5),
+                3: FlexColumnWidth(1.8),
               },
               children: [
                 TableRow(
@@ -154,13 +93,6 @@ class _ExamTimeTableScreenState extends State<ExamTimeTableScreen> {
                         padding: const EdgeInsets.symmetric(
                             vertical: 13, horizontal: 5),
                         child: Text("DATE",textAlign: TextAlign.center, style: TextStyle(fontSize: 11,color: Colors.black,fontWeight: FontWeight.w900)),
-                      ),
-                    ),
-                    TableCell(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 13, horizontal: 5),
-                        child: Text("DAY",textAlign: TextAlign.center, style: TextStyle(fontSize: 11,color: Colors.black,fontWeight: FontWeight.w900)),
                       ),
                     ),
                     TableCell(
@@ -177,6 +109,13 @@ class _ExamTimeTableScreenState extends State<ExamTimeTableScreen> {
                         child: Text("SUBJECT",textAlign: TextAlign.center, style: TextStyle(fontSize: 11,color: Colors.black,fontWeight: FontWeight.w900)),
                     ),
                     ),
+                    TableCell(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 13, horizontal: 5),
+                        child: Text("CLASS ROOM",textAlign: TextAlign.center, style: TextStyle(fontSize: 11,color: Colors.black,fontWeight: FontWeight.w900)),
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -186,29 +125,54 @@ class _ExamTimeTableScreenState extends State<ExamTimeTableScreen> {
               width: Get.width,
               color: Color(0xFFEBEBEB),
             ),
-            Table(
-              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-              border: TableBorder(
-                horizontalInside: BorderSide(color: Color(0xFFEBEBEB)),
-                verticalInside: BorderSide(color: Color(0xFFEBEBEB)),
-              ),
-              columnWidths: {
-                1: FlexColumnWidth(1.2),
-                2: FlexColumnWidth(2),
-              },
-              children: List.generate(
-                list.length,
-                    (index) => TableRow(
-                  children: List.generate(
-                    4,
-                        (myindex) => TableCell(
-                          verticalAlignment: TableCellVerticalAlignment.middle,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 13, horizontal: 5),
-                        child: Text(list[index][myindex],textAlign: TextAlign.center, style: TextStyle(fontSize: 13,color: Colors.black,fontWeight: FontWeight.w400),),
+            Obx(() => Table(
+                defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                border: TableBorder(
+                  horizontalInside: BorderSide(color: Color(0xFFEBEBEB)),
+                  verticalInside: BorderSide(color: Color(0xFFEBEBEB)),
+                ),
+                columnWidths: {
+                  0: FlexColumnWidth(2),
+                  1: FlexColumnWidth(3),
+                  2: FlexColumnWidth(2.5),
+                  3: FlexColumnWidth(1.8),
+                },
+                children: List.generate(
+                  controller.list?.length??0, (index) => TableRow(
+                    children: [
+                      TableCell(
+                        verticalAlignment: TableCellVerticalAlignment.middle,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 13, horizontal: 5),
+                          child: Text(formatBackendDate(controller.list?[index]?.date??""), textAlign: TextAlign.center, style: TextStyle(fontSize: 10,color: Colors.black,fontWeight: FontWeight.w400),),
+                        ),
                       ),
-                    ),
+                      TableCell(
+                        verticalAlignment: TableCellVerticalAlignment.middle,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 13, horizontal: 5),
+                          child: Text("${getFormattedTime(controller.list?[index]?.startTime??"")} - ${getFormattedTime(controller.list?[index]?.endTime??"")}", textAlign: TextAlign.center, style: TextStyle(fontSize: 10,color: Colors.black,fontWeight: FontWeight.w400),),
+                        ),
+                      ),
+                      TableCell(
+                        verticalAlignment: TableCellVerticalAlignment.middle,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 13, horizontal: 5),
+                          child: Text(controller.list?[index]?.subject?.name??"", textAlign: TextAlign.center, style: TextStyle(fontSize: 10,color: Colors.black,fontWeight: FontWeight.w400),),
+                        ),
+                      ),
+                      TableCell(
+                        verticalAlignment: TableCellVerticalAlignment.middle,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 13, horizontal: 5),
+                          child: Text(controller.list?[index]?.classRoomNo.toString()??"", textAlign: TextAlign.center, style: TextStyle(fontSize: 10,color: Colors.black,fontWeight: FontWeight.w400),),
+                        ),
+                      ),
+                    ]
                   ),
                 ),
               ),
@@ -222,5 +186,5 @@ class _ExamTimeTableScreenState extends State<ExamTimeTableScreen> {
         ),
       ),
     );
-}
+  }
 }

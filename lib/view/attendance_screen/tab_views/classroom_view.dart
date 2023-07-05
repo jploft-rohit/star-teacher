@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_tab_bar.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/view/attendance_screen/attendance_screen_ctrl.dart';
 import 'package:staff_app/view/attendance_screen/attendance_screen_view/absent_screen_view.dart';
 import 'package:staff_app/view/attendance_screen/attendance_screen_view/late_screen_view.dart';
 import 'package:staff_app/view/attendance_screen/attendance_screen_view/persent_screen_view.dart';
+import 'package:staff_app/view/attendance_screen/teacher_attendance_tile.dart';
 
 class ClassRoomTab extends StatefulWidget {
   const ClassRoomTab({Key? key}) : super(key: key);
@@ -17,12 +20,16 @@ class ClassRoomTab extends StatefulWidget {
 
 class _ClassRoomTabState extends State<ClassRoomTab> with SingleTickerProviderStateMixin{
   late TabController tabController;
+  AttendanceScreenController controller = Get.find<AttendanceScreenController>();
 
   @override
   void initState() {
     super.initState();
     tabController = TabController(length: 3, vsync: this)..addListener(() {
-      setState(() {});
+      if (!(tabController.indexIsChanging)) {
+        controller.secondaryTabIndex.value = tabController.index;
+        setState(() {});
+      }
     });
   }
   @override
@@ -35,52 +42,27 @@ class _ClassRoomTabState extends State<ClassRoomTab> with SingleTickerProviderSt
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Stack(
-          children: [
-            SizedBox(
-              height: 20.0,
-              child: PageView.builder(
-                itemCount: 3,
-                physics: const NeverScrollableScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return Center(child: Text("Monday, 22/05/2022", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),));
-                },
-              ),
-            ),
-            Positioned(
-              left: 0.0,
-              child: IconButton(
-                onPressed: (){},
-                visualDensity: const VisualDensity(horizontal: -4,vertical: -4),
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(maxHeight: 10),
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  size: 18.sp,
-                  color: BaseColors.primaryColor,
-                ),
-              ),
-            ),
-            Positioned(
-              right: 0.0,
-              child: IconButton(
-                onPressed: (){},
-                visualDensity: const VisualDensity(horizontal: -4,vertical: -4),
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(maxHeight: 10),
-                icon: Icon(
-                  Icons.arrow_forward_ios,
-                  size: 18.sp,
-                  color: BaseColors.primaryColor,
-                ),
-              ),
-            )
-          ],
+        Obx(()=>Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(child: Padding(
+                padding: const EdgeInsets.only(right: 20,top: 6,bottom: 6,left: 6),
+                child: Icon(Icons.arrow_back_ios,color: BaseColors.primaryColor,size: 22,),
+              ),onTap: (){
+                controller.goToPreviousDate();
+              },),
+              addText(convertDateFormat7(controller.selectedDate.value.toLocal().toString()), 16, Colors.black, FontWeight.w700),
+              GestureDetector(child: Padding(
+                padding: const EdgeInsets.only(right: 6,top: 6,bottom: 6,left: 20),
+                child: Icon(Icons.arrow_forward_ios,color: BaseColors.primaryColor,size: 22,),
+              ),onTap: (){
+                controller.goToNextDate();
+              },
+             ),
+            ],
+          ),
         ),
-        SizedBox(
-          height: 2.h,
-        ),
+        SizedBox(height: 2.h),
         BaseTabBar(
           controller: tabController,
           tabs:  [
@@ -100,9 +82,9 @@ class _ClassRoomTabState extends State<ClassRoomTab> with SingleTickerProviderSt
           child: TabBarView(
             controller: tabController,
             children: const [
-              AttendancePresentView(),
-              AttendanceAbsentView(),
-              AttendanceLateView()
+              TeacherAttendanceTile(),
+              TeacherAttendanceTile(),
+              TeacherAttendanceTile(),
             ],
           ),
         )

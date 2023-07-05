@@ -11,19 +11,15 @@ import 'package:staff_app/utility/base_views/base_overlays.dart';
 class TodayScheduleController extends GetxController{
 
   RxList<TodayScheduleData?>? list = <TodayScheduleData>[].obs;
+  RxString type = "".obs;
   TextEditingController schoolController = TextEditingController();
   RxString selectedSchoolId = "".obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-    getData();
-  }
-
   getData() async {
     list?.clear();
+    final String localType = type.value == "This Week" ? 'week' : type.value == "Classes Taken" ? "taken" : "today";
     final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
-    BaseAPI().get(url: ApiEndPoints().getTodayScheduledList,queryParameters: {"userId": userId, "school": selectedSchoolId.value}).then((value){
+    BaseAPI().get(url: ApiEndPoints().getTodayScheduledList,queryParameters: {"userId": userId, "school": selectedSchoolId.value, "type":localType}).then((value){
       if (value?.statusCode ==  200) {
         list?.value = TodayScheduleResponse.fromJson(value?.data).data??[];
       }else{

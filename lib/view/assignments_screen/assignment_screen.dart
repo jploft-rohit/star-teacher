@@ -50,7 +50,7 @@ class _AssignmentScreenState extends State<AssignmentScreen> with SingleTickerPr
         appBar: BaseAppBar(title: translate(context).assignments),
         floatingActionButton: Obx(()=>BaseFloatingActionButton(
             onTap: () {Get.to(const CreateTaskOrAssignmentScreen());},
-            title: controller.tabIndex.value == 1 ? translate(context).create_awareness_courses :translate(context).create_task,
+            title: controller.tabIndex.value == 1 ? translate(context).create_awareness_courses : translate(context).create_task,
           ),
         ),
         body: Padding(
@@ -68,11 +68,9 @@ class _AssignmentScreenState extends State<AssignmentScreen> with SingleTickerPr
                 },
                 topPadding: 5,
                 bottomPadding: 5,
-                icon: Icon(Icons.arrow_drop_down,color: Color(0xFFC4C4C4),size: 25,),
+                icon: Icon(Icons.arrow_drop_down,color: Color(0xFFC4C4C4), size: 25),
               ),
-              SizedBox(
-                height: 1.h,
-              ),
+              SizedBox(height: 1.h),
               BaseToggleTabBar(controller: tabController, tabs: [
                 BaseTabButton(title: translate(context).assigned_by_me, isSelected: tabController.index == 0,type: toggleLargeButton,),
                 BaseTabButton(title: translate(context).assigned_to_me, isSelected: tabController.index == 1,type: toggleLargeButton,),

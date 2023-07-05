@@ -7,6 +7,7 @@ import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/utility/base_views/base_image_network.dart';
 import 'package:staff_app/view/star_reward_screen/create_reward_screen.dart';
 import 'package:staff_app/view/star_reward_screen/reward_screen_ctrl.dart';
 
@@ -38,8 +39,11 @@ class _RewardViewState extends State<RewardView> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(15),
                   border: Border.all(color: BaseColors.primaryColor)),
-              child: SvgPicture.asset(
-                girlSvg,
+              child: BaseImageNetwork(link: controller.myRewards?.first.profilePic??"",
+                concatBaseUrl: false,height: 5.h,width: 4.h,
+                errorWidget: SvgPicture.asset(
+                  girlSvg,
+                ),
               ),
             ),
             SizedBox(height: 1.h),
@@ -49,8 +53,12 @@ class _RewardViewState extends State<RewardView> {
               padding: EdgeInsets.symmetric(horizontal: 14.h),
               child: Divider(),
             ),
-            addText('#632541', 15.sp,
-                BaseColors.primaryColor, FontWeight.w700),
+            addText('Reward Points - ${controller.myRewards?.first.ratings??"0"}', 15.sp, BaseColors.primaryColor, FontWeight.w700),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 14.h),
+              child: Divider(),
+            ),
+            addText('#632541', 15.sp, BaseColors.primaryColor, FontWeight.w700),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 14.h),
               child: Divider(),

@@ -119,7 +119,7 @@ class _RewardsScreenState extends State<RewardsScreen> {
                             borderRadius: BorderRadius.circular(7)),
                         padding: const EdgeInsets.all(6),
                         margin: EdgeInsets.only(bottom: 8.5.h),
-                        child: addText(((controller.myRewards?.first.ratings??"N/A").toString()), 14.sp,
+                        child: addText(((controller.myRewards?.first.ratings??"0").toString()), 14.sp,
                             BaseColors.white, FontWeight.w500),
                       ),
                     )

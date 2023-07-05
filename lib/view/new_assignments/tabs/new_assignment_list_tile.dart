@@ -42,7 +42,7 @@ class _NewAssignmentListTileState extends State<NewAssignmentListTile> {
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(
           onTap: (){
-            Get.to(AssignmentSubmissionScreen());
+            Get.to(AssignmentSubmissionScreen(title: ''));
           },
           child: Card(
             shape: RoundedRectangleBorder(

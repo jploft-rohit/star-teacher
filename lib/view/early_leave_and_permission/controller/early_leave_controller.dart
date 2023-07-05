@@ -40,7 +40,6 @@ class EarlyLeaveController extends GetxController{
       reasonController.text = data?.reason??"";
       uploadController.text = (data?.document??"").split("/").last??"";
       selectedSchoolId.value = data?.school?.sId??"";
-      selectedFile?.value = File(data?.document??"");
     }else{
       schoolController.clear();
       dateController.clear();
@@ -50,7 +49,6 @@ class EarlyLeaveController extends GetxController{
       uploadController.clear();
       selectedSchoolId.value = "";
       selectedFile?.value = File("");
-
     }
   }
 

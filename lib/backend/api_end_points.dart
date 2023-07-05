@@ -1,4 +1,5 @@
 /// baseUrl: 'http://3.28.14.143:4000/star-backend/api/',
+/// baseUrl: 'http://3.28.14.143:5000/star-backend/api/',
 
 class ApiEndPoints {
 
@@ -14,6 +15,7 @@ class ApiEndPoints {
   /// DashBoard EndPoints
   final String getNewsBroadCast = "newsBroadcast/list";
   final String getHomeData = "home/teacher-home";
+  final String agreeNewsBroadCast = "newsBroadcast/update/";
 
   /// Class
   final String getClassList = "class/getAll";
@@ -76,6 +78,8 @@ class ApiEndPoints {
 
   /// Notifications EndPoints
   final String getNotificationList = "notification/list";
+  final String createNotification = "notification/create";
+  final String getNotificationSettingsList = "notificationSetting/get-all";
 
   /// Stars EndPoints
   // Star List
@@ -157,4 +161,28 @@ class ApiEndPoints {
   /// Today Schedule List
   final String getTodayScheduledList = "home/today-schedule";
 
+  /// Star Gallery EndPoints
+  final String getStarGallery = "starGallery/list";
+  final String getStarGalleryCategory = "starGallery/galleryCategory";
+  final String createStarGallery = "starGallery/create";
+
+  /// Class EndPoints
+  final String getClasses = "class/getAllClass";
+  final String getClassSection = "class/section/getall";
+
+  /// Annual Schedule EndPoints
+  final String getAnnualScheduled = "annualSchedule/get-all";
+
+  /// Teacher Attendance
+  final String getTeacherAttendance = "staffAttendence/list";
+
+  /// Transportation
+  final String getTransportationData = "transport/trip/passenger/getTransportDetail/";
+  final String notifyTransportAuthority = "transport/trip/passenger/notifyAuthority";
+
+  /// Rating
+  final String rateBus = "transport/rate_bus";
+
+  /// Exam Time Table
+  final String getExamTimeTable = "exam-timetable/getExamTimetableApp";
 }

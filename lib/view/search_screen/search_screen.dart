@@ -13,7 +13,7 @@ import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/assignments_screen/assignment_screen.dart';
 import 'package:staff_app/view/library_screen/notebook_screen/notebook_screen.dart';
-import 'package:staff_app/view/search_screen/search_screen_ctrl.dart';
+import 'package:staff_app/view/search_screen/controller/search_screen_ctrl.dart';
 import 'package:staff_app/view/star_attendance_screen/star_attendance_screen.dart';
 import 'package:staff_app/view/star_evaluation_screen/star_evaluation_screen.dart';
 
@@ -124,32 +124,18 @@ class _SearchScreenState extends State<SearchScreen> {
                 );
               },
             ),
-            SizedBox(
-              height: 3.h,
-            ),
+            SizedBox(height: 3.h),
             Text(translate(context).search_results, style: Style.montserratBoldStyle().copyWith(fontSize: 17.sp),),
             SizedBox(
               height: 2.h,
             ),
-            ListView.builder(
-              itemCount: 4,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return GestureDetector(onTap: (){
-                  if(index == 0){
-                    Get.to(const StarAttendanceScreen());
-                  }
-                  if(index == 1){
-                    Get.to(const StarEvaluationScreen());
-                  }
-                  if(index == 2){
-                    Get.to(const AssignmentScreen());
-                  }
-                  if(index == 3){
-                    Get.to(const NoteBookScreen());
-                  }
-                },child: buildTile(list[index]));
-              },
+            Obx(()=>ListView.builder(
+                itemCount: controller.searchedList.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return buildTile(title: controller.searchedList[index].title, onPressed: () {});
+                },
+              ),
             )
           ],
         ),
@@ -157,7 +143,7 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Widget buildTile(String title) {
+  Widget buildTile({required String title, required Function() onPressed}) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 7),
       child: BaseButton(btnType: buttonIcon,title: title, onPressed:null,showNextIcon: true,),

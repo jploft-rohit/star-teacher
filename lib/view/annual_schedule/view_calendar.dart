@@ -1,45 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_image_network.dart';
+import 'package:staff_app/view/annual_schedule/controller/annual_schedule_ctrl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 
 import '../../constants-classes/color_constants.dart';
+import '../../utility/images_icon_path.dart';
 import 'annual_schedule.dart';
 
 class AnnualViewCalendarScreen extends StatefulWidget {
-  String? icon;
-  Color? bg;
-  Color? iconColor;
-  String? title;
-  String? time;
-  AnnualViewCalendarScreen({Key? key,required this.title,required this.icon,required this.time,required this.bg,required this.iconColor}) : super(key: key);
+  final int index;
+  AnnualViewCalendarScreen({Key? key, required this.index}) : super(key: key);
 
   @override
   State<AnnualViewCalendarScreen> createState() => _AnnualViewCalendarScreenState();
 }
 
 class _AnnualViewCalendarScreenState extends State<AnnualViewCalendarScreen> {
+  AnnualScheduleCtrl controller = Get.find<AnnualScheduleCtrl>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorConstants.white,
       appBar:BaseAppBar(
-        title: widget.title,
+        title: controller.list?[widget.index].title??"",
       ),
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 10),
         children: [
           calendar(),
-          SizedBox(height: 3.h,),
-          card(
-            icon: widget.icon!,
-            bg: widget.bg!,
-            iconColor: widget.iconColor!,
-            title: widget.title!,
-            time: widget.time!, context: context,
-            isNextSCreen: false
-          ),
+          SizedBox(height: 3.h),
+          ListTile(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            title: Text(controller.list?[widget.index].title??"",style: TextStyle(fontWeight: FontWeight.w700,color: Colors.black,fontSize: 17.sp)),
+            leading: BaseImageNetwork(link: controller.list?[widget.index].icon??"",height: 2.h,width: 2.h),
+            tileColor: Color(int.parse(controller.list?[widget.index].color??"")),
+              subtitle: Text("${getMonthDate(controller.list?[widget.index].startDate??"")} to ${getMonthDate(controller.list?[widget.index].endDate??"")}",style: TextStyle(color: Colors.grey.shade700,fontSize: 15.sp)),
+            trailing: SvgPicture.asset(calenderDateSvg),
+            minLeadingWidth: 0,
+          )
         ],
       ),
 
@@ -104,6 +108,7 @@ class _AnnualViewCalendarScreenState extends State<AnnualViewCalendarScreen> {
             ),
             SizedBox(height: 2.h,),
             AbsorbPointer(
+              absorbing: false,
               child: SfDateRangePicker(
                 headerStyle: DateRangePickerHeaderStyle(
                   textAlign: TextAlign.center,
@@ -116,14 +121,15 @@ class _AnnualViewCalendarScreenState extends State<AnnualViewCalendarScreen> {
                 ),
                 selectionMode: DateRangePickerSelectionMode.range,
                 initialSelectedRange: PickerDateRange(
-                    DateTime.now().subtract(const Duration(days: 2)),
-                    DateTime.now().add(const Duration(days: 3))),
+                    DateTime.parse(controller.list?[widget.index].startDate??""),
+                    DateTime.parse(controller.list?[widget.index].endDate??""),
+                ),
                 minDate: DateTime(2010, 10, 16),
                 maxDate: DateTime(2030, 3, 14),
-                initialDisplayDate: DateTime.now(),
-                startRangeSelectionColor: widget.iconColor,
-                endRangeSelectionColor: widget.iconColor,
-                rangeSelectionColor: widget.bg,
+                initialDisplayDate: DateTime.parse(controller.list?[widget.index].startDate??""),
+                startRangeSelectionColor: Color(int.parse(controller.list?[widget.index].color??"")),
+                endRangeSelectionColor: Color(int.parse(controller.list?[widget.index].color??"")),
+                rangeSelectionColor: Color(int.parse(controller.list?[widget.index].color??"")).withOpacity(0.5),
                 monthViewSettings: DateRangePickerMonthViewSettings(
                   // showWeekNumber: true,
                   firstDayOfWeek: 1,
@@ -141,22 +147,22 @@ class _AnnualViewCalendarScreenState extends State<AnnualViewCalendarScreen> {
                 ),
                 selectionShape: DateRangePickerSelectionShape.rectangle,
                 selectionTextStyle: TextStyle(
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
                 onSelectionChanged:
                     (DateRangePickerSelectionChangedArgs range) {
                   // Add your code here to handle selected date range
                 },
                 monthCellStyle: DateRangePickerMonthCellStyle(
-                  startRangeSelectionColor: widget.iconColor,
-                  endRangeSelectionColor: widget.iconColor,
+                  startRangeSelectionColor: Color(int.parse(controller.list?[widget.index].color??"")),
+                  endRangeSelectionColor: Color(int.parse(controller.list?[widget.index].color??"")),
                   todayTextStyle: TextStyle(
                     color: ColorConstants.primaryColor,
                   ),
                   weekendTextStyle: const TextStyle(
                     color: ColorConstants.primaryColor,
                   ),
-                  selectionColor: widget.iconColor,
+                  selectionColor: Color(int.parse(controller.list?[widget.index].color??"")),
                   // selectionRadius: 12,
                   // selectionBorderColor: widget.iconColor ?? Colors.transparent,
                   leadingDatesTextStyle: const TextStyle(

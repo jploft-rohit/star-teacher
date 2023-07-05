@@ -5,30 +5,31 @@ import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
 
 class CustomTextField extends StatelessWidget {
-  TextEditingController controller;
-  bool? obscureText;
-  String hintText;
-  Color? fillColor;
-  Color? txtColor;
-  TextInputAction? textInputAction;
-  List<TextInputFormatter>? textInputFormatter;
-  TextInputType? textInputType;
-  String? errorText;
-  int? maxLine;
+  final TextEditingController controller;
+  final bool? obscureText;
+  final String hintText;
+  final Color? fillColor;
+  final Color? txtColor;
+  final TextInputAction? textInputAction;
+  final List<TextInputFormatter>? textInputFormatter;
+  final TextInputType? textInputType;
+  final String? errorText;
+  final int? maxLine;
   final bool? underLine;
   final int? maxLength;
-  EdgeInsetsGeometry? contentPadding;
-  Widget? suffixIcon;
-  double? borderRadius;
-  Color? borderColor;
-  Function()? onTap;
-  Widget? prefixIcon;
-  bool? readOnly;
-  double? hintTxtSize;
+  final EdgeInsetsGeometry? contentPadding;
+  final Widget? suffixIcon;
+  final double? borderRadius;
+  final Color? borderColor;
+  final Function()? onTap;
+  final Function(String)? onChanged;
+  final Widget? prefixIcon;
+  final bool? readOnly;
+  final double? hintTxtSize;
   final String? Function(String?)? validator;
-  Color? hintTextColor;
+  final Color? hintTextColor;
 
-  CustomTextField({Key? key, required this.controller, this.obscureText, required this.hintText, this.textInputAction, this.textInputType, this.textInputFormatter, this.suffixIcon, this.prefixIcon, this.errorText, this.borderRadius, this.fillColor, this.txtColor, this.borderColor, this.maxLine, this.contentPadding, this.hintTxtSize, this.onTap, this.readOnly, this.hintTextColor, this.validator, this.maxLength, this.underLine = false}) : super(key: key);
+  CustomTextField({Key? key, required this.controller, this.obscureText, required this.hintText, this.textInputAction, this.textInputType, this.textInputFormatter, this.suffixIcon, this.prefixIcon, this.errorText, this.borderRadius, this.fillColor, this.txtColor, this.borderColor, this.maxLine, this.contentPadding, this.hintTxtSize, this.onTap, this.readOnly, this.hintTextColor, this.validator, this.maxLength, this.underLine = false, this.onChanged}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -42,6 +43,7 @@ class CustomTextField extends StatelessWidget {
       keyboardType: textInputType,
       inputFormatters: textInputFormatter,
       validator: validator,
+      onChanged: onChanged,
       maxLength: maxLength??200,
       style: TextStyle(color: txtColor ?? Colors.black,fontSize: textFormFieldHintTs),
       decoration: InputDecoration(

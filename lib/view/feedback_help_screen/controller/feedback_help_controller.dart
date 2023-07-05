@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dio;
@@ -22,6 +24,7 @@ class FeedbackHelpController extends GetxController{
   RxBool isStaffLoading = false.obs;
   RxString selectedPersonId = "".obs;
   RxString selectedSchoolId = "".obs;
+  Rx<File>? selectedFile = File("").obs;
   final formKey = GlobalKey<FormState>();
   /// Model Class Objects
   BaseSuccessResponse baseSuccessResponse = BaseSuccessResponse();
@@ -32,6 +35,7 @@ class FeedbackHelpController extends GetxController{
   Rx<TextEditingController> titleController = TextEditingController().obs;
   Rx<TextEditingController> messageController = TextEditingController().obs;
   Rx<TextEditingController> uploadController = TextEditingController().obs;
+  Rx<TextEditingController> deleteReasonController = TextEditingController().obs;
 
 
   @override
@@ -89,20 +93,33 @@ class FeedbackHelpController extends GetxController{
     });
   }
 
-  updateApi({required String itemId,school,forEnquiry,title,description,document,user}){
+  updateApi({required String itemId,school,forEnquiry,title,description,document,user}) async {
     if (formKey.currentState?.validate()??false) {
-      var formData = dio.FormData.fromMap({
-        'school': selectedSchoolId.value,
-        'forEnquery': typeController.value.text.trim().toLowerCase(),
-        'person': selectedPersonId.value,
-        'title': titleController.value.text.trim(),
-        'description': messageController.value.text.trim()
-        // 'document': document
-      });
-      BaseAPI().post(url: ApiEndPoints().updateFeedbackHelp+itemId, data: formData).then((value){
+      dio.FormData data;
+      if ((selectedFile?.value.path??"").isNotEmpty) {
+        data = dio.FormData.fromMap({
+          'school': selectedSchoolId.value,
+          'forEnquery': typeController.value.text.trim().toLowerCase(),
+          'person': selectedPersonId.value,
+          'title': titleController.value.text.trim(),
+          'description': messageController.value.text.trim(),
+          "document": await dio.MultipartFile.fromFile(selectedFile?.value.path??"", filename: selectedFile?.value.path.split("/").last??"")
+        });
+      }else{
+        data = dio.FormData.fromMap({
+          'school': selectedSchoolId.value,
+          'forEnquery': typeController.value.text.trim().toLowerCase(),
+          'person': selectedPersonId.value,
+          'title': titleController.value.text.trim(),
+          'description': messageController.value.text.trim()
+        });
+      }
+      BaseAPI().post(url: ApiEndPoints().updateFeedbackHelp+itemId, data: data).then((value){
         if (value?.statusCode ==  200) {
           Get.back();
           BaseOverlays().showSnackBar(message: "Updated Successfully",title: "Success");
+          selectedSchoolId.value = "";
+          schoolController.value.text = "";
           getData(type: "");
         }else{
           BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
@@ -114,20 +131,36 @@ class FeedbackHelpController extends GetxController{
   create({school,forEnquiry,complaintUser,title,description,document,user}) async {
     final String userId = await BaseSharedPreference().getString(SpKeys().userId);
     if (formKey.currentState?.validate()??false) {
-      var formData = dio.FormData.fromMap({
-        'school': school.toString(),
-        'forEnquery': forEnquiry,
-        'person': complaintUser.toString(),
-        'title': title,
-        'description': description,
-        'user': userId.toString(),
-        // 'document': document
-      });
+
+      dio.FormData data;
+      if ((selectedFile?.value.path??"").isNotEmpty) {
+        data = dio.FormData.fromMap({
+          'school': school.toString(),
+          'forEnquery': forEnquiry,
+          'person': complaintUser.toString(),
+          'title': title,
+          'description': description,
+          'user': userId.toString(),
+          "document": await dio.MultipartFile.fromFile(selectedFile?.value.path??"", filename: selectedFile?.value.path.split("/").last??"")
+        });
+      }else{
+        data = dio.FormData.fromMap({
+          'school': school.toString(),
+          'forEnquery': forEnquiry,
+          'person': complaintUser.toString(),
+          'title': title,
+          'description': description,
+          'user': userId.toString(),
+        });
+      }
+
       BaseAPI().post(url: ApiEndPoints().createFeedbackHelp,
-          data: formData).then((value){
+          data: data).then((value){
         if (value?.statusCode ==  200) {
           Get.back();
           BaseOverlays().showSnackBar(message: "Created Successfully",title: "Success");
+          selectedSchoolId.value = "";
+          schoolController.value.text = "";
           getData(type: "");
         }else{
           BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
@@ -138,7 +171,7 @@ class FeedbackHelpController extends GetxController{
 
   getData({required String type}){
     response?.value = [];
-    BaseAPI().get(url: ApiEndPoints().getAllFeedbackHelp,queryParameters: type.isNotEmpty ? {"type":type} : null).then((value){
+    BaseAPI().get(url: ApiEndPoints().getAllFeedbackHelp,queryParameters: {"type":type,"school":selectedSchoolId.value}).then((value){
       if (value?.statusCode ==  200) {
         response?.value = AllFeedbackHelpResponse.fromJson(value?.data).data??[];
       }else{

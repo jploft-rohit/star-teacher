@@ -5,10 +5,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
-import 'package:staff_app/utility/base_views/base_tab_bar.dart';
 import 'package:staff_app/utility/base_views/base_tab_button.dart';
 import 'package:staff_app/utility/base_views/base_toggle_tab_bar.dart';
-
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/utility/base_utility.dart';
@@ -25,17 +23,17 @@ class CalenderView extends StatefulWidget {
 
 class _CalenderViewState extends State<CalenderView> with SingleTickerProviderStateMixin{
   late TabController tabController;
-  AttendanceScreenCtrl controller = Get.find<AttendanceScreenCtrl>();
-  int selectedIndextype=0;
-  EventList<Event> _absentmarkedDateMap = new EventList<Event>(
+  AttendanceScreenController controller = Get.find<AttendanceScreenController>();
+  int selectedIndextype = 0;
+  EventList<Event> absentMarkedDateMap = new EventList<Event>(
     events: {
     },
   );
-  EventList<Event> _presentmarkedDateMap = new EventList<Event>(
+  EventList<Event> presentMarkedDateMap = new EventList<Event>(
     events: {
     },
   );
-  EventList<Event> _latemarkedDateMap = new EventList<Event>(
+  EventList<Event> lateMarkedDateMap = new EventList<Event>(
     events: {
     },
   );
@@ -45,7 +43,7 @@ class _CalenderViewState extends State<CalenderView> with SingleTickerProviderSt
     var eventDateTime = startEventDateTime;
     if(isAbsent)
     {
-      _absentmarkedDateMap.add(
+      absentMarkedDateMap.add(
         eventDateTime,
         Event(
           date: eventDateTime,
@@ -61,11 +59,11 @@ class _CalenderViewState extends State<CalenderView> with SingleTickerProviderSt
             child: Text(eventDateTime.day.toString(),style: TextStyle(
                 color: ColorConstants.white,
                 fontWeight: FontWeight.w400,
-                fontSize: 14),),
+                fontSize: 14)),
           ),
-        ),);
+        ));
     }else{
-      _latemarkedDateMap.add(
+      lateMarkedDateMap.add(
         eventDateTime,
         Event(
           date: eventDateTime,
@@ -286,7 +284,6 @@ class _CalenderViewState extends State<CalenderView> with SingleTickerProviderSt
                       onDayPressed: (date, events) {},
                       daysHaveCircularBorder: true,
                       showOnlyCurrentMonthDate: false,
-
                       weekendTextStyle: TextStyle(
                           color: ColorConstants.primaryColor,
                           fontWeight: FontWeight.normal,
@@ -297,14 +294,11 @@ class _CalenderViewState extends State<CalenderView> with SingleTickerProviderSt
                           fontSize: 12),
                       // thisMonthDayBorderColor: Colors.grey,
                       weekFormat: false,
-                      markedDatesMap: tabController.index==1?_absentmarkedDateMap:tabController.index==2?_latemarkedDateMap:_presentmarkedDateMap,
+                      markedDatesMap: tabController.index==1?absentMarkedDateMap:tabController.index==2?lateMarkedDateMap:presentMarkedDateMap,
                       height: 45.h,
-
                       selectedDayButtonColor: Colors.transparent,
                       selectedDayBorderColor: Colors.transparent,
                       customGridViewPhysics: const NeverScrollableScrollPhysics(),
-
-
                       leftButtonIcon: Icon(
                         Icons.arrow_back_ios,
                         color: ColorConstants.primaryColor,

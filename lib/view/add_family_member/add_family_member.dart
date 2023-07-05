@@ -1,17 +1,20 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/backend/responses_model/my_profile_response.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
 import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
-import 'package:staff_app/utility/intl/src/intl/date_format.dart';
 import 'package:staff_app/view/add_family_member/controller/family_ctrl.dart';
 
 class AddFamilyMemberScreen extends StatefulWidget {
@@ -79,7 +82,7 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
                   controller: ctrl.dobController,
                   title: "${translate(context).dob}:",
                   prefixIcon: calenderDateSvg,
-                  hintText: "dd/mm/yyyy",
+                  hintText: "yyyy/mm/dd",
                   keyboardType: TextInputType.datetime,
                   onTap: (){
                     showDatePicker(
@@ -114,6 +117,7 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
                   controller: ctrl.mobileController,
                   title: "${translate(context).mobile_number}:",
                   hintText: translate(context).mobile_number,
+                  maxLength: 20,
                   keyboardType: TextInputType.phone,
                   validator: (val){
                     if ((val??"").isEmpty) {
@@ -125,15 +129,38 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
                 BaseTextFormField(
                   controller: ctrl.idController,
                   title: "${translate(context).upload_id}:",
-                  hintText: translate(context).upload_id,
-                  suffixIcon: 'assets/images/upload_icon.svg',
-                  onTap: (){},
+                  hintText: translate(context).upload_file_or_photo,
+                  suffixIcon: "assets/images/upload_icon.svg",
+                  onTap: (){
+                    BaseOverlays().showMediaPickerDialog(onCameraClick: () async {
+                      BaseOverlays().dismissOverlay();
+                      ImagePicker picker = ImagePicker();
+                      await picker.pickImage(source: ImageSource.camera).then((value){
+                        if (value != null) {
+                          ctrl.selectedFile?.value = File(value.path);
+                          ctrl.idController.text = value.path.split("/").last;
+                        }
+                      },
+                      );
+                    },
+                        onGalleryClick: () async {
+                          BaseOverlays().dismissOverlay();
+                          ImagePicker picker = ImagePicker();
+                          await picker.pickImage(source: ImageSource.gallery).then((value){
+                            if (value != null) {
+                              ctrl.selectedFile?.value = File(value.path);
+                              ctrl.idController.text = value.path.split("/").last;
+                            }
+                          });
+                        }
+                    );
+                  },
                 ),
                 BaseTextFormField(
                   controller: ctrl.idExpiryController,
                   title: "${translate(context).id_expiry_date}:",
                   prefixIcon: calenderDateSvg,
-                  hintText: "dd/mm/yyyy",
+                  hintText: "yyyy/mm/dd",
                   keyboardType: TextInputType.datetime,
                   onTap: (){
                     showDatePicker(
@@ -149,8 +176,8 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
                           );
                         },
                         initialDate: DateTime.now(),
-                        firstDate: DateTime(1600, 8),
-                        lastDate: DateTime.now()
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime((DateTime.now().year+50),1,1),
                     ).then((picked){
                       if (picked != null) {
                         ctrl.idExpiryController..text = "${picked.year.toString()}-${picked.month.toString().padLeft(2,'0')}-${picked.day.toString().padLeft(2,'0')}";;

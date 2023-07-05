@@ -10,7 +10,8 @@ import '../../utility/images_icon_path.dart';
 import '../../utility/sizes.dart';
 
 class CreateAssignment extends StatefulWidget {
-  const CreateAssignment({Key? key}) : super(key: key);
+  final String title;
+  const CreateAssignment({Key? key, required this.title}) : super(key: key);
 
   @override
   State<CreateAssignment> createState() => _CreateAssignmentState();
@@ -22,7 +23,7 @@ class _CreateAssignmentState extends State<CreateAssignment> with SingleTickerPr
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(title: "Create Assignment"),
+      appBar: BaseAppBar(title: "Create ${widget.title}"),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: scaffoldPadding),

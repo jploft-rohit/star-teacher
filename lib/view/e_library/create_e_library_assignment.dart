@@ -16,7 +16,8 @@ import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 class CreateELibraryAssignment extends StatefulWidget {
   final bool? isEditing;
   final AssignmentData? data;
-  const CreateELibraryAssignment({Key? key, this.isEditing, this.data}) : super(key: key);
+  final String title;
+  const CreateELibraryAssignment({Key? key, this.isEditing, this.data, required this.title}) : super(key: key);
 
   @override
   State<CreateELibraryAssignment> createState() => _CreateELibraryAssignmentState();
@@ -35,7 +36,7 @@ class _CreateELibraryAssignmentState extends State<CreateELibraryAssignment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(title: "Create Assignments",),
+      appBar: BaseAppBar(title: "Create ${widget.title}",),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(scaffoldPadding),

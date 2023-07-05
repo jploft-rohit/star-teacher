@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/backend/responses_model/class_response.dart';
+import 'package:staff_app/backend/responses_model/class_section_response.dart';
 import 'package:staff_app/backend/responses_model/comlaint_type_reponse.dart';
 import 'package:staff_app/backend/responses_model/roles_list_response.dart';
 import 'package:staff_app/backend/responses_model/school_list_response.dart';
@@ -21,6 +22,7 @@ class BaseCtrl extends GetxController{
   RxList<StarsListData>? starsList = <StarsListData>[].obs;
   RxList<ClassData>? classList = <ClassData>[].obs;
   RxList<SubjectsData>? subjectsList = <SubjectsData>[].obs;
+  RxList<ClassSectionData>? classSectionList = <ClassSectionData>[].obs;
 
   @override
   void onInit() {
@@ -37,7 +39,8 @@ class BaseCtrl extends GetxController{
         await getClassList(showLoader: false);
         getSubjects();
       }
-    });
+     },
+   );
   }
 
   getSchoolData({bool? showLoader}){
@@ -53,9 +56,21 @@ class BaseCtrl extends GetxController{
    );
   }
 
+  getClassSections({bool? showLoader,required String classId}){
+    classSectionList?.value = [];
+    BaseAPI().get(url: ApiEndPoints().getClassSection, showLoader: showLoader??true,queryParameters: {"classId":classId}).then((value){
+      if (value?.statusCode ==  200) {
+        classSectionList?.value = ClassSectionResponse.fromJson(value?.data).data?.data??[];
+      }else{
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+      }
+    },
+    );
+  }
+
   getComplaintTypeData({bool? showLoader, required String initialSchoolId}) async {
     complaintTypeResponse = ComplaintTypeResponse();
-    BaseAPI().get(url: ApiEndPoints().getComplaintType+"643e7e76786e2a1898ace622",showLoader: showLoader).then((value){
+    BaseAPI().get(url: ApiEndPoints().getComplaintType+initialSchoolId,showLoader: showLoader).then((value){
       if (value?.statusCode ==  200) {
         complaintTypeResponse = ComplaintTypeResponse.fromJson(value?.data);
       }else{
@@ -66,7 +81,7 @@ class BaseCtrl extends GetxController{
 
   getRolesList({bool? showLoader}) async {
     rolesListResponse = RolesListResponse();
-    BaseAPI().get(url: ApiEndPoints().getAllRoles,showLoader: showLoader).then((value){
+    BaseAPI().get(url: ApiEndPoints().getAllRoles,showLoader: showLoader,queryParameters: {"pages":"all","type":"main"}).then((value){
       if (value?.statusCode ==  200) {
         rolesListResponse = RolesListResponse.fromJson(value?.data);
       }else{
@@ -75,9 +90,9 @@ class BaseCtrl extends GetxController{
     });
   }
 
-  getStarsList({bool? showLoader}) async {
+  getStarsList({bool? showLoader,String? schoolId, String? classId, String? sectionId}) async {
     starsList?.value = [];
-    BaseAPI().get(url: ApiEndPoints().getStarsList, showLoader: showLoader).then((value){
+    BaseAPI().get(url: ApiEndPoints().getStarsList, showLoader: showLoader,queryParameters: {"school":schoolId??"","classId":classId??"","section":sectionId??""}).then((value){
       if (value?.statusCode ==  200) {
         starsList?.value = StarsListResponse.fromJson(value?.data).data??[];
       } else{
@@ -86,9 +101,9 @@ class BaseCtrl extends GetxController{
     });
   }
 
-  getClassList({bool? showLoader}) async {
+  getClassList({bool? showLoader,String? schoolId}) async {
     classList?.clear();
-    BaseAPI().get(url: ApiEndPoints().getClassList, showLoader: showLoader).then((value){
+    BaseAPI().get(url: ApiEndPoints().getClassList, showLoader: showLoader,queryParameters: {"schoolid":schoolId??""}).then((value){
       if (value?.statusCode ==  200) {
         classList?.value = ClassResponse.fromJson(value?.data).data?.data??[];
       } else{
@@ -106,4 +121,6 @@ class BaseCtrl extends GetxController{
     },
     );
   }
+
+
 }

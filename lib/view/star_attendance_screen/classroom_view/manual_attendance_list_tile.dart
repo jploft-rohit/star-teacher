@@ -42,6 +42,7 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
             child: Obx(() => Container(
               margin: const EdgeInsets.only(left: 15, right: 15.0),
               decoration: BoxDecoration(
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(color: controller.selectedFMOPos1.value == widget.index ? BaseColors.primaryColor : BaseColors.borderColor)),
               child: Row(
@@ -50,7 +51,7 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
                     flex: 2,
                     child: Container(
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(12.0,8,8,8),
+                        padding: const EdgeInsets.fromLTRB(8,8,8,8),
                         child: Row(
                           children: [
                             Container(
@@ -75,62 +76,105 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
                           padding: const EdgeInsets.only(left: 8),
                           child: Text('Roma #21', style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: BaseColors.primaryColor),),
                         ),
-                        SizedBox(
-                          height: 0.5.h,
-                        ),
                         Row(
                           children: [
-                            Transform.scale(
-                              scale: 0.6,
-                              child: Radio(
-                                value: "Present",
-                                groupValue: selectedRadioButton,
-                                onChanged: (value){
-                                  selectedRadioButton = value.toString();
-                                  setState(() {});
-                                },
-                                splashRadius: 1.0,
-                                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                fillColor: MaterialStateColor.resolveWith((states) => Colors.green),
-                                visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                activeColor: Colors.green,
+                            GestureDetector(
+                              onTap: (){
+                                selectedRadioButton = "Present";
+                                setState(() {});
+                              },
+                              child: Container(
+                                color: Colors.white,
+                                padding: EdgeInsets.only(bottom: 0.8.h,top: 0.8.h),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Transform.scale(
+                                      scale: 0.6,
+                                      child: Radio(
+                                        value: "Present",
+                                        groupValue: selectedRadioButton,
+                                        onChanged: (value){
+                                          selectedRadioButton = "Present";
+                                          setState(() {});
+                                        },
+                                        splashRadius: 1.0,
+                                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                        fillColor: MaterialStateColor.resolveWith((states) => Colors.green),
+                                        visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                        activeColor: Colors.green,
+                                      ),
+                                    ),
+                                    Text("Present", style: Style.montserratBoldStyle().copyWith(fontSize: 10, color: Colors.green)),
+                                  ],
+                                ),
                               ),
                             ),
-                            Text("Present", style: Style.montserratBoldStyle().copyWith(fontSize: 10, color: Colors.green)),
-                            Transform.scale(
-                              scale: 0.6,
-                              child: Radio(
-                                value: "Late",
-                                groupValue: selectedRadioButton,
-                                onChanged: (value){
-                                  selectedRadioButton = value.toString();
-                                  setState(() {});
-                                },
-                                splashRadius: 1.0,
-                                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                fillColor: MaterialStateColor.resolveWith((states) => const Color(0xffEC9C00)),
-                                visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                activeColor: const Color(0xffEC9C00),
+                            GestureDetector(
+                              onTap: (){
+                                selectedRadioButton = "Late";
+                                setState(() {});
+                              },
+                              child: Container(
+                                color: Colors.white,
+                                padding: EdgeInsets.only(bottom: 0.8.h,top: 0.8.h),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Transform.scale(
+                                      scale: 0.6,
+                                      child: Radio(
+                                        value: "Late",
+                                        groupValue: selectedRadioButton,
+                                        onChanged: (value){
+                                          selectedRadioButton = value.toString();
+                                          setState(() {});
+                                        },
+                                        splashRadius: 1.0,
+                                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                        fillColor: MaterialStateColor.resolveWith((states) => const Color(0xffEC9C00)),
+                                        visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                        activeColor: const Color(0xffEC9C00),
+                                      ),
+                                    ),
+                                    Text("Late", style: Style.montserratBoldStyle().copyWith(fontSize: 10, color: const Color(0xffEC9C00))),
+                                  ],
+                                ),
                               ),
                             ),
-                            Text("Late", style: Style.montserratBoldStyle().copyWith(fontSize: 10, color: const Color(0xffEC9C00))),
-                            Transform.scale(
-                              scale: 0.6,
-                              child: Radio(
-                                value: "Absent",
-                                groupValue: selectedRadioButton,
-                                onChanged: (value){
-                                  selectedRadioButton = value.toString();
-                                  setState(() {});
-                                },
-                                splashRadius: 1.0,
-                                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                fillColor: MaterialStateColor.resolveWith((states) => Colors.red),
-                                visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                                activeColor: Colors.red,
+                            GestureDetector(
+                              onTap: (){
+                                selectedRadioButton = "Absent";
+                                setState(() {});
+                              },
+                              child: Container(
+                                color: Colors.white,
+                                padding: EdgeInsets.only(bottom: 0.8.h,top: 0.8.h),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Transform.scale(
+                                      scale: 0.6,
+                                      child: Radio(
+                                        value: "Absent",
+                                        groupValue: selectedRadioButton,
+                                        onChanged: (value){
+                                          selectedRadioButton = value.toString();
+                                          setState(() {});
+                                        },
+                                        splashRadius: 1.0,
+                                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                        fillColor: MaterialStateColor.resolveWith((states) => Colors.red),
+                                        visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                        activeColor: Colors.red,
+                                      ),
+                                    ),
+                                    Text("Absent", style: Style.montserratBoldStyle().copyWith(fontSize: 10, color: Colors.red)),
+                                  ],
+                                ),
                               ),
                             ),
-                            Text("Absent", style: Style.montserratBoldStyle().copyWith(fontSize: 10, color: Colors.red)),
+
                           ],
                         )
                       ],
@@ -159,42 +203,41 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
               ),
             )),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 3.0),
-            child: GestureDetector(
-              onTap: (){
-                controller.selectedFMOPos1.value = widget.index;
-                setState(() {
-
-                });
-              },
-              child: Container(
-                height: 20,
-                width: 20,
-                decoration: BoxDecoration(
-                    color: controller.selectedFMOPos1.value == widget.index
-                        ? BaseColors.backgroundColor
-                        : BaseColors.borderColor,
-                    boxShadow: [getLightBoxShadow()],
-                    border: controller.selectedFMOPos1.value == widget.index
-                        ? Border.all(
-                        color: BaseColors.primaryColor, width: 1.5)
-                        : Border.all(
-                        color: Colors.transparent, width: 1.5),
-                    borderRadius: BorderRadius.circular(30.0)),
+          Obx(()=>Padding(
+              padding: const EdgeInsets.only(left: 3.0),
+              child: GestureDetector(
+                onTap: (){
+                  controller.selectedFMOPos1.value = widget.index;
+                  setState((){});
+                },
                 child: Container(
+                  height: 20,
+                  width: 20,
                   decoration: BoxDecoration(
-                      border: Border.all(
-                          color: BaseColors.white, width: 1.5),
-                      shape: BoxShape.circle,
-                      boxShadow: [getBoxShadow()],
                       color: controller.selectedFMOPos1.value == widget.index
-                          ? BaseColors.primaryColor
-                          : BaseColors.borderColor
-                  ),
-                  child: Center(
-                    child: Icon(Icons.check, color: BaseColors.white,
-                        size: 16.sp),
+                          ? BaseColors.backgroundColor
+                          : BaseColors.borderColor,
+                      boxShadow: [getLightBoxShadow()],
+                      border: controller.selectedFMOPos1.value == widget.index
+                          ? Border.all(
+                          color: BaseColors.primaryColor, width: 1.5)
+                          : Border.all(
+                          color: Colors.transparent, width: 1.5),
+                      borderRadius: BorderRadius.circular(30.0)),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            color: BaseColors.white, width: 1.5),
+                        shape: BoxShape.circle,
+                        boxShadow: [getBoxShadow()],
+                        color: controller.selectedFMOPos1.value == widget.index
+                            ? BaseColors.primaryColor
+                            : BaseColors.borderColor
+                    ),
+                    child: Center(
+                      child: Icon(Icons.check, color: BaseColors.white,
+                          size: 16.sp),
+                    ),
                   ),
                 ),
               ),

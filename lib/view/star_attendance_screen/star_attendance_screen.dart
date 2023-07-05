@@ -31,8 +31,7 @@ class _StarAttendanceScreenState extends State<StarAttendanceScreen> with Single
           controller.selectedClassType.value = tabController.index;
           controller.getStarsAttendanceList(
               selectedClassIndex: controller.selectedClassType.value,
-              selectedAttendanceIndex: controller.selectedAttendanceTabIndex
-                  .value);
+              selectedAttendanceIndex: controller.selectedAttendanceTabIndex.value);
           if (mounted) {
             setState(() {});
           }

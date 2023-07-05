@@ -31,31 +31,32 @@ class _SchoolsViewState extends State<SchoolsView> {
     return Scaffold(
       backgroundColor: BaseColors.white,
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Text('${translate(context).list_of_located_schools} : ', style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp)),
-                Text((controller.response.value.data?.schoolStaff?.length??0).toString(), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
-              ],
-            ),
-            SizedBox(
-              height: 1.h,
-            ),
-            ListView.builder(
-              itemCount: controller.response.value.data?.schoolStaff?.length??0,
-              shrinkWrap: true,
-              padding: EdgeInsets.zero,
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: buildJobDetails(context,index),
-                );
-              },
-            ),
-          ],
+        child: Obx(()=>Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text('${translate(context).list_of_located_schools} : ', style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp)),
+                  Text((controller.response.value.data?.schoolStaff?.length??0).toString(), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
+                ],
+              ),
+              SizedBox(
+                height: 1.h,
+              ),
+              ListView.builder(
+                itemCount: controller.response.value.data?.schoolStaff?.length??0,
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: buildJobDetails(context,index),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

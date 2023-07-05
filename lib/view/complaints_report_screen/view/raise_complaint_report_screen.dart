@@ -1,14 +1,19 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/backend/responses_model/all_complaint_reports_model.dart';
 import 'package:staff_app/backend/responses_model/school_list_response.dart' as SchoolData;
 import 'package:staff_app/backend/responses_model/comlaint_type_reponse.dart' as ComplaintTypeData;
+import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_dropdown_2.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/utility/base_views/base_school_selection.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
 import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -48,25 +53,19 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
             padding: EdgeInsets.all(scaffoldPadding),
             child: Column(
               children: [
-                Obx(()=>BaseDropDown2(
+                Obx(()=>BaseSchoolDropDown(
                     controller: controller.selectSchoolController.value,
-                    errorText: "Please select school",
-                    hintText: controller.selectSchoolController.value.text.isEmpty ? "Select School" : controller.selectSchoolController.value.text,
-                    listData: baseCtrl.schoolListData.data?.data?.map((SchoolData.SchoolData data){
-                      return DropdownMenuItem(
-                        value: data,
-                        child: addText(data.name??"", 15.sp, Colors.black, FontWeight.w400),
-                      );
-                    }).toList(),
-                    onChange: (value) async {
+                    onChanged: (value) async {
                       controller.selectedPersonId.value = '';
                       controller.personController.value.text = "";
                       controller.selectSchoolController.value.text = value?.name??"";
                       controller.selectedSchoolId.value = value?.sId??"";
+                      controller.selectedComplaintTypeId.value = "";
+                      controller.typeController.value.text = "";
                       setState(() {
                         controller.selectSchoolController.value.text = value?.name??"";
                       });
-                      await baseCtrl.getComplaintTypeData(initialSchoolId: value?.sId??"");
+                      baseCtrl.getComplaintTypeData(initialSchoolId: value?.sId??"");
                     },
                   )),
                 Obx(()=>BaseTextFormField(
@@ -113,30 +112,21 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                     bottomMargin: 1.h,
                   ),
                 ),
-                Obx(()=>GestureDetector(
-                  onTap: controller.complaintOrReportController.value.text.isEmpty ? (){
-                    Fluttertoast.cancel();
-                    Fluttertoast.showToast(msg: "Please first select Complaint or Report");
-                  } : null,
-                  child: AbsorbPointer(
-                    absorbing: controller.complaintOrReportController.value.text.isEmpty,
-                    child: BaseTextFormField(
-                        controller: controller.typeController.value,
-                        hintText: controller.typeController.value.text.isEmpty ? "${controller.complaintOrReportController.value.text} Type" : controller.typeController.value.text.trim(),
-                        isDropDown: true,
-                        dropDownValue: controller.typeController.value.text,
-                        errorText: "Please select ${controller.complaintOrReportController.value.text} type",
-                        items: baseCtrl.complaintTypeResponse.data?.map((ComplaintTypeData.Data value) {
-                          return DropdownMenuItem<ComplaintTypeData.Data>(
-                            value: value,
-                            child: addText(value.name??"", 16.sp, Colors.black, FontWeight.w400),);
-                        }).toList(),
-                        onChanged: (value){
-                          controller.selectedComplaintTypeId.value = value.sId??"";
-                          controller.typeController.value.text = value.name??"";
-                        },
-                      ),
-                  ),
+                Obx(()=>BaseTextFormField(
+                    controller: controller.typeController.value,
+                    hintText: controller.typeController.value.text.isEmpty ? "${controller.complaintOrReportController.value.text} Type" : controller.typeController.value.text.trim(),
+                    isDropDown: true,
+                    dropDownValue: controller.typeController.value.text,
+                    errorText: "Please select ${controller.complaintOrReportController.value.text} type",
+                    items: baseCtrl.complaintTypeResponse.data?.map((ComplaintTypeData.Data value) {
+                      return DropdownMenuItem<ComplaintTypeData.Data>(
+                        value: value,
+                        child: addText(value.name??"", 16.sp, Colors.black, FontWeight.w400),);
+                    }).toList(),
+                    onChanged: (value){
+                      controller.selectedComplaintTypeId.value = value.sId??"";
+                      controller.typeController.value.text = value.name??"";
+                    },
                   ),
                 ),
                 Obx(()=>BaseTextFormField(
@@ -165,15 +155,35 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                   ),
                 ),
                 Obx(()=>BaseTextFormField(
-                    controller: controller.uploadController.value,
-                    hintText: "Upload file or Photo",
-                    suffixIcon: "assets/images/upload_icon.svg",
-                    bottomMargin: 4.h,
-                    onTap: (){
-                      BaseOverlays().showMediaPickerDialog();
+                  controller: controller.uploadController.value,
+                  hintText: translate(context).upload_file_or_photo,
+                  suffixIcon: "assets/images/upload_icon.svg",
+                  onTap: (){
+                    BaseOverlays().showMediaPickerDialog(onCameraClick: () async {
+                      BaseOverlays().dismissOverlay();
+                      ImagePicker picker = ImagePicker();
+                      await picker.pickImage(source: ImageSource.camera).then((value){
+                        if (value != null) {
+                          controller.selectedFile?.value = File(value.path);
+                          controller.uploadController.value.text = value.path.split("/").last;
+                        }
+                      },
+                      );
                     },
-                  ),
-                ),
+                        onGalleryClick: () async {
+                          BaseOverlays().dismissOverlay();
+                          ImagePicker picker = ImagePicker();
+                          await picker.pickImage(source: ImageSource.gallery).then((value){
+                            if (value != null) {
+                              controller.selectedFile?.value = File(value.path);
+                              controller.uploadController.value.text = value.path.split("/").last;
+                            }
+                          });
+                        }
+                    );
+                  },
+                  bottomMargin: 10.h,
+                )),
                 BaseButton(title: "SUBMIT", onPressed: (){
                   if (widget.isUpdating) {
                     controller.updateComplainReportAPI(

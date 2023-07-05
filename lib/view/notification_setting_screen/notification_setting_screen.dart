@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
@@ -11,6 +12,7 @@ import 'package:staff_app/utility/base_views/base_switch.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/view/notification_setting_screen/controller/notification_settings_controller.dart';
 
 class NotificationSettingScreen extends StatefulWidget {
   const NotificationSettingScreen({Key? key}) : super(key: key);
@@ -20,17 +22,20 @@ class NotificationSettingScreen extends StatefulWidget {
 }
 
 class _NotificationSettingScreenState extends State<NotificationSettingScreen> with SingleTickerProviderStateMixin{
-  int index = 0;
 
-  bool performanceRating = true;
   late TabController tabController;
+  final NotificationSettingsController controller = Get.put(NotificationSettingsController());
 
   @override
   void initState() {
     super.initState();
     tabController = TabController(length: 2, vsync: this)..addListener(() {
-      setState(() {});
-    });
+      if (!(tabController.indexIsChanging)) {
+        controller.selectedTabIndex.value = tabController.index;
+        setState(() {});
+      }
+     },
+    );
   }
   @override
   void dispose() {
@@ -39,9 +44,8 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> w
   }
   @override
   Widget build(BuildContext context) {
-
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         appBar: BaseAppBar(title: translate(context).notification_settings,showNotification: false),
         body: Padding(
@@ -67,21 +71,21 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> w
                 child: TabBarView(
                   controller: tabController,
                     children: [
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: list.length,
-                    itemBuilder: (context, index) {
-                      return buildTile(index);
-                    },
+                  Obx(()=>ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: controller.list?.length??0,
+                      itemBuilder: (context, index) {
+                        return buildTile(index);
+                      },
+                    ),
                   ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: list1.length,
-                    itemBuilder: (context, index) {
-                      return buildTile1(index);
-                    },
+                  Obx(()=>ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: controller.list?.length??0,
+                      itemBuilder: (context, index) {
+                        return buildTile1(index);
+                      },
+                    ),
                   )
                 ]),
               )
@@ -102,12 +106,12 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> w
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(list[index]['title'], style: Style.montserratMediumStyle().copyWith(fontSize: 15.sp, color: BaseColors.textBlackColor),),
+            Text(toBeginningOfSentenceCase(controller.list?[index]?.title??"")??"", style: Style.montserratMediumStyle().copyWith(fontSize: 15.sp, color: BaseColors.textBlackColor),),
             Padding(
               padding: const EdgeInsets.only(right: 2),
               child: BaseSwitch(
                 key: GlobalKey(),
-                value: list[index]['isSelected'],
+                value: (controller.list?[index]?.userNotificationData?.isActive??"").toString().toLowerCase() == "true" ? true : false,
                 enableColor: BaseColors.backgroundColor,
                 enableSwitchColor: BaseColors.primaryColor,
                 disableColor: BaseColors.textLightGreyColor,
@@ -116,7 +120,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> w
                 switchHeight: 20,
                 switchWidth: 15,
                 onChanged: (bool value) {
-                  list[index]['isSelected'] = !list[index]['isSelected'];
+                  // controller.list?[index]?.userNotificationData?.isActive = ;
                   setState(() {});
                 },),
             ),
@@ -141,7 +145,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> w
               padding: const EdgeInsets.only(right: 2),
               child: BaseSwitch(
                 key: GlobalKey(),
-                value: list1[index]['isSelected'],
+                value: controller.list?[index]?.title??"",
                 enableColor: BaseColors.backgroundColor,
                 enableSwitchColor: BaseColors.primaryColor,
                 disableColor: BaseColors.textLightGreyColor,
@@ -152,7 +156,8 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> w
                 onChanged: (bool value) {
                   list1[index]['isSelected'] = !list1[index]['isSelected'];
                   setState(() {});
-                },),
+                },
+              ),
             )
           ],
         ),
@@ -161,6 +166,98 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> w
   }
 
   List<Map<String, dynamic>> list = [
+    {
+      "title": translate(Get.context!).wallet_credit_debits,
+      "isSelected": true,
+    },
+    {
+      "title": translate(Get.context!).performance_rating_received,
+      "isSelected": true,
+    },
+    {
+      "title": translate(Get.context!).task_assigned,
+      "isSelected": true,
+    },
+    {
+      "title": translate(Get.context!).event_updates,
+      "isSelected": true,
+    },
+    {
+      "title": translate(Get.context!).stars_chats,
+      "isSelected": true,
+    },
+    {
+      "title": translate(Get.context!).parents_chats,
+      "isSelected": true,
+    },
+    {
+      "title": translate(Get.context!).teachers_chats,
+      "isSelected": true,
+    },
+    {
+      "title": translate(Get.context!).wallet_credit_debits,
+      "isSelected": true,
+    },
+    {
+      "title": translate(Get.context!).performance_rating_received,
+      "isSelected": true,
+    },
+    {
+      "title": translate(Get.context!).task_assigned,
+      "isSelected": true,
+    },
+    {
+      "title": translate(Get.context!).event_updates,
+      "isSelected": true,
+    },
+    {
+      "title": translate(Get.context!).stars_chats,
+      "isSelected": true,
+    },
+    {
+      "title": translate(Get.context!).parents_chats,
+      "isSelected": true,
+    },
+    {
+      "title": translate(Get.context!).teachers_chats,
+      "isSelected": true,
+    },
+    {
+      "title": translate(Get.context!).wallet_credit_debits,
+      "isSelected": true,
+    },
+    {
+      "title": translate(Get.context!).performance_rating_received,
+      "isSelected": true,
+    },
+    {
+      "title": translate(Get.context!).task_assigned,
+      "isSelected": true,
+    },
+    {
+      "title": translate(Get.context!).event_updates,
+      "isSelected": true,
+    },
+    {
+      "title": translate(Get.context!).stars_chats,
+      "isSelected": true,
+    },
+    {
+      "title": translate(Get.context!).parents_chats,
+      "isSelected": true,
+    },
+    {
+      "title": translate(Get.context!).teachers_chats,
+      "isSelected": true,
+    },
+    {
+      "title": translate(Get.context!).parents_chats,
+      "isSelected": true,
+    },
+    {
+      "title": translate(Get.context!).teachers_chats,
+      "isSelected": true,
+    },
     {
       "title": translate(Get.context!).wallet_credit_debits,
       "isSelected": true,

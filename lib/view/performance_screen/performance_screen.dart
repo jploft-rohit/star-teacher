@@ -120,42 +120,44 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
                             controller.selectedRatingIndex.value = index;
                             controller.getData();
                           },
-                          child: Row(
+                          child: Column(
                             children: [
-                              Container(
-                                height: 4.h,
-                                margin: EdgeInsets.only(right: 2.w),
-                                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    color: controller.selectedRatingIndex.value == index ? BaseColors.backgroundColor : BaseColors.screenBackgroundColor,
-                                    border: Border.all(
-                                        color: controller.selectedRatingIndex.value == index ? Colors.transparent : BaseColors.txtFiledBorderColor
+                              Row(
+                                children: [
+                                  Container(
+                                    height: 4.h,
+                                    margin: EdgeInsets.only(right: 2.w),
+                                    padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        color: controller.selectedRatingIndex.value == index ? BaseColors.backgroundColor : BaseColors.screenBackgroundColor,
+                                        border: Border.all(
+                                            color: controller.selectedRatingIndex.value == index ? Colors.transparent : BaseColors.txtFiledBorderColor
+                                        ),
+                                        boxShadow: [
+                                          if(controller.selectedRatingIndex.value == index)
+                                            const BoxShadow(
+                                                color: BaseColors.darkShadowColor,
+                                                spreadRadius: 1.0,
+                                                blurRadius: 2.0,
+                                                offset: Offset(0, 3)
+                                            )
+                                        ],
+                                        borderRadius: BorderRadius.circular(15.sp)
                                     ),
-                                    boxShadow: [
-                                      if(controller.selectedRatingIndex.value == index)
-                                        const BoxShadow(
-                                            color: BaseColors.darkShadowColor,
-                                            spreadRadius: 1.0,
-                                            blurRadius: 2.0,
-                                            offset: Offset(0, 3)
-                                        )
-                                    ],
-                                    borderRadius: BorderRadius.circular(15.sp)
-                                ),
-                                child: Row(
-                                  children: [
-                                    Text("${index + 1}", style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 17.sp),),
-                                    SizedBox(
-                                      width: 1.w,
+                                    child: Row(
+                                      children: [
+                                        Text("${index + 1}", style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 17.sp),),
+                                        SizedBox(width: 1.w),
+                                        Icon(
+                                          CupertinoIcons.star_fill,
+                                          color: BaseColors.primaryColor,
+                                          size: 18.sp,
+                                        ),
+                                      ],
                                     ),
-                                    Icon(
-                                      CupertinoIcons.star_fill,
-                                      color: BaseColors.primaryColor,
-                                      size: 18.sp,
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -216,82 +218,88 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
                 borderRadius: BorderRadius.circular(10.0),
                 border: Border.all(color: BaseColors.borderColor)
             ),
-            child: Column(
+            child: Stack(
+              alignment: Alignment.topRight,
               children: [
-                Row(
+                Column(
                   children: [
-                    RatingBar.builder(
-                      initialRating: double.parse(controller.list?[index]?.rating.toString()??"0.0"),
-                      direction: Axis.horizontal,
-                      allowHalfRating: true,
-                      maxRating: 5,
-                      minRating: 1,
-                      itemCount: 5,
-                      itemSize: 20.sp,
-                      ignoreGestures: true,
-                      itemBuilder: (context, _) => const Icon(
-                        CupertinoIcons.star_fill,
-                        color: BaseColors.primaryColor,
-                      ),
-                      unratedColor: BaseColors.primaryColor.withOpacity(0.3),
-                      itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      onRatingUpdate: (rating) {
-                        print(rating);
-                      },
-                    ),
-                    if((controller.list?[index]?.comment??"").toString().isNotEmpty)
-                      Tooltip(
-                        showDuration: const Duration(seconds: 10),
-                        margin: const EdgeInsets.symmetric(horizontal: 30),
-                        textStyle: TextStyle(
-                          color: BaseColors.primaryColor,
-                          fontSize: 1.8.h - 1,
-                        ),
-                        decoration: BoxDecoration(
-                          color: BaseColors.secondaryColor,
-                          border: Border.all(color: BaseColors.primaryColor),
-                          // boxShadow: [getDeepBoxShadow()],
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        padding: const EdgeInsets.all(20),
-                        message: controller.list?[index]?.comment??"N/A",
-                        triggerMode: TooltipTriggerMode.tap,
-                        child: Container(
-                          padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0, bottom: 5.0),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              color: BaseColors.backgroundColor,
-                              border: Border.all(color: BaseColors.primaryColor)
+                    Row(
+                      children: [
+                        RatingBar.builder(
+                          initialRating: double.parse(controller.list?[index]?.rating.toString()??"0.0"),
+                          direction: Axis.horizontal,
+                          allowHalfRating: true,
+                          maxRating: double.parse(controller.list?[index]?.rating.toString()??"0.0"),
+                          minRating: 1,
+                          itemCount: int.parse(controller.list?[index]?.rating.toString()??"0"),
+                          itemSize: 20.sp,
+                          ignoreGestures: true,
+                          itemBuilder: (context, _) => const Icon(
+                            CupertinoIcons.star_fill,
+                            color: BaseColors.primaryColor,
                           ),
-                          child: addText(controller.list?[index]?.comment??"N/A", 14.sp, BaseColors.primaryColor, FontWeight.w400),
+                          unratedColor: BaseColors.primaryColor.withOpacity(0.3),
+                          itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                          onRatingUpdate: (rating) {
+                            print(rating);
+                          },
                         ),
-                      ),
+                        if((controller.list?[index]?.comment??"").toString().isNotEmpty)
+                          Tooltip(
+                            showDuration: const Duration(seconds: 10),
+                            margin: const EdgeInsets.symmetric(horizontal: 30),
+                            textStyle: TextStyle(
+                              color: BaseColors.primaryColor,
+                              fontSize: 1.8.h - 1,
+                            ),
+                            decoration: BoxDecoration(
+                              color: BaseColors.secondaryColor,
+                              border: Border.all(color: BaseColors.primaryColor),
+                              // boxShadow: [getDeepBoxShadow()],
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            padding: const EdgeInsets.all(20),
+                            message: controller.list?[index]?.comment??"N/A",
+                            triggerMode: TooltipTriggerMode.tap,
+                            child: Container(
+                              padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0, bottom: 5.0),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  color: BaseColors.backgroundColor,
+                                  border: Border.all(color: BaseColors.primaryColor)
+                              ),
+                              child: addText(controller.list?[index]?.comment??"N/A", 14.sp, BaseColors.primaryColor, FontWeight.w400),
+                            ),
+                          ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 1.h,
+                    ),
+                    Row(
+                      children: [
+                        SvgPicture.asset("assets/images/time_icon.svg"),
+                        SizedBox(
+                          width: 1.w,
+                        ),
+                        addText(getFormattedTime(controller.list?[index]?.createdAt??""), 15.sp, BaseColors.textBlackColor, FontWeight.w400),
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                        SvgPicture.asset("assets/images/teacher_icon.svg"),
+                        SizedBox(
+                          width: 1.w,
+                        ),
+                        addText(controller.list?[index]?.ratedBy?.name??"", 15.sp, BaseColors.textBlackColor, FontWeight.w400),
+                        SizedBox(
+                          width: 1.w,
+                        ),
+                        addText("(${controller.list?[index]?.ratedBy?.role?.displayName??""})", 13.sp, BaseColors.primaryColor, FontWeight.w400)
+                      ],
+                    )
                   ],
                 ),
-                SizedBox(
-                  height: 1.h,
-                ),
-                Row(
-                  children: [
-                    SvgPicture.asset("assets/images/time_icon.svg"),
-                    SizedBox(
-                      width: 1.w,
-                    ),
-                    addText(getFormattedTime(controller.list?[index]?.createdAt??""), 15.sp, BaseColors.textBlackColor, FontWeight.w400),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    SvgPicture.asset("assets/images/teacher_icon.svg"),
-                    SizedBox(
-                      width: 1.w,
-                    ),
-                    addText(controller.list?[index]?.ratedBy?.name??"", 15.sp, BaseColors.textBlackColor, FontWeight.w400),
-                    SizedBox(
-                      width: 1.w,
-                    ),
-                    addText("(${controller.list?[index]?.ratedBy?.role?.displayName??""})", 13.sp, BaseColors.primaryColor, FontWeight.w400)
-                  ],
-                )
+                Text(getFormattedMonthDate(controller.list?[index]?.createdAt),style: TextStyle(fontSize: 8,color: Colors.grey),),
               ],
             ),
           );

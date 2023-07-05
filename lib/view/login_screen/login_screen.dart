@@ -1,3 +1,4 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,7 +15,17 @@ import 'package:staff_app/utility/validators.dart';
 import 'package:staff_app/view/account_activation_screen/account_activation_screen.dart';
 import 'package:staff_app/view/login_screen/login_ctrl.dart';
 
-class LoginScreen extends GetView<LoginCtrl> {
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  String selectedCountryCode = "971";
+  LoginCtrl controller = Get.find<LoginCtrl>();
 
   @override
   Widget build(BuildContext context) {
@@ -59,16 +70,37 @@ class LoginScreen extends GetView<LoginCtrl> {
                         borderRadius: 5,
                         maxLength: 15,
                         validator: Validators().mobileValidator,
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                          child: SvgPicture.asset(mobileSvg),
+                        prefixIcon: GestureDetector(
+                          onTap: (){
+                            showCountryPicker(
+                              context: context,
+                              favorite: ["AE"],
+                              showPhoneCode: true, // optional. Shows phone code before the country name.
+                              onSelect: (Country country) {
+                                selectedCountryCode = country.phoneCode;
+                                print('Select country: ${country.phoneCode}');
+                                setState(() {});
+                              },
+                            );
+                          },
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SizedBox(width: 2.w),
+                              Text("+"+selectedCountryCode),
+                              Icon(Icons.arrow_drop_down_rounded,color: Colors.grey,),
+                              Container(height: 20,width: 1,color: Colors.grey),
+                              SizedBox(width: 2.w),
+                              SvgPicture.asset(mobileSvg),
+                            ],
+                          ),
                         ),
                       ),
                       SizedBox(height: 4.h),
                       Center(
                         child: BaseButton(btnType: largeButton,title: translate(context).sent_otp_btn_txt, onPressed: (){
                           controller.loginApi();
-                          },borderRadius: 19,),
+                        },borderRadius: 19,),
                       ),
                       SizedBox(height: 10.h),
                       Row(

@@ -24,7 +24,6 @@ class PerformanceController extends GetxController{
     list?.clear();
     final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
     BaseAPI().get(url: ApiEndPoints().getPerformance,queryParameters: {
-      "user":userId,
       "rating":(selectedRatingIndex.value+1) > 0 ? (selectedRatingIndex.value+1).toString() : "",
       "limit":100,
       "role": selectedTabIndex.value == 0

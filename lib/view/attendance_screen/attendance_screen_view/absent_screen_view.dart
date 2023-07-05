@@ -25,7 +25,7 @@ class _AttendanceAbsentViewState extends State<AttendanceAbsentView> {
         shrinkWrap: true,
         itemBuilder: (context, index) {
           return Container(
-            height: 12.5.h,
+            height: 13.h,
             margin: EdgeInsets.only(bottom: 1.h),
             clipBehavior: Clip.antiAliasWithSaveLayer,
             decoration: BoxDecoration(

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
+import 'package:staff_app/utility/base_views/base_school_selection.dart';
 import 'package:staff_app/utility/base_views/base_tab_bar.dart';
 import 'package:staff_app/Utility/custom_dropdown_widget.dart';
 import 'package:staff_app/Utility/dummy_lists.dart';
@@ -45,21 +46,13 @@ class _ComplaintsReportScreenState extends State<ComplaintsReportScreen> with Ti
         padding: EdgeInsets.all(scaffoldPadding),
         child: Column(
           children: [
-          CustomDropDown(
-          initialValue: DummyLists.initialSchool,
-          hintText: DummyLists.initialSchool??"Select School",
-          listData:DummyLists.schoolData,
-          onChange: (value) {
-            setState(() {
-              DummyLists.initialSchool=value;
-            });
-          },
-          topPadding: 5,
-          bottomPadding: 5,
-          icon: Icon(Icons.arrow_drop_down,color: Color(0xFFC4C4C4),size: 25,),
-        ),
-            SizedBox(
-              height: 1.h,
+          BaseSchoolDropDown(
+            controller: controller.selectSchoolController.value,
+            onChanged: (value) {
+              controller.selectSchoolController.value.text = value.name??"";
+              controller.selectedSchoolId.value = value.sId??"";
+              controller.getData(type: (tabCtrl.index) == 0 ? "" : (tabCtrl.index) == 1 ? "complaint" : "report");
+             },
             ),
             buildTabBar(),
             SizedBox(

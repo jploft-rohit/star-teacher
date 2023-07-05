@@ -90,6 +90,8 @@ class BaseTextFormField extends StatelessWidget {
                         ),
                           style: TextStyle(color: Colors.black,fontSize: textFormFieldHintTs),
                             decoration: InputDecoration(
+                              fillColor: (errorText??"").toLowerCase() == "please select school" ? Color(0xFFF8F4E9) : Colors.transparent,
+                              filled: true,
                               hintStyle: TextStyle(color: Colors.black,fontSize: textFormFieldHintTs),
                               contentPadding: EdgeInsets.only(top: 0,bottom: 15,right: 0,left: 0),
                               focusedBorder: OutlineInputBorder(

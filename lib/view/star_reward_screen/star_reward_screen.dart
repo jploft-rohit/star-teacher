@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:staff_app/backend/responses_model/school_list_response.dart' as SchoolData;
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -124,13 +123,10 @@ class _StarRewardScreenState extends State<StarRewardScreen> {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: (){
-                      if (controller.selectedSchoolId.value.isNotEmpty) {
                         controller.selectedStarId.value = baseCtrl.starsList?[index].user?.sId??"";
+                        controller.selectedSchoolId.value = baseCtrl.starsList?[index].school??"";
                         controller.getRewards();
                         Get.to(RewardsScreen());
-                      }else{
-                        baseToast(message: "Please first select school");
-                      }
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 10.0),

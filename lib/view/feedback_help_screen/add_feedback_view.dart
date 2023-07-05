@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/backend/responses_model/all_feedback_help_response.dart';
 import 'package:staff_app/backend/responses_model/school_list_response.dart' as SchoolData;
+import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_dropdown.dart';
@@ -136,12 +140,33 @@ class _AddFeedbackViewState extends State<AddFeedbackView> {
                   ),
                   BaseTextFormField(
                     controller: controller.uploadController.value,
-                    hintText: "Upload file or Photo",
+                    hintText: translate(context).upload_file_or_photo,
                     suffixIcon: "assets/images/upload_icon.svg",
-                    bottomMargin: 3.h,
                     onTap: (){
-                      BaseOverlays().showMediaPickerDialog();
+                      BaseOverlays().showMediaPickerDialog(onCameraClick: () async {
+                        BaseOverlays().dismissOverlay();
+                        ImagePicker picker = ImagePicker();
+                        await picker.pickImage(source: ImageSource.camera).then((value){
+                          if (value != null) {
+                            controller.selectedFile?.value = File(value.path);
+                            controller.uploadController.value.text = value.path.split("/").last;
+                          }
+                        },
+                        );
+                      },
+                          onGalleryClick: () async {
+                            BaseOverlays().dismissOverlay();
+                            ImagePicker picker = ImagePicker();
+                            await picker.pickImage(source: ImageSource.gallery).then((value){
+                              if (value != null) {
+                                controller.selectedFile?.value = File(value.path);
+                                controller.uploadController.value.text = value.path.split("/").last;
+                              }
+                            });
+                          }
+                      );
                     },
+                    bottomMargin: 10.h,
                   ),
                   BaseButton(title: "SUBMIT", onPressed: (){
                     if (widget.isUpdating) {

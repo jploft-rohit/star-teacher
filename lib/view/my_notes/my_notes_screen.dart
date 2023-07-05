@@ -194,16 +194,15 @@ class _MyNotesScreenState extends State<MyNotesScreen> {
                                               controller.checkedNotes?[index].title??"",
                                               style: TextStyle(
                                                   fontSize: 15.sp,
-                                                  color:
-                                                      BaseColors.textBlackColor,
-                                                  fontWeight: FontWeight.w700),
-                                              overflow: TextOverflow.ellipsis)),
+                                                  color: BaseColors.textBlackColor,
+                                                  fontWeight: FontWeight.w700,
+                                                  ),
+                                                  overflow: TextOverflow.ellipsis),
+                                      ),
                                       Row(
                                         children: [
                                           const SizedBox(width: 1),
-                                          SizedBox(
-                                            width: 3.5.w,
-                                          ),
+                                          SizedBox(width: 3.5.w),
                                           GestureDetector(
                                             onTap: () {
                                               BaseOverlays().showConfirmationDialog(
@@ -240,11 +239,11 @@ class _MyNotesScreenState extends State<MyNotesScreen> {
                                   SizedBox(
                                     height: 1.h,
                                   ),
-                                  addText(
+                                  Text(
                                       controller.checkedNotes?[index].description??"",
-                                      14.sp,
-                                      BaseColors.textBlackColor,
-                                      FontWeight.w400),
+                                      maxLines: 3,
+                                      style: TextStyle(fontSize: 14.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400),
+                                  ),
                                   Spacer(),
                                   Divider(color: Colors.white),
                                   Center(

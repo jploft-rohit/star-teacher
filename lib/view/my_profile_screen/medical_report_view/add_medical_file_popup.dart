@@ -100,7 +100,7 @@ class _AddMedicalFilePopupState extends State<AddMedicalFilePopup> {
                 ),
                 BaseButton(btnType: dialogButton,title: translate(context).submit_btn_txt, onPressed: (){
                   Get.back();
-                }, )
+                },removeHorizontalPadding: true,)
               ],
             ),
           ),

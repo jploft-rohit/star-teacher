@@ -22,8 +22,8 @@ import 'package:staff_app/view/my_profile_screen/statistics_view/statistics_view
 import 'package:staff_app/view/print_qr_screen.dart';
 
 class MyProfileScreen extends StatefulWidget {
-  bool isFromDrawer;
-  int index;
+  final bool isFromDrawer;
+  final int index;
   MyProfileScreen({Key? key, required this.isFromDrawer, required this.index}) : super(key: key);
 
   @override
@@ -54,24 +54,24 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
           dashboardCtrl.bottomNavigationKey.currentState?.setPage(2);
         }
       }),
-      body: Container(
-        margin: EdgeInsets.only(left: 15, right: 15, bottom: widget.isFromDrawer ? 10 : 90),
-        padding: EdgeInsets.all(scaffoldPadding),
-        decoration: BoxDecoration(
-          color: BaseColors.white,
-          borderRadius: BorderRadius.circular(10.0),
-          border: Border.all(color: BaseColors.borderColor),
-          boxShadow: [getLightBoxShadow()],
-        ),child: Column(
-        children: [
-          profileProgress(value: (controller.response.value.data?.profileCompletePercentage??0).toDouble(), profileCompletionData: (controller.response.value.data?.profileCompleteDate).toString()),
-          GestureDetector(
-            onTap: (){
-              Get.to(const MyProfileView());
-            },
-            child: Obx(()=> Padding(
-              padding: EdgeInsets.only(bottom: 2.h),
-              child: Row(
+      body: Obx(()=>Container(
+          margin: EdgeInsets.only(left: 15, right: 15, bottom: widget.isFromDrawer ? 10 : 90),
+          padding: EdgeInsets.all(scaffoldPadding),
+          decoration: BoxDecoration(
+            color: BaseColors.white,
+            borderRadius: BorderRadius.circular(10.0),
+            border: Border.all(color: BaseColors.borderColor),
+            boxShadow: [getLightBoxShadow()],
+          ),child: Column(
+          children: [
+            profileProgress(value: double.parse((controller.response.value.data?.profileCompletePercentage??"0").toString()), profileCompletionData: (controller.response.value.data?.profileCompleteDate).toString()),
+            GestureDetector(
+              onTap: (){
+                Get.to(const MyProfileView());
+              },
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 2.h),
+                child: Row(
                   children: [
                     Expanded(
                       flex: 2,
@@ -99,45 +99,45 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
                       ),
                     ),
                     GestureDetector(
-                        onTap: (){
-                            showScanQrDialogue(context, false,data: controller.response.value.data?.barcode??na);
-                          },
-                        child: QrImage(
-                          data: controller.response.value.data?.barcode??na,
-                          version: QrVersions.auto,
-                          size: 70,
-                          gapless: false,
-                        ),
+                      onTap: (){
+                        showScanQrDialogue(context, false,data: controller.response.value.data?.barcode??na);
+                      },
+                      child: QrImage(
+                        data: controller.response.value.data?.barcode??na,
+                        version: QrVersions.auto,
+                        size: 70,
+                        gapless: false,
+                      ),
                     ),
                   ],
                 ),
+              ),
             ),
-            ),
-          ),
-          Row(
-            children: [
-              Expanded(flex: 3,child: BaseButton(title: translate(context).print_QR,  textSize: mediumButtonTs,onPressed: (){
-                Get.to(const PrintQrScreen());
-              },borderRadius: 100,verticalPadding: 1.h,rightMargin: 1.5.w,)),
-              Expanded(flex: 4,child: BaseButton(title: translate(context).programme_NFC, textSize: mediumButtonTs, onPressed: (){
-                showNFCDialog(context,"");
-              },borderRadius: 100,verticalPadding: 1.h,leftMargin: 1.5.w)),
-            ],
-          ),
-          buildTabBar(),
-          Expanded(
-            child: TabBarView(
-              controller: tabCtrl,
-              children: const [
-                AccountView(),
-                DetailView(),
-                StatisticsView(),
-                SchoolsView()
+            Row(
+              children: [
+                Expanded(flex: 3,child: BaseButton(title: translate(context).print_QR,  textSize: mediumButtonTs,onPressed: (){
+                  Get.to(const PrintQrScreen());
+                },borderRadius: 100,verticalPadding: 1.h,rightMargin: 1.5.w,)),
+                Expanded(flex: 4,child: BaseButton(title: translate(context).programme_NFC, textSize: mediumButtonTs, onPressed: (){
+                  showNFCDialog(context,"");
+                },borderRadius: 100,verticalPadding: 1.h,leftMargin: 1.5.w)),
               ],
             ),
-          )
-        ],
-      ),
+            buildTabBar(),
+            Expanded(
+              child: TabBarView(
+                controller: tabCtrl,
+                children: const [
+                  AccountView(),
+                  DetailView(),
+                  StatisticsView(),
+                  SchoolsView()
+                ],
+              ),
+            )
+          ],
+        ),
+        ),
       ),
     );
   }

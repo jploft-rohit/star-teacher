@@ -7,9 +7,9 @@ import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 
 class ConfirmationDialog extends StatefulWidget {
-  String msg;
-  bool isShowBtn;
-  String? btnText;
+  final String msg;
+  final bool isShowBtn;
+  final String? btnText;
   ConfirmationDialog({Key? key, required this.msg, required this.isShowBtn, this.btnText}) : super(key: key);
 
   @override

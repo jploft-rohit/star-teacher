@@ -30,7 +30,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
   @override
   void initState() {
     super.initState();
-    controller.getNotebookNotes(type: "talent", pageIndex: 1);
+    controller.getNotebookNotes();
   }
 
   @override
@@ -112,7 +112,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                     child: GestureDetector(
                       onTap: (){
                         controller.selectedIndex1.value = 0;
-                        controller.getNotebookNotes(type: "talent", pageIndex: 1);
+                        controller.getNotebookNotes();
                       },
                       child: Container(
                         height: 40.0,
@@ -147,7 +147,7 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                     child: GestureDetector(
                       onTap: (){
                         controller.selectedIndex1.value = 1;
-                        controller.getNotebookNotes(type: "improvement", pageIndex: 1);
+                        controller.getNotebookNotes();
                       },
                       child: Container(
                         height: 40.0,

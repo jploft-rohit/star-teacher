@@ -55,7 +55,7 @@ class BaseIcons{
         if ((url??"").contains("pdf")) {
           BaseOverlays().viewPdfDialog(url: url,concatBaseUrl: concatBaseUrl);
         }else{
-          BaseOverlays().viewPhoto(url: url,concatBaseUrl: false);
+          BaseOverlays().viewPhoto(url: url,concatBaseUrl: concatBaseUrl);
         }
       },
       child: Padding(

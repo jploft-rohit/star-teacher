@@ -14,6 +14,7 @@ import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/route_manager/route_name.dart';
 import 'package:staff_app/utility/base_views/base_detail_data.dart';
+import 'package:staff_app/utility/base_views/base_icons.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/view/add_family_member/add_family_member.dart';
 import 'package:staff_app/view/add_family_member/family_details_screen.dart';
@@ -95,13 +96,13 @@ class _DetailViewState extends State<DetailView> {
                   ],
                 ),
                 SizedBox(height: 2.h),
-                BaseDetailData(detailsLabel: translate(context).alternative_mobile,detailsValue: controller.response.value.data?.mobile??na, showDivider: showDivider, bottomMargin: bottomMargin),
+                BaseDetailData(detailsLabel: translate(context).alternative_mobile,detailsValue: controller.response.value.data?.alternativeMobile.toString()??na, showDivider: showDivider, bottomMargin: bottomMargin),
                 // BaseDetailData(
                 //     translate(context).email, controller.response.data?.email??""),
                 // SizedBox(
                 //   height: 2.h,
                 // ),
-                BaseDetailData(detailsLabel:translate(context).dob, detailsValue: controller.response.value.data?.dob??na,bottomMargin: bottomMargin,showDivider: showDivider,),
+                BaseDetailData(detailsLabel:translate(context).dob, detailsValue: formatBackendDate(controller.response.value.data?.dob??na),bottomMargin: bottomMargin,showDivider: showDivider,),
                 // BaseDetailData(
                 //     translate(context).address, controller.response.data?.address??""),
                 // SizedBox(
@@ -121,26 +122,21 @@ class _DetailViewState extends State<DetailView> {
                 // ),
                 BaseDetailData(detailsLabel:translate(context).nationality, detailsValue:controller.response.value.data?.nationality??na,bottomMargin: bottomMargin,showDivider: showDivider,),
                 BaseDetailData(detailsLabel:translate(context).emirates_ID, detailsValue:controller.response.value.data?.emirateId??"",bottomMargin: bottomMargin,showDivider: showDivider,),
-                BaseDetailData(detailsLabel:translate(context).expiry_date, detailsValue:controller.response.value.data?.emirateIdExpire??"",bottomMargin: bottomMargin,showDivider: showDivider),
+                BaseDetailData(detailsLabel:translate(context).expiry_date, detailsValue: formatBackendDate(controller.response.value.data?.emirateIdExpire??""),bottomMargin: bottomMargin,showDivider: showDivider),
                 Padding(
                   padding: EdgeInsets.only(bottom: 2.h),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      BaseDetailData(detailsLabel:"Document", detailsValue:'doc.pdf',bottomMargin: bottomMargin,showDivider: showDivider,rightMargin: 5.w),
+                      Expanded(child: BaseDetailData(detailsLabel:"Document", detailsValue: controller.response.value.data?.idDocument.first.split("/").last??"",bottomMargin: bottomMargin,showDivider: showDivider,rightMargin: 5.w)),
                       Row(
                         children: [
-                          GestureDetector(
-                              onTap: (){
-                                showGeneralDialog(
-                                  context: context,
-                                  pageBuilder:  (context, animation, secondaryAnimation) {
-                                    return OpenPdfPopup(title: "doc.pdf");
-                                  },
-                                );
-                              },child: Icon(Icons.remove_red_eye_outlined,color: BaseColors.primaryColor,size: 20.sp,)),
+                          BaseIcons().view(concatBaseUrl: true,url: controller.response.value.data?.idDocument.first??""),
                           const SizedBox(width: 10,),
-                          Icon(Icons.download_for_offline,color: BaseColors.primaryColor,size: 20.sp,)
+                          BaseIcons().download(onRightButtonPressed: (){
+                            BaseOverlays().dismissOverlay();
+                            downloadFile(url: controller.response.value.data?.idDocument.first??"",concatBaseUrl: true);
+                          })
                         ],
                       ),
                     ],

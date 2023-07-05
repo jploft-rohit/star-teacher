@@ -12,8 +12,18 @@ import 'package:staff_app/utility/base_views/base_overlays.dart';
 class NotebookCtrl extends GetxController{
 
   final formKey = GlobalKey<FormState>();
+  /// School
   RxString selectedSchoolId = "".obs;
+  RxString selectedSchoolName = "".obs;
+  /// Class
+  RxString selectedClassId = "".obs;
+  RxString selectedClassName = "".obs;
+  /// Section
+  RxString selectedSectionId = "".obs;
+  RxString selectedSectionName = "".obs;
+
   RxString selectedSubjectId = "".obs;
+  RxString selectedStarId = "".obs;
   RxList<NotebookList>? notebookList = <NotebookList>[].obs;
   Rx<StarData>? starData = StarData().obs;
   final selectedIndex1 = 0.obs;
@@ -82,7 +92,7 @@ class NotebookCtrl extends GetxController{
           if ((response.message??"").isNotEmpty) {
             BaseOverlays().showSnackBar(message: response.message??"",title: "Success");
           }
-          getNotebookNotes(type: selectedIndex3.value == 0 ? "talent" : "improvement", pageIndex: 1);
+          getNotebookNotes();
         }
       });
     }
@@ -110,7 +120,7 @@ class NotebookCtrl extends GetxController{
           if ((response.message??"").isNotEmpty) {
             BaseOverlays().showSnackBar(message: response.message??"",title: "Success");
           }
-          getNotebookNotes(type: selectedIndex3.value == 0 ? "talent" : "improvement", pageIndex: 1);
+          getNotebookNotes();
         }
       });
     }
@@ -136,14 +146,13 @@ class NotebookCtrl extends GetxController{
   }
 
   /// Get Notebook Notes
-  getNotebookNotes({required String type, required int pageIndex}){
+  getNotebookNotes(){
     starData?.value = StarData();
     notebookList?.clear();
     final data = {
-      "page":pageIndex,
-      "limit":10,
-      "type":type,
-      "starId":"6443a18eed5d074580c2b2a0"
+      "limit":100,
+      "type":selectedIndex1.value == 0 ? "talent" : "improvement",
+      "starId":selectedStarId.value,
     };
     BaseAPI().post(url: ApiEndPoints().getNotebookList,data: data).then((value){
       if (value?.statusCode == 200) {

@@ -192,9 +192,11 @@ class _RewardImageScreenState extends State<RewardImageScreen> {
               addText(translate(context).note_add_photo_of_the_reward,
                   15.sp, BaseColors.textBlackColor, FontWeight.w400),
               SizedBox(height:3.h),
-              BaseButton(title: translate(context).submit_btn_txt, onPressed: (){
+              BaseButton(title: translate(context).submit_btn_txt,
+                onPressed: (){
                 if ((controller.uploadedImagePath.value).isNotEmpty) {
-                  controller.updateRewardImage(file: file,rewardId: controller.rewardList?[widget.index].sId.toString());
+                  Get.back();
+                  // controller.updateRewardImage(file: file,rewardId: controller.rewardList?[widget.index].sId.toString());
                 }else{
                   baseToast(message: "Image can't be empty");
                 }

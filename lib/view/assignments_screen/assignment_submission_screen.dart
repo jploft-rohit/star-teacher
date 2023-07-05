@@ -17,7 +17,8 @@ import 'package:staff_app/view/assignments_screen/controller/assignment_screen_c
 import 'package:text_to_speech/text_to_speech.dart';
 
 class AssignmentSubmissionScreen extends StatefulWidget {
-  const AssignmentSubmissionScreen({Key? key}) : super(key: key);
+  final String title;
+  const AssignmentSubmissionScreen({Key? key, required this.title}) : super(key: key);
 
   @override
   State<AssignmentSubmissionScreen> createState() => _AssignmentSubmissionScreenState();
@@ -105,13 +106,16 @@ class _AssignmentSubmissionScreenState extends State<AssignmentSubmissionScreen>
                           ],
                         ),
                       ),
-                      RichText(
-                        text: TextSpan(
-                          text: '${translate(context).marks}: ',
-                          style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),
-                          children: <TextSpan>[
-                            TextSpan(text: "3", style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
-                          ],
+                      Visibility(
+                        visible: widget.title != "Awareness & Courses" || widget.title != "Worksheet",
+                        child: RichText(
+                          text: TextSpan(
+                            text: '${translate(context).marks}: ',
+                            style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),
+                            children: <TextSpan>[
+                              TextSpan(text: "3", style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
+                            ],
+                          ),
                         ),
                       ),
                     ],

@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:staff_app/Utility/curved_navigation_bar/curved_navigation_bar.dart';
@@ -50,40 +49,40 @@ class DashboardScreen extends GetView<DashboardScreenCtrl>{
                     padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 8),
                     child: SvgPicture.asset(
                       taskSvg,
-                      width: 25,
-                      height: 25,
+                      width: 28,
+                      height: 28,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SvgPicture.asset(
                       searchSvg,
-                      width: 25,
-                      height: 25,
+                      width: 28,
+                      height: 28,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SvgPicture.asset(
                       appLogoSvg,
-                      width: 25,
-                      height: 25,
+                      width: 28,
+                      height: 28,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SvgPicture.asset(
                       chatSvg,
-                      width: 25,
-                      height: 25,
+                      width: 28,
+                      height: 28,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SvgPicture.asset(
                       profileSvg,
-                      width: 25,
-                      height: 25,
+                      width: 28,
+                      height: 28,
                     ),
                   ),
                 ],

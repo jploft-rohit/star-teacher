@@ -79,6 +79,12 @@ class StarAttendanceScreenCtrl extends GetxController{
 
   final isSelectAll = false.obs;
 
+  @override
+  void onInit() {
+    super.onInit();
+    getStarsAttendanceList(selectedClassIndex: selectedClassType.value, selectedAttendanceIndex: selectedAttendanceTabIndex.value);
+  }
+
   /// Get Stars Attendance List
   getStarsAttendanceList({required int selectedClassIndex,required int selectedAttendanceIndex}) async {
     list?.value = [];

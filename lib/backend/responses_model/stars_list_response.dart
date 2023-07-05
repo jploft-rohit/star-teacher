@@ -33,10 +33,12 @@ class StarsListData {
   dynamic classes;
   dynamic section;
   dynamic batch;
+  String? lastCommentDate;
+  int? totalNotes;
   dynamic studentId;
   dynamic isDeleted;
 
-  StarsListData({this.sId, this.language, this.user, this.school, this.classes, this.section, this.batch, this.studentId, this.isDeleted});
+  StarsListData({this.lastCommentDate,this.totalNotes,this.sId, this.language, this.user, this.school, this.classes, this.section, this.batch, this.studentId, this.isDeleted});
 
   StarsListData.fromJson(Map<String, dynamic> json) {
   sId = json['_id'];
@@ -46,6 +48,8 @@ class StarsListData {
   classes = json['class'];
   section = json['section'];
   batch = json['batch'];
+  lastCommentDate = json['lastcommentdate'];
+  totalNotes = json['totalnotes'];
   studentId = json['studentId'];
   isDeleted = json['isDeleted'];
   }
@@ -57,6 +61,8 @@ class StarsListData {
   if (this.user != null) {
   data['user'] = this.user!.toJson();
   }
+  data['lastcommentdate'] = this.lastCommentDate;
+  data['totalnotes'] = this.totalNotes;
   data['school'] = this.school;
   data['class'] = this.classes;
   data['section'] = this.section;

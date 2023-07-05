@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
+import 'package:staff_app/utility/base_views/base_school_selection.dart';
 import 'package:staff_app/utility/base_views/base_tab_button.dart';
 import 'package:staff_app/utility/base_views/base_toggle_tab_bar.dart';
 import 'package:staff_app/Utility/custom_dropdown_widget.dart';
@@ -68,20 +69,14 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> with TickerProv
                       isSelected: tabController.index == 1 ? true : false,type: toggleLargeButton),
                 ],
               ),
-              CustomDropDown(
-                initialValue: DummyLists.initialSchool,
-                hintText: "Select School",
-                listData:DummyLists.schoolData,
-                onChange: (value) {
-                  setState(() {
-                    DummyLists.initialSchool=value;
-                  });
+              BaseSchoolDropDown(
+                controller: controller.schoolController.value,
+                onChanged: (value) {
+                  controller.schoolController.value.text = value.name??"";
+                  controller.selectedSchoolId.value = value.sId??"";
+                  controller.getData(type: tabController.index == 0 ? "found" : "request");
                 },
-                topPadding: 5,
-                bottomPadding: 5,
-                icon: Icon(Icons.arrow_drop_down,color: Color(0xFFC4C4C4),size: 25,),
               ),
-              SizedBox(height: 1.h,),
               Expanded(
                 child: TabBarView(controller: tabController, children: [
                   LostFoundTab(),

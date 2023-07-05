@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,6 +18,7 @@ class LostFoundController extends GetxController{
   RxInt selectedTabIndex = 0.obs;
   RxString selectedSchoolId = "".obs;
   RxString selectedSchoolName = "".obs;
+  Rx<File>? selectedFile = File("").obs;
   final formKey = GlobalKey<FormState>();
   Rx<TextEditingController> titleController = TextEditingController().obs;
   Rx<TextEditingController> dateController = TextEditingController().obs;
@@ -26,9 +29,15 @@ class LostFoundController extends GetxController{
   getData({required String type}) async {
     final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
     list?.value = [];
-    var data = {
+    var data;
+    selectedSchoolId.value.isEmpty
+    ? data = {
       "type":type,
       "user":userId,
+    } : data = {
+      "type":type,
+      "user":userId,
+      "school":selectedSchoolId.value,
     };
     BaseAPI().post(url: ApiEndPoints().getAllLostFound, data: data).then((value){
       if (value?.statusCode ==  200) {
@@ -52,11 +61,11 @@ class LostFoundController extends GetxController{
     });
   }
 
-  createLostFound({XFile? file}) async {
+  createLostFound() async {
     if (formKey.currentState?.validate()??false) {
       final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
       dio.FormData data;
-      if (file == null) {
+      if ((selectedFile?.value.path??"").isEmpty) {
         data = dio.FormData.fromMap({
           "title":titleController.value.text.trim(),
           "date":dateController.value.text.trim(),
@@ -73,7 +82,7 @@ class LostFoundController extends GetxController{
           "school":selectedSchoolId.value,
           "type":selectedTabIndex.value == 0 ? "found" : "request",
           "user":userId,
-          "document": await dio.MultipartFile.fromFile(file.path,filename: file.name)
+          "document": await dio.MultipartFile.fromFile(selectedFile?.value.path??"", filename: selectedFile?.value.path.split("/").last??"")
         });
       }
       BaseSuccessResponse baseSuccessResponse = BaseSuccessResponse();
@@ -82,6 +91,8 @@ class LostFoundController extends GetxController{
           Get.back();
           baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
           BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: "Success");
+          selectedSchoolId.value = "";
+          selectedSchoolName.value = "";
           getData(type: selectedTabIndex.value == 0 ? "found" : "request");
         }else{
           BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");

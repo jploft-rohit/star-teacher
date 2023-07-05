@@ -153,7 +153,10 @@ class _RulesScreen2State extends State<RulesScreen2> {
                     children: [
                       Text(translate(context).account_activation_popup_txt,style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: BaseColors.textBlackColor, height: 1.5),textAlign: TextAlign.center,),
                       const SizedBox(height: 20,),
-                      BaseButton(btnType: mediumButton,borderRadius: 20,title: translate(context).ok.toUpperCase(), onPressed: () {Get.offAll(DashboardScreen());},textSize: mediumButtonTs,)
+                      BaseButton(btnType: mediumButton,borderRadius: 20,title: translate(context).ok.toUpperCase(), onPressed: () {
+                        BaseOverlays().dismissOverlay();
+                       /* Get.offAll(DashboardScreen());*/
+                        },textSize: mediumButtonTs,)
                     ],
                   ),
                 ),

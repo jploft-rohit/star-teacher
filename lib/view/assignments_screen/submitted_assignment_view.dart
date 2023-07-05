@@ -155,7 +155,7 @@ class _SubmittedAssignmentViewState extends State<SubmittedAssignmentView> with 
       itemBuilder: (context, index) {
         return GestureDetector(
           onTap: (){
-            Get.to(const AssignmentSubmissionScreen());
+            Get.to(const AssignmentSubmissionScreen(title: '',));
           },
           child: Card(
             elevation: 3.0,

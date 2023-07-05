@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart'as dio;
@@ -22,9 +24,11 @@ class ComplainReportController extends GetxController{
   Rx<TextEditingController> uploadController = TextEditingController().obs;
   Rx<TextEditingController> titleController = TextEditingController().obs;
   Rx<TextEditingController> selectSchoolController = TextEditingController().obs;
+  Rx<TextEditingController> deleteReasonController = TextEditingController().obs;
   RxList<String> statusTime = [""].obs;
   RxList<String> statusTitle = [""].obs;
   List<StaffListData> staffData = [];
+  Rx<File>? selectedFile = File("").obs;
   RxBool isStaffLoading = false.obs;
   final formKey = GlobalKey<FormState>();
   RxList<Data>? response = <Data>[].obs;
@@ -38,24 +42,39 @@ class ComplainReportController extends GetxController{
     super.onInit();
     baseCtrl = Get.find<BaseCtrl>();
     getData(type: '');
-
   }
 
-  updateComplainReportAPI({required String itemId,school,forEnquiry,complaintUser,complaintType,title,description,document}){
+  updateComplainReportAPI({required String itemId,school,forEnquiry,complaintUser,complaintType,title,description,document}) async {
     if (formKey.currentState?.validate()??false) {
-      var formData = dio.FormData.fromMap({
-        'school': selectedSchoolId.value,
-        'forEnquery': complaintOrReportController.value.text.toLowerCase(),
-        'complaintUser': selectedPersonId.value,
-        'complaintType': selectedComplaintTypeId.value,
-        'title': titleController.value.text.trim(),
-        'description': messageController.value.text.trim()
-        // 'document': document
-      });
-      BaseAPI().post(url: ApiEndPoints().updateComplaintReport+itemId, data: formData).then((value){
+      dio.FormData data;
+      if ((selectedFile?.value.path??"").isNotEmpty) {
+        data = dio.FormData.fromMap({
+          'school': selectedSchoolId.value,
+          'forEnquery': complaintOrReportController.value.text.toLowerCase(),
+          'complaintUser': selectedPersonId.value,
+          'complaintType': selectedComplaintTypeId.value,
+          'title': titleController.value.text.trim(),
+          'description': messageController.value.text.trim(),
+          "document": await dio.MultipartFile.fromFile(selectedFile?.value.path??"", filename: selectedFile?.value.path.split("/").last??"")
+        });
+      }else{
+        data = dio.FormData.fromMap({
+          'school': selectedSchoolId.value,
+          'forEnquery': complaintOrReportController.value.text.toLowerCase(),
+          'complaintUser': selectedPersonId.value,
+          'complaintType': selectedComplaintTypeId.value,
+          'title': titleController.value.text.trim(),
+          'description': messageController.value.text.trim()
+        });
+      }
+
+      BaseAPI().post(url: ApiEndPoints().updateComplaintReport+itemId, data: data).then((value){
         if (value?.statusCode ==  200) {
+
           Get.back();
           BaseOverlays().showSnackBar(message: "Updated Successfully",title: "Success");
+          selectedSchoolId.value = "";
+          selectSchoolController.value.text = "";
           getData(type: "");
         }else{
           BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
@@ -66,22 +85,38 @@ class ComplainReportController extends GetxController{
 
   createComplainReportAPI({school,forEnquiry,complaintUser,complaintType,title,description,document}) async {
     final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
+
     if (formKey.currentState?.validate()??false) {
-      var formData = dio.FormData.fromMap({
-        'school': school.toString(),
-        'forEnquery': forEnquiry,
-        'complaintUser': complaintUser.toString(),
-        'complaintType': complaintType.toString(),
-        'title': title,
-        'description': description,
-        'star':userId,
-        // 'document': document
-      });
-      BaseAPI().post(url: ApiEndPoints().createComplaintReport,
-          data: formData).then((value){
+      dio.FormData data;
+      if ((selectedFile?.value.path??"").isNotEmpty) {
+        data = dio.FormData.fromMap({
+          'school': selectedSchoolId.value,
+          'forEnquery': complaintOrReportController.value.text.toLowerCase(),
+          'complaintUser': selectedPersonId.value,
+          'complaintType': selectedComplaintTypeId.value,
+          'title': titleController.value.text.trim(),
+          'description': messageController.value.text.trim(),
+          'star':userId,
+          "document": await dio.MultipartFile.fromFile(selectedFile?.value.path??"", filename: selectedFile?.value.path.split("/").last??"")
+        });
+      }else{
+        data = dio.FormData.fromMap({
+          'school': selectedSchoolId.value,
+          'forEnquery': complaintOrReportController.value.text.toLowerCase(),
+          'complaintUser': selectedPersonId.value,
+          'complaintType': selectedComplaintTypeId.value,
+          'title': titleController.value.text.trim(),
+          'star':userId,
+          'description': messageController.value.text.trim()
+        });
+      }
+
+      BaseAPI().post(url: ApiEndPoints().createComplaintReport, data: data).then((value){
         if (value?.statusCode ==  200) {
           Get.back();
           BaseOverlays().showSnackBar(message: "Created Successfully",title: "Success");
+          selectedSchoolId.value = "";
+          selectSchoolController.value.text = "";
           getData(type: "");
         }else{
           BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
@@ -128,7 +163,7 @@ class ComplainReportController extends GetxController{
 
   getData({required String type}){
     response?.value = [];
-    BaseAPI().get(url: ApiEndPoints().getAllComplaintReport,queryParameters: type.isNotEmpty ? {"type":type} : null).then((value){
+    BaseAPI().get(url: ApiEndPoints().getAllComplaintReport,queryParameters: {"type":type,"school":selectedSchoolId.value}).then((value){
       if (value?.statusCode ==  200) {
         response?.value = AllComplainReportResponse.fromJson(value?.data).data??[];
       }else{

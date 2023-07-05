@@ -12,7 +12,8 @@ import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 
 class NewAssignmentScreen extends StatefulWidget {
-  const NewAssignmentScreen({Key? key}) : super(key: key);
+  final String title;
+  const NewAssignmentScreen({Key? key, required this.title}) : super(key: key);
 
   @override
   State<NewAssignmentScreen> createState() => _NewAssignmentScreenState();
@@ -42,19 +43,23 @@ class _NewAssignmentScreenState extends State<NewAssignmentScreen> with SingleTi
       child: Scaffold(
         floatingActionButton: controller.primaryTabIndex.value == 0
             ? BaseFloatingActionButton(title: 'Add New',onTap: (){
-                Get.to(const CreateAssignment());
-              }):const SizedBox.shrink(),
-        appBar: BaseAppBar(title: "Awareness & Courses",
-        bottomChild: BaseToggleTabBar(controller: tabController, tabs: [
-          BaseTabButton(title: translate(context).assigned_by_me, isSelected: tabController.index == 0,type: toggleLargeButton,),
-          BaseTabButton(title: translate(context).assigned_to_me, isSelected: tabController.index == 1,type: toggleLargeButton,),
-        ],bottomMargin: 1.h),bottomWidgetHeight: 8.h),
+                Get.to(CreateAssignment(title: widget.title));
+            }) : const SizedBox.shrink(),
+        appBar: BaseAppBar(title: widget.title,
+        bottomChild: Visibility(
+          visible: widget.title == "Awareness & Courses",
+          child: BaseToggleTabBar(controller: tabController, tabs: [
+            BaseTabButton(title: translate(context).assigned_by_me, isSelected: tabController.index == 0,type: toggleLargeButton,),
+            BaseTabButton(title: translate(context).assigned_to_me, isSelected: tabController.index == 1,type: toggleLargeButton,),
+          ],bottomMargin: 1.h),
+        ),bottomWidgetHeight: widget.title == "Awareness & Courses" ? 8.h : 0,
+        ),
         body: TabBarView(
           controller: tabController,
-          physics: const NeverScrollableScrollPhysics(),
-          children: const [
-            AssessmentsAwarenessCourses(),
-            AssessmentsAwarenessCourses(),
+          physics: widget.title == "Awareness & Courses" ? BouncingScrollPhysics() : NeverScrollableScrollPhysics(),
+          children: [
+            AssessmentsAwarenessCourses(title: widget.title),
+            AssessmentsAwarenessCourses(title: widget.title),
           ],
         )
       )

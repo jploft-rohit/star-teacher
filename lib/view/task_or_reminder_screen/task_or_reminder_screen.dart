@@ -10,6 +10,7 @@ import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/utility/base_views/base_icons.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/show_document.dart';
 import 'package:staff_app/view/Dashboard_screen/dashboard_screen_ctrl.dart';
@@ -106,54 +107,41 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
                   text: 'Reminder : ',
                   style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),
                   children: <TextSpan>[
-                    TextSpan(text: toBeginningOfSentenceCase(controller.list?[index].type??na)??na, style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp, height: 1.2)),
+                    TextSpan(text: toBeginningOfSentenceCase(controller.list?[index].type)??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp, height: 1.2)),
                   ],
                 ),
               ),
             ],
           ),
           const Divider(),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SvgPicture.asset("assets/images/document 1.svg"),
-              SizedBox(width:2.w),
-              RichText(
-                text: TextSpan(
-                  text: '${translate(context).file} : ',
-                  style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),
-                  children: <TextSpan>[
-                    TextSpan(text: "", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp, height: 1.2)),
-                  ],
+          Visibility(
+            visible: (controller.list?[index].document??"").toString().isNotEmpty,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SvgPicture.asset("assets/images/document 1.svg"),
+                SizedBox(width:2.w),
+                RichText(
+                  text: TextSpan(
+                    text: '${translate(context).file} : ',
+                    style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),
+                    children: <TextSpan>[
+                      TextSpan(text: "", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp, height: 1.2)),
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(width:3.w),
-              GestureDetector(onTap: (){
-                if(!((controller.list?[index].document??"").toString().contains("pdf"))){
-                  baseToast(message: "File is not PDF");
-                }
-                downloadFile(url: controller.list?[index].document??"");
-              },child: SvgPicture.asset(salarySlipDownloadSvg, height: 18.0,)),
-              SizedBox(
-                width: 2.w,
-              ),
-              GestureDetector(onTap: (){
-                if (((controller.list?[index].document??"").toString().contains("pdf"))) {
-                  showGeneralDialog(context: context,
-                    pageBuilder: (context, animation,
-                        secondaryAnimation) {
-                      return ShowPdfViewDialog(
-                        url: (ApiEndPoints().imageBaseUrl) + controller.list?[index].document,
-                        title: "Task & Reminder",
-                      );
-                    },);
-                }else{
-                  baseToast(message: "No PDF found");
-                }
-              },child: const Icon(Icons.remove_red_eye_outlined,color: BaseColors.primaryColor,)),
-            ],
+                SizedBox(width:3.w),
+                BaseIcons().download(onRightButtonPressed: (){
+                  BaseOverlays().dismissOverlay();
+                  downloadFile(url: (controller.list?[index].document??""));
+                },rightMargin: 2.w),
+                BaseIcons().view(url: controller.list?[index].document??"",concatBaseUrl: true)
+              ],
+            ),
           ),
-          const Divider(),
+          Visibility(
+              visible: (controller.list?[index].document??"").toString().isNotEmpty,
+              child: const Divider()),
           Row(
             children: [
               SizedBox(width:3.h),
@@ -164,7 +152,8 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
                     onPressed: () {
                       Get.to(AddTaskOrReminderScreen(isUpdating: true,data: controller.list?[index]));
                       },
-                    btnType: mediumLargeButton),
+                    btnType: mediumLargeButton,
+                ),
               ),
               SizedBox(width:2.h),
               Expanded(

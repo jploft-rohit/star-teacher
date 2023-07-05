@@ -10,6 +10,7 @@ import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/view/transportation_screen/controller/transportation_screen_ctrl.dart';
 import 'package:staff_app/view/transportation_screen/deactivation_detail_screen.dart';
 
 class NotifySchoolAdministratorPopup extends StatefulWidget {
@@ -20,6 +21,7 @@ class NotifySchoolAdministratorPopup extends StatefulWidget {
 }
 
 class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministratorPopup> {
+  TransportationScreenCtrl controller = Get.find<TransportationScreenCtrl>();
   int selectedFMOPos = 0;
   int selectedFMOPos1 = 0;
 
@@ -74,9 +76,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                   ),
                   child: Text(translate(context).going_to_school_by_my_own_vehicle, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                 ),
-                SizedBox(
-                  height: 2.h,
-                ),
+                SizedBox(height: 2.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -349,15 +349,11 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: 2.h,
-                ),
+                SizedBox(height: 2.h),
                 if(selectedFMOPos1 == 1)
                   Row(
                     children: [
-                      SizedBox(
-                        width: 5.w,
-                      ),
+                      SizedBox(width: 5.w),
                       Flexible(
                         flex: 1,
                         child: Column(

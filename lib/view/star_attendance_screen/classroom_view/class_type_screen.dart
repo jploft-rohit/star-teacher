@@ -39,15 +39,13 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
     super.didChangeDependencies();
     controller.selectedAttendanceTabIndex.value = 0;
     controller.selectedFMOPos.value = 0;
-    controller.getStarsAttendanceList(selectedClassIndex: controller.selectedClassType.value, selectedAttendanceIndex: controller.selectedAttendanceTabIndex.value);
     tabController = TabController(length: 3, vsync: this)..addListener(() {
       if (!tabController.indexIsChanging) {
         WidgetsBinding.instance.addPostFrameCallback((_) async {
           controller.selectedAttendanceTabIndex.value = tabController.index;
           controller.getStarsAttendanceList(
               selectedClassIndex: controller.selectedClassType.value,
-              selectedAttendanceIndex: controller.selectedAttendanceTabIndex
-                  .value);
+              selectedAttendanceIndex: controller.selectedAttendanceTabIndex.value);
           if (mounted) {
             setState(() {});
           }
@@ -252,8 +250,8 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
                     borderRadius: BorderRadius.circular(3),
                   ),
                   onChanged: (bool? value) {
-                    controller.isSelectAll.value = value!;
-                    controller.selectedFMOPos1.value = int.parse(value.toString());
+                    controller.isSelectAll.value = (value??false);
+                    controller.selectedFMOPos1.value = (value??false) ? 1 : 0;
                     setState(() {});
                   },
                 ),

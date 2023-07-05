@@ -41,7 +41,7 @@ class _ELibraryScreenState extends State<ELibraryScreen> with SingleTickerProvid
         length: 2,
         child: Scaffold(
           floatingActionButton: BaseFloatingActionButton(title: 'Add New',onTap: (){
-            Get.to(const CreateELibraryAssignment());
+            Get.to(CreateELibraryAssignment(title: widget.title??""));
           }),
           appBar: BaseAppBar(title: widget.title ?? "Awareness & Courses",
               bottomChild: BaseToggleTabBar(controller: tabController, tabs: [
@@ -52,9 +52,9 @@ class _ELibraryScreenState extends State<ELibraryScreen> with SingleTickerProvid
             padding: EdgeInsets.all(scaffoldPadding),
             child: TabBarView(
                 controller: tabController,
-                children: const [
-                  ELibraryListTile(),
-                  ELibraryListTile(),
+                children: [
+                  ELibraryListTile(title: widget.title??""),
+                  ELibraryListTile(title: widget.title??""),
                 ]),
           ),
         ),

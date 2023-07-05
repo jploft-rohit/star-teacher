@@ -11,6 +11,7 @@ import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/view/transportation_screen/controller/transportation_screen_ctrl.dart';
 import 'package:staff_app/view/transportation_screen/notify_school_administrator.dart';
 
 class NotifyAuthorityForBusScreen extends StatefulWidget {
@@ -21,6 +22,9 @@ class NotifyAuthorityForBusScreen extends StatefulWidget {
 }
 
 class _NotifyAuthorityForBusScreenState extends State<NotifyAuthorityForBusScreen> {
+
+  TransportationScreenCtrl controller = Get.find<TransportationScreenCtrl>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,16 +81,175 @@ class _NotifyAuthorityForBusScreenState extends State<NotifyAuthorityForBusScree
                 height: 3.h,
               ),
               Text("${translate(context).select_your_option} :", style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp),),
-              SizedBox(
-                height: 1.h,
+              SizedBox(height: 1.h),
+               Obx(()=>GestureDetector(
+                 onTap: (){
+                   if (controller.isFirstOptionSelected.value) {
+                     controller.isFirstOptionSelected.value = false;
+                     controller.optionsList[0] = LocalOptionModel();
+                   }else{
+                     controller.isFirstOptionSelected.value = true;
+                     controller.optionsList[0] = LocalOptionModel(option: "I will be absent today.");
+                   }
+                 },
+                 child: Container(
+                   margin: EdgeInsets.only(bottom: 8.0),
+                   padding: EdgeInsets.all(14.sp),
+                   decoration: BoxDecoration(
+                       borderRadius: BorderRadius.circular(8.0),
+                       border: Border.all(color: BaseColors.primaryColor)
+                   ),
+                   child: Row(
+                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                     children: [
+                       Text("I will be absent today.", style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
+                       Container(
+                         height: 20,
+                         width: 20,
+                         decoration: BoxDecoration(
+                             color: controller.isFirstOptionSelected.value
+                                 ? BaseColors.backgroundColor
+                                 : BaseColors.borderColor,
+                             boxShadow: [getLightBoxShadow()],
+                             border: controller.isFirstOptionSelected.value
+                                 ? Border.all(
+                                 color: BaseColors.primaryColor, width: 1.5)
+                                 : Border.all(
+                                 color: Colors.transparent, width: 1.5),
+                             borderRadius: BorderRadius.circular(30.0)),
+                         child: Container(
+                           decoration: BoxDecoration(
+                               border: Border.all(
+                                   color: BaseColors.white, width: 1.5),
+                               shape: BoxShape.circle,
+                               boxShadow: [getBoxShadow()],
+                               color: controller.isFirstOptionSelected.value
+                                   ? BaseColors.primaryColor
+                                   : BaseColors.borderColor
+                           ),
+                           child: Center(
+                             child: Icon(Icons.check, color: BaseColors.white,
+                                 size: 16.sp),
+                           ),
+                         ),
+                       ),
+                     ],
+                   ),
+                 ),
+               ),
               ),
-              buildTile("I will be absent today."),
               Divider(),
-              SizedBox(
-                height: 1.h,
-              ),
-              buildTile1("Going to school by my own vehicle."),
-              buildTile1("Returning home by my own vehicle"),
+              SizedBox(height: 1.h),
+              Obx(()=>GestureDetector(
+                onTap: (){
+                  if (controller.isSecondOptionSelected.value) {
+                    controller.isSecondOptionSelected.value = false;
+                    controller.optionsList[1] = LocalOptionModel();
+                  }else{
+                    controller.isSecondOptionSelected.value = true;
+                    controller.optionsList[1] = LocalOptionModel(option: "Going to school by my own vehicle.");
+                  }
+                },
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 8.0),
+                  padding: EdgeInsets.all(14.sp),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                      border: Border.all(color: BaseColors.primaryColor)
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Going to school by my own vehicle.", style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
+                      Container(
+                        height: 20,
+                        width: 20,
+                        decoration: BoxDecoration(
+                            color: controller.isSecondOptionSelected.value
+                                ? BaseColors.backgroundColor
+                                : BaseColors.borderColor,
+                            boxShadow: [getLightBoxShadow()],
+                            border: controller.isSecondOptionSelected.value
+                                ? Border.all(
+                                color: BaseColors.primaryColor, width: 1.5)
+                                : Border.all(
+                                color: Colors.transparent, width: 1.5),
+                            borderRadius: BorderRadius.circular(30.0)),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: BaseColors.white, width: 1.5),
+                              shape: BoxShape.circle,
+                              boxShadow: [getBoxShadow()],
+                              color: controller.isSecondOptionSelected.value
+                                  ? BaseColors.primaryColor
+                                  : BaseColors.borderColor
+                          ),
+                          child: Center(
+                            child: Icon(Icons.check, color: BaseColors.white,
+                                size: 16.sp),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )),
+              Obx(()=>GestureDetector(
+                onTap: (){
+                  if (controller.isThirdOptionSelected.value) {
+                    controller.isThirdOptionSelected.value = false;
+                    controller.optionsList[2] = LocalOptionModel();
+                  }else{
+                    controller.isThirdOptionSelected.value = true;
+                    controller.optionsList[2] = LocalOptionModel(option: "Returning home by my own vehicle.");
+                  }
+                },
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 8.0),
+                  padding: EdgeInsets.all(14.sp),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                      border: Border.all(color: BaseColors.primaryColor)
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Returning home by my own vehicle.", style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
+                      Container(
+                        height: 20,
+                        width: 20,
+                        decoration: BoxDecoration(
+                            color: controller.isThirdOptionSelected.value
+                                ? BaseColors.backgroundColor
+                                : BaseColors.borderColor,
+                            boxShadow: [getLightBoxShadow()],
+                            border: controller.isThirdOptionSelected.value
+                                ? Border.all(
+                                  color: BaseColors.primaryColor, width: 1.5)
+                                : Border.all(
+                                color: Colors.transparent, width: 1.5),
+                            borderRadius: BorderRadius.circular(30.0)),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: BaseColors.white, width: 1.5),
+                              shape: BoxShape.circle,
+                              boxShadow: [getBoxShadow()],
+                              color: controller.isThirdOptionSelected.value
+                                  ? BaseColors.primaryColor
+                                  : BaseColors.borderColor
+                          ),
+                          child: Center(
+                            child: Icon(Icons.check, color: BaseColors.white,
+                                   size: 16.sp),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )),
               SizedBox(
                 height: 3.h,
               ),
@@ -97,7 +260,7 @@ class _NotifyAuthorityForBusScreenState extends State<NotifyAuthorityForBusScree
                     return NotifySchoolAdministratorPopup();
                   },
                 );
-              },btnType: largeButton,))
+              },btnType: largeButton))
             ],
           ),
         ),
@@ -124,15 +287,20 @@ class _NotifyAuthorityForBusScreenState extends State<NotifyAuthorityForBusScree
   Widget buildTile1(String title) {
     return Stack(
       children: [
-        Container(
-          width: Get.width,
-          margin: EdgeInsets.only(bottom: 8.0),
-          padding: EdgeInsets.all(14.sp),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.0),
-              border: Border.all(color: BaseColors.primaryColor)
+        GestureDetector(
+          onTap: (){
+            controller.optionsList.add(LocalOptionModel(option: ""));
+          },
+          child: Container(
+            width: Get.width,
+            margin: EdgeInsets.only(bottom: 8.0),
+            padding: EdgeInsets.all(14.sp),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.0),
+                border: Border.all(color: BaseColors.primaryColor)
+            ),
+            child: Text(title, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp),),
           ),
-          child: Text(title, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp),),
         ),
         Align(alignment: AlignmentDirectional.centerEnd,child: SvgPicture.asset(checkEnableSvg)),
       ],

@@ -88,73 +88,74 @@ class _NewsScreenState extends State<NewsScreen> {
             ),
             SizedBox(height: 2.h),
             Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                padding: EdgeInsets.only(bottom: 8.h),
-                itemCount: controller.list?.length??0,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: (){
-                      Get.to(NewsBroadCastData());
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 15.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: index == 0 ? const Color(0xFFF8F4E9) : const Color(0xffF5F5F5),
-                          borderRadius: BorderRadius.circular(8.0),
-                          boxShadow: const [
-                            BoxShadow(
-                                color: Color(0xffF2F2F2),
-                                spreadRadius: 5.0,
-                                blurRadius: 5.0,
-                            )
-                          ]
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(15.sp),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(controller.list?[index].title??"", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w500, fontSize: 16.sp),),
-                              SizedBox(
-                                height: 1.h,
-                              ),
-                              Text(controller.list?[index].message??"", style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp, color: const Color(0xff072D4B), height: 2.0),),
-                              SizedBox(
-                                height: 2.h,
-                              ),
-                              Row(
-                                children: [
-                                  addText(controller.list?[index].user?.name??"", 13.sp, Colors.grey, FontWeight.w400),
-                                  SizedBox(
-                                    width: 10.w,
-                                  ),
-                                  addText(formatBackendDate(controller.list?[index].updatedAt??""), 13.sp, Colors.grey, FontWeight.w400),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 3.h,
-                              ),
-                              if(index == 0)
-                                Center(
-                                  child: BaseButton(title: "AGREED", onPressed: (){
-
-                                  },textSize: 17.sp),
+              child: Obx(()=> ListView.builder(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.only(bottom: 8.h),
+                  itemCount: controller.list?.length??0,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: (){
+                        Get.to(NewsBroadCastData());
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 15.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: controller.list?[index].isRead.toString() == "false" ? const Color(0xFFF8F4E9) : const Color(0xffF5F5F5),
+                            borderRadius: BorderRadius.circular(8.0),
+                            boxShadow: const [
+                              BoxShadow(
+                                  color: Color(0xffF2F2F2),
+                                  spreadRadius: 5.0,
+                                  blurRadius: 5.0,
+                              )
+                            ]
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(15.sp),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(controller.list?[index].title??"", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w500, fontSize: 16.sp),),
+                                SizedBox(
+                                  height: 1.h,
                                 ),
-                              if(index == 1)
-                              Center(
-                                child: BaseButton(title: "Acknowledge", onPressed: (){
+                                Text(controller.list?[index].message??"", style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp, color: const Color(0xff072D4B), height: 2.0),),
+                                SizedBox(
+                                  height: 2.h,
+                                ),
+                                Row(
+                                  children: [
+                                    addText(controller.list?[index].user?.name??"", 13.sp, Colors.grey, FontWeight.w400),
+                                    SizedBox(
+                                      width: 10.w,
+                                    ),
+                                    addText(formatBackendDate(controller.list?[index].updatedAt??""), 13.sp, Colors.grey, FontWeight.w400),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 3.h,
+                                ),
+                                if(controller.list?[index].isRead.toString() == "false")
+                                  Center(
+                                    child: BaseButton(title: "AGREED", onPressed: (){
+                                      controller.agreeNewsBroadCast(id: controller.list?[index].sId??"", index: index);
+                                    },textSize: 17.sp),
+                                  ),
+                                if(controller.list?[index].isRead.toString() != "false")
+                                Center(
+                                  child: BaseButton(title: "Acknowledged", onPressed: (){
 
-                                }, isActive: false, textSize: 17.sp,),
-                              ),
-                            ],
+                                  }, isActive: false, textSize: 17.sp,),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             )
           ],

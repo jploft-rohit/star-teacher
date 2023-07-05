@@ -578,9 +578,20 @@ String getFormattedTimeWithMonth(String dateString1){
     String formattedTime = DateFormat('MMM dd,\nhh:mm a').format(date.toLocal());
     return formattedTime;
   }else{
-    return "N/A";
+    return "";
   }
 }
+
+String getFormattedMonthDate(String dateString1){
+  if (dateString1.isNotEmpty && dateString1 != "null") {
+    DateTime date = DateTime.parse(dateString1);
+    String formattedTime = DateFormat('EEEE, MMM dd').format(date.toLocal());
+    return formattedTime;
+  }else{
+    return "";
+  }
+}
+
 
 String formatFlutterDateTime({required DateTime flutterDateTime,bool? getDayFirst}){
    if (getDayFirst??false) {
@@ -707,7 +718,6 @@ Future<void> downloadFile({required String url,bool? concatBaseUrl,bool? showLoa
           BaseOverlays().dismissOverlay(showLoader: showLoader??true);
           print(error);
         }
-
       }else{
         Map<Permission, PermissionStatus> statuses = await [
           Permission.storage,
@@ -716,4 +726,36 @@ Future<void> downloadFile({required String url,bool? concatBaseUrl,bool? showLoa
       BaseOverlays().dismissOverlay(showLoader: showLoader??true);
     }
   }
+}
+
+String getMonthDate(String dateString1) {
+  DateTime date = DateTime.parse(dateString1);
+  String formattedDate = DateFormat("MMM dd").format(date);
+  return formattedDate;
+}
+
+String convertDateFormat7(String dateString1){
+  DateTime date = DateTime.parse(dateString1);
+  print("date1");
+  print(date);
+  String formattedDate = DateFormat("MMMM, dd/MM/yyyy").format(date.toLocal());
+  print("date1");
+  print(formattedDate);
+  return formattedDate;
+}
+
+String convertDateFormat8(String dateString1){
+  DateTime date = DateTime.parse(dateString1);
+  print("date1");
+  print(date);
+  String formattedDate = DateFormat("yyyy-MM-dd").format(date.toLocal());
+  print("date1");
+  print(formattedDate);
+  return formattedDate;
+}
+
+String getFormattedEmirateId(String emirateId){
+  // final String formattedEmirateId = emirateId.substring(0,3) + "-" + emirateId.substring(3,8) + "-" + emirateId.substring(8, 15) + "-" + emirateId.substring(15,emirateId.length);
+  // final String formattedEmirateId = emirateId.replaceAll(RegExp(r'(?<=.{2})\d(?=.{4})'), '-');
+  return emirateId;
 }

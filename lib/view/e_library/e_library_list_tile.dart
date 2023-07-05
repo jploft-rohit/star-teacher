@@ -17,7 +17,8 @@ import 'package:staff_app/view/e_library/create_e_library_assignment.dart';
 import '../assignments_screen/assignment_submission_screen.dart';
 
 class ELibraryListTile extends StatefulWidget {
-  const ELibraryListTile({Key? key}) : super(key: key);
+  final String title;
+  const ELibraryListTile({Key? key, required this.title}) : super(key: key);
 
   @override
   State<ELibraryListTile> createState() => _ELibraryListTileState();
@@ -47,7 +48,7 @@ class _ELibraryListTileState extends State<ELibraryListTile> {
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
             onTap: (){
-              Get.to(AssignmentSubmissionScreen());
+              Get.to(AssignmentSubmissionScreen(title: widget.title,));
             },
             child: Card(
               shape: RoundedRectangleBorder(
@@ -70,7 +71,7 @@ class _ELibraryListTileState extends State<ELibraryListTile> {
                           : "assignment",
                       onEditProceed: (){
                         BaseOverlays().dismissOverlay();
-                        Get.to(CreateELibraryAssignment(isEditing: true, data: controller.list?[index]))?.then((value){
+                        Get.to(CreateELibraryAssignment(isEditing: true, data: controller.list?[index], title: widget.title,))?.then((value){
                           controller.getData();
                         });
                       },
@@ -130,7 +131,7 @@ class _ELibraryListTileState extends State<ELibraryListTile> {
                       child: Row(
                         children: [
                           Expanded(
-                            child: BaseButton(removeHorizontalPadding: true,leftMargin: 2.w,title: controller.tabIndex == 1 ? "STOP POST" : "POST".toUpperCase(),
+                            child: BaseButton(removeHorizontalPadding: true,leftMargin: 2.w,title: controller.tabIndex == 1 ? widget.title == "Assessment" || widget.title == "Lab" ? "STOP POST & E-LIBRARY" : "STOP POST" : widget.title == "Assessment" || widget.title == "Lab" ? "POST & E-LIBRARY" : "POST",
                               onPressed: (){
                                 controller.postAssignment(id: controller.list?[index]?.sId??"", index: index);
                               },

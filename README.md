@@ -22,4 +22,8 @@ samples, guidance on mobile development, and a full API reference.
 # git commit -m ""
 # git push -u origin branch_name
 
+# (Mobile Number -----> )
 # (User Id -----> 6450aaeb4d876845d42967d0)
+
+# (Mobile Number -----> 6846387567)
+# (User Id -----> )

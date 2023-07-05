@@ -4,6 +4,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
+import 'package:staff_app/utility/base_views/base_school_selection.dart';
 import 'package:staff_app/utility/base_views/base_tab_bar.dart';
 import 'package:staff_app/utility/custom_dropdown_widget.dart';
 import 'package:staff_app/utility/dummy_lists.dart';
@@ -52,21 +53,13 @@ class _FeedbackHelpScreenState extends State<FeedbackHelpScreen> with TickerProv
         padding: EdgeInsets.all(scaffoldPadding),
         child: Column(
           children: [
-            CustomDropDown(
-              initialValue: DummyLists.initialSchool,
-              hintText: DummyLists.initialSchool??"Select School",
-              listData:DummyLists.schoolData,
-              onChange: (value) {
-                setState(() {
-                  DummyLists.initialSchool=value;
-                });
+            BaseSchoolDropDown(
+              controller: controller.schoolController.value,
+              onChanged: (value) {
+                controller.schoolController.value.text = value.name??"";
+                controller.selectedSchoolId.value = value.sId??"";
+                controller.getData(type: (tabCtrl.index) == 0 ? "" : (tabCtrl.index) == 1 ? "help" : "feedback");
               },
-              topPadding: 5,
-              bottomPadding: 5,
-              icon: Icon(Icons.arrow_drop_down,color: Color(0xFFC4C4C4),size: 25,),
-            ),
-            SizedBox(
-              height: 1.h,
             ),
             buildTabBar(),
             SizedBox(
