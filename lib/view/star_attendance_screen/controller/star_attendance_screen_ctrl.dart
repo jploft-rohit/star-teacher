@@ -91,6 +91,9 @@ class StarAttendanceScreenCtrl extends GetxController{
     var data = {
       "type": selectedClassIndex == 0 ? "classroom" : selectedClassIndex == 1 ? "online" : "hybrid",
       "attendanceType": selectedAttendanceIndex == 0 ? "present" : selectedAttendanceIndex == 1 ? "absent" : "late",
+      "school":selectedSchoolId.value,
+      "class":selectedClassId.value,
+      "section":selectedSectionId.value,
     };
     await BaseAPI().get(url: ApiEndPoints().getStarAttendanceList,queryParameters: data).then((value){
       if (value?.statusCode ==  200) {

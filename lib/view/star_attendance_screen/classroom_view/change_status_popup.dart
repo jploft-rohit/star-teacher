@@ -10,6 +10,7 @@ import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/utility/intl/intl.dart';
 import 'package:staff_app/view/star_attendance_screen/controller/star_attendance_screen_ctrl.dart';
 
 class ChangeStatusPopup extends StatefulWidget {
@@ -80,7 +81,7 @@ class _ChangeStatusPopupState extends State<ChangeStatusPopup> {
                             text: '${translate(context).name} : ',
                             style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),
                             children: <TextSpan>[
-                              TextSpan(text: "Roma", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
+                              TextSpan(text: toBeginningOfSentenceCase(controller.list?[widget.index].student?.user?.name??""), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
                             ],
                           ),
                         ),
@@ -97,7 +98,7 @@ class _ChangeStatusPopupState extends State<ChangeStatusPopup> {
                             text: '${translate(context).current_status} : ',
                             style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),
                             children: <TextSpan>[
-                              TextSpan(text: "Present", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
+                              TextSpan(text: toBeginningOfSentenceCase(controller.list?[widget.index].attendanceType??"")??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
                             ],
                           ),
                         ),

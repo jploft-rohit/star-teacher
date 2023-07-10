@@ -131,7 +131,7 @@ class _ELibraryListTileState extends State<ELibraryListTile> {
                       child: Row(
                         children: [
                           Expanded(
-                            child: BaseButton(removeHorizontalPadding: true,leftMargin: 2.w,title: controller.tabIndex == 1 ? widget.title == "Assessment" || widget.title == "Lab" ? "STOP POST & E-LIBRARY" : "STOP POST" : widget.title == "Assessment" || widget.title == "Lab" ? "POST & E-LIBRARY" : "POST",
+                            child: BaseButton(removeHorizontalPadding: true,leftMargin: 2.w,title: controller.tabIndex == 1 ? widget.title == "Assessment" || widget.title == "Lab" ? "STOP POST IN E-LIBRARY" : "STOP POST IN E-LIBRARY" : widget.title == "Assessment" || widget.title == "Lab" ? "POST IN E-LIBRARY" : "POST IN E-LIBRARY",
                               onPressed: (){
                                 controller.postAssignment(id: controller.list?[index]?.sId??"", index: index);
                               },

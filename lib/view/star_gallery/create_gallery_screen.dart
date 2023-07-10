@@ -140,7 +140,7 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
                          await BaseOverlays().showMediaPickerDialog(
                              onCameraClick: (){
                                BaseOverlays().dismissOverlay();
-                               ImagePicker().pickImage(source: ImageSource.camera,imageQuality: 40).then((value){
+                               ImagePicker().pickImage(source: ImageSource.camera).then((value){
                                  if (value != null) {
                                    if((controller.image1?.value.path??"").isEmpty){
                                      controller.image1?.value = value;
@@ -157,7 +157,7 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
                              },
                              onGalleryClick: (){
                              BaseOverlays().dismissOverlay();
-                             ImagePicker().pickImage(source: ImageSource.gallery,imageQuality: 40).then((value){
+                             ImagePicker().pickImage(source: ImageSource.gallery).then((value){
                                  if (value != null) {
                                    if((controller.image1?.value.path??"").isEmpty){
                                      controller.image1?.value = value;
@@ -170,6 +170,23 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
                                    }
                                  }
                                },
+                             );
+                           },
+                           onVideoClick: (){
+                             BaseOverlays().dismissOverlay();
+                             ImagePicker().pickVideo(source: ImageSource.gallery).then((value){
+                               if (value != null) {
+                                 if((controller.image1?.value.path??"").isEmpty){
+                                   controller.image1?.value = value;
+                                 }else if ((controller.image2?.value.path??"").isEmpty) {
+                                   controller.image2?.value = value;
+                                 }else if ((controller.image3?.value.path??"").isEmpty) {
+                                   controller.image3?.value = value;
+                                 }else{
+                                   baseToast(message: "You have selected max number of images");
+                                 }
+                               }
+                             },
                              );
                            }
                          );

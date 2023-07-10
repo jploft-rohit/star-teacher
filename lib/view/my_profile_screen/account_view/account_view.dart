@@ -90,8 +90,6 @@ class _AccountViewState extends State<AccountView> {
               } else if(index == 13){
                 Get.to(const LocationScreen());
               } else if(index == 14){
-                Get.to(const WalletView());
-              } else if(index == 15){
                 Get.to(const TransportationScreen());
               }
             },

@@ -23,6 +23,12 @@ class _StarAttendanceScreenState extends State<StarAttendanceScreen> with Single
 
   @override
   void didChangeDependencies() {
+    controller.selectedSchoolId.value = "";
+    controller.selectedSchoolName.value = "";
+    controller.selectedClassId.value = "";
+    controller.selectedClassName.value = "";
+    controller.selectedSectionId.value = "";
+    controller.selectedSectionName.value = "";
     super.didChangeDependencies();
     tabController = TabController(length: 3, vsync: this)..addListener(() {
       if (!tabController.indexIsChanging) {

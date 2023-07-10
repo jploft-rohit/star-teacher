@@ -49,7 +49,15 @@ class _NewsBroadCastTabState extends State<NewsBroadCastTab> {
                 ),
                 GestureDetector(
                   onTap: (){
-                    Get.to(const NewsScreen());
+                    Get.to(const NewsScreen())?.then((value){
+                      controller.selectedSchoolId.value = "";
+                      controller.selectedSchoolName.value = "";
+                      controller.selectedClassId.value = "";
+                      controller.selectedClassName.value = "";
+                      controller.selectedSectionId.value = "";
+                      controller.selectedSectionName.value = "";
+                      controller.getBroadCastData(showLoader: true);
+                    });
                   },
                   child: Text(translate(context).view_all, style: Style.montserratMediumStyle().copyWith(fontSize: 15.sp ,decoration: TextDecoration.underline, color: BaseColors.txtPrimaryColor),),),
               ],
@@ -68,7 +76,7 @@ class _NewsBroadCastTabState extends State<NewsBroadCastTab> {
             itemBuilder: (context,index){
               return GestureDetector(
                 onTap: (){
-                  Get.to(NewsDetailScreen(data: controller.list![index]));
+                  Get.to(NewsDetailScreen(data: controller.list![index], index: index));
                 },
                 child: Container(
                   margin: const EdgeInsets.only(left: 10.0, right: 10.0,top: 10),

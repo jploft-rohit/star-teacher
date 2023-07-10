@@ -13,7 +13,6 @@ import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/Dashboard_screen/dashboard_screen_ctrl.dart';
-import 'package:staff_app/view/Dashboard_screen/home_screen/home_class_schedule/home_class_schedule_screen.dart';
 import 'package:staff_app/view/Dashboard_screen/home_screen/tabs/newsbroadcast_tab.dart';
 import 'package:staff_app/view/Dashboard_screen/home_screen/tabs/star_gallery_tab.dart';
 import 'package:staff_app/view/Dashboard_screen/today_schedule_tile.dart';
@@ -31,7 +30,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin{
+class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin{
 
   final GlobalKey<ScaffoldState> _key = GlobalKey();
   DashboardScreenCtrl controller = Get.find<DashboardScreenCtrl>();
@@ -286,4 +285,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

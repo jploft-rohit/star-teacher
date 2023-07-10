@@ -141,11 +141,10 @@ class _MyNotesScreenState extends State<MyNotesScreen> {
                                     ],
                                   ),
                                   SizedBox(height: 1.5.h),
-                                  addText(
-                                      controller.unCheckedNotes?[index].description??"",
-                                      14.sp,
-                                      BaseColors.textBlackColor,
-                                      FontWeight.w400,
+                                  Text(
+                                    controller.unCheckedNotes?[index].description??"",
+                                    maxLines: 4,
+                                    style: TextStyle(fontSize: 14.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400),
                                   ),
                                   SizedBox(height: 2.h),
                                 ],

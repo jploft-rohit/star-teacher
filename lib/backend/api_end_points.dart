@@ -3,7 +3,7 @@
 
 class ApiEndPoints {
 
-  final String imageBaseUrl = "http://3.28.14.143:4000/star-backend/";
+  final String imageBaseUrl = "http://3.28.14.143:5000/star-backend/";
 
   /// OnBoarding EndPoints
   final String loginNewUser = "auth/send-otp";
@@ -80,6 +80,7 @@ class ApiEndPoints {
   final String getNotificationList = "notification/list";
   final String createNotification = "notification/create";
   final String getNotificationSettingsList = "notificationSetting/get-all";
+  final String changeNotificationSetting = "notificationSetting/change-notification";
 
   /// Stars EndPoints
   // Star List
@@ -125,7 +126,7 @@ class ApiEndPoints {
   final String getTransactionHistory = "wallet/transaction/get/";
   final String getWalletData = "wallet/get/";
 
-  /// Assignments
+  /// E-Library
   final String getAssignmentsList = "assignments/list";
   final String createAssignment = "assignments/create";
   final String deleteAssignment = "assignments/delete";
@@ -179,10 +180,22 @@ class ApiEndPoints {
   /// Transportation
   final String getTransportationData = "transport/trip/passenger/getTransportDetail/";
   final String notifyTransportAuthority = "transport/trip/passenger/notifyAuthority";
+  final String getLocationData = "transport/trip/passenger/getTransportLocation";
+  final String deleteLocation = "requestRoutes/delete/";
+  final String createLocation = "requestRoutes/create";
+  final String updateLocation = "requestRoutes/update/";
 
   /// Rating
   final String rateBus = "transport/rate_bus";
 
   /// Exam Time Table
   final String getExamTimeTable = "exam-timetable/getExamTimetableApp";
+
+  /// Assign Assignment
+  final String getAssignedAssignmentList = "assignments/get_assign_assignment_list";
+  final String deleteAssignedAssignment = "assignments/delete_assign_assignment/";
+
+  /// Roles & Delegation
+  final String getRolesDelegation = "role-delegation/list";
+  final String updateRolesDelegationStatus = "role-delegation/update-status/";
 }

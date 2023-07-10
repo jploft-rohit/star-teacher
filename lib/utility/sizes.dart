@@ -31,6 +31,8 @@ double dialogHeadingTs = 17.sp; // Dialog Heading Text Size - w700
 double radioButtonTitleTs = 14.sp; // Radio Button Text Size - w400 (Done)
 double primaryHeadingTs = 16.sp; // Primary Heading Text Size - w700
 double scaffoldPadding = 4.w;
+int galleryImageQuality = 50;
+int cameraImageQuality = 80;
 /// Chat Screen
 double chattingMessagesTs = 15.sp; // Chatting Text Size - w400
 double chattingDateTimeTs = 14.sp; // Chatting Date Text Size - w400

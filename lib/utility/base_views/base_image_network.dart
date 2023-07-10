@@ -8,7 +8,8 @@ class BaseImageNetwork extends StatelessWidget {
   final BoxFit? fit;
   final Widget? errorWidget;
   final double? topMargin,bottomMargin,rightMargin,leftMargin,height,width;
-  const BaseImageNetwork({Key? key, this.link, this.topMargin, this.bottomMargin, this.rightMargin, this.leftMargin, this.height, this.width, this.concatBaseUrl, this.borderRadius, this.fit, this.errorWidget}) : super(key: key);
+  final int? cacheHeight,cacheWidth;
+  const BaseImageNetwork({Key? key, this.link, this.topMargin, this.bottomMargin, this.rightMargin, this.leftMargin, this.height, this.width, this.concatBaseUrl, this.borderRadius, this.fit, this.errorWidget, this.cacheHeight, this.cacheWidth}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +20,8 @@ class BaseImageNetwork extends StatelessWidget {
         child: Image.network((concatBaseUrl??true) ? ApiEndPoints().imageBaseUrl+(link??"") : (link??""),
           width: width??null,
           height: height??null,
+          cacheHeight: cacheHeight??null,
+          cacheWidth: cacheWidth??null,
           fit: fit??BoxFit.fitHeight,
           errorBuilder: (context, url, error) {
             if (errorWidget == null) {
@@ -38,7 +41,6 @@ class BaseImageNetwork extends StatelessWidget {
               ),
             );
           },
-
         ),
       ),
     );

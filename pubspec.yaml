@@ -38,7 +38,7 @@ dependencies:
   circular_countdown_timer: ^0.2.3
   syncfusion_flutter_datepicker: ^21.1.39
   fluttertoast: ^8.2.1
-  image_picker: ^0.8.7+4
+  image_picker: ^1.0.0
   dio: ^5.1.1
   qr_flutter: ^4.0.0
   flutter_local_notifications: ^14.1.1
@@ -56,6 +56,7 @@ dependencies:
   image_downloader: ^0.31.0
   permission_handler: ^10.3.0
   country_picker: ^2.0.20
+  cached_network_image: ^3.2.3
 #  flutter_pdfview: ^1.3.0
 #  path_provider: ^2.0.15
 

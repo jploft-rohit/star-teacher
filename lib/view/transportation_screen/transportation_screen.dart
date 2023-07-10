@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
+import 'package:staff_app/utility/base_views/base_image_network.dart';
 import 'package:staff_app/utility/base_views/base_qr.dart';
 import 'package:staff_app/utility/base_views/base_tab_button.dart';
 import 'package:staff_app/utility/base_views/base_toggle_tab_bar.dart';
@@ -77,7 +78,11 @@ class _TransportationScreenState extends State<TransportationScreen> with Single
                         ),
                         borderRadius: BorderRadius.circular(15.0),
                       ),
-                      child: SvgPicture.asset(manSvg),
+                      child: BaseImageNetwork(
+                        link: controller.tripData.value.passangerUser?.profilePic??"",
+                        concatBaseUrl: false,
+                        errorWidget: SvgPicture.asset(manSvg),
+                      ),
                     ),
                     title: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

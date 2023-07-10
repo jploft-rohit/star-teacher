@@ -23,7 +23,6 @@ import 'package:staff_app/view/library_screen/notebook_screen/notebook_screen.da
 import 'package:staff_app/view/login_screen/login_screen.dart';
 import 'package:staff_app/view/lost_or_found_screen/lost_found.dart';
 import 'package:staff_app/view/my_profile_screen/my_profile_screen.dart';
-import 'package:staff_app/view/route_destination/route_view.dart';
 import 'package:staff_app/view/schedule_meeting_screen/schedule_meeting_screen.dart';
 import 'package:staff_app/view/shop_screen/shop_screen.dart';
 import 'package:staff_app/view/star_attendance_screen/star_attendance_screen.dart';
@@ -166,13 +165,13 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   ),
                   GestureDetector(
                     onTap: (){
-                      Get.to(const NewAssignmentScreen(title: "Assessment",));
+                      Get.to(const NewAssignmentScreen(title: "Assessment"));
                     },
                     child: buildTile("Assessment"),
                   ),
                   GestureDetector(
                     onTap: (){
-                      Get.to(const NewAssignmentScreen(title: "Lab",));
+                      Get.to(const NewAssignmentScreen(title: "Lab"));
                     },
                     child: buildTile("Lab"),
                   ),
@@ -278,9 +277,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
                         onRightButtonPressed: (){
                           Get.back(closeOverlays: true);
                           BaseOverlays().showLoader();
-                          Future.delayed(const Duration(seconds: 2), () {
+                          Future.delayed(const Duration(seconds: 2), () async {
+                            await BaseSharedPreference().clearLoginSession();
                             Get.offAll(LoginScreen());
-                            BaseSharedPreference().clearLoginSession();
                           });
                         }
                       );

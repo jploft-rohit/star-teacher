@@ -19,7 +19,7 @@ class BaseAPI {
   BaseAPI._internal() {
     _dio = Dio(
       BaseOptions(
-        baseUrl: 'http://3.28.14.143:4000/star-backend/api/',
+        baseUrl: 'http://3.28.14.143:5000/star-backend/api/',
         connectTimeout: const Duration(seconds: 60),
         receiveTimeout: const Duration(seconds: 60),
         headers: {

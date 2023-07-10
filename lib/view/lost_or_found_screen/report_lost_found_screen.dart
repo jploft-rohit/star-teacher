@@ -75,7 +75,7 @@ class _CreateLostFoundState extends State<CreateLostFound> {
                     onTap: (){
                       selectDate(context).then((picked) {
                         if(picked != null){
-                          controller.dateController.value.text = "${picked.year.toString().padLeft(2,'0')}-${picked.month.toString().padLeft(2,'0')}-${picked.day.toString()}";;
+                          controller.dateController.value.text = formatFlutterDateTime(flutterDateTime: picked,getDayFirst: false);
                         }
                       });
                       },

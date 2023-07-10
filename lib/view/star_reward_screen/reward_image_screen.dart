@@ -14,10 +14,9 @@ import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_image_network.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/view/star_evaluation_screen/success_dialog_screen.dart';
 import 'package:staff_app/view/star_reward_screen/reward_screen_ctrl.dart';
-
-import '../../Utility/sizes.dart';
 
 class RewardImageScreen extends StatefulWidget {
   final int index;
@@ -58,7 +57,7 @@ class _RewardImageScreenState extends State<RewardImageScreen> {
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        ImagePicker().pickImage(source: ImageSource.gallery,imageQuality: 1).then((value){
+                        ImagePicker().pickImage(source: ImageSource.gallery,imageQuality: galleryImageQuality).then((value){
                           if ((value?.path??"").isNotEmpty) {
                             file = value;
                             controller.uploadedImagePath.value = value?.path??"";
@@ -92,7 +91,7 @@ class _RewardImageScreenState extends State<RewardImageScreen> {
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        ImagePicker().pickImage(source: ImageSource.camera,imageQuality: 30).then((value){
+                        ImagePicker().pickImage(source: ImageSource.camera,imageQuality: cameraImageQuality).then((value){
                           if ((value?.path??"").isNotEmpty) {
                             file = value;
                             controller.uploadedImagePath.value = value?.path??"";
@@ -166,7 +165,10 @@ class _RewardImageScreenState extends State<RewardImageScreen> {
                       gap: 5.0,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: BaseImageNetwork(link: controller.rewardList?[widget.index].image??"", width: double.infinity,),
+                        child: BaseImageNetwork(
+                          link: controller.rewardList?[widget.index].image??"",
+                          width: double.infinity,
+                        ),
                       )),
                       Positioned(
                         right: -10,
@@ -195,17 +197,16 @@ class _RewardImageScreenState extends State<RewardImageScreen> {
               BaseButton(title: translate(context).submit_btn_txt,
                 onPressed: (){
                 if ((controller.uploadedImagePath.value).isNotEmpty) {
-                  Get.back();
-                  // controller.updateRewardImage(file: file,rewardId: controller.rewardList?[widget.index].sId.toString());
+                  controller.updateRewardImage(file: file,rewardId: controller.rewardList?[widget.index].sId.toString());
+                  // showGeneralDialog(
+                  //   context: context,
+                  //   pageBuilder:  (context, animation, secondaryAnimation) {
+                  //     return SuccessDialogScreen(msg: translate(context).reward_added_successfully);
+                  //   },
+                  // );
                 }else{
                   baseToast(message: "Image can't be empty");
                 }
-                // showGeneralDialog(
-                //   context: context,
-                //   pageBuilder:  (context, animation, secondaryAnimation) {
-                //     return SuccessDialogScreen(msg: translate(context).reward_added_successfully);
-                //   },
-                // );
               },btnType: largeButton,)
             ],
           ),

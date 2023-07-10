@@ -20,10 +20,11 @@ class BaseTextFormField extends StatelessWidget {
   final String? prefixIcon;
   final String? suffixIcon;
   final bool isDropDown;
-  List<TextInputFormatter>? textInputFormatter;
+  final List<TextInputFormatter>? textInputFormatter;
   final bool? underLine;
   final int? maxLine;
   final int? maxLength;
+  final Function(String)? onFieldValueChanged;
   final String? Function(String?)? validator;
   final List<DropdownMenuItem<dynamic>>? items;
   final String? dropDownValue;
@@ -31,7 +32,7 @@ class BaseTextFormField extends StatelessWidget {
   final ValueChanged? onChanged;
   final TextInputType? keyboardType;
   final TextEditingController controller;
-  BaseTextFormField({Key? key, this.title, required this.controller, this.hintText, this.keyboardType, this.prefixIcon, this.suffixIcon, this.isDropDown = false, this.dropDownValue, this.items = const [], this.onChanged, this.onTap, this.bottomMargin, this.topMargin, this.leftMargin, this.rightMargin, this.maxLine, this.errorText, this.validator, this.underLine = false, this.maxLength,this.textInputFormatter}) : super(key: key);
+  BaseTextFormField({Key? key, this.title, required this.controller, this.hintText, this.keyboardType, this.prefixIcon, this.suffixIcon, this.isDropDown = false, this.dropDownValue, this.items = const [], this.onChanged, this.onTap, this.bottomMargin, this.topMargin, this.leftMargin, this.rightMargin, this.maxLine, this.errorText, this.validator, this.underLine = false, this.maxLength,this.textInputFormatter, this.onFieldValueChanged}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -143,6 +144,7 @@ class BaseTextFormField extends StatelessWidget {
                       maxLine: maxLine??null,
                       readOnly: (onTap) == null ? false : true,
                       onTap: onTap,
+                      onChanged: onFieldValueChanged,
                       maxLength: maxLength??400,
                       textInputType: keyboardType,
                       suffixIcon: Padding(

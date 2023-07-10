@@ -69,6 +69,11 @@ class _TopupYourFamilyPopupState extends State<TopupYourFamilyPopup> {
                         child: CustomTextField(
                           controller: amtCtrl,
                           hintText: "0",
+                          onChanged: (val){
+                            amtCtrl.selection = TextSelection.collapsed(offset: amtCtrl.text.length);
+                            amtCtrl.selection = TextSelection.fromPosition(TextPosition(offset: amtCtrl.text.length));
+                            Get.find<WalletController>().update();
+                          },
                           prefixIcon: Padding(
                             padding: EdgeInsets.only(left: 2.w,bottom: 1),
                             child: Text("AED ",style: TextStyle(fontSize: 11)),
@@ -94,7 +99,7 @@ class _TopupYourFamilyPopupState extends State<TopupYourFamilyPopup> {
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
-                          padding: EdgeInsets.zero,
+                          padding: EdgeInsets.only(bottom: 3),
                           itemBuilder: (context, index) => GestureDetector(
                             onTap: () {
                               amtCtrl.text = controller.amount[index].toString();

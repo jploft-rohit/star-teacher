@@ -105,58 +105,52 @@ class _AddToDoNoteState extends State<AddToDoNote> {
                 SizedBox(
                   height: 1.h,
                 ),
-                GestureDetector(
-                  onTap: () {
-                    ctrl.isChecked.value = !ctrl.isChecked.value;
-                    Get.to(AddTaskOrReminderScreen(isUpdating: false,));
-                  },
-                  child: Row(
-                    children: [
-                      GetBuilder<NotebookCtrl>(
-                        builder: (ctrl) {
-                          return GestureDetector(
-                            onTap: () {
-                              ctrl.isChecked.value = !ctrl.isChecked.value;
-                              ctrl.update();
-                            },
+                Row(
+                  children: [
+                    GetBuilder<NotebookCtrl>(
+                      builder: (ctrl) {
+                        return GestureDetector(
+                          onTap: () {
+                            ctrl.isChecked.value = !ctrl.isChecked.value;
+                            ctrl.update();
+                          },
+                          child: Container(
+                            height: 20,
+                            width: 20,
+                            // padding: const EdgeInsets.symmetric(horizontal: 9),
+                            decoration: BoxDecoration(
+                                color: ctrl.isChecked.value == true
+                                    ? BaseColors.backgroundColor
+                                    : BaseColors.borderColor,
+                                boxShadow: [getLightBoxShadow()],
+                                border: ctrl.isChecked.value == true
+                                    ? Border.all(
+                                        color: BaseColors.primaryColor,
+                                        width: 1.5)
+                                    : Border.all(
+                                        color: Colors.transparent, width: 1.5),
+                                borderRadius: BorderRadius.circular(30.0)),
                             child: Container(
-                              height: 20,
-                              width: 20,
-                              // padding: const EdgeInsets.symmetric(horizontal: 9),
                               decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: BaseColors.white, width: 1.5),
+                                  shape: BoxShape.circle,
+                                  boxShadow: [getBoxShadow()],
                                   color: ctrl.isChecked.value == true
-                                      ? BaseColors.backgroundColor
-                                      : BaseColors.borderColor,
-                                  boxShadow: [getLightBoxShadow()],
-                                  border: ctrl.isChecked.value == true
-                                      ? Border.all(
-                                          color: BaseColors.primaryColor,
-                                          width: 1.5)
-                                      : Border.all(
-                                          color: Colors.transparent, width: 1.5),
-                                  borderRadius: BorderRadius.circular(30.0)),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: BaseColors.white, width: 1.5),
-                                    shape: BoxShape.circle,
-                                    boxShadow: [getBoxShadow()],
-                                    color: ctrl.isChecked.value == true
-                                        ? BaseColors.primaryColor
-                                        : BaseColors.borderColor),
-                                child: Center(
-                                  child: Icon(Icons.check,
-                                      color: BaseColors.white, size: 16.sp),
-                                ),
+                                      ? BaseColors.primaryColor
+                                      : BaseColors.borderColor),
+                              child: Center(
+                                child: Icon(Icons.check,
+                                    color: BaseColors.white, size: 16.sp),
                               ),
                             ),
-                          );
-                        },
-                      ),
-                      SizedBox(width: 2.w),
-                      addText("Set Reminder", 14.sp, BaseColors.textBlackColor, FontWeight.w400)
-                    ],
-                  ),
+                          ),
+                        );
+                      },
+                    ),
+                    SizedBox(width: 2.w),
+                    addText("Set Reminder", 14.sp, BaseColors.textBlackColor, FontWeight.w400)
+                  ],
                 ),
                 SizedBox(
                   height: 5.h,
@@ -165,10 +159,14 @@ class _AddToDoNoteState extends State<AddToDoNote> {
                     child: BaseButton(
                         title: widget.isEditing?"UPDATE":"SUBMIT",
                         onPressed: () {
-                          if (widget.isEditing) {
-                            controller.updateStickyNote(color: controller.colorList[controller.selectedColorIndex.value], id: widget.data?.sId??"");
+                          if (ctrl.isChecked.value) {
+                            Get.to(AddTaskOrReminderScreen(isUpdating: false));
                           }else{
-                            controller.createStickyNote(color: controller.colorList[controller.selectedColorIndex.value]);
+                            if (widget.isEditing) {
+                              controller.updateStickyNote(color: controller.colorList[controller.selectedColorIndex.value], id: widget.data?.sId??"");
+                            }else{
+                              controller.createStickyNote(color: controller.colorList[controller.selectedColorIndex.value]);
+                            }
                           }
                         },btnType: largeButton,))
               ],

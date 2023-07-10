@@ -38,10 +38,11 @@ class StarGalleryCtrl extends GetxController{
   getData({required String type,required showLoader}) async {
     isGalleryLoading.value = true;
     list?.value = [];
-    await BaseAPI().get(url: ApiEndPoints().getStarGallery,queryParameters: type.isNotEmpty ? {"type":type,"limit":30} : null,showLoader: showLoader).then((value){
+    await BaseAPI().get(url: ApiEndPoints().getStarGallery,queryParameters: type.isNotEmpty ? {"type": type,"limit": 300} : null,showLoader: showLoader).then((value){
       isGalleryLoading.value = false;
       if (value?.statusCode ==  200) {
         list?.value = StarGalleryResponse.fromJson(value?.data).data??[];
+
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
       }

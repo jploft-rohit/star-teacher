@@ -32,12 +32,12 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
         children: [
           GestureDetector(
             onTap: (){
-              showGeneralDialog(
-                context: context,
-                pageBuilder: (context, animation, secondaryAnimation) {
-                  return ConfirmationDialog(msg: translate(context).are_you_sure_youve_selected_present_stars,isShowBtn: true,);
-                },
-              );
+              // showGeneralDialog(
+              //   context: context,
+              //   pageBuilder: (context, animation, secondaryAnimation) {
+              //     return ConfirmationDialog(msg: translate(context).are_you_sure_youve_selected_present_stars,isShowBtn: true,);
+              //   },
+              // );
             },
             child: Obx(() => Container(
               margin: const EdgeInsets.only(left: 15, right: 15.0),

@@ -319,7 +319,7 @@ class BaseOverlays {
         });
   }
 
-  showMediaPickerDialog({Function()? onCameraClick, Function()? onGalleryClick}) {
+  showMediaPickerDialog({Function()? onCameraClick, Function()? onGalleryClick, Function()? onVideoClick}) {
     final ImagePicker picker = ImagePicker();
     XFile? imageData;
     showGeneralDialog(
@@ -387,7 +387,31 @@ class BaseOverlays {
                               Text("Gallery"),
                             ],
                           ),
-                        )),
+                        ),
+                    ),
+                    Visibility(
+                      visible: onVideoClick != null,
+                      child: Expanded(
+                        child: GestureDetector(
+                          onTap: onVideoClick ?? () async {
+                            Get.back();
+                            await picker.pickVideo(source: ImageSource.gallery).then((value){
+                              if (value != null) {
+                                imageData = value;
+                              }
+                            });
+                          },
+                          child: Column(
+                            children: [
+                              Icon(Icons.video_collection_outlined,
+                                  color: BaseColors.primaryColor, size: 60),
+                              SizedBox(height: 8),
+                              Text("Video"),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 40),
@@ -624,7 +648,7 @@ class BaseOverlays {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Icon(Icons.close, color: Colors.transparent),
-                          Text(title, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 17.sp)),
+                          Expanded(child: Text(title,textAlign: TextAlign.center, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 17.sp))),
                           GestureDetector(
                             onTap: () {Get.back();},
                             child: const Icon(

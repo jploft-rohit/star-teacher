@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/backend/responses_model/class_response.dart';
+import 'package:staff_app/backend/responses_model/class_section_response.dart';
 import 'package:staff_app/backend/responses_model/school_list_response.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
@@ -32,6 +34,12 @@ class _StarRewardScreenState extends State<StarRewardScreen> {
   BaseCtrl baseCtrl = Get.find<BaseCtrl>();
 
   @override
+  void initState() {
+    super.initState();
+    baseCtrl.getStarsList();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(title: translate(context).star_rewards),
@@ -39,82 +47,114 @@ class _StarRewardScreenState extends State<StarRewardScreen> {
         padding: EdgeInsets.all(15.sp),
         child: Column(
           children: [
-            Obx(()=>Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15.0),
-                  border: Border.all(
-                      color: ColorConstants.borderColor
+            Container(
+              margin: EdgeInsets.only(bottom: 2.h),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                border: Border.all(
+                    color: ColorConstants.borderColor
+                ),
+              ),
+              child: Obx(()=>Column(
+                children: [
+                  Row(
+                    children: [
+                      CustomFilterDropDown(
+                        hintText: controller.selectedSchoolName.value.isEmpty ? 'School' : controller.selectedSchoolName.value,
+                        item: baseCtrl.schoolListData.data?.data?.map((SchoolData data){
+                          return DropdownMenuItem<SchoolData>(
+                            value: data,
+                            child: addText(data.name??"", 15.sp, Colors.black, FontWeight.w400),
+                          );
+                        }).toList(),
+                        onChange: (value) async {
+                          controller.selectedSchoolName.value = value.name;
+                          controller.selectedSchoolId.value = value.sId;
+                          await baseCtrl.getClassList(schoolId: controller.selectedSchoolId.value);
+                          baseCtrl.getStarsList(schoolId: controller.selectedSchoolId.value,classId: controller.selectedClassId.value,sectionId: controller.selectedSectionId.value);
+                        },
+                        icon: classTakenSvg,
+                      ),
+                      Divider(
+                        height: 1,
+                        thickness: 1,
+                      ),
+                      CustomFilterDropDown(
+                        hintText: controller.selectedClassName.value.isEmpty ? 'Class' : controller.selectedClassName.value,
+                        item: baseCtrl.classList?.map((ClassData data){
+                          return DropdownMenuItem<ClassData>(
+                            value: data,
+                            child: addText(data.name??"", 15.sp, Colors.black, FontWeight.w400),
+                          );
+                        }).toList(),
+                        onChange: (value) async {
+                          controller.selectedClassName.value = value.name;
+                          controller.selectedClassId.value = value.sId;
+                          await baseCtrl.getClassSections(classId: controller.selectedClassId.value);
+                          baseCtrl.getStarsList(schoolId: controller.selectedSchoolId.value,classId: controller.selectedClassId.value,sectionId: controller.selectedSectionId.value);
+                        },
+                        icon: classTakenSvg,
+                      ),
+                    ],
                   ),
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CustomFilterDropDown(
-                            hintText: controller.selectedSchoolName.value.isEmpty ? 'School' : controller.selectedSchoolName.value,
-                            item: baseCtrl.schoolListData.data?.data?.map((SchoolData value){
-                              return DropdownMenuItem<SchoolData>(
-                                  value: value,
-                                  child: addText(value.name??"", 16.sp, Colors.black, FontWeight.w400));
-                            }).toList(),
-                          onChange: (value) {
-                            controller.selectedSchoolId.value = value?.sId??"";
-                            controller.selectedSchoolName.value = value?.name??"";
-                          // setState(() {});
-                        },icon: classTakenSvg),
-                        Container(
-                          child: VerticalDivider(
-                            width: 1,
-                          ),
-                          height: 35,
-                          width: 1,
-                        ),
-                        CustomFilterDropDown(
-                          initialValue: DummyLists.initialGrade, hintText: 'Grade 3',
-                          listData: DummyLists.gradeData, onChange: (value) {
-                          setState(() {
-                            DummyLists.initialGrade=value;
-                          });
-                         },icon: classTakenSvg
-                        ),
-                      ],
-                    ),
-                    Divider(
-                      height: 1,
-                      thickness: 1,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CustomFilterDropDown(
-                          initialValue: DummyLists.initialClass, hintText: 'H1',
-                          listData: DummyLists.classData, onChange: (value) {
-                          setState(() {
-                            DummyLists.initialClass=value;
-                          });
-                        },icon: classTakenSvg),
-                        Container(child: VerticalDivider(width: 1),height: 4.h,width: 1,),
-                        CustomFilterDropDown(
-                          initialValue: DummyLists.initialTerm, hintText: 'Term 1',
-                          listData: DummyLists.termData, onChange: (value) {
-                          setState(() {
-                            DummyLists.initialTerm=value;
-                          });
-                        },icon: classTakenSvg,),
-                      ],
-                    ),
-                    Divider(
-                      height: 1,
-                      thickness: 1,
-                    ),
-                    FilterTextFormField(onChange: (String val) {
-                    }, hintText: "Search Star,ID...", keyBoardType: TextInputType.name,
-                    ),
-                  ],
-                ),
-              )),
-            SizedBox(height: 2.h),
+                  Divider(
+                    height: 1,
+                    thickness: 1,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // CustomFilterDropDown(
+                      //   hintText: controller.selectedClassName.value.isEmpty ? 'Select Class' : controller.selectedClassName.value,
+                      //   item: baseCtrl.classList?.map((ClassData data){
+                      //     return DropdownMenuItem<ClassData>(
+                      //       value: data,
+                      //       child: addText(data.name??"", 15.sp, Colors.black, FontWeight.w400),
+                      //     );
+                      //   }).toList(),
+                      //   onChange: (value) {
+                      //     controller.selectedClassName.value = value.name;
+                      //     controller.selectedClassId.value = value.sId;
+                      //     baseCtrl.getClassSections(classId: controller.selectedClassId.value);
+                      //     baseCtrl.getStarsList(schoolId: controller.selectedSchoolId.value,classId: controller.selectedClassId.value,sectionId: controller.selectedSectionId.value);
+                      //   },
+                      //   icon: classTakenSvg,
+                      // ),
+                      Container(
+                        child: VerticalDivider(width: 1),
+                        height: 4.h,
+                        width: 1,
+                      ),
+                      CustomFilterDropDown(
+                        hintText: controller.selectedSectionName.value.isEmpty ? 'Section' : controller.selectedSectionName.value,
+                        item: baseCtrl.classSectionList?.map((ClassSectionData data){
+                          return DropdownMenuItem<ClassSectionData>(
+                            value: data,
+                            child: addText(data.name??"", 15.sp, Colors.black, FontWeight.w400),
+                          );
+                        }).toList(),
+                        onChange: (value) {
+                          controller.selectedSectionName.value = value.name;
+                          controller.selectedSectionId.value = value.sId;
+                          baseCtrl.getStarsList(schoolId: controller.selectedSchoolId.value,classId: controller.selectedClassId.value,sectionId: controller.selectedSectionId.value);
+                        },
+                        icon: classTakenSvg,
+                      )
+                    ],
+                  ),
+                  Divider(
+                    height: 1,
+                    thickness: 1,
+                  ),
+                  FilterTextFormField(
+                    onChange: (String val) {},
+                    hintText: "Search Star,ID...",
+                    keyBoardType: TextInputType.name,
+                  ),
+                ],
+              ),
+              ),
+            ),
             Obx(()=>(baseCtrl.starsList?.length??0) == 0
                 ? BaseNoData(message: "No Stars Found",topMargin: 28.h,)
                 : ListView.builder(

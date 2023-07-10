@@ -34,11 +34,12 @@ class _HomePhotoVideoTabState extends State<HomePhotoVideoTab> {
         : (controller.list?.length??0) == 0
         ? BaseNoData(message: "No Media Found")
         : GridView.builder(
-      itemCount: controller.list?.length??0,
-      shrinkWrap: true,
-      padding: EdgeInsets.only(bottom: 20.h),
-      physics: NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        itemCount: controller.list?.length??0,
+        shrinkWrap: true,
+        cacheExtent: 999999,
+        padding: EdgeInsets.only(bottom: 20.h),
+        physics: NeverScrollableScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         mainAxisSpacing: 1.5.h,
         crossAxisSpacing: 1.h,

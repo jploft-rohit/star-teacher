@@ -30,7 +30,7 @@ class TaskReminderCtrl extends GetxController{
   @override
   void onInit() {
     super.onInit();
-    getTaskReminders();
+    // getTaskReminders();
   }
 
   getTaskReminders(){

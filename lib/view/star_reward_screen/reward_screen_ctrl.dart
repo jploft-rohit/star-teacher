@@ -19,9 +19,15 @@ class RewardScreenCtrl extends GetxController{
   Rx<TextEditingController> rewardTitleCtrl = TextEditingController().obs;
   Rx<TextEditingController> pointValueCtrl = TextEditingController().obs;
   final formKey = GlobalKey<FormState>();
-
+  /// Class
+  RxString selectedClassId = "".obs;
+  RxString selectedClassName = "".obs;
+  /// Section
+  RxString selectedSectionId = "".obs;
+  RxString selectedSectionName = "".obs;
   RxList<MyRewards>? myRewards = <MyRewards>[].obs;
   RxList<RewardsList>? rewardList = <RewardsList>[].obs;
+
 
 
   getRewards(){
@@ -84,10 +90,15 @@ class RewardScreenCtrl extends GetxController{
   }
 
   updateRewardImage({XFile? file,rewardId}) async {
-    dio.FormData data = dio.FormData.fromMap({
-      "image": await dio.MultipartFile.fromFile(file?.path??"",filename: file?.name??"")
-    });
-    BaseAPI().post(url: ApiEndPoints().updateRewardImage+rewardId,data: data).then((value){
+    dio.FormData data;
+    if ((file?.path??"").isNotEmpty) {
+       data = dio.FormData.fromMap({
+        "image": await dio.MultipartFile.fromFile(file?.path??"",filename: file?.name??"")
+      });
+    }else{
+       data = dio.FormData.fromMap({});
+    }
+    BaseAPI().patch(url: ApiEndPoints().updateRewardImage+rewardId,data: data).then((value){
       if (value?.statusCode ==  200) {
         Get.back();
         BaseOverlays().showSnackBar(message: value?.data?['message']??"",title: "Success");
@@ -208,6 +219,13 @@ class RewardScreenCtrl extends GetxController{
   void dispose() {
     rewardTitleCtrl.value.text = "";
     pointValueCtrl.value.text = "";
+    selectedSchoolId.value = "";
+    selectedSchoolName.value = "";
+    selectedClassId.value = "";
+    selectedClassName.value = "";
+    selectedSectionId.value = "";
+    selectedSectionName.value = "";
+    selectedStarId.value = "";
     super.dispose();
   }
 }

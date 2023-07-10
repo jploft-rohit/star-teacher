@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/backend/responses_model/class_response.dart';
+import 'package:staff_app/backend/responses_model/class_section_response.dart';
 import 'package:staff_app/backend/responses_model/school_list_response.dart';
 import 'package:staff_app/constants-classes/color_constants.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
@@ -82,10 +84,19 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
                             value: value,
                             child: addText(value.name??"", 16.sp, Colors.black, FontWeight.w400));
                       }).toList(),
-                      onChange: (value) {
+                      onChange: (value) async {
                         controller.selectedSchoolId.value = value?.sId??"";
                         controller.selectedSchoolName.value = value?.name??"";
-                        // setState(() {});
+                        /// Clear Data
+                        controller.selectedClassId.value = "";
+                        controller.selectedClassName.value = "";
+                        controller.selectedSectionName.value = "";
+                        controller.selectedSectionId.value = "";
+                        await baseCtrl.getClassList(schoolId: controller.selectedSchoolId.value);
+                        controller.getStarsAttendanceList(
+                            selectedClassIndex: controller.selectedClassType.value,
+                            selectedAttendanceIndex: controller.selectedAttendanceTabIndex.value,
+                        );
                       },icon: classTakenSvg),
                   Container(
                     child: VerticalDivider(
@@ -95,13 +106,21 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
                     width: 1,
                   ),
                   CustomFilterDropDown(
-                      initialValue: DummyLists.initialGrade, hintText: 'Class',
-                      listData: DummyLists.gradeData, onChange: (value) {
-                    setState(() {
-                      DummyLists.initialGrade=value;
-                    });
-                  },icon: classTakenSvg
-                  ),
+                      hintText: controller.selectedClassName.value.isEmpty ? 'Class' : controller.selectedClassName.value,
+                      item: baseCtrl.classList?.map((ClassData value){
+                        return DropdownMenuItem<ClassData>(
+                            value: value,
+                            child: addText(value.name??"", 16.sp, Colors.black, FontWeight.w400));
+                      }).toList(),
+                      onChange: (value) async {
+                        controller.selectedClassId.value = value?.sId??"";
+                        controller.selectedClassName.value = value?.name??"";
+                        await baseCtrl.getClassSections(classId: controller.selectedClassId.value);
+                        controller.getStarsAttendanceList(
+                          selectedClassIndex: controller.selectedClassType.value,
+                          selectedAttendanceIndex: controller.selectedAttendanceTabIndex.value,
+                        );
+                      },icon: classTakenSvg),
                 ],
               ),
               Divider(
@@ -109,23 +128,25 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
                 thickness: 1,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomFilterDropDown(
-                      initialValue: DummyLists.initialClass, hintText: 'H1',
-                      listData: DummyLists.classData, onChange: (value) {
-                    setState(() {
-                      DummyLists.initialClass=value;
-                    });
-                  },icon: classTakenSvg),
-                  Container(child: VerticalDivider(width: 1,),height: 4.h,width: 1,),
-                  CustomFilterDropDown(
-                    initialValue: DummyLists.initialTerm, hintText: 'Term 1',
-                    listData: DummyLists.termData, onChange: (value) {
-                    setState(() {
-                      DummyLists.initialTerm=value;
-                    });
-                  },icon: classTakenSvg,),
+                    hintText: controller.selectedSectionName.value.isEmpty ? 'Section' : controller.selectedSectionName.value,
+                    item: baseCtrl.classSectionList?.map((ClassSectionData data){
+                      return DropdownMenuItem<ClassSectionData>(
+                        value: data,
+                        child: addText(data.name??"", 15.sp, Colors.black, FontWeight.w400),
+                      );
+                    }).toList(),
+                    onChange: (value) async {
+                      controller.selectedSectionName.value = value.name;
+                      controller.selectedSectionId.value = value.sId;
+                      controller.getStarsAttendanceList(
+                        selectedClassIndex: controller.selectedClassType.value,
+                        selectedAttendanceIndex: controller.selectedAttendanceTabIndex.value,
+                      );
+                    },
+                    icon: classTakenSvg,
+                  ),
                 ],
               ),
               Divider(

@@ -116,7 +116,11 @@ class _CreateELibraryAssignmentState extends State<CreateELibraryAssignment> {
                 BaseButton(
                     title: "SAVE & NEXT",
                     onPressed: (){
-                      controller.createAssignment();
+                      if (widget.isEditing??false) {
+                        controller.editAssignment(id: widget.data?.sId??"");
+                      }else{
+                        controller.createAssignment();
+                      }
                     },
                     topMargin: 3.h,
                 ),

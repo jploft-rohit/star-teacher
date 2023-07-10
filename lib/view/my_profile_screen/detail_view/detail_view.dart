@@ -404,15 +404,16 @@ class _DetailViewState extends State<DetailView> {
                   ],
                 ),
                 SizedBox(height: 2.h,),
-                ListView.builder(
-                  itemCount: controller.response.value.data?.familyMembers?.length??0,
-                  padding: EdgeInsets.zero,
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return buildFamilyItem(index,context);
-                  },
+                Obx(()=>ListView.builder(
+                    itemCount: controller.response.value.data?.familyMembers?.length??0,
+                    padding: EdgeInsets.zero,
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return buildFamilyItem(index,context);
+                    },
+                  ),
                 ),
                 SizedBox(height: 2.h,),
               ]),
@@ -543,6 +544,7 @@ class _DetailViewState extends State<DetailView> {
                         controller.deleteFamilyMember(memberId: controller.response.value.data?.familyMembers?[index].sId??"", index: index);
                         BaseOverlays().dismissOverlay();
                         controller.update();
+                        controller.getData();
                         },
                       ),
                     )

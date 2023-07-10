@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_tab_button.dart';
@@ -11,6 +12,9 @@ import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/class_schedule_screen/day_schedule_view.dart';
 import 'package:staff_app/view/class_schedule_screen/week_schedule_view.dart';
+import 'package:staff_app/view/today_schedule_module/controller/today_schedule_controller.dart';
+
+import '../../utility/base_views/base_school_selection.dart';
 
 class ClassScheduleScreen extends StatefulWidget {
   const ClassScheduleScreen({Key? key}) : super(key: key);
@@ -22,11 +26,20 @@ class ClassScheduleScreen extends StatefulWidget {
 class _ClassScheduleScreenState extends State<ClassScheduleScreen> with SingleTickerProviderStateMixin{
   int index = 0;
   late TabController tabController;
+  TodayScheduleController controller = Get.put(TodayScheduleController());
   @override
   void initState() {
     super.initState();
+    controller.type.value = "today";
+    controller.getData(date: formatFlutterDateTime(flutterDateTime: DateTime.now(),getDayFirst: false));
     tabController = TabController(length: 2, vsync: this)..addListener(() {
-      setState(() {});
+      if (!(tabController.indexIsChanging)) {
+        if (tabController.index == 0) {
+          controller.type.value = "today";
+          controller.getData();
+        }
+        setState(() {});
+      }
     });
   }
   @override
@@ -46,25 +59,20 @@ class _ClassScheduleScreenState extends State<ClassScheduleScreen> with SingleTi
           child: Column(
             children: [
               BaseToggleTabBar(controller: tabController, tabs: [
-                BaseTabButton(title: translate(context).day, isSelected: tabController.index == 0,type: toggleLargeButton,),
-                BaseTabButton(title: translate(context).week, isSelected: tabController.index == 1,type: toggleLargeButton,),
+                BaseTabButton(title: translate(context).day, isSelected: tabController.index == 0,type: toggleLargeButton),
+                BaseTabButton(title: translate(context).week, isSelected: tabController.index == 1,type: toggleLargeButton),
               ]),
               SizedBox(
-                height: 1.5.h,
+                height: 1.5.h
               ),
-             CustomDropDown(
-                    initialValue: DummyLists.initialSchool,
-                    hintText: "Select School",
-                    listData:DummyLists.schoolData,
-                    onChange: (value) {
-                     setState(() {
-                       DummyLists.initialSchool=value;
-                     });
-                    },
-                    topPadding: 5,
-                    bottomPadding: 5,
-                    icon: Icon(Icons.arrow_drop_down,color: Color(0xFFC4C4C4),size: 25,),
-                  ),
+              BaseSchoolDropDown(
+                controller: controller.schoolController,
+                onChanged: (val){
+                  controller.schoolController.text = val.name??"";
+                  controller.selectedSchoolId.value = val.sId??"";
+                  controller.getData();
+                },
+              ),
               SizedBox(height: 3.h),
               Expanded(
                 child: TabBarView(

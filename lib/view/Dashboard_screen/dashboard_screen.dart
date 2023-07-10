@@ -15,6 +15,7 @@ import 'package:staff_app/view/Dashboard_screen/dashboard_screen_ctrl.dart';
 import 'package:staff_app/view/Dashboard_screen/home_screen/home_screen.dart';
 import 'package:staff_app/view/chat_screen/chat_screen.dart';
 import 'package:staff_app/view/my_profile_screen/my_profile_screen.dart';
+import 'package:staff_app/view/search_screen/controller/search_screen_ctrl.dart';
 import 'package:staff_app/view/search_screen/search_screen.dart';
 import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 import 'package:staff_app/view/task_or_reminder_screen/task_or_reminder_screen.dart';
@@ -23,6 +24,7 @@ class DashboardScreen extends GetView<DashboardScreenCtrl>{
   DashboardScreen({super.key});
 
   final BaseCtrl splashCtrl = Get.put(BaseCtrl());
+  final SearchScreenCtrl searchController = Get.put(SearchScreenCtrl());
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +90,8 @@ class DashboardScreen extends GetView<DashboardScreenCtrl>{
                 ],
                 onTap: (index) {
                   controller.currentIndex.value = index;
+                  searchController.searchedList.value = [];
+                  searchController.searchedList.clear();
                 },
               ),
               Positioned(
@@ -133,8 +137,9 @@ class DashboardScreen extends GetView<DashboardScreenCtrl>{
     switch (controller.currentIndex.value) {
       case 0:
         return TaskOrReminderScreen(isFromBtmBar: true,);
-      case 1:
+      case 1:{
         return const SearchScreen();
+      }
       case 2:
         return const HomeScreen();
       case 3:

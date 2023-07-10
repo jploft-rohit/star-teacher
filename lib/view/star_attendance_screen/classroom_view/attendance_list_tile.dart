@@ -76,7 +76,7 @@ class _AttendanceListTileState extends State<AttendanceListTile> {
                                           showGeneralDialog(
                                             context: context,
                                             pageBuilder: (context, animation, secondaryAnimation) {
-                                              return ChangeStatusPopup(isFromLateView: false, index: index,);
+                                              return ChangeStatusPopup(isFromLateView: false, index: index);
                                             },
                                           );
                                         },

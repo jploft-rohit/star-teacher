@@ -6,6 +6,7 @@ import 'package:staff_app/backend/responses_model/today_schedule_response.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/storage/sp_keys.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 
 class TodayScheduleController extends GetxController{
@@ -14,12 +15,24 @@ class TodayScheduleController extends GetxController{
   RxString type = "".obs;
   TextEditingController schoolController = TextEditingController();
   RxString selectedSchoolId = "".obs;
+  Rx<DateTime> selectedDate = DateTime.now().obs;
 
-  getData() async {
+  void goToPreviousDate() {
+    selectedDate.value = selectedDate.value.subtract(Duration(days: 1));
+    type.value = "today";
+    getData();
+  }
+
+  void goToNextDate() {
+    selectedDate.value = selectedDate.value.add(Duration(days: 1));
+    getData();
+  }
+
+  getData({String? date}) async {
     list?.clear();
     final String localType = type.value == "This Week" ? 'week' : type.value == "Classes Taken" ? "taken" : "today";
     final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
-    BaseAPI().get(url: ApiEndPoints().getTodayScheduledList,queryParameters: {"userId": userId, "school": selectedSchoolId.value, "type":localType}).then((value){
+    BaseAPI().get(url: ApiEndPoints().getTodayScheduledList,queryParameters: {"userId": userId, "school": selectedSchoolId.value, "type":localType,"date":formatFlutterDateTime(flutterDateTime: selectedDate.value,getDayFirst: false)}).then((value){
       if (value?.statusCode ==  200) {
         list?.value = TodayScheduleResponse.fromJson(value?.data).data??[];
       }else{

@@ -32,6 +32,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> w
     tabController = TabController(length: 2, vsync: this)..addListener(() {
       if (!(tabController.indexIsChanging)) {
         controller.selectedTabIndex.value = tabController.index;
+        controller.getData();
         setState(() {});
       }
      },
@@ -109,20 +110,20 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> w
             Text(toBeginningOfSentenceCase(controller.list?[index]?.title??"")??"", style: Style.montserratMediumStyle().copyWith(fontSize: 15.sp, color: BaseColors.textBlackColor),),
             Padding(
               padding: const EdgeInsets.only(right: 2),
-              child: BaseSwitch(
-                key: GlobalKey(),
-                value: (controller.list?[index]?.userNotificationData?.isActive??"").toString().toLowerCase() == "true" ? true : false,
-                enableColor: BaseColors.backgroundColor,
-                enableSwitchColor: BaseColors.primaryColor,
-                disableColor: BaseColors.textLightGreyColor,
-                width: 35,
-                height: 20,
-                switchHeight: 20,
-                switchWidth: 15,
-                onChanged: (bool value) {
-                  // controller.list?[index]?.userNotificationData?.isActive = ;
-                  setState(() {});
-                },),
+              child: Obx(()=>BaseSwitch(
+                  key: GlobalKey(),
+                  value: (controller.list?[index]?.userNotificationData?.isActive??"").toString().toLowerCase() == "true" ? true : false,
+                  enableColor: BaseColors.backgroundColor,
+                  enableSwitchColor: BaseColors.primaryColor,
+                  disableColor: BaseColors.textLightGreyColor,
+                  width: 35,
+                  height: 20,
+                  switchHeight: 20,
+                  switchWidth: 15,
+                  onChanged: (bool value) {
+                    controller.changeNotificationSetting(index: index);
+                  },),
+              ),
             ),
           ],
         ),
@@ -140,12 +141,12 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> w
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(list1[index]['title'], style: Style.montserratMediumStyle().copyWith(fontSize: 15.sp, color: BaseColors.textBlackColor),),
+            Text(toBeginningOfSentenceCase(controller.list?[index]?.title??"")??"", style: Style.montserratMediumStyle().copyWith(fontSize: 15.sp, color: BaseColors.textBlackColor),),
             Padding(
               padding: const EdgeInsets.only(right: 2),
-              child: BaseSwitch(
+              child: Obx(()=>BaseSwitch(
                 key: GlobalKey(),
-                value: controller.list?[index]?.title??"",
+                value: (controller.list?[index]?.userNotificationData?.isActive??"").toString().toLowerCase() == "true" ? true : false,
                 enableColor: BaseColors.backgroundColor,
                 enableSwitchColor: BaseColors.primaryColor,
                 disableColor: BaseColors.textLightGreyColor,
@@ -154,11 +155,10 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> w
                 switchHeight: 20,
                 switchWidth: 15,
                 onChanged: (bool value) {
-                  list1[index]['isSelected'] = !list1[index]['isSelected'];
-                  setState(() {});
-                },
+                  controller.changeNotificationSetting(index: index);
+                },),
               ),
-            )
+            ),
           ],
         ),
       ],

@@ -166,7 +166,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("${(translate(context).profile_complete)+" "+value.toString()}%", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 13.sp),),
+            Text("${(translate(context).profile_complete)+" "+(controller.response.value.data?.profileCompletePercentage.toString()??"")}%", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 13.sp),),
             Text("${translate(context).complete_your_profile_till +" "+profileCompletionData}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textRedColor, fontSize: 13.sp),),
             // addText('Complete Your Profile Till: 25 July, 2022', getSmallTextFontSIze()-1, Colors.redAccent, FontWeight.w500),
           ],

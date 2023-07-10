@@ -4,18 +4,13 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
-
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
-import 'package:staff_app/view/assignments_screen/assignment_screen.dart';
-import 'package:staff_app/view/library_screen/notebook_screen/notebook_screen.dart';
 import 'package:staff_app/view/search_screen/controller/search_screen_ctrl.dart';
-import 'package:staff_app/view/star_attendance_screen/star_attendance_screen.dart';
-import 'package:staff_app/view/star_evaluation_screen/star_evaluation_screen.dart';
 
 import '../Dashboard_screen/dashboard_screen_ctrl.dart';
 
@@ -29,13 +24,14 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   TextEditingController searchCtrl = TextEditingController();
   DashboardScreenCtrl ctrl = Get.find<DashboardScreenCtrl>();
-  SearchScreenCtrl controller = Get.put(SearchScreenCtrl());
+  SearchScreenCtrl controller = Get.find<SearchScreenCtrl>();
   List<String> list = [
     "Stars Attendance",
     "Stars Evaluation",
     "Assignments",
     "Notebook",
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +45,8 @@ class _SearchScreenState extends State<SearchScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Obx((){
-              return controller.selectedIndex.value == 0 ? GridView.builder(
+              return controller.selectedIndex.value == 0
+                  ? GridView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: controller.fmoImageList.length,
@@ -57,13 +54,14 @@ class _SearchScreenState extends State<SearchScreen> {
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
                       crossAxisSpacing: 10,
-                      mainAxisExtent: 42
+                      mainAxisExtent: 42,
                   ),
                   itemBuilder: (context, index) =>
                       GestureDetector(
                         onTap: () {
                           controller.selectedFMOPos.value = index;
                           controller.update();
+                          setState((){});
                         },
                         child: Obx(() {
                           return Container(
@@ -102,39 +100,53 @@ class _SearchScreenState extends State<SearchScreen> {
                             ),
                           );
                         }),
-                      )) : const SizedBox();
+                      ))
+                  : const SizedBox();
             }),
             SizedBox(
               height: 2.h,
             ),
-            GetBuilder<SearchScreenCtrl>(
-              builder: (controller) {
-                return CustomTextField(
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                    child: SvgPicture.asset(searchSvg, color: Colors.grey[500], height: 20.0,),
-                  ),
-                  borderColor: BaseColors.borderColor,
-                  controller: searchCtrl,
-                  hintText: translate(context).search,
-                  suffixIcon: controller.selectedFMOPos.value == 2 ? const SizedBox() : Padding(
-                    padding: const EdgeInsetsDirectional.only(end: 10.0),
-                    child: SvgPicture.asset(controller.fmoImageList[controller.selectedFMOPos.value],color: BaseColors.primaryColor,),
-                  ),
-                );
+            CustomTextField(
+              prefixIcon: Padding(
+                padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                child: SvgPicture.asset(searchSvg, color: Colors.grey[500], height: 20.0,),
+              ),
+              onChanged: (val){
+                controller.searchedList.clear();
+                print("value$val");
+                if(val.isEmpty){
+                  controller.searchedList.clear();
+                  controller.searchedList.refresh();
+                }else{
+                  controller.modulesList.forEach((element) {
+                    if (element.title.toLowerCase().contains(val.toString().toLowerCase())) {
+                      controller.searchedList.add(element);
+                      controller.searchedList.refresh();
+                    }
+                  });
+                }
               },
+              maxLine: 1,
+              borderColor: BaseColors.borderColor,
+              controller: searchCtrl,
+              hintText: translate(context).search,
+              suffixIcon: controller.selectedFMOPos.value == 2 ? const SizedBox() : Padding(
+                padding: const EdgeInsetsDirectional.only(end: 10.0),
+                child: SvgPicture.asset(controller.fmoImageList[controller.selectedFMOPos.value],color: BaseColors.primaryColor,),
+              ),
             ),
             SizedBox(height: 3.h),
             Text(translate(context).search_results, style: Style.montserratBoldStyle().copyWith(fontSize: 17.sp),),
-            SizedBox(
-              height: 2.h,
-            ),
-            Obx(()=>ListView.builder(
-                itemCount: controller.searchedList.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return buildTile(title: controller.searchedList[index].title, onPressed: () {});
-                },
+            SizedBox(height: 2.h),
+            Expanded(
+              child: Obx(()=>ListView.builder(
+                  itemCount: controller.searchedList.length,
+                  shrinkWrap: true,
+                  padding: EdgeInsets.only(bottom: 20.h),
+                  itemBuilder: (context, index) {
+                    return buildTile(title: controller.searchedList[index].title, onPressed: controller.searchedList[index].onTap);
+                  },
+                ),
               ),
             )
           ],
@@ -143,10 +155,10 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Widget buildTile({required String title, required Function() onPressed}) {
+  Widget buildTile({required String title, required Function()? onPressed}) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 7),
-      child: BaseButton(btnType: buttonIcon,title: title, onPressed:null,showNextIcon: true,),
+      child: BaseButton(btnType: buttonIcon,title: title, onPressed: onPressed,showNextIcon: true,),
     );
   }
 }

@@ -42,10 +42,7 @@ class _RewardsScreenState extends State<RewardsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            
-            SizedBox(
-              height: 2.h,
-            ),
+            SizedBox(height: 2.h),
             GestureDetector(
               onTap: (){
                 Get.to(RewardView());
@@ -119,7 +116,7 @@ class _RewardsScreenState extends State<RewardsScreen> {
                             borderRadius: BorderRadius.circular(7)),
                         padding: const EdgeInsets.all(6),
                         margin: EdgeInsets.only(bottom: 8.5.h),
-                        child: addText(((controller.myRewards?.first.ratings??"0").toString()), 14.sp,
+                        child: addText(((controller.myRewards?.first.ratings.toString()??"0").toString()), 14.sp,
                             BaseColors.white, FontWeight.w500),
                       ),
                     )
@@ -168,7 +165,15 @@ class _RewardsScreenState extends State<RewardsScreen> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              BaseImageNetwork(link: controller.rewardList?[index].image??"",height: 8.h,width: 8.h),
+                              BaseImageNetwork(
+                                link: controller.rewardList?[index].image??"",
+                                height: 8.h,
+                                width: 8.h,
+                                concatBaseUrl: true,
+                                cacheHeight: 150,
+                                cacheWidth: 80,
+                                fit: BoxFit.fitHeight,
+                              ),
                               SizedBox(height:2.h),
                               addText(
                                   controller.rewardList?[index].title??"",

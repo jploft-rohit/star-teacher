@@ -58,19 +58,35 @@ class UpdateMyProfileCtrl extends GetxController{
 
   updateProfileApi() async {
     if (formKey.currentState?.validate()??false) {
-      var data = dio.FormData.fromMap({
-        "name": nameCtrl.text.trim(),
-        "mobile": mobileCtrl.text.trim(),
-        "dob": dobCtrl.text.trim(),
-        "nationality": "6450a9e2e2719e102c7459cd",//nationalityCtrl.text.trim(),
-        "emirateId": emiratesCtrl.text.trim(),
-        "emirateIdExpire": expiryDateCtrl.text.trim(),
-        "nativeLanguage": "6450a9e2e2719e102c7459cd",//nativeLanguageCtrl.text.trim(),
-        "religion": "6450a9e2e2719e102c7459cd",//religionCtrl.text.trim(),
-        "role": "64467c68f871809066b4e219",
-        "school": "6450a9e2e2719e102c7459cd",//schoolCtrl.text.trim(),
-        "document": await dio.MultipartFile.fromFile(selectedFile?.value?.path??"", filename: selectedFile?.value?.path.split("/").last??""),
-      });
+      var data;
+      if ((selectedFile?.value?.path??"").isNotEmpty) {
+        data = dio.FormData.fromMap({
+          "name": nameCtrl.text.trim(),
+          "mobile": mobileCtrl.text.trim(),
+          "dob": dobCtrl.text.trim(),
+          "nationality": "6450a9e2e2719e102c7459cd",//nationalityCtrl.text.trim(),
+          "emirateId": emiratesCtrl.text.trim(),
+          "emirateIdExpire": expiryDateCtrl.text.trim(),
+          "nativeLanguage": "6450a9e2e2719e102c7459cd",//nativeLanguageCtrl.text.trim(),
+          "religion": "6450a9e2e2719e102c7459cd",//religionCtrl.text.trim(),
+          "role": "64467c68f871809066b4e219",
+          "school": "6450a9e2e2719e102c7459cd",//schoolCtrl.text.trim(),
+          "document": await dio.MultipartFile.fromFile(selectedFile?.value?.path??"", filename: selectedFile?.value?.path.split("/").last??""),
+        });
+      }else{
+        data = dio.FormData.fromMap({
+          "name": nameCtrl.text.trim(),
+          "mobile": mobileCtrl.text.trim(),
+          "dob": dobCtrl.text.trim(),
+          "nationality": "6450a9e2e2719e102c7459cd",//nationalityCtrl.text.trim(),
+          "emirateId": emiratesCtrl.text.trim(),
+          "emirateIdExpire": expiryDateCtrl.text.trim(),
+          "nativeLanguage": "6450a9e2e2719e102c7459cd",//nativeLanguageCtrl.text.trim(),
+          "religion": "6450a9e2e2719e102c7459cd",//religionCtrl.text.trim(),
+          "role": "64467c68f871809066b4e219",
+          "school": "6450a9e2e2719e102c7459cd",//schoolCtrl.text.trim(),
+        });
+      }
       BaseAPI().patch(url: (ApiEndPoints().updateMyProfile),data: data,concatUserId: true).then((value){
         if (value?.statusCode == 200) {
           response = BaseSuccessResponse.fromJson(value?.data);

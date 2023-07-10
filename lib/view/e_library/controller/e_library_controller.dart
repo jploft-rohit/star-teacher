@@ -235,7 +235,7 @@ class ELibraryController extends GetxController{
     }
   }
 
-  editAssignment(){
+  editAssignment({required String id}){
     if (formKey.currentState?.validate()??false) {
       BaseSuccessResponse response = BaseSuccessResponse();
       var data = {
@@ -245,7 +245,7 @@ class ELibraryController extends GetxController{
         "class":selectedClassId.value,
         "term":termCtrl.value.text.trim()
       };
-      BaseAPI().post(url: ApiEndPoints().editAssignment,data: data).then((value){
+      BaseAPI().put(url: ApiEndPoints().editAssignment+id,data: data).then((value){
         if (value?.statusCode ==  200) {
           response = BaseSuccessResponse.fromJson(value?.data);
           Navigator.pushReplacement(Get.context!, MaterialPageRoute(builder: (context)=> Question1()));

@@ -37,10 +37,10 @@ class _BaseVideoThumbnailState extends State<BaseVideoThumbnail> {
               borderRadius: BorderRadius.circular((widget.addRoundness??false) ? 15 : 0),
               child: ColorFiltered(
                 colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.darken),
-                child: Image.file(thumbnail),
+                child: Image.file(thumbnail, filterQuality: FilterQuality.none),
               ),
             ),
-            SvgPicture.asset("assets/images/ic_play.svg",),
+            SvgPicture.asset("assets/images/ic_play.svg",color: Colors.grey),
           ],
         );
   }

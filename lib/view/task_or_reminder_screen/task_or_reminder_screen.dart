@@ -30,6 +30,13 @@ class TaskOrReminderScreen extends StatefulWidget {
 class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
   DashboardScreenCtrl ctrl = Get.find<DashboardScreenCtrl>();
   TaskReminderCtrl controller = Get.put(TaskReminderCtrl());
+
+  @override
+  void initState() {
+    super.initState();
+    controller.getTaskReminders();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,7 +98,7 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
             children: [
               SvgPicture.asset("assets/images/time_icon.svg"),
               SizedBox(width: 1.h),
-              addText(DateFormat.Hm().format(DateTime.parse(controller.list?[index].time??"")), 14.sp,
+              addText(getFormattedTime(controller.list?[index].time??""), 14.sp,
                   BaseColors.textBlackColor, FontWeight.w400),
             ],
           ),

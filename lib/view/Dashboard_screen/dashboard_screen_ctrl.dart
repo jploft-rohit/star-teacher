@@ -18,6 +18,15 @@ class DashboardScreenCtrl extends GetxController{
   final currentIndex = 2.obs;
   RxInt selectedTabIndex = 0.obs;
   GlobalKey<CurvedNavigationBarState> bottomNavigationKey = GlobalKey();
+  /// School
+  RxString selectedSchoolId = "".obs;
+  RxString selectedSchoolName = "".obs;
+  /// Class
+  RxString selectedClassId = "".obs;
+  RxString selectedClassName = "".obs;
+  /// Section
+  RxString selectedSectionId = "".obs;
+  RxString selectedSectionName = "".obs;
 
   @override
   void onInit() {
@@ -26,18 +35,18 @@ class DashboardScreenCtrl extends GetxController{
     getHomeData();
   }
 
-  getBroadCastData(){
+  getBroadCastData({bool? showLoader}){
     isBroadCastLoading.value = true;
     list?.value = [];
     var bodyData = {
       "page":1,
       "limit":100,
-      "school":"",
-      "section":"",
+      "school":selectedSchoolId.value,
+      "section":selectedSectionId.value,
       "star":"",
-      "classId":""
+      "classId":selectedClassId.value
     };
-    BaseAPI().post(showLoader: false,url: ApiEndPoints().getNewsBroadCast, data: bodyData).then((value){
+    BaseAPI().post(showLoader: showLoader??false,url: ApiEndPoints().getNewsBroadCast, data: bodyData).then((value){
       if (value?.statusCode ==  200) {
         isBroadCastLoading.value = false;
         list?.value = NewsBroadCastListData.fromJson(value?.data).data??[];

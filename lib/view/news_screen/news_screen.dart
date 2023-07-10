@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/backend/responses_model/class_response.dart';
+import 'package:staff_app/backend/responses_model/class_section_response.dart';
 import 'package:staff_app/backend/responses_model/news_broadcast_response.dart';
+import 'package:staff_app/backend/responses_model/school_list_response.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 
@@ -14,8 +17,10 @@ import 'package:staff_app/Utility/filter_textformfield.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/constants-classes/color_constants.dart';
+import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/view/Dashboard_screen/dashboard_screen_ctrl.dart';
 import 'package:staff_app/view/news_screen/news_details_screen.dart';
+import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 
 class NewsScreen extends StatefulWidget {
   const NewsScreen({Key? key}) : super(key: key);
@@ -26,6 +31,23 @@ class NewsScreen extends StatefulWidget {
 
 class _NewsScreenState extends State<NewsScreen> {
   final DashboardScreenCtrl controller = Get.find<DashboardScreenCtrl>();
+  BaseCtrl baseCtrl = Get.put(BaseCtrl());
+
+  @override
+  void initState() {
+    super.initState();
+    controller.selectedSchoolId.value = "";
+    controller.selectedSchoolName.value = "";
+    controller.selectedClassId.value = "";
+    controller.selectedClassName.value = "";
+    controller.selectedSectionId.value = "";
+    controller.selectedSectionName.value = "";
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,25 +60,35 @@ class _NewsScreenState extends State<NewsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             addText("Latest Broadcasts & Events", 18.sp, BaseColors.textBlackColor, FontWeight.w700),
+            /// Filter
             Container(
-              margin: EdgeInsets.only(top: 1.5.h),
+              margin: EdgeInsets.only(bottom: 2.h,top: 2.h),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15.0),
+                borderRadius: BorderRadius.circular(10.0),
                 border: Border.all(
                     color: ColorConstants.borderColor
                 ),
               ),
-              child: Column(
+              child: Obx(()=>Column(
                 children: [
                   Row(
                     children: [
                       CustomFilterDropDown(
-                        initialValue: DummyLists.initialSchool, hintText: 'School',
-                        listData: DummyLists.schoolData, onChange: (value) {
-                        setState(() {
-                          DummyLists.initialSchool=value;
-                        });
-                      },icon: classTakenSvg,),
+                        hintText: controller.selectedSchoolName.value.isEmpty ? 'School' : controller.selectedSchoolName.value,
+                        item: baseCtrl.schoolListData.data?.data?.map((SchoolData data){
+                          return DropdownMenuItem<SchoolData>(
+                            value: data,
+                            child: addText(data.name??"", 15.sp, Colors.black, FontWeight.w400),
+                          );
+                        }).toList(),
+                        onChange: (value) async {
+                          controller.selectedSchoolName.value = value.name;
+                          controller.selectedSchoolId.value = value.sId;
+                          await baseCtrl.getClassList(schoolId: controller.selectedSchoolId.value);
+                          controller.getBroadCastData();
+                        },
+                        icon: classTakenSvg,
+                      ),
                     ],
                   ),
                   Divider(
@@ -67,28 +99,52 @@ class _NewsScreenState extends State<NewsScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomFilterDropDown(
-                        initialValue: DummyLists.initialGrade, hintText: 'Grade',
-                        listData: DummyLists.gradeData, onChange: (value) {
-                        setState(() {
-                          DummyLists.initialGrade=value;
-                        });
-                      },icon: classTakenSvg,),
-                      Container(child: VerticalDivider(width: 1,),height: 4.h,width: 1,),
+                        hintText: controller.selectedClassName.value.isEmpty ? 'Class' : controller.selectedClassName.value,
+                        item: baseCtrl.classList?.map((ClassData data){
+                          return DropdownMenuItem<ClassData>(
+                            value: data,
+                            child: addText(data.name??"", 15.sp, Colors.black, FontWeight.w400),
+                          );
+                        }).toList(),
+                        onChange: (value) async {
+                          controller.selectedClassName.value = value.name;
+                          controller.selectedClassId.value = value.sId;
+                          await baseCtrl.getClassSections(classId: controller.selectedClassId.value);
+                          controller.getBroadCastData();
+                        },
+                        icon: classTakenSvg,
+                      ),
+                      Container(
+                        child: VerticalDivider(width: 1),
+                        height: 4.h,
+                        width: 1,
+                      ),
                       CustomFilterDropDown(
-                        initialValue: DummyLists.initialClass, hintText: 'Class',
-                        listData: DummyLists.classData, onChange: (value) {
-                        setState(() {
-                          DummyLists.initialClass=value;
-                        });
-                      },icon: classTakenSvg,),
+                        hintText: controller.selectedSectionName.value.isEmpty ? 'Section' : controller.selectedSectionName.value,
+                        item: baseCtrl.classSectionList?.map((ClassSectionData data){
+                          return DropdownMenuItem<ClassSectionData>(
+                            value: data,
+                            child: addText(data.name??"", 15.sp, Colors.black, FontWeight.w400),
+                          );
+                        }).toList(),
+                        onChange: (value) {
+                          controller.selectedSectionName.value = value.name;
+                          controller.selectedSectionId.value = value.sId;
+                          controller.getBroadCastData(showLoader: true);
+                        },
+                        icon: classTakenSvg,
+                      )
                     ],
                   ),
                 ],
               ),
+              ),
             ),
-            SizedBox(height: 2.h),
             Expanded(
-              child: Obx(()=> ListView.builder(
+              child: Obx(()=>
+              (controller.list?.length??0) == 0
+                  ? BaseNoData()
+                  : ListView.builder(
                   shrinkWrap: true,
                   padding: EdgeInsets.only(bottom: 8.h),
                   itemCount: controller.list?.length??0,
@@ -144,9 +200,7 @@ class _NewsScreenState extends State<NewsScreen> {
                                   ),
                                 if(controller.list?[index].isRead.toString() != "false")
                                 Center(
-                                  child: BaseButton(title: "Acknowledged", onPressed: (){
-
-                                  }, isActive: false, textSize: 17.sp,),
+                                  child: BaseButton(title: "Acknowledged", onPressed: (){}, isActive: false, textSize: 17.sp,),
                                 ),
                               ],
                             ),
