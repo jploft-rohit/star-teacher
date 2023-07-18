@@ -58,8 +58,7 @@ class User {
   String? emirateId;
   String? emirateIdExpire;
 
-  User(
-      {this.gender,
+  User({this.gender,
         this.isDeleted,
         this.sId,
         this.name,

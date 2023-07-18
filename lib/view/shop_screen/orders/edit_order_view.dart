@@ -1,15 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/constants-classes/color_constants.dart';
+import 'package:staff_app/utility/base_views/base_image_network.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/view/shop_screen/controller/shop_screen_ctrl.dart';
 
 import '../../../Utility/base_utility.dart';
 
 class EditOrderView extends StatefulWidget {
-
+  final String id;
+  const EditOrderView({super.key, required this.id});
 
   @override
   State<EditOrderView> createState() => _EditOrderViewState();
@@ -17,6 +21,14 @@ class EditOrderView extends StatefulWidget {
 
 class _EditOrderViewState extends State<EditOrderView> {
   String delivery="Pick-up from school";
+  ShopScreenCtrl controller = Get.find<ShopScreenCtrl>();
+
+  @override
+  void initState() {
+    super.initState();
+    controller.getSingleOrderDetail(id: widget.id);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,156 +40,153 @@ class _EditOrderViewState extends State<EditOrderView> {
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  addText('Order Id : ', 15.sp,
-                      ColorConstants.black, FontWeight.w400),
-                  addText('#45689', 15.sp,
-                      ColorConstants.primaryColor, FontWeight.w700),
-                ],
-              ),
-              SizedBox(height: 1.h,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  addText('Ahmed items', 15.sp,
-                      ColorConstants.black, FontWeight.w400),
-                  BaseButton(title: "Add item", onPressed: (){
-
-                  }, btnType: "small",removeHorizontalPadding: true,),
-                  // CustomButton(
-                  //   onPressed: () {  }, text: 'Add item',btnHeight: 3.h,btnWidth: 85,textSize: 14.sp,)
-                ],
-              ),
-              SizedBox(height: 2.h,),
-              ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                padding: EdgeInsets.zero,
-                shrinkWrap: true,
-                itemCount: 2,
-                itemBuilder: (context, index) => buildCartCard(
-                    'assets/images/card4.png', 'School Bag', '50 AED', '2'),
-              ),
-              SizedBox(height: 1.h,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  addText('Mohammed items', 15.sp,
-                      ColorConstants.black, FontWeight.w400),
-                  BaseButton(title: "Add item", onPressed: (){
-
-                  }, btnType: "small",removeHorizontalPadding: true,),
-                ],
-              ),
-              SizedBox(height: 2.h,),
-              ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  itemCount: 1,
-                  itemBuilder: (context, index) => buildCartCard(
-                      'assets/images/book.png',
-                      'Notebook',
-                      '15 AED',
-                      '2')),
-              SizedBox(height: 1.h,),
-              Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: Color(0xffFCEFC0),width: 0.5)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          child: Obx(()=>Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
-                      child: addText(
-                          'Select shipping',
-                          15.sp,
-                          ColorConstants.black,
-                          FontWeight.w400),
-                    ),
-                    SizedBox(height: 1.h,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              height: 15,
-                              width: 20,
-                              child: Radio(
-                                value: "Home delivery",
-                                groupValue: delivery,
-                                activeColor: MaterialStateColor.resolveWith((states) => ColorConstants.primaryColor),
-                                fillColor:
-                                MaterialStateColor.resolveWith((states) => ColorConstants.primaryColor),
-                                onChanged: (value){
-                                  setState(() {
-                                    delivery = value.toString();
-                                  });
-                                },
-                              ),
-                            ),
-                            SizedBox(width: 5,),
-                            addText("Home delivery", 14, Colors.black, FontWeight.w500)
-                          ],
-                        ),
-                        SizedBox(width: 20,),
-                        Row(
-                          children: [
-                            Container(
-                              height: 15,
-                              width: 20,
-                              child: Radio(
-                                value: "Pick-up from school",
-                                activeColor: MaterialStateColor.resolveWith((states) => ColorConstants.primaryColor),
-                                fillColor:
-                                MaterialStateColor.resolveWith((states) => ColorConstants.primaryColor),
-                                groupValue: delivery,
-                                onChanged: (value){
-                                  setState(() {
-                                    delivery = value.toString();
-                                  });
-                                },
-                              ),
-                            ),
-                            SizedBox(width: 5,),
-                            addText("Pick-up from school", 14, Colors.black, FontWeight.w500)
-                          ],
-                        ),
-
-                      ],
-                    ),
-                    SizedBox(height: 1.h,),
+                    addText('Order Id : ', 15.sp,
+                        ColorConstants.black, FontWeight.w400),
+                    addText('#45689', 15.sp,
+                        ColorConstants.primaryColor, FontWeight.w700),
                   ],
                 ),
-              ),
-              SizedBox(height: 2.h),
-              detailRow('Sub Total', '160 AED'),
-              SizedBox(height: 1.h),
-              detailRow('Taxes (5%)', '8 AED'),
-              SizedBox(height: 1.h),
-              detailRow('Shipping Charges', '0 AED'),
-              SizedBox(height: 1.h),
-              detailRow('Grand Total', '168 AED'),
-              SizedBox(height: 3.h),
-              Align(
-                alignment: Alignment.center,
-                child: BaseButton(title: "UPDATE ORDER", onPressed: (){}, btnType: "large"),
-              ),
-              SizedBox(height: 3.h),
-            ],
+                SizedBox(height: 1.h),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     addText('Ahmed items', 15.sp,
+                //         ColorConstants.black, FontWeight.w400),
+                //     BaseButton(title: "Add item", onPressed: (){
+                //
+                //     }, btnType: "small",removeHorizontalPadding: true,),
+                //     // CustomButton(
+                //     //   onPressed: () {  }, text: 'Add item',btnHeight: 3.h,btnWidth: 85,textSize: 14.sp,)
+                //   ],
+                // ),
+                // SizedBox(height: 2.h,),
+                // ListView.builder(
+                //   physics: NeverScrollableScrollPhysics(),
+                //   padding: EdgeInsets.zero,
+                //   shrinkWrap: true,
+                //   itemCount: controller.singleOrderProductList?.length??0,
+                //   itemBuilder: (context, index) => buildCartCard(
+                //       'assets/images/card4.png', 'School Bag', '50 AED', '2'),
+                // ),
+                // SizedBox(height: 1.h,),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     addText('Mohammed items', 15.sp,
+                //         ColorConstants.black, FontWeight.w400),
+                //     BaseButton(title: "Add item", onPressed: (){
+                //
+                //     }, btnType: "small",removeHorizontalPadding: true,),
+                //   ],
+                // ),
+                SizedBox(height: 1.h),
+                ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    padding: EdgeInsets.only(top: 1.h),
+                    shrinkWrap: true,
+                    itemCount: controller.singleOrderProductList?.length??0,
+                    itemBuilder: (context, index) => buildCartCard(index:index)),
+                SizedBox(height: 1.h,),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: Color(0xffFCEFC0),width: 0.5)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: addText(
+                            'Select shipping',
+                            15.sp,
+                            ColorConstants.black,
+                            FontWeight.w400),
+                      ),
+                      SizedBox(height: 1.h,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                height: 15,
+                                width: 20,
+                                child: Radio(
+                                  value: "Home delivery",
+                                  groupValue: delivery,
+                                  activeColor: MaterialStateColor.resolveWith((states) => ColorConstants.primaryColor),
+                                  fillColor:
+                                  MaterialStateColor.resolveWith((states) => ColorConstants.primaryColor),
+                                  onChanged: (value){
+                                    setState(() {
+                                      delivery = value.toString();
+                                    });
+                                  },
+                                ),
+                              ),
+                              SizedBox(width: 5,),
+                              addText("Home delivery", 14, Colors.black, FontWeight.w500)
+                            ],
+                          ),
+                          SizedBox(width: 20,),
+                          Row(
+                            children: [
+                              Container(
+                                height: 15,
+                                width: 20,
+                                child: Radio(
+                                  value: "Pick-up from school",
+                                  activeColor: MaterialStateColor.resolveWith((states) => ColorConstants.primaryColor),
+                                  fillColor:
+                                  MaterialStateColor.resolveWith((states) => ColorConstants.primaryColor),
+                                  groupValue: delivery,
+                                  onChanged: (value){
+                                    setState(() {
+                                      delivery = value.toString();
+                                    });
+                                  },
+                                ),
+                              ),
+                              SizedBox(width: 5,),
+                              addText("Pick-up from school", 14, Colors.black, FontWeight.w500)
+                            ],
+                          ),
+
+                        ],
+                      ),
+                      SizedBox(height: 1.h,),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 2.h),
+                detailRow('Sub Total', '160 AED'),
+                SizedBox(height: 1.h),
+                detailRow('Taxes (5%)', '8 AED'),
+                SizedBox(height: 1.h),
+                detailRow('Shipping Charges', '0 AED'),
+                SizedBox(height: 1.h),
+                detailRow('Grand Total', '168 AED'),
+                SizedBox(height: 3.h),
+                Align(
+                  alignment: Alignment.center,
+                  child: BaseButton(title: "UPDATE ORDER", onPressed: (){}, btnType: "large"),
+                ),
+                SizedBox(height: 3.h),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget buildCartCard(image, name, price, quantity) {
+  Widget buildCartCard({required int index}) {
     return Container(
       margin: EdgeInsets.only(bottom: 1.5.h,right: 2,left: 2),
       padding: EdgeInsets.all(10),
@@ -196,22 +205,18 @@ class _EditOrderViewState extends State<EditOrderView> {
               // width: double.infinity,
               height: 10.h,
               width: 10.h,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.asset(
-                  image,
-                  fit: BoxFit.fill,
-                ),
+              child: BaseImageNetwork(
+                link: controller.singleOrderProductList?[index]?.productId?.images?[0]??"",
               )),
           SizedBox(width: 2.h,),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                addText(name, 16.sp, ColorConstants.black,
+                addText(controller.singleOrderProductList?[index]?.productId?.name??"", 16.sp, ColorConstants.black,
                     FontWeight.w400),
                 SizedBox(height: 0.5.h,),
-                addText(price, 14.sp,
+                addText(controller.singleOrderProductList?[index]?.productId?.price?.toString()??"", 14.sp,
                     ColorConstants.primaryColor, FontWeight.w700),
                 SizedBox(height: 1.h,),
                 Row(
@@ -231,7 +236,7 @@ class _EditOrderViewState extends State<EditOrderView> {
                         children: [
                           Icon(Icons.remove,size: 18,color: ColorConstants.primaryColor,),
                           SizedBox(width: 1.5.h,),
-                          addText(quantity, 14.sp,
+                          addText(controller.singleOrderProductList?[index]?.totalQty?.toString()??"", 14.sp,
                               ColorConstants.primaryColor, FontWeight.w900),
                           SizedBox(width: 1.5.h,),
                           Icon(Icons.add,size: 18,color: ColorConstants.primaryColor,),

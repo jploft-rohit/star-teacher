@@ -23,11 +23,10 @@ import 'package:staff_app/view/task_or_reminder_screen/task_or_reminder_screen.d
 class DashboardScreen extends GetView<DashboardScreenCtrl>{
   DashboardScreen({super.key});
 
-  final BaseCtrl splashCtrl = Get.put(BaseCtrl());
-  final SearchScreenCtrl searchController = Get.put(SearchScreenCtrl());
-
   @override
   Widget build(BuildContext context) {
+    final BaseCtrl splashCtrl = Get.put(BaseCtrl());
+    final SearchScreenCtrl searchController = Get.put(SearchScreenCtrl());
     return SafeArea(
       bottom: Platform.isIOS?false:true,
       top: false,

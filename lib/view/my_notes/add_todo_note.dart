@@ -149,7 +149,18 @@ class _AddToDoNoteState extends State<AddToDoNote> {
                       },
                     ),
                     SizedBox(width: 2.w),
-                    addText("Set Reminder", 14.sp, BaseColors.textBlackColor, FontWeight.w400)
+                    GestureDetector(
+                      onTap: (){
+                        ctrl.isChecked.value = !ctrl.isChecked.value;
+                        ctrl.update();
+                      },
+                        child: addText(
+                            "Set Reminder",
+                            14.sp,
+                            BaseColors.textBlackColor,
+                            FontWeight.w400,
+                        ),
+                    )
                   ],
                 ),
                 SizedBox(

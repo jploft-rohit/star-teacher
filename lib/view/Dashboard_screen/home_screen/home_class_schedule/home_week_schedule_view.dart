@@ -9,7 +9,7 @@ import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
-import 'package:staff_app/view/class_schedule_screen/class_schedule_screen_ctrl.dart';
+import 'package:staff_app/view/class_schedule_screen/controller/class_schedule_screen_ctrl.dart';
 
 class HomeWeekScheduleView extends StatefulWidget {
   const HomeWeekScheduleView({super.key});

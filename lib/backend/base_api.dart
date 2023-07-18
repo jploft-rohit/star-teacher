@@ -19,9 +19,9 @@ class BaseAPI {
   BaseAPI._internal() {
     _dio = Dio(
       BaseOptions(
-        baseUrl: 'http://3.28.14.143:5000/star-backend/api/',
-        connectTimeout: const Duration(seconds: 60),
-        receiveTimeout: const Duration(seconds: 60),
+        baseUrl: 'http://3.28.14.143:4000/star-backend/api/',
+        connectTimeout: 60000,
+        receiveTimeout: 60000,
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
@@ -221,10 +221,10 @@ class BaseAPI {
   }
 
   void _handleError(DioError e) {
-    if (e.type == DioErrorType.connectionTimeout || e.type == DioErrorType.receiveTimeout || e.type == DioErrorType.sendTimeout) {
+    if (e.type == DioErrorType.connectTimeout || e.type == DioErrorType.receiveTimeout || e.type == DioErrorType.sendTimeout) {
       // Handle timeout error
       log('Timeout Error: ${e.message}');
-    } else if (e.type == DioErrorType.badResponse) {
+    } else if (e.type == DioErrorType.other) {
       // Handle response error
       log('Bad Response Error: ${e.message}');
       BaseOverlays().showSnackBar(message: (e.response?.data['message']));
@@ -233,7 +233,10 @@ class BaseAPI {
       log('Request Cancelled Error: ${e.message}');
     } else {
       // Handle other errors
-      log('Unknown Error: ${e.message}');
+      log('Unknown Error: ${e.response?.data["message"]}');
+      if ((e.response?.data["message"].toString()??"").isNotEmpty) {
+        BaseOverlays().showSnackBar(message: e.response?.data["message"]);
+      }
     }
   }
 }

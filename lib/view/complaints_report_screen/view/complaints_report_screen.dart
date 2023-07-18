@@ -5,8 +5,6 @@ import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
 import 'package:staff_app/utility/base_views/base_school_selection.dart';
 import 'package:staff_app/utility/base_views/base_tab_bar.dart';
-import 'package:staff_app/Utility/custom_dropdown_widget.dart';
-import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/view/complaints_report_screen/controller/complaint_report_controller.dart';
@@ -28,7 +26,8 @@ class _ComplaintsReportScreenState extends State<ComplaintsReportScreen> with Ti
   void initState() {
     tabCtrl = TabController(length: 3, vsync: this)..addListener(() {
       if (!tabCtrl.indexIsChanging) {
-        controller.getData(type: (tabCtrl.index) == 0 ? "" : (tabCtrl.index) == 1 ? "complaint" : "report");
+        controller.selectedTabIndex.value = tabCtrl.index;
+        controller.getData();
       }
     });
     super.initState();
@@ -51,7 +50,7 @@ class _ComplaintsReportScreenState extends State<ComplaintsReportScreen> with Ti
             onChanged: (value) {
               controller.selectSchoolController.value.text = value.name??"";
               controller.selectedSchoolId.value = value.sId??"";
-              controller.getData(type: (tabCtrl.index) == 0 ? "" : (tabCtrl.index) == 1 ? "complaint" : "report");
+              controller.getData();
              },
             ),
             buildTabBar(),

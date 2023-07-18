@@ -3,7 +3,7 @@
 
 class ApiEndPoints {
 
-  final String imageBaseUrl = "http://3.28.14.143:5000/star-backend/";
+  final String imageBaseUrl = "http://3.28.14.143:4000/star-backend/";
 
   /// OnBoarding EndPoints
   final String loginNewUser = "auth/send-otp";
@@ -194,8 +194,37 @@ class ApiEndPoints {
   /// Assign Assignment
   final String getAssignedAssignmentList = "assignments/get_assign_assignment_list";
   final String deleteAssignedAssignment = "assignments/delete_assign_assignment/";
+  final String assignAssignment = "assignments/assign_assignment";
 
   /// Roles & Delegation
   final String getRolesDelegation = "role-delegation/list";
   final String updateRolesDelegationStatus = "role-delegation/update-status/";
+
+  /// Location
+  final String deleteUserLocation = "userAddress/delete/";
+  final String getUserAddress = "userAddress/get_all";
+  final String createUserAddress = "userAddress/add_or_update";
+  final String updateUserAddress = "userAddress/add_or_update";
+
+  /// Shop
+  final String getShopProducts = "shop/product/getall";
+  final String getShopCategoryListData = "shop/category/getall";
+  final String getShopOrdersData = "shop/order/get-all";
+  final String cancelOrder = "shop/order/cancel/";
+  final String getSingleOrderDetail = "shop/order/single/";
+  final String addItemToCart = "shop/cart/add-product";
+
+  /// Account Activation
+  final String sendAccountActivationRequest = "auth/sendAccountActivationRequest";
+  final String verifyAccountActivationRequest = "auth/verifyAccountActivationRequest";
+  final String sendRequestForActivation = "requestRoutes/create";
+  final String getActivationRequests = "requestRoutes/list";
+
+  /// Cards & Tags
+  final String getCardTag = "user/getusertags";
+  final String updateCardTagStatus = "user/change-card-status";
+
+  /// Class Schedule
+  final String getWeeklyClassSchedule = "timeTable/teacher/week-plan/";
+
 }

@@ -4,9 +4,6 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_tab_button.dart';
 import 'package:staff_app/utility/base_views/base_toggle_tab_bar.dart';
-import 'package:staff_app/utility/base_views/base_colors.dart';
-import 'package:staff_app/Utility/custom_dropdown_widget.dart';
-import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -31,12 +28,14 @@ class _ClassScheduleScreenState extends State<ClassScheduleScreen> with SingleTi
   void initState() {
     super.initState();
     controller.type.value = "today";
-    controller.getData(date: formatFlutterDateTime(flutterDateTime: DateTime.now(),getDayFirst: false));
+    controller.getDayData(date: formatFlutterDateTime(flutterDateTime: DateTime.now(),getDayFirst: false));
     tabController = TabController(length: 2, vsync: this)..addListener(() {
       if (!(tabController.indexIsChanging)) {
         if (tabController.index == 0) {
           controller.type.value = "today";
-          controller.getData();
+          controller.getDayData();
+        }else{
+          controller.getWeeklyClassScheduledData();
         }
         setState(() {});
       }
@@ -70,7 +69,7 @@ class _ClassScheduleScreenState extends State<ClassScheduleScreen> with SingleTi
                 onChanged: (val){
                   controller.schoolController.text = val.name??"";
                   controller.selectedSchoolId.value = val.sId??"";
-                  controller.getData();
+                  controller.getDayData();
                 },
               ),
               SizedBox(height: 3.h),

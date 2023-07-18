@@ -104,7 +104,7 @@ class TaskReminderCtrl extends GetxController{
           "time":(selectedTime+":00"),
           "remider":reminderInput.value.text.trim(), // Reminder Input
           "typeValue":selectedSpecificDays.isNotEmpty ? selectedSpecificDays.join(",") : "", // For Specific Days
-          "date":remindType.value == "specific_date" ? selectedDate.value : formatBackendDate(DateTime.now().toString()), // For Specific Date
+          "date":remindType.value == "specific_date" ? selectedDate.value : formatBackendDate(DateTime.now().toString(),getDayFirst: false), // For Specific Date
           "forType":"mySelf",
         });
       }else{
@@ -113,7 +113,7 @@ class TaskReminderCtrl extends GetxController{
           "time":(selectedTime+":00"),
           "remider":reminderInput.value.text.trim(), // Reminder Input
           "typeValue":selectedSpecificDays.isNotEmpty ? selectedSpecificDays.join(",") : "", // For Specific Days
-          "date":remindType.value == "specific_date" ? selectedDate.value : formatBackendDate(DateTime.now().toString()), // For Specific Date
+          "date":remindType.value == "specific_date" ? selectedDate.value : formatBackendDate(DateTime.now().toString(),getDayFirst: false), // For Specific Date
           "forType":"mySelf",
           "document":await dio.MultipartFile.fromFile(selectedFile?.value?.path??"", filename: (selectedFile?.value?.path??"").split("/").last)
         });
@@ -133,12 +133,10 @@ class TaskReminderCtrl extends GetxController{
   }
 
   setData({isUpdating, TaskReminderListData? data}){
-    String localTime;
     String localDate;
     if (isUpdating) {
       reminderInput.value.text = data?.remider??"";
-      localTime = DateFormat.Hm().format(DateTime.parse(data?.time??""));
-      updatedTime = localTime.split(":");
+      updatedTime = DateFormat.Hm().format(DateTime.parse(data?.time??"")).split(":");
       localDate = formatBackendDate(data?.date??"");
       updatedDate = localDate.split("-");
       remindType.value = data?.type??"daily";

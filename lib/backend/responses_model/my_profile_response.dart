@@ -31,6 +31,7 @@ class Data {
   dynamic parentId;
   dynamic isDeleted;
   dynamic name;
+  dynamic currentStatus;
   dynamic mobile;
   dynamic dob;
   dynamic nationality;
@@ -48,6 +49,7 @@ class Data {
   dynamic otp;
   dynamic deviceToken;
   dynamic deviceVoip;
+  DeactivateData? deactivateData;
   List<SchoolStaff>? schoolStaff;
   dynamic alternativeMobile;
   dynamic profileCompletePercentage;
@@ -57,13 +59,14 @@ class Data {
   Statistics? statistics;
   List<FamilyMembers>? familyMembers;
 
-  Data({this.designation,this.sId, this.isMobileVerified, this.gender, this.idDocument, this.deviceType, this.parentId, this.isDeleted, this.name, this.mobile, this.dob, this.nationality, this.emirateId, this.emirateIdExpire, this.nativeLanguage, this.religion, this.profilePic, this.role, this.createdAt, this.updatedAt, this.iV, this.otp, this.deviceToken, this.deviceVoip, this.schoolStaff, this.familyMembers, this.alternativeMobile, this.profileCompletePercentage, this.profileCompleteDate, this.barcode, this.jobDetails, this.statistics});
+  Data({this.designation,this.sId, this.deactivateData, this.currentStatus, this.isMobileVerified, this.gender, this.idDocument, this.deviceType, this.parentId, this.isDeleted, this.name, this.mobile, this.dob, this.nationality, this.emirateId, this.emirateIdExpire, this.nativeLanguage, this.religion, this.profilePic, this.role, this.createdAt, this.updatedAt, this.iV, this.otp, this.deviceToken, this.deviceVoip, this.schoolStaff, this.familyMembers, this.alternativeMobile, this.profileCompletePercentage, this.profileCompleteDate, this.barcode, this.jobDetails, this.statistics});
 
   Data.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     designation = json['designation'];
     isMobileVerified = json['isMobileVerified'];
     gender = json['gender'];
+    currentStatus = json['currentStatus'];
     idDocument = json['idDocument'];
     deviceType = json['deviceType'];
     parentId = json['parentId'];
@@ -82,6 +85,7 @@ class Data {
     updatedAt = json['updatedAt'];
     iV = json['__v'];
     otp = json['otp'];
+    deactivateData = json['deactivateData'] != null ? new DeactivateData.fromJson(json['deactivateData']) : null;
     deviceToken = json['deviceToken'];
     deviceVoip = json['deviceVoip'];
     if (json['schoolStaff'] != null) {
@@ -103,6 +107,9 @@ class Data {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['_id'] = this.sId;
+    if (this.deactivateData != null) {
+      data['deactivateData'] = this.deactivateData!.toJson();
+    }
     data['isMobileVerified'] = this.isMobileVerified;
     data['gender'] = this.gender;
     data['deviceType'] = this.deviceType;
@@ -110,6 +117,7 @@ class Data {
     data['idDocument'] = this.idDocument;
     data['isDeleted'] = this.isDeleted;
     data['name'] = this.name;
+    data['currentStatus'] = this.currentStatus;
     data['mobile'] = this.mobile;
     data['designation'] = this.designation;
     data['dob'] = this.dob;
@@ -780,6 +788,225 @@ class User {
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
     data['__v'] = this.iV;
+    return data;
+  }
+}
+
+class DeactivateData {
+  dynamic status;
+  dynamic isDeleted;
+  dynamic sId;
+  DeactivatedUser? deactivatedUser;
+  dynamic dueDate;
+  dynamic deactivationReason;
+  dynamic requiredEvidance;
+  DeactivatedUser? deactivatedBy;
+  DeactivatedUser? createdBy;
+  DeactivatedUser? updatedBy;
+  dynamic createdAt;
+  dynamic updatedAt;
+
+  DeactivateData({this.status, this.isDeleted, this.sId, this.deactivatedUser, this.dueDate, this.deactivationReason, this.requiredEvidance, this.deactivatedBy, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt});
+
+  DeactivateData.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    isDeleted = json['isDeleted'];
+    sId = json['_id'];
+    deactivatedUser = json['deactivatedUser'] != null ? new DeactivatedUser.fromJson(json['deactivatedUser']) : null;
+    dueDate = json['dueDate'];
+    deactivationReason = json['deactivationReason'];
+    requiredEvidance = json['requiredEvidance'];
+    deactivatedBy = json['deactivatedBy'] != null ? new DeactivatedUser.fromJson(json['deactivatedBy']) : null;
+    createdBy = json['createdBy'] != null ? new DeactivatedUser.fromJson(json['createdBy']) : null;
+    updatedBy = json['updatedBy'] != null ? new DeactivatedUser.fromJson(json['updatedBy']) : null;
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
+    data['isDeleted'] = this.isDeleted;
+    data['_id'] = this.sId;
+    if (this.deactivatedUser != null) {
+      data['deactivatedUser'] = this.deactivatedUser!.toJson();
+    }
+    data['dueDate'] = this.dueDate;
+    data['deactivationReason'] = this.deactivationReason;
+    data['requiredEvidance'] = this.requiredEvidance;
+    if (this.deactivatedBy != null) {
+      data['deactivatedBy'] = this.deactivatedBy!.toJson();
+    }
+    if (this.createdBy != null) {
+      data['createdBy'] = this.createdBy!.toJson();
+    }
+    if (this.updatedBy != null) {
+      data['updatedBy'] = this.updatedBy!.toJson();
+    }
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    return data;
+  }
+}
+
+class DeactivatedUser {
+  dynamic isMobileVerified;
+  dynamic gender;
+  dynamic idDocument;
+  dynamic deviceType;
+  dynamic parentId;
+  dynamic isDeleted;
+  dynamic currentStatus;
+  dynamic isSendActivationRequest;
+  dynamic isFirstVerifyActivationRequest;
+  dynamic sId;
+  dynamic name;
+  dynamic mobile;
+  dynamic dob;
+  dynamic nationality;
+  dynamic emirateId;
+  dynamic emirateIdExpire;
+  dynamic nativeLanguage;
+  dynamic religion;
+  dynamic profilePic;
+  RoleData? role;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic otp;
+  dynamic deviceToken;
+  dynamic deviceVoip;
+  dynamic address;
+  dynamic country;
+  dynamic email;
+  dynamic status;
+  dynamic state;
+  dynamic alternativeMobile;
+  dynamic sector;
+  dynamic maritalStatus;
+  dynamic uniqueId;
+
+  DeactivatedUser({this.isMobileVerified, this.gender, this.idDocument, this.deviceType, this.parentId, this.isDeleted, this.currentStatus, this.isSendActivationRequest, this.isFirstVerifyActivationRequest, this.sId, this.name, this.mobile, this.dob, this.nationality, this.emirateId, this.emirateIdExpire, this.nativeLanguage, this.religion, this.profilePic, this.role, this.createdAt, this.updatedAt, this.otp, this.deviceToken, this.deviceVoip, this.address, this.country, this.email, this.status, this.state, this.alternativeMobile, this.sector, this.maritalStatus, this.uniqueId});
+
+  DeactivatedUser.fromJson(Map<String, dynamic> json) {
+    isMobileVerified = json['isMobileVerified'];
+    gender = json['gender'];
+    idDocument = json['idDocument'];
+    deviceType = json['deviceType'];
+    parentId = json['parentId'];
+    isDeleted = json['isDeleted'];
+    currentStatus = json['currentStatus'];
+    isSendActivationRequest = json['isSendActivationRequest'];
+    isFirstVerifyActivationRequest = json['isFirstVerifyActivationRequest'];
+    sId = json['_id'];
+    name = json['name'];
+    mobile = json['mobile'];
+    dob = json['dob'];
+    nationality = json['nationality'];
+    emirateId = json['emirateId'];
+    emirateIdExpire = json['emirateIdExpire'];
+    nativeLanguage = json['nativeLanguage'];
+    religion = json['religion'];
+    profilePic = json['profilePic'];
+    role = json['role'] != null ? new RoleData.fromJson(json['role']) : null;
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    otp = json['otp'];
+    deviceToken = json['deviceToken'];
+    deviceVoip = json['deviceVoip'];
+    address = json['address'];
+    country = json['country'];
+    email = json['email'];
+    status = json['status'];
+    state = json['state'];
+    alternativeMobile = json['alternativeMobile'];
+    sector = json['sector'];
+    maritalStatus = json['maritalStatus'];
+    uniqueId = json['uniqueId'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['isMobileVerified'] = this.isMobileVerified;
+    data['gender'] = this.gender;
+    data['idDocument'] = this.idDocument;
+    data['deviceType'] = this.deviceType;
+    if (this.parentId != null) {
+      data['parentId'] = this.parentId!.map((v) => v.toJson()).toList();
+    }
+    data['isDeleted'] = this.isDeleted;
+    data['currentStatus'] = this.currentStatus;
+    data['isSendActivationRequest'] = this.isSendActivationRequest;
+    data['isFirstVerifyActivationRequest'] = this.isFirstVerifyActivationRequest;
+    data['_id'] = this.sId;
+    data['name'] = this.name;
+    data['mobile'] = this.mobile;
+    data['dob'] = this.dob;
+    data['nationality'] = this.nationality;
+    data['emirateId'] = this.emirateId;
+    data['emirateIdExpire'] = this.emirateIdExpire;
+    data['nativeLanguage'] = this.nativeLanguage;
+    data['religion'] = this.religion;
+    data['profilePic'] = this.profilePic;
+    if (this.role != null) {
+      data['role'] = this.role!.toJson();
+    }
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    data['otp'] = this.otp;
+    data['deviceToken'] = this.deviceToken;
+    data['deviceVoip'] = this.deviceVoip;
+    data['address'] = this.address;
+    data['country'] = this.country;
+    data['email'] = this.email;
+    data['status'] = this.status;
+    data['state'] = this.state;
+    data['alternativeMobile'] = this.alternativeMobile;
+    data['sector'] = this.sector;
+    data['maritalStatus'] = this.maritalStatus;
+    data['uniqueId'] = this.uniqueId;
+    return data;
+  }
+}
+
+class RoleData {
+  dynamic isDeleted;
+  dynamic sId;
+  dynamic name;
+  dynamic type;
+  dynamic status;
+  dynamic createdBy;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic filterType;
+  dynamic displayName;
+
+  RoleData({this.isDeleted, this.sId, this.name, this.type, this.status, this.createdBy, this.createdAt, this.updatedAt, this.filterType, this.displayName});
+
+  RoleData.fromJson(Map<String, dynamic> json) {
+    isDeleted = json['isDeleted'];
+    sId = json['_id'];
+    name = json['name'];
+    type = json['type'];
+    status = json['status'];
+    createdBy = json['createdBy'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    filterType = json['filterType'];
+    displayName = json['displayName'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['isDeleted'] = this.isDeleted;
+    data['_id'] = this.sId;
+    data['name'] = this.name;
+    data['type'] = this.type;
+    data['status'] = this.status;
+    data['createdBy'] = this.createdBy;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    data['filterType'] = this.filterType;
+    data['displayName'] = this.displayName;
     return data;
   }
 }

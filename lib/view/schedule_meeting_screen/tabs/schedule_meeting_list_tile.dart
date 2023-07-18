@@ -47,53 +47,17 @@ class ScheduleMeetingListTile extends StatelessWidget {
           itemCount: controller.list?.length??0,
           shrinkWrap: true,
           itemBuilder: (context, index) {
-          // int stepperIndex = 0;
-          // if (controller.selectedTabIndex == 0) {
-          //   controller.list?[index].requestStatus?.toList().asMap().forEach((loopIndex,element) {
-          //     if ((element.time??"").toString().isNotEmpty) {
-          //       stepperIndex = loopIndex;
-          //       if (controller.selectedTabIndex.value == 0) {
-          //
-          //       }
-          //     }
-          //   });
-          // }
-          // else if (controller.selectedTabIndex == 1) {
-          //   stepperIndex = 2;
-          //   controller.list?[index].requestStatus?.toList().asMap().forEach((loopIndex,element) {
-          //     controller.stepperTimeDate[0] = convertDateFormat3(element.time??"");
-          //     controller.stepperTimeDate[1] = convertDateFormat3(element.time??"");
-          //     controller.stepperTimeDate[2] = convertDateFormat3(element.time??"");
-          //   });
-          // }
-          // else if (controller.selectedTabIndex == 2) {
-          //   stepperIndex = 3;
-          //   controller.list?[index].requestStatus?.toList().asMap().forEach((loopIndex,element) {
-          //     controller.stepperTimeDate[0] = convertDateFormat3(element.time??"");
-          //     controller.stepperTimeDate[1] = convertDateFormat3(element.time??"");
-          //     controller.stepperTimeDate[2] = convertDateFormat3(element.time??"");
-          //   });
-          // }
-          // else if (controller.selectedTabIndex == 3) {
-          //   stepperIndex = 4;
-          //   controller.list?[index].requestStatus?.toList().asMap().forEach((loopIndex,element) {
-          //     controller.stepperTimeDate[0] = convertDateFormat3(element.time??"");
-          //     controller.stepperTimeDate[1] = convertDateFormat3(element.time??"");
-          //     controller.stepperTimeDate[2] = convertDateFormat3(element.time??"");
-          //     controller.stepperTimeDate[3] = convertDateFormat3(element.time??"");
-          //   });
-          // }
           if (controller.selectedTabIndex.value == 2) {
             cancelledStepperDates.clear();
             controller.list?[index].requestStatus?.forEach((element) {
               if (element.name.toString().toLowerCase() == "request raised" || element.name.toString().toLowerCase() == "cancelled") {
-                cancelledStepperDates.add(getFormattedTime2(element.time));
+                cancelledStepperDates.add(getFormattedTimeWithMonth(element.time));
               }
             });
           }
           return Card(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
+              borderRadius: BorderRadius.circular(10),
             ),
             child: Padding(
               padding: EdgeInsets.all(15.sp),
@@ -101,7 +65,7 @@ class ScheduleMeetingListTile extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   BaseDetailData(prefixIcon: "assets/images/Vector (1).svg",detailsLabel:"Schedule Date", detailsValue:formatBackendDate(controller.list?[index].date??"")),
-                  BaseDetailData(prefixIcon: "assets/images/time_icon.svg",detailsLabel:"Time Slot", detailsValue:getFormattedTime3(controller.list?[index].time??"")),
+                  BaseDetailData(prefixIcon: "assets/images/time_icon.svg",detailsLabel:"Time Slot", detailsValue:getFormattedTime(controller.list?[index].time??"")),
                   BaseDetailData(prefixIcon: "assets/images/family_img.svg",detailsLabel:"Meeting with", detailsValue:controller.list?[index].teacher?.name??"N/A"),
                   BaseDetailData(prefixIcon: "assets/images/ic_designation.svg",detailsLabel:"Designation", detailsValue:"Teacher Admin"),
                   Row(

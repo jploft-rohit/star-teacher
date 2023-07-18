@@ -84,7 +84,7 @@ class _NewsBroadCastTabState extends State<NewsBroadCastTab> {
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     color: controller.list?[index].isRead.toString() == "false" ? const Color(0xFFF8F4E9) : const Color(0xffF5F5F5),
-                    borderRadius: BorderRadius.circular(15.0),
+                    borderRadius: BorderRadius.circular(15),
                     boxShadow: const [
                       BoxShadow(
                           color: BaseColors.borderColor,

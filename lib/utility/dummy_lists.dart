@@ -6,7 +6,6 @@ class DummyLists{
     "Sister",
   ];
   List<String> assignmentCategoryList = [
-    "Worksheet",
     "Awareness & courses",
     "Assessment",
     "Lab",

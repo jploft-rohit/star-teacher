@@ -11,7 +11,7 @@ import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/transportation_screen/controller/transportation_screen_ctrl.dart';
-import 'package:staff_app/view/transportation_screen/deactivation_detail_screen.dart';
+import 'package:staff_app/view/account_deactivation_screen/deactivation_detail_screen.dart';
 
 class NotifySchoolAdministratorPopup extends StatefulWidget {
   const NotifySchoolAdministratorPopup({Key? key}) : super(key: key);

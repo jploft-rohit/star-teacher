@@ -34,7 +34,7 @@ import 'package:staff_app/view/star_attendance_screen/star_attendance_screen.dar
 import 'package:staff_app/view/star_evaluation_screen/star_evaluation_screen.dart';
 import 'package:staff_app/view/star_reward_screen/star_reward_screen.dart';
 import 'package:staff_app/view/task_or_reminder_screen/task_or_reminder_screen.dart';
-import 'package:staff_app/view/transportation_screen/location_screen.dart';
+import 'package:staff_app/view/transportation_screen/transportation_location_screen.dart';
 import 'package:staff_app/view/transportation_screen/transportation_screen.dart';
 import 'package:staff_app/view/wallet/wallet_view.dart';
 import 'package:staff_app/view/worksheet/worksheet_screen.dart';
@@ -63,7 +63,7 @@ class SearchScreenCtrl extends GetxController{
     SearchList(title: translate(Get.context!).complaints_reports, onTap: (){Get.to(const ComplaintsReportScreen());}),
     SearchList(title: translate(Get.context!).feedback_help, onTap: (){Get.to(const FeedbackHelpScreen());}),
     SearchList(title: translate(Get.context!).card_tags, onTap: (){Get.to(const CardsAndTagsScreen());}),
-    SearchList(title: translate(Get.context!).location, onTap: (){Get.to(const LocationScreen());}),
+    SearchList(title: translate(Get.context!).location, onTap: (){Get.to(const TransportationLocationScreen());}),
     SearchList(title: translate(Get.context!).wallet, onTap: (){Get.to(const WalletView());}),
     SearchList(title: translate(Get.context!).transportation, onTap: (){Get.to(const TransportationScreen());}),
     /// Drawer

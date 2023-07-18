@@ -98,7 +98,7 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
             children: [
               SvgPicture.asset("assets/images/time_icon.svg"),
               SizedBox(width: 1.h),
-              addText(getFormattedTime(controller.list?[index].time??""), 14.sp,
+              addText(getFormattedTime4(controller.list?[index].time??""), 14.sp,
                   BaseColors.textBlackColor, FontWeight.w400),
             ],
           ),

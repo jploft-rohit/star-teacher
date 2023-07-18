@@ -32,12 +32,6 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
         children: [
           GestureDetector(
             onTap: (){
-              // showGeneralDialog(
-              //   context: context,
-              //   pageBuilder: (context, animation, secondaryAnimation) {
-              //     return ConfirmationDialog(msg: translate(context).are_you_sure_youve_selected_present_stars,isShowBtn: true,);
-              //   },
-              // );
             },
             child: Obx(() => Container(
               margin: const EdgeInsets.only(left: 15, right: 15.0),
@@ -82,6 +76,12 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
                               onTap: (){
                                 selectedRadioButton = "Present";
                                 setState(() {});
+                                showGeneralDialog(
+                                  context: context,
+                                  pageBuilder: (context, animation, secondaryAnimation) {
+                                    return ConfirmationDialog(msg: "Are you sure you've selected present stars?",isShowBtn: true,);
+                                  },
+                                );
                               },
                               child: Container(
                                 color: Colors.white,
@@ -97,6 +97,12 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
                                         onChanged: (value){
                                           selectedRadioButton = "Present";
                                           setState(() {});
+                                          showGeneralDialog(
+                                            context: context,
+                                            pageBuilder: (context, animation, secondaryAnimation) {
+                                              return ConfirmationDialog(msg: "Are you sure you've selected present stars?",isShowBtn: true,);
+                                            },
+                                          );
                                         },
                                         splashRadius: 1.0,
                                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -114,6 +120,12 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
                               onTap: (){
                                 selectedRadioButton = "Late";
                                 setState(() {});
+                                showGeneralDialog(
+                                  context: context,
+                                  pageBuilder: (context, animation, secondaryAnimation) {
+                                    return ConfirmationDialog(msg: "Are you sure you've selected late stars?",isShowBtn: true,);
+                                  },
+                                );
                               },
                               child: Container(
                                 color: Colors.white,
@@ -129,6 +141,12 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
                                         onChanged: (value){
                                           selectedRadioButton = value.toString();
                                           setState(() {});
+                                          showGeneralDialog(
+                                            context: context,
+                                            pageBuilder: (context, animation, secondaryAnimation) {
+                                              return ConfirmationDialog(msg: "Are you sure you've selected late stars?",isShowBtn: true,);
+                                            },
+                                          );
                                         },
                                         splashRadius: 1.0,
                                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -146,6 +164,12 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
                               onTap: (){
                                 selectedRadioButton = "Absent";
                                 setState(() {});
+                                showGeneralDialog(
+                                  context: context,
+                                  pageBuilder: (context, animation, secondaryAnimation) {
+                                    return ConfirmationDialog(msg: "Are you sure you've selected absent stars?",isShowBtn: true,);
+                                  },
+                                );
                               },
                               child: Container(
                                 color: Colors.white,
@@ -161,6 +185,12 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
                                         onChanged: (value){
                                           selectedRadioButton = value.toString();
                                           setState(() {});
+                                          showGeneralDialog(
+                                            context: context,
+                                            pageBuilder: (context, animation, secondaryAnimation) {
+                                              return ConfirmationDialog(msg: "Are you sure you've selected absent stars?",isShowBtn: true,);
+                                            },
+                                          );
                                         },
                                         splashRadius: 1.0,
                                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,

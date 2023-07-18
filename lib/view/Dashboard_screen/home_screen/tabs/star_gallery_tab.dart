@@ -13,7 +13,7 @@ class StarGalleryTab extends StatefulWidget {
   State<StarGalleryTab> createState() => _StarGalleryTabState();
 }
 
-class _StarGalleryTabState extends State<StarGalleryTab> with TickerProviderStateMixin{
+class _StarGalleryTabState extends State<StarGalleryTab> with TickerProviderStateMixin, AutomaticKeepAliveClientMixin{
   StarGalleryCtrl controller = Get.put(StarGalleryCtrl());
   late TabController tabController;
 
@@ -30,6 +30,7 @@ class _StarGalleryTabState extends State<StarGalleryTab> with TickerProviderStat
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return DefaultTabController(
       length: 3,
       child: Column(
@@ -58,4 +59,6 @@ class _StarGalleryTabState extends State<StarGalleryTab> with TickerProviderStat
       ),
     );
   }
+  @override
+  bool get wantKeepAlive => true;
 }

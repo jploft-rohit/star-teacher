@@ -4,12 +4,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
-import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
-
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_image_network.dart';
@@ -25,11 +22,12 @@ class RewardsScreen extends StatefulWidget {
   State<RewardsScreen> createState() => _RewardsScreenState();
 }
 
-class _RewardsScreenState extends State<RewardsScreen> {
+class _RewardsScreenState extends State<RewardsScreen> with AutomaticKeepAliveClientMixin{
   RewardScreenCtrl controller = Get.find<RewardScreenCtrl>();
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: BaseAppBar(title: translate(context).rewards),
       floatingActionButton: BaseFloatingActionButton(
@@ -137,6 +135,7 @@ class _RewardsScreenState extends State<RewardsScreen> {
                   padding: EdgeInsets.only(top: 2.h,bottom: 2.h),
                   itemCount: controller.rewardList?.length??0,
                   shrinkWrap: true,
+                  cacheExtent: 99999999,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       mainAxisExtent: 140,
@@ -224,4 +223,6 @@ class _RewardsScreenState extends State<RewardsScreen> {
       ),
     );
   }
+  @override
+  bool get wantKeepAlive => true;
 }

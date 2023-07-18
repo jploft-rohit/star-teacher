@@ -33,9 +33,7 @@ class _AssignmentSelectPersonState extends State<AssignmentSelectPerson> {
   void initState() {
     super.initState();
     DummyLists.initialRole = "Select Person";
-    // controller.getStaffData(
-    //     selectedRoleId: baseCtrl.rolesListResponse.data?.first.sId??""
-    // );
+    controller.getStaffData(selectedRoleId: baseCtrl.rolesListResponse.data?.first.sId??"");
   }
 
   @override
@@ -84,16 +82,18 @@ class _AssignmentSelectPersonState extends State<AssignmentSelectPerson> {
                               initialValue: DummyLists.initialRole,
                               hintText: DummyLists.initialRole??'Select Person',
                               item: baseCtrl.rolesListResponse.data?.map((RolesData value){
-                                return DropdownMenuItem<dynamic>(
+                                return DropdownMenuItem<RolesData>(
                                     value: value,
                                     child: addText(value.name??"", 16.sp, Colors.black, FontWeight.w400));
                               }).toList(),
-                              onChange: (value) {selectedRoleId = value.sId??"";
-                              setState(() {
+                              onChange: (value) {
                                 DummyLists.initialRole=value.name??"";
-                              });
-                              // controller.getStaffData(selectedRoleId: selectedRoleId);
-                              },icon: jobDetailSvg),
+                                controller.selectedPersonId.value = value.sId??"";
+                                controller.assignmentToCtrl.value.text = value.name;
+                                controller.getStaffData(selectedRoleId: selectedRoleId);
+                                setState(() {});
+                              },icon: jobDetailSvg,
+                          ),
                         ],
                       ),
                       Divider(height: 1,thickness: 1,),

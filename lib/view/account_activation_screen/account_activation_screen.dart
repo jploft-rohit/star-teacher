@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
@@ -8,8 +9,8 @@ import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
-import 'package:staff_app/route_manager/route_name.dart';
-import 'package:staff_app/view/otp_screen/otp_screen.dart';
+import 'package:staff_app/utility/base_views/base_textformfield.dart';
+import 'package:staff_app/view/account_activation_screen/controller/account_activation_controller.dart';
 
 class AccountActivationScreen extends StatefulWidget {
   const AccountActivationScreen({Key? key}) : super(key: key);
@@ -19,10 +20,8 @@ class AccountActivationScreen extends StatefulWidget {
 }
 
 class _AccountActivationScreenState extends State<AccountActivationScreen> {
-  TextEditingController fullNameController = TextEditingController();
-  TextEditingController mobileController = TextEditingController();
-  TextEditingController otpController = TextEditingController();
-  TextEditingController employeeIdController = TextEditingController();
+
+  AccountActivationController controller = Get.put(AccountActivationController());
 
   @override
   Widget build(BuildContext context) {
@@ -61,24 +60,57 @@ class _AccountActivationScreenState extends State<AccountActivationScreen> {
                           topRight: Radius.circular(30)),
                       color: BaseColors.white,
                       boxShadow: [getBoxShadow()]),
-                  child: Column(
-                    children: [
-                      buildInputField(translate(context).full_name, fullNameController),
-                      SizedBox(height: 2.h,),
-                      buildInputField(translate(context).employee_id, employeeIdController),
-                      // SizedBox(height: 1.h,),
-                      // buildInputField(translate(context).otp_for_verification, otpController),
-                      SizedBox(height: 2.h,),
-
-                      buildNumberInputField(translate(context).mobile_number, mobileController),
-                      SizedBox(height: 4.h,),
-                      BaseButton(
-                        title: "SEND OTP",
-                        onPressed: () {
-                          Get.to(OTPScreen(mobile: "05x-xxxxxxxxx",isFromActivation: true,));
-                        },
-                        btnType: largeButton,borderRadius: 19,)
-                    ],
+                  child: Form(
+                    key: controller.formKey,
+                    child: Column(
+                      children: [
+                        BaseTextFormField(
+                          title: translate(context).full_name,
+                          controller: controller.fullNameController,
+                          hintText: "Type here...",
+                          maxLength: 50,
+                          keyboardType: TextInputType.name,
+                          validator: (val){
+                            if(controller.fullNameController.text.trim().isEmpty){
+                              return "Please Enter Full Name";
+                            }
+                            return null;
+                          },
+                        ),
+                        BaseTextFormField(
+                          title: translate(context).employee_id,
+                          controller: controller.employeeIdController,
+                          hintText: "Type here...",
+                          validator: (val){
+                            if(controller.employeeIdController.text.trim().isEmpty){
+                              return "Please Enter Employee ID";
+                            }
+                            return null;
+                          },
+                        ),
+                        BaseTextFormField(
+                          title: translate(context).mobile_number,
+                          controller: controller.mobileController,
+                          hintText: "Type here...",
+                          keyboardType: TextInputType.phone,
+                          maxLength: 20,
+                          textInputFormatter: [FilteringTextInputFormatter.digitsOnly],
+                          validator: (val){
+                            if(controller.mobileController.text.trim().isEmpty){
+                              return "Please Enter Mobile Number";
+                            }
+                            return null;
+                          },
+                        ),
+                        BaseButton(
+                          topMargin: 2.h,
+                          title: "SEND OTP",
+                          onPressed: () {
+                            controller.sendAccountActivationRequest();
+                          },
+                          btnType: largeButton,borderRadius: 19,)
+                      ],
+                    ),
                   ),
                 ))
           ],

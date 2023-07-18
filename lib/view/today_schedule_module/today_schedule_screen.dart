@@ -31,7 +31,7 @@ class _ScheduledClassScreenState extends State<ScheduledClassScreen> {
   void initState() {
     super.initState();
     controller.type.value = widget.type;
-    controller.getData();
+    controller.getDayData();
   }
 
   @override
@@ -57,7 +57,7 @@ class _ScheduledClassScreenState extends State<ScheduledClassScreen> {
               onChanged: (value) async {
                 controller.schoolController.text = value?.name??"";
                 controller.selectedSchoolId.value = value?.sId??"";
-                controller.getData();
+                controller.getDayData();
               },
             ),
             Expanded(

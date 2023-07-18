@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     Future.delayed(const Duration(seconds: 3), () async {
       if (await BaseSharedPreference().getBool(SpKeys().isLoggedIn)??false) {
-        Get.to(DashboardScreen());
+        Get.offAll(DashboardScreen());
       }else{
         Get.offAndToNamed(chooseLanguageScreenRoute);
       }

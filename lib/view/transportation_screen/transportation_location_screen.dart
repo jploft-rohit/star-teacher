@@ -21,14 +21,14 @@ import 'package:staff_app/view/star_attendance_screen/classroom_view/confirmatio
 import 'package:staff_app/view/transportation_screen/change_address_screen.dart';
 import 'package:staff_app/view/transportation_screen/controller/transportation_screen_ctrl.dart';
 
-class LocationScreen extends StatefulWidget {
-  const LocationScreen({Key? key}) : super(key: key);
+class TransportationLocationScreen extends StatefulWidget {
+  const TransportationLocationScreen({Key? key}) : super(key: key);
 
   @override
-  State<LocationScreen> createState() => _LocationScreenState();
+  State<TransportationLocationScreen> createState() => _TransportationLocationScreenState();
 }
 
-class _LocationScreenState extends State<LocationScreen> {
+class _TransportationLocationScreenState extends State<TransportationLocationScreen> {
   TransportationScreenCtrl controller = Get.find<TransportationScreenCtrl>();
   List<String> listTitle = [
     "Request\nRaised",
@@ -50,13 +50,14 @@ class _LocationScreenState extends State<LocationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Visibility(
-        visible: ((controller.locationData?.value?.changeLocationRequestData?.sector??"").isEmpty??true),
-        child: BaseFloatingActionButton(
-          onTap: (){
-            Get.to(const ChangeAddressScreen());
-          },
-          title: 'Create',
+      floatingActionButton: Obx(()=>Visibility(
+          visible: (controller.locationData?.value?.changeLocationRequestData ==  null),
+          child: BaseFloatingActionButton(
+            onTap: (){
+              Get.to(const ChangeAddressScreen());
+            },
+            title: 'Create',
+          ),
         ),
       ),
       appBar: BaseAppBar(title: translate(context).location),
@@ -113,7 +114,7 @@ class _LocationScreenState extends State<LocationScreen> {
                     : Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                    SizedBox(height: 3.h),
+                    SizedBox(height: 2.h),
                     // Row(
                     //   children: [
                     //     Flexible(flex: 1,child: BaseButton(title: translate(context).print_QR,  textSize: 15.sp,onPressed: (){
@@ -154,9 +155,10 @@ class _LocationScreenState extends State<LocationScreen> {
                         borderRadius: BorderRadius.circular(15.0),
                       ),
                       child: BaseImageNetwork(
-                        // link: controller.tripData.value.,
+                        link: controller.locationData?.value?.changeLocationRequestData?.flatPhoto??"",
                         width: double.infinity,
-                        errorWidget: SvgPicture.asset(homeSvg, fit: BoxFit.scaleDown),
+                        concatBaseUrl: false,
+                        // errorWidget: SvgPicture.asset(homeSvg, fit: BoxFit.scaleDown),
                       ),
                     ),
                     SizedBox(height: 1.h),
@@ -185,7 +187,7 @@ class _LocationScreenState extends State<LocationScreen> {
                                   },
                                 ).then((value){
                                   if(value == true){
-                                    Get.to(const ChangeAddressScreen());
+                                    Get.to(ChangeAddressScreen(isUpdating: true, data: controller.locationData?.value?.changeLocationRequestData));
                                   }
                                 });
                               },
@@ -223,9 +225,7 @@ class _LocationScreenState extends State<LocationScreen> {
                     buildInfoItems(translate(context).building_villa, controller.locationData?.value?.changeLocationRequestData?.building??""),
                     SizedBox(height: .5.h),
                     buildInfoItems(translate(context).flat_villa_no, controller.locationData?.value?.changeLocationRequestData?.flat??""),
-                    SizedBox(
-                      height: .5.h,
-                    ),
+                    SizedBox(height: .5.h),
                     buildInfoItems(translate(context).landmark, controller.locationData?.value?.changeLocationRequestData?.landmark??""),
                     SizedBox(
                       height: .5.h,

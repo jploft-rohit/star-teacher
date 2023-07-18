@@ -11,7 +11,7 @@ import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
-import 'package:staff_app/view/shop_screen/shop_screen_ctrl.dart';
+import 'package:staff_app/view/shop_screen/controller/shop_screen_ctrl.dart';
 
 class TrayView extends StatefulWidget {
   const TrayView({super.key});

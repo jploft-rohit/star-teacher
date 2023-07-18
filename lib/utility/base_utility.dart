@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -611,6 +612,16 @@ String getFormattedTime3(String dateString1){
   }
 }
 
+String getFormattedTime4(String dateString1){
+  if (dateString1.isNotEmpty && dateString1 != "null") {
+    DateTime date = DateTime.parse(dateString1);
+    String formattedTime = DateFormat('HH:mm').format(date);
+    return formattedTime;
+  }else{
+    return "N/A";
+  }
+}
+
 String getFormattedTime2(String dateString1){
   if (dateString1.isNotEmpty && dateString1 != "null") {
     String hours, minutes;
@@ -758,4 +769,11 @@ String getFormattedEmirateId(String emirateId){
   // final String formattedEmirateId = emirateId.substring(0,3) + "-" + emirateId.substring(3,8) + "-" + emirateId.substring(8, 15) + "-" + emirateId.substring(15,emirateId.length);
   // final String formattedEmirateId = emirateId.replaceAll(RegExp(r'(?<=.{2})\d(?=.{4})'), '-');
   return emirateId;
+}
+
+// Format File Size
+void getPickedFileSize({required int bytes, int decimals = 0}) {
+const suffixes = ["b", "kb", "mb", "gb", "tb"];
+var i = (log(bytes) / log(1024)).floor();
+print("Picked File Size -------------> "+(((bytes / pow(1024, i)).toStringAsFixed(decimals)) + suffixes[i]).toString());
 }

@@ -11,6 +11,7 @@ import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/search_screen/controller/search_screen_ctrl.dart';
+import 'package:staff_app/view/sos/sos_scanQR.dart';
 
 import '../Dashboard_screen/dashboard_screen_ctrl.dart';
 
@@ -62,6 +63,9 @@ class _SearchScreenState extends State<SearchScreen> {
                           controller.selectedFMOPos.value = index;
                           controller.update();
                           setState((){});
+                          if (index == 1) {
+                            Get.to(ScanQrCodeScreen());
+                          }
                         },
                         child: Obx(() {
                           return Container(
@@ -74,7 +78,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 boxShadow: [getBoxShadow()],
                                 border: controller.selectedFMOPos.value == index
                                     ? Border.all(
-                                    color: BaseColors.primaryColor, width: 1.5)
+                                      color: BaseColors.primaryColor, width: 1.5)
                                     : null,
                                 borderRadius: BorderRadius.circular(10.0)),
                             child: Row(

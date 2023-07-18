@@ -152,9 +152,9 @@ class User {
     sId = json['_id'];
     isMobileVerified = json['isMobileVerified'];
     gender = json['gender'];
-    idDocument = json['idDocument'].cast<String>();
+    idDocument = json['idDocument'];
     deviceType = json['deviceType'];
-    parentId = json['parentId'].cast<String>();
+    parentId = json['parentId'];
     isDeleted = json['isDeleted'];
     name = json['name'];
     mobile = json['mobile'];

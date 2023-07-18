@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'dart:io' show Platform;
 import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
+import 'package:staff_app/backend/responses_model/base_success_response.dart';
 import 'package:staff_app/backend/responses_model/otp_response.dart';
 import 'package:staff_app/route_manager/route_name.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
@@ -51,6 +52,27 @@ class OtpCtrl extends GetxController{
           if ((response.message??"").isNotEmpty) {
             BaseOverlays().showSnackBar(message: response.message??"",title: "Error");
           }
+        }
+      });
+    }
+  }
+
+  verifyActivationRequest({required String employeeId ,required String mobile, required String otp}){
+    FocusScope.of(Get.context!).requestFocus(new FocusNode());
+    if (formKey.currentState?.validate()??false) {
+      Map<String, dynamic> data = {
+        "uniqueId" : employeeId,
+        "mobile" : mobile,
+        "otp":otp
+      };
+      BaseAPI().post(url: ApiEndPoints().verifyAccountActivationRequest, data: data,headers: {'Accept-Language': selectedLanguageCode??"en",}).then((value){
+        if (value?.statusCode ==  200) {
+          otpController.clear();
+          otpController.text = "";
+          Get.toNamed(ruleScreenRoute);
+          BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"", title: "Success");
+        }else{
+          BaseOverlays().showSnackBar(message: response.message??"", title: "Error");
         }
       });
     }

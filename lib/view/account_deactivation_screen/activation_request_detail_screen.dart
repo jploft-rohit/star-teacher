@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/backend/responses_model/my_profile_response.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_icons.dart';
+import 'package:staff_app/utility/base_views/base_image_network.dart';
+import 'package:staff_app/utility/base_views/base_no_data.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/base_tab_bar.dart';
 
 import 'package:staff_app/utility/base_views/base_colors.dart';
@@ -10,17 +17,21 @@ import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/view/account_activation_screen/controller/account_activation_controller.dart';
+import 'package:staff_app/view/account_deactivation_screen/controller/account_deactivation_controller.dart';
 import 'package:staff_app/view/salary_slip_screen/salary_slip_poup.dart';
 
 class ActivationRequestDetailScreen extends StatefulWidget {
-  const ActivationRequestDetailScreen({Key? key}) : super(key: key);
+  final DeactivateData? data;
+  const ActivationRequestDetailScreen({Key? key, this.data}) : super(key: key);
 
   @override
   State<ActivationRequestDetailScreen> createState() => _ActivationRequestDetailScreenState();
 }
 
 class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailScreen> with SingleTickerProviderStateMixin{
-  TabController? controller;
+  AccountDeactivationController controller = Get.find<AccountDeactivationController>();
+  late TabController tabController;
   final List<String> pendingMeetingdates = ['July 2, 8:30PM', 'July 3, 10:30AM', ''];
   final List<String> pendingMeetingdates1 = ['July 2, 8:30PM', 'July 3, 10:30AM', 'July 4, 9:30AM'];
 
@@ -36,8 +47,14 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
   ];
   @override
   void initState() {
-    controller = TabController(length: 2, vsync: this);
     super.initState();
+    controller.getActivationRequests();
+    tabController = TabController(length: 2, vsync: this)..addListener(() {
+      if (!(tabController.indexIsChanging)) {
+        controller.selectedTabIndex.value = tabController.index;
+        controller.getActivationRequests();
+      }
+    });
   }
 
   @override
@@ -58,28 +75,31 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                   Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(10),
+                        height: 70,
+                        width: 70,
+                        padding: const EdgeInsets.all(4),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15.0),
                           border: Border.all(color: BaseColors.primaryColor),
                         ),
-                        child: SvgPicture.asset(manSvg,),
+                        child: BaseImageNetwork(
+                          link: widget.data?.deactivatedBy?.profilePic??"",
+                          concatBaseUrl: true,
+                          errorWidget: SvgPicture.asset(manSvg),
+                        ),
                       ),
-                      const SizedBox(
-                        width: 10,
-                      ),
+                      const SizedBox(width: 10),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-
                           children: [
-                            Text('Nawaz Alam', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
+                            Text(widget.data?.deactivatedBy?.name??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                             const Divider(
                               color: BaseColors.borderColor,
                               height: 8.0,
                               thickness: 1.0,
                             ),
-                            Text('#632541', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
+                            Text('#${widget.data?.deactivatedBy?.emirateId??""}', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                             const Divider(
                               color: BaseColors.borderColor,
                               height: 8.0,
@@ -130,7 +150,7 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                         flex: 2,
                         child: Align(
                           alignment: Alignment.centerLeft,
-                          child: buildInfoItems(translate(context).deactivation_date, "12-07-2022"),),
+                          child: buildInfoItems(translate(context).deactivation_date, formatBackendDate(widget.data?.deactivatedBy?.createdAt??"")),),
                       ),
                       Container(
                         height: 20,
@@ -138,11 +158,11 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                         color: BaseColors.borderColor,
                       ),
                       SizedBox(
-                        width: 10.w,
+                        width: 5.w,
                       ),
                       Expanded(
                         flex: 1,
-                        child: buildInfoItems(translate(context).time, "9:30 am"),
+                        child: buildInfoItems(translate(context).time, getFormattedTime(widget.data?.deactivatedBy?.createdAt??"")),
                       ),
                     ],
                   )
@@ -158,11 +178,10 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
             ),
             Expanded(
               child: TabBarView(
-                controller: controller,
-                physics: const NeverScrollableScrollPhysics(),
+                controller: tabController,
                 children: [
                   buildPendingView(),
-                  buildCompletedView(),
+                  buildPendingView(),
                 ],
               ),
             )
@@ -173,7 +192,7 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
   }
   Widget buildTabBar() {
     return BaseTabBar(
-      controller: controller,
+      controller: tabController,
       tabs:  [
         Tab(
           text: translate(context).pending,
@@ -186,135 +205,152 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
   }
 
   Widget buildPendingView() {
-    return SingleChildScrollView(
-      child: Card(
-        child: Padding(
-          padding: EdgeInsets.all(15.sp),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
+    return Obx(()=> (controller.list?.length??0) == 0
+        ? BaseNoData()
+        : ListView.builder(
+        itemCount: controller.list?.length??0,
+        shrinkWrap: true,
+        padding: EdgeInsets.only(bottom: 40),
+        itemBuilder: (context, index) {
+          int stepperIndex = -5;
+          controller.statusTime = [];
+          controller.statusTitle = [];
+          controller.list?[index]?.requestStatus?.toList().asMap().forEach((loopIndex,element) {
+            controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
+            controller.statusTime.add(getFormattedTimeWithMonth(element.time??""));
+            if (element.time.toString().isNotEmpty) {
+              stepperIndex = loopIndex;
+            }
+            // controller.statusTitle.removeAt(1);
+          });
+          return Card(
+            child: Padding(
+              padding: EdgeInsets.all(15.sp),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Row(
+                    children: [
+                      Row(
+                        children: [
+                          SvgPicture.asset("assets/images/Vector (1).svg"),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          Text(formatBackendDate(controller.list?[index]?.createdAt??""), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
+                        ],
+                      ),
+                      SizedBox(width: 20.w),
+                      Row(
+                        children: [
+                          SvgPicture.asset("assets/images/time_icon.svg"),
+                          SizedBox(width: 2.w),
+                          Text(getFormattedTime(controller.list?[index]?.createdAt??""), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const Divider(),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SvgPicture.asset("assets/images/report.svg"),
+                      SizedBox(
+                        width: 2.w,
+                      ),
+                      Flexible(child: buildInfoItems(translate(context).deactivation_reason, controller.list?[index]?.deactivationReason??"N/A"))
+                    ],
+                  ),
+                  const Divider(),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SvgPicture.asset("assets/images/report.svg"),
+                      SizedBox(
+                        width: 2.w,
+                      ),
+                      Flexible(child: buildInfoItems(translate(context).required_evidence, controller.list?[index]?.requiredEvidance??""))
+                    ],
+                  ),
+                  const Divider(),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SvgPicture.asset("assets/images/Vector (1).svg"),
                       SizedBox(
                         width: 2.w,
                       ),
-                      Text("12/07/2022", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
+                      Flexible(child: buildInfoItems(translate(context).due_date, formatBackendDate(controller.list?[index]?.dueDate??"")))
                     ],
                   ),
-                  SizedBox(
-                    width: 20.w,
+                  const Divider(),
+                  Visibility(
+                    visible: (controller.list?[index]?.requestStatus?[2].time??"").toString().isNotEmpty,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(translate(context).activation, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),),
+                        SizedBox(height: 1.h),
+                        Row(
+                          children: [
+                            Row(
+                              children: [
+                                SvgPicture.asset("assets/images/Vector (1).svg"),
+                                SizedBox(
+                                  width: 2.w,
+                                ),
+                                Text(formatBackendDate(controller.list?[index]?.requestStatus?[2].time??"N/A"), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
+                              ],
+                            ),
+                            SizedBox(width: 20.w),
+                            Row(
+                              children: [
+                                SvgPicture.asset("assets/images/time_icon.svg"),
+                                SizedBox(
+                                  width: 2.w,
+                                ),
+                                Text(getFormattedTime(controller.list?[index]?.requestStatus?[2].time??"N/A"), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const Divider(),
+                      ],
+                    ),
                   ),
-                  Row(
-                    children: [
-                      SvgPicture.asset("assets/images/time_icon.svg"),
-                      SizedBox(
-                        width: 2.w,
-                      ),
-                      Text("09:13pm", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
-                    ],
+                  Visibility(
+                    visible: (controller.list?[index]?.medCertDocument??"").toString().isNotEmpty,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(translate(context).medical_certificate, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp)),
+                        Row(
+                          children: [
+                            BaseIcons().view(concatBaseUrl: false,url: controller.list?[index]?.medCertDocument??"",rightMargin: 5),
+                            BaseIcons().download(onRightButtonPressed: (){
+                              downloadFile(url: (controller.list?[index]?.medCertDocument??""),concatBaseUrl: false);
+                            },leftMargin: 5),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ],
-              ),
-              const Divider(),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SvgPicture.asset("assets/images/report.svg"),
-                  SizedBox(
-                    width: 2.w,
-                  ),
-                  Flexible(child: buildInfoItems(translate(context).deactivation_reason, "Suspected to have Covid-19 symptoms and is deactivated for the awareness of the students."))
-                ],
-              ),
-              const Divider(),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SvgPicture.asset("assets/images/report.svg"),
-                  SizedBox(
-                    width: 2.w,
-                  ),
-                  Flexible(child: buildInfoItems(translate(context).required_evidence, "1. RT- PCR Report"))
-                ],
-              ),
-              const Divider(),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SvgPicture.asset("assets/images/Vector (1).svg"),
-                  SizedBox(
-                    width: 2.w,
-                  ),
-                  Flexible(child: buildInfoItems(translate(context).due_date, "12/07/2022"))
-                ],
-              ),
-              const Divider(),
-              Text(translate(context).activation, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),),
-              SizedBox(
-                height: 1.h,
-              ),
-              Row(
-                children: [
-                  Row(
-                    children: [
-                      SvgPicture.asset("assets/images/Vector (1).svg"),
-                      SizedBox(
-                        width: 2.w,
-                      ),
-                      Text("12/07/2022", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 20.w,
-                  ),
-                  Row(
-                    children: [
-                      SvgPicture.asset("assets/images/time_icon.svg"),
-                      SizedBox(
-                        width: 2.w,
-                      ),
-                      Text("09:13pm", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
-                    ],
+                  Visibility(
+                      visible: (controller.list?[index]?.medCertDocument??"").toString().isNotEmpty,
+                      child: const Divider()),
+                  StepProgressView(
+                    width: MediaQuery.of(context).size.width,
+                    curStep: stepperIndex+1,
+                    color: BaseColors.primaryColor,
+                    titles: controller.statusTime,
+                    statuses: controller.statusTitle,
                   ),
                 ],
               ),
-              const Divider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(translate(context).medical_certificate, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp)),
-                  Row(
-                    children: [
-                      GestureDetector(
-                          onTap: (){
-                            showGeneralDialog(
-                              context: context,
-                              pageBuilder:  (context, animation, secondaryAnimation) {
-                                return OpenPdfPopup(title: "");
-                              },
-                            );
-                          },child: Icon(Icons.remove_red_eye_outlined,color: BaseColors.primaryColor,size: 20.sp,)),
-                      const SizedBox(width: 10,),
-                      Icon(Icons.download_for_offline,color: BaseColors.primaryColor,size: 20.sp,)
-                    ],
-                  ),
-                ],
-              ),
-              const Divider(),
-              StepProgressView(
-                width: MediaQuery.of(context).size.width,
-                curStep: 2,
-                color: BaseColors.primaryColor,
-                titles: pendingMeetingdates,
-                statuses: heading,
-              ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }

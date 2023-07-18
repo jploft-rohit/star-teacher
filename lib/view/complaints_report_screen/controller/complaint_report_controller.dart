@@ -30,6 +30,7 @@ class ComplainReportController extends GetxController{
   List<StaffListData> staffData = [];
   Rx<File>? selectedFile = File("").obs;
   RxBool isStaffLoading = false.obs;
+  RxInt selectedTabIndex = 0.obs;
   final formKey = GlobalKey<FormState>();
   RxList<Data>? response = <Data>[].obs;
   RxString selectedPersonId = "".obs;
@@ -41,7 +42,7 @@ class ComplainReportController extends GetxController{
   void onInit() {
     super.onInit();
     baseCtrl = Get.find<BaseCtrl>();
-    getData(type: '');
+    getData();
   }
 
   updateComplainReportAPI({required String itemId,school,forEnquiry,complaintUser,complaintType,title,description,document}) async {
@@ -75,7 +76,7 @@ class ComplainReportController extends GetxController{
           BaseOverlays().showSnackBar(message: "Updated Successfully",title: "Success");
           selectedSchoolId.value = "";
           selectSchoolController.value.text = "";
-          getData(type: "");
+          getData();
         }else{
           BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
         }
@@ -117,7 +118,7 @@ class ComplainReportController extends GetxController{
           BaseOverlays().showSnackBar(message: "Created Successfully",title: "Success");
           selectedSchoolId.value = "";
           selectSchoolController.value.text = "";
-          getData(type: "");
+          getData();
         }else{
           BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
         }
@@ -127,6 +128,7 @@ class ComplainReportController extends GetxController{
 
   setData({required bool isUpdating,Data? data}){
     if(isUpdating){
+      selectedFile?.value = File("");
       baseCtrl.schoolListData.data?.data?.forEach((element) {
         if ((element.sId??"") == (data?.school??"")) {
           selectSchoolController.value.text = element.name??"";
@@ -148,7 +150,6 @@ class ComplainReportController extends GetxController{
 
     }else{
       complaintOrReportController.value.text = "";
-      // complaintForController.text = "";
       personController.value.text = "";
       typeController.value.text = "";
       titleController.value.text = "";
@@ -158,12 +159,13 @@ class ComplainReportController extends GetxController{
       selectSchoolController.value.text = "";
       selectedSchoolId.value = "";
       personController.value.text = "";
+      selectedFile?.value = File("");
     }
   }
 
-  getData({required String type}){
+  getData(){
     response?.value = [];
-    BaseAPI().get(url: ApiEndPoints().getAllComplaintReport,queryParameters: {"type":type,"school":selectedSchoolId.value}).then((value){
+    BaseAPI().get(url: ApiEndPoints().getAllComplaintReport,queryParameters: {"type": selectedTabIndex.value == 0 ? "" : selectedTabIndex.value == 1 ? "complaint" : "report", "school":selectedSchoolId.value}).then((value){
       if (value?.statusCode ==  200) {
         response?.value = AllComplainReportResponse.fromJson(value?.data).data??[];
       }else{
@@ -197,7 +199,7 @@ class ComplainReportController extends GetxController{
       if (value?.statusCode ==  200) {
         baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
         BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"", title: "Success");
-        getData(type: "");
+        getData();
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: "Error");
       }
@@ -214,7 +216,7 @@ class ComplainReportController extends GetxController{
         BaseOverlays().dismissOverlay();
         baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
         BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"", title: "Success");
-        getData(type: "");
+        getData();
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: "Error");
       }

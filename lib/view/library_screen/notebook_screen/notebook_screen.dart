@@ -158,7 +158,7 @@ class _NoteBookScreenState extends State<NoteBookScreen>{
                     itemBuilder: (context, index) {
                     return GestureDetector(
                     onTap: (){
-                      controller.selectedStarId.value = baseCtrl.starsList?[index].sId??"";
+                      controller.selectedStarId.value = baseCtrl.starsList?[index].user?.sId??"";
                       Get.to(const NotebookDetailScreen());
                     },
                     child: Container(

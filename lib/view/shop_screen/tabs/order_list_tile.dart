@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 
@@ -8,44 +9,43 @@ import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/utility/base_utility.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/view/library_record/sub_pages/return_view.dart';
 import 'package:staff_app/view/shop_screen/orders/edit_order_view.dart';
 import 'package:staff_app/view/shop_screen/orders/shop_return_view.dart';
-import 'package:staff_app/view/shop_screen/shop_screen_ctrl.dart';
+import 'package:staff_app/view/shop_screen/controller/shop_screen_ctrl.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/confirmation_popup.dart';
 
-class ThisWeekTab extends StatefulWidget {
-  const ThisWeekTab({super.key});
+class OrderListTile extends StatefulWidget {
+  const OrderListTile({super.key});
 
   @override
-  State<ThisWeekTab> createState() => _ThisWeekTabState();
+  State<OrderListTile> createState() => _OrderListTileState();
 }
 
-class _ThisWeekTabState extends State<ThisWeekTab> {
+class _OrderListTileState extends State<OrderListTile> {
   ShopScreenCtrl controller = Get.find<ShopScreenCtrl>();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: BaseColors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: 2,
-              padding: EdgeInsets.zero,
-              itemBuilder: (context, index) =>
-                  buildCanteenThisWeekOrderBox(context, index),
-            ),
-            SizedBox(height: 5.h)
-          ],
-        ),
+    return Obx(()=>ListView.builder(
+        shrinkWrap: true,
+        itemCount: controller.shopOrdersList?.length??0,
+        padding: EdgeInsets.zero,
+        itemBuilder: (context, index) {
+          int stepperIndex = -5;
+          controller.statusTime.value = ["\n","\n","\n"];
+          controller.statusTitle.value = ["Order Placed", "Confirmed", "Served"];
+          controller.shopOrdersList?[index]?.progressStatus?.toList().asMap().forEach((loopIndex,element) {
+            controller.statusTime[loopIndex] = (getFormattedTimeWithMonth(element.timestamp??""));
+            stepperIndex = loopIndex;
+          });
+          return buildCanteenThisWeekOrderBox(context, index, stepperIndex: stepperIndex);
+        },
       ),
     );
   }
 
-  Widget buildCanteenThisWeekOrderBox(context, index) {
+  Widget buildCanteenThisWeekOrderBox(context, index,{required int stepperIndex}) {
     return Container(
       alignment: Alignment.topLeft,
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 2),
@@ -69,10 +69,10 @@ class _ThisWeekTabState extends State<ThisWeekTab> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    detailRow('Order Id : ', '#45689'),
-                    detailRow('Order Total : ', '42 AED'),
-                    detailRow('Order Date : ', '01/08/2022'),
-                    detailRow('Serving Days : ', 'Monday, Tuesday, Wednesday'),
+                    detailRow('Order Id : ', '#${controller.shopOrdersList?[index]?.orderId?.toString()??""}'),
+                    detailRow('Order Total : ', '${controller.shopOrdersList?[index]?.totalAmount?.toString()??""} AED'),
+                    detailRow('Order Date : ', formatBackendDate(controller.shopOrdersList?[index]?.createdAt??"")),
+                    // detailRow('Serving Days : ', 'Monday, Tuesday, Wednesday'),
                   ],
                 ),
               ),
@@ -81,7 +81,7 @@ class _ThisWeekTabState extends State<ThisWeekTab> {
                 child: Row(
                   children: [
                     Visibility(
-                      visible: index==0,
+                      visible: (stepperIndex) == 2,
                       child: BaseButton(
                           title: "Return",
                           btnType: smallButton,
@@ -91,25 +91,23 @@ class _ThisWeekTabState extends State<ThisWeekTab> {
                           }),
                     ),
                     Visibility(
-                      visible: index.isEven != true,
+                      visible: (stepperIndex) != 2,
                       child: BaseButton(
                           title: "Cancel",
                           btnType: smallButton,
                           removeHorizontalPadding: true,
                           onPressed: () {
-                            showGeneralDialog(
-                              context: context,
-                              pageBuilder:  (context, animation, secondaryAnimation) {
-                                return ConfirmationDialog(isShowBtn: true,msg: "Are you sure you want\nto cancel this order?",);
-                              },
-                            ).then((value) {
-                              showGeneralDialog(
-                                context: context,
-                                pageBuilder:  (context, animation, secondaryAnimation) {
-                                  return ConfirmationDialog(isShowBtn: true,msg: "Order Canceled, refund will be\nupdated to your account within\n3-5 business days",btnText: "Ok",);
-                                },
-                              );
+                            BaseOverlays().showConfirmationDialog(title: "Are you sure you want to cancel this order?",onRightButtonPressed: (){
+                              controller.cancelOrder(id: controller.shopOrdersList?[index]?.sId??"", index: index);
                             });
+                            // .then((value) {
+                            //   showGeneralDialog(
+                            //     context: context,
+                            //     pageBuilder:  (context, animation, secondaryAnimation) {
+                            //       return ConfirmationDialog(isShowBtn: true,msg: "Order Canceled, refund will be\nupdated to your account within\n3-5 business days",btnText: "Ok",);
+                            //     },
+                            //   );
+                            // });
                           }),
                     ),
                     SizedBox(width: 1.5.w),
@@ -117,9 +115,9 @@ class _ThisWeekTabState extends State<ThisWeekTab> {
                       flex: 1,
                       child: GestureDetector(
                         onTap: (){
-                          Get.to(EditOrderView());
+                          Get.to(EditOrderView(id: controller.shopOrdersList?[index]?.sId??""));
                         },
-                        child: Image.asset(editPng, color: BaseColors.primaryColor,height: 18.sp,),
+                        child: Align(alignment: Alignment.centerRight,child: Image.asset(editPng, color: BaseColors.primaryColor,height: 18.sp,)),
                       ),
                     )
                   ],
@@ -133,10 +131,10 @@ class _ThisWeekTabState extends State<ThisWeekTab> {
             padding: EdgeInsets.symmetric(horizontal: 8),
             child: StepProgressView(
               width: MediaQuery.of(context).size.width,
-              curStep: index.isEven ? 3 : 1,
+              curStep: stepperIndex+1,
               color: BaseColors.primaryColor,
-              titles: controller.canteenThisWeekDates,
-              statuses: controller.canteenThisWeekHeading,
+              titles: controller.statusTime,
+              statuses: controller.statusTitle,
             ),
           ),
         ],

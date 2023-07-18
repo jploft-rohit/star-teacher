@@ -1,6 +1,4 @@
 import 'package:get/get.dart';
-import 'package:staff_app/utility/base_utility.dart';
-import 'package:staff_app/view/today_schedule_module/controller/today_schedule_controller.dart';
 
 class ClassScheduleScreenCtrl extends GetxController{
   List<String> timeList = [
@@ -20,8 +18,6 @@ class ClassScheduleScreenCtrl extends GetxController{
     "Wed",
     "Thu",
     "Fri",
-    "Sat",
-    "Sun",
   ];
 
   List<String> monList = [

@@ -96,7 +96,9 @@ class RewardScreenCtrl extends GetxController{
         "image": await dio.MultipartFile.fromFile(file?.path??"",filename: file?.name??"")
       });
     }else{
-       data = dio.FormData.fromMap({});
+       data = dio.FormData.fromMap({
+         "image":""
+       });
     }
     BaseAPI().patch(url: ApiEndPoints().updateRewardImage+rewardId,data: data).then((value){
       if (value?.statusCode ==  200) {

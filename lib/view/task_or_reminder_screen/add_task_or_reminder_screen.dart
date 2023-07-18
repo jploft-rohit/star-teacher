@@ -245,7 +245,7 @@ class _AddTaskOrReminderScreenState extends State<AddTaskOrReminderScreen> {
                   BaseOverlays().showMediaPickerDialog(onCameraClick: () async {
                     BaseOverlays().dismissOverlay();
                     ImagePicker picker = ImagePicker();
-                    await picker.pickImage(source: ImageSource.camera).then((value){
+                    await picker.pickImage(source: ImageSource.camera,imageQuality: 50).then((value){
                       if (value != null) {
                         controller.selectedFile?.value = File(value.path);
                         controller.uploadController.value.text = value.path.split("/").last;
@@ -256,7 +256,7 @@ class _AddTaskOrReminderScreenState extends State<AddTaskOrReminderScreen> {
                       onGalleryClick: () async {
                         BaseOverlays().dismissOverlay();
                         ImagePicker picker = ImagePicker();
-                        await picker.pickImage(source: ImageSource.gallery).then((value){
+                        await picker.pickImage(source: ImageSource.gallery,imageQuality: 50).then((value){
                           if (value != null) {
                             controller.selectedFile?.value = File(value.path);
                             controller.uploadController.value.text = value.path.split("/").last;

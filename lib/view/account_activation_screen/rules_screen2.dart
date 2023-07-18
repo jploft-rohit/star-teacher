@@ -9,6 +9,7 @@ import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/view/Dashboard_screen/dashboard_screen.dart';
+import 'package:staff_app/view/login_screen/login_screen.dart';
 
 class RulesScreen2 extends StatefulWidget {
   const RulesScreen2({Key? key}) : super(key: key);
@@ -155,6 +156,7 @@ class _RulesScreen2State extends State<RulesScreen2> {
                       const SizedBox(height: 20,),
                       BaseButton(btnType: mediumButton,borderRadius: 20,title: translate(context).ok.toUpperCase(), onPressed: () {
                         BaseOverlays().dismissOverlay();
+                        Get.offAll(LoginScreen());
                        /* Get.offAll(DashboardScreen());*/
                         },textSize: mediumButtonTs,)
                     ],

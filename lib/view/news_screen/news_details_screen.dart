@@ -51,7 +51,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                 ),
               if(controller.list?[widget.index].isRead.toString() != "false")
                 Center(
-                  child: BaseButton(title: "Acknowledged", onPressed: (){}, isActive: false, textSize: 17.sp,),
+                  child: BaseButton(title: "AGREED", onPressed: (){}, isActive: false, textSize: 17.sp,),
                 ),
             ],
           ),

@@ -10,12 +10,13 @@ import 'package:staff_app/view/complaints_report_screen/view/complaints_report_s
 import 'package:staff_app/view/early_leave_and_permission/early_leave_permission.dart';
 import 'package:staff_app/view/feedback_help_screen/feedback_help_screen.dart';
 import 'package:staff_app/view/leave_request_screen/leave_request_screen.dart';
+import 'package:staff_app/view/location/location_screen.dart';
 import 'package:staff_app/view/my_notes/my_notes_screen.dart';
 import 'package:staff_app/view/my_profile_screen/medical_report_view/medical_report_view.dart';
 import 'package:staff_app/view/notification_setting_screen/notification_setting_screen.dart';
 import 'package:staff_app/view/performance_screen/performance_screen.dart';
 import 'package:staff_app/view/request_online_classes/request_online_classes_detail.dart';
-import 'package:staff_app/view/transportation_screen/location_screen.dart';
+import 'package:staff_app/view/transportation_screen/transportation_location_screen.dart';
 import 'package:staff_app/view/transportation_screen/transportation_screen.dart';
 import 'package:staff_app/view/wallet/wallet_view.dart';
 
@@ -68,14 +69,11 @@ class _AccountViewState extends State<AccountView> {
                 Get.to(const LeavePermissionScreen());
               }*/ else if(index == 4){
                 Get.to(const LeaveRequestScreen());
-              }
-              else if(index == 5){
+              } else if(index == 5){
                 Get.to(MyNotesScreen());
-              }
-              else if(index == 6){
+              } else if(index == 6){
                 Get.to(AnnualScheduleScreen());
-              }
-              else if(index == 7){
+              } else if(index == 7){
                 Get.to(RequestOnlineClassesDetail());
               } else if(index == 8){
                 Get.to(const MedicalReportView());
@@ -90,6 +88,8 @@ class _AccountViewState extends State<AccountView> {
               } else if(index == 13){
                 Get.to(const LocationScreen());
               } else if(index == 14){
+                Get.to(const WalletView());
+              } else if(index == 15){
                 Get.to(const TransportationScreen());
               }
             },

@@ -1,9 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/backend/responses_model/base_success_response.dart';
-import 'package:staff_app/backend/responses_model/location_response.dart' as Location;
+import 'package:staff_app/backend/responses_model/transportation_location_response.dart' as Location;
 import 'package:staff_app/backend/responses_model/transportation_response.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
@@ -25,15 +27,16 @@ class TransportationScreenCtrl extends GetxController{
   Rx<TripData> tripData = TripData().obs;
   RxList<String> statusTime = [""].obs;
   RxList<String> statusTitle = [""].obs;
-  Rx<Location.LocationData?>? locationData = Location.LocationData().obs;
+  Rx<Location.TransportationLocationData?>? locationData = Location.TransportationLocationData().obs;
   Rx<TextEditingController> commentCtrl = TextEditingController().obs;
   final formKey = GlobalKey<FormState>();
+  Rx<File?>? selectedFile = File("").obs;
   RxList<LocalOptionModel> optionsList = <LocalOptionModel>[
     LocalOptionModel(),
     LocalOptionModel(),
     LocalOptionModel(),
   ].obs;
-  Rx<TextEditingController> typeLocationController = TextEditingController().obs;
+  Rx<TextEditingController> addressLocationController = TextEditingController().obs;
   Rx<TextEditingController> sectorController = TextEditingController().obs;
   Rx<TextEditingController> areaController = TextEditingController().obs;
   Rx<TextEditingController> streetController = TextEditingController().obs;
@@ -42,6 +45,8 @@ class TransportationScreenCtrl extends GetxController{
   Rx<TextEditingController> landmarkController = TextEditingController().obs;
   Rx<TextEditingController> mobileController = TextEditingController().obs;
   Rx<TextEditingController> landlineController = TextEditingController().obs;
+  Rx<TextEditingController> latitudeController = TextEditingController().obs;
+  Rx<TextEditingController> longitudeController = TextEditingController().obs;
   Rx<TextEditingController> uploadController = TextEditingController().obs;
 
 
@@ -49,6 +54,38 @@ class TransportationScreenCtrl extends GetxController{
   void onInit() {
     super.onInit();
     getData();
+  }
+
+  setData({bool? isUpdating, Location.ChangeLocationRequestData? data}) async {
+    if(isUpdating??false){
+      selectedFile?.value = File("");
+      addressLocationController.value.text = data?.location??"";
+      sectorController.value.text = data?.sector??"";
+      areaController.value.text = data?.area??"";
+      streetController.value.text = data?.street??"";
+      buildingController.value.text = data?.building??"";
+      flatController.value.text =  data?.flat??"";
+      landmarkController.value.text = data?.landmark??"";
+      mobileController.value.text =  data?.mobileNo??"";
+      landlineController.value.text = data?.landlineNo??"";
+      latitudeController.value.text = data?.location?.coordinates?[1]??"";
+      longitudeController.value.text = data?.location?.coordinates?[0]??"";
+      uploadController.value.text = (data?.flatPhoto??"").split("/").last;
+    }else{
+      selectedFile?.value = File("");
+      addressLocationController.value.text = "";
+      sectorController.value.text = "";
+      areaController.value.text = "";
+      streetController.value.text = "";
+      buildingController.value.text = "";
+      flatController.value.text =  "";
+      landmarkController.value.text = "";
+      mobileController.value.text =  "";
+      landlineController.value.text = "";
+      latitudeController.value.text = "";
+      longitudeController.value.text = "";
+      uploadController.value.text =  "";
+    }
   }
 
   getData() async {
@@ -67,59 +104,125 @@ class TransportationScreenCtrl extends GetxController{
   }
 
   createLocation() async {
-    final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
-    var data = {
-      "user[0]": userId,
-      "typeOfRequest": "changeLocation",
-      "location": "changeLocation",
-      "latitude": "",
-      "longitude": "",
-      "area": "",
-      "sector": "",
-      "street": "",
-      "building": "",
-      "flat": "",
-      "landmark": "",
-      "mobileNo": "",
-      "landlineNo": "",
-      "trip": "",
-      "addressType": "",
-    };
-    BaseAPI().get(url: ApiEndPoints().getTransportationData+userId, queryParameters: data).then((value){
-      if (value?.statusCode ==  200) {
-        tripData.value = TransportationResponse.fromJson(value?.data).data?.tripData ?? TripData();
-      } else {
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+    if (formKey.currentState?.validate()??false) {
+      final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
+      dio.FormData data;
+      if ((selectedFile?.value?.path??"").isNotEmpty) {
+        data = dio.FormData.fromMap({
+          "user[0]": userId,
+          "typeOfRequest": "changeLocation",
+          "location": addressLocationController.value.text.trim(),
+          "latitude": latitudeController.value.text.trim(),
+          "longitude": longitudeController.value.text.trim(),
+          "area": areaController.value.text.trim(),
+          "sector": sectorController.value.text.trim(),
+          "street": streetController.value.text.trim(),
+          "building": buildingController.value.text.trim(),
+          "flat": flatController.value.text.trim(),
+          "landmark": landmarkController.value.text.trim(),
+          "mobileNo": mobileController.value.text.trim(),
+          "landlineNo": landlineController.value.text.trim(),
+          "trip": tripData.value.trip?.sId??"",
+          "addressType": "home",
+          "flatPhoto": await dio.MultipartFile.fromFile(selectedFile?.value?.path??"", filename: selectedFile?.value?.path.split("/").last??""),
+        });
+      }else{
+        data = dio.FormData.fromMap({
+          "user[0]": userId,
+          "typeOfRequest": "changeLocation",
+          "location": addressLocationController.value.text.trim(),
+          "latitude": latitudeController.value.text.trim(),
+          "longitude": longitudeController.value.text.trim(),
+          "area": areaController.value.text.trim(),
+          "sector": sectorController.value.text.trim(),
+          "street": streetController.value.text.trim(),
+          "building": buildingController.value.text.trim(),
+          "flat": flatController.value.text.trim(),
+          "landmark": landmarkController.value.text.trim(),
+          "mobileNo": mobileController.value.text.trim(),
+          "landlineNo": landlineController.value.text.trim(),
+          "trip": tripData.value.trip?.sId??"",
+          "addressType": "home",
+        });
       }
-    },
-    );
+      BaseAPI().post(url: ApiEndPoints().createLocation, data: data).then((value){
+        if (value?.statusCode ==  200) {
+          Get.back();
+          BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"", title: "Success");
+          getLocation();
+        } else {
+          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: "Error");
+        }
+      },
+      );
+    }
   }
 
-  updateLocation() async {
-    final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
-    var data = {
-      "tripType": selectedIndex.value == 0 ? "departure" : "departure",
-    };
-    BaseAPI().get(url: ApiEndPoints().getTransportationData+userId, queryParameters: data).then((value){
-      if (value?.statusCode ==  200) {
-        tripData.value = TransportationResponse.fromJson(value?.data).data?.tripData ?? TripData();
-      } else {
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+  updateLocation({required String id}) async {
+    if (formKey.currentState?.validate()??false) {
+      final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
+      dio.FormData data;
+      if ((selectedFile?.value?.path??"").isNotEmpty) {
+        data = dio.FormData.fromMap({
+          "user[0]": userId,
+          "typeOfRequest": "changeLocation",
+          "location": addressLocationController.value.text.trim(),
+          "latitude": latitudeController.value.text.trim(),
+          "longitude": longitudeController.value.text.trim(),
+          "area": areaController.value.text.trim(),
+          "sector": sectorController.value.text.trim(),
+          "street": streetController.value.text.trim(),
+          "building": buildingController.value.text.trim(),
+          "flat": flatController.value.text.trim(),
+          "landmark": landmarkController.value.text.trim(),
+          "mobileNo": mobileController.value.text.trim(),
+          "landlineNo": landlineController.value.text.trim(),
+          "trip": tripData.value.trip?.sId??"",
+          "addressType": "home",
+          "flatPhoto": await dio.MultipartFile.fromFile(selectedFile?.value?.path??"", filename: selectedFile?.value?.path.split("/").last??""),
+        });
+      }else{
+        data = dio.FormData.fromMap({
+          "user[0]": userId,
+          "typeOfRequest": "changeLocation",
+          "location": addressLocationController.value.text.trim(),
+          "latitude": latitudeController.value.text.trim(),
+          "longitude": longitudeController.value.text.trim(),
+          "area": areaController.value.text.trim(),
+          "sector": sectorController.value.text.trim(),
+          "street": streetController.value.text.trim(),
+          "building": buildingController.value.text.trim(),
+          "flat": flatController.value.text.trim(),
+          "landmark": landmarkController.value.text.trim(),
+          "mobileNo": mobileController.value.text.trim(),
+          "landlineNo": landlineController.value.text.trim(),
+          "trip": tripData.value.trip?.sId??"",
+          "addressType": "home",
+        });
       }
-    },
-    );
+      BaseAPI().put(url: ApiEndPoints().updateLocation+id, data: data).then((value){
+        if (value?.statusCode ==  200) {
+          Get.back();
+          BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"", title: "Success");
+          getLocation();
+        } else {
+          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: "Error");
+        }
+      },
+      );
+    }
   }
 
   getLocation() async {
-    locationData?.value = Location.LocationData();
+    locationData?.value = Location.TransportationLocationData();
     statusTitle.clear();
     statusTime.clear();
     stepperIndex.value = -5;
     BaseAPI().get(url: ApiEndPoints().getLocationData, queryParameters: {
-      "tripId": tripData.value.sId??""
+      "tripId": tripData.value.trip?.sId??""
     }).then((value){
       if (value?.statusCode ==  200) {
-        locationData?.value = Location.LocationResponse.fromJson(value?.data).data ?? Location.LocationResponse().data;
+        locationData?.value = Location.TransportationLocationResponse.fromJson(value?.data).data ?? Location.TransportationLocationResponse().data;
         locationData?.value?.changeLocationRequestData?.requestStatus?.toList().asMap().forEach((loopIndex,element) {
           statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
           statusTime.add(getFormattedTimeWithMonth(element.time??""));

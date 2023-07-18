@@ -1,18 +1,23 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
-
 import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_image_network.dart';
+import 'package:staff_app/utility/base_views/base_no_data.dart';
+import 'package:staff_app/utility/base_views/base_school_selection.dart';
 import 'package:staff_app/utility/base_views/base_switch.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/view/cards_and_tags_screen/controller/card_tag_ctrl.dart';
 import 'package:staff_app/view/cards_and_tags_screen/request_nfc_card_screen.dart';
+import 'package:staff_app/view/my_profile_screen/controller/my_profile_ctrl.dart';
 import 'package:staff_app/view/star_evaluation_screen/success_dialog_screen.dart';
 
 class CardsAndTagsScreen extends StatefulWidget {
@@ -23,6 +28,8 @@ class CardsAndTagsScreen extends StatefulWidget {
 }
 
 class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
+  CardTagCtrl controller = Get.put(CardTagCtrl());
+  MyProfileCtrl profileController = Get.find<MyProfileCtrl>();
   bool isCardEnable = true;
   bool isTagEnable = false;
   final List<String> pendingMeetingdates = ['July 2, 8:30PM', '', '', ''];
@@ -40,222 +47,236 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(15.sp),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15.0),
-                  border: Border.all(
-                    color: BaseColors.borderColor
-                  )
-                ),
-                child: ListTile(
-                  visualDensity: const VisualDensity(horizontal: -4),
-                  contentPadding: EdgeInsets.only(left: 10.sp, right: 10.sp, top: 10.sp, bottom: 10.sp),
-                  leading: Container(
-                    height: double.infinity,
-                    padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                          color: BaseColors.primaryColor
-                      ),
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: SvgPicture.asset(manSvg),
+          child: Obx(()=>Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15.0),
+                    border: Border.all(
+                      color: BaseColors.borderColor
+                    )
                   ),
-                  title: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      buildInfoItems(translate(context).name, "Rahish"),
-                      const SizedBox(
-                        height: 2.0,
-                      ),
-                      buildInfoItems(translate(context).id, "#78656"),
-                      const SizedBox(
-                        height: 2.0,
-                      ),
-                      buildInfoItems(translate(context).designation, "Head Master"),
-                      const SizedBox(
-                        height: 2.0,
-                      ),
-                      buildInfoItems(translate(context).subject, "Maths"),
-                      const SizedBox(
-                        height: 2.0,
-                      ),
-                    ],
-                  ),
-                  trailing: GestureDetector(
-                    onTap: (){
-                      showScanQrDialogue(context, false);
-                    },
-                      child: SvgPicture.asset(qrCodeSvg)),
-                ),
-              ),
-              SizedBox(
-                height: 3.h,
-              ),
-              Text("${translate(context).select_options} : ", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),),
-              SizedBox(
-                height: 1.h,
-              ),
-              BaseButton(title: translate(context).request_cards_tags, onPressed: (){
-                Get.to(const RequestNFCCardScreen());
-              },btnType: "iconButton"),
-              SizedBox(height: 1.h,),
-              BaseButton(title: translate(context).synchronize_nfc_to_cards_tags, onPressed: (){
-                showNFCDialog(context,"");
-              },btnType: "iconButton"),
-              SizedBox(
-                height: 2.h,
-              ),
-              Text("${translate(context).linked_card_tag} :", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),),
-              SizedBox(
-                height: 1.h,
-              ),
-              buildCardTile(translate(context).card_No, "4587  9857  4587  6521", isCardEnable, (bool value) {
-                print(value);
-                isCardEnable = value;
-                setState(() {});
-                if(isCardEnable){
-                  showGeneralDialog(
-                    context: context,
-                    pageBuilder:  (context, animation, secondaryAnimation) {
-                      return SuccessDialogScreen(msg: "New Card/Tags Activated");
-                    },
-                  );
-                }
-              },),
-              SizedBox(
-                height: .5.h,
-              ),
-              buildCardTile(translate(context).tag_No, "4587", isTagEnable, (bool value) {
-                print(value);
-                isTagEnable = value;
-                setState(() {});
-                if(isTagEnable){
-                  showGeneralDialog(
-                    context: context,
-                    pageBuilder:  (context, animation, secondaryAnimation) {
-                      return SuccessDialogScreen(msg: "New Card/Tags Activated");
-                    },
-                  );
-                }
-              },),
-              SizedBox(
-                height: 1.h,
-              ),
-              Text("${translate(context).requests} : ", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),),
-              SizedBox(
-                height: 1.h,
-              ),
-              ListView.builder(
-                itemCount: 2,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 15.0),
-                    child: Container(
-                      padding: EdgeInsets.all(15.sp),
+                  child: ListTile(
+                    visualDensity: const VisualDensity(horizontal: -4),
+                    contentPadding: EdgeInsets.only(left: 10.sp, right: 10.sp, top: 10.sp, bottom: 10.sp),
+                    leading: Container(
+                      height: double.infinity,
+                      width: 17.w,
+                      padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        border: Border.all(
+                            color: BaseColors.primaryColor
+                        ),
                         borderRadius: BorderRadius.circular(10.0),
-                        boxShadow: const [
-                          BoxShadow(
-                              color: BaseColors.darkShadowColor,
-                              spreadRadius: 1.0,
-                              blurRadius: 2.0,
-                              offset: Offset(0, 3)
-                          )
-                        ],
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              SvgPicture.asset("assets/images/Layer_1.svg", height: 2.h),
-                              SizedBox(
-                                width: 2.w,
-                              ),
-                              buildInfoItems(translate(context).deactivation_card_no, "4587  9857  4587  6521"),
-                            ],
-                          ),
-                          Divider(
-                            color: BaseColors.borderColor,
-                            thickness: 1.0,
-                            height: 3.h,
-                          ),
-                          Row(
-                            children: [
-                              SvgPicture.asset("assets/images/report.svg",height: 2.1.h),
-                              SizedBox(
-                                width: 2.w,
-                              ),
-                              Text("${translate(context).reason} : ", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
-                              Flexible(child: Text("Lorem Ipsum is simply dummy text", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),maxLines: 1, overflow: TextOverflow.ellipsis,)),
-                            ],
-                          ),
-                          Divider(
-                            color: BaseColors.borderColor,
-                            thickness: 1.0,
-                            height: 3.h,
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    SvgPicture.asset("assets/images/Vector (1).svg",height: 2.h),
-                                    SizedBox(
-                                      width: 2.w,
-                                    ),
-                                    Text("01/03/2022", style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp),)
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                height: 3.h,
-                                width: 1.0,
-                                color: BaseColors.borderColor,
-                                margin: EdgeInsets.symmetric(horizontal: 10.w),
-                              ),
-                              Expanded(
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    SvgPicture.asset("assets/images/time_icon.svg",height: 2.h),
-                                    SizedBox(
-                                      width: 2.w,
-                                    ),
-                                    Text("09:13pm", style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp),)
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                           Divider(
-                            color: BaseColors.borderColor,
-                            thickness: 1.0,
-                            height: 3.h,
-                          ),
-                          StepProgressView(
-                            width: MediaQuery.of(context).size.width,
-                            curStep: 1,
-                            color: BaseColors.primaryColor,
-                            titles: pendingMeetingdates,
-                            statuses: heading,
-                          ),
-                        ],
+                      child: BaseImageNetwork(
+                        link: profileController.response.value.data?.profilePic??"",
+                        errorWidget: SvgPicture.asset(manSvg),
+                      ),//co
+                    ),
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        buildInfoItems(translate(context).name, profileController.response.value.data?.name??""),
+                        const SizedBox(
+                          height: 2.0,
+                        ),
+                        buildInfoItems(translate(context).id, "#${profileController.response.value.data?.emirateId??""}"),
+                        const SizedBox(
+                          height: 2.0,
+                        ),
+                        buildInfoItems(translate(context).designation, profileController.response.value.data?.designation??"Teacher"),
+                        const SizedBox(
+                          height: 2.0,
+                        ),
+                        buildInfoItems(translate(context).subject, "Maths"),
+                        const SizedBox(
+                          height: 2.0,
+                        ),
+                      ],
+                    ),
+                    trailing: GestureDetector(
+                      onTap: (){
+                        showScanQrDialogue(context, false,data: profileController.response.value.data?.barcode??"");
+                      },
+                      child: QrImage(
+                        data: profileController.response.value.data?.barcode??"",
+                        version: QrVersions.auto,
+                        size: 70,
+                        gapless: false,
                       ),
                     ),
-                  );
-                },
-              )
-            ],
+                  ),
+                ),
+                BaseSchoolDropDown(
+                  controller: controller.selectedSchoolController,
+                  onChanged: (val){
+                    controller.selectedSchoolController.text = val.name;
+                    controller.selectedSchoolId.value = val.sId;
+                    controller.getData();
+                  },
+                  bottomMargin: 2.h,
+                  topMargin: 2.h,
+                ),
+                Text("${translate(context).select_options} : ", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),),
+                SizedBox(
+                  height: 1.h,
+                ),
+                BaseButton(title: translate(context).request_cards_tags, onPressed: (){
+                  Get.to(const RequestNFCCardScreen());
+                },btnType: "iconButton"),
+                SizedBox(height: 1.h,),
+                BaseButton(title: translate(context).synchronize_nfc_to_cards_tags, onPressed: (){
+                  showNFCDialog(context,"");
+                },btnType: "iconButton"),
+                SizedBox(
+                  height: 2.h,
+                ),
+                Text("${translate(context).linked_card_tag} :", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),),
+                SizedBox(height: 1.h),
+                (controller.userTagsList?.length??0) == 0
+                    ? BaseNoData(message: "No Linked Card & Tag Found!",topMargin: 1.5.h, bottomMargin: 1.5.h,)
+                    : ListView.builder(
+                      itemCount: controller.userTagsList?.length??0,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context,index){
+                      return buildCardTile(
+                      translate(context).card_No,
+                      controller.userTagsList?[index]?.tagNo.toString()??"",
+                      (controller.userTagsList?[index]?.status.toString()??"") == "active" ? true : false,
+                      (bool value) {
+                        controller.updateCardTagStatus(status: value, id: controller.userTagsList?[index]?.sId, index: index);
+                     },
+                    );
+                  },
+                ),
+                SizedBox(
+                  height: 1.h,
+                ),
+                Text("${translate(context).requests} : ", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),),
+                SizedBox(
+                  height: 1.h,
+                ),
+                (controller.ordersList?.length??0) == 0
+                    ? BaseNoData(message: "No Request Found!",topMargin: 1.5.h, bottomMargin: 1.5.h,)
+                    : ListView.builder(
+                  itemCount: controller.ordersList?.length??0,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    int stepperIndex = -5;
+                    controller.statusTime.value = [];
+                    controller.statusTitle.value = [];
+                    controller.ordersList?[index]?.requestStatus?.asMap().forEach((loopIndex,element) {
+                      controller.statusTitle.add(toBeginningOfSentenceCase(element.statusTitle??"")??"");
+                      controller.statusTime.add(getFormattedTimeWithMonth(element.date??""));
+                      if ((element.date?.toString()??"").isNotEmpty) {
+                        stepperIndex = loopIndex;
+                      }
+                    });
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 15.0),
+                      child: Container(
+                        padding: EdgeInsets.all(15.sp),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10.0),
+                          boxShadow: const [
+                            BoxShadow(
+                                color: BaseColors.darkShadowColor,
+                                spreadRadius: 1.0,
+                                blurRadius: 2.0,
+                                offset: Offset(0, 3)
+                            )
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                SvgPicture.asset("assets/images/Layer_1.svg", height: 2.h),
+                                SizedBox(
+                                  width: 2.w,
+                                ),
+                                buildInfoItems(translate(context).deactivation_card_no, controller.ordersList?[index]?.userTags?.tagNo.toString()??""),
+                              ],
+                            ),
+                            Divider(
+                              color: BaseColors.borderColor,
+                              thickness: 1.0,
+                              height: 3.h,
+                            ),
+                            Row(
+                              children: [
+                                SvgPicture.asset("assets/images/report.svg",height: 2.1.h),
+                                SizedBox(
+                                  width: 2.w,
+                                ),
+                                Text("${translate(context).reason} : ", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
+                                Flexible(child: Text(controller.ordersList?[index]?.reason??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),maxLines: 1, overflow: TextOverflow.ellipsis,)),
+                              ],
+                            ),
+                            Divider(
+                              color: BaseColors.borderColor,
+                              thickness: 1.0,
+                              height: 3.h,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SvgPicture.asset("assets/images/Vector (1).svg",height: 2.h),
+                                      SizedBox(width: 2.w),
+                                      Text(formatBackendDate(controller.ordersList?[index]?.deliveryDay??"", getDayFirst: false), style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp),)
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  height: 3.h,
+                                  width: 1.0,
+                                  color: BaseColors.borderColor,
+                                  margin: EdgeInsets.symmetric(horizontal: 10.w),
+                                ),
+                                Expanded(
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SvgPicture.asset("assets/images/time_icon.svg",height: 2.h),
+                                      SizedBox(
+                                        width: 2.w,
+                                      ),
+                                      Text(getFormattedTime(controller.ordersList?[index]?.deliveryDay??""), style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp),)
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                             Divider(
+                              color: BaseColors.borderColor,
+                              thickness: 1.0,
+                              height: 3.h,
+                            ),
+                            StepProgressView(
+                              width: MediaQuery.of(context).size.width,
+                              curStep: stepperIndex+1,
+                              color: BaseColors.primaryColor,
+                              titles: controller.statusTime,
+                              statuses: controller.statusTitle,
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                )
+              ],
+            ),
           ),
         ),
       ),

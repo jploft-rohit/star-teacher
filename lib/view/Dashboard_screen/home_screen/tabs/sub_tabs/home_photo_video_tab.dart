@@ -21,10 +21,11 @@ class HomePhotoVideoTab extends StatefulWidget {
   State<HomePhotoVideoTab> createState() => _HomePhotoVideoTabState();
 }
 
-class _HomePhotoVideoTabState extends State<HomePhotoVideoTab> {
+class _HomePhotoVideoTabState extends State<HomePhotoVideoTab> with AutomaticKeepAliveClientMixin{
   StarGalleryCtrl controller = Get.find<StarGalleryCtrl>();
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Obx(()=>controller.isGalleryLoading.value
         ? Stack(
       children: [
@@ -60,7 +61,12 @@ class _HomePhotoVideoTabState extends State<HomePhotoVideoTab> {
               borderRadius: BorderRadius.circular(13),
               child: (controller.list?[index].uploads?.first.type??"") == "video"
                   ? BaseVideoThumbnail(videoLink: controller.list?[index].uploads?.first.url??"")
-                  : BaseImageNetwork(link: controller.list?[index].uploads?.first.url??"",concatBaseUrl: false),
+                  : BaseImageNetwork(
+                    link: controller.list?[index].uploads?.first.url??"",
+                    cacheWidth: 300,
+                    cacheHeight: 350,
+                    concatBaseUrl: false,
+              ),
             ),
           ),
         );
@@ -68,4 +74,6 @@ class _HomePhotoVideoTabState extends State<HomePhotoVideoTab> {
     ),
     );
   }
+  @override
+  bool get wantKeepAlive => true;
 }

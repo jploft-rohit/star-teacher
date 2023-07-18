@@ -399,11 +399,10 @@ class _DetailViewState extends State<DetailView> {
                             border: Border.all(color: BaseColors.primaryColor)
                         ), child: Icon(Icons.add,color: BaseColors.primaryColor,size: 18.sp),
                       ),
-                    )
-
+                    ),
                   ],
                 ),
-                SizedBox(height: 2.h,),
+                SizedBox(height: 2.h),
                 Obx(()=>ListView.builder(
                     itemCount: controller.response.value.data?.familyMembers?.length??0,
                     padding: EdgeInsets.zero,
@@ -438,57 +437,58 @@ class _DetailViewState extends State<DetailView> {
   }
 
   Widget buildFamilyItem(int index,BuildContext context){
-    return GestureDetector(
-      onTap: (){
-        Get.to(FamilyDetailsScreen(data: controller.response.value.data?.familyMembers?[index]));
-      },
-      child: Container(
-        width: 100.w,
-        margin:  const EdgeInsets.only(bottom: 10),
-        padding: const EdgeInsets.symmetric(vertical: 15),
-        decoration: BoxDecoration(
-            color: BaseColors.white,
-            border: Border.all(color: BaseColors.borderColor,width: 2),
-            borderRadius: BorderRadius.circular(20.0)),
-        child: Padding(
-            padding:
-            const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        BaseDetailData(detailsLabel:translate(context).name, detailsValue: controller.response.value.data?.familyMembers?[index].fullName??na,bottomMargin: bottomMargin,showDivider: showDivider),
-                        BaseDetailData(detailsLabel:translate(context).relation, detailsValue:controller.response.value.data?.familyMembers?[index].relation??na,bottomMargin: bottomMargin,showDivider: showDivider),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        GestureDetector(onTap: (){
-                          Get.to(AddFamilyMemberScreen(isUpdating: true,familyMembers: controller.response.value.data?.familyMembers?[index],));
-                        },
-                          child: Image.asset(editPng, color: BaseColors.primaryColor,height: 17.sp),
-                        ),
-                        const SizedBox(width: 20),
-                        GestureDetector(onTap: (){
-                          showDeleteDialog(context, index);
-                        },
-                          child: Icon(
-                            CupertinoIcons.delete,
-                            color: BaseColors.primaryColor,
-                            size: 17.sp,
+    return Obx(()=>GestureDetector(
+        onTap: (){
+          Get.to(FamilyDetailsScreen(data: controller.response.value.data?.familyMembers?[index]));
+        },
+        child: Container(
+          width: 100.w,
+          margin:  const EdgeInsets.only(bottom: 10),
+          padding: const EdgeInsets.symmetric(vertical: 15),
+          decoration: BoxDecoration(
+              color: BaseColors.white,
+              border: Border.all(color: BaseColors.borderColor,width: 2),
+              borderRadius: BorderRadius.circular(20.0)),
+          child: Padding(
+              padding:
+              const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          BaseDetailData(detailsLabel:translate(context).name, detailsValue: controller.response.value.data?.familyMembers?[index].fullName??na,bottomMargin: bottomMargin,showDivider: showDivider),
+                          BaseDetailData(detailsLabel:translate(context).relation, detailsValue:controller.response.value.data?.familyMembers?[index].relation??na,bottomMargin: bottomMargin,showDivider: showDivider),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          GestureDetector(onTap: (){
+                            Get.to(AddFamilyMemberScreen(isUpdating: true,familyMembers: controller.response.value.data?.familyMembers?[index],));
+                          },
+                            child: Image.asset(editPng, color: BaseColors.primaryColor,height: 17.sp),
                           ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ],
-            ),
+                          const SizedBox(width: 20),
+                          GestureDetector(onTap: (){
+                            showDeleteDialog(context, index);
+                          },
+                            child: Icon(
+                              CupertinoIcons.delete,
+                              color: BaseColors.primaryColor,
+                              size: 17.sp,
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ],
+              ),
+          ),
         ),
       ),
     );

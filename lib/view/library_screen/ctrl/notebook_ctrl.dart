@@ -150,7 +150,7 @@ class NotebookCtrl extends GetxController{
     starData?.value = StarData();
     notebookList?.clear();
     final data = {
-      "limit":100,
+      "limit":300,
       "type":selectedIndex1.value == 0 ? "talent" : "improvement",
       "starId":selectedStarId.value,
     };

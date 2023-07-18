@@ -200,7 +200,7 @@ class _NewsScreenState extends State<NewsScreen> {
                                   ),
                                 if(controller.list?[index].isRead.toString() != "false")
                                 Center(
-                                  child: BaseButton(title: "Acknowledged", onPressed: (){}, isActive: false, textSize: 17.sp,),
+                                  child: BaseButton(title: "AGREED", onPressed: (){}, isActive: false, textSize: 17.sp,),
                                 ),
                               ],
                             ),

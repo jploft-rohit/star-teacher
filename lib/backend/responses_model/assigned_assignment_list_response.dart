@@ -37,6 +37,7 @@ class AssignedAssignmentListResponse {
 
 class AssignedAssignmentData {
   dynamic isDeleted;
+  dynamic title;
   dynamic sId;
   School? school;
   dynamic assignmentNo;
@@ -56,6 +57,9 @@ class AssignedAssignmentData {
   dynamic updatedBy;
   dynamic createdAt;
   dynamic updatedAt;
+  dynamic totalMarks;
+  dynamic totalQuestions;
+  dynamic description;
 
   AssignedAssignmentData(
       {this.isDeleted,
@@ -65,6 +69,7 @@ class AssignedAssignmentData {
         this.type,
         this.assignTo,
         this.postDate,
+        this.title,
         this.postTime,
         this.submitDate,
         this.submitTime,
@@ -74,6 +79,9 @@ class AssignedAssignmentData {
         this.supportDoc,
         this.user,
         this.status,
+        this.totalMarks,
+        this.totalQuestions,
+        this.description,
         this.createdBy,
         this.updatedBy,
         this.createdAt,
@@ -85,6 +93,10 @@ class AssignedAssignmentData {
     school = json['school'] != null ? new School.fromJson(json['school']) : null;
     assignmentNo = json['assignmentNo'];
     type = json['type'];
+    totalMarks = json['totalMarks'];
+    totalQuestions = json['totalQuestions'];
+    description = json['description'];
+    title = json['title'];
     assignTo = json['assignTo'] != null
         ? new AssignTo.fromJson(json['assignTo'])
         : null;
@@ -111,6 +123,10 @@ class AssignedAssignmentData {
     if (this.school != null) {
       data['school'] = this.school!.toJson();
     }
+    data['totalMarks'] = this.totalMarks;
+    data['title'] = this.title;
+    data['totalQuestions'] = this.totalQuestions;
+    data['description'] = this.description;
     data['assignmentNo'] = this.assignmentNo;
     data['type'] = this.type;
     if (this.assignTo != null) {

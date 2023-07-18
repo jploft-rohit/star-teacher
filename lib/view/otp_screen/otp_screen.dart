@@ -15,8 +15,9 @@ import 'package:staff_app/view/otp_screen/otp_ctrl.dart';
 
 class OTPScreen extends StatefulWidget {
   final String mobile;
+  final String? employeeId;
   final bool? isFromActivation;
-  const OTPScreen({Key? key, required this.mobile, this.isFromActivation = false}) : super(key: key);
+  const OTPScreen({Key? key, required this.mobile, this.isFromActivation = false, this.employeeId}) : super(key: key);
 
   @override
   State<OTPScreen> createState() => _OTPScreenState();
@@ -119,9 +120,9 @@ class _OTPScreenState extends State<OTPScreen> {
                       ),
                       SizedBox(height: 10.h),
                       Center(
-                        child: BaseButton(btnType: largeButton,title: translate(context).submit_btn_txt, onPressed: (){
+                        child: BaseButton(btnType: largeButton, title: translate(context).submit_btn_txt, onPressed: (){
                           if (widget.isFromActivation??false) {
-                            Get.toNamed(ruleScreenRoute);
+                            controller.verifyActivationRequest(employeeId: widget.employeeId??"", mobile: widget.mobile, otp: controller.otpController.text.trim());
                           }else{
                             controller.otpApi(mobile: widget.mobile);
                           }

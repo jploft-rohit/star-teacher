@@ -62,18 +62,16 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                       controller.selectedSchoolId.value = value?.sId??"";
                       controller.selectedComplaintTypeId.value = "";
                       controller.typeController.value.text = "";
-                      setState(() {
-                        controller.selectSchoolController.value.text = value?.name??"";
-                      });
-                      baseCtrl.getComplaintTypeData(initialSchoolId: value?.sId??"");
+                      controller.selectSchoolController.value.text = value?.name??"";
+                      await baseCtrl.getComplaintTypeData(initialSchoolId: value?.sId??"");
+                      setState(() {print("Set State Called");});
                     },
                   )),
                 Obx(()=>BaseTextFormField(
                   controller: controller.complaintOrReportController.value,
-                  hintText: "Select complaint or report",
+                  hintText: controller.complaintOrReportController.value.text.isEmpty ? "Select complaint or report" : controller.complaintOrReportController.value.text.trim(),
                   isDropDown: true,
                   errorText: "Please select type",
-                  dropDownValue: controller.complaintOrReportController.value.text,
                   onChanged: (newValue){
                     setState(() {
                       controller.complaintOrReportController.value.text = newValue.toString();
@@ -89,7 +87,6 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                     controller: controller.personController.value,
                     hintText: "Select person",
                     suffixIcon: "assets/images/ic_down.svg",
-                    // errorText: "Please select person",
                     onTap: (){
                       if ((controller.selectedSchoolId.value).isNotEmpty) {
                         showGeneralDialog(
@@ -114,10 +111,9 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                 ),
                 Obx(()=>BaseTextFormField(
                     controller: controller.typeController.value,
-                    hintText: controller.typeController.value.text.isEmpty ? "${controller.complaintOrReportController.value.text} Type" : controller.typeController.value.text.trim(),
+                    hintText: controller.typeController.value.text.isEmpty ? "Type" : controller.typeController.value.text.trim(),
                     isDropDown: true,
-                    dropDownValue: controller.typeController.value.text,
-                    errorText: "Please select ${controller.complaintOrReportController.value.text} type",
+                    errorText: "Please select type",
                     items: baseCtrl.complaintTypeResponse.data?.map((ComplaintTypeData.Data value) {
                       return DropdownMenuItem<ComplaintTypeData.Data>(
                         value: value,

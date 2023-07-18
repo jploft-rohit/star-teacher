@@ -153,7 +153,7 @@ class _StarRewardScreenState extends State<StarRewardScreen> {
                   ),
                 ],
               ),
-              ),
+             ),
             ),
             Obx(()=>(baseCtrl.starsList?.length??0) == 0
                 ? BaseNoData(message: "No Stars Found",topMargin: 28.h,)
@@ -190,9 +190,7 @@ class _StarRewardScreenState extends State<StarRewardScreen> {
                               ),
                               child: BaseImageNetwork(link: baseCtrl.starsList?[index].user?.profilePic??"",concatBaseUrl: false,height: 3.h,width: 3.h,),
                             ),
-                            SizedBox(
-                              width: 2.w,
-                            ),
+                            SizedBox(width: 2.w),
                             Padding(
                               padding: EdgeInsets.all(10.sp),
                               child: Column(

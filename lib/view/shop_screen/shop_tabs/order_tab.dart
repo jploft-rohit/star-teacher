@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_tab_bar.dart';
-import 'package:staff_app/utility/base_views/base_colors.dart';
-import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/utility/base_utility.dart';
-import 'package:staff_app/view/shop_screen/tabs/orders_tab/canteen_orders_tab.dart';
-import 'package:staff_app/view/shop_screen/tabs/orders_tab/shop_order_tab.dart';
-import 'package:staff_app/view/shop_screen/shop_screen_ctrl.dart';
+import 'package:staff_app/view/shop_screen/controller/shop_screen_ctrl.dart';
+import 'package:staff_app/view/shop_screen/tabs/order_list_tile.dart';
 
 class OrderTab extends StatefulWidget {
   const OrderTab({super.key});
@@ -20,11 +15,16 @@ class OrderTab extends StatefulWidget {
 class _OrderTabState extends State<OrderTab> with SingleTickerProviderStateMixin {
   ShopScreenCtrl controller = Get.find<ShopScreenCtrl>();
 
-  TabController? tabCtrl;
+  late TabController tabCtrl;
   @override
   void initState() {
-    tabCtrl = TabController(length: 2, vsync: this);
     super.initState();
+    tabCtrl = TabController(length: 2, vsync: this)..addListener(() {
+      if (!(tabCtrl.indexIsChanging)) {
+        controller.ordersTabIndex.value = tabCtrl.index;
+        controller.getShopOrders();
+      }
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -33,19 +33,18 @@ class _OrderTabState extends State<OrderTab> with SingleTickerProviderStateMixin
       height: MediaQuery.of(context).size.height - 64.sp,
       child: Column(
         children: [
+          SizedBox(height: 4),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 5),
             child: buildTabBar(),
           ),
-          SizedBox(
-            height: 2.h,
-          ),
+          SizedBox(height: 2.h),
           Expanded(
             child: TabBarView(
               controller: tabCtrl,
               children: const [
-                ShopOrderView(),
-                CanteenOrdersTab(),
+                OrderListTile(),
+                OrderListTile(),
               ],
             ),
           ),

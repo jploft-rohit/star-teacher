@@ -58,8 +58,8 @@ class _EarlyLeaveTileState extends State<EarlyLeaveTile> {
           int stepperIndex = 1;
           controller.list?[index]?.requestStatus?.forEach((element) {
             stepperDates.add(getFormattedTimeWithMonth(element.time??""));
-            stepperTitles.add(toBeginningOfSentenceCase(element.name??"")??"");
-            if ((element.time??"").toString().isNotEmpty) {
+            stepperTitles.add(toBeginningOfSentenceCase(element.name??"\n\n")??"\n\n");
+            if ((element.time??"").isNotEmpty) {
               stepperIndex+1;
             }
           });
@@ -151,7 +151,7 @@ class _EarlyLeaveTileState extends State<EarlyLeaveTile> {
                 ),
                 StepProgressView(
                   width: MediaQuery.of(context).size.width,
-                  curStep: stepperIndex,
+                  curStep: stepperIndex+3,
                   color: BaseColors.primaryColor,
                   titles: stepperDates,
                   statuses: stepperTitles,

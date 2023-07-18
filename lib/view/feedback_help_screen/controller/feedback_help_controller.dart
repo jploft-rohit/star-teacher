@@ -24,6 +24,7 @@ class FeedbackHelpController extends GetxController{
   RxBool isStaffLoading = false.obs;
   RxString selectedPersonId = "".obs;
   RxString selectedSchoolId = "".obs;
+  RxInt selectedTabIndex = 0.obs;
   Rx<File>? selectedFile = File("").obs;
   final formKey = GlobalKey<FormState>();
   /// Model Class Objects
@@ -37,15 +38,15 @@ class FeedbackHelpController extends GetxController{
   Rx<TextEditingController> uploadController = TextEditingController().obs;
   Rx<TextEditingController> deleteReasonController = TextEditingController().obs;
 
-
   @override
   void onInit() {
     super.onInit();
-    getData(type: '');
+    getData();
   }
 
   setData({required bool isUpdating,Data? data}){
     if(isUpdating){
+      selectedFile?.value = File("");
       baseCtrl.schoolListData.data?.data?.forEach((element) {
         if ((element.sId??"") == (data?.school??"")) {
           schoolController.value.text = element.name??"";
@@ -58,10 +59,8 @@ class FeedbackHelpController extends GetxController{
       messageController.value.text = data?.description??"";
       uploadController.value.text = data?.document??"";
       selectedPersonId.value = data?.person?.sId??"";
-
     }else{
       typeController.value.text = "";
-      // complaintForController.text = "";
       personController.value.text = "";
       typeController.value.text = "";
       titleController.value.text = "";
@@ -70,6 +69,7 @@ class FeedbackHelpController extends GetxController{
       selectedPersonId.value = "";
       schoolController.value.text = "";
       selectedSchoolId.value = "";
+      selectedFile?.value = File("");
     }
   }
 
@@ -120,7 +120,7 @@ class FeedbackHelpController extends GetxController{
           BaseOverlays().showSnackBar(message: "Updated Successfully",title: "Success");
           selectedSchoolId.value = "";
           schoolController.value.text = "";
-          getData(type: "");
+          getData();
         }else{
           BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
         }
@@ -161,7 +161,7 @@ class FeedbackHelpController extends GetxController{
           BaseOverlays().showSnackBar(message: "Created Successfully",title: "Success");
           selectedSchoolId.value = "";
           schoolController.value.text = "";
-          getData(type: "");
+          getData();
         }else{
           BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
         }
@@ -169,9 +169,9 @@ class FeedbackHelpController extends GetxController{
     }
   }
 
-  getData({required String type}){
+  getData(){
     response?.value = [];
-    BaseAPI().get(url: ApiEndPoints().getAllFeedbackHelp,queryParameters: {"type":type,"school":selectedSchoolId.value}).then((value){
+    BaseAPI().get(url: ApiEndPoints().getAllFeedbackHelp,queryParameters: {"type": selectedTabIndex.value == 0 ? "" : selectedTabIndex.value == 1 ? "help" : "feedback","school":selectedSchoolId.value}).then((value){
       if (value?.statusCode ==  200) {
         response?.value = AllFeedbackHelpResponse.fromJson(value?.data).data??[];
       }else{
@@ -197,7 +197,7 @@ class FeedbackHelpController extends GetxController{
       if (value?.statusCode ==  200) {
         baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
         BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"", title: "Success");
-        getData(type: "");
+        getData();
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: "Error");
       }
@@ -214,7 +214,7 @@ class FeedbackHelpController extends GetxController{
         BaseOverlays().dismissOverlay();
         baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
         BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"", title: "Success");
-        getData(type: "");
+        getData();
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: "Error");
       }

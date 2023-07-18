@@ -13,6 +13,7 @@ import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_dropdown.dart';
 import 'package:staff_app/utility/base_views/base_dropdown_2.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/utility/base_views/base_school_selection.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
 import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -52,17 +53,9 @@ class _AddFeedbackViewState extends State<AddFeedbackView> {
             padding: EdgeInsets.all(scaffoldPadding),
             child: Obx(()=>Column(
                 children: [
-                  BaseDropDown2(
+                  BaseSchoolDropDown(
                     controller: controller.schoolController.value,
-                    errorText: "Please select school",
-                    hintText: controller.schoolController.value.text.isEmpty ? "Select School" : controller.schoolController.value.text,
-                    listData: baseCtrl.schoolListData.data?.data?.map((SchoolData.SchoolData data){
-                      return DropdownMenuItem(
-                        value: data,
-                        child: addText(data.name??"", 15.sp, Colors.black, FontWeight.w400),
-                      );
-                    }).toList(),
-                    onChange: (value) async {
+                    onChanged: (value) async {
                       controller.schoolController.value.text = value?.name??"";
                       controller.selectedSchoolId.value = value?.sId??"";
                       controller.personController.value.text = "";

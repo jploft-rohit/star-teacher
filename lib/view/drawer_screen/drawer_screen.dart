@@ -117,12 +117,12 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     },
                     child: buildTile(translate(context).star_evaluation),
                   ),
-                  GestureDetector(
-                    onTap: (){
-                      Get.to(const AssignmentScreen());
-                    },
-                    child: buildTile(translate(context).assignments),
-                  ),
+                  // GestureDetector(
+                  //   onTap: (){
+                  //     Get.to(const AssignmentScreen());
+                  //   },
+                  //   child: buildTile(translate(context).assignments),
+                  // ),
                   GestureDetector(
                     onTap: (){
                       Get.to(const NoteBookScreen());
@@ -159,7 +159,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   ),
                   GestureDetector(
                     onTap: (){
-                      Get.to(const WorkSheetScreen());
+                      Get.to(const NewAssignmentScreen(title: 'Worksheet',));
                     },
                     child: buildTile("Worksheet"),
                   ),

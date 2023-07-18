@@ -9,10 +9,8 @@ import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/shop_screen/cart/cart_view.dart';
 import 'package:staff_app/view/shop_screen/cart/tray_view.dart';
-import 'package:staff_app/view/shop_screen/shop_screen_ctrl.dart';
-import 'package:staff_app/view/shop_screen/tabs/shop_tabs/canteen_tab.dart';
-import 'package:staff_app/view/shop_screen/tabs/shop_tabs/stars_store_tab.dart';
-import 'package:staff_app/view/shop_screen/tabs/shop_tabs/stationery_tab.dart';
+import 'package:staff_app/view/shop_screen/controller/shop_screen_ctrl.dart';
+import 'package:staff_app/view/shop_screen/shop_tabs/shop_dynamic_tabs/shop_dynamic_tabs.dart';
 
 class ShopTab extends StatefulWidget {
   const ShopTab({super.key});
@@ -21,29 +19,35 @@ class ShopTab extends StatefulWidget {
   State<ShopTab> createState() => _ShopTabState();
 }
 
-class _ShopTabState extends State<ShopTab> with TickerProviderStateMixin {
+class _ShopTabState extends State<ShopTab> with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   ShopScreenCtrl controller = Get.find<ShopScreenCtrl>();
 
   late TabController tabController;
 
   @override
   void initState() {
-    tabController = TabController(length: 3, vsync: this)..addListener(() {
-      controller.selectedIndex1.value = tabController.index;
-      setState(() {});
-    });
     super.initState();
+    tabController = TabController(length: 3, vsync: this)..addListener(() {
+      if (!(tabController.indexIsChanging)) {
+        controller.secondaryTabIndex.value = tabController.index;
+        setState(() {});
+        controller.getShopCategoryListData();
+      }
+    });
   }
+
   @override
   void dispose() {
     tabController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       floatingActionButton: shopFloatingButton(() {
-        if (controller.selectedIndex1.value == 2) {
+        if (controller.secondaryTabIndex.value == 2) {
           Get.to(const TrayView());
         } else {
           Get.to(CartView(isStationery: tabController.index == 0 ? true : false, isStarsStore: tabController.index == 1 ? true : false,));
@@ -65,9 +69,9 @@ class _ShopTabState extends State<ShopTab> with TickerProviderStateMixin {
               child: TabBarView(
                   controller: tabController,
                   children: [
-                    StationeryTab(),
-                    StarsStoreTab(),
-                    CanteenTab(),
+                    ShopDynamicTabs(),
+                    ShopDynamicTabs(),
+                    ShopDynamicTabs(),
                   ]),
             ),
           ],
@@ -104,4 +108,6 @@ class _ShopTabState extends State<ShopTab> with TickerProviderStateMixin {
       ],
     );
   }
+  @override
+  bool get wantKeepAlive => true;
 }

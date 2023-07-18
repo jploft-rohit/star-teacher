@@ -8,8 +8,8 @@ import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/constants-classes/color_constants.dart';
 
 class BaseFloatingActionButton extends StatelessWidget {
-  Function() onTap;
-  String title;
+  final Function() onTap;
+  final String title;
   final bool isCart;
   final bool isCalendar;
   final String cartItemCount;

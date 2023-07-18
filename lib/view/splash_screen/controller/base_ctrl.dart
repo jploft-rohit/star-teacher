@@ -70,7 +70,7 @@ class BaseCtrl extends GetxController{
 
   getComplaintTypeData({bool? showLoader, required String initialSchoolId}) async {
     complaintTypeResponse = ComplaintTypeResponse();
-    BaseAPI().get(url: ApiEndPoints().getComplaintType+initialSchoolId,showLoader: showLoader).then((value){
+    await BaseAPI().get(url: ApiEndPoints().getComplaintType+initialSchoolId,showLoader: showLoader).then((value){
       if (value?.statusCode ==  200) {
         complaintTypeResponse = ComplaintTypeResponse.fromJson(value?.data);
       }else{

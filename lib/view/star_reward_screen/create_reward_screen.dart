@@ -49,7 +49,7 @@ class _CreateRewardScreenState extends State<CreateRewardScreen> {
                       Expanded(
                         child: GestureDetector(
                           onTap: () {
-                            ImagePicker().pickImage(source: ImageSource.gallery,imageQuality: 1).then((value){
+                            ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 10).then((value){
                               if ((value?.path??"").isNotEmpty) {
                                 file = value;
                                 controller.selectedImagePath.value = value?.path??"";
@@ -83,8 +83,9 @@ class _CreateRewardScreenState extends State<CreateRewardScreen> {
                       Expanded(
                         child: GestureDetector(
                           onTap: () {
-                            ImagePicker().pickImage(source: ImageSource.camera,imageQuality: 10).then((value){
+                            ImagePicker().pickImage(source: ImageSource.camera, imageQuality: 10).then((value){
                               if ((value?.path??"").isNotEmpty) {
+                                // getPickedFileSize(bytes: value?.readAsBytes().toString().length??0);
                                 file = value;
                                 controller.selectedImagePath.value = value?.path??"";
                               }

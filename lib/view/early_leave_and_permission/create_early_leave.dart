@@ -86,8 +86,8 @@ class _CreateEarlyLeaveState extends State<CreateEarlyLeave> {
                           );
                         },
                         initialDate: DateTime.now(),
-                        firstDate: DateTime(1600, 8),
-                        lastDate: DateTime.now()
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime((DateTime.now().year+50),1,1),
                     ).then((picked){
                       if (picked != null) {
                         controller.dateController.text = formatFlutterDateTime(flutterDateTime: picked, getDayFirst: false);

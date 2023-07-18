@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
@@ -8,16 +7,11 @@ import 'package:staff_app/utility/base_views/base_tab_button.dart';
 import 'package:staff_app/utility/base_views/base_toggle_tab_bar.dart';
 import 'package:staff_app/Utility/custom_dropdown_widget.dart';
 import 'package:staff_app/Utility/dummy_lists.dart';
-
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/assignments_screen/assignment_by_me_view/assigned_by_me_view.dart';
 import 'package:staff_app/view/assignments_screen/controller/assignment_screen_ctrl.dart';
-import 'package:staff_app/view/assignments_screen/assignment_to_me_view/assignment_to_me_view.dart';
 import 'package:staff_app/view/create_task_or_assignment/create_task_or_assignment.dart';
-
-import 'package:staff_app/utility/base_views/base_colors.dart';
 
 class AssignmentScreen extends StatefulWidget {
   const AssignmentScreen({Key? key}) : super(key: key);

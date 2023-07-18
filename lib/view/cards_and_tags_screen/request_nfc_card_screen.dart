@@ -9,7 +9,7 @@ import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
-import 'package:staff_app/view/cards_and_tags_screen/card_tag_ctrl.dart';
+import 'package:staff_app/view/cards_and_tags_screen/controller/card_tag_ctrl.dart';
 import 'package:staff_app/view/cards_and_tags_screen/nfc_cart_screen.dart';
 import 'package:staff_app/view/shop_screen/cart/cart_view.dart';
 

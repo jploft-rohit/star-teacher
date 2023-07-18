@@ -17,7 +17,7 @@ import 'package:staff_app/utility/intl/intl.dart';
 import 'package:staff_app/view/chat_screen/chating_screen.dart';
 import 'package:staff_app/view/rating_screens/driver_rating_screen.dart';
 import 'package:staff_app/view/transportation_screen/bus_arriving_soon_screen.dart';
-import 'package:staff_app/view/transportation_screen/location_screen.dart';
+import 'package:staff_app/view/transportation_screen/transportation_location_screen.dart';
 import 'package:staff_app/view/transportation_screen/notify_authority_screen.dart';
 import 'package:staff_app/view/transportation_screen/controller/transportation_screen_ctrl.dart';
 
@@ -106,7 +106,7 @@ class _TransportationScreenState extends State<TransportationScreen> with Single
               },btnType: buttonIcon),
               SizedBox(height: 1.h),
               BaseButton(title: translate(context).location, onPressed: (){
-                Get.to(LocationScreen());
+                Get.to(TransportationLocationScreen());
               },btnType: buttonIcon),
               SizedBox(height: 1.h),
               BaseButton(title: translate(context).bus_notifications, onPressed: (){

@@ -6,6 +6,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_detail_data.dart';
+import 'package:staff_app/utility/base_views/base_image_network.dart';
 import 'package:staff_app/utility/base_views/base_tab_bar.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
@@ -20,6 +21,7 @@ import 'package:staff_app/view/my_profile_screen/my_profile_view/my_profile_view
 import 'package:staff_app/view/my_profile_screen/schools_view/schools_view.dart';
 import 'package:staff_app/view/my_profile_screen/statistics_view/statistics_view.dart';
 import 'package:staff_app/view/print_qr_screen.dart';
+import 'package:staff_app/view/account_deactivation_screen/deactivation_detail_screen.dart';
 
 class MyProfileScreen extends StatefulWidget {
   final bool isFromDrawer;
@@ -47,7 +49,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: BaseColors.white,
-      appBar: BaseAppBar(title: translate(context).my_profile,onBackPressed: (){
+      appBar: BaseAppBar(
+        title: translate(context).my_profile,
+        onBackPressed: (){
         if(widget.isFromDrawer){
           Navigator.pop(context);
         }else{
@@ -76,6 +80,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
                     Expanded(
                       flex: 2,
                       child: Container(
+                        height: 7.h,
                         padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 12.sp, right: 12.sp),
                         decoration: BoxDecoration(
                           border: Border.all(
@@ -83,7 +88,10 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
                           ),
                           borderRadius: BorderRadius.circular(15.0),
                         ),
-                        child: SvgPicture.asset(manSvg),
+                        child: BaseImageNetwork(
+                          link: controller.response.value.data?.profilePic??"",
+                          errorWidget: SvgPicture.asset(manSvg),
+                        ),//controller.response.value.data?.designation??"Teacher"
                       ),
                     ),
                     SizedBox(width: 3.w),
@@ -98,16 +106,39 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
                         ],
                       ),
                     ),
-                    GestureDetector(
-                      onTap: (){
-                        showScanQrDialogue(context, false,data: controller.response.value.data?.barcode??na);
-                      },
-                      child: QrImage(
-                        data: controller.response.value.data?.barcode??na,
-                        version: QrVersions.auto,
-                        size: 70,
-                        gapless: false,
-                      ),
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Visibility(
+                          visible: (controller.response.value.data?.currentStatus??"").toString().toLowerCase() == "inactive",
+                          child: GestureDetector(
+                            onTap: (){
+                              Get.to(DeactivationDetailScreen(data: controller.response.value.data?.deactivateData));
+                            },
+                            child: Container(
+                              width: 80,
+                              height: 18,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: BaseColors.primaryColor),
+                                borderRadius: BorderRadius.circular(10)
+                              ),
+                              child: Text("DEACTIVATED",style: TextStyle(fontSize: 10,fontWeight: FontWeight.w700,color: BaseColors.primaryColor)),
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: (){
+                            showScanQrDialogue(context, false,data: controller.response.value.data?.barcode??na);
+                          },
+                          child: QrImage(
+                            data: controller.response.value.data?.barcode??na,
+                            version: QrVersions.auto,
+                            size: 70,
+                            gapless: false,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

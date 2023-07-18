@@ -31,10 +31,12 @@ class _RewardImageScreenState extends State<RewardImageScreen> {
   RewardScreenCtrl controller = Get.find<RewardScreenCtrl>();
   bool isImageSelected = false;
   XFile? file;
+  late ImagePicker imagePicker;
 
   @override
   void initState() {
     super.initState();
+    imagePicker = ImagePicker();
     controller.uploadedImagePath.value = widget.uploadedImage;
   }
 
@@ -196,7 +198,7 @@ class _RewardImageScreenState extends State<RewardImageScreen> {
               SizedBox(height:3.h),
               BaseButton(title: translate(context).submit_btn_txt,
                 onPressed: (){
-                if ((controller.uploadedImagePath.value).isNotEmpty) {
+                if ((file?.path??"").isNotEmpty) {
                   controller.updateRewardImage(file: file,rewardId: controller.rewardList?[widget.index].sId.toString());
                   // showGeneralDialog(
                   //   context: context,
@@ -205,7 +207,11 @@ class _RewardImageScreenState extends State<RewardImageScreen> {
                   //   },
                   // );
                 }else{
-                  baseToast(message: "Image can't be empty");
+                  if (controller.uploadedImagePath.value.isNotEmpty) {
+                    Get.back();
+                  }else{
+                    baseToast(message: "Please Select Image");
+                  }
                 }
               },btnType: largeButton,)
             ],

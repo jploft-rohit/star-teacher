@@ -30,10 +30,8 @@ class _FeedbackHelpScreenState extends State<FeedbackHelpScreen> with TickerProv
   void initState() {
     tabCtrl = TabController(length: 3, vsync: this)..addListener(() {
       if (!tabCtrl.indexIsChanging) {
-        controller.getData(
-            type: (tabCtrl.index) == 0 ? "" : (tabCtrl.index) == 1
-                ? "help"
-                : "feedback");
+        controller.selectedTabIndex.value = tabCtrl.index;
+        controller.getData();
       }
     });
     super.initState();
@@ -58,7 +56,7 @@ class _FeedbackHelpScreenState extends State<FeedbackHelpScreen> with TickerProv
               onChanged: (value) {
                 controller.schoolController.value.text = value.name??"";
                 controller.selectedSchoolId.value = value.sId??"";
-                controller.getData(type: (tabCtrl.index) == 0 ? "" : (tabCtrl.index) == 1 ? "help" : "feedback");
+                controller.getData();
               },
             ),
             buildTabBar(),
