@@ -4,6 +4,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
@@ -37,7 +38,7 @@ class ScheduleMeetingListTile extends StatelessWidget {
     'Request\nRaised',
     'Request\nCancelled',
   ];
-  List<String> cancelledStepperDates = [];
+  final List<String> cancelledStepperDates = [];
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +66,7 @@ class ScheduleMeetingListTile extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   BaseDetailData(prefixIcon: "assets/images/Vector (1).svg",detailsLabel:"Schedule Date", detailsValue:formatBackendDate(controller.list?[index].date??"")),
-                  BaseDetailData(prefixIcon: "assets/images/time_icon.svg",detailsLabel:"Time Slot", detailsValue:getFormattedTime(controller.list?[index].time??"")),
+                  BaseDetailData(prefixIcon: "assets/images/time_icon.svg",detailsLabel:"Time Slot", detailsValue: getFormattedTime(controller.list?[index].time??"")),
                   BaseDetailData(prefixIcon: "assets/images/family_img.svg",detailsLabel:"Meeting with", detailsValue:controller.list?[index].teacher?.name??"N/A"),
                   BaseDetailData(prefixIcon: "assets/images/ic_designation.svg",detailsLabel:"Designation", detailsValue:"Teacher Admin"),
                   Row(
@@ -114,8 +115,15 @@ class ScheduleMeetingListTile extends StatelessWidget {
                                 rightMargin: 2.w,
                               ),
                               GestureDetector(
-                                  onTap: (){Get.to(ChatingScreen());},
-                                  child: SvgPicture.asset("assets/images/chat_img.svg")),
+                                  onTap: (){
+                                    showGeneralDialog(
+                                      context: context,
+                                      pageBuilder:  (context, animation, secondaryAnimation) {
+                                        return MeetingCancelReasonPopup(id: controller.list?[index].sId??"",isUpdating: true);
+                                      },
+                                    );
+                                  },
+                                  child: SvgPicture.asset(icEdit)),
                             ],
                           ),
                         ),
@@ -142,10 +150,13 @@ class ScheduleMeetingListTile extends StatelessWidget {
                             showGeneralDialog(
                               context: context,
                               pageBuilder:  (context, animation, secondaryAnimation) {
-                                return ChooseMeetingDateTimePopup(title: "Reschedule",);
+                                return ChooseMeetingDateTimePopup(title: "Reschedule", id: controller.list?[index].sId??"");
                               },
                             );
-                          }, isActive: controller.selectedTabIndex.value == 0 ? false : true, textSize: 15.sp,rightMargin: 1.w),
+                          },
+                              isActive: controller.selectedTabIndex.value == 0 ? false : true,
+                              textSize: 15.sp,rightMargin: 1.w,
+                          ),
                         ),
                         Visibility(
                           visible: controller.selectedTabIndex.value == 0 || controller.selectedTabIndex.value == 1,
@@ -165,8 +176,8 @@ class ScheduleMeetingListTile extends StatelessWidget {
                           child: Expanded(child: BaseButton(title: "ACCEPT", onPressed: (){
                             BaseOverlays().showConfirmationDialog(
                               title: "Are you sure, you want to accept this meeting ?",
-                                onRightButtonPressed: (){
-                              controller.updateStatus(id: controller.list?[index].sId??"",type: "accepted");
+                              onRightButtonPressed: (){
+                                controller.updateStatus(id: controller.list?[index].sId??"",type: "accepted");
                             });
                           }, textSize: 15.sp,leftMargin: 1.w)),
                         ),
@@ -175,7 +186,7 @@ class ScheduleMeetingListTile extends StatelessWidget {
                   ),
                   Visibility(
                     visible: controller.selectedTabIndex.value == 3,
-                    child: (controller.list?[index].meetingFeedBackRating??"").isEmpty ? Align(
+                    child: (controller.list?[index].meetingFeedBackRating??"").isEmpty || (controller.list?[index].meetingFeedBackRating??"") == "0"|| (controller.list?[index].meetingFeedBackRating??"") == null || (controller.list?[index].meetingFeedBackRating??"") == "null"? Align(
                       alignment: Alignment.centerLeft,
                       child: SizedBox(
                         width: 100,
@@ -189,14 +200,15 @@ class ScheduleMeetingListTile extends StatelessWidget {
                             },
                         ),
                       ),
-                    ):Align(
+                    ) : Align(
                       alignment: Alignment.centerLeft,
                       child: RatingBar.builder(
-                        itemSize: 30,
-                        initialRating: double.parse(controller.list?[index].meetingFeedBackRating??"0.0"),
+                        itemSize: 25,
+                        initialRating: double.parse((controller.list?[index].meetingFeedBackRating??"0")),
                         minRating: 1,
+                        ignoreGestures: true,
                         direction: Axis.horizontal,
-                        allowHalfRating: true,
+                        allowHalfRating: false,
                         itemCount: 5,
                         itemBuilder: (context, _) => Padding(
                           padding: const EdgeInsets.all(1.0),
@@ -314,10 +326,9 @@ class ScheduleMeetingListTile extends StatelessWidget {
                                 title: 'SUBMIT',
                                 onPressed: (){
                                   if (formKey.currentState?.validate()??false) {
-                                    controller.updateStatus(
+                                    controller.updateRating(
                                         id: controller.list?[index].sId??"",
                                         meetingFeedBackRating: selectedRating.toString(),
-                                        meetingFeedBackDesc: descController.text.trim()
                                     );
                                   }
                                 },borderRadius: 20

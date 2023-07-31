@@ -193,7 +193,7 @@ class WalletController extends GetxController {
                   getHistory();
                 });
           }else{
-            BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+            BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
           }
          },
      );
@@ -205,7 +205,7 @@ class WalletController extends GetxController {
       if (value?.statusCode ==  200) {
         walletBalanceData?.value = WalletBalanceResponse.fromJson(value?.data).data;
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     },
     );
@@ -218,7 +218,7 @@ class WalletController extends GetxController {
       if (value?.statusCode ==  200) {
         list?.value = TransactionsHistoryResponse.fromJson(value?.data).data??[];
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     },
     );

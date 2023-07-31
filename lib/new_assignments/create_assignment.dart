@@ -103,6 +103,7 @@ class _CreateAssignmentState extends State<CreateAssignment> with SingleTickerPr
                   BaseTextFormField(
                     controller: controller.assignmentToCtrl.value,
                     hintText: "Assign To :",
+                    suffixIcon: "assets/images/ic_down.svg",
                     onTap: (){
                       if (controller.selectedSchoolId.value.isNotEmpty) {
                         showGeneralDialog(
@@ -312,7 +313,8 @@ class _CreateAssignmentState extends State<CreateAssignment> with SingleTickerPr
                       suffixIcon: uploadDocSvg,
                       hintText: "Support Doc (Optional)",
                       onTap: (){
-                        BaseOverlays().showMediaPickerDialog(onCameraClick: () async {
+                        BaseOverlays().showMediaPickerDialog(
+                            onCameraClick: () async {
                           BaseOverlays().dismissOverlay();
                           ImagePicker picker = ImagePicker();
                           await picker.pickImage(source: ImageSource.camera).then((value){

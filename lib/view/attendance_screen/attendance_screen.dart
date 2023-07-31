@@ -74,7 +74,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> with TickerProvider
                   contentPadding: EdgeInsets.only(left: 10.sp, right: 10.sp, top: 15.sp, bottom: 15.sp),
                   leading: Container(
                     height: double.infinity,
-                    padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
+                    width: 16.w,
+                    padding: EdgeInsets.only(top: 8.sp, bottom: 8.sp, left: 10.sp, right: 10.sp),
                     decoration: BoxDecoration(
                       border: Border.all(
                           color: BaseColors.primaryColor

@@ -20,6 +20,7 @@ class PerformanceScreen extends StatefulWidget {
 }
 
 class _PerformanceScreenState extends State<PerformanceScreen> with TickerProviderStateMixin {
+  final bool isRTL = ((Directionality.of(Get.context!)) == (TextDirection.rtl));
   late TabController tabCtrl;
   PerformanceController controller = Get.put(PerformanceController());
 
@@ -60,13 +61,9 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
                 child: Column(
                   children: [
                     addText(translate(context).average_rating, 15.sp, BaseColors.primaryColor, FontWeight.w400),
-                    SizedBox(
-                      height: 1.h,
-                    ),
+                    SizedBox(height: 1.h),
                     Obx(()=> addText(controller.averageRating.toString(), 20.sp, BaseColors.textBlackColor, FontWeight.w700)),
-                    SizedBox(
-                      height: 1.h,
-                    ),
+                    SizedBox(height: 1.h),
                     Obx(()=>RatingBar.builder(
                         initialRating: controller.averageRating.value,
                         minRating: 1,
@@ -105,7 +102,8 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    addText("${translate(context).filter_by}:", 16.sp, BaseColors.textBlackColor, FontWeight.w700),
+                    Padding(padding: EdgeInsets.only(bottom: isRTL ? 12 : 0),
+                    child: addText("${translate(context).filter_by}:", 16.sp, BaseColors.textBlackColor, FontWeight.w700)),
                     SizedBox(
                       width: 2.w,
                     ),
@@ -219,7 +217,7 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
                 border: Border.all(color: BaseColors.borderColor)
             ),
             child: Stack(
-              alignment: Alignment.topRight,
+              alignment: isRTL ? Alignment.topLeft : Alignment.topRight,
               children: [
                 Column(
                   children: [

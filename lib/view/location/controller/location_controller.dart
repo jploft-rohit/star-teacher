@@ -86,7 +86,7 @@ class LocationController extends GetxController{
   deleteData({required id}) async {
     BaseAPI().get(url: ApiEndPoints().deleteUserLocation+id).then((value){
       if (value?.statusCode ==  200) {
-        BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"",title: "Success");
+        BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"",title: translate(Get.context!).success);
         getData();
       } else {
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
@@ -136,7 +136,7 @@ class LocationController extends GetxController{
       BaseAPI().post(url: ApiEndPoints().createUserAddress, data: data).then((value){
         if (value?.statusCode ==  200) {
           Get.back();
-          BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"",title: "Success");
+          BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"",title: translate(Get.context!).success);
           getData();
         } else {
           BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");

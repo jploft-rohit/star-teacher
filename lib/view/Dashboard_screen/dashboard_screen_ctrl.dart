@@ -17,6 +17,7 @@ class DashboardScreenCtrl extends GetxController{
   RxString? rationOfPerformance = "0".obs;
   final currentIndex = 2.obs;
   RxInt selectedTabIndex = 0.obs;
+  RxString isActivationRequestSent = "".obs;
   GlobalKey<CurvedNavigationBarState> bottomNavigationKey = GlobalKey();
   /// School
   RxString selectedSchoolId = "".obs;
@@ -52,7 +53,7 @@ class DashboardScreenCtrl extends GetxController{
         list?.value = NewsBroadCastListData.fromJson(value?.data).data??[];
       }else{
         isBroadCastLoading.value = false;
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
     isBroadCastLoading.value = false;
@@ -65,7 +66,7 @@ class DashboardScreenCtrl extends GetxController{
         numberOfClassesTaken?.value = HomeResponse.fromJson(value?.data).data?.totalClassTaken.toString()??"";
         rationOfPerformance?.value = HomeResponse.fromJson(value?.data).data?.performance.toString()??"";
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }
@@ -73,11 +74,11 @@ class DashboardScreenCtrl extends GetxController{
   agreeNewsBroadCast({required String id, required int index}){
     BaseAPI().patch(url: ApiEndPoints().agreeNewsBroadCast+id).then((value){
       if (value?.statusCode ==  200) {
-        BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"", title: "Success");
+        BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"", title: translate(Get.context!).success);
         list?[index].isRead = true;
         list?.refresh();
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }

@@ -58,7 +58,7 @@ class _RulesScreen2State extends State<RulesScreen2> {
                       Get.closeAllSnackbars();
                       _showActivationDialogue(context);
                     }else{
-                      BaseOverlays().showSnackBar(message: "Please agree with responsibility",title: "Error");
+                      BaseOverlays().showSnackBar(message: "Please agree with responsibility",title: translate(Get.context!).error);
                     }
 
                   },

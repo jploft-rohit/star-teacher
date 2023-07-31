@@ -565,12 +565,14 @@ class Role {
   dynamic createdAt;
   dynamic updatedAt;
   dynamic iV;
+  dynamic displayName;
 
   Role(
       {this.isDeleted,
         this.sId,
         this.name,
         this.type,
+        this.displayName,
         this.status,
         this.createdBy,
         this.createdAt,
@@ -580,6 +582,7 @@ class Role {
   Role.fromJson(Map<String, dynamic> json) {
     isDeleted = json['isDeleted'];
     sId = json['_id'];
+    displayName = json['displayName'];
     name = json['name'];
     type = json['type'];
     status = json['status'];
@@ -593,6 +596,7 @@ class Role {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['isDeleted'] = this.isDeleted;
     data['_id'] = this.sId;
+    data['displayName'] = this.displayName;
     data['name'] = this.name;
     data['type'] = this.type;
     data['status'] = this.status;

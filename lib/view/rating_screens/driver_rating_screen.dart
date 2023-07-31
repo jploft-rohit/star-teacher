@@ -204,9 +204,7 @@ class _RatingScreenState extends State<RatingScreen> {
                 ),
               ],
             ),
-            SizedBox(
-              height: 2.h,
-            ),
+            SizedBox(height: 2.h),
             BaseButton(
                 btnType: largeButton,
                 borderRadius: 20,
@@ -220,6 +218,7 @@ class _RatingScreenState extends State<RatingScreen> {
                     BaseOverlays().showConfirmationDialog(
                         title: "Are you sure you want to send this feedback?",
                         onRightButtonPressed: (){
+                          Get.back();
                           controller.rateBus();
                         }
                     );

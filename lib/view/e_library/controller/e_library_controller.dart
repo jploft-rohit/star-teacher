@@ -12,7 +12,8 @@ import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
-import 'package:staff_app/view/e_library/questions/question1.dart';
+import 'package:staff_app/view/mcq_screen/controller/mcq_controller.dart';
+import 'package:staff_app/view/mcq_screen/create_mcq_screen.dart';
 
 class ELibraryController extends GetxController{
   RxInt tabIndex = 0.obs;
@@ -21,6 +22,7 @@ class ELibraryController extends GetxController{
   RxString selectedSubQuestionType = "".obs;
   RxString selectedSubjectId = "".obs;
   RxString selectedClassId = "".obs;
+  String screenType = "";
   final formKey = GlobalKey<FormState>();
   Rx<TextEditingController> assignmentCategoryCtrl = TextEditingController().obs;
   Rx<TextEditingController> titleCtrl = TextEditingController().obs;
@@ -207,7 +209,7 @@ class ELibraryController extends GetxController{
       if (value?.statusCode ==  200) {
         list?.value = AssignmentResponse.fromJson(value?.data).data??[];
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }
@@ -225,11 +227,20 @@ class ELibraryController extends GetxController{
       BaseAPI().post(url: ApiEndPoints().createAssignment,data: data).then((value){
         if (value?.statusCode ==  200) {
           response = BaseSuccessResponse.fromJson(value?.data);
-          Navigator.pushReplacement(Get.context!, MaterialPageRoute(builder: (context)=> Question1()));
-          BaseOverlays().showSnackBar(message: response.message??"",title: "Success");
+          /// todo Give Title
+          Navigator.pushReplacement(Get.context!, MaterialPageRoute(builder: (context)=> CreateMcqScreen(
+              screenType: screenType,
+              id: value?.data["data"]["_id"],
+              term: termCtrl.value.text.trim(),
+              subject: subjectCtrl.value.text.trim(),
+              assignmentType: screenType,
+              currentQuestionNumber: "1",
+              assignmentNumber: value?.data["data"]["assignmentNo"]??"",
+          )));
+          BaseOverlays().showSnackBar(message: response.message??"",title: translate(Get.context!).success);
           getData();
         }else{
-          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
         }
       });
     }
@@ -248,11 +259,23 @@ class ELibraryController extends GetxController{
       BaseAPI().put(url: ApiEndPoints().editAssignment+id,data: data).then((value){
         if (value?.statusCode ==  200) {
           response = BaseSuccessResponse.fromJson(value?.data);
-          Navigator.pushReplacement(Get.context!, MaterialPageRoute(builder: (context)=> Question1()));
-          BaseOverlays().showSnackBar(message: response.message??"",title: "Success");
+          /// todo Give Title
+          Navigator.pushReplacement(Get.context!, MaterialPageRoute(builder: (context)=> CreateMcqScreen(
+            screenType: screenType,
+            id: value?.data["data"]["_id"],
+            term: termCtrl.value.text.trim(),
+            subject: subjectCtrl.value.text.trim(),
+            assignmentType: screenType,
+            currentQuestionNumber: "1",
+            assignmentNumber: value?.data["data"]["assignmentNo"]??"",
+            isUpdating:true,
+            ),
+           ),
+          );
+          BaseOverlays().showSnackBar(message: response.message??"",title: translate(Get.context!).success);
           getData();
         }else{
-          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
         }
       });
     }
@@ -270,9 +293,9 @@ class ELibraryController extends GetxController{
         if (value?.statusCode ==  200) {
           response = BaseSuccessResponse.fromJson(value?.data);
           list?.removeAt(index);
-          BaseOverlays().showSnackBar(message: response.message??"" ,title: "Success");
+          BaseOverlays().showSnackBar(message: response.message??"" ,title: translate(Get.context!).success);
         }else{
-          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
         }
       });
     }
@@ -284,9 +307,9 @@ class ELibraryController extends GetxController{
       BaseAPI().get(url: ApiEndPoints().saveAssignment+id).then((value){
         if (value?.statusCode ==  200) {
           response = BaseSuccessResponse.fromJson(value?.data);
-          BaseOverlays().showSnackBar(message: response.message??"" ,title: "Success");
+          BaseOverlays().showSnackBar(message: response.message??"" ,title: translate(Get.context!).success);
         }else{
-          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
         }
       });
   }
@@ -297,10 +320,10 @@ class ELibraryController extends GetxController{
     BaseAPI().get(url: ApiEndPoints().postAssignment+id).then((value){
       if (value?.statusCode ==  200) {
         response = BaseSuccessResponse.fromJson(value?.data);
-        BaseOverlays().showSnackBar(message: response.message??"" ,title: "Success");
+        BaseOverlays().showSnackBar(message: response.message??"" ,title: translate(Get.context!).success);
         list?.removeAt(index);
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }

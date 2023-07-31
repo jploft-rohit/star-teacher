@@ -191,7 +191,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                                       },
                                       initialDate: DateTime.now(),
                                       firstDate: DateTime(1600, 8),
-                                      lastDate: DateTime.now()
+                                      lastDate: DateTime((DateTime.now().year+50),1,1),
                                   ).then((picked){
                                     if (picked != null) {
                                       controller.dateController..text = "${picked.year.toString()}-${picked.month.toString().padLeft(2,'0')}-${picked.day.toString().padLeft(2,'0')}";

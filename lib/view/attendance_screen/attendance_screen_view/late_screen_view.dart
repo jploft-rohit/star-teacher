@@ -105,7 +105,7 @@ class _AttendanceLateViewState extends State<AttendanceLateView> {
                           showGeneralDialog(
                             context: context,
                             pageBuilder: (context, animation, secondaryAnimation) {
-                              return ReasonPopup();
+                              return ReasonPopup(id: "");
                             },
                           );
                         },

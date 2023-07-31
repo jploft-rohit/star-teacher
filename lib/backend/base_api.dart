@@ -33,7 +33,7 @@ class BaseAPI {
   }
 
   /// GET Method
-  Future<Response?> get({required String url, Map<String, dynamic>? queryParameters,bool? showLoader}) async {
+  Future<Response?> get({required String url, Map<String, dynamic>? queryParameters,bool? showLoader,bool? showErrorSnackbar}) async {
     if (await checkInternetConnection()) {
       try {
         BaseOverlays().showLoader(showLoader: showLoader??true);
@@ -44,7 +44,7 @@ class BaseAPI {
         return response;
       } on DioError catch (e) {
         BaseOverlays().dismissOverlay(showLoader: showLoader??true);
-        _handleError(e);
+        _handleError(e,showErrorSnackbar: showErrorSnackbar??true);
         rethrow;
       }
     }else{
@@ -143,6 +143,27 @@ class BaseAPI {
     }
   }
 
+  Future<Response?> deleteWithQueryParam({required String url, Map<String, dynamic>? headers, dynamic data}) async {
+    FocusScope.of(X.Get.context!).requestFocus(FocusNode());
+    if (await checkInternetConnection()) {
+      try {
+        BaseOverlays().showLoader();
+        final String token = await BaseSharedPreference().getString(SpKeys().apiToken);
+        final response = await _dio.delete(url, queryParameters: data, options: Options(headers: headers??{"Authorization": "Bearer $token"}));
+        BaseOverlays().dismissOverlay();
+        return response;
+      } on DioError catch (e) {
+        BaseOverlays().dismissOverlay();
+        _handleError(e);
+        rethrow;
+      }
+    }else{
+      // BaseDialogs().dismissLoader();
+      BaseOverlays().showSnackBar(message: translate(X.Get.context!).no_internet_connection);
+      return null;
+    }
+  }
+
   /// Download Method
   Future<Response> download(String url, String savePath, {Map<String, dynamic>? headers, void Function(int, int)? onReceiveProgress}) async {
     checkInternetConnection();
@@ -172,13 +193,54 @@ class BaseAPI {
     }
   }
 
-
-  Future<Response> postFormData(String url, Map<String, dynamic> formData, {Map<String, dynamic>? headers}) async {
+  Future<dynamic> postFormDataMedical(String url, Map<String, dynamic> formData,
+      {Map<String, dynamic>? headers,
+        Function(int, int)? onSendProgress}) async {
     try {
-      final response = await _dio.post(url,
-          data: FormData.fromMap(formData), options: Options(headers: headers));
+      final dio = Dio();
+      final form = FormData();
+
+      formData.forEach((key, value) {
+        if (value is String) {
+          form.fields.add(MapEntry(key, value));
+        } else if (value is MultipartFile) {
+          form.files.add(MapEntry(key, value));
+        }
+      });
+      final String token = await BaseSharedPreference().getString(SpKeys().apiToken)??"";
+      final response = await _singleton._dio.post(url, data: form, options: Options(headers: headers??{"Authorization": "Bearer $token"}),
+        onSendProgress: onSendProgress,
+      );
+
       return response;
     } on DioError catch (e) {
+      // String message = _singleton._handleError(e);
+      throw e.message;
+    }
+  }
+
+
+  Future<Response> postFormData(String url, Map<String, dynamic> formData, String type, {Map<String, dynamic>? headers, bool? showLoader}) async {
+    BaseOverlays().showLoader(showLoader: showLoader);
+    FocusScope.of(X.Get.context!).requestFocus(new FocusNode());
+    try {
+      final String token = await BaseSharedPreference().getString(SpKeys().apiToken) ?? "";
+      var response;
+      if (type == "post") {
+        response = await _dio.post(url, data: FormData.fromMap(formData), options: Options(headers: headers ?? {"Authorization": "Bearer $token"}));
+      }
+      if (type == "patch") {
+        response = await _dio.patch(url, data: FormData.fromMap(formData), options: Options(headers: headers ?? {"Authorization": "Bearer $token"}));
+      }
+      if (type == "put") {
+        response = await _dio.put(url, data: FormData.fromMap(formData), options: Options(headers: headers ?? {"Authorization": "Bearer $token"}));
+      }
+      // BaseOverlays().dismissOverlay(showLoader: showLoader);
+      X.Get.back();
+      return response;
+    } on DioError catch (e) {
+      X.Get.back();
+      // BaseOverlays().dismissOverlay(showLoader: showLoader);
       _handleError(e);
       rethrow;
     }
@@ -220,14 +282,16 @@ class BaseAPI {
     return dio.post(url, data: formData, onSendProgress: onSendProgress);
   }
 
-  void _handleError(DioError e) {
+  void _handleError(DioError e,{bool? showErrorSnackbar}) {
     if (e.type == DioErrorType.connectTimeout || e.type == DioErrorType.receiveTimeout || e.type == DioErrorType.sendTimeout) {
       // Handle timeout error
       log('Timeout Error: ${e.message}');
     } else if (e.type == DioErrorType.other) {
       // Handle response error
       log('Bad Response Error: ${e.message}');
-      BaseOverlays().showSnackBar(message: (e.response?.data['message']));
+      if (showErrorSnackbar??true) {
+        BaseOverlays().showSnackBar(message: (e.response?.data['message']));
+      }
     } else if (e.type == DioErrorType.cancel) {
       // Handle cancel error
       log('Request Cancelled Error: ${e.message}');
@@ -235,7 +299,9 @@ class BaseAPI {
       // Handle other errors
       log('Unknown Error: ${e.response?.data["message"]}');
       if ((e.response?.data["message"].toString()??"").isNotEmpty) {
-        BaseOverlays().showSnackBar(message: e.response?.data["message"]);
+        if (showErrorSnackbar??true) {
+          BaseOverlays().showSnackBar(message: e.response?.data["message"]);
+        }
       }
     }
   }

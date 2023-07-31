@@ -29,29 +29,9 @@ class ScheduleMeetingScreen extends StatefulWidget {
 
 class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with SingleTickerProviderStateMixin {
   late TabController tabCtrl;
-  final List<String> pendingMeetingdates = ['July 2,\n8:30PM', '', '', ""];
-  final List<String> pendingMeetingdates2 = ['July 2, 8:30PM', 'July 2, 8:30PM', 'July 3, 10:30AM', "July 3, 10:30AM"];
-  final List<String> pendingMeetingdates1 = ['July 2, 8:30PM', 'July 3, 10:30AM',];
   ScheduleMeetingScreenCtrl ctrl = Get.put(ScheduleMeetingScreenCtrl());
   BaseCtrl baseCtrl = Get.find<BaseCtrl>();
-  final List<String> heading = [
-    'Request\nRaised',
-    'Accepted',
-    'Planned On',
-    'Completed',
-  ];
-  final List<String> heading2 = [
-    'Request\nRaised',
-    'Accepted',
-    'Planned On',
-    'Completed',
-  ];
-  final List<String> heading1 = [
-    'Request\nRaised',
-    'Request\nCancelled',
-  ];
 
-  bool isTap = false;
   @override
   void initState() {
     super.initState();
@@ -63,6 +43,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

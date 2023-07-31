@@ -17,8 +17,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? bottomChild;
   final double? bottomWidgetHeight;
 
-  const BaseAppBar({Key? key, this.title, this.showSos = false, this.onBackPressed, this.showNotification = true, this.showBackIcon = true, this.onDrawerPressed, this.bottomChild, this.bottomWidgetHeight})
-      : super(key: key);
+  const BaseAppBar({Key? key, this.title, this.showSos = false, this.onBackPressed, this.showNotification = true, this.showBackIcon = true, this.onDrawerPressed, this.bottomChild, this.bottomWidgetHeight}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +32,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: onDrawerPressed != null
       ///   Drawer Icon
           ? GestureDetector(onTap: onDrawerPressed, child: Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(12),
               child: SvgPicture.asset(drawerSvg),
           ))
       ///   Back Icon
@@ -69,13 +68,14 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const NotificationScreen()));
                   },
                   child: Padding(
-                    padding: EdgeInsets.only(right: 4.w),
+                    padding: EdgeInsets.only(right: 4.w,left: 4.w),
                     child: SvgPicture.asset("assets/images/ic_notification.svg",height: 24.sp,width: 24.sp),
                   ),
               ),
               /// Notification Count
               Positioned(
                 top: 1.8.h,
+                right: 4.w,
                 child: Container(
                   height: 17.sp,
                   width: 17.sp,

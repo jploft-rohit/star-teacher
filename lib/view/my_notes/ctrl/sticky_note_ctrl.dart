@@ -50,7 +50,7 @@ class StickyNoteCtrl extends GetxController{
           }
         });
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }
@@ -69,10 +69,10 @@ class StickyNoteCtrl extends GetxController{
         if (value?.statusCode ==  200) {
           Get.back();
           baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
-          BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: "Success");
+          BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: translate(Get.context!).success);
           getStickyNotesData();
         }else{
-          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
         }
       });
     }
@@ -85,14 +85,14 @@ class StickyNoteCtrl extends GetxController{
     BaseAPI().delete(url: ApiEndPoints().deleteStickyNote+id).then((value){
       if (value?.statusCode ==  200) {
         baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
-        BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: "Success");
+        BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: translate(Get.context!).success);
         if (isChecked) {
           checkedNotes?.removeAt(index);
         }else{
           unCheckedNotes?.removeAt(index);
         }
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }
@@ -106,12 +106,12 @@ class StickyNoteCtrl extends GetxController{
     BaseAPI().patch(url: ApiEndPoints().updateStickyNote+id,data: data).then((value){
       if (value?.statusCode ==  200) {
         baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
-        BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: "Success");
+        BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: translate(Get.context!).success);
         unCheckedNotes?[index].noteStatus?.name = "completed";
         checkedNotes?.add(unCheckedNotes![index]);
         unCheckedNotes?.removeAt(index);
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }
@@ -130,10 +130,10 @@ class StickyNoteCtrl extends GetxController{
         if (value?.statusCode ==  200) {
           Get.back();
           baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
-          BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: "Success");
+          BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: translate(Get.context!).success);
           getStickyNotesData();
         }else{
-          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
         }
       });
     }

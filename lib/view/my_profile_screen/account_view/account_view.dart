@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/view/account_deactivation_screen/activation_request_detail_screen.dart';
+import 'package:staff_app/view/account_deactivation_screen/deactivation_detail_screen.dart';
 import 'package:staff_app/view/annual_schedule/annual_schedule.dart';
 import 'package:staff_app/view/attendance_screen/attendance_screen.dart';
 import 'package:staff_app/view/cards_and_tags_screen/cards_and_tags_screen.dart';
@@ -12,11 +14,11 @@ import 'package:staff_app/view/feedback_help_screen/feedback_help_screen.dart';
 import 'package:staff_app/view/leave_request_screen/leave_request_screen.dart';
 import 'package:staff_app/view/location/location_screen.dart';
 import 'package:staff_app/view/my_notes/my_notes_screen.dart';
-import 'package:staff_app/view/my_profile_screen/medical_report_view/medical_report_view.dart';
+import 'package:staff_app/view/my_profile_screen/controller/my_profile_ctrl.dart';
+import 'package:staff_app/view/my_profile_screen/new_medical_report_screen/medical_record_view.dart';
 import 'package:staff_app/view/notification_setting_screen/notification_setting_screen.dart';
 import 'package:staff_app/view/performance_screen/performance_screen.dart';
 import 'package:staff_app/view/request_online_classes/request_online_classes_detail.dart';
-import 'package:staff_app/view/transportation_screen/transportation_location_screen.dart';
 import 'package:staff_app/view/transportation_screen/transportation_screen.dart';
 import 'package:staff_app/view/wallet/wallet_view.dart';
 
@@ -29,6 +31,7 @@ class AccountView extends StatefulWidget {
 
 class _AccountViewState extends State<AccountView> {
   List<String> list = [];
+  MyProfileCtrl myProfileController = Get.find<MyProfileCtrl>();
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +52,7 @@ class _AccountViewState extends State<AccountView> {
       translate(context).location,
       translate(context).wallet,
       translate(context).transportation,
+      "Account Activation/Deactivation",
     ];
     return Scaffold(
       body: ListView.builder(
@@ -65,9 +69,9 @@ class _AccountViewState extends State<AccountView> {
                 Get.to(PerformanceScreen(index: 0));
               } else if(index == 3){
                 Get.to(const EarlyLeavePermission());
-              } /*else if(index == 4){
+              } /* else if(index == 4){
                 Get.to(const LeavePermissionScreen());
-              }*/ else if(index == 4){
+              } */ else if(index == 4){
                 Get.to(const LeaveRequestScreen());
               } else if(index == 5){
                 Get.to(MyNotesScreen());
@@ -76,7 +80,7 @@ class _AccountViewState extends State<AccountView> {
               } else if(index == 7){
                 Get.to(RequestOnlineClassesDetail());
               } else if(index == 8){
-                Get.to(const MedicalReportView());
+                Get.to(MedicalRecordView(headerData: myProfileController.response.value.data));
               } else if(index == 9){
                 Get.to(const NotificationSettingScreen());
               } else if(index == 10){
@@ -91,6 +95,12 @@ class _AccountViewState extends State<AccountView> {
                 Get.to(const WalletView());
               } else if(index == 15){
                 Get.to(const TransportationScreen());
+              }else if(index == 16){
+                if ((myProfileController.response.value.data?.isSendActivationRequest.toString()??"").isEmpty || (myProfileController.response.value.data?.isSendActivationRequest.toString()??"") == "0") {
+                  Get.to(DeactivationDetailScreen(data: myProfileController.response.value.data?.deactivateData,qrCode: myProfileController.response.value.data?.barcode??"",bloodType: myProfileController.response.value.data?.bloodType??""));
+                }else{
+                  Get.to(ActivationRequestDetailScreen(data: myProfileController.response.value.data?.deactivateData,qrCode: myProfileController.response.value.data?.barcode??"",bloodType: myProfileController.response.value.data?.bloodType??""));
+                }
               }
             },
             child: Padding(padding: EdgeInsets.only(bottom: 6),

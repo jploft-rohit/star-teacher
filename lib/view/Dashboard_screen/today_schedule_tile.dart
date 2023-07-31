@@ -135,7 +135,7 @@ class _TodayScheduleTileState extends State<TodayScheduleTile> {
                                   const SizedBox(
                                     width: 5.0,
                                   ),
-                                  Expanded(child: Text("${controller.todayScheduledList?[widget.index].classes?.name??""} - ${controller.todayScheduledList?[widget.index].section?.name??""}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 14.sp),)),
+                                  Expanded(flex: 2,child: Text("${controller.todayScheduledList?[widget.index].classes?.name??""} - ${controller.todayScheduledList?[widget.index].section?.name??""}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 14.sp),)),
                                   SizedBox(
                                     width: 2.w,
                                   ),
@@ -151,7 +151,7 @@ class _TodayScheduleTileState extends State<TodayScheduleTile> {
                                   const SizedBox(
                                     width: 5.0,
                                   ),
-                                  Expanded(child: Text(controller.todayScheduledList?[widget.index].subject?.name??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 14.sp),)),
+                                  Expanded(flex: 1,child: Text(controller.todayScheduledList?[widget.index].subject?.name??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.txtPrimaryColor, fontSize: 14.sp),)),
                                 ],
                               ),
                               const SizedBox(

@@ -103,7 +103,7 @@ class _AttendanceAbsentViewState extends State<AttendanceAbsentView> {
                           showGeneralDialog(
                             context: context,
                             pageBuilder: (context, animation, secondaryAnimation) {
-                              return ReasonPopup();
+                              return ReasonPopup(id: '',);
                             },
                           );
                         },

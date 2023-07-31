@@ -40,7 +40,7 @@ class OnlineClassRequestController extends GetxController{
       reasonController.text = data?.reason??"";
       uploadController.text = (data?.document??"").split("/").last??"";
       selectedSchoolId.value = data?.school?.sId??"";
-      selectedFile?.value = File(data?.document??"");
+      selectedFile?.value = File("");
     }else{
       schoolController.clear();
       fromDateController.clear();
@@ -59,7 +59,7 @@ class OnlineClassRequestController extends GetxController{
       if (value?.statusCode ==  200) {
         list?.value = OnlineClassResponse.fromJson(value?.data).data??[];
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }
@@ -71,9 +71,9 @@ class OnlineClassRequestController extends GetxController{
       if (value?.statusCode ==  200) {
         list?.removeAt(index);
         response = BaseSuccessResponse.fromJson(value?.data);
-        BaseOverlays().showSnackBar(message: response.message??"",title: "Success");
+        BaseOverlays().showSnackBar(message: response.message??"",title: translate(Get.context!).success);
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }
@@ -107,10 +107,10 @@ class OnlineClassRequestController extends GetxController{
           selectedSchoolId.value = "";
           schoolController.clear();
           Get.back();
-          BaseOverlays().showSnackBar(message: await BaseSuccessResponse.fromJson(value?.data).message??"",title: "Success");
+          BaseOverlays().showSnackBar(message: await BaseSuccessResponse.fromJson(value?.data).message??"",title: translate(Get.context!).success);
           getData();
         }else{
-          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
         }
       });
     }
@@ -142,13 +142,16 @@ class OnlineClassRequestController extends GetxController{
       }
       BaseAPI().put(url: ApiEndPoints().updateOnlineClassRequest+id, data: data).then((value) async {
         if (value?.statusCode ==  200) {
+          fromDateController.clear();
+          toDateController.clear();
+          uploadController.clear();
+          reasonController.clear();
           selectedSchoolId.value = "";
-          schoolController.clear();
           Get.back();
-          BaseOverlays().showSnackBar(message: await BaseSuccessResponse.fromJson(value?.data).message??"",title: "Success");
+          BaseOverlays().showSnackBar(message: await BaseSuccessResponse.fromJson(value?.data).message??"",title: translate(Get.context!).success);
           getData();
         }else{
-          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
         }
       });
     }
@@ -161,16 +164,25 @@ class OnlineClassRequestController extends GetxController{
       BaseSuccessResponse response = BaseSuccessResponse();
       dio.FormData data = dio.FormData.fromMap({
         "user[0]": userId,
-        "typeOfRequest": "earlyLeave",
+        "typeOfRequest": "onlineClass",
+        "startDate":fromDateController.text.trim(),
+        "endDate":toDateController.text.trim(),
+        "reason":reasonController.text.trim(),
         "document": await dio.MultipartFile.fromFile(selectedFile?.value.path??"",filename: selectedFile?.value.path.split("/").last??"")
       });
       BaseAPI().put(url: ApiEndPoints().uploadEvidence+id,data: data).then((value){
+        fromDateController.clear();
+        toDateController.clear();
+        uploadController.clear();
+        reasonController.clear();
+        selectedSchoolId.value = "";
+        selectedFile?.value = File("");
         if (value?.statusCode ==  200) {
           response = BaseSuccessResponse.fromJson(value?.data);
-          BaseOverlays().showSnackBar(message: response.message??"", title: "Success");
+          BaseOverlays().showSnackBar(message: response.message??"", title: translate(Get.context!).success);
           getData();
         }else{
-          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
         }
       });
     }

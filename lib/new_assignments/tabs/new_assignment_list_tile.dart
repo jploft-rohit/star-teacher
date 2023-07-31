@@ -8,11 +8,10 @@ import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_detail_data.dart';
-import 'package:staff_app/utility/base_views/base_edit_delete.dart';
 import 'package:staff_app/utility/base_views/base_icons.dart';
 import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
-import 'package:staff_app/view/assignments_screen/assignment_submission_screen.dart';
+import 'package:staff_app/view/mcq_screen/mcq_screen.dart';
 
 class NewAssignmentListTile extends StatefulWidget {
   final String title;
@@ -37,7 +36,7 @@ class _NewAssignmentListTileState extends State<NewAssignmentListTile> {
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
             onTap: (){
-              Get.to(AssignmentSubmissionScreen(title: widget.title));
+              Get.to(MCQScreen(title: widget.title, id: controller.list?[index]?.sId??""));
             },
             child: Card(
               shape: RoundedRectangleBorder(

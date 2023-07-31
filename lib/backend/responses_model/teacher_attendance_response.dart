@@ -254,6 +254,7 @@ class TeacherAttendanceData {
   dynamic createdAt;
   dynamic updatedAt;
   dynamic iV;
+  dynamic liveStatus;
   dynamic attendanceType;
   dynamic document;
   dynamic reason;
@@ -275,6 +276,7 @@ class TeacherAttendanceData {
         this.updatedAt,
         this.iV,
         this.attendanceType,
+        this.liveStatus,
         this.document,
         this.reason,
         this.type,
@@ -284,6 +286,7 @@ class TeacherAttendanceData {
   TeacherAttendanceData.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     present = json['present'];
+    liveStatus = json['liveStatus'];
     isDeleted = json['isDeleted'];
     school =
     json['school'] != null ? new School.fromJson(json['school']) : null;
@@ -322,6 +325,7 @@ class TeacherAttendanceData {
       data['schoolStaff'] = this.schoolStaff!.toJson();
     }
     data['date'] = this.date;
+    data['liveStatus'] = this.liveStatus;
     data['time'] = this.time;
     data['createdBy'] = this.createdBy;
     data['updatedBy'] = this.updatedBy;

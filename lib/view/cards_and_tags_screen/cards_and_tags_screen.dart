@@ -18,6 +18,7 @@ import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/cards_and_tags_screen/controller/card_tag_ctrl.dart';
 import 'package:staff_app/view/cards_and_tags_screen/request_nfc_card_screen.dart';
 import 'package:staff_app/view/my_profile_screen/controller/my_profile_ctrl.dart';
+import 'package:staff_app/view/shop_screen/shop_screen.dart';
 import 'package:staff_app/view/star_evaluation_screen/success_dialog_screen.dart';
 
 class CardsAndTagsScreen extends StatefulWidget {
@@ -125,15 +126,13 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
                   height: 1.h,
                 ),
                 BaseButton(title: translate(context).request_cards_tags, onPressed: (){
-                  Get.to(const RequestNFCCardScreen());
+                  Get.to(ShopView(initialTabIndex: 1,));
                 },btnType: "iconButton"),
                 SizedBox(height: 1.h,),
                 BaseButton(title: translate(context).synchronize_nfc_to_cards_tags, onPressed: (){
                   showNFCDialog(context,"");
                 },btnType: "iconButton"),
-                SizedBox(
-                  height: 2.h,
-                ),
+                SizedBox(height: 2.h),
                 Text("${translate(context).linked_card_tag} :", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),),
                 SizedBox(height: 1.h),
                 (controller.userTagsList?.length??0) == 0
@@ -163,19 +162,19 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
                 (controller.ordersList?.length??0) == 0
                     ? BaseNoData(message: "No Request Found!",topMargin: 1.5.h, bottomMargin: 1.5.h,)
                     : ListView.builder(
-                  itemCount: controller.ordersList?.length??0,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    int stepperIndex = -5;
-                    controller.statusTime.value = [];
-                    controller.statusTitle.value = [];
-                    controller.ordersList?[index]?.requestStatus?.asMap().forEach((loopIndex,element) {
-                      controller.statusTitle.add(toBeginningOfSentenceCase(element.statusTitle??"")??"");
-                      controller.statusTime.add(getFormattedTimeWithMonth(element.date??""));
-                      if ((element.date?.toString()??"").isNotEmpty) {
-                        stepperIndex = loopIndex;
-                      }
+                       itemCount: controller.ordersList?.length??0,
+                       shrinkWrap: true,
+                       physics: const NeverScrollableScrollPhysics(),
+                       itemBuilder: (context, index) {
+                       int stepperIndex = -5;
+                       controller.statusTime.value = [];
+                       controller.statusTitle.value = [];
+                       controller.ordersList?[index]?.requestStatus?.asMap().forEach((loopIndex,element) {
+                       controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
+                       controller.statusTime.add(getFormattedTimeWithMonth(element.date??""));
+                       if ((element.date?.toString()??"").isNotEmpty) {
+                         stepperIndex = loopIndex;
+                       }
                     });
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 15.0),
@@ -217,7 +216,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
                                   width: 2.w,
                                 ),
                                 Text("${translate(context).reason} : ", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
-                                Flexible(child: Text(controller.ordersList?[index]?.reason??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),maxLines: 1, overflow: TextOverflow.ellipsis,)),
+                                Flexible(child: Text((controller.ordersList?[index]?.reason??"N/A"), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),maxLines: 1, overflow: TextOverflow.ellipsis,)),
                               ],
                             ),
                             Divider(
@@ -233,7 +232,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
                                     children: [
                                       SvgPicture.asset("assets/images/Vector (1).svg",height: 2.h),
                                       SizedBox(width: 2.w),
-                                      Text(formatBackendDate(controller.ordersList?[index]?.deliveryDay??"", getDayFirst: false), style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp),)
+                                      Text(formatBackendDate(controller.ordersList?[index]?.createdAt??"", getDayFirst: false), style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp),)
                                     ],
                                   ),
                                 ),
@@ -251,7 +250,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
                                       SizedBox(
                                         width: 2.w,
                                       ),
-                                      Text(getFormattedTime(controller.ordersList?[index]?.deliveryDay??""), style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp),)
+                                      Text(getFormattedTime(controller.ordersList?[index]?.createdAt??""), style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp),)
                                     ],
                                   ),
                                 ),

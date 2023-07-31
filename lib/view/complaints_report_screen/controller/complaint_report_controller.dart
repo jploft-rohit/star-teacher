@@ -73,12 +73,12 @@ class ComplainReportController extends GetxController{
         if (value?.statusCode ==  200) {
 
           Get.back();
-          BaseOverlays().showSnackBar(message: "Updated Successfully",title: "Success");
+          BaseOverlays().showSnackBar(message: "Updated Successfully",title: translate(Get.context!).success);
           selectedSchoolId.value = "";
           selectSchoolController.value.text = "";
           getData();
         }else{
-          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
         }
       });
     }
@@ -115,12 +115,12 @@ class ComplainReportController extends GetxController{
       BaseAPI().post(url: ApiEndPoints().createComplaintReport, data: data).then((value){
         if (value?.statusCode ==  200) {
           Get.back();
-          BaseOverlays().showSnackBar(message: "Created Successfully",title: "Success");
+          BaseOverlays().showSnackBar(message: "Created Successfully",title: translate(Get.context!).success);
           selectedSchoolId.value = "";
           selectSchoolController.value.text = "";
           getData();
         }else{
-          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
         }
       });
     }
@@ -169,7 +169,7 @@ class ComplainReportController extends GetxController{
       if (value?.statusCode ==  200) {
         response?.value = AllComplainReportResponse.fromJson(value?.data).data??[];
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }
@@ -189,7 +189,7 @@ class ComplainReportController extends GetxController{
         // selectedPersonName.value = staffData.first.user?.name??"";
       }else{
         isStaffLoading.value = false;
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: translate(Get.context!).error);
       }
     });
   }
@@ -198,10 +198,10 @@ class ComplainReportController extends GetxController{
     BaseAPI().get(url: ApiEndPoints().acceptComplaintReport+itemId).then((value){
       if (value?.statusCode ==  200) {
         baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
-        BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"", title: "Success");
+        BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"", title: translate(Get.context!).success);
         getData();
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: translate(Get.context!).error);
       }
     });
   }
@@ -215,10 +215,10 @@ class ComplainReportController extends GetxController{
       if (value?.statusCode ==  200) {
         BaseOverlays().dismissOverlay();
         baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
-        BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"", title: "Success");
+        BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"", title: translate(Get.context!).success);
         getData();
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: translate(Get.context!).error);
       }
     });
   }
@@ -228,9 +228,9 @@ class ComplainReportController extends GetxController{
     BaseAPI().delete(url: ApiEndPoints().deleteComplaintReport+id).then((value){
       if (value?.statusCode ==  200) {
         response?.removeAt(index);
-        BaseOverlays().showSnackBar(message: "Deleted Successfully",title: "Success");
+        BaseOverlays().showSnackBar(message: "Deleted Successfully",title: translate(Get.context!).success);
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }
@@ -241,7 +241,7 @@ class ComplainReportController extends GetxController{
   //     if (value?.statusCode ==  200) {
   //       response?.value = AllComplainReportResponse.fromJson(value?.data).data??[];
   //     }else{
-  //       BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+  //       BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
   //     }
   //   });
   // }

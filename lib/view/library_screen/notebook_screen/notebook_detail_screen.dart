@@ -4,6 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/storage/base_shared_preference.dart';
+import 'package:staff_app/storage/sp_keys.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
@@ -26,11 +28,15 @@ class NotebookDetailScreen extends StatefulWidget {
 class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
   final String na = translate(Get.context!).na;
   NotebookCtrl controller = Get.find<NotebookCtrl>();
+  String userId = "";
 
   @override
   void initState() {
     super.initState();
     controller.getNotebookNotes();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      userId = await BaseSharedPreference().getString(SpKeys().userId);
+    });
   }
 
   @override
@@ -208,39 +214,42 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                                           16.sp, BaseColors.primaryColor, FontWeight.w700),
                                     ],
                                   ),
-                                  Row(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: (){
-                                          Get.to(AddNoteScreen(isUpdating: true,data: controller.notebookList?[index]));
-                                        },
-                                        child: Image.asset(
-                                          editPng,
-                                          color: BaseColors.primaryColor,
-                                          height: 18.sp,
+                                  Visibility(
+                                    visible: (userId) == (controller.notebookList?[index].createdBy?.sId??""),
+                                    child: Row(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: (){
+                                            Get.to(AddNoteScreen(isUpdating: true,data: controller.notebookList?[index]));
+                                          },
+                                          child: Image.asset(
+                                            editPng,
+                                            color: BaseColors.primaryColor,
+                                            height: 18.sp,
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        width: 5.w,
-                                      ),
-                                      GestureDetector(
-                                        onTap: (){
-                                          BaseOverlays().showReasonDeleteDialog(
-                                              title: "Delete Note",
-                                              controller: controller.reasonController,
-                                              formKey: controller.formKey,
-                                              onProceed: (){
-                                                controller.deleteNotebook(notebookId: controller.notebookList?[index].sId??"",index: index,reason: controller.reasonController.text.trim());
-                                              }
-                                          );
-                                        },
-                                        child: Icon(
-                                          CupertinoIcons.delete,
-                                          color: BaseColors.primaryColor,
-                                          size: 18.sp,
+                                        SizedBox(
+                                          width: 5.w,
                                         ),
-                                      ),
-                                    ],
+                                        GestureDetector(
+                                          onTap: (){
+                                            BaseOverlays().showReasonDeleteDialog(
+                                                title: "Delete Note",
+                                                controller: controller.reasonController,
+                                                formKey: controller.formKey,
+                                                onProceed: (){
+                                                  controller.deleteNotebook(notebookId: controller.notebookList?[index].sId??"",index: index,reason: controller.reasonController.text.trim());
+                                                }
+                                            );
+                                          },
+                                          child: Icon(
+                                            CupertinoIcons.delete,
+                                            color: BaseColors.primaryColor,
+                                            size: 18.sp,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),

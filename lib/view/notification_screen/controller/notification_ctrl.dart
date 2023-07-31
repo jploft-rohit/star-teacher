@@ -16,7 +16,7 @@ class NotificationCtrl extends GetxController{
       if (value?.statusCode ==  200) {
         list?.value = NotificationListData.fromJson(value?.data).data??[];
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }

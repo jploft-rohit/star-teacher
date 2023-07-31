@@ -55,7 +55,7 @@ class CardTagCtrl extends GetxController{
         ordersList?.value = CardTagResponse.fromJson(value?.data).data?.orders??[];
         userTagsList?.value = CardTagResponse.fromJson(value?.data).data?.userTags??[];
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }
@@ -77,7 +77,7 @@ class CardTagCtrl extends GetxController{
          );
        }
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }

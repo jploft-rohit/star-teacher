@@ -6,7 +6,9 @@ import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_detail_data.dart';
+import 'package:staff_app/utility/google_map.dart';
 import 'package:staff_app/utility/images_icon_path.dart';
+import 'package:staff_app/view/location/location_screen.dart';
 import 'package:staff_app/view/map_screen.dart';
 import 'package:staff_app/view/my_profile_screen/controller/my_profile_ctrl.dart';
 
@@ -101,7 +103,7 @@ class _SchoolsViewState extends State<SchoolsView> {
                     BaseDetailData(detailsLabel: translate(context).school_sector, detailsValue: controller.response.value.data?.schoolStaff?[index].school?.schoolSector?.name??na),
                     GestureDetector(
                         onTap: (){
-                          Get.to(MapScreen());
+                          Get.to(MapUiBody());
                         },
                       child: SvgPicture.asset("assets/images/map_ig.svg"),
                     ),
@@ -161,7 +163,7 @@ class _SchoolsViewState extends State<SchoolsView> {
                 children: [
                   SvgPicture.asset(svgImg,height: 16.0,),
                   const SizedBox(width: 10,),
-                  Text(subTitle, style: Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp, height: 1.5)),
+                  Expanded(child: Text(subTitle, style: Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp, height: 1.5))),
                 ],
               ),
               ),

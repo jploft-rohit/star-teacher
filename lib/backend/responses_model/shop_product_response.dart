@@ -38,6 +38,7 @@ class ShopProductData {
   dynamic currentStatus;
   dynamic isAvailable;
   dynamic isDeleted;
+  List<TagNumber>? tagNumber;
   dynamic user;
   dynamic category;
   dynamic shopType;
@@ -59,6 +60,7 @@ class ShopProductData {
       { this.sId,
         this.images,
         this.size,
+        this.tagNumber,
         this.allergies,
         this.currentStatus,
         this.isAvailable,
@@ -90,6 +92,12 @@ class ShopProductData {
         allergies!.add(new Allergies.fromJson(v));
       });
     }
+    if (json['tagNumber'] != null) {
+      tagNumber = <TagNumber>[];
+      json['tagNumber'].forEach((v) {
+        tagNumber!.add(new TagNumber.fromJson(v));
+      });
+    }
     currentStatus = json['currentStatus'];
     isAvailable = json['isAvailable'];
     isDeleted = json['isDeleted'];
@@ -118,6 +126,9 @@ class ShopProductData {
     data['size'] = this.size;
     if (this.allergies != null) {
       data['allergies'] = this.allergies!.map((v) => v.toJson()).toList();
+    }
+    if (this.tagNumber != null) {
+      data['tagNumber'] = this.tagNumber!.map((v) => v.toJson()).toList();
     }
     data['currentStatus'] = this.currentStatus;
     data['isAvailable'] = this.isAvailable;
@@ -157,6 +168,28 @@ class Allergies {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['_id'] = this.sId;
     data['name'] = this.name;
+    return data;
+  }
+}
+
+class TagNumber {
+  String? status;
+  String? sId;
+  String? number;
+
+  TagNumber({this.status, this.sId, this.number});
+
+  TagNumber.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    sId = json['_id'];
+    number = json['number'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
+    data['_id'] = this.sId;
+    data['number'] = this.number;
     return data;
   }
 }

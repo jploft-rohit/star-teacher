@@ -65,7 +65,7 @@ class _TeacherAttendanceTileState extends State<TeacherAttendanceTile> {
                           children: [
                             SvgPicture.asset("assets/images/teacher_icon.svg"),
                             SizedBox(width: 2.w),
-                            buildInfoItems(translate(context).school, controller.primaryTabIndex.value == 2 ? (controller.list?[index]?.school?.name??"") : (controller.list?[index]?.school?.name??""))
+                            buildInfoItems(controller.primaryTabIndex.value == 2 ? "Status" : translate(context).school, controller.primaryTabIndex.value == 2 ? (controller.list?[index]?.liveStatus??"") : (controller.list?[index]?.school?.name??""))
                           ],
                         ),
                         Visibility(
@@ -80,7 +80,7 @@ class _TeacherAttendanceTileState extends State<TeacherAttendanceTile> {
                               SizedBox(
                                 width: 2.w,
                               ),
-                              buildInfoItems(translate(context).reason_given, (controller.list?[index]?.reason??"").toString().isEmpty ? "No" : "Yes"),
+                              buildInfoItems(translate(context).reason_given, (controller.list?[index]?.reason??"").toString()),
                             ],
                           ),
                         ),
@@ -107,7 +107,7 @@ class _TeacherAttendanceTileState extends State<TeacherAttendanceTile> {
                             showGeneralDialog(
                               context: context,
                               pageBuilder: (context, animation, secondaryAnimation) {
-                                return ReasonPopup();
+                                return ReasonPopup(id: controller.list?[index]?.sId??"");
                               },
                             );
                           },

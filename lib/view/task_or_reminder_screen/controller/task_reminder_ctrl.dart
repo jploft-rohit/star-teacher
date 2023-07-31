@@ -39,7 +39,7 @@ class TaskReminderCtrl extends GetxController{
       if (value?.statusCode ==  200) {
         list?.value = TaskReminderListResponse.fromJson(value?.data).data??[];
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }
@@ -51,9 +51,9 @@ class TaskReminderCtrl extends GetxController{
       if (value?.statusCode ==  200) {
         list?.removeAt(index);
         baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
-        BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: "Success");
+        BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: translate(Get.context!).success);
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }
@@ -86,10 +86,10 @@ class TaskReminderCtrl extends GetxController{
         if (value?.statusCode ==  200) {
           Get.back();
           baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
-          BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: "Success");
+          BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: translate(Get.context!).success);
           getTaskReminders();
         }else{
-          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
         }
       });
     }
@@ -123,10 +123,10 @@ class TaskReminderCtrl extends GetxController{
         if (value?.statusCode ==  200) {
           Get.back();
           baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
-          BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: "Success");
+          BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: translate(Get.context!).success);
           getTaskReminders();
         }else{
-          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
         }
       });
     }

@@ -4,110 +4,127 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
-
-
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
+import 'package:staff_app/utility/base_views/base_image_network.dart';
+import 'package:staff_app/utility/base_views/base_no_data.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/view/shop_screen/cart/cart_card_detail.dart';
 import 'package:staff_app/view/shop_screen/controller/shop_screen_ctrl.dart';
-import 'package:staff_app/view/wallet/sub_screens/cartd_detail_popup.dart';
 
 class CartView extends StatefulWidget {
-  final bool? isStationery, isStarsStore;
-  const CartView({super.key, this.isStationery, this.isStarsStore});
+  final bool? isStationery, isStarsStore, isUpdating;
+  final String? id;
+  const CartView({super.key, this.isStationery, this.isStarsStore, this.isUpdating, this.id});
 
   @override
   State<CartView> createState() => _CartViewState();
 }
 
 class _CartViewState extends State<CartView> {
-  ShopScreenCtrl controller = Get.put(ShopScreenCtrl());
+  ShopScreenCtrl controller = Get.find<ShopScreenCtrl>();
+  @override
+  void initState() {
+    super.initState();
+    controller.getUserCart(callGetData: false);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: BaseColors.white,
       appBar: const BaseAppBar(title: "Cart"),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              addText('Items', 15.sp, BaseColors.textBlackColor, FontWeight.w400),
-              SizedBox(height: 2.h),
-              ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                padding: EdgeInsets.zero,
-                shrinkWrap: true,
-                itemCount: 2,
-                itemBuilder: (context, index) => buildCartCard((widget.isStationery??false) ? "assets/delete/pen_notebook.png" : 'assets/delete/Rectangle 429.png', (widget.isStationery??false) ? "Notebook" : 'NFC Tags', '15 AED', 2),
-              ),
-              SizedBox(height:2.h),
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: BaseColors.borderColor)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
-                      child: addText(
-                          'Select shipping',
-                          radioButtonTitleTs,
-                          BaseColors.textBlackColor,
-                          FontWeight.w400),
-                    ),
-                    SizedBox(height:1.h),
-                    Obx(() => Row(
-                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            radioButton(() {
-                              controller.homeDelivertSelected();
-                            }, controller.isHomeDelivery.value,
-                                'Home delivery'),
-                            SizedBox(width: 2.h),
-                            radioButton(() {
-                              controller.schoolDelivertSelected();
-                            }, controller.isSchoolDelivery.value,
-                                'Pick-up from school'),
-                          ],
-                        )),
-                    SizedBox(height:1.h),
-                  ],
+      body: Obx(()=>Padding(
+          padding: const EdgeInsets.all(20),
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                addText('Items', 15.sp, BaseColors.textBlackColor, FontWeight.w400),
+                SizedBox(height: 2.h),
+                (controller.cartProductsList?.length??0) == 0
+                    ? BaseNoData(message: "No Products Added")
+                    : ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.zero,
+                  shrinkWrap: true,
+                  itemCount: controller.cartProductsList?.length??0,
+                  itemBuilder: (context, index) {
+                    return buildCartCard(controller.cartProductsList?[index]?.images?[0]??"", controller.cartProductsList?[index]?.name??"", ((controller.cartProductsList?[index]?.price?.toString()??"")+" AED"), controller.cartProductsList?[index]?.quantity,index);
+                  },
                 ),
-              ),
-              SizedBox(height:2.h),
-              detailRow('Sub Total', '160 AED'),
-              SizedBox(height:1.h),
-              detailRow('Taxes (5%)', '8 AED'),
-              SizedBox(height:1.h),
-              detailRow('Shipping Charges', '0 AED'),
-              SizedBox(height:1.h),
-              detailRow('Grand Total', '168 AED'),
-              SizedBox(height:3.h),
-              Center(
-                child: BaseButton(title: "Proceed To Pay", onPressed: (){
-                  showGeneralDialog(
-                    context: context,
-                    pageBuilder:  (context, animation, secondaryAnimation) {
-                      return const CartCardDetail();
-                    },
-                  );
-                },btnType: largeButton,),
-              ),
-              SizedBox(height:3.h),
-            ],
+                SizedBox(height:2.h),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: BaseColors.borderColor)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: addText(
+                            'Select shipping',
+                            radioButtonTitleTs,
+                            BaseColors.textBlackColor,
+                            FontWeight.w400),
+                      ),
+                      SizedBox(height:1.h),
+                      Row(
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          radioButton(() {
+                            controller.selectedShipping.value = "HOME_DELIVERY";
+                            controller.homeDelivertSelected();
+                          }, controller.isHomeDelivery.value,
+                              'Home delivery'),
+                          SizedBox(width: 2.h),
+                          radioButton(() {
+                            controller.selectedShipping.value = "SCHOOL_PICKUP";
+                            controller.schoolDelivertSelected();
+                          }, controller.isSchoolDelivery.value,
+                              'Pick-up from school'),
+                        ],
+                      ),
+                      SizedBox(height:1.h),
+                    ],
+                  ),
+                ),
+                SizedBox(height:2.h),
+                detailRow('Sub Total', (controller.userCartData?.value?.totalAmount?.toString()??"")+" AED"),
+                SizedBox(height:1.h),
+                detailRow('Taxes (${controller.userCartData?.value?.tax?.toString()??""}%)', (controller.userCartData?.value?.taxAmount?.toString()??"")+" AED"),
+                SizedBox(height:1.h),
+                detailRow('Shipping Charges', '0 AED'),
+                SizedBox(height:1.h),
+                detailRow('Grand Total', '${(controller.userCartData?.value?.grandTotal?.toString()??"")} AED'),
+                SizedBox(height:3.h),
+                Center(
+                  child: BaseButton(title: (widget.isUpdating??false) ? "Update Order" : "Proceed To Pay", onPressed: (){
+                    if ((controller.cartProductsList?.length??0) != 0) {
+                      showGeneralDialog(
+                        context: context,
+                        pageBuilder:  (context, animation, secondaryAnimation) {
+                          return CartCardDetail(isUpdating: widget.isUpdating??false, isFromCart: true);
+                        },
+                      );
+                    }else{
+                      baseToast(message: "No Product Found In Cart");
+                    }
+                  },btnType: largeButton),
+                ),
+                SizedBox(height:3.h),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget buildCartCard(image, name, price, quantity) {
+  Widget buildCartCard(image, name, price, quantity,index) {
     return Container(
       margin: EdgeInsets.only(bottom: 1.5.h),
       padding: const EdgeInsets.all(10),
@@ -118,6 +135,7 @@ class _CartViewState extends State<CartView> {
       child: Row(
         children: [
           Container(
+              padding: EdgeInsets.symmetric(vertical: 2),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(color: BaseColors.txtFiledBorderColor)
@@ -125,12 +143,10 @@ class _CartViewState extends State<CartView> {
               // width: double.infinity,
               height: 10.h,
               width: 10.h,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.asset(
-                  image,
-                  fit: BoxFit.fill,
-                ),
+              child: BaseImageNetwork(
+                link: image,
+                concatBaseUrl: true,
+                borderRadius: 20,
               )),
           SizedBox(width: 2.h),
           Expanded(
@@ -147,31 +163,49 @@ class _CartViewState extends State<CartView> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                      height: 20,
+                      width: 70,
                       decoration: BoxDecoration(
-                          boxShadow: kElevationToShadow[1],
-                          borderRadius: BorderRadius.circular(30),
-                          border:
-                              Border.all(color: BaseColors.primaryColor),
-                          color: BaseColors.backgroundColor),
-                      // width: 50,
+                          color: Color(0xffF8F4E9),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Color(0xffC19444))
+                      ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          textButton2(() {
-                            if(quantity >= 0){
-                              quantity--;
-                              setState(() {});
+                          Visibility(
+                            visible: int.parse((controller.cartProductsList?[index]?.quantity??0).toString()) > 0,
+                            child: GestureDetector(onTap: (){
+                              if (int.parse((controller.cartProductsList?[index]?.quantity??0).toString()) > 1) {
+                                controller.addItemToCart(productId: controller.cartProductsList?[index]?.product??"", quantity: -1, index: index).then((value){
+                                  setState(() {});
+                                });
+                              }else{
+                                if ((int.parse((controller.cartProductsList?[index]?.quantity??0).toString())) > 0) {
+                                  controller.removeCartItem(productId: controller.cartProductsList?[index]?.product??"").then((value){
+                                    setState(() {});
+                                  });
+                                }
+                              }
+                            },child: Icon(Icons.remove,size: 18,color: BaseColors.primaryColor)),
+                          ),
+                          GestureDetector(onTap: () async {
+                            if((int.parse((controller.cartProductsList?[index]?.quantity??0).toString())) == 0){
+                              await controller.addItemToCart(productId: controller.cartProductsList?[index]?.product??"", quantity: 1, index: index).then((value){
+                                setState(() {});
+                              });
                             }
-                          }, '-'),
-                          SizedBox(width: 1.5.h),
-                          addText("$quantity", 14.sp,
-                              BaseColors.primaryColor, FontWeight.w900),
-                          SizedBox(width: 1.5.h),
-                          textButton2(() {
-                            quantity++;
-                            setState(() {});
-                          }, '+'),
+                          },child: Text(int.parse((controller.cartProductsList?[index]?.quantity??0).toString()) == 0 ? "+ Add" : (controller.cartProductsList?[index]?.quantity??0).toString(),style: TextStyle(color: BaseColors.primaryColor,fontWeight: FontWeight.bold))),
+                          Visibility(
+                            visible: int.parse((controller.cartProductsList?[index]?.quantity??0).toString()) > 0,
+                            child: GestureDetector(onTap: () async {
+                              await controller.addItemToCart(productId: controller.cartProductsList?[index]?.product??"", quantity: 1, index: index).then((value){
+                                setState(() {});
+                              });
+                            },
+                              child: Icon(Icons.add, size: 18,color: BaseColors.primaryColor),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -182,17 +216,30 @@ class _CartViewState extends State<CartView> {
                         thickness: 1.5,
                       ),
                     ),
-                    Row(
-                      children: [
-                        SvgPicture.asset(
-                          "assets/images/delete 4.svg",
-                          color: BaseColors.textRedColor,
-                          height: 2.h,
-                        ),
-                        SizedBox(width: 1.h),
-                        addText('Remove', 14.sp,
-                            BaseColors.textRedColor, FontWeight.w400)
-                      ],
+                    GestureDetector(
+                      onTap: (){
+                        BaseOverlays().showConfirmationDialog(
+                          title: "Are you sure, you want to remove this item?",
+                          onRightButtonPressed: (){
+                            BaseOverlays().dismissOverlay();
+                            controller.removeCartItem(productId: controller.userCartData?.value?.items?[index].product??"").then((value){
+                              setState(() {});
+                            });
+                          }
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            "assets/images/delete 4.svg",
+                            color: BaseColors.textRedColor,
+                            height: 2.h,
+                          ),
+                          SizedBox(width: 1.h),
+                          addText('Remove', 14.sp,
+                              BaseColors.textRedColor, FontWeight.w400)
+                        ],
+                      ),
                     )
                   ],
                 ),
@@ -204,6 +251,15 @@ class _CartViewState extends State<CartView> {
       ),
     );
   }
+
+  // int ? addedItems(ShopProductData? data){
+  //   for (var d in controller.cartProductsList??[]) {
+  //     if (d.product == (data?.sId??"")) {
+  //       return d.quantity;
+  //     }
+  //   }
+  //   return 0;
+  // }
 
   Widget detailRow(title, body) {
     return Row(

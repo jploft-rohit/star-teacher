@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'dart:ui' as ui;
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_utility.dart';
@@ -27,6 +28,7 @@ class EarlyLeaveTile extends StatefulWidget {
 }
 
 class _EarlyLeaveTileState extends State<EarlyLeaveTile> {
+  final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
   final EarlyLeaveController controller = Get.find<EarlyLeaveController>();
 
   final List<String> pendingMeetingdates = ['July 2,\n8:30PM', '', '', ""];
@@ -89,7 +91,7 @@ class _EarlyLeaveTileState extends State<EarlyLeaveTile> {
                         },
                       ),
                     ),
-                    SizedBox(width: 4.w),
+                    SizedBox(width: isRTL ? 0 : 4.w),
                     GestureDetector(
                       onTap: (){
                         showGeneralDialog(
@@ -143,9 +145,9 @@ class _EarlyLeaveTileState extends State<EarlyLeaveTile> {
                       BaseIcons().download(onRightButtonPressed: (){
                         BaseOverlays().dismissOverlay();
                         downloadFile(url: controller.list?[index]?.document??"",concatBaseUrl: false);
-                      },leftMargin: 2.w,
+                      },leftMargin: 2.w,rightMargin: isRTL ? 2.w : 0
                       ),
-                      BaseIcons().view(url: controller.list?[index]?.document??"",leftMargin: 2.w,concatBaseUrl: false),
+                      BaseIcons().view(url: controller.list?[index]?.document??"", leftMargin: 2.w, concatBaseUrl: false),
                     ],
                   ),
                 ),

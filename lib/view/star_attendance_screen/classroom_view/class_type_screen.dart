@@ -7,6 +7,7 @@ import 'package:staff_app/backend/responses_model/class_section_response.dart';
 import 'package:staff_app/backend/responses_model/school_list_response.dart';
 import 'package:staff_app/constants-classes/color_constants.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/base_student_filter.dart';
 import 'package:staff_app/utility/base_views/base_tab_bar.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
@@ -174,12 +175,21 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
                   // mainAxisSpacing: 15,
                   mainAxisExtent: 42
               ),
-              itemBuilder: (context, index) =>
-                  GestureDetector(
+              itemBuilder: (context, index) {
+                return GestureDetector(
                     onTap: () {
-                      controller.selectedFMOPos.value = index;
-                      if(index == 1){
+                      if (index == 0) {
+                        controller.selectedFMOPos.value = index;
+                      }else if(index == 1){
+                        controller.selectedFMOPos.value = index;
                         Get.to(ScanQrCodeScreen());
+                      }else if(index == 2) {
+                        if (controller.selectedSchoolId.value.isNotEmpty) {
+                          controller.selectedFMOPos.value = index;
+                          controller.getManualStarAttendanceList();
+                        }else{
+                          baseToast(message: "First Select School");
+                        }
                       }
                     },
                     child: Obx(() {
@@ -219,7 +229,8 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
                         ),
                       );
                     }),
-                  ))
+                  );
+              })
               : const SizedBox();
         }),
         SizedBox(
@@ -271,8 +282,21 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
                     borderRadius: BorderRadius.circular(3),
                   ),
                   onChanged: (bool? value) {
+                    controller.manualList?.forEach((element) {
+                      element.isSelected = !(element.isSelected??false);
+                    });
                     controller.isSelectAll.value = (value??false);
                     controller.selectedFMOPos1.value = (value??false) ? 1 : 0;
+                    if (controller.isSelectAll.value) {
+                      controller.selectedManualStudentsId.value = [];
+                      controller.manualList?.forEach((element) {
+                        controller.selectedManualStudentsId.add(element.sId??"");
+                      });
+                    }else{
+                      controller.selectedManualStudentsId.value = [];
+                    }
+                    print(" <---- Selected Manual Student's Id ---> ");
+                    print(controller.selectedManualStudentsId.toString());
                     setState(() {});
                   },
                 ),
@@ -286,7 +310,7 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
             child: Expanded(
                 child: ListView.builder(
                   padding: EdgeInsets.only(bottom: 2.h),
-                  itemCount: 4,
+                  itemCount: controller.manualList?.length??0,
                   shrinkWrap: true,
                   itemBuilder: (context,index){
                     return ManualAttendanceListTile(index: index);
@@ -300,21 +324,67 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
                 children: [
                   Flexible(
                     flex: 1,
-                    child: BaseButton(title: translate(context).present.toUpperCase(), onPressed: (){},btnType: mediumLargeButton,),
+                    child: BaseButton(title: translate(context).present.toUpperCase(), onPressed: (){
+                      if (controller.isSelectAll.value) {
+                        showGeneralDialog(
+                          context: context,
+                          pageBuilder: (context, animation, secondaryAnimation) {
+                            return ConfirmationDialog(msg: "Are you sure you want mark present to all students?",isShowBtn: true,onTap: () {
+                              BaseOverlays().dismissOverlay();
+                              controller.updateManualAttendance(presentStatus: "1", attendanceType: "present");
+                            },
+                            );
+                          },
+                        );
+                      }else{
+                        baseToast(message: "Please Select All");
+                      }
+                    },btnType: mediumLargeButton,),
                   ),
                   SizedBox(
                     width: 4.w,
                   ),
                   Flexible(
                     flex: 1,
-                    child: BaseButton(title: translate(context).absent.toUpperCase(), onPressed: (){},btnType: mediumLargeButton,),
+                    child: BaseButton(title: translate(context).late.toUpperCase(), onPressed: (){
+                      if (controller.isSelectAll.value) {
+                        showGeneralDialog(
+                          context: context,
+                          pageBuilder: (context, animation, secondaryAnimation) {
+                            return ConfirmationDialog(msg: "Are you sure you want mark late to all students?",isShowBtn: true, onTap: () {
+                              BaseOverlays().dismissOverlay();
+                              controller.updateManualAttendance(presentStatus: "0.75", attendanceType: "late").then((value){
+                              });
+                            },
+                            );
+                          },
+                        );
+                      }else{
+                        baseToast(message: "Please Select All");
+                      }
+                    },btnType: mediumLargeButton,),
                   ),
                   SizedBox(
                     width: 4.w,
                   ),
                   Flexible(
                     flex: 1,
-                    child: BaseButton(title: translate(context).late.toUpperCase(), onPressed: (){},btnType: mediumLargeButton,),
+                    child: BaseButton(title: translate(context).absent.toUpperCase(), onPressed: (){
+                      if (controller.isSelectAll.value) {
+                        showGeneralDialog(
+                          context: context,
+                          pageBuilder: (context, animation, secondaryAnimation) {
+                            return ConfirmationDialog(msg: "Are you sure you want mark absent to all students?",isShowBtn: true,onTap: () {
+                              BaseOverlays().dismissOverlay();
+                              controller.updateManualAttendance(presentStatus: "0", attendanceType: "absent");
+                            },
+                            );
+                          },
+                        );
+                      }else{
+                        baseToast(message: "Please Select All");
+                      }
+                    },btnType: mediumLargeButton,),
                   ),
                 ],
               ),

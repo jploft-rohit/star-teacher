@@ -58,12 +58,10 @@ class _ClassScheduleScreenState extends State<ClassScheduleScreen> with SingleTi
           child: Column(
             children: [
               BaseToggleTabBar(controller: tabController, tabs: [
-                BaseTabButton(title: translate(context).day, isSelected: tabController.index == 0,type: toggleLargeButton),
-                BaseTabButton(title: translate(context).week, isSelected: tabController.index == 1,type: toggleLargeButton),
+                BaseTabButton(title: translate(context).day, isSelected: tabController.index == 0, type: toggleLargeButton),
+                BaseTabButton(title: translate(context).week, isSelected: tabController.index == 1, type: toggleLargeButton),
               ]),
-              SizedBox(
-                height: 1.5.h
-              ),
+              SizedBox(height: 1.5.h),
               BaseSchoolDropDown(
                 controller: controller.schoolController,
                 onChanged: (val){

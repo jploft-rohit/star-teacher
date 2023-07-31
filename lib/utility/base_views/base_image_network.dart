@@ -17,7 +17,7 @@ class BaseImageNetwork extends StatelessWidget {
       padding: EdgeInsets.only(top: topMargin??0,right: rightMargin??0,bottom: bottomMargin??0,left: leftMargin??0),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(borderRadius??0),
-        child: Image.network((concatBaseUrl??true) ? ApiEndPoints().imageBaseUrl+(link??"") : (link??""),
+        child: Image.network(((link??"").contains("http")) ? (link??"") :  ApiEndPoints().imageBaseUrl+(link??""),
           width: width??null,
           height: height??null,
           cacheHeight: cacheHeight??null,

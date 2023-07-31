@@ -50,7 +50,7 @@ class BaseCtrl extends GetxController{
         schoolListData = SchoolListResponse.fromJson(value?.data);
         getComplaintTypeData(showLoader: false, initialSchoolId: schoolListData.data?.data?.first.sId??"");
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
      },
    );
@@ -62,7 +62,7 @@ class BaseCtrl extends GetxController{
       if (value?.statusCode ==  200) {
         classSectionList?.value = ClassSectionResponse.fromJson(value?.data).data?.data??[];
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     },
     );
@@ -74,7 +74,7 @@ class BaseCtrl extends GetxController{
       if (value?.statusCode ==  200) {
         complaintTypeResponse = ComplaintTypeResponse.fromJson(value?.data);
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }
@@ -85,7 +85,7 @@ class BaseCtrl extends GetxController{
       if (value?.statusCode ==  200) {
         rolesListResponse = RolesListResponse.fromJson(value?.data);
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }
@@ -96,7 +96,7 @@ class BaseCtrl extends GetxController{
       if (value?.statusCode ==  200) {
         starsList?.value = StarsListResponse.fromJson(value?.data).data??[];
       } else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }
@@ -107,7 +107,7 @@ class BaseCtrl extends GetxController{
       if (value?.statusCode ==  200) {
         classList?.value = ClassResponse.fromJson(value?.data).data?.data??[];
       } else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }

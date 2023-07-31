@@ -69,6 +69,7 @@ class _TopupYourFamilyPopupState extends State<TopupYourFamilyPopup> {
                         child: CustomTextField(
                           controller: amtCtrl,
                           hintText: "0",
+                          maxLength: 6,
                           onChanged: (val){
                             amtCtrl.selection = TextSelection.collapsed(offset: amtCtrl.text.length);
                             amtCtrl.selection = TextSelection.fromPosition(TextPosition(offset: amtCtrl.text.length));

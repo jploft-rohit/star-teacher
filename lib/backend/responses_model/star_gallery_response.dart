@@ -106,13 +106,15 @@ class Uploads {
   dynamic type;
   dynamic extension;
   dynamic url;
+  dynamic thumbnail;
 
-  Uploads({this.type, this.extension, this.url});
+  Uploads({this.type, this.extension, this.url,this.thumbnail});
 
   Uploads.fromJson(Map<String, dynamic> json) {
     type = json['type'];
     extension = json['extension'];
     url = json['url'];
+    thumbnail = json['thumbnail'];
   }
 
   Map<String, dynamic> toJson() {
@@ -120,6 +122,7 @@ class Uploads {
     data['type'] = this.type;
     data['extension'] = this.extension;
     data['url'] = this.url;
+    data['thumbnail'] = this.thumbnail;
     return data;
   }
 }

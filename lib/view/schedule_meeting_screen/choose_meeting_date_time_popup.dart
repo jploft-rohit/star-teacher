@@ -9,9 +9,9 @@ import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_utility.dart';
 
 class ChooseMeetingDateTimePopup extends StatefulWidget {
-  final String title;
+  final String title,id;
   final ScheduledMeetingData? data;
-  ChooseMeetingDateTimePopup({Key? key, required this.title, this.data}) : super(key: key);
+  ChooseMeetingDateTimePopup({Key? key, required this.title, this.data, required this.id}) : super(key: key);
 
   @override
   State<ChooseMeetingDateTimePopup> createState() => _ChooseMeetingDateTimePopupState();
@@ -152,7 +152,6 @@ class _ChooseMeetingDateTimePopupState extends State<ChooseMeetingDateTimePopup>
                         ),
                         selectedTextStyle: const TextStyle(
                             color: BaseColors.primaryColor),
-
                         // today
                         todayDecoration: const BoxDecoration(
                           color: BaseColors.primaryColor,
@@ -164,16 +163,13 @@ class _ChooseMeetingDateTimePopupState extends State<ChooseMeetingDateTimePopup>
                         //     shape: BoxShape.rectangle,
                         //     borderRadius: BorderRadius.circular(5.0),
                         //   ),
-                        weekendTextStyle: const TextStyle(
-                            color: BaseColors.primaryColor),
+                        weekendTextStyle: const TextStyle(color: BaseColors.primaryColor),
                         //   weekNumberTextStyle: const TextStyle(color: CustomColors.primaryColor)
                       ),
                     );
                   },
                 ),
-                SizedBox(
-                  height: 2.h,
-                ),
+                SizedBox(height: 2.h),
                 Text("Select Time Slot", style: Style.montserratBoldStyle().copyWith(fontSize: 17.sp, color: Colors.black),),
                 SizedBox(
                   height: 1.h,
@@ -198,7 +194,11 @@ class _ChooseMeetingDateTimePopupState extends State<ChooseMeetingDateTimePopup>
                               }
                             }
                             setState(() {});
-                            Get.back();
+                            if (widget.id.isEmpty) {
+                              Get.back();
+                            }else{
+                              controller.rescheduleMeeting(id: widget.id);
+                            }
                           },
                           child: Container(
                             margin: EdgeInsets.only(bottom: 8.0),
@@ -215,7 +215,8 @@ class _ChooseMeetingDateTimePopupState extends State<ChooseMeetingDateTimePopup>
                                 Text(list[index]['title'],
                                   style: Style.montserratMediumStyle().copyWith(
                                       color: BaseColors.primaryColor,
-                                      fontSize: 17.sp),),
+                                      fontSize: 17.sp),
+                                ),
                                 Checkbox(
                                   visualDensity: VisualDensity(vertical: -4, horizontal: -4),
                                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -230,7 +231,12 @@ class _ChooseMeetingDateTimePopupState extends State<ChooseMeetingDateTimePopup>
                                       i['isSelected'] = false;
                                     }
                                     list[index]['isSelected'] = !list[index]['isSelected'];
-                                    setState(() {});
+                                    setState((){});
+                                    if (widget.id.isEmpty) {
+                                      Get.back();
+                                    }else{
+                                      controller.rescheduleMeeting(id: widget.id);
+                                    }
                                   },
                                 )
                               ],

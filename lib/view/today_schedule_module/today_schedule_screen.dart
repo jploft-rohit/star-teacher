@@ -142,7 +142,7 @@ class _ScheduledClassScreenState extends State<ScheduledClassScreen> {
                                       SizedBox(
                                         width: 2.w,
                                       ),
-                                      Text(formatBackendDate(controller.list?[index]?.endTime??""), style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor,fontSize: 15.sp),),
+                                      Text(formatBackendDate(controller.list?[index]?.date??""), style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor,fontSize: 15.sp),),
                                     ],
                                   ),
                                   const SizedBox(height: 4),

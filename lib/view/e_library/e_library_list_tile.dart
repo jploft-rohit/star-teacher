@@ -11,6 +11,8 @@ import 'package:staff_app/utility/base_views/base_detail_data.dart';
 import 'package:staff_app/utility/base_views/base_edit_delete.dart';
 import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/view/mcq_screen/create_mcq_screen.dart';
+import 'package:staff_app/view/mcq_screen/mcq_screen.dart';
 import 'package:staff_app/view/e_library/controller/e_library_controller.dart';
 import 'package:staff_app/view/e_library/create_e_library_assignment.dart';
 
@@ -48,7 +50,10 @@ class _ELibraryListTileState extends State<ELibraryListTile> {
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
             onTap: (){
-              Get.to(AssignmentSubmissionScreen(title: widget.title,));
+              // Get.to(CreateMcqScreen(screenType: widget.title));
+              Get.to(MCQScreen(title: widget.title, id: controller.list?[index]?.sId??"", isELibrary: true, isViewing:true))?.then((value){
+                // controller.getData();
+              });
             },
             child: Card(
               shape: RoundedRectangleBorder(

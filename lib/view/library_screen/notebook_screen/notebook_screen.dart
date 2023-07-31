@@ -13,6 +13,7 @@ import 'package:staff_app/Utility/filter_textformfield.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/constants-classes/color_constants.dart';
+import 'package:staff_app/utility/base_views/base_image_network.dart';
 import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/view/library_screen/notebook_screen/notebook_detail_screen.dart';
 import 'package:staff_app/view/library_screen/ctrl/notebook_ctrl.dart';
@@ -171,12 +172,20 @@ class _NoteBookScreenState extends State<NoteBookScreen>{
                       child: Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+                            width: 20.w,
+                            height: 20.w,
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15.0),
                                 border: Border.all(color: BaseColors.primaryColor)
                             ),
-                            child: SvgPicture.asset(girlSvg, height: 6.h),
+                            child: BaseImageNetwork(
+                              link: baseCtrl.starsList?[index].user?.profilePic??"",
+                              width: 20.w,
+                              height: 20.w,
+                              fit: BoxFit.fill,
+                              errorWidget: SvgPicture.asset(girlSvg, height: 6.h),
+                            ),
                           ),
                           SizedBox(
                             width: 3.w,

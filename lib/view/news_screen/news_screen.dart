@@ -42,6 +42,7 @@ class _NewsScreenState extends State<NewsScreen> {
     controller.selectedClassName.value = "";
     controller.selectedSectionId.value = "";
     controller.selectedSectionName.value = "";
+    // controller.getBroadCastData(showLoader: true);
   }
 
   @override
@@ -193,8 +194,7 @@ class _NewsScreenState extends State<NewsScreen> {
                                   height: 3.h,
                                 ),
                                 if(controller.list?[index].isRead.toString() == "false")
-                                  Center(
-                                    child: BaseButton(title: "AGREED", onPressed: (){
+                                  Center(child: BaseButton(title: "AGREE", onPressed: (){
                                       controller.agreeNewsBroadCast(id: controller.list?[index].sId??"", index: index);
                                     },textSize: 17.sp),
                                   ),

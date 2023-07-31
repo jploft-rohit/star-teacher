@@ -42,7 +42,7 @@ class RolesDelegationController extends GetxController{
     };
     BaseAPI().post(url: ApiEndPoints().updateRolesDelegationStatus+id,data: data).then((value){
       if (value?.statusCode ==  200) {
-        BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"",title: "Success");
+        BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"",title: translate(Get.context!).success);
         getData();
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");

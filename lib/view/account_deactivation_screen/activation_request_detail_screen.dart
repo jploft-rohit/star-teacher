@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/backend/responses_model/my_profile_response.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
@@ -10,27 +11,25 @@ import 'package:staff_app/utility/base_views/base_image_network.dart';
 import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/base_tab_bar.dart';
-
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
-import 'package:staff_app/view/account_activation_screen/controller/account_activation_controller.dart';
 import 'package:staff_app/view/account_deactivation_screen/controller/account_deactivation_controller.dart';
 import 'package:staff_app/view/salary_slip_screen/salary_slip_poup.dart';
 
 class ActivationRequestDetailScreen extends StatefulWidget {
   final DeactivateData? data;
-  const ActivationRequestDetailScreen({Key? key, this.data}) : super(key: key);
+  final String? qrCode, bloodType;
+  const ActivationRequestDetailScreen({Key? key, this.data, this.qrCode, this.bloodType}) : super(key: key);
 
   @override
   State<ActivationRequestDetailScreen> createState() => _ActivationRequestDetailScreenState();
 }
 
 class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailScreen> with SingleTickerProviderStateMixin{
-  AccountDeactivationController controller = Get.find<AccountDeactivationController>();
+  AccountDeactivationController controller = Get.put(AccountDeactivationController());
   late TabController tabController;
   final List<String> pendingMeetingdates = ['July 2, 8:30PM', 'July 3, 10:30AM', ''];
   final List<String> pendingMeetingdates1 = ['July 2, 8:30PM', 'July 3, 10:30AM', 'July 4, 9:30AM'];
@@ -83,7 +82,7 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                           border: Border.all(color: BaseColors.primaryColor),
                         ),
                         child: BaseImageNetwork(
-                          link: widget.data?.deactivatedBy?.profilePic??"",
+                          link: widget.data?.deactivatedUser?.profilePic??"",
                           concatBaseUrl: true,
                           errorWidget: SvgPicture.asset(manSvg),
                         ),
@@ -93,25 +92,26 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(widget.data?.deactivatedBy?.name??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
+                            Text(widget.data?.deactivatedUser?.name??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                             const Divider(
                               color: BaseColors.borderColor,
                               height: 8.0,
                               thickness: 1.0,
                             ),
-                            Text('#${widget.data?.deactivatedBy?.emirateId??""}', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
+                            Text('#${widget.data?.deactivatedUser?.emirateId??""}', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                             const Divider(
                               color: BaseColors.borderColor,
                               height: 8.0,
                               thickness: 1.0,
                             ),
-                            buildInfoItems(translate(context).blood_type, 'A+'),
+                            buildInfoItems(translate(context).blood_type, widget.bloodType??"N/A"),
                           ],
                         ),
                       ),
                       const Spacer(),
                       Column(
                         children: [
+                          const SizedBox(height: 5),
                           Container(
                             width: 20.w,
                             decoration: BoxDecoration(
@@ -122,8 +122,7 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                                     width: 1.5),
                                 borderRadius: BorderRadius.circular(20.0)),
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 1, vertical: 4),
+                              padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 4),
                               child: Center(
                                 child: Text(
                                   translate(context).deactivated.toUpperCase(),
@@ -131,11 +130,17 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                               ),
                             ),
                           ),
-                          const SizedBox(height: 5,),
+
                           GestureDetector(
-                              onTap: (){
-                                showScanQrDialogue(context, false);
-                              },child: SvgPicture.asset(qrCodeSvg, height: 5.h,))
+                            onTap: (){
+                              showScanQrDialogue(context, false,data: widget.qrCode??"");
+                            },child: QrImage(
+                            data: widget.qrCode??"",
+                            version: QrVersions.auto,
+                            size: 70,
+                            gapless: false,
+                          ),
+                          ),
                         ],
                       )
                     ],
@@ -150,7 +155,7 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                         flex: 2,
                         child: Align(
                           alignment: Alignment.centerLeft,
-                          child: buildInfoItems(translate(context).deactivation_date, formatBackendDate(widget.data?.deactivatedBy?.createdAt??"")),),
+                          child: buildInfoItems(translate(context).deactivation_date, formatBackendDate(widget.data?.deactivatedUser?.createdAt??"")),),
                       ),
                       Container(
                         height: 20,
@@ -162,7 +167,7 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                       ),
                       Expanded(
                         flex: 1,
-                        child: buildInfoItems(translate(context).time, getFormattedTime(widget.data?.deactivatedBy?.createdAt??"")),
+                        child: buildInfoItems(translate(context).time, getFormattedTime(widget.data?.deactivatedUser?.createdAt??"")),
                       ),
                     ],
                   )
@@ -216,12 +221,22 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
           controller.statusTime = [];
           controller.statusTitle = [];
           controller.list?[index]?.requestStatus?.toList().asMap().forEach((loopIndex,element) {
-            controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
-            controller.statusTime.add(getFormattedTimeWithMonth(element.time??""));
-            if (element.time.toString().isNotEmpty) {
-              stepperIndex = loopIndex;
+            if (element.name.toString().toLowerCase() != "rejected") {
+              controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
+              controller.statusTime.add(getFormattedTimeWithMonth(element.time??""));
+              if (element.time.toString().isNotEmpty) {
+                stepperIndex = loopIndex;
+              }
+            }else{
+              if ((element.time??"").toString().isNotEmpty) {
+                controller.statusTime = [];
+                controller.statusTitle = [];
+                controller.statusTitle.add(toBeginningOfSentenceCase(controller.list?[index]?.requestStatus?[0].name??"")??"");
+                controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
+                controller.statusTime.add(getFormattedTimeWithMonth(controller.list?[index]?.requestStatus?[0].time??""));
+                controller.statusTime.add(getFormattedTimeWithMonth(element.time??""));
+              }
             }
-            // controller.statusTitle.removeAt(1);
           });
           return Card(
             child: Padding(
@@ -329,6 +344,7 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                           children: [
                             BaseIcons().view(concatBaseUrl: false,url: controller.list?[index]?.medCertDocument??"",rightMargin: 5),
                             BaseIcons().download(onRightButtonPressed: (){
+                              BaseOverlays().dismissOverlay();
                               downloadFile(url: (controller.list?[index]?.medCertDocument??""),concatBaseUrl: false);
                             },leftMargin: 5),
                           ],

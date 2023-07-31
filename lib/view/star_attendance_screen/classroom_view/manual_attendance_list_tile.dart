@@ -5,6 +5,9 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_image_network.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/view/chat_screen/chating_screen.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/confirmation_popup.dart';
 import 'package:staff_app/view/star_attendance_screen/controller/star_attendance_screen_ctrl.dart';
 
@@ -23,6 +26,11 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
   String selectedRadioButton = "";
   StarAttendanceScreenCtrl controller = Get.find<StarAttendanceScreenCtrl>();
   @override
+  void initState() {
+    super.initState();
+    selectedRadioButton = (controller.manualList?[widget.index].attendances?.attendanceType??"").toString().toLowerCase();
+  }
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15.0),
@@ -31,14 +39,18 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
         alignment: Alignment.centerLeft,
         children: [
           GestureDetector(
-            onTap: (){
-            },
+            onTap: (){},
             child: Obx(() => Container(
               margin: const EdgeInsets.only(left: 15, right: 15.0),
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: controller.selectedFMOPos1.value == widget.index ? BaseColors.primaryColor : BaseColors.borderColor)),
+                  border: Border.all(
+                      color: (controller.manualList?[widget.index].isSelected??false)
+                          ? BaseColors.primaryColor
+                          : BaseColors.borderColor,
+                  ),
+              ),
               child: Row(
                 children: [
                   Expanded(
@@ -52,9 +64,11 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
                               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
-                                  border: Border.all(
-                                      color: BaseColors.primaryColor)),
-                              child:SvgPicture.asset(girlSvg),
+                                  border: Border.all(color: BaseColors.primaryColor)),
+                              child:BaseImageNetwork(
+                                link: controller.manualList?[widget.index].user?.profilePic??"",
+                                errorWidget: SvgPicture.asset(girlSvg),
+                              ),
                             ),
                           ],
                         ),
@@ -68,18 +82,24 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 8),
-                          child: Text('Roma #21', style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: BaseColors.primaryColor),),
+                          child: Text('${controller.manualList?[widget.index].user?.name??""} #${controller.manualList?[widget.index].user?.uniqueId?.toString()??""}', style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: BaseColors.primaryColor),),
                         ),
                         Row(
                           children: [
                             GestureDetector(
                               onTap: (){
-                                selectedRadioButton = "Present";
-                                setState(() {});
                                 showGeneralDialog(
                                   context: context,
                                   pageBuilder: (context, animation, secondaryAnimation) {
-                                    return ConfirmationDialog(msg: "Are you sure you've selected present stars?",isShowBtn: true,);
+                                    return ConfirmationDialog(msg: "Are you sure you've selected present stars?",isShowBtn: true,onTap: () async {
+                                      BaseOverlays().dismissOverlay();
+                                      await controller.updateManualAttendance(presentStatus: "1", attendanceType: "present", singleStudentId: controller.manualList?[widget.index].sId??"").then((value){
+                                        if (value) {
+                                          selectedRadioButton = "present";
+                                          setState(() {});
+                                        }
+                                      });
+                                    },);
                                   },
                                 );
                               },
@@ -92,15 +112,22 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
                                     Transform.scale(
                                       scale: 0.6,
                                       child: Radio(
-                                        value: "Present",
+                                        value: "present",
                                         groupValue: selectedRadioButton,
                                         onChanged: (value){
-                                          selectedRadioButton = "Present";
-                                          setState(() {});
                                           showGeneralDialog(
                                             context: context,
                                             pageBuilder: (context, animation, secondaryAnimation) {
-                                              return ConfirmationDialog(msg: "Are you sure you've selected present stars?",isShowBtn: true,);
+                                              return ConfirmationDialog(msg: "Are you sure you've selected present stars?",isShowBtn: true,onTap: () async {
+                                                  await controller.updateManualAttendance(presentStatus: "1", attendanceType: "present",singleStudentId: controller.manualList?[widget.index].sId??"").then((value){
+                                                    BaseOverlays().dismissOverlay();
+                                                    if (value) {
+                                                      selectedRadioButton = "present";
+                                                      setState(() {});
+                                                    }
+                                                  });
+                                                },
+                                              );
                                             },
                                           );
                                         },
@@ -118,12 +145,19 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
                             ),
                             GestureDetector(
                               onTap: (){
-                                selectedRadioButton = "Late";
-                                setState(() {});
                                 showGeneralDialog(
                                   context: context,
                                   pageBuilder: (context, animation, secondaryAnimation) {
-                                    return ConfirmationDialog(msg: "Are you sure you've selected late stars?",isShowBtn: true,);
+                                    return ConfirmationDialog(msg: "Are you sure you've selected late stars?",isShowBtn: true,onTap: () async {
+                                      await controller.updateManualAttendance(presentStatus: "0.75", attendanceType: "late",singleStudentId: controller.manualList?[widget.index].sId??"").then((value){
+                                        BaseOverlays().dismissOverlay();
+                                        if (value) {
+                                          selectedRadioButton = "late";
+                                          setState(() {});
+                                        }
+                                      });
+                                    },
+                                    );
                                   },
                                 );
                               },
@@ -136,15 +170,22 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
                                     Transform.scale(
                                       scale: 0.6,
                                       child: Radio(
-                                        value: "Late",
+                                        value: "late",
                                         groupValue: selectedRadioButton,
                                         onChanged: (value){
-                                          selectedRadioButton = value.toString();
-                                          setState(() {});
                                           showGeneralDialog(
                                             context: context,
                                             pageBuilder: (context, animation, secondaryAnimation) {
-                                              return ConfirmationDialog(msg: "Are you sure you've selected late stars?",isShowBtn: true,);
+                                              return ConfirmationDialog(msg: "Are you sure you've selected late stars?",isShowBtn: true,onTap: () async {
+                                                await controller.updateManualAttendance(presentStatus: "0.75", attendanceType: "late",singleStudentId: controller.manualList?[widget.index].sId??"").then((value){
+                                                  BaseOverlays().dismissOverlay();
+                                                  if (value) {
+                                                    selectedRadioButton = "late";
+                                                    setState(() {});
+                                                  }
+                                                });
+                                              },
+                                              );
                                             },
                                           );
                                         },
@@ -162,12 +203,19 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
                             ),
                             GestureDetector(
                               onTap: (){
-                                selectedRadioButton = "Absent";
-                                setState(() {});
                                 showGeneralDialog(
                                   context: context,
                                   pageBuilder: (context, animation, secondaryAnimation) {
-                                    return ConfirmationDialog(msg: "Are you sure you've selected absent stars?",isShowBtn: true,);
+                                    return ConfirmationDialog(msg: "Are you sure you've selected absent stars?",isShowBtn: true,onTap: () async {
+                                      await controller.updateManualAttendance(presentStatus: "0", attendanceType: "absent",singleStudentId: controller.manualList?[widget.index].sId??"").then((value){
+                                        BaseOverlays().dismissOverlay();
+                                        if (value) {
+                                          selectedRadioButton = "absent";
+                                          setState(() {});
+                                        }
+                                      });
+                                    },
+                                    );
                                   },
                                 );
                               },
@@ -180,15 +228,22 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
                                     Transform.scale(
                                       scale: 0.6,
                                       child: Radio(
-                                        value: "Absent",
+                                        value: "absent",
                                         groupValue: selectedRadioButton,
                                         onChanged: (value){
-                                          selectedRadioButton = value.toString();
-                                          setState(() {});
                                           showGeneralDialog(
                                             context: context,
                                             pageBuilder: (context, animation, secondaryAnimation) {
-                                              return ConfirmationDialog(msg: "Are you sure you've selected absent stars?",isShowBtn: true,);
+                                              return ConfirmationDialog(msg: "Are you sure you've selected absent stars?",isShowBtn: true,onTap: () async {
+                                                await controller.updateManualAttendance(presentStatus: "0", attendanceType: "absent",singleStudentId: controller.manualList?[widget.index].sId??"").then((value){
+                                                  BaseOverlays().dismissOverlay();
+                                                  if (value) {
+                                                    selectedRadioButton = "absent";
+                                                    setState(() {});
+                                                  }
+                                                });
+                                              },
+                                              );
                                             },
                                           );
                                         },
@@ -215,16 +270,21 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
                     child: Container(
                       decoration: BoxDecoration(
                         border: BorderDirectional(
-                            start: BorderSide(width: 1,color: controller.selectedFMOPos1.value == widget.index ? BaseColors.primaryColor : BaseColors.borderColor)),
+                            start: BorderSide(width: 1,color: (controller.manualList?[widget.index].isSelected??false) ? BaseColors.primaryColor : BaseColors.borderColor)),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            SvgPicture.asset(chatSvg1),
-                            SizedBox(height:1.1.h),
-                            Text(translate(context).chat_with_parents,style: Style.montserratRegularStyle().copyWith(fontSize: 13.sp, color: const Color(0xff686868), ),textAlign: TextAlign.center,),
-                          ],
+                      child: GestureDetector(
+                        onTap: (){
+                          Get.to(ChatingScreen());
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              SvgPicture.asset(chatSvg1),
+                              SizedBox(height:1.1.h),
+                              Text(translate(context).chat_with_parents,style: Style.montserratRegularStyle().copyWith(fontSize: 13.sp, color: const Color(0xff686868), ),textAlign: TextAlign.center,),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -237,18 +297,27 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
               padding: const EdgeInsets.only(left: 3.0),
               child: GestureDetector(
                 onTap: (){
-                  controller.selectedFMOPos1.value = widget.index;
+                  controller.manualList?[widget.index].isSelected = !(controller.manualList?[widget.index].isSelected??false);
+                  controller.manualList?.every((element) {
+                    if (element.isSelected??false) {
+                      controller.isSelectAll.value = true;
+                      return true;
+                    }else{
+                      controller.isSelectAll.value = false;
+                      return false;
+                    }
+                  });
                   setState((){});
                 },
                 child: Container(
                   height: 20,
                   width: 20,
                   decoration: BoxDecoration(
-                      color: controller.selectedFMOPos1.value == widget.index
+                      color: (controller.manualList?[widget.index].isSelected??false)
                           ? BaseColors.backgroundColor
                           : BaseColors.borderColor,
                       boxShadow: [getLightBoxShadow()],
-                      border: controller.selectedFMOPos1.value == widget.index
+                      border: (controller.manualList?[widget.index].isSelected??false)
                           ? Border.all(
                           color: BaseColors.primaryColor, width: 1.5)
                           : Border.all(
@@ -260,7 +329,7 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
                             color: BaseColors.white, width: 1.5),
                         shape: BoxShape.circle,
                         boxShadow: [getBoxShadow()],
-                        color: controller.selectedFMOPos1.value == widget.index
+                        color: (controller.manualList?[widget.index].isSelected??false)
                             ? BaseColors.primaryColor
                             : BaseColors.borderColor
                     ),

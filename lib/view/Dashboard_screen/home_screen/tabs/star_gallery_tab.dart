@@ -39,9 +39,9 @@ class _StarGalleryTabState extends State<StarGalleryTab> with TickerProviderStat
           BaseTabBar(
             controller: tabController,
             tabs: [
-            SvgPicture.asset("assets/images/ic_grid_view.svg",color: tabController.index == 0 ? BaseColors.primaryColor : Colors.black),
-            SvgPicture.asset("assets/images/ic_gallery.svg",color: tabController.index == 1 ? BaseColors.primaryColor : Colors.black),
-            SvgPicture.asset("assets/images/ic_videos.svg",color: tabController.index == 2 ? BaseColors.primaryColor : Colors.black),
+            SvgPicture.asset("assets/images/ic_grid_view.svg", color: tabController.index == 0 ? BaseColors.primaryColor : Colors.black),
+            SvgPicture.asset("assets/images/ic_gallery.svg", color: tabController.index == 1 ? BaseColors.primaryColor : Colors.black),
+            SvgPicture.asset("assets/images/ic_videos.svg", color: tabController.index == 2 ? BaseColors.primaryColor : Colors.black),
            ],
           ),
           SizedBox(height: 15),

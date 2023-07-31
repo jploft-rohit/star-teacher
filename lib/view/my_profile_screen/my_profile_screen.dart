@@ -21,7 +21,6 @@ import 'package:staff_app/view/my_profile_screen/my_profile_view/my_profile_view
 import 'package:staff_app/view/my_profile_screen/schools_view/schools_view.dart';
 import 'package:staff_app/view/my_profile_screen/statistics_view/statistics_view.dart';
 import 'package:staff_app/view/print_qr_screen.dart';
-import 'package:staff_app/view/account_deactivation_screen/deactivation_detail_screen.dart';
 
 class MyProfileScreen extends StatefulWidget {
   final bool isFromDrawer;
@@ -113,7 +112,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
                           visible: (controller.response.value.data?.currentStatus??"").toString().toLowerCase() == "inactive",
                           child: GestureDetector(
                             onTap: (){
-                              Get.to(DeactivationDetailScreen(data: controller.response.value.data?.deactivateData));
+                              // Get.to(DeactivationDetailScreen(data: controller.response.value.data?.deactivateData));
                             },
                             child: Container(
                               width: 80,
@@ -148,10 +147,11 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
               children: [
                 Expanded(flex: 3,child: BaseButton(title: translate(context).print_QR,  textSize: mediumButtonTs,onPressed: (){
                   Get.to(const PrintQrScreen());
-                },borderRadius: 100,verticalPadding: 1.h,rightMargin: 1.5.w,)),
+                },borderRadius: 100,verticalPadding: 1.h)),
+                SizedBox(width: 2.w),
                 Expanded(flex: 4,child: BaseButton(title: translate(context).programme_NFC, textSize: mediumButtonTs, onPressed: (){
                   showNFCDialog(context,"");
-                },borderRadius: 100,verticalPadding: 1.h,leftMargin: 1.5.w)),
+                },borderRadius: 100,verticalPadding: 1.h)),
               ],
             ),
             buildTabBar(),

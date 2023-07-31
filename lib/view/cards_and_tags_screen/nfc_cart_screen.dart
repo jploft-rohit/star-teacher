@@ -98,7 +98,7 @@ class _NFCCartScreenState extends State<NFCCartScreen> {
                       showGeneralDialog(
                         context: context,
                         pageBuilder:  (context, animation, secondaryAnimation) {
-                          return CartCardDetail();
+                          return CartCardDetail(isFromCart: true);
                         },
                       );
                     }),

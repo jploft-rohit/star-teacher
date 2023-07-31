@@ -58,6 +58,7 @@ class TodayScheduleController extends GetxController{
       }
     });
   }
+
   weekPlanListToTimeTable() async {
     calenderTimeTable.clear();
     List<Timetable> timeTableList = [];

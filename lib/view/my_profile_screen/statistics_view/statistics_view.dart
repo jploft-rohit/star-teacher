@@ -34,7 +34,7 @@ class _StatisticsViewState extends State<StatisticsView> {
         "subTitle": "Pending Task",
       },
       {
-        "subTitle": "Unclosed Compliant",
+        "subTitle": "Unclosed Complaint",
       },
       {
         "subTitle": "Stars Evaluation Pending",
@@ -92,7 +92,7 @@ class _StatisticsViewState extends State<StatisticsView> {
       onTap: (){
         switch (list[index]['subTitle']) {
           case "Pending Task": Get.to(TaskOrReminderScreen(isFromBtmBar: false)); break;
-          case "Unclosed Compliant":Get.to(ComplaintsReportScreen()); break;
+          case "Unclosed Complaint":Get.to(ComplaintsReportScreen()); break;
           case "Stars Evaluation Pending": Get.to(StarEvaluationScreen()); break;
           case "Assignment to Review": Get.to(AssignmentScreen()); break;
           case "Attendance Record": Get.to(AttendanceScreen()); break;

@@ -13,13 +13,14 @@ import 'package:staff_app/view/shop_screen/controller/shop_screen_ctrl.dart';
 import 'package:staff_app/view/shop_screen/shop_tabs/shop_dynamic_tabs/shop_dynamic_tabs.dart';
 
 class ShopTab extends StatefulWidget {
-  const ShopTab({super.key});
+  final int? initialTabIndex;
+  const ShopTab({super.key, this.initialTabIndex});
 
   @override
   State<ShopTab> createState() => _ShopTabState();
 }
 
-class _ShopTabState extends State<ShopTab> with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+class _ShopTabState extends State<ShopTab> with TickerProviderStateMixin {
   ShopScreenCtrl controller = Get.find<ShopScreenCtrl>();
 
   late TabController tabController;
@@ -27,7 +28,7 @@ class _ShopTabState extends State<ShopTab> with TickerProviderStateMixin, Automa
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 3, vsync: this)..addListener(() {
+    tabController = TabController(length: 3, vsync: this,initialIndex: widget.initialTabIndex??0)..addListener(() {
       if (!(tabController.indexIsChanging)) {
         controller.secondaryTabIndex.value = tabController.index;
         setState(() {});
@@ -44,13 +45,16 @@ class _ShopTabState extends State<ShopTab> with TickerProviderStateMixin, Automa
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Scaffold(
       floatingActionButton: shopFloatingButton(() {
         if (controller.secondaryTabIndex.value == 2) {
-          Get.to(const TrayView());
+          Get.to(const TrayView())?.then((value){
+            controller.getUserCart();
+          });
         } else {
-          Get.to(CartView(isStationery: tabController.index == 0 ? true : false, isStarsStore: tabController.index == 1 ? true : false,));
+          Get.to(CartView(isStationery: tabController.index == 0 ? true : false, isStarsStore: tabController.index == 1 ? true : false,))?.then((value) {
+            controller.getUserCart();
+          });
         }
       }),
       body: DefaultTabController(
@@ -102,12 +106,10 @@ class _ShopTabState extends State<ShopTab> with TickerProviderStateMixin, Automa
             shape: BoxShape.circle,
             color: BaseColors.primaryColor,
           ),
-          child: addText(
-              '3', 12.sp, BaseColors.white, FontWeight.w400),
+          child: Obx(()=>addText((controller.cartProductsList?.length??0).toString(), 12.sp, BaseColors.white, FontWeight.w400),
+          ),
         )
       ],
     );
   }
-  @override
-  bool get wantKeepAlive => true;
 }

@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -5,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/backend/api_end_points.dart';
+import 'package:staff_app/constants-classes/color_constants.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
@@ -13,6 +17,8 @@ import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/show_document.dart';
+import 'package:staff_app/utility/base_views/textfieldwidget.dart';
+import 'package:staff_app/utility/constant_images.dart';
 import 'package:staff_app/utility/custom_text_field.dart';
 
 class BaseOverlays {
@@ -319,7 +325,7 @@ class BaseOverlays {
         });
   }
 
-  showMediaPickerDialog({Function()? onCameraClick, Function()? onGalleryClick, Function()? onVideoClick}) {
+  showMediaPickerDialog({Function()? onCameraClick, Function()? onGalleryClick, Function()? onVideoClick, Function()? onAudioClick}) {
     final ImagePicker picker = ImagePicker();
     XFile? imageData;
     showGeneralDialog(
@@ -350,44 +356,51 @@ class BaseOverlays {
                 SizedBox(height: 16),
                 Row(
                   children: [
-                    Expanded(
-                        child: GestureDetector(
-                          onTap: onCameraClick ?? () async {
-                            Get.back();
-                            await picker.pickImage(source: ImageSource.camera).then((value){
-                              if (value != null) {
-                                imageData = value;
-                              }
-                            });
-                          },
-                          child: Column(
-                            children: [
-                              Icon(Icons.camera_alt_outlined,
-                                  color: BaseColors.primaryColor, size: 60),
-                              SizedBox(height: 8),
-                              Text("Camera"),
-                            ],
+                    Visibility(
+                      visible: onCameraClick != null,
+                      child: Expanded(
+                          child: GestureDetector(
+                            onTap: onCameraClick ?? () async {
+                              Get.back();
+                              await picker.pickImage(source: ImageSource.camera).then((value){
+                                if (value != null) {
+                                  imageData = value;
+                                }
+                              });
+                            },
+                            child: Column(
+                              children: [
+                                Icon(Icons.camera_alt_outlined,
+                                    color: BaseColors.primaryColor, size: 60),
+                                SizedBox(height: 8),
+                                Text(translate(Get.context!).camera),
+                              ],
+                            ),
+                          )
+                      ),
+                    ),
+                    Visibility(
+                      visible: onGalleryClick != null,
+                      child: Expanded(
+                          child: GestureDetector(
+                            onTap: onGalleryClick ?? () async {
+                              Get.back();
+                              await picker.pickImage(source: ImageSource.gallery).then((value){
+                                if (value != null) {
+                                  imageData = value;
+                                }
+                              });
+                            },
+                            child: Column(
+                              children: [
+                                Icon(Icons.photo_library_outlined,
+                                    color: BaseColors.primaryColor, size: 60),
+                                SizedBox(height: 8),
+                                Text(translate(Get.context!).gallery),
+                              ],
+                            ),
                           ),
-                        )),
-                    Expanded(
-                        child: GestureDetector(
-                          onTap: onGalleryClick ?? () async {
-                            Get.back();
-                            await picker.pickImage(source: ImageSource.gallery).then((value){
-                              if (value != null) {
-                                imageData = value;
-                              }
-                            });
-                          },
-                          child: Column(
-                            children: [
-                              Icon(Icons.photo_library_outlined,
-                                  color: BaseColors.primaryColor, size: 60),
-                              SizedBox(height: 8),
-                              Text("Gallery"),
-                            ],
-                          ),
-                        ),
+                      ),
                     ),
                     Visibility(
                       visible: onVideoClick != null,
@@ -407,6 +420,33 @@ class BaseOverlays {
                                   color: BaseColors.primaryColor, size: 60),
                               SizedBox(height: 8),
                               Text("Video"),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: onAudioClick != null,
+                      child: Expanded(
+                        child: GestureDetector(
+                          onTap: onAudioClick ?? () async {
+                            var uploadImage = await FilePicker.platform.pickFiles(
+                              allowMultiple: false,
+                              type: FileType.audio,
+                            );
+                            // if (uploadImage != null) {
+                            //   formWidgetList[index].fileUpload = File(uploadImage.files.first.path!);
+                            //   setState(() {});
+                            //   formWidgetList[index].fileController.text = formWidgetList[index].fileUpload!.path.split("/").last;
+                            //   setState(() {});
+                            // }
+                          },
+                          child: Column(
+                            children: [
+                              Icon(Icons.audio_file_outlined,
+                                  color: BaseColors.primaryColor, size: 60),
+                              SizedBox(height: 8),
+                              Text("Audio"),
                             ],
                           ),
                         ),
@@ -745,5 +785,312 @@ class BaseOverlays {
         );
       },
     );
+  }
+
+  void showSumitSuccessfulDialogue(BuildContext context, onTap) {
+    showGeneralDialog(
+        barrierColor: Colors.black.withOpacity(0.5),
+        transitionBuilder: (context, a1, a2, widget) {
+          return Transform.scale(
+            scale: a1.value,
+            child: Opacity(
+              opacity: a1.value,
+              child: Dialog(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                insetPadding: const EdgeInsets.all(10),
+                child: StatefulBuilder(builder: (context, setSta) {
+                  return Container(
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 15),
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Stack(
+                          children: [
+                            Align(
+                              alignment: AlignmentDirectional.topEnd,
+                              child: iconButton(() {
+                                Get.back();
+                              }, "assets/images/crossIcon.svg"),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 10),
+                              child: Center(
+                                  child: Text(
+                                    "Your Details has been submitted\nsuccessfully",
+                                    textAlign: TextAlign.center,
+                                    textScaleFactor: 1,
+                                    style: TextStyle(
+                                        fontSize: dialogHeadingTs,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w700,
+                                        height: 1.5,
+                                        fontFamily: 'Arial'),
+                                  ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 2.h),
+                        SizedBox(
+                          width: 140,
+                          child: BaseButton(
+                              btnType: 'popup', title: 'Ok', onPressed: onTap),
+                        ),
+                        SizedBox(height: 2.h),
+                      ],
+                    ),
+                  );
+                }),
+              ),
+            ),
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 200),
+        barrierDismissible: true,
+        barrierLabel: '',
+        context: context,
+        pageBuilder: (context, animation1, animation2) {
+          return const SizedBox();
+        });
+  }
+
+  void showAddMedicalFilesDialogue(BuildContext context,
+      {formKey,
+        TextEditingController? titleController,
+        TextEditingController? descriptionController,
+        TextEditingController? dateController,
+        TextEditingController? fileController,
+        action}) {
+    showGeneralDialog(
+        barrierColor: Colors.black.withOpacity(0.5),
+        transitionBuilder: (context, a1, a2, widget) {
+          return Transform.scale(
+            scale: a1.value,
+            child: Opacity(
+              opacity: a1.value,
+              child: AlertDialog(
+                insetPadding: const EdgeInsets.symmetric(horizontal: 10),
+                shape:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(16.0)),
+                content: SizedBox(
+                  width: 100.w,
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Form(
+                      key: formKey,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Stack(
+                            children: [
+                              Align(
+                                alignment: AlignmentDirectional.topEnd,
+                                child: iconButton(() {
+                                  Get.back();
+                                }, StarIcons.closeIconBlack),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(top: 10),
+                                child: Center(
+                                  child: addAlignedText(
+                                      'Add Medical Records',
+                                      dialogHeadingTs,
+                                      Colors.black,
+                                      FontWeight.w700),
+                                ),
+                              ),
+                            ],
+                          ),
+                          spaceheight(2.h),
+                          TextFieldWidget(
+                            fontsize: textFormFieldHintTs,
+                            borderRadius: radiusAll(4),
+                            fillColor: BaseColors.white3,
+                            labelText: '',
+                            hintText: 'Title',
+                            controller: titleController,
+                            validator: (v) {
+                              if (v!.isEmpty) {
+                                return 'Please enter title';
+                              }
+                              return null;
+                            },
+                          ),
+                          spaceheight(1.h),
+                          TextFieldWidget(
+                            fontsize: textFormFieldHintTs,
+                            borderRadius: radiusAll(4),
+                            fillColor: BaseColors.white3,
+                            height: 80,
+                            maxLines: 4,
+                            labelText: '',
+                            hintText: 'Description',
+                            controller: descriptionController,
+                            validator: (v) {
+                              if (v!.isEmpty) {
+                                return 'Please enter description';
+                              }
+                              return null;
+                            },
+                          ),
+                          spaceheight(1.h),
+                          GestureDetector(
+                            onTap: () async {
+                              print('tapped');
+                              showDatePicker(
+                                  context: context,
+                                  builder: (context, child) {
+                                    return Theme(
+                                      data: Theme.of(context).copyWith(
+                                        colorScheme: ColorScheme.light(
+                                          primary: BaseColors.primaryColor,
+                                        ),
+                                      ),
+                                      child: child!,
+                                    );
+                                  },
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(1600, 8),
+                                  lastDate: DateTime.now()
+                              ).then((date) async {
+                                if (date != null) {
+                                  String formattedDate = formatFlutterDateTime(flutterDateTime: date,getDayFirst: false);
+                                  dateController!.text = formattedDate;
+                                  dateController.text +=
+                                  ' ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}:${date.second.toString().padLeft(2, '0')}';
+                                }
+                              });
+
+                            },
+                            child: AbsorbPointer(
+                              child: TextFieldWidget(
+                                readOnly: true,
+                                fontsize: textFormFieldHintTs,
+                                borderRadius: radiusAll(4),
+                                fillColor: BaseColors.white3,
+                                labelText: '',
+                                hintText: 'dd/mm/yyyy',
+                                sufficIcon:
+                                iconButton(() {}, StarIcons.calenderIcon2),
+                                controller: dateController,
+                                validator: (v) {
+                                  if (v!.isEmpty) {
+                                    return 'Please select date';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                          ),
+                          spaceheight(1.h),
+                          GestureDetector(
+                            onTap: () async {
+                              await showMediaPickerDialogMedical((fileName, filePath) {
+                                  fileController.text = filePath;
+                                },
+                              );
+
+                            },
+                            child: AbsorbPointer(
+                              child: TextFieldWidget(
+                                controller: fileController,
+                                fontsize: textFormFieldHintTs,
+                                borderRadius: radiusAll(4),
+                                fillColor: BaseColors.white3,
+                                labelText: '',
+                                hintText: fileController!.text.isNotEmpty
+                                    ? 'File Selected'
+                                    : 'Upload File',
+                                sufficIcon: iconButton(
+                                        () {}, "assets/images/upload_doc.svg"),
+                              ),
+                            ),
+                          ),
+                          spaceheight(2.h),
+                          BaseButton(
+                            btnType: 'popup',
+                            title: 'SUBMIT',
+                            onPressed: action,
+                          )
+
+                          // spaceheight(10.h),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 200),
+        barrierDismissible: true,
+        barrierLabel: '',
+        context: context,
+        pageBuilder: (context, animation1, animation2) {
+          return const SizedBox();
+        });
+  }
+
+  void showMedicalRecordsDialogue(BuildContext context, action) {
+    showGeneralDialog(
+        barrierColor: Colors.black.withOpacity(0.5),
+        transitionBuilder: (context, a1, a2, widget) {
+          return Transform.scale(
+            scale: a1.value,
+            child: Opacity(
+              opacity: a1.value,
+              child: AlertDialog(
+                insetPadding: const EdgeInsets.symmetric(horizontal: 10),
+                shape:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(16.0)),
+                content: SizedBox(
+                  width: 100.w,
+                  child: Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Stack(
+                          children: [
+                            Align(
+                              alignment: AlignmentDirectional.topEnd,
+                              child: iconButton(() {
+                                Get.back();
+                              }, StarIcons.closeIconBlack),
+                            ),
+                          ],
+                        ),
+                        spaceheight(1.5.h),
+                        textArialCenterExpanded(
+                            'The star has suffered a mild injury that was dealt with by school nurse and is now fine and able to complete his school day.',
+                            detailHeadingTs,
+                            ColorConstants.black,
+                            FontWeight.w700),
+                        spaceheight(2.h),
+                        BaseButton(
+                            removeHorizontalPadding: true,
+                            borderRadius: 50,
+                            btnType: 'large',
+                            title: 'VIEW MEDICAL RECORD',
+                            onPressed: action)
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 200),
+        barrierDismissible: true,
+        barrierLabel: '',
+        context: context,
+        pageBuilder: (context, animation1, animation2) {
+          return const SizedBox();
+        });
   }
 }

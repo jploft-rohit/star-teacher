@@ -88,7 +88,7 @@ class FeedbackHelpController extends GetxController{
         // selectedPersonName.value = staffData.first.user?.name??"";
       }else{
         isStaffLoading.value = false;
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: translate(Get.context!).error);
       }
     });
   }
@@ -117,12 +117,12 @@ class FeedbackHelpController extends GetxController{
       BaseAPI().post(url: ApiEndPoints().updateFeedbackHelp+itemId, data: data).then((value){
         if (value?.statusCode ==  200) {
           Get.back();
-          BaseOverlays().showSnackBar(message: "Updated Successfully",title: "Success");
+          BaseOverlays().showSnackBar(message: "Updated Successfully",title: translate(Get.context!).success);
           selectedSchoolId.value = "";
           schoolController.value.text = "";
           getData();
         }else{
-          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
         }
       });
     }
@@ -158,12 +158,12 @@ class FeedbackHelpController extends GetxController{
           data: data).then((value){
         if (value?.statusCode ==  200) {
           Get.back();
-          BaseOverlays().showSnackBar(message: "Created Successfully",title: "Success");
+          BaseOverlays().showSnackBar(message: "Created Successfully",title: translate(Get.context!).success);
           selectedSchoolId.value = "";
           schoolController.value.text = "";
           getData();
         }else{
-          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
         }
       });
     }
@@ -175,7 +175,7 @@ class FeedbackHelpController extends GetxController{
       if (value?.statusCode ==  200) {
         response?.value = AllFeedbackHelpResponse.fromJson(value?.data).data??[];
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }
@@ -185,9 +185,9 @@ class FeedbackHelpController extends GetxController{
     BaseAPI().delete(url: ApiEndPoints().deleteFeedbackHelp+id).then((value){
       if (value?.statusCode ==  200) {
         response?.removeAt(index);
-        BaseOverlays().showSnackBar(message: "Deleted Successfully",title: "Success");
+        BaseOverlays().showSnackBar(message: "Deleted Successfully",title: translate(Get.context!).success);
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }
@@ -196,10 +196,10 @@ class FeedbackHelpController extends GetxController{
     BaseAPI().get(url: ApiEndPoints().acceptFeedbackHelp+itemId).then((value){
       if (value?.statusCode ==  200) {
         baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
-        BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"", title: "Success");
+        BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"", title: translate(Get.context!).success);
         getData();
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: translate(Get.context!).error);
       }
     });
   }
@@ -213,10 +213,10 @@ class FeedbackHelpController extends GetxController{
       if (value?.statusCode ==  200) {
         BaseOverlays().dismissOverlay();
         baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
-        BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"", title: "Success");
+        BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"", title: translate(Get.context!).success);
         getData();
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: translate(Get.context!).error);
       }
     });
   }

@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:dashed_rect/dashed_rect.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -8,14 +6,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
-
-
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_image_network.dart';
 import 'package:staff_app/utility/sizes.dart';
-import 'package:staff_app/view/star_evaluation_screen/success_dialog_screen.dart';
 import 'package:staff_app/view/star_reward_screen/reward_screen_ctrl.dart';
 
 class RewardImageScreen extends StatefulWidget {
@@ -53,7 +48,7 @@ class _RewardImageScreenState extends State<RewardImageScreen> {
             children: [
               SizedBox(height:2.h),
               Obx(()=>(controller.uploadedImagePath.value).isEmpty
-                  ? Row(
+              ? Row(
                 children: [
                   SizedBox(width: 1.w),
                   Expanded(
@@ -72,19 +67,14 @@ class _RewardImageScreenState extends State<RewardImageScreen> {
                           color: Colors.white,
                         ),
                         height: 200,
-                        child: DashedRect(
-                          color: const Color(0xFFD2D2D2),
-                          strokeWidth: 1.0,
-                          gap: 5.0,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset('assets/images/add-image 1.svg'),
-                              SizedBox(height:1.h),
-                              addText(translate(context).upload_from_albums, 14.sp,
-                                  BaseColors.greyColor, FontWeight.w400)
-                            ],
-                          ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset('assets/images/add-image 1.svg'),
+                            SizedBox(height:1.h),
+                            addText(translate(context).upload_from_albums, 14.sp,
+                                BaseColors.greyColor, FontWeight.w400)
+                          ],
                         ),
                       ),
                     ),
@@ -106,19 +96,14 @@ class _RewardImageScreenState extends State<RewardImageScreen> {
                           color: Colors.white,
                         ),
                         height: 200,
-                        child: DashedRect(
-                          color: const Color(0xFFD2D2D2),
-                          strokeWidth: 1.0,
-                          gap: 5.0,
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset('assets/images/photo-camera 1.svg'),
-                                SizedBox(height:1.h),
-                                addText(translate(context).camera, 14.sp,
-                                    BaseColors.greyColor, FontWeight.w400)
-                              ]),
-                        ),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset('assets/images/photo-camera 1.svg'),
+                              SizedBox(height:1.h),
+                              addText(translate(context).camera, 14.sp,
+                                  BaseColors.greyColor, FontWeight.w400)
+                            ]),
                       ),
                     ),
                   ),
@@ -130,14 +115,9 @@ class _RewardImageScreenState extends State<RewardImageScreen> {
                   clipBehavior: Clip.none,
                   alignment: Alignment.topRight,
                   children: [
-                  DashedRect(
-                    color: Colors.grey.shade700,
-                    strokeWidth: 1.0,
-                    gap: 5.0,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.file(File(controller.uploadedImagePath.value),width: double.infinity),
-                    ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.file(File(controller.uploadedImagePath.value),width: double.infinity),
                   ),
                   Positioned(
                     right: -10,
@@ -161,17 +141,13 @@ class _RewardImageScreenState extends State<RewardImageScreen> {
                     clipBehavior: Clip.none,
                     alignment: Alignment.topRight,
                     children: [
-                      DashedRect(
-                      color: Colors.grey.shade700,
-                      strokeWidth: 1.0,
-                      gap: 5.0,
-                      child: Padding(
+                      Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: BaseImageNetwork(
                           link: controller.rewardList?[widget.index].image??"",
                           width: double.infinity,
                         ),
-                      )),
+                      ),
                       Positioned(
                         right: -10,
                         top: -10,

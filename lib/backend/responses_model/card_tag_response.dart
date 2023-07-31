@@ -232,6 +232,7 @@ class RequestStatus {
   dynamic order;
   dynamic isDeleted;
   dynamic type;
+  dynamic name;
   dynamic statusTitle;
   dynamic createdBy;
   dynamic status;
@@ -247,6 +248,7 @@ class RequestStatus {
         this.vehicleMaintenance,
         this.roleDelegation,
         this.order,
+        this.name,
         this.isDeleted,
         this.type,
         this.statusTitle,
@@ -264,6 +266,7 @@ class RequestStatus {
     vehicleMaintenance = json['vehicleMaintenance'];
     roleDelegation = json['roleDelegation'];
     order = json['order'];
+    name = json['name'];
     isDeleted = json['isDeleted'];
     type = json['type'];
     statusTitle = json['statusTitle'];
@@ -279,6 +282,7 @@ class RequestStatus {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['_id'] = this.sId;
     data['starRequest'] = this.starRequest;
+    data['name'] = this.name;
     data['requestManagement'] = this.requestManagement;
     data['vehicleMaintenance'] = this.vehicleMaintenance;
     data['roleDelegation'] = this.roleDelegation;

@@ -5,8 +5,14 @@ class DummyLists{
     "Brother",
     "Sister",
   ];
+  List<String> servingTime = [
+    "First Break",
+    "Second Break",
+    "During The Day",
+  ];
   List<String> assignmentCategoryList = [
     "Awareness & courses",
+    "Worksheet",
     "Assessment",
     "Lab",
   ];
@@ -21,7 +27,7 @@ class DummyLists{
     "Sequence Multiple choose",
     "Complete the sentence",
     "Complete the word",
-    "Draw",
+    // "Draw",
   ];
   List<String> subQuestionType = [
     "Subjective",

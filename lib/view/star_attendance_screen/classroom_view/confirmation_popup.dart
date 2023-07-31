@@ -10,7 +10,8 @@ class ConfirmationDialog extends StatefulWidget {
   final String msg;
   final bool isShowBtn;
   final String? btnText;
-  ConfirmationDialog({Key? key, required this.msg, required this.isShowBtn, this.btnText}) : super(key: key);
+  final Function()? onTap;
+  ConfirmationDialog({Key? key, required this.msg, required this.isShowBtn, this.btnText, this.onTap}) : super(key: key);
 
   @override
   State<ConfirmationDialog> createState() => _ConfirmationDialogState();
@@ -57,9 +58,7 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
                 ),
                 if(widget.isShowBtn)
                 Center(
-                  child: BaseButton(btnType: dialogButton,title: widget.btnText ?? "Yes", onPressed: (){
-                    Get.back(result: true);
-                  }, btnWidth: 30.w),
+                  child: BaseButton(btnType: dialogButton,title: widget.btnText ?? "Yes", onPressed: widget.onTap, btnWidth: 30.w),
                 ),
               ],
             ),

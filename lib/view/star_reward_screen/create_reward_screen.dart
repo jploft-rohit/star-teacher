@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:dashed_rect/dashed_rect.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -27,6 +26,16 @@ class CreateRewardScreen extends StatefulWidget {
 class _CreateRewardScreenState extends State<CreateRewardScreen> {
   RewardScreenCtrl controller = Get.find<RewardScreenCtrl>();
   XFile? file;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      controller.rewardTitleCtrl.value.text = "";
+      controller.pointValueCtrl.value.text = "";
+      controller.selectedImagePath.value = "";
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,19 +71,14 @@ class _CreateRewardScreenState extends State<CreateRewardScreen> {
                               color: Colors.white,
                             ),
                             height: 200,
-                            child: DashedRect(
-                              color: const Color(0xFFD2D2D2),
-                              strokeWidth: 1.0,
-                              gap: 5.0,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset('assets/images/add-image 1.svg'),
-                                  SizedBox(height:1.h),
-                                  addText(translate(context).upload_from_albums, 14.sp,
-                                      BaseColors.greyColor, FontWeight.w400)
-                                ],
-                              ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset('assets/images/add-image 1.svg'),
+                                SizedBox(height:1.h),
+                                addText(translate(context).upload_from_albums, 14.sp,
+                                    BaseColors.greyColor, FontWeight.w400)
+                              ],
                             ),
                           ),
                         ),
@@ -97,19 +101,14 @@ class _CreateRewardScreenState extends State<CreateRewardScreen> {
                               color: Colors.white,
                             ),
                             height: 200,
-                            child: DashedRect(
-                              color: const Color(0xFFD2D2D2),
-                              strokeWidth: 1.0,
-                              gap: 5.0,
-                              child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset('assets/images/photo-camera 1.svg'),
-                                    SizedBox(height:1.h),
-                                    addText(translate(context).camera, 14.sp,
-                                        BaseColors.greyColor, FontWeight.w400)
-                                  ]),
-                            ),
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset('assets/images/photo-camera 1.svg'),
+                                  SizedBox(height:1.h),
+                                  addText(translate(context).camera, 14.sp,
+                                      BaseColors.greyColor, FontWeight.w400)
+                                ]),
                           ),
                         ),
                       ),
@@ -120,13 +119,9 @@ class _CreateRewardScreenState extends State<CreateRewardScreen> {
                       clipBehavior: Clip.none,
                       alignment: Alignment.topRight,
                       children: [
-                        DashedRect(color: Colors.grey.shade700,
-                           strokeWidth: 1.0,
-                           gap: 5.0,
-                           child: Padding(
-                             padding: const EdgeInsets.all(8.0),
-                             child: Image.file(File(controller.selectedImagePath.value),width: double.infinity,),
-                           ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.file(File(controller.selectedImagePath.value),width: double.infinity,),
                         ),
                         Positioned(
                           right: -10,
@@ -232,9 +227,9 @@ class _CreateRewardScreenState extends State<CreateRewardScreen> {
                   if (file != null) {
                     controller.createReward(file: file);
                   }else{
-                    controller.createReward();
+                    baseToast(message: "Please Upload Image");
                   }
-                },btnType: largeButton,)
+                },btnType: largeButton)
               ],
             ),
           ),

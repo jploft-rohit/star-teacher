@@ -24,7 +24,9 @@ class MyProfileResponse {
 
 class Data {
   dynamic sId;
+  String? isSendActivationRequest;
   dynamic isMobileVerified;
+  dynamic bloodType;
   dynamic gender;
   dynamic idDocument;
   dynamic deviceType;
@@ -59,10 +61,11 @@ class Data {
   Statistics? statistics;
   List<FamilyMembers>? familyMembers;
 
-  Data({this.designation,this.sId, this.deactivateData, this.currentStatus, this.isMobileVerified, this.gender, this.idDocument, this.deviceType, this.parentId, this.isDeleted, this.name, this.mobile, this.dob, this.nationality, this.emirateId, this.emirateIdExpire, this.nativeLanguage, this.religion, this.profilePic, this.role, this.createdAt, this.updatedAt, this.iV, this.otp, this.deviceToken, this.deviceVoip, this.schoolStaff, this.familyMembers, this.alternativeMobile, this.profileCompletePercentage, this.profileCompleteDate, this.barcode, this.jobDetails, this.statistics});
+  Data({this.bloodType, this.isSendActivationRequest,this.placesOfClass,this.designation,this.sId, this.deactivateData, this.currentStatus, this.isMobileVerified, this.gender, this.idDocument, this.deviceType, this.parentId, this.isDeleted, this.name, this.mobile, this.dob, this.nationality, this.emirateId, this.emirateIdExpire, this.nativeLanguage, this.religion, this.profilePic, this.role, this.createdAt, this.updatedAt, this.iV, this.otp, this.deviceToken, this.deviceVoip, this.schoolStaff, this.familyMembers, this.alternativeMobile, this.profileCompletePercentage, this.profileCompleteDate, this.barcode, this.jobDetails, this.statistics});
 
   Data.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
+    bloodType = json['bloodType'];
     designation = json['designation'];
     isMobileVerified = json['isMobileVerified'];
     gender = json['gender'];
@@ -72,6 +75,7 @@ class Data {
     parentId = json['parentId'];
     isDeleted = json['isDeleted'];
     name = json['name'];
+    isSendActivationRequest = json['isSendActivationRequest'];
     mobile = json['mobile'];
     dob = json['dob'];
     nationality = json['nationality'];
@@ -110,8 +114,10 @@ class Data {
     if (this.deactivateData != null) {
       data['deactivateData'] = this.deactivateData!.toJson();
     }
+    data['isSendActivationRequest'] = this.isSendActivationRequest;
     data['isMobileVerified'] = this.isMobileVerified;
     data['gender'] = this.gender;
+    data['bloodType'] = this.bloodType;
     data['deviceType'] = this.deviceType;
     data['parentId'] = this.parentId;
     data['idDocument'] = this.idDocument;

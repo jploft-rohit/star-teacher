@@ -43,8 +43,30 @@ class _MyProfileViewState extends State<MyProfileView> {
                       flex: 2,
                       child: GestureDetector(
                         onTap: (){
-                          controller.xFile = BaseOverlays().showMediaPickerDialog();
-                          controller.imageData.value = controller.xFile?.path??"";
+                          BaseOverlays().showMediaPickerDialog(onCameraClick: () async {
+                            BaseOverlays().dismissOverlay();
+                            ImagePicker picker = ImagePicker();
+                            await picker.pickImage(source: ImageSource.camera).then((value){
+                              if (value != null) {
+                                controller.selectedFile?.value = File(value.path);
+                                // controller.imageData.value = value.path.split("/").last;
+                              }
+                            },
+                            );
+                          },
+                              onGalleryClick: () async {
+                                BaseOverlays().dismissOverlay();
+                                ImagePicker picker = ImagePicker();
+                                await picker.pickImage(source: ImageSource.gallery).then((value){
+                                  if (value != null) {
+                                    controller.selectedFile?.value = File(value.path);
+                                    // controller.imageData.value = value.path.split("/").last;
+                                  }
+                                });
+                              }
+                          );
+                          // controller.xFile = BaseOverlays().showMediaPickerDialog();
+                          // controller.imageData.value = controller.xFile?.path??"";
                         },
                         child: Center(
                           child: Container(
@@ -60,8 +82,9 @@ class _MyProfileViewState extends State<MyProfileView> {
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(15.0),
                                       border: Border.all(color: BaseColors.primaryColor)),
-                                  child: BaseImageNetwork(
-                                    link: controller.imageData.value,
+                                  child: (controller.selectedFile?.value?.path??"").isEmpty
+                                      ? BaseImageNetwork(
+                                    link: myProfileController.response.value.data?.profilePic??"",
                                     concatBaseUrl: true,
                                     errorWidget: SvgPicture.asset(
                                       manSvg,
@@ -69,6 +92,7 @@ class _MyProfileViewState extends State<MyProfileView> {
                                       width: 80,
                                     ),
                                   )
+                                      :Image(image: FileImage(File(controller.selectedFile?.value?.path??"")))
                                 ),
                                 iconButton(() {}, "assets/images/upload_img.svg")
                               ],
@@ -168,7 +192,7 @@ class _MyProfileViewState extends State<MyProfileView> {
                                       lastDate: DateTime.now()
                                   ).then((picked){
                                     if (picked != null) {
-                                      controller.dobCtrl.text = formatFlutterDateTime(flutterDateTime: picked, getDayFirst: false);
+                                      controller.dobCtrl.text = formatFlutterDateTime(flutterDateTime: picked, getDayFirst: true);
                                     }
                                   });
                                 },
@@ -235,7 +259,7 @@ class _MyProfileViewState extends State<MyProfileView> {
                                       lastDate: DateTime.now()
                                   ).then((picked){
                                     if (picked != null) {
-                                      controller.expiryDateCtrl.text = formatFlutterDateTime(flutterDateTime: picked, getDayFirst: false);
+                                      controller.expiryDateCtrl.text = formatFlutterDateTime(flutterDateTime: picked, getDayFirst: true);
                                     }
                                   });
                                 },

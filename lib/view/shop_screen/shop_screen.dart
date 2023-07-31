@@ -14,7 +14,8 @@ import 'package:staff_app/view/shop_screen/controller/shop_screen_ctrl.dart';
 
 
 class ShopView extends StatefulWidget {
-  const ShopView({super.key});
+  final int? initialTabIndex;
+  const ShopView({super.key, this.initialTabIndex});
 
   @override
   State<ShopView> createState() => _ShopViewState();
@@ -27,9 +28,12 @@ class _ShopViewState extends State<ShopView> with SingleTickerProviderStateMixin
   @override
   void initState() {
     super.initState();
+    controller.secondaryTabIndex.value = widget.initialTabIndex??0;
     controller.getShopCategoryListData();
     tabController = TabController(length: 2, vsync: this)..addListener(() {
       if (!(tabController.indexIsChanging)) {
+        controller.secondaryTabIndex.value = 0;
+        controller.ordersTabIndex.value = 0;
         controller.primaryTabIndex.value = tabController.index;
         setState(() {});
         if(tabController.index == 0){
@@ -79,7 +83,11 @@ class _ShopViewState extends State<ShopView> with SingleTickerProviderStateMixin
                 onChanged: (val){
                   controller.schoolController.text = val.name??"";
                   controller.selectedSchoolId.value = val.sId??"";
-                  controller.getShopOrders();
+                  if(tabController.index == 0){
+                    controller.getShopCategoryListData();
+                  }else{
+                    controller.getShopOrders();
+                  }
                 },
                 bottomMargin: 1.h,
               ),
@@ -87,7 +95,7 @@ class _ShopViewState extends State<ShopView> with SingleTickerProviderStateMixin
                 child: TabBarView(
                   controller: tabController,
                   children: [
-                  ShopTab(),
+                  ShopTab(initialTabIndex: widget.initialTabIndex),
                   OrderTab()
                  ],
                 ),

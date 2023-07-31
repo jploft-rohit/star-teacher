@@ -646,5 +646,10 @@
  "new_assignment" : "New Assignment",
  "ongoing" : "Ongoing",
  "submitted" : "Submitted",
- "overdue" : "Overdue"
+ "overdue" : "Overdue",
+ "please_select_school" : "Please Select School",
+ "select_school" : "Select School",
+ "gallery": "Gallery",
+ "success": "Success",
+ "error": "Error"
 }

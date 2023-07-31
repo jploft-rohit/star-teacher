@@ -97,6 +97,8 @@ class ApiEndPoints {
   final String getStarAttendanceList = "starAttendence/list";
   final String addStarAttendance = "starAttendence/add";
   final String changeStarAttendanceStatus = "starAttendence/change-status/";
+  final String getAttendanceStarsList = "starAttendence/star-list";
+  final String updateManualAttendanceStatus = "starAttendence/add";
 
   /// Task & Reminder EndPoints
   final String getAllTaskReminders = "reminder/get-all";
@@ -107,7 +109,8 @@ class ApiEndPoints {
   /// Schedule Meeting EndPoints
   final String scheduleNewMeeting = "requestRoutes/create";
   final String getScheduledMeetings = "requestRoutes/list";
-  final String rescheduleMeeting = "requestRoutes/updateRequestStatus/";
+  // final String rescheduleMeeting = "requestRoutes/updateRequestStatus/";
+  final String rescheduleMeeting = "requestRoutes/update/";
   final String updateScheduledMeetingStatus = "requestRoutes/updateRequestStatus/";
 
   /// Subject EndPoint
@@ -168,7 +171,7 @@ class ApiEndPoints {
   final String createStarGallery = "starGallery/create";
 
   /// Class EndPoints
-  final String getClasses = "class/getAllClass";
+  // final String getClasses = "class/getAllClass";
   final String getClassSection = "class/section/getall";
 
   /// Annual Schedule EndPoints
@@ -176,6 +179,7 @@ class ApiEndPoints {
 
   /// Teacher Attendance
   final String getTeacherAttendance = "staffAttendence/list";
+  final String updateAbsentReason = "staffAttendence/updateReason/";
 
   /// Transportation
   final String getTransportationData = "transport/trip/passenger/getTransportDetail/";
@@ -213,6 +217,9 @@ class ApiEndPoints {
   final String cancelOrder = "shop/order/cancel/";
   final String getSingleOrderDetail = "shop/order/single/";
   final String addItemToCart = "shop/cart/add-product";
+  final String getUserCart = "shop/cart/user-cart/";
+  final String removeCartItem = "shop/cart/remove-product";
+  final String createOrder = "shop/order/create";
 
   /// Account Activation
   final String sendAccountActivationRequest = "auth/sendAccountActivationRequest";
@@ -224,7 +231,16 @@ class ApiEndPoints {
   final String getCardTag = "user/getusertags";
   final String updateCardTagStatus = "user/change-card-status";
 
+  /// MCQ
+  final String getAssignmentList = "assignments/get_assign_assignment_list";
+  final String getAssignmentQuestionList = "assignments/get_assign_assignment";
+  final String evaluateQuestion = "assignments/evaluate_question";
+  final String createMCQ = "assignments/add_question";
+  final String getELibraryQuestions = "assignments/single/";
+
   /// Class Schedule
   final String getWeeklyClassSchedule = "timeTable/teacher/week-plan/";
 
+  /// Payment Gateway
+  final String checkStripeStatus = "fees/check_intent/";
 }

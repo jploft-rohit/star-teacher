@@ -60,7 +60,7 @@ class _HomePhotoVideoTabState extends State<HomePhotoVideoTab> with AutomaticKee
             child: ClipRRect(
               borderRadius: BorderRadius.circular(13),
               child: (controller.list?[index].uploads?.first.type??"") == "video"
-                  ? BaseVideoThumbnail(videoLink: controller.list?[index].uploads?.first.url??"")
+                  ? BaseVideoThumbnail(videoLink: controller.list?[index].uploads?.first.thumbnail??"")
                   : BaseImageNetwork(
                     link: controller.list?[index].uploads?.first.url??"",
                     cacheWidth: 300,

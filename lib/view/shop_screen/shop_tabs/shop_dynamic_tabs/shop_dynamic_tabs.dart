@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_dynamic_tab_bar.dart';
-import 'package:staff_app/utility/base_views/base_image_network.dart';
 import 'package:staff_app/utility/base_views/base_no_data.dart';
-import 'package:staff_app/utility/base_views/base_tab_bar.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
-import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/utility/base_utility.dart';
-import 'package:staff_app/utility/base_views/base_tab_button.dart';
 import 'package:staff_app/view/shop_screen/controller/shop_screen_ctrl.dart';
 import 'package:staff_app/view/shop_screen/shop_tabs/shop_dynamic_tabs/shop_grid_item/shop_grid_item.dart';
 

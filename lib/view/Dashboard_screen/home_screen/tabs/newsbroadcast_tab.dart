@@ -129,7 +129,7 @@ class _NewsBroadCastTabState extends State<NewsBroadCastTab> {
                                         borderRadius: BorderRadius.circular(10.0)),
                                     child:Padding(
                                       padding: const EdgeInsets.symmetric(horizontal: 60,vertical: 15),
-                                      child: addText("Agreed".toUpperCase(),15.sp,BaseColors.primaryColor,FontWeight.w700),
+                                      child: addText("Agree".toUpperCase(),15.sp,BaseColors.primaryColor,FontWeight.w700),
                                     )
                                 ),
                               ),

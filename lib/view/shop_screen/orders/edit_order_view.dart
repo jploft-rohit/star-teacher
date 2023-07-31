@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/constants-classes/color_constants.dart';
+import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_views/base_image_network.dart';
+import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/view/shop_screen/controller/shop_screen_ctrl.dart';
 
@@ -108,7 +111,7 @@ class _EditOrderViewState extends State<EditOrderView> {
                             ColorConstants.black,
                             FontWeight.w400),
                       ),
-                      SizedBox(height: 1.h,),
+                      SizedBox(height: 1.h),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -164,18 +167,20 @@ class _EditOrderViewState extends State<EditOrderView> {
                     ],
                   ),
                 ),
-                SizedBox(height: 2.h),
-                detailRow('Sub Total', '160 AED'),
-                SizedBox(height: 1.h),
-                detailRow('Taxes (5%)', '8 AED'),
-                SizedBox(height: 1.h),
-                detailRow('Shipping Charges', '0 AED'),
-                SizedBox(height: 1.h),
-                detailRow('Grand Total', '168 AED'),
-                SizedBox(height: 3.h),
+                SizedBox(height:2.h),
+                detailRow('Sub Total', (controller.singleOrderProductData?.value?.totalAmount?.toString()??"")+" AED"),
+                SizedBox(height:1.h),
+                detailRow('Taxes (5%)', (controller.singleOrderProductData?.value?.taxAmount?.toString()??"")+" AED"),
+                SizedBox(height:1.h),
+                detailRow('Shipping Charges', (controller.singleOrderProductData?.value?.shippingCharges?.toString()??"")+" AED"),
+                SizedBox(height:1.h),
+                detailRow('Grand Total', (controller.singleOrderProductData?.value?.grandTotal?.toString()??"")+" AED"),
+                SizedBox(height:3.h),
                 Align(
                   alignment: Alignment.center,
-                  child: BaseButton(title: "UPDATE ORDER", onPressed: (){}, btnType: "large"),
+                  child: BaseButton(title: "UPDATE ORDER", onPressed: (){
+                    // controller.updateOrder(id: widget.id,productList: ),
+                  }, btnType: "large"),
                 ),
                 SizedBox(height: 3.h),
               ],
@@ -252,7 +257,6 @@ class _EditOrderViewState extends State<EditOrderView> {
                         BaseOverlays().showOkDialog(btnTitle: "Yes",title: "Are you sure you want\nto remove this item?");
                       },
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Icon(CupertinoIcons.delete,color: Color(0xFFE62626),size: 14,),
                           addText("Remove", 14,Color(0xFFE62626), FontWeight.w400),

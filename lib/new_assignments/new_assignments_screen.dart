@@ -40,11 +40,13 @@ class _NewAssignmentScreenState extends State<NewAssignmentScreen> with SingleTi
      },
     );
   }
+
   @override
   void dispose() {
     tabController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -57,7 +59,7 @@ class _NewAssignmentScreenState extends State<NewAssignmentScreen> with SingleTi
         appBar: BaseAppBar(title: widget.title,
         bottomChild: Column(
           children: [
-            BaseSchoolDropDown(
+            BaseSchoolDropDown (
               rightMargin: 2.w,
               leftMargin: 2.w,
               topMargin: 1.h,

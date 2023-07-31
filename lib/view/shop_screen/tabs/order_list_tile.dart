@@ -70,7 +70,7 @@ class _OrderListTileState extends State<OrderListTile> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     detailRow('Order Id : ', '#${controller.shopOrdersList?[index]?.orderId?.toString()??""}'),
-                    detailRow('Order Total : ', '${controller.shopOrdersList?[index]?.totalAmount?.toString()??""} AED'),
+                    detailRow('Order Total : ', '${controller.shopOrdersList?[index]?.grandTotal?.toString()??""} AED'),
                     detailRow('Order Date : ', formatBackendDate(controller.shopOrdersList?[index]?.createdAt??"")),
                     // detailRow('Serving Days : ', 'Monday, Tuesday, Wednesday'),
                   ],
@@ -108,7 +108,8 @@ class _OrderListTileState extends State<OrderListTile> {
                             //     },
                             //   );
                             // });
-                          }),
+                          },
+                      ),
                     ),
                     SizedBox(width: 1.5.w),
                     Expanded(

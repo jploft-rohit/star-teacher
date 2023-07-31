@@ -54,7 +54,7 @@ class _RulesScreenState extends State<RulesScreen> {
                       Get.closeAllSnackbars();
                       Get.to(RulesScreen2());
                     }else{
-                      BaseOverlays().showSnackBar(message: "Please agree with code of conduct",title: "Error");
+                      BaseOverlays().showSnackBar(message: "Please agree with code of conduct",title: translate(Get.context!).error);
                     }
                   },
                   child: Container(

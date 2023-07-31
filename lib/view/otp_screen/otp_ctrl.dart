@@ -5,6 +5,7 @@ import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/backend/responses_model/base_success_response.dart';
 import 'package:staff_app/backend/responses_model/otp_response.dart';
+import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/route_manager/route_name.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/storage/sp_keys.dart';
@@ -50,7 +51,7 @@ class OtpCtrl extends GetxController{
           Get.offAllNamed(dashboardScreenRoute);
         }else{
           if ((response.message??"").isNotEmpty) {
-            BaseOverlays().showSnackBar(message: response.message??"",title: "Error");
+            BaseOverlays().showSnackBar(message: response.message??"",title: translate(Get.context!).error);
           }
         }
       });
@@ -70,9 +71,9 @@ class OtpCtrl extends GetxController{
           otpController.clear();
           otpController.text = "";
           Get.toNamed(ruleScreenRoute);
-          BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"", title: "Success");
+          BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"", title: translate(Get.context!).success);
         }else{
-          BaseOverlays().showSnackBar(message: response.message??"", title: "Error");
+          BaseOverlays().showSnackBar(message: response.message??"", title: translate(Get.context!).error);
         }
       });
     }

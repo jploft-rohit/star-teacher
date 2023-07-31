@@ -140,7 +140,8 @@ class _RewardsScreenState extends State<RewardsScreen> with AutomaticKeepAliveCl
                       crossAxisCount: 2,
                       mainAxisExtent: 140,
                       mainAxisSpacing: 15,
-                      crossAxisSpacing: 5),
+                      crossAxisSpacing: 5,
+                  ),
                   itemBuilder: (context, index) => GestureDetector(
                     onTap: () {
                       showGeneralDialog(

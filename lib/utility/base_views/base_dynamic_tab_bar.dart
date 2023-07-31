@@ -42,7 +42,7 @@ class BaseDynamicTabBarState extends State<BaseDynamicTabBar> with TickerProvide
       if (!(tabController.indexIsChanging)) {
         controller.dynamicTabIndex.value = tabController.index;
         controller.selectedTabBarId.value = controller.shopCategoryList?[controller.dynamicTabIndex.value]?.sId??"";
-        controller.getData();
+        controller.getUserCart();
       }
     });
   }

@@ -7,6 +7,7 @@ import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_detail_data.dart';
+import 'package:staff_app/utility/base_views/base_image_network.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/view/lost_or_found_screen/controller/lost_found_controller.dart';
 import 'package:staff_app/view/lost_or_found_screen/report_lost_found_screen.dart';
@@ -52,15 +53,15 @@ class _LostFoundTabState extends State<LostFoundTab> {
                     BaseDetailData(detailsLabel:controller.selectedTabIndex.value == 0 ? translate(context).found_date : "Lost Date", detailsValue:formatBackendDate(controller.list?[index].date??"")),
                     BaseDetailData(detailsLabel:"Where", detailsValue:controller.list?[index].location??""),
                     Container(
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0)
+                      alignment: Alignment.center,
+                      child: BaseImageNetwork(
+                        link: (controller.list?[index].document??""),
+                        height: 30.h,
+                        borderRadius: 10,
+                        errorWidget: Image.asset("assets/delete/Rectangle 360.png"),
                       ),
-                      child: Image.asset("assets/delete/Rectangle 360.png"),
                     ),
-                    SizedBox(
-                      height: 1.5.h,
-                    ),
+                    SizedBox(height: 1.5.h),
                     Visibility(
                       visible: controller.selectedTabIndex.value == 0,
                       child: Center(

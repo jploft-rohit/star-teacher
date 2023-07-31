@@ -34,7 +34,7 @@ class EarlyLeaveController extends GetxController{
   setData({bool? isUpdating, EarlyLeaveData? data}){
     if(isUpdating??false){
       schoolController.text = data?.school?.name??"";
-      dateController.text =  formatBackendDate(data?.date??"",getDayFirst: false);
+      dateController.text =  formatBackendDate(data?.date??"",getDayFirst: true);
       outTimeController.text = getFormattedTime3(data?.outTime??"")+":00";
       inTimeController.text = getFormattedTime3(data?.inTime??"")+":00";
       reasonController.text = data?.reason??"";
@@ -70,7 +70,7 @@ class EarlyLeaveController extends GetxController{
       if (value?.statusCode ==  200) {
         list?.removeAt(index);
         response = BaseSuccessResponse.fromJson(value?.data);
-        BaseOverlays().showSnackBar(message: response.message??"",title: "Success");
+        BaseOverlays().showSnackBar(message: response.message??"",title: translate(Get.context!).success);
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
       }
@@ -86,7 +86,7 @@ class EarlyLeaveController extends GetxController{
           "school" : selectedSchoolId.value,
           "user[0]":userId,
           "typeOfRequest":"earlyLeave",
-          "date":dateController.text.trim(),
+          "date":flipDate(date: dateController.text.trim()),
           "outTime":outTimeController.text.trim(),
           "inTime":inTimeController.text.trim(),
           "reason":reasonController.text.trim(),
@@ -97,7 +97,7 @@ class EarlyLeaveController extends GetxController{
           "school" : selectedSchoolId.value,
           "user[0]":userId,
           "typeOfRequest":"earlyLeave",
-          "date":dateController.text.trim(),
+          "date":flipDate(date: dateController.text.trim()),
           "outTime":outTimeController.text.trim(),
           "inTime":inTimeController.text.trim(),
           "reason":reasonController.text.trim(),
@@ -108,7 +108,7 @@ class EarlyLeaveController extends GetxController{
           selectedSchoolId.value = "";
           schoolController.clear();
           Get.back();
-          BaseOverlays().showSnackBar(message: await BaseSuccessResponse.fromJson(value?.data).message??"",title: "Success");
+          BaseOverlays().showSnackBar(message: await BaseSuccessResponse.fromJson(value?.data).message??"",title: translate(Get.context!).success);
           getData();
         }else{
           BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
@@ -126,7 +126,7 @@ class EarlyLeaveController extends GetxController{
           "school" : selectedSchoolId.value,
           "user[0]":userId,
           "typeOfRequest":"earlyLeave",
-          "date":dateController.text.trim(),
+          "date":flipDate(date: dateController.text.trim()),
           "outTime":outTimeController.text.trim(),
           "inTime":inTimeController.text.trim(),
           "reason":reasonController.text.trim(),
@@ -137,7 +137,7 @@ class EarlyLeaveController extends GetxController{
           "school" : selectedSchoolId.value,
           "user[0]":userId,
           "typeOfRequest":"earlyLeave",
-          "date":dateController.text.trim(),
+          "date":flipDate(date: dateController.text.trim()),
           "outTime":outTimeController.text.trim(),
           "inTime":inTimeController.text.trim(),
           "reason":reasonController.text.trim(),
@@ -148,7 +148,7 @@ class EarlyLeaveController extends GetxController{
           selectedSchoolId.value = "";
           schoolController.clear();
           Get.back();
-          BaseOverlays().showSnackBar(message: await BaseSuccessResponse.fromJson(value?.data).message??"",title: "Success");
+          BaseOverlays().showSnackBar(message: await BaseSuccessResponse.fromJson(value?.data).message??"",title: translate(Get.context!).success);
           getData();
         }else{
           BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
@@ -165,12 +165,15 @@ class EarlyLeaveController extends GetxController{
       dio.FormData data = dio.FormData.fromMap({
         "user[0]": userId,
         "typeOfRequest": "earlyLeave",
+        "outTime":outTimeController.text.trim(),
+        "inTime":inTimeController.text.trim(),
+        "reason":reasonController.text.trim(),
         "document": await dio.MultipartFile.fromFile(selectedFile?.value.path??"",filename: selectedFile?.value.path.split("/").last??"")
       });
       BaseAPI().put(url: ApiEndPoints().uploadEvidence+id,data: data).then((value){
         if (value?.statusCode ==  200) {
           response = BaseSuccessResponse.fromJson(value?.data);
-          BaseOverlays().showSnackBar(message: response.message??"", title: "Success");
+          BaseOverlays().showSnackBar(message: response.message??"", title: translate(Get.context!).success);
           getData();
         }else{
           BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");

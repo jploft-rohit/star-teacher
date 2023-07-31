@@ -11,6 +11,7 @@ import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/storage/sp_keys.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 
 class LostFoundController extends GetxController{
@@ -43,7 +44,7 @@ class LostFoundController extends GetxController{
       if (value?.statusCode ==  200) {
         list?.value = LostFoundListResponse.fromJson(value?.data).data??[];
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }
@@ -54,9 +55,9 @@ class LostFoundController extends GetxController{
     BaseAPI().get(url: ApiEndPoints().returnLostFound+id).then((value){
       if (value?.statusCode ==  200) {
         baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
-        BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: "Success");
+        BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: translate(Get.context!).success);
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }
@@ -68,7 +69,7 @@ class LostFoundController extends GetxController{
       if ((selectedFile?.value.path??"").isEmpty) {
         data = dio.FormData.fromMap({
           "title":titleController.value.text.trim(),
-          "date":dateController.value.text.trim(),
+          "date":flipDate(date: dateController.value.text.trim()),
           "location":whereController.value.text.trim(),
           "school":selectedSchoolId.value,
           "type":selectedTabIndex.value == 0 ? "found" : "request",
@@ -77,7 +78,7 @@ class LostFoundController extends GetxController{
       }else{
         data = dio.FormData.fromMap({
           "title":titleController.value.text.trim(),
-          "date":dateController.value.text.trim(),
+          "date":flipDate(date: dateController.value.text.trim()),
           "location":whereController.value.text.trim(),
           "school":selectedSchoolId.value,
           "type":selectedTabIndex.value == 0 ? "found" : "request",
@@ -90,12 +91,12 @@ class LostFoundController extends GetxController{
         if (value?.statusCode ==  200) {
           Get.back();
           baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
-          BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: "Success");
+          BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: translate(Get.context!).success);
           selectedSchoolId.value = "";
           selectedSchoolName.value = "";
           getData(type: selectedTabIndex.value == 0 ? "found" : "request");
         }else{
-          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
         }
       });
     }

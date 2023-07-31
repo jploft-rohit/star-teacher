@@ -25,6 +25,7 @@ class _ELibraryScreenState extends State<ELibraryScreen> with SingleTickerProvid
   @override
   void initState() {
     super.initState();
+    controller.screenType = widget.title??"";
     controller.getData();
     tabController = TabController(length: 2, vsync: this)..addListener(() {
       if (!tabController.indexIsChanging) {

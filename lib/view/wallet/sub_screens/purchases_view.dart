@@ -70,16 +70,18 @@ class _PurchasesViewState extends State<PurchasesView> with SingleTickerProvider
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SvgPicture.asset(coinSvg),
-                    Column(
-                      children: [
-                        Text(translate(context).balance, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 20.sp),),
-                        SizedBox(height: 1.h),
-                        Obx(
-                          () => Text('${(controller.walletBalanceData?.value?.walletAmount??"0").toString()} AED', style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor,fontSize: 21.sp),),
-                        ),
-                        SizedBox(height: 2.h),
-                      ],
+                    SizedBox(width: 2.w),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Text(translate(context).balance, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 20.sp),),
+                          SizedBox(height: 1.h),
+                          Obx(() => Text('${(controller.walletBalanceData?.value?.walletAmount??"0").toString()} AED', style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor,fontSize: 21.sp),),),
+                          SizedBox(height: 2.h),
+                        ],
+                      ),
                     ),
+                    SizedBox(width: 1.w),
                     Container(
                       padding: EdgeInsets.all(0.5.h),
                       decoration: BoxDecoration(

@@ -36,7 +36,7 @@ class CustomTextField extends StatelessWidget {
       controller: controller,
       obscureText: obscureText ?? false,
       obscuringCharacter: "*",
-      maxLines: maxLine,
+      maxLines: maxLine??1,
       onTap: onTap,
       readOnly: readOnly ?? false,
       textInputAction: textInputAction,

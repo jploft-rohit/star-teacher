@@ -7,6 +7,7 @@ import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/backend/responses_model/base_success_response.dart';
 import 'package:staff_app/backend/responses_model/my_profile_response.dart';
+import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/view/my_profile_screen/controller/my_profile_ctrl.dart';
@@ -61,7 +62,7 @@ class FamilyCtrl extends GetxController{
         if (value?.statusCode == 200) {
           successResponse = BaseSuccessResponse.fromJson(value?.data);
           Get.back();
-          BaseOverlays().showSnackBar(message: successResponse.message??"",title: "Success");
+          BaseOverlays().showSnackBar(message: successResponse.message??"",title: translate(Get.context!).success);
           myProfileCtrl.getData();
         }else{
           // BaseDialogs().showSnackBar(message: ,title: response.message??"");
@@ -99,7 +100,7 @@ class FamilyCtrl extends GetxController{
         if (value?.statusCode == 200) {
           successResponse = BaseSuccessResponse.fromJson(value?.data);
           Get.back();
-          BaseOverlays().showSnackBar(message: successResponse.message??"",title: "Success");
+          BaseOverlays().showSnackBar(message: successResponse.message??"",title: translate(Get.context!).success);
           myProfileCtrl.getData();
         }else{
           // BaseDialogs().showSnackBar(message: ,title: response.message??"");

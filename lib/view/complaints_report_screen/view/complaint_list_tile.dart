@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/storage/base_shared_preference.dart';
+import 'package:staff_app/storage/sp_keys.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_views/base_detail_data.dart';
-import 'package:staff_app/utility/base_views/base_edit_delete.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
@@ -28,6 +29,15 @@ class ComplaintsListTile extends StatefulWidget {
 class _ComplaintsListTileState extends State<ComplaintsListTile> {
 
   ComplainReportController controller = Get.find<ComplainReportController>();
+  String userId = "";
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      userId = await BaseSharedPreference().getString(SpKeys().userId);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +49,7 @@ class _ComplaintsListTileState extends State<ComplaintsListTile> {
         int stepperIndex = -5;
         controller.statusTime.value = [];
         controller.statusTitle.value = [];
-        controller.response?[index].complaintStatus?.reversed.toList().asMap().forEach((loopIndex,element) {
+        controller.response?[index].complaintStatus?.toList().asMap().forEach((loopIndex,element) {
           controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
           controller.statusTime.add(getFormattedTimeWithMonth(element.time??""));
           if ((element.name??"") == (controller.response?[index].status?.name??"")) {
@@ -64,27 +74,32 @@ class _ComplaintsListTileState extends State<ComplaintsListTile> {
                     ),
                     BaseIcons().download(onRightButtonPressed: (){
                       BaseOverlays().dismissOverlay();
-                      downloadFile(url: controller.response?[index].document??"",concatBaseUrl: false);
+                        downloadFile(url: controller.response?[index].document??"",concatBaseUrl: true);
                       },
                       leftMargin: 3.w,
                     ),
-                    BaseIcons().edit(
+                    Visibility(
+                      visible: userId == (controller.response?[index].createdBy??""),
+                      child: BaseIcons().edit(
                       title: "Are you sure you want to edit this ${controller.response?[index].forEnquery??""}",
                       onRightButtonPressed: (){
                         BaseOverlays().dismissOverlay();
                         Get.to(RaiseComplaintReportScreen(isUpdating: true, data: controller.response?[index]));
-                        },
+                      },
                       leftMargin: 3.w,
-                    ),
-                    BaseIcons().delete(
-                        title: "Are you sure you want to delete this ${controller.response?[index].forEnquery??""}",
-                        onRightButtonPressed: (){
-                          controller.deleteItem(id: controller.response?[index].sId??"", index: index);
+                    )),
+                    Visibility(
+                        visible: userId == (controller.response?[index].createdBy??""),
+                        child: BaseIcons().delete(
+                          title: "Are you sure you want to delete this ${controller.response?[index].forEnquery??""}",
+                          onRightButtonPressed: (){
+                            controller.deleteItem(id: controller.response?[index].sId??"", index: index);
                           },
-                        leftMargin: 3.w,
-                        showDeleteReason: true,
-                        deleteReasonController: controller.deleteReasonController.value,
-                        formKey: controller.formKey,
+                          leftMargin: 3.w,
+                          showDeleteReason: true,
+                          deleteReasonController: controller.deleteReasonController.value,
+                          formKey: controller.formKey,
+                        ),
                     ),
                   ],
                 ),
@@ -114,6 +129,11 @@ class _ComplaintsListTileState extends State<ComplaintsListTile> {
                   prefixIcon: "assets/images/report.svg",
                   detailsLabel: "Type",
                   detailsValue: toBeginningOfSentenceCase(controller.response?[index].forEnquery??"")??"",
+                ),
+                BaseDetailData(
+                  prefixIcon: "assets/images/user.svg",
+                  detailsLabel: "Complaint On",
+                  detailsValue: toBeginningOfSentenceCase(controller.response?[index].user?.role?.displayName??"")??"",
                 ),
                 BaseDetailData(
                   prefixIcon: "assets/images/user.svg",

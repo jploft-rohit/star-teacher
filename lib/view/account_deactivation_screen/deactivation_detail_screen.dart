@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/backend/responses_model/my_profile_response.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
@@ -19,7 +20,8 @@ import 'package:staff_app/view/account_deactivation_screen/controller/account_de
 
 class DeactivationDetailScreen extends StatefulWidget {
   final DeactivateData? data;
-  const DeactivationDetailScreen({Key? key, this.data}) : super(key: key);
+  final String? qrCode, bloodType;
+  const DeactivationDetailScreen({Key? key, this.data, this.qrCode, this.bloodType}) : super(key: key);
 
   @override
   State<DeactivationDetailScreen> createState() => _DeactivationDetailScreenState();
@@ -57,7 +59,7 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
                             border: Border.all(color: BaseColors.primaryColor),
                           ),
                           child: BaseImageNetwork(
-                            link: widget.data?.deactivatedBy?.profilePic??"",
+                            link: widget.data?.deactivatedUser?.profilePic??"",
                             concatBaseUrl: true,
                             errorWidget: SvgPicture.asset(manSvg),
                           ),
@@ -67,25 +69,26 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(widget.data?.deactivatedBy?.name??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
+                              Text(widget.data?.deactivatedUser?.name??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                               const Divider(
                                 color: BaseColors.borderColor,
                                 height: 8.0,
                                 thickness: 1.0,
                               ),
-                              Text('#${widget.data?.deactivatedBy?.emirateId??""}', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
+                              Text('#${widget.data?.deactivatedUser?.emirateId??""}', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                               const Divider(
                                 color: BaseColors.borderColor,
                                 height: 8.0,
                                 thickness: 1.0,
                               ),
-                              buildInfoItems(translate(context).blood_type, 'A+'),
+                              buildInfoItems(translate(context).blood_type, widget.bloodType??"N/A"),
                             ],
                           ),
                         ),
                         const Spacer(),
                         Column(
                           children: [
+                            const SizedBox(height: 5,),
                             Container(
                               width: 20.w,
                               decoration: BoxDecoration(
@@ -93,11 +96,13 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
                                   // boxShadow: [getDeepBoxShadow()],
                                   border: Border.all(
                                       color: BaseColors.primaryColor,
-                                      width: 1.5),
+                                      width: 1.5,
+                                  ),
                                   borderRadius: BorderRadius.circular(20.0)),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 1, vertical: 4),
+                                    horizontal: 1, vertical: 4,
+                                ),
                                 child: Center(
                                   child: Text(
                                     translate(context).deactivated.toUpperCase(),
@@ -105,11 +110,15 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 5,),
                             GestureDetector(
                                 onTap: (){
-                                  showScanQrDialogue(context, false);
-                                },child: SvgPicture.asset(qrCodeSvg, height: 5.h,))
+                                  showScanQrDialogue(context, false,data: widget.qrCode??"");
+                                },child: QrImage(
+                              data: widget.qrCode??"",
+                              version: QrVersions.auto,
+                              size: 70,
+                              gapless: false,
+                            ),)
                           ],
                         )
                       ],
@@ -124,7 +133,7 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
                           flex: 2,
                           child: Align(
                             alignment: Alignment.centerLeft,
-                            child: buildInfoItems(translate(context).deactivation_date, formatBackendDate(widget.data?.deactivatedBy?.createdAt??"")),),
+                            child: buildInfoItems(translate(context).deactivation_date, formatBackendDate(widget.data?.deactivatedUser?.createdAt??"")),),
                         ),
                         Container(
                           height: 20,
@@ -136,7 +145,7 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
                         ),
                         Expanded(
                           flex: 1,
-                          child: buildInfoItems(translate(context).time, getFormattedTime(widget.data?.deactivatedBy?.createdAt??"")),
+                          child: buildInfoItems(translate(context).time, getFormattedTime(widget.data?.deactivatedUser?.createdAt??"")),
                         ),
                       ],
                     )

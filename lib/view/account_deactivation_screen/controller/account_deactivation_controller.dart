@@ -46,7 +46,7 @@ class AccountDeactivationController extends GetxController{
           //   Get.to(const ActivationRequestDetailScreen());
           // });
           Get.off(ActivationRequestDetailScreen(data: deactivateData));
-          BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"", title: "Success");
+          BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"", title: translate(Get.context!).success);
         }else{
           BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
         }
@@ -55,6 +55,7 @@ class AccountDeactivationController extends GetxController{
   }
 
   getActivationRequests() async {
+      list?.clear();
       BaseAPI().get(url: ApiEndPoints().getActivationRequests,queryParameters: {
         "typeOfRequest":"accountActivation",
         "limit":100,

@@ -97,7 +97,7 @@ class TransportationScreenCtrl extends GetxController{
       if (value?.statusCode ==  200) {
         tripData.value = TransportationResponse.fromJson(value?.data).data?.tripData ?? TripData();
       } else {
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     },
     );
@@ -148,10 +148,10 @@ class TransportationScreenCtrl extends GetxController{
       BaseAPI().post(url: ApiEndPoints().createLocation, data: data).then((value){
         if (value?.statusCode ==  200) {
           Get.back();
-          BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"", title: "Success");
+          BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"", title: translate(Get.context!).success);
           getLocation();
         } else {
-          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: "Error");
+          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: translate(Get.context!).error);
         }
       },
       );
@@ -203,10 +203,10 @@ class TransportationScreenCtrl extends GetxController{
       BaseAPI().put(url: ApiEndPoints().updateLocation+id, data: data).then((value){
         if (value?.statusCode ==  200) {
           Get.back();
-          BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"", title: "Success");
+          BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"", title: translate(Get.context!).success);
           getLocation();
         } else {
-          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: "Error");
+          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: translate(Get.context!).error);
         }
       },
       );
@@ -223,15 +223,49 @@ class TransportationScreenCtrl extends GetxController{
     }).then((value){
       if (value?.statusCode ==  200) {
         locationData?.value = Location.TransportationLocationResponse.fromJson(value?.data).data ?? Location.TransportationLocationResponse().data;
+
+        // locationData?.value?.changeLocationRequestData?.requestStatus?.toList().asMap().forEach((loopIndex,element) {
+        //   if (element.name.toString().toLowerCase() != "rejected") {
+        //     statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
+        //     statusTime.add(getFormattedTimeWithMonth(element.time??""));
+        //     if (element.time.toString().isNotEmpty) {
+        //       stepperIndex.value = loopIndex;
+        //     }
+        //   }else{
+        //     if ((element.time??"").toString().isNotEmpty) {
+        //       statusTime.value = [];
+        //       statusTitle.value = [];
+        //       statusTitle.add(toBeginningOfSentenceCase(locationData?.value?.changeLocationRequestData?.requestStatus?[0].name??"")??"");
+        //       statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
+        //       statusTime.add(getFormattedTimeWithMonth(locationData?.value?.changeLocationRequestData?.requestStatus?[0].time??""));
+        //       statusTime.add(getFormattedTimeWithMonth(element.time??""));
+        //     }
+        //   }
+        //  });
+        ///
         locationData?.value?.changeLocationRequestData?.requestStatus?.toList().asMap().forEach((loopIndex,element) {
-          statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
-          statusTime.add(getFormattedTimeWithMonth(element.time??""));
-          if (element.time.toString().isNotEmpty) {
-            stepperIndex.value = loopIndex;
+          if (element.name.toString().toLowerCase() != "rejected") {
+            statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
+            statusTime.add(getFormattedTimeWithMonth(element.time??""));
+            if (element.time.toString().isNotEmpty) {
+              stepperIndex.value = loopIndex;
+            }
+          }else{
+            if ((element.time??"").toString().isNotEmpty) {
+              statusTime.value = [];
+              statusTitle.value = [];
+              statusTitle.add(toBeginningOfSentenceCase(locationData?.value?.changeLocationRequestData?.requestStatus?[0].name??"")??"");
+              statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
+              statusTime.add(getFormattedTimeWithMonth(locationData?.value?.changeLocationRequestData?.requestStatus?[0].time??""));
+              statusTime.add(getFormattedTimeWithMonth(element.time??""));
+              if (element.time.toString().isNotEmpty) {
+                stepperIndex.value = loopIndex;
+              }
+            }
           }
         });
       } else {
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     },
     );
@@ -248,7 +282,7 @@ class TransportationScreenCtrl extends GetxController{
       if (value?.statusCode ==  200) {
         tripData.value = TransportationResponse.fromJson(value?.data).data?.tripData ?? TripData();
       } else {
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     },
     );
@@ -265,9 +299,9 @@ class TransportationScreenCtrl extends GetxController{
       };
       BaseAPI().post(url: ApiEndPoints().rateBus, data: data).then((value) async {
         if (value?.statusCode ==  200) {
-          BaseOverlays().showSnackBar(message: await BaseSuccessResponse.fromJson(value?.data).message??"",title: "Success");
+          BaseOverlays().showSnackBar(message: await BaseSuccessResponse.fromJson(value?.data).message??"",title: translate(Get.context!).success);
         } else {
-          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: "Error");
+          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: translate(Get.context!).error);
         }
        },
       );
@@ -277,9 +311,9 @@ class TransportationScreenCtrl extends GetxController{
     BaseAPI().delete(url: ApiEndPoints().deleteLocation+id).then((value) async {
       if (value?.statusCode ==  200) {
         Get.back();
-        BaseOverlays().showSnackBar(message: await BaseSuccessResponse.fromJson(value?.data).message??"",title: "Success");
+        BaseOverlays().showSnackBar(message: await BaseSuccessResponse.fromJson(value?.data).message??"",title: translate(Get.context!).success);
       } else {
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: translate(Get.context!).error);
       }
     },
     );
@@ -299,9 +333,9 @@ class TransportationScreenCtrl extends GetxController{
           BaseOverlays().dismissOverlay();
           Get.back();
         });
-        BaseOverlays().showSnackBar(message: await BaseSuccessResponse.fromJson(value?.data).message??"",title: "Success");
+        BaseOverlays().showSnackBar(message: await BaseSuccessResponse.fromJson(value?.data).message??"",title: translate(Get.context!).success);
       } else {
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     },
     );

@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
@@ -75,7 +78,7 @@ class _CreateLostFoundState extends State<CreateLostFound> {
                     onTap: (){
                       selectDate(context).then((picked) {
                         if(picked != null){
-                          controller.dateController.value.text = formatFlutterDateTime(flutterDateTime: picked,getDayFirst: false);
+                          controller.dateController.value.text = formatFlutterDateTime(flutterDateTime: picked,getDayFirst: true);
                         }
                       });
                       },
@@ -103,7 +106,29 @@ class _CreateLostFoundState extends State<CreateLostFound> {
                       hintText: translate(context).upload_photo,
                       suffixIcon: "assets/images/upload_icon.svg",
                       onTap: (){
-                        BaseOverlays().showMediaPickerDialog();
+                        BaseOverlays().showMediaPickerDialog(
+                            onCameraClick: () async {
+                              BaseOverlays().dismissOverlay();
+                              ImagePicker picker = ImagePicker();
+                              await picker.pickImage(source: ImageSource.camera).then((value){
+                                if (value != null) {
+                                  controller.selectedFile?.value = File(value.path);
+                                  controller.uploadController.value.text = value.path.split("/").last;
+                                }
+                              },
+                              );
+                            },
+                            onGalleryClick: () async {
+                              BaseOverlays().dismissOverlay();
+                              ImagePicker picker = ImagePicker();
+                              await picker.pickImage(source: ImageSource.gallery).then((value){
+                                if (value != null) {
+                                  controller.selectedFile?.value = File(value.path);
+                                  controller.uploadController.value.text = value.path.split("/").last;
+                                }
+                              });
+                            }
+                        );
                       },
                   ),
                   BaseButton(title: widget.isUpdating ? translate(context).update : translate(context).submit_btn_txt, onPressed: (){

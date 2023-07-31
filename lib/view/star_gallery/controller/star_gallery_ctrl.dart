@@ -44,7 +44,7 @@ class StarGalleryCtrl extends GetxController{
         list?.value = StarGalleryResponse.fromJson(value?.data).data??[];
 
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
     isGalleryLoading.value = false;
@@ -81,10 +81,10 @@ class StarGalleryCtrl extends GetxController{
             if (value?.statusCode ==  200) {
               Get.back();
               baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
-              BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: "Success");
+              BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: translate(Get.context!).success);
               getData(type: selectedTabIndex.value == 0 ? "both" : selectedTabIndex.value == 1 ? "image" : "video", showLoader: true);
             }else{
-              BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+              BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
             }
           });
         }else{
@@ -101,7 +101,7 @@ class StarGalleryCtrl extends GetxController{
       if (value?.statusCode ==  200) {
         starGalleryCategoryList?.value = GalleryCategoryResponse.fromJson(value?.data).data??[];
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }

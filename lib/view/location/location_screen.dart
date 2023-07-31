@@ -96,9 +96,9 @@ class _LocationScreenState extends State<LocationScreen> with SingleTickerProvid
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(toBeginningOfSentenceCase(controller.locationUser?.value?.name??"N/A")??"N/A", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
-                          SizedBox(height: 2.0),
+                          SizedBox(height: 2),
                           Text("#${controller.locationUser?.value?.emirateId??"N/A"}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
-                          SizedBox(height: 2.0),
+                          SizedBox(height: 2),
                           Text(toBeginningOfSentenceCase(controller.locationUser?.value?.role?.name??"N/A")??"N/A", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                         ],
                       ),
@@ -121,7 +121,7 @@ class _LocationScreenState extends State<LocationScreen> with SingleTickerProvid
                         Icon(Icons.location_on_outlined,color: BaseColors.primaryColor,size: 20.sp),
                         Text("Location : ",style: TextStyle(fontSize: 14.sp,fontWeight: FontWeight.bold)),
                         Text(controller.list?.first?.address??"",style: TextStyle(fontSize: 14.sp,color: BaseColors.primaryColor,fontWeight: FontWeight.bold),),
-                      ],),
+                      ]),
                         SizedBox(height: 2.h),
                       Container(
                         height: 25.h,
@@ -160,19 +160,18 @@ class _LocationScreenState extends State<LocationScreen> with SingleTickerProvid
                                   showGeneralDialog(
                                     context: context,
                                     pageBuilder: (context, animation, secondaryAnimation) {
-                                      return ConfirmationDialog(msg: translate(context).are_you_sure_you_want_to_change_the_location,isShowBtn: true,);
+                                      return ConfirmationDialog(msg: translate(context).are_you_sure_you_want_to_change_the_location,isShowBtn: true,
+                                      onTap: (){
+                                        Get.back();
+                                        Get.to(CreateUserLocation(isUpdating: true,data: controller.list?.first));
+                                       },
+                                     );
                                     },
-                                  ).then((value){
-                                    if(value == true){
-                                      Get.to(CreateUserLocation(isUpdating: true,data: controller.list?.first));
-                                    }
-                                  });
+                                  );
                                 },
                                 child: Image.asset(editPng, height: 18.sp, color: BaseColors.primaryColor,),
                               ),
-                              SizedBox(
-                                width: 3.w,
-                              ),
+                              SizedBox(width: 3.w),
                               GestureDetector(
                                 onTap: (){
                                   BaseOverlays().showConfirmationDialog(
@@ -192,37 +191,25 @@ class _LocationScreenState extends State<LocationScreen> with SingleTickerProvid
                           )
                         ],
                       ),
-                      SizedBox(
-                        height: .5.h,
-                      ),
+                      SizedBox(height: .5.h),
                         (controller.list??[]).isEmpty ? SizedBox() : buildInfoItems(translate(context).street, controller.list?.first?.street??""),
-                      SizedBox(
-                        height: .5.h,
-                      ),
+                      SizedBox(height: .5.h),
                         (controller.list??[]).isEmpty ? SizedBox() : buildInfoItems(translate(context).building_villa, controller.list?.first?.buildingVilla??""),
                       SizedBox(height: .5.h),
                         (controller.list??[]).isEmpty ? SizedBox() : buildInfoItems(translate(context).flat_villa_no, controller.list?.first?.flatVillaNo??""),
-                      SizedBox(
-                        height: .5.h,
-                      ),
-                      (controller.list??[]).isEmpty ? SizedBox() : buildInfoItems(translate(context).landmark, controller.list?.first?.landmark??""),
-                      SizedBox(
-                        height: .5.h,
-                      ),
-                      (controller.list??[]).isEmpty ? SizedBox() : buildInfoItems(translate(context).mobile_no, controller.list?.first?.mobile.toString()??"",svgPath: "assets/images/copy 2.svg",onSvgClick: () async {
-                        await Clipboard.setData(ClipboardData(text: controller.list?.first?.mobile.toString()??""));
+                      SizedBox(height: .5.h),
+                        (controller.list??[]).isEmpty ? SizedBox() : buildInfoItems(translate(context).landmark, controller.list?.first?.landmark??""),
+                      SizedBox(height: .5.h),
+                      (controller.list??[]).isEmpty ? SizedBox() : buildInfoItems(translate(context).mobile_no, controller.list?.first?.mobile?.toString()??"",svgPath: "assets/images/copy 2.svg",onSvgClick: () async {
+                        await Clipboard.setData(ClipboardData(text: controller.list?.first?.mobile.toString().substring(0,15)??""));
                         Fluttertoast.showToast(msg: "Copied");
                       }),
-                      SizedBox(
-                        height: .5.h,
-                      ),
-                      (controller.list??[]).isEmpty ? SizedBox() : buildInfoItems(translate(context).landline_no, controller.list?.first?.landline.toString()??"",svgPath: "assets/images/copy 2.svg",onSvgClick: () async {
-                        await Clipboard.setData(ClipboardData(text: controller.list?.first?.landline.toString()??""));
+                      SizedBox(height: .5.h),
+                      (controller.list??[]).isEmpty ? SizedBox() : buildInfoItems(translate(context).landline_no, controller.list?.first?.landline?.toString()??"",svgPath: "assets/images/copy 2.svg",onSvgClick: () async {
+                        await Clipboard.setData(ClipboardData(text: controller.list?.first?.landline.toString().substring(0,15)??""));
                         Fluttertoast.showToast(msg: "Copied");
                       }),
-                      SizedBox(
-                        height: 1.5.h
-                      ),
+                      SizedBox(height: 1.5.h),
                     ],
                   ),
                 ],

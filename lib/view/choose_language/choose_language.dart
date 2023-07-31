@@ -86,12 +86,8 @@ class _ChooseLangaugeScreenState extends State<ChooseLangaugeScreen> {
                                         spreadRadius: 4.0,
                                       )
                                     ],
-                                    border: controller.selectedPos.value ==
-                                        index
-                                        ? Border.all(
-                                        color:
-                                        BaseColors.primaryColor,
-                                        width: 1.5)
+                                    border: controller.selectedPos.value == index
+                                        ? Border.all(color: BaseColors.primaryColor, width: 1.5)
                                         : null,
                                     borderRadius: BorderRadius.circular(15.0)),
                                 child: Padding(

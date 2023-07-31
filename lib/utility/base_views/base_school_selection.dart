@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/backend/responses_model/school_list_response.dart';
+import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
 import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 
@@ -17,9 +18,9 @@ class BaseSchoolDropDown extends StatelessWidget {
     return BaseTextFormField(
       topMargin: topMargin??0, bottomMargin: bottomMargin??2.h, rightMargin: rightMargin??0, leftMargin: leftMargin??0,
       controller: controller,
-      errorText: "Please select school",
+      errorText: translate(Get.context!).please_select_school,
       isDropDown: true,
-      hintText: controller.value.text.isEmpty ? "Select School" : controller.value.text,
+      hintText: controller.value.text.isEmpty ? translate(Get.context!).select_school : controller.value.text,
       items: baseCtrl.schoolListData.data?.data?.map((SchoolData data){
         return DropdownMenuItem(
           value: data,

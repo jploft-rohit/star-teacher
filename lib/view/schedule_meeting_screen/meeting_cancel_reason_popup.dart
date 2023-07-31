@@ -10,7 +10,8 @@ import 'package:staff_app/view/schedule_meeting_screen/controller/schedule_meeti
 
 class MeetingCancelReasonPopup extends StatefulWidget {
   final String id;
-  const MeetingCancelReasonPopup({Key? key, required this.id}) : super(key: key);
+  final bool? isUpdating;
+  const MeetingCancelReasonPopup({Key? key, required this.id, this.isUpdating}) : super(key: key);
 
   @override
   State<MeetingCancelReasonPopup> createState() => _MeetingCancelReasonPopupState();
@@ -45,12 +46,10 @@ class _MeetingCancelReasonPopupState extends State<MeetingCancelReasonPopup> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(""),
-                    Text("Meeting Cancel Reason", style: Style.montserratBoldStyle().copyWith(fontSize: 17.sp, color: Colors.black),),
+                    Text((widget.isUpdating??false) ? "Update Reason" : "Meeting Cancel Reason", style: Style.montserratBoldStyle().copyWith(fontSize: 17.sp, color: Colors.black),),
                     GestureDetector(
-                      onTap: (){
-                        Get.back();
-                      },
-                      child: Icon(Icons.close, color: Colors.black,),)
+                      onTap: (){Get.back();},
+                      child: Icon(Icons.close, color: Colors.black))
                   ],
                 ),
                 SizedBox(
@@ -76,7 +75,7 @@ class _MeetingCancelReasonPopupState extends State<MeetingCancelReasonPopup> {
                 Center(
                   child: BaseButton(title: "SUBMIT", onPressed: (){
                     if (formKey.currentState?.validate()??false) {
-                      controller.updateStatus(id: widget.id, type: "cancelled");
+                      controller.updateStatus(id: widget.id, type: "cancelled",reason: commentCtrl.text.trim());
                     }
                   },btnType: mediumButton,borderRadius: 20,),
                 ),

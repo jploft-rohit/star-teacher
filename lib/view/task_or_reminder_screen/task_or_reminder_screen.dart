@@ -49,13 +49,16 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
          }
         }
       ),
-      floatingActionButton: BaseFloatingActionButton(
-        onTap: () {Get.to(const AddTaskOrReminderScreen());},
-        title: translate(context).add_task,
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(bottom: widget.isFromBtmBar ? 10.h : 0),
+        child: BaseFloatingActionButton(
+          onTap: () {Get.to(const AddTaskOrReminderScreen());},
+          title: translate(context).add_task,
+        ),
       ),
       body: Obx(()=>ListView.builder(
           itemCount: controller.list?.length??0,
-          padding: EdgeInsets.all(14.sp),
+          padding: EdgeInsets.only(left: 14.sp, right: 14.sp, top: 14.sp, bottom: widget.isFromBtmBar ? 20.h : 14.sp),
           itemBuilder: (context, index) {
             return buildDailyTaskCard(index: index);
           },

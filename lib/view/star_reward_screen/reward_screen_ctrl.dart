@@ -36,7 +36,7 @@ class RewardScreenCtrl extends GetxController{
         myRewards?.value = StarRewardResponse.fromJson(value?.data).data?.user??[];
         rewardList?.value = StarRewardResponse.fromJson(value?.data).data?.rewards??[];
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }
@@ -61,10 +61,10 @@ class RewardScreenCtrl extends GetxController{
       BaseAPI().post(url: ApiEndPoints().createReward,data: data).then((value){
         if (value?.statusCode ==  200) {
           Get.back();
-          BaseOverlays().showSnackBar(message: value?.data?['message']??"",title: "Success");
+          BaseOverlays().showSnackBar(message: value?.data?['message']??"",title: translate(Get.context!).success);
           getRewards();
         }else{
-          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
         }
        },
       );
@@ -81,10 +81,10 @@ class RewardScreenCtrl extends GetxController{
       };
       BaseAPI().post(url: ApiEndPoints().giveReward,data: data).then((value){
         if (value?.statusCode ==  200) {
-          BaseOverlays().showSnackBar(message: value?.data?['message']??"",title: "Success");
+          BaseOverlays().showSnackBar(message: value?.data?['message']??"",title: translate(Get.context!).success);
           getRewards();
         }else{
-          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+          BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
         }
       });
   }
@@ -103,10 +103,10 @@ class RewardScreenCtrl extends GetxController{
     BaseAPI().patch(url: ApiEndPoints().updateRewardImage+rewardId,data: data).then((value){
       if (value?.statusCode ==  200) {
         Get.back();
-        BaseOverlays().showSnackBar(message: value?.data?['message']??"",title: "Success");
+        BaseOverlays().showSnackBar(message: value?.data?['message']??"",title: translate(Get.context!).success);
         getRewards();
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }

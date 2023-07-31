@@ -10,6 +10,7 @@ import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/utility/base_views/base_school_selection.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
@@ -50,17 +51,8 @@ class _CreateEarlyLeaveState extends State<CreateEarlyLeave> {
             key: controller.formKey,
             child: Column(
               children: [
-                BaseTextFormField(
+                BaseSchoolDropDown(
                   controller: controller.schoolController,
-                  errorText: "Please select school",
-                  isDropDown: true,
-                  hintText: controller.schoolController.value.text.isEmpty ? "Select School" : controller.schoolController.value.text,
-                  items: baseCtrl.schoolListData.data?.data?.map((SchoolData data){
-                    return DropdownMenuItem<SchoolData>(
-                      value: data,
-                      child: addText(data.name??"", 15.sp, Colors.black, FontWeight.w400),
-                    );
-                  }).toList(),
                   onChanged: (value) async {
                     controller.schoolController.text = value?.name??"";
                     controller.selectedSchoolId.value = value?.sId??"";
@@ -71,7 +63,7 @@ class _CreateEarlyLeaveState extends State<CreateEarlyLeave> {
                   controller: controller.dateController,
                   title: translate(context).date,
                   prefixIcon: calenderDateSvg,
-                  hintText: "yyyy/mm/dd",
+                  hintText: "dd/mm/yyyy",
                   onTap: (){
                     showDatePicker(
                         context: context,
@@ -90,7 +82,7 @@ class _CreateEarlyLeaveState extends State<CreateEarlyLeave> {
                         lastDate: DateTime((DateTime.now().year+50),1,1),
                     ).then((picked){
                       if (picked != null) {
-                        controller.dateController.text = formatFlutterDateTime(flutterDateTime: picked, getDayFirst: false);
+                        controller.dateController.text = formatFlutterDateTime(flutterDateTime: picked, getDayFirst: true);
                       }
                     });
                   },

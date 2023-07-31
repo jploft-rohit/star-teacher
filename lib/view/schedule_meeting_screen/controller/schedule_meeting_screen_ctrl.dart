@@ -69,7 +69,7 @@ class ScheduleMeetingScreenCtrl extends GetxController{
       if (value?.statusCode ==  200) {
         list?.value = ScheduledMeetingResponse.fromJson(value?.data).data??[];
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }
@@ -92,10 +92,10 @@ class ScheduleMeetingScreenCtrl extends GetxController{
           if (value?.statusCode ==  200) {
             Get.back();
             baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
-            BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: "Success");
+            BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: translate(Get.context!).success);
             getScheduledMeetingData();
           }else{
-            BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+            BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
           }
         });
       }else{
@@ -117,34 +117,36 @@ class ScheduleMeetingScreenCtrl extends GetxController{
         staffData = StaffListResponse.fromJson(value?.data).data??[];
       }else{
         isStaffLoading.value = false;
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: translate(Get.context!).error);
       }
     });
   }
 
   rescheduleMeeting({required id}) async {
     dio.FormData data = dio.FormData.fromMap({
-      "date":selectedDay,
-      "time":selectedTime.value,
+      "date":"${(DateFormat('yyyy-MM-dd').format(selectedDay)).toString()}",
+      "time":(selectedTime.value).toString()+":00",
+      "isReschedule":"1",
     });
     BaseSuccessResponse baseSuccessResponse = BaseSuccessResponse();
     BaseAPI().put(url: ApiEndPoints().rescheduleMeeting+id,data: data).then((value){
       if (value?.statusCode ==  200) {
         BaseOverlays().dismissOverlay();
         baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
-        BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: "Success");
+        BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: translate(Get.context!).success);
         getScheduledMeetingData();
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }
 
-  updateStatus({required id,type,meetingFeedBackRating,meetingFeedBackDesc}) async {
+  updateStatus({required id,type,meetingFeedBackRating,meetingFeedBackDesc,reason}) async {
     BaseOverlays().dismissOverlay();
     dio.FormData data = dio.FormData.fromMap({
       "statusType":"scheduleMeeting",
       "status":type,
+      "reason":reason,
       "meetingFeedBackRating":meetingFeedBackRating,
       "meetingFeedBackDesc":meetingFeedBackDesc
     });
@@ -152,10 +154,28 @@ class ScheduleMeetingScreenCtrl extends GetxController{
     BaseAPI().put(url: ApiEndPoints().updateScheduledMeetingStatus+id,data: data).then((value){
       if (value?.statusCode ==  200) {
         baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
-        BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: "Success");
+        BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: translate(Get.context!).success);
         getScheduledMeetingData();
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
+      }
+    });
+  }
+
+  updateRating({required id,required meetingFeedBackRating}) async {
+    BaseOverlays().dismissOverlay();
+    dio.FormData data = dio.FormData.fromMap({
+      "statusType":"scheduleMeeting",
+      "meetingFeedBackRating":meetingFeedBackRating,
+    });
+    BaseSuccessResponse baseSuccessResponse = BaseSuccessResponse();
+    BaseAPI().put(url: ApiEndPoints().rescheduleMeeting+id,data: data).then((value){
+      if (value?.statusCode ==  200) {
+        baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
+        BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: translate(Get.context!).success);
+        getScheduledMeetingData();
+      }else{
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }

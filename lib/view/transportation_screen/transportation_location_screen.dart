@@ -215,21 +215,15 @@ class _TransportationLocationScreenState extends State<TransportationLocationScr
                         )
                       ],
                     ),
-                    SizedBox(
-                      height: .5.h,
-                    ),
+                    SizedBox(height: .5.h),
                     buildInfoItems(translate(context).street, controller.locationData?.value?.changeLocationRequestData?.street??""),
-                    SizedBox(
-                      height: .5.h,
-                    ),
+                    SizedBox(height: .5.h),
                     buildInfoItems(translate(context).building_villa, controller.locationData?.value?.changeLocationRequestData?.building??""),
                     SizedBox(height: .5.h),
                     buildInfoItems(translate(context).flat_villa_no, controller.locationData?.value?.changeLocationRequestData?.flat??""),
                     SizedBox(height: .5.h),
                     buildInfoItems(translate(context).landmark, controller.locationData?.value?.changeLocationRequestData?.landmark??""),
-                    SizedBox(
-                      height: .5.h,
-                    ),
+                    SizedBox(height: .5.h),
                     buildInfoItems(translate(context).mobile_no, controller.locationData?.value?.changeLocationRequestData?.mobileNo.toString()??"",svgPath: "assets/images/copy 2.svg",onSvgClick: () async {
                       await Clipboard.setData(ClipboardData(text: controller.locationData?.value?.changeLocationRequestData?.mobileNo.toString()??""));
                       Fluttertoast.showToast(msg: "Copied");

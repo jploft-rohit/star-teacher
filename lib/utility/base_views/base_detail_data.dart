@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'dart:ui' as ui;
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -21,6 +23,7 @@ class BaseDetailData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
     return Padding(
       padding: EdgeInsets.only(top: topMargin??0,bottom: bottomMargin??0,right: rightMargin??0,left: leftMargin??0),
       child: Column(
@@ -36,7 +39,7 @@ class BaseDetailData extends StatelessWidget {
               Visibility(
                 visible: (prefixIcon??"").isNotEmpty,
                 child: Padding(
-                  padding:  EdgeInsets.only(right: 1.w),
+                  padding:  EdgeInsets.only(right: 1.w, left: isRTL ? 1.w : 0),
                   child: SvgPicture.asset(prefixIcon??"",height: 2.h,width: 2.h,),
                 ),
               ),

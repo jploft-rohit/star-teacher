@@ -43,6 +43,19 @@ class LeaveRequestCtrl extends GetxController{
     getLeaveTypes();
   }
 
+  clearForm(){
+    selectSchoolController.value.text = "";
+    leaveTypeController.value.text = "";
+    startDateController.value.text = "";
+    endDateController.value.text = "";
+    reasonController.value.text = "";
+    uploadController.value.text = "";
+    xFile.value = XFile("");
+    selectedSchoolId.value = "";
+    selectedLeaveTypeId.value = "";
+    selectedFile = File("").obs;
+  }
+
   setData({required bool isUpdating, LeaveRequestData? data}){
     if(isUpdating){
       selectSchoolController.value.text = data?.school?.name??"";
@@ -79,7 +92,7 @@ class LeaveRequestCtrl extends GetxController{
       if (value?.statusCode ==  200) {
         list?.value = LeaveRequestResponse.fromJson(value?.data).data??[];
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }
@@ -92,15 +105,18 @@ class LeaveRequestCtrl extends GetxController{
       dio.FormData data = dio.FormData.fromMap({
         "user[0]": userId,
         "typeOfRequest": "leave",
+        "reason":reasonController.value.text.trim(),
+        "startDate":formatBackendDate(startDateController.value.text.trim(),getDayFirst: false),
+        "endDate":formatBackendDate(endDateController.value.text.trim(),getDayFirst: false),
         "document": await dio.MultipartFile.fromFile(selectedFile?.value.path??"",filename: selectedFile?.value.path.split("/").last??"")
       });
     BaseAPI().put(url: ApiEndPoints().uploadEvidence+id,data: data).then((value){
       if (value?.statusCode ==  200) {
         response = BaseSuccessResponse.fromJson(value?.data);
-        BaseOverlays().showSnackBar(message: response.message??"", title: "Success");
+        BaseOverlays().showSnackBar(message: response.message??"", title: translate(Get.context!).success);
         get();
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
     }
@@ -113,7 +129,7 @@ class LeaveRequestCtrl extends GetxController{
       if (value?.statusCode ==  200) {
         list?.removeAt(index);
         response = BaseSuccessResponse.fromJson(value?.data);
-        BaseOverlays().showSnackBar(message: response.message??"",title: "Success");
+        BaseOverlays().showSnackBar(message: response.message??"",title: translate(Get.context!).success);
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
       }
@@ -161,7 +177,7 @@ class LeaveRequestCtrl extends GetxController{
         if (value?.statusCode ==  200) {
           Get.back();
           baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
-          BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: "Success");
+          BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: translate(Get.context!).success);
           selectedSchoolId.value = "";
           selectedLeaveTypeId.value = "";
           get();
@@ -204,7 +220,7 @@ class LeaveRequestCtrl extends GetxController{
         if (value?.statusCode ==  200) {
           Get.back();
           baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
-          BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: "Success");
+          BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: translate(Get.context!).success);
           selectedSchoolId.value = "";
           selectedLeaveTypeId.value = "";
           get();

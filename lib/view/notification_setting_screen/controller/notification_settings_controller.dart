@@ -44,7 +44,7 @@ class NotificationSettingsController extends GetxController{
       if (value?.statusCode ==  200) {
         list?[index]?.userNotificationData?.isActive = list?[index]?.userNotificationData?.isActive.toString().toLowerCase() == "true" ? false : true;
         list?.refresh();
-        BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"", title: "Success");
+        BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"", title: translate(Get.context!).success);
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: "Error");
       }

@@ -100,7 +100,7 @@ class NewAssignmentCtrl extends GetxController{
       if (value?.statusCode ==  200) {
         list?.removeAt(index);
         list?.refresh();
-        BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"",title: "Success");
+        BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"",title: translate(Get.context!).success);
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
       }
@@ -167,7 +167,7 @@ class NewAssignmentCtrl extends GetxController{
           selectedSchoolId.value = "";
           selectedClassId.value = "";
           Get.back();
-          BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"", title: "Success");
+          BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"", title: translate(Get.context!).success);
           getData();
         } else {
           BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: "Error");

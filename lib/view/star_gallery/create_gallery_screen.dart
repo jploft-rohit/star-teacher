@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_video_info/flutter_video_info.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -11,12 +12,15 @@ import 'package:staff_app/backend/responses_model/star_gallery_category_response
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
+import 'package:staff_app/utility/base_views/base_image_network.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
 import 'package:staff_app/Utility/custom_filter_dropdown.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/constants-classes/color_constants.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/utility/base_views/base_video_thumbnail.dart';
+import 'package:staff_app/utility/base_views/base_video_thumbnail2.dart';
 import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 import 'package:staff_app/view/star_gallery/controller/star_gallery_ctrl.dart';
@@ -149,7 +153,7 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
                                    }else if ((controller.image3?.value.path??"").isEmpty) {
                                      controller.image3?.value = value;
                                    }else{
-                                     baseToast(message: "You have selected max number of images,");
+                                     baseToast(message: "You have selected max number of media");
                                    }
                                  }
                                },
@@ -166,7 +170,7 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
                                    }else if ((controller.image3?.value.path??"").isEmpty) {
                                      controller.image3?.value = value;
                                    }else{
-                                     baseToast(message: "You have selected max number of images");
+                                     baseToast(message: "You have selected max number of media");
                                    }
                                  }
                                },
@@ -174,19 +178,25 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
                            },
                            onVideoClick: (){
                              BaseOverlays().dismissOverlay();
-                             ImagePicker().pickVideo(source: ImageSource.gallery).then((value){
+                             ImagePicker().pickVideo(source: ImageSource.gallery,).then((value) async {
                                if (value != null) {
-                                 if((controller.image1?.value.path??"").isEmpty){
-                                   controller.image1?.value = value;
-                                 }else if ((controller.image2?.value.path??"").isEmpty) {
-                                   controller.image2?.value = value;
-                                 }else if ((controller.image3?.value.path??"").isEmpty) {
-                                   controller.image3?.value = value;
+                                 final videoInfo = FlutterVideoInfo();
+                                 var info = await videoInfo.getVideoInfo(value.path);
+                                 if ((info?.duration??0) > 6000) {
+                                   if((controller.image1?.value.path??"").isEmpty){
+                                     controller.image1?.value = value;
+                                   }else if ((controller.image2?.value.path??"").isEmpty) {
+                                     controller.image2?.value = value;
+                                   }else if ((controller.image3?.value.path??"").isEmpty) {
+                                     controller.image3?.value = value;
+                                   }else{
+                                     baseToast(message: "You have selected max number of media");
+                                   }
                                  }else{
-                                   baseToast(message: "You have selected max number of images");
+                                   baseToast(message: "Video duration can't be less than 6 seconds.");
                                  }
                                }
-                             },
+                              },
                              );
                            }
                          );
@@ -213,9 +223,9 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
                                 (controller.image1?.value.path??"").isEmpty
                                     ? Padding(
                                       padding: const EdgeInsetsDirectional.only(top: 10),
-                                      child: SvgPicture.asset("assets/images/school.svg",height: 70,width: 70,fit: BoxFit.scaleDown,),
+                                      child: SvgPicture.asset("assets/images/school.svg",height: 70,width: 70,fit: BoxFit.scaleDown),
                                       )
-                                    : Image.file(File(controller.image1?.value.path??"")),
+                                    : ((controller.image1?.value.path??"").contains("mp4")) ? Icon(Icons.play_circle_outline, size: 40) :Image.file(File(controller.image1?.value.path??"")),
                                 Visibility(
                                   visible: (controller.image1?.value.path??"").isNotEmpty,
                                   child: GestureDetector(
@@ -224,14 +234,14 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
                                     },
                                     child: Align(
                                       alignment: AlignmentDirectional.topEnd,
-                                      child: Icon(Icons.close,size: 20,color: Color(0xFF929292),),
+                                      child: Icon(Icons.close,size: 20,color: Color(0xFF929292)),
                                     ),
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),
-                      ),
+                        ),
                       SizedBox(width: 10),
                       Expanded(
                           child: Container(
@@ -247,7 +257,8 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
                                     ? Padding(
                                     padding: const EdgeInsetsDirectional.only(top: 10),
                                     child: SvgPicture.asset("assets/images/school.svg",height: 70,width: 70,fit: BoxFit.scaleDown,),
-                                ): Image.file(File(controller.image2?.value.path??"")),
+                                )
+                                    : ((controller.image2?.value.path??"").contains("mp4")) ? Icon(Icons.play_circle_outline, size: 40) :Image.file(File(controller.image2?.value.path??"")),
                                 Visibility(
                                   visible: (controller.image2?.value.path??"").isNotEmpty,
                                   child: GestureDetector(
@@ -278,7 +289,8 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
                                     ? Padding(
                                     padding: const EdgeInsetsDirectional.only(top: 10),
                                     child: SvgPicture.asset("assets/images/school.svg",height: 70,width: 70,fit: BoxFit.scaleDown,),
-                                )   : Image.file(File(controller.image3?.value.path??"")),
+                                )
+                                    : ((controller.image3?.value.path??"").contains("mp4")) ? Icon(Icons.play_circle_outline, size: 40) :Image.file(File(controller.image3?.value.path??"")),
                                 Visibility(
                                   visible: (controller.image3?.value.path??"").isNotEmpty,
                                   child: GestureDetector(

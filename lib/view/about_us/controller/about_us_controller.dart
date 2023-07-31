@@ -21,7 +21,7 @@ class AboutUsController extends GetxController{
       if (value?.statusCode ==  200) {
         aboutUsData?.value = AboutUsResponse.fromJson(value?.data).data;
       }else{
-        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }

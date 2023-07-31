@@ -6,6 +6,7 @@ import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/backend/responses_model/base_success_response.dart';
 import 'package:staff_app/backend/responses_model/notebook_list_response.dart';
 import 'package:staff_app/backend/responses_model/subjects_response.dart';
+import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 
@@ -90,7 +91,7 @@ class NotebookCtrl extends GetxController{
           Get.back();
           BaseSuccessResponse response = BaseSuccessResponse.fromJson(value?.data);
           if ((response.message??"").isNotEmpty) {
-            BaseOverlays().showSnackBar(message: response.message??"",title: "Success");
+            BaseOverlays().showSnackBar(message: response.message??"",title: translate(Get.context!).success);
           }
           getNotebookNotes();
         }
@@ -118,7 +119,7 @@ class NotebookCtrl extends GetxController{
           Get.back();
           BaseSuccessResponse response = BaseSuccessResponse.fromJson(value?.data);
           if ((response.message??"").isNotEmpty) {
-            BaseOverlays().showSnackBar(message: response.message??"",title: "Success");
+            BaseOverlays().showSnackBar(message: response.message??"",title: translate(Get.context!).success);
           }
           getNotebookNotes();
         }
@@ -138,7 +139,7 @@ class NotebookCtrl extends GetxController{
             notebookList?.removeAt(index);
             BaseSuccessResponse response = BaseSuccessResponse.fromJson(value?.data);
             if ((response.message??"").isNotEmpty) {
-              BaseOverlays().showSnackBar(message: response.message??"",title: "Success");
+              BaseOverlays().showSnackBar(message: response.message??"",title: translate(Get.context!).success);
             }
           }
         });

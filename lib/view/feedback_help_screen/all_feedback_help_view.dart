@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/constants-classes/color_constants.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/storage/base_shared_preference.dart';
+import 'package:staff_app/storage/sp_keys.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 
@@ -29,7 +31,16 @@ class AllFeedbackHelpView extends StatefulWidget {
 
 class _AllFeedbackHelpViewState extends State<AllFeedbackHelpView> {
 
+  String userId = "";
   FeedbackHelpController controller = Get.find<FeedbackHelpController>();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      userId = await BaseSharedPreference().getString(SpKeys().userId);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,15 +81,20 @@ class _AllFeedbackHelpViewState extends State<AllFeedbackHelpView> {
                     },
                       leftMargin: 3.w,
                     ),
-                    BaseIcons().edit(
+                    Visibility(
+                      visible: (userId) == (controller.response?[index].createdBy??""),
+                      child: BaseIcons().edit(
                       title: "Are you sure you want to edit this ${controller.response?[index].forEnquery??""}",
                       onRightButtonPressed: (){
                         BaseOverlays().dismissOverlay();
                         Get.to(AddFeedbackView(isUpdating: true,data: controller.response?[index]));
                       },
                       leftMargin: 3.w,
+                     ),
                     ),
-                    BaseIcons().delete(
+                    Visibility(
+                      visible: (userId) == (controller.response?[index].createdBy??""),
+                      child: BaseIcons().delete(
                       title: "Are you sure you want to delete this ${controller.response?[index].forEnquery??""}",
                       onRightButtonPressed: (){
                         controller.deleteItem(id: controller.response?[index].sId??"", index: index);
@@ -87,6 +103,7 @@ class _AllFeedbackHelpViewState extends State<AllFeedbackHelpView> {
                       showDeleteReason: true,
                       deleteReasonController: controller.deleteReasonController.value,
                       formKey: controller.formKey,
+                      ),
                     ),
                   ],
                 ),

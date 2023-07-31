@@ -72,7 +72,7 @@ class _CreateUserLocationState extends State<CreateUserLocation> {
                           borderColor: Colors.transparent,
                           readOnly: true,
                           onTap: (){
-                            if (Platform.Platform.isAndroid) {
+                            // if (Platform.Platform.isAndroid) {
                               FocusScope.of(Get.context!).requestFocus(new FocusNode());
                               Get.to(MapUiBody())?.then((value){
                                 Map<String, dynamic> addressData = value;
@@ -80,7 +80,7 @@ class _CreateUserLocationState extends State<CreateUserLocation> {
                                 controller.latitudeController.value.text = addressData['latitude'].toString();
                                 controller.longitudeController.value.text = addressData['longtitude'].toString();
                               });
-                            }
+                            // }
                           },
                           validator: (val){
                             if(controller.addressLocationController.value.text.isEmpty){
@@ -92,7 +92,7 @@ class _CreateUserLocationState extends State<CreateUserLocation> {
                       ),
                       GestureDetector(
                         onTap: (){
-                          if (Platform.Platform.isAndroid) {
+                          // if (Platform.Platform.isAndroid) {
                             FocusScope.of(Get.context!).requestFocus(new FocusNode());
                             Get.to(MapUiBody())?.then((value){
                               Map<String, dynamic> addressData = value;
@@ -100,7 +100,7 @@ class _CreateUserLocationState extends State<CreateUserLocation> {
                               controller.latitudeController.value.text = addressData['latitude'].toString();
                               controller.longitudeController.value.text = addressData['longtitude'].toString();
                             });
-                          }
+                          // }
                         },
                         child: Padding(
                           padding: EdgeInsets.only(right: 15.sp, left: 15.sp),
@@ -297,6 +297,7 @@ class _CreateUserLocationState extends State<CreateUserLocation> {
                             CustomTextField(
                               hintTextColor: Colors.grey.shade500,
                               fillColor: BaseColors.txtFieldTextColor,
+                              maxLength: 15,
                               controller: controller.mobileController.value,
                               hintText: "0503664321",
                               textInputType: TextInputType.phone,
@@ -321,6 +322,7 @@ class _CreateUserLocationState extends State<CreateUserLocation> {
                             Text("${translate(context).landline_no}.", style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),),
                             SizedBox(height: .5.h),
                             CustomTextField(
+                              maxLength: 15,
                               hintTextColor: Colors.grey.shade500,
                               fillColor: BaseColors.txtFieldTextColor,
                               controller: controller.landlineController.value,
@@ -350,17 +352,17 @@ class _CreateUserLocationState extends State<CreateUserLocation> {
                         hintText: translate(context).upload_file_or_photo,
                         suffixIcon: "assets/images/upload_icon.svg",
                         onTap: (){
-                          BaseOverlays().showMediaPickerDialog(onCameraClick: () async {
-                            BaseOverlays().dismissOverlay();
-                            ImagePicker picker = ImagePicker();
-                            await picker.pickImage(source: ImageSource.camera).then((value){
-                              if (value != null) {
-                                controller.selectedFile?.value = Platform.File(value.path);
-                                controller.uploadController.value.text = value.path.split("/").last;
-                              }
-                            },
-                            );
-                          },
+                              BaseOverlays().showMediaPickerDialog(onCameraClick: () async {
+                                BaseOverlays().dismissOverlay();
+                                ImagePicker picker = ImagePicker();
+                                await picker.pickImage(source: ImageSource.camera).then((value){
+                                  if (value != null) {
+                                    controller.selectedFile?.value = Platform.File(value.path);
+                                    controller.uploadController.value.text = value.path.split("/").last;
+                                 }
+                                },
+                               );
+                              },
                               onGalleryClick: () async {
                                 BaseOverlays().dismissOverlay();
                                 ImagePicker picker = ImagePicker();

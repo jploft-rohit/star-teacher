@@ -65,6 +65,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -167,7 +168,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                     ),
                     SizedBox(height: 1.h),
                     Obx(()=> (controller.todayScheduledList?.length??0) == 0
-                        ? BaseNoData(message: "No Scheduled Class Found",topMargin: 3.h,bottomMargin: 3.h)
+                        ? BaseNoData(message: "No Scheduled Class Found", topMargin: 3.h, bottomMargin: 3.h)
                         : ListView.builder(
                            shrinkWrap: true,
                            itemCount: (controller.todayScheduledList?.length??0) > 1 ? 2 : (controller.todayScheduledList?.length??0),

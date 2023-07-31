@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -12,7 +13,6 @@ import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/view/about_us/about_us.dart';
-import 'package:staff_app/view/assignments_screen/assignment_screen.dart';
 import 'package:staff_app/view/custody/custody_view.dart';
 import 'package:staff_app/view/delegation/delegation_screen.dart';
 import 'package:staff_app/view/e_library/e_library_assignments.dart';
@@ -29,7 +29,6 @@ import 'package:staff_app/view/star_attendance_screen/star_attendance_screen.dar
 import 'package:staff_app/view/star_evaluation_screen/star_evaluation_screen.dart';
 import 'package:staff_app/view/star_reward_screen/star_reward_screen.dart';
 import 'package:staff_app/view/task_or_reminder_screen/task_or_reminder_screen.dart';
-import 'package:staff_app/view/worksheet/worksheet_screen.dart';
 
 
 class DrawerScreen extends StatefulWidget {
@@ -72,13 +71,28 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     ),
                   ],
                 ),
-                buildExpensionTile(translate(context).my_profile, [
-                  GestureDetector(
-                    onTap: (){
-                      Get.to(MyProfileScreen(isFromDrawer: true,index: 0));
+                Visibility(
+                  visible: kDebugMode,
+                  child: GestureDetector(
+                    onTap: () async {
+                      Locale locale = await setLocalePref('ar');
+                      Get.updateLocale(locale);
                     },
-                    child: buildTile(translate(context).account),
+                    onDoubleTap: () async {
+                      Locale locale = await setLocalePref('en');
+                      Get.updateLocale(locale);
+                    },
+                    child: buildTile1("Change Language"),
                   ),
+                ),
+                buildExpensionTile(translate(context).my_profile,
+                    [
+                      GestureDetector(
+                        onTap: (){
+                          Get.to(MyProfileScreen(isFromDrawer: true,index: 0));
+                          },
+                        child: buildTile(translate(context).account),
+                      ),
                   GestureDetector(
                     onTap: (){
                       Get.to(MyProfileScreen(isFromDrawer: true,index: 1,));
@@ -179,7 +193,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 buildExpensionTile("E-Library", [
                   GestureDetector(
                     onTap: (){
-                      Get.to(const ELibraryScreen());
+                      Get.to(const ELibraryScreen(title: "Awareness & Courses"));
                     },
                     child: buildTile("Awareness & Courses"),
                   ),
@@ -209,7 +223,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 ),
                 GestureDetector(
                   onTap: (){
-                    Get.to(const ShopView());
+                    Get.to(const ShopView(initialTabIndex: 0,));
                   },
                   child: buildTile1(translate(context).shop),),
                 // GestureDetector(
