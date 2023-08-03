@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'dart:ui' as ui;
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
@@ -23,6 +24,7 @@ class RewardsScreen extends StatefulWidget {
 }
 
 class _RewardsScreenState extends State<RewardsScreen> with AutomaticKeepAliveClientMixin{
+  final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
   RewardScreenCtrl controller = Get.find<RewardScreenCtrl>();
 
   @override
@@ -48,10 +50,10 @@ class _RewardsScreenState extends State<RewardsScreen> with AutomaticKeepAliveCl
               child: Obx(()=>(controller.myRewards?.length??0) == 0
                   ? SizedBox.shrink()
                   : Stack(
-                  alignment: Alignment.centerRight,
+                  alignment: isRTL ? Alignment.centerLeft : Alignment.centerRight,
                   children: [
                     Container(
-                      margin: const EdgeInsets.only(right: 10),
+                      margin: EdgeInsets.only(right: isRTL ? 0 : 10, left: isRTL ? 10 : 0),
                       width: 100.w,
                       decoration: BoxDecoration(
                         boxShadow: kElevationToShadow[1],
@@ -65,20 +67,21 @@ class _RewardsScreenState extends State<RewardsScreen> with AutomaticKeepAliveCl
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
-                                margin: const EdgeInsets.only(
-                                    top: 10, left: 10, bottom: 10),
-                                padding: const EdgeInsets.symmetric(horizontal:12, vertical:8),
+                                margin: EdgeInsets.only(top: 10, left: isRTL ? 10 : 0, right: isRTL ? 10 : 10, bottom: 10),
+                                padding: const EdgeInsets.symmetric(horizontal:7, vertical: 7),
                                 decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(15),
-                                    border: Border.all(
-                                        color: BaseColors.primaryColor)),
-                                child: BaseImageNetwork(link: controller.myRewards?.first.profilePic??"",
-                                  concatBaseUrl: false,height: 5.h,width: 4.h,),
+                                    border: Border.all(color: BaseColors.primaryColor)),
+                                child: BaseImageNetwork(
+                                  link: controller.myRewards?.first.profilePic??"",
+                                  concatBaseUrl: false,
+                                  height: 11.w,
+                                  width: 11.w,
+                                  ),
                               ),
                             ],
                           ),
-                          SizedBox(width: 5.w),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
@@ -107,7 +110,7 @@ class _RewardsScreenState extends State<RewardsScreen> with AutomaticKeepAliveCl
                             boxShadow: kElevationToShadow[3]),
                         child: SvgPicture.asset(cupIcon)),
                     Align(
-                      alignment: Alignment.topRight,
+                      alignment: isRTL ? Alignment.topLeft : Alignment.topRight,
                       child: Container(
                         decoration: BoxDecoration(
                             color: BaseColors.primaryColor,
@@ -132,7 +135,7 @@ class _RewardsScreenState extends State<RewardsScreen> with AutomaticKeepAliveCl
             Expanded(
               child: Obx(()=>GridView.builder(
                   physics: const BouncingScrollPhysics(),
-                  padding: EdgeInsets.only(top: 2.h,bottom: 2.h),
+                  padding: EdgeInsets.only(top: 2.h,bottom: 14.h),
                   itemCount: controller.rewardList?.length??0,
                   shrinkWrap: true,
                   cacheExtent: 99999999,

@@ -55,7 +55,7 @@ class TransactionHistoryData {
   dynamic createdAt;
   dynamic updatedAt;
   String? paymentType;
-  String? productImage;
+  List<String>? productImages;
 
   TransactionHistoryData(
       {this.isDeleted,
@@ -75,7 +75,7 @@ class TransactionHistoryData {
         this.paymentSlot,
         this.createdBy,
         this.updatedBy,
-        this.productImage,
+        this.productImages,
         this.createdAt,
         this.updatedAt});
 
@@ -91,7 +91,7 @@ class TransactionHistoryData {
     txnAmount = json['txnAmount'];
     description = json['description'];
     title = json['title'];
-    productImage = json['productImage'];
+    productImages = json['productImages'].cast<String>();
     paymentType = json['paymentType'];
     txnStatus = json['txnStatus'];
     txnDueDate = json['txnDueDate'];
@@ -113,7 +113,7 @@ class TransactionHistoryData {
     data['txnFor'] = this.txnFor;
     data['txnType'] = this.txnType;
     data['txnMethod'] = this.txnMethod;
-    data['productImage'] = this.productImage;
+    data['productImages'] = this.productImages;
     data['txnAmount'] = this.txnAmount;
     data['description'] = this.description;
     data['title'] = this.title;

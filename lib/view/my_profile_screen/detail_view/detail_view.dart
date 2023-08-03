@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
-
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
@@ -81,7 +79,11 @@ class _DetailViewState extends State<DetailView> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    BaseDetailData(detailsLabel:translate(context).mobile_no, detailsValue:controller.response.value.data?.mobile??na,bottomMargin: bottomMargin,showDivider: showDivider,),
+                    BaseDetailData(
+                      detailsLabel:translate(context).mobile_no,
+                      detailsValue:controller.response.value.data?.mobile??na,
+                      bottomMargin: bottomMargin,showDivider: showDivider,
+                    ),
                     BaseButton(
                       title: "Edit".toUpperCase(),
                       onPressed: (){
@@ -96,13 +98,23 @@ class _DetailViewState extends State<DetailView> {
                   ],
                 ),
                 SizedBox(height: 2.h),
-                BaseDetailData(detailsLabel: translate(context).alternative_mobile,detailsValue: controller.response.value.data?.alternativeMobile.toString()??na, showDivider: showDivider, bottomMargin: bottomMargin),
+                BaseDetailData(
+                    detailsLabel: translate(context).alternative_mobile,
+                    detailsValue: controller.response.value.data?.alternativeMobile.toString()??na,
+                    showDivider: showDivider,
+                    bottomMargin: bottomMargin,
+                ),
                 // BaseDetailData(
                 //     translate(context).email, controller.response.data?.email??""),
                 // SizedBox(
                 //   height: 2.h,
                 // ),
-                BaseDetailData(detailsLabel:translate(context).dob, detailsValue: formatBackendDate(controller.response.value.data?.dob??na),bottomMargin: bottomMargin,showDivider: showDivider,),
+                BaseDetailData(
+                  detailsLabel:translate(context).dob,
+                  detailsValue: formatBackendDate(controller.response.value.data?.dob??""),
+                  bottomMargin: bottomMargin,
+                  showDivider: showDivider,
+                ),
                 // BaseDetailData(
                 //     translate(context).address, controller.response.data?.address??""),
                 // SizedBox(
@@ -120,15 +132,38 @@ class _DetailViewState extends State<DetailView> {
                 // SizedBox(
                 //   height: 2.h,
                 // ),
-                BaseDetailData(detailsLabel:translate(context).nationality, detailsValue:controller.response.value.data?.nationality??na,bottomMargin: bottomMargin,showDivider: showDivider,),
-                BaseDetailData(detailsLabel:translate(context).emirates_ID, detailsValue:controller.response.value.data?.emirateId??"",bottomMargin: bottomMargin,showDivider: showDivider,),
-                BaseDetailData(detailsLabel:translate(context).expiry_date, detailsValue: formatBackendDate(controller.response.value.data?.emirateIdExpire??""),bottomMargin: bottomMargin,showDivider: showDivider),
+                BaseDetailData(
+                  detailsLabel:translate(context).nationality,
+                  detailsValue:controller.response.value.data?.nationality??na,
+                  bottomMargin: bottomMargin,
+                  showDivider: showDivider,
+                ),
+                BaseDetailData(
+                  detailsLabel:translate(context).emirates_ID,
+                  detailsValue:controller.response.value.data?.emirateId??"",
+                  bottomMargin: bottomMargin,
+                  showDivider: showDivider,
+                ),
+                BaseDetailData(
+                    detailsLabel:translate(context).expiry_date,
+                    detailsValue: formatBackendDate(controller.response.value.data?.emirateIdExpire??""),
+                    bottomMargin: bottomMargin,
+                    showDivider: showDivider,
+                ),
                 Padding(
                   padding: EdgeInsets.only(bottom: 2.h),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(child: BaseDetailData(detailsLabel:"Document", detailsValue: controller.response.value.data?.idDocument.first.split("/").last??"",bottomMargin: bottomMargin,showDivider: showDivider,rightMargin: 5.w)),
+                      Expanded(
+                          child: BaseDetailData(
+                              detailsLabel:"Document",
+                              detailsValue: controller.response.value.data?.idDocument.first.split("/").last??"",
+                              bottomMargin: bottomMargin,
+                              showDivider: showDivider,
+                              rightMargin: 5.w,
+                          ),
+                      ),
                       Row(
                         children: [
                           BaseIcons().view(concatBaseUrl: true,url: controller.response.value.data?.idDocument.first??""),

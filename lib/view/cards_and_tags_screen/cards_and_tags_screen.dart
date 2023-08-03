@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'dart:ui' as ui;
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
@@ -16,10 +17,8 @@ import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/cards_and_tags_screen/controller/card_tag_ctrl.dart';
-import 'package:staff_app/view/cards_and_tags_screen/request_nfc_card_screen.dart';
 import 'package:staff_app/view/my_profile_screen/controller/my_profile_ctrl.dart';
 import 'package:staff_app/view/shop_screen/shop_screen.dart';
-import 'package:staff_app/view/star_evaluation_screen/success_dialog_screen.dart';
 
 class CardsAndTagsScreen extends StatefulWidget {
   const CardsAndTagsScreen({Key? key}) : super(key: key);
@@ -29,6 +28,7 @@ class CardsAndTagsScreen extends StatefulWidget {
 }
 
 class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
+  final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
   CardTagCtrl controller = Get.put(CardTagCtrl());
   MyProfileCtrl profileController = Get.find<MyProfileCtrl>();
   bool isCardEnable = true;
@@ -326,7 +326,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
           const Spacer(),
           Row(
             children: [
-              Text("Off", style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp),),
+              Text(isRTL ? "On" : "Off", style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp),),
               SizedBox(
                 width: 1.w,
               ),
@@ -345,7 +345,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
               SizedBox(
                 width: 1.w,
               ),
-              Text("On", style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp),),
+              Text(isRTL ? "Off" : "On", style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp),),
             ],
           )
         ],

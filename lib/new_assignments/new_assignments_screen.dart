@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:ui' as ui;
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/new_assignments/assessments_awareness_courses.dart';
 import 'package:staff_app/new_assignments/controller/new_assignment_ctrl.dart';
@@ -21,6 +22,7 @@ class NewAssignmentScreen extends StatefulWidget {
 }
 
 class _NewAssignmentScreenState extends State<NewAssignmentScreen> with SingleTickerProviderStateMixin{
+  final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
   NewAssignmentCtrl controller = Get.put(NewAssignmentCtrl());
   late TabController tabController;
 

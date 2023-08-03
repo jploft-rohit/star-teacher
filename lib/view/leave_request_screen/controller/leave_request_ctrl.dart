@@ -62,8 +62,8 @@ class LeaveRequestCtrl extends GetxController{
       selectedSchoolId.value = data?.school?.sId??"";
       leaveTypeController.value.text = data?.leaveType?.name??"";
       selectedLeaveTypeId.value = data?.leaveType?.sId??"";
-      startDateController.value.text = formatBackendDate(data?.startDate??"",getDayFirst: false);
-      endDateController.value.text = formatBackendDate(data?.endDate??"",getDayFirst: false);
+      startDateController.value.text = formatBackendDate(data?.startDate??"",getDayFirst: true);
+      endDateController.value.text = formatBackendDate(data?.endDate??"",getDayFirst: true);
       reasonController.value.text = data?.reason??"";
       uploadController.value.text = (data?.document??"").split("/").last;
       xFile.value = XFile("");
@@ -156,8 +156,8 @@ class LeaveRequestCtrl extends GetxController{
           "user[0]": userId,
           "school":selectedSchoolId.value,
           "leaveType":selectedLeaveTypeId.value,
-          "startDate":formatBackendDate(startDateController.value.text.trim(),getDayFirst: false),
-          "endDate":formatBackendDate(endDateController.value.text.trim(),getDayFirst: false),
+          "startDate":flipDate(date: startDateController.value.text.trim()),
+          "endDate":flipDate(date: endDateController.value.text.trim()),
           "reason":reasonController.value.text.trim(),
           "typeOfRequest":"leave",
           "document": await dio.MultipartFile.fromFile(selectedFile?.value.path??"",filename: selectedFile?.value.path.split("/").last??"")
@@ -167,8 +167,8 @@ class LeaveRequestCtrl extends GetxController{
           "user[0]": userId,
           "school":selectedSchoolId.value,
           "leaveType":selectedLeaveTypeId.value,
-          "startDate":formatBackendDate(startDateController.value.text.trim(),getDayFirst: false),
-          "endDate":formatBackendDate(endDateController.value.text.trim(),getDayFirst: false),
+          "startDate":flipDate(date: startDateController.value.text.trim()),
+          "endDate":flipDate(date: endDateController.value.text.trim()),
           "typeOfRequest":"leave",
           "reason":reasonController.value.text.trim(),
         });
@@ -199,8 +199,8 @@ class LeaveRequestCtrl extends GetxController{
           "user[0]": userId,
           "school":selectedSchoolId.value,
           "leaveType":selectedLeaveTypeId.value,
-          "startDate":formatBackendDate(startDateController.value.text.trim(),getDayFirst: false),
-          "endDate":formatBackendDate(endDateController.value.text.trim(),getDayFirst: false),
+          "startDate":flipDate(date: startDateController.value.text.trim()),
+          "endDate":flipDate(date: endDateController.value.text.trim()),
           "reason":reasonController.value.text.trim(),
           "typeOfRequest":"leave",
           "document": await dio.MultipartFile.fromFile(selectedFile?.value.path??"",filename: selectedFile?.value.path.split("/").last??"")
@@ -210,8 +210,8 @@ class LeaveRequestCtrl extends GetxController{
           "user[0]": userId,
           "school":selectedSchoolId.value,
           "leaveType":selectedLeaveTypeId.value,
-          "startDate":formatBackendDate(startDateController.value.text.trim(),getDayFirst: false),
-          "endDate":formatBackendDate(endDateController.value.text.trim(),getDayFirst: false),
+          "startDate":flipDate(date: startDateController.value.text.trim()),
+          "endDate":flipDate(date: endDateController.value.text.trim()),
           "typeOfRequest":"leave",
           "reason":reasonController.value.text.trim(),
         });

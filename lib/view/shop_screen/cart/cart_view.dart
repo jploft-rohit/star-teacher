@@ -12,6 +12,7 @@ import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/view/shop_screen/cart/cart_card_detail.dart';
 import 'package:staff_app/view/shop_screen/controller/shop_screen_ctrl.dart';
+import 'package:staff_app/view/shop_screen/controller/stripe_controller.dart';
 
 class CartView extends StatefulWidget {
   final bool? isStationery, isStarsStore, isUpdating;
@@ -24,10 +25,12 @@ class CartView extends StatefulWidget {
 
 class _CartViewState extends State<CartView> {
   ShopScreenCtrl controller = Get.find<ShopScreenCtrl>();
+  StripeController stripeController = Get.put(StripeController());
   @override
   void initState() {
     super.initState();
     controller.getUserCart(callGetData: false);
+    controller.selectedPaymentPos.value = 0;
   }
   @override
   Widget build(BuildContext context) {
@@ -104,12 +107,13 @@ class _CartViewState extends State<CartView> {
                 Center(
                   child: BaseButton(title: (widget.isUpdating??false) ? "Update Order" : "Proceed To Pay", onPressed: (){
                     if ((controller.cartProductsList?.length??0) != 0) {
-                      showGeneralDialog(
-                        context: context,
-                        pageBuilder:  (context, animation, secondaryAnimation) {
-                          return CartCardDetail(isUpdating: widget.isUpdating??false, isFromCart: true);
-                        },
-                      );
+                      // showGeneralDialog(
+                      //   context: context,
+                      //   pageBuilder:  (context, animation, secondaryAnimation) {
+                      //     return CartCardDetail(isUpdating: widget.isUpdating??false, isFromCart: true);
+                      //   },
+                      // );
+                      stripeController.makePayment("100");
                     }else{
                       baseToast(message: "No Product Found In Cart");
                     }

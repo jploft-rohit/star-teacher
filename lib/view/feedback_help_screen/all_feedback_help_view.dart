@@ -10,7 +10,7 @@ import 'package:staff_app/utility/base_views/base_button.dart';
 
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_views/base_detail_data.dart';
-import 'package:staff_app/utility/base_views/base_edit_delete.dart';
+import 'dart:ui' as ui;
 import 'package:staff_app/utility/base_views/base_icons.dart';
 import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
@@ -18,7 +18,6 @@ import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/utility/custom_text_field.dart';
 import 'package:staff_app/utility/intl/intl.dart';
-import 'package:staff_app/view/complaints_report_screen/view/raise_complaint_report_screen.dart';
 import 'package:staff_app/view/feedback_help_screen/add_feedback_view.dart';
 import 'package:staff_app/view/feedback_help_screen/controller/feedback_help_controller.dart';
 
@@ -30,7 +29,7 @@ class AllFeedbackHelpView extends StatefulWidget {
 }
 
 class _AllFeedbackHelpViewState extends State<AllFeedbackHelpView> {
-
+  final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
   String userId = "";
   FeedbackHelpController controller = Get.find<FeedbackHelpController>();
 
@@ -70,16 +69,21 @@ class _AllFeedbackHelpViewState extends State<AllFeedbackHelpView> {
                 Row(
                   children: [
                     Expanded(child: Text(controller.response?[index].title??"", style: TextStyle(fontSize: 16.sp, color: BaseColors.textBlackColor, fontWeight: FontWeight.w700))),
-                    BaseIcons().view(
+                    Visibility(
+                      visible: (controller.response?[index].document??"").isNotEmpty,
+                      child: BaseIcons().view(
                       url: controller.response?[index].document??"",
                       leftMargin: 3.w,
                       concatBaseUrl: true,
-                    ),
-                    BaseIcons().download(onRightButtonPressed: (){
+                    )),
+                    Visibility(
+                      visible: (controller.response?[index].document??"").isNotEmpty,
+                      child: BaseIcons().download(onRightButtonPressed: (){
                       BaseOverlays().dismissOverlay();
                       downloadFile(url: controller.response?[index].document??"",concatBaseUrl: false);
                     },
                       leftMargin: 3.w,
+                    ),
                     ),
                     Visibility(
                       visible: (userId) == (controller.response?[index].createdBy??""),

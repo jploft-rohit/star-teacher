@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'dart:ui' as ui;
 import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
-import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_icons.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
-import 'package:staff_app/utility/base_views/show_document.dart';
 import 'package:staff_app/view/Dashboard_screen/dashboard_screen_ctrl.dart';
 import 'package:staff_app/view/task_or_reminder_screen/add_task_or_reminder_screen.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
@@ -28,6 +26,7 @@ class TaskOrReminderScreen extends StatefulWidget {
 }
 
 class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
+  final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
   DashboardScreenCtrl ctrl = Get.find<DashboardScreenCtrl>();
   TaskReminderCtrl controller = Get.put(TaskReminderCtrl());
 
@@ -125,7 +124,7 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
           ),
           const Divider(),
           Visibility(
-            visible: (controller.list?[index].document??"").toString().isNotEmpty,
+            visible: (controller.list?[index].document??"").isNotEmpty,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -144,7 +143,8 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
                 BaseIcons().download(onRightButtonPressed: (){
                   BaseOverlays().dismissOverlay();
                   downloadFile(url: (controller.list?[index].document??""));
-                },rightMargin: 2.w),
+                }),
+                SizedBox(width: 2.w),
                 BaseIcons().view(url: controller.list?[index].document??"",concatBaseUrl: true)
               ],
             ),

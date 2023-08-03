@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -43,6 +44,10 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
     tabCtrl = TabController(length: 4, vsync: this);
     tabCtrl.animateTo(widget.index);
     super.initState();
+    Future.delayed(
+      Duration(),
+          () => SystemChannels.textInput.invokeMethod('TextInput.hide'),
+    );
   }
   @override
   Widget build(BuildContext context) {
@@ -75,12 +80,13 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
               child: Padding(
                 padding: EdgeInsets.only(bottom: 2.h),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Expanded(
                       flex: 2,
                       child: Container(
                         height: 7.h,
-                        padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 12.sp, right: 12.sp),
+                        padding: EdgeInsets.only(top: 3, bottom: 3, left: 3, right: 3),
                         decoration: BoxDecoration(
                           border: Border.all(
                               color: BaseColors.primaryColor
@@ -89,6 +95,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
                         ),
                         child: BaseImageNetwork(
                           link: controller.response.value.data?.profilePic??"",
+                          borderRadius: 10,
                           errorWidget: SvgPicture.asset(manSvg),
                         ),//controller.response.value.data?.designation??"Teacher"
                       ),
@@ -101,7 +108,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
                         children: [
                           Text(controller.response.value.data?.name??na, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 17.sp)),
                           SizedBox(height: 0.5.h),
-                          BaseDetailData(detailsLabel: translate(context).designation,detailsValue: controller.response.value.data?.designation??"Teacher"),
+                          BaseDetailData(bottomMargin: 1.5.h, showDivider: false, detailsLabel: translate(context).designation,detailsValue: controller.response.value.data?.designation??"Teacher"),
                         ],
                       ),
                     ),
@@ -133,8 +140,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
                           child: QrImage(
                             data: controller.response.value.data?.barcode??na,
                             version: QrVersions.auto,
-                            size: 70,
-                            gapless: false,
+                            size: 55,
+                            gapless: true,
                           ),
                         ),
                       ],

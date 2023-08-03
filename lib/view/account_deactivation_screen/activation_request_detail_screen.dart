@@ -6,6 +6,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/backend/responses_model/my_profile_response.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_detail_data.dart';
 import 'package:staff_app/utility/base_views/base_icons.dart';
 import 'package:staff_app/utility/base_views/base_image_network.dart';
 import 'package:staff_app/utility/base_views/base_no_data.dart';
@@ -17,6 +18,7 @@ import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/account_deactivation_screen/controller/account_deactivation_controller.dart';
+import 'package:staff_app/view/my_profile_screen/controller/my_profile_ctrl.dart';
 import 'package:staff_app/view/salary_slip_screen/salary_slip_poup.dart';
 
 class ActivationRequestDetailScreen extends StatefulWidget {
@@ -30,20 +32,16 @@ class ActivationRequestDetailScreen extends StatefulWidget {
 
 class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailScreen> with SingleTickerProviderStateMixin{
   AccountDeactivationController controller = Get.put(AccountDeactivationController());
+  MyProfileCtrl myProfileController = Get.find<MyProfileCtrl>();
   late TabController tabController;
-  final List<String> pendingMeetingdates = ['July 2, 8:30PM', 'July 3, 10:30AM', ''];
   final List<String> pendingMeetingdates1 = ['July 2, 8:30PM', 'July 3, 10:30AM', 'July 4, 9:30AM'];
 
-  final List<String> heading = [
-    'Request\nRaised',
-    'Evidence\nIn Review',
-    'Completed',
-  ];
   final List<String> heading1 = [
     'Request\nRaised',
     'Evidence\nIn Review',
     'Completed',
   ];
+
   @override
   void initState() {
     super.initState();
@@ -72,6 +70,7 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
               child: Column(
                 children: [
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Container(
                         height: 70,
@@ -82,8 +81,9 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                           border: Border.all(color: BaseColors.primaryColor),
                         ),
                         child: BaseImageNetwork(
-                          link: widget.data?.deactivatedUser?.profilePic??"",
+                          link: myProfileController.response.value.data?.profilePic??"",
                           concatBaseUrl: true,
+                          borderRadius: 10,
                           errorWidget: SvgPicture.asset(manSvg),
                         ),
                       ),
@@ -91,20 +91,22 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text(widget.data?.deactivatedUser?.name??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
+                            Text(myProfileController.response.value.data?.name??"N/A", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                             const Divider(
                               color: BaseColors.borderColor,
                               height: 8.0,
                               thickness: 1.0,
                             ),
-                            Text('#${widget.data?.deactivatedUser?.emirateId??""}', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
+                            Text('#${myProfileController.response.value.data?.emirateId??"N/A"}', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                             const Divider(
                               color: BaseColors.borderColor,
                               height: 8.0,
                               thickness: 1.0,
                             ),
-                            buildInfoItems(translate(context).blood_type, widget.bloodType??"N/A"),
+                            BaseDetailData(detailsLabel: translate(context).blood_type, detailsValue: myProfileController.response.value.data?.bloodType??"N/A",)
+                            // buildInfoItems(translate(context).blood_type, myProfileController.response.value.data?.bloodType??"N/A"),
                           ],
                         ),
                       ),
@@ -120,7 +122,7 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                                 border: Border.all(
                                     color: BaseColors.primaryColor,
                                     width: 1.5),
-                                borderRadius: BorderRadius.circular(20.0)),
+                                borderRadius: BorderRadius.circular(20)),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 4),
                               child: Center(
@@ -142,12 +144,10 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                           ),
                           ),
                         ],
-                      )
+                      ),
                     ],
                   ),
-                  SizedBox(
-                    height: 1.h,
-                  ),
+                  SizedBox(height: 1.h),
                   const Divider(),
                   Row(
                     children: [
@@ -155,7 +155,7 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                         flex: 2,
                         child: Align(
                           alignment: Alignment.centerLeft,
-                          child: buildInfoItems(translate(context).deactivation_date, formatBackendDate(widget.data?.deactivatedUser?.createdAt??"")),),
+                          child: buildInfoItems(translate(context).deactivation_date, formatBackendDate(widget.data?.deactivatedUser?.createdAt??""))),
                       ),
                       Container(
                         height: 20,
@@ -340,14 +340,18 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(translate(context).medical_certificate, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp)),
-                        Row(
-                          children: [
-                            BaseIcons().view(concatBaseUrl: false,url: controller.list?[index]?.medCertDocument??"",rightMargin: 5),
-                            BaseIcons().download(onRightButtonPressed: (){
-                              BaseOverlays().dismissOverlay();
-                              downloadFile(url: (controller.list?[index]?.medCertDocument??""),concatBaseUrl: false);
-                            },leftMargin: 5),
-                          ],
+                        Visibility(
+                          visible: (controller.list?[index]?.medCertDocument??"").isNotEmpty,
+                          child: Row(
+                            children: [
+                              BaseIcons().view(concatBaseUrl: false,url: controller.list?[index]?.medCertDocument??""),
+                              SizedBox(width: 10),
+                              BaseIcons().download(onRightButtonPressed: (){
+                                BaseOverlays().dismissOverlay();
+                                downloadFile(url: (controller.list?[index]?.medCertDocument??""),concatBaseUrl: false);
+                              }),
+                            ],
+                          ),
                         ),
                       ],
                     ),

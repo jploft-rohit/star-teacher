@@ -9,6 +9,7 @@ import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/utility/base_views/base_school_selection.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
 import 'package:staff_app/view/leave_request_screen/add_leave_request_view.dart';
 import 'package:staff_app/view/leave_request_screen/controller/leave_request_ctrl.dart';
@@ -28,28 +29,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
   TextEditingController leaveTypeController = TextEditingController();
   LeaveRequestCtrl controller = Get.put(LeaveRequestCtrl());
   BaseCtrl baseCtrl = Get.put(BaseCtrl());
-  final List<String> pendingMeetingdates = ['July 2,\n8:30PM', 'July 3,\n10:30AM', 'July 3,\n10:30AM', 'July 3,\n10:30AM'];
   String? initialLeaveType;
-  var leaveTypeDropdownData = [
-    // 'Leave Type'
-    'Annual leave',
-    'Compassionate leave',
-    'Sick leave',
-    'Local escort leave',
-    'Abroad escort leave',
-    'National service leave',
-    'Event leave',
-    'Hajj leave',
-    'Paternity Leave',
-    'Maternity Leave',
-    'Leave without pay',
-  ];
-  final List<String> heading = [
-    'Request\nRaised',
-    'Request\nAccepted',
-    'Evidence\nSubmit',
-    'Evidence\nApproved'
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -63,17 +43,8 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
           padding: EdgeInsets.all(scaffoldPadding),
           child: Column(
             children: [
-              BaseTextFormField(
+              BaseSchoolDropDown(
                 controller: controller.selectSchoolController.value,
-                errorText: "Please select school",
-                isDropDown: true,
-                hintText: controller.selectSchoolController.value.text.isEmpty ? "Select School" : controller.selectSchoolController.value.text,
-                items: baseCtrl.schoolListData.data?.data?.map((SchoolData data){
-                  return DropdownMenuItem<SchoolData>(
-                    value: data,
-                    child: addText(data.name??"", 15.sp, Colors.black, FontWeight.w400),
-                  );
-                }).toList(),
                 onChanged: (value) async {
                   controller.selectSchoolController.value.text = value?.name??"";
                   controller.selectedSchoolId.value = value?.sId??"";
@@ -99,6 +70,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                       },
                     ),
                   ),
+                  SizedBox(width: 2.w),
                   Expanded(
                     child: GestureDetector(
                       onTap: (){
@@ -113,7 +85,6 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                         width: 50.w,
                         height: 48,
                         padding: const EdgeInsets.only(left: 8, right: 8),
-                        margin: EdgeInsets.only(left: 2.w),
                         decoration: BoxDecoration(
                           color: BaseColors.backgroundColor,
                           borderRadius: BorderRadius.circular(5.0),

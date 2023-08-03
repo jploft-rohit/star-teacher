@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'dart:ui' as ui;
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
@@ -31,6 +32,7 @@ class LocationScreen extends StatefulWidget {
 }
 
 class _LocationScreenState extends State<LocationScreen> with SingleTickerProviderStateMixin{
+  final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
   LocationController controller = Get.put(LocationController());
   late TabController tabController;
 
@@ -117,20 +119,24 @@ class _LocationScreenState extends State<LocationScreen> with SingleTickerProvid
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                       SizedBox(height: 2.h),
-                      Row(children: [
-                        Icon(Icons.location_on_outlined,color: BaseColors.primaryColor,size: 20.sp),
-                        Text("Location : ",style: TextStyle(fontSize: 14.sp,fontWeight: FontWeight.bold)),
-                        Text(controller.list?.first?.address??"",style: TextStyle(fontSize: 14.sp,color: BaseColors.primaryColor,fontWeight: FontWeight.bold),),
+                      Row(
+                        children: [
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.location_on_outlined,color: BaseColors.primaryColor,size: 20.sp),
+                            Text("Location : ",style: TextStyle(fontSize: 14.sp,fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                        Expanded(child: Text((controller.list?.first?.address??""),style: TextStyle(fontSize: 14.sp,color: BaseColors.primaryColor,fontWeight: FontWeight.bold),)),
                       ]),
                         SizedBox(height: 2.h),
                       Container(
                         height: 25.h,
                         width: 100.w,
                         decoration: BoxDecoration(
-                          border: Border.all(
-                              color: BaseColors.primaryColor
-                          ),
-                          borderRadius: BorderRadius.circular(15.0),
+                          border: Border.all(color: BaseColors.primaryColor),
+                          borderRadius: BorderRadius.circular(15),
                         ),
                         child: BaseImageNetwork(
                           link: (controller.list??[]).isNotEmpty ? controller.list?.first?.document??"" : "",
@@ -160,10 +166,11 @@ class _LocationScreenState extends State<LocationScreen> with SingleTickerProvid
                                   showGeneralDialog(
                                     context: context,
                                     pageBuilder: (context, animation, secondaryAnimation) {
-                                      return ConfirmationDialog(msg: translate(context).are_you_sure_you_want_to_change_the_location,isShowBtn: true,
-                                      onTap: (){
-                                        Get.back();
-                                        Get.to(CreateUserLocation(isUpdating: true,data: controller.list?.first));
+                                      return ConfirmationDialog(msg: translate(context).are_you_sure_you_want_to_change_the_location,
+                                        isShowBtn: true,
+                                        onTap: (){
+                                          BaseOverlays().dismissOverlay();
+                                          Get.to(CreateUserLocation(isUpdating: true,data: controller.list?.first));
                                        },
                                      );
                                     },

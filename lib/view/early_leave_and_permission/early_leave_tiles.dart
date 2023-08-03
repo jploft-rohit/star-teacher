@@ -119,10 +119,10 @@ class _EarlyLeaveTileState extends State<EarlyLeaveTile> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    BaseDetailData(showDivider: false,prefixIcon: "assets/images/time_icon.svg",detailsLabel:getFormattedTime3(controller.list?[index]?.outTime??"")),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      child: Text("To",style: TextStyle(fontSize: 14.sp)),
+                    BaseDetailData(showDivider: false,prefixIcon: "assets/images/time_icon.svg", detailsLabel:getFormattedTime3(controller.list?[index]?.outTime??"")),
+                    Padding(padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      child: Text("To",style: TextStyle(fontSize: 14.sp),
+                      ),
                     ),
                     BaseDetailData(showDivider: false, prefixIcon: "assets/images/time_icon.svg",detailsLabel:getFormattedTime3(controller.list?[index]?.inTime??"")),
                   ],
@@ -132,7 +132,7 @@ class _EarlyLeaveTileState extends State<EarlyLeaveTile> {
                   prefixIcon: "assets/images/Group (1).svg",
                   detailsLabel:"Reason",
                   detailsValue: controller.list?[index]?.reason??"N/A",
-                  rightMargin: 2.w,
+                  rightMargin: isRTL ? 0 : 2.w,
                 ),
                 Visibility(
                   visible: (controller.list?[index]?.document??"").isNotEmpty,
@@ -144,9 +144,8 @@ class _EarlyLeaveTileState extends State<EarlyLeaveTile> {
                     suffixWidgetsList: [
                       BaseIcons().download(onRightButtonPressed: (){
                         BaseOverlays().dismissOverlay();
-                        downloadFile(url: controller.list?[index]?.document??"",concatBaseUrl: false);
-                      },leftMargin: 2.w,rightMargin: isRTL ? 2.w : 0
-                      ),
+                        downloadFile(url: controller.list?[index]?.document??"", concatBaseUrl: false);
+                      },leftMargin: 2.w, rightMargin: isRTL ? 2.w : 0),
                       BaseIcons().view(url: controller.list?[index]?.document??"", leftMargin: 2.w, concatBaseUrl: false),
                     ],
                   ),

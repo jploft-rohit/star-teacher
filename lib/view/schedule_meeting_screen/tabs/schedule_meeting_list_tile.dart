@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'dart:ui' as ui;
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/utility/base_utility.dart';
@@ -22,7 +23,7 @@ import 'package:staff_app/view/task_or_reminder_screen/add_task_or_reminder_scre
 import '../../../utility/sizes.dart';
 
 class ScheduleMeetingListTile extends StatelessWidget {
-
+  final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
   ScheduleMeetingListTile({Key? key}) : super(key: key);
   final ScheduleMeetingScreenCtrl controller = Get.find<ScheduleMeetingScreenCtrl>();
 
@@ -80,7 +81,8 @@ class ScheduleMeetingListTile extends StatelessWidget {
                                 prefixIcon: "assets/images/Group (1).svg",
                                 detailsLabel:"Meeting Type",
                                 detailsValue:controller.list?[index].meetingType??"",
-                                rightMargin: 2.w,
+                                rightMargin: isRTL ? 0 : 2.w,
+                                leftMargin: isRTL ? 2.w : 0,
                             ),
                             GestureDetector(
                                 onTap: (){Get.to(ChatingScreen());},
@@ -112,7 +114,8 @@ class ScheduleMeetingListTile extends StatelessWidget {
                                 prefixIcon: "assets/images/Group (1).svg",
                                 detailsLabel:"Reason",
                                 detailsValue: controller.list?[index].reason??"N/A",
-                                rightMargin: 2.w,
+                                rightMargin: isRTL ? 0 : 2.w,
+                                leftMargin: isRTL ? 2.w : 0,
                               ),
                               GestureDetector(
                                   onTap: (){

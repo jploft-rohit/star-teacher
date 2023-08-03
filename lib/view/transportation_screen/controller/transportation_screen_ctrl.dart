@@ -91,7 +91,7 @@ class TransportationScreenCtrl extends GetxController{
   getData() async {
     final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
     var data = {
-      "tripType": selectedIndex.value == 0 ? "departure" : "departure",
+      "tripType": selectedIndex.value == 0 ? "departure" : "return",
     };
     BaseAPI().get(url: ApiEndPoints().getTransportationData+userId, queryParameters: data).then((value){
       if (value?.statusCode ==  200) {

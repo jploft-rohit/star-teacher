@@ -13,6 +13,7 @@ import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/storage/sp_keys.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/view/shop_screen/controller/stripe_controller.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/confirmation_popup.dart';
 
 class ShopScreenCtrl extends GetxController{
@@ -171,16 +172,32 @@ class ShopScreenCtrl extends GetxController{
 
   createOrder({required bool isFromCart}) async {
     final String userId = await BaseSharedPreference().getString(SpKeys().userId);
-    var data = {
-      "cartId": userCartData?.value?.sId??"",
-      "userId": userId,
-      "shippingType": selectedShipping.value,
-      "paymentMode": selectedPaymentPos.value ==  0 ? "WALLET" : selectedPaymentPos.value ==  1 ? "CARD" : "CASH",
-      "orderType":"NORMAL",
-      "deliveryBreakTime":selectedServingTime.value,
-      "servingPlace":servingPlace.text.trim(),
-      "deliveryTime":deliveryTime.text.trim(),
-    };
+    var data;
+    if (selectedPaymentPos.value == 1) {
+      data = {
+        "cartId": userCartData?.value?.sId??"",
+        "userId": userId,
+        "shippingType": selectedShipping.value,
+        "paymentMode": selectedPaymentPos.value ==  0 ? "WALLET" : selectedPaymentPos.value ==  1 ? "CARD" : "CASH",
+        "orderType":"NORMAL",
+        "deliveryBreakTime":selectedServingTime.value,
+        "servingPlace":servingPlace.text.trim(),
+        "deliveryTime":deliveryTime.text.trim(),
+        "txnId": Get.find<StripeController>().paymentIntentId??"",
+        "txnResponse": Get.find<StripeController>().pgData??"",
+      };
+    }else{
+      data = {
+        "cartId": userCartData?.value?.sId??"",
+        "userId": userId,
+        "shippingType": selectedShipping.value,
+        "paymentMode": selectedPaymentPos.value ==  0 ? "WALLET" : selectedPaymentPos.value ==  1 ? "CARD" : "CASH",
+        "orderType":"NORMAL",
+        "deliveryBreakTime":selectedServingTime.value,
+        "servingPlace":servingPlace.text.trim(),
+        "deliveryTime":deliveryTime.text.trim(),
+      };
+    }
     await BaseAPI().post(url: ApiEndPoints().createOrder,data: data).then((value) async {
       if (value?.statusCode ==  200) {
         BaseOverlays().showOkDialog(title: "Order Successfully Placed!", onBtnPressed: (){

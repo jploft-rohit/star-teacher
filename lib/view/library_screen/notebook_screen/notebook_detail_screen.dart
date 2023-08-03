@@ -9,6 +9,7 @@ import 'package:staff_app/storage/sp_keys.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_image_network.dart';
 import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
@@ -65,12 +66,18 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                       Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 7),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15.0),
                                 border: Border.all(color: BaseColors.primaryColor)
                             ),
-                            child: SvgPicture.asset(girlSvg, height: 6.h),
+                            child: BaseImageNetwork(
+                              link: controller.starData?.value.user?.profilePic??"",
+                              width: 50,
+                              height: 50,
+                              borderRadius: 10,
+                              errorWidget: SvgPicture.asset(girlSvg, height: 6.h),
+                            ),
                           ),
                           SizedBox(width: 3.w),
                           Column(

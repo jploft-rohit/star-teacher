@@ -63,8 +63,10 @@ class _RatingScreenState extends State<RatingScreen> {
               child: Row(
                 children: [
                   Container(
-                    height: double.infinity,
-                    padding: EdgeInsets.only(left: 13.sp, right: 13.sp),
+                    height: 17.w,
+                    width: 17.w,
+                    margin: EdgeInsets.only(right: 2.w,left: 2.w),
+                    padding: EdgeInsets.only(top: 7.sp, bottom: 7.sp, left: 7.sp, right: 7.sp),
                     decoration: BoxDecoration(
                       border: Border.all(color: BaseColors.primaryColor),
                       borderRadius: BorderRadius.circular(15.0),
@@ -77,9 +79,9 @@ class _RatingScreenState extends State<RatingScreen> {
                           ? "assets/images/chauffeur 1.svg"
                           : "assets/images/Group 7642.svg",
                       ),
+                      borderRadius: 20,
                     ),
                   ),
-                  SizedBox(width: 2.w),
                   Padding(
                     padding: EdgeInsets.all(10.sp),
                     child: Column(

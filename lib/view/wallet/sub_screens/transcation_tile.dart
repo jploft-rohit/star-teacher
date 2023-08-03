@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:ui' as ui;
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
@@ -15,6 +16,7 @@ class TransactionTile extends StatefulWidget {
 }
 
 class _TransactionTileState extends State<TransactionTile> {
+  final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
   WalletController controller = Get.find<WalletController>();
   @override
   Widget build(BuildContext context) {
@@ -48,13 +50,14 @@ class _TransactionTileState extends State<TransactionTile> {
                     child: IntrinsicHeight(
                       child: Row(
                         children: [
-                          controller.selectedTabIndex.value == 0
+                          controller.selectedTabIndex.value == 0 && (controller.list?[index]?.productImages?.length??0) != 0
                               ? BaseImageNetwork(
-                                  link: controller.list?[index]?.productImage??"",
+                                  link: controller.list?[index]?.productImages?.first??"",
                                   concatBaseUrl: false,
                                   height: 6.h,
                                   width: 7.h,
                                   leftMargin: 0.6.w,
+                                  rightMargin: isRTL ? 1.1.w : 0,
                                   borderRadius: 10,
                                 )
                               : Container(
@@ -112,7 +115,7 @@ class _TransactionTileState extends State<TransactionTile> {
                           ),
                           const Spacer(),
                           Padding(
-                            padding: const EdgeInsets.only(right: 35,top: 2),
+                            padding: EdgeInsets.only(right: isRTL ? 0 : 35,top: 2, left: isRTL ? 10 : 0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,

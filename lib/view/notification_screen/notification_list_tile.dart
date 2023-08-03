@@ -3,6 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_image_network.dart';
+import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/view/notification_screen/bus_at_door_popup.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/view/notification_screen/clinic_visit_request.dart';
@@ -16,15 +18,17 @@ class NotificationListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(()=> ListView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        padding: EdgeInsets.only(top: 15.sp),
-        itemCount: controller.list?.length??0,
-        itemBuilder: (context, index) {
+    return Obx(()=> (controller.list?.length??0) == 0
+        ? BaseNoData(message: "No Data Found")
+        : ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          padding: EdgeInsets.only(top: 15.sp),
+          itemCount: controller.list?.length??0,
+          itemBuilder: (context, index) {
           return GestureDetector(
             onTap: (){
-              if (controller.tabIndex.value == 0) {
+              if (controller.tabIndex.value == 1) {
                 showGeneralDialog(
                   context: context,
                   pageBuilder: (context, animation, secondaryAnimation) {
@@ -53,8 +57,14 @@ class NotificationListTile extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15.0),
                     ),
                     alignment: Alignment.center,
-                    padding: EdgeInsets.symmetric(horizontal: 12,vertical: 7.5),
-                    child: SvgPicture.asset(girlSvg,height: 5.h,width: 5.h,),
+                    padding: EdgeInsets.symmetric(horizontal: 3,vertical: 3),
+                    child: BaseImageNetwork(
+                      width: 45,
+                      height: 45,
+                      borderRadius: 10,
+                      link: controller.list?[index].sender?.profilePic??"",
+                      errorWidget: SvgPicture.asset(girlSvg,height: 5.h,width: 5.h),
+                    )
                   ),
                   SizedBox(width: 3.w),
                   Column(

@@ -79,17 +79,19 @@ class _TransportationLocationScreenState extends State<TransportationLocationScr
                     visualDensity: VisualDensity(horizontal: -4),
                     contentPadding: EdgeInsets.only(left: 15.sp, right: 15.sp, top: 15.sp, bottom: 15.sp),
                     leading: Container(
-                      height: double.infinity,
-                      padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
+                      height: 20.w,
+                      width: 17.w,
+                      padding: EdgeInsets.only(top: 7.sp, bottom: 7.sp, left: 7.sp, right: 7.sp),
                       decoration: BoxDecoration(
                         border: Border.all(
                             color: BaseColors.primaryColor
                         ),
-                        borderRadius: BorderRadius.circular(15.0),
+                        borderRadius: BorderRadius.circular(15),
                       ),
                       child: BaseImageNetwork(
                         link: controller.tripData.value.passangerUser?.profilePic??"",
                         concatBaseUrl: false,
+                        borderRadius: 10,
                         errorWidget: SvgPicture.asset(manSvg),
                       ),
                     ),
@@ -139,7 +141,7 @@ class _TransportationLocationScreenState extends State<TransportationLocationScr
                         SizedBox(
                           width: 1.w,
                         ),
-                        buildInfoItems(translate(context).location, controller.locationData?.value?.changeLocationRequestData?.location??"")
+                        Expanded(child: buildInfoItems(translate(context).location, controller.locationData?.value?.changeLocationRequestData?.location??""))
                       ],
                     ),
                     SizedBox(
@@ -183,13 +185,16 @@ class _TransportationLocationScreenState extends State<TransportationLocationScr
                                 showGeneralDialog(
                                   context: context,
                                   pageBuilder: (context, animation, secondaryAnimation) {
-                                    return ConfirmationDialog(msg: translate(context).are_you_sure_you_want_to_change_the_location,isShowBtn: true,);
+                                    return ConfirmationDialog(
+                                      msg: translate(context).are_you_sure_you_want_to_change_the_location,
+                                      isShowBtn: true,
+                                      onTap: (){
+                                        BaseOverlays().dismissOverlay();
+                                        Get.to(ChangeAddressScreen(isUpdating: true, data: controller.locationData?.value?.changeLocationRequestData));
+                                      },
+                                    );
                                   },
-                                ).then((value){
-                                  if(value == true){
-                                    Get.to(ChangeAddressScreen(isUpdating: true, data: controller.locationData?.value?.changeLocationRequestData));
-                                  }
-                                });
+                                );
                               },
                               child: Image.asset(editPng, height: 18.sp, color: BaseColors.primaryColor,),
                             ),

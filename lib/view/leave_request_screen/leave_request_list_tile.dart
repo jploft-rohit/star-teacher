@@ -2,22 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:photo_view/photo_view.dart';
-import 'package:photo_view/photo_view_gallery.dart';
+import 'dart:ui' as ui;
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_utility.dart';
-import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_views/base_detail_data.dart';
 import 'package:staff_app/utility/base_views/base_edit_delete.dart';
-import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/step_progress.dart';
-import 'package:staff_app/constants-classes/color_constants.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_icons.dart';
 import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
-import 'package:staff_app/view/complaints_report_screen/controller/complaint_report_controller.dart';
 import 'package:staff_app/view/leave_request_screen/add_leave_request_view.dart';
 import 'package:staff_app/view/leave_request_screen/controller/leave_request_ctrl.dart';
 import 'package:staff_app/view/leave_request_screen/upload_evidence_popup.dart';
@@ -31,7 +26,7 @@ class LeaveRequestListTile extends StatefulWidget {
 }
 
 class _LeaveRequestListTileState extends State<LeaveRequestListTile> {
-
+  final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
   LeaveRequestCtrl controller = Get.find<LeaveRequestCtrl>();
 
   @override
@@ -78,7 +73,7 @@ class _LeaveRequestListTileState extends State<LeaveRequestListTile> {
                           },
                         ),
                       ),
-                      SizedBox(width: 4.w),
+                      SizedBox(width: isRTL ? 1.w : 4.w),
                       GestureDetector(
                         onTap: (){
                           showGeneralDialog(
@@ -90,11 +85,9 @@ class _LeaveRequestListTileState extends State<LeaveRequestListTile> {
                         },
                         child: Column(
                           children: [
-                            SvgPicture.asset(uploadDocSvg,height: 15),
-                            const SizedBox(
-                              height: 2.0,
-                            ),
-                            Text("Upload\nEvidence", style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 11.5.sp),textAlign: TextAlign.center,)
+                            SvgPicture.asset(uploadDocSvg, height: 15),
+                            const SizedBox(height: 2),
+                            Text("Upload\nEvidence", style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 11.5.sp),textAlign: TextAlign.center)
                           ],
                         ),
                       ),
@@ -107,11 +100,12 @@ class _LeaveRequestListTileState extends State<LeaveRequestListTile> {
                         prefixIcon: "assets/images/Vector (1).svg",
                         detailsLabel: formatBackendDate(controller.list?[index].startDate??""),
                         showDivider: false,
-                        rightMargin: 10.w,
                       ),
-                      Text("to"),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: Text("to"),
+                      ),
                       BaseDetailData(
-                        leftMargin: 10.w,
                         prefixIcon: "assets/images/Vector (1).svg",
                         detailsLabel: formatBackendDate(controller.list?[index].endDate??""),
                         showDivider: false,
@@ -140,7 +134,9 @@ class _LeaveRequestListTileState extends State<LeaveRequestListTile> {
                         BaseIcons().download(onRightButtonPressed: (){
                         BaseOverlays().dismissOverlay();
                         downloadFile(url: controller.list?[index].document??"",concatBaseUrl: false);
-                        },leftMargin: 2.w,
+                        },
+                          leftMargin: 2.w,
+                          rightMargin: isRTL ? 2.w : 0,
                         ),
                         BaseIcons().view(url: controller.list?[index].document??"",leftMargin: 2.w,concatBaseUrl: false),
                       ],

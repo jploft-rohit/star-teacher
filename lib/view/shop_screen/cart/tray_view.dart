@@ -15,6 +15,7 @@ import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
 import 'package:staff_app/view/shop_screen/cart/cart_card_detail.dart';
 import 'package:staff_app/view/shop_screen/controller/shop_screen_ctrl.dart';
+import 'package:staff_app/view/shop_screen/controller/stripe_controller.dart';
 
 import '../../../utility/dummy_lists.dart';
 
@@ -27,6 +28,7 @@ class TrayView extends StatefulWidget {
 
 class _TrayViewState extends State<TrayView> {
   ShopScreenCtrl controller = Get.find<ShopScreenCtrl>();
+  StripeController stripeController = Get.put(StripeController());
   final formKey = GlobalKey<FormState>();
   
   @override
@@ -293,7 +295,6 @@ class _TrayViewState extends State<TrayView> {
                           return GestureDetector(
                             onTap: () async {
                               controller.selectedPaymentPos.value = index;
-                              controller.selectedPaymentPos.value = index;
                             },
                             child: Obx(
                                   () => Container(
@@ -381,12 +382,19 @@ class _TrayViewState extends State<TrayView> {
                               onRightButtonPressed: (){
                                   BaseOverlays().dismissOverlay();
                                   if (controller.selectedPaymentPos.value == 1) {
-                                    showGeneralDialog(
-                                      context: context,
-                                      pageBuilder:  (context, animation, secondaryAnimation) {
-                                        return const CartCardDetail(isFromCart: false,);
-                                      },
-                                    );
+                                    // showGeneralDialog(
+                                    //   context: context,
+                                    //   pageBuilder:  (context, animation, secondaryAnimation) {
+                                    //     return const CartCardDetail(isFromCart: false,);
+                                    //   },
+                                    // );
+                                    stripeController.makePayment((controller.userCartData?.value?.grandTotal?.toString()??"")).then((value) {
+                                      if (value) {
+                                        controller.createOrder(isFromCart: false);
+                                      }else{
+
+                                      }
+                                    });
                                   }else{
                                     BaseOverlays().dismissOverlay();
                                     controller.createOrder(isFromCart: false);

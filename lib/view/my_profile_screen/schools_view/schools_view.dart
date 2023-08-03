@@ -80,8 +80,7 @@ class _SchoolsViewState extends State<SchoolsView> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
         child: Theme(
-          data: Theme.of(context)
-              .copyWith(dividerColor: Colors.transparent),
+          data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
           child: ExpansionTile(
               childrenPadding: EdgeInsets.zero,
               iconColor: BaseColors.primaryColor,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'dart:ui' as ui;
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/backend/responses_model/medical_record_responses/disease_model.dart';
 import 'package:staff_app/backend/responses_model/medical_record_responses/drop_down_model.dart';
@@ -19,7 +20,6 @@ import 'package:staff_app/utility/base_views/textfieldwidget.dart';
 import 'package:staff_app/utility/constant_images.dart';
 import 'package:staff_app/view/my_profile_screen/controller/my_profile_ctrl.dart';
 import 'package:staff_app/view/my_profile_screen/new_medical_report_screen/controller/medical_record_controller.dart';
-
 import '../../../utility/base_utility.dart';
 import '../../../utility/images_icon_path.dart';
 import '../../../utility/sizes.dart';
@@ -33,8 +33,10 @@ class MedicalRecordView extends StatefulWidget {
 }
 
 class _MedicalRecordViewState extends State<MedicalRecordView> {
+  final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
   MedicalRecordController controller = Get.put(MedicalRecordController());
   MyProfileCtrl myProfileCtrl = Get.find<MyProfileCtrl>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,9 +107,8 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                     decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(15),
-                                        border: Border.all(
-                                            color: BaseColors
-                                                .primaryColor)),
+                                        border: Border.all(color: BaseColors.primaryColor),
+                                    ),
                                     child: BaseImageNetwork(
                                       link: myProfileCtrl.response.value.data?.profilePic??"",
                                       errorWidget: SvgPicture.asset(manSvg),
@@ -128,7 +129,8 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                       myProfileCtrl.response.value.data?.name ?? 'N/A',
                                       detailValueTs,
                                       BaseColors.primaryColor,
-                                      FontWeight.w700),
+                                      FontWeight.w700,
+                                  ),
                                   // SizedBox(height:0.5.h),
                                   buildDivider3(),
                                   addText(
@@ -314,7 +316,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                         children: <Widget>[
                           SizedBox(height:2.h),
                           Align(
-                            alignment: Alignment.topLeft,
+                            alignment: isRTL ? Alignment.topRight : Alignment.topLeft,
                             child: addText(
                                 'Student Medical History',
                                 getNormalTextFontSIze(),
@@ -637,7 +639,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                           ),
                           SizedBox(height:2.h),
                           Align(
-                            alignment: Alignment.topLeft,
+                            alignment: isRTL ? Alignment.topRight : Alignment.topLeft,
                             child: addText(
                                 'History of :',
                                 getNormalTextFontSIze(),
@@ -750,7 +752,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                           ),
                           SizedBox(height:2.h),
                           Align(
-                            alignment: Alignment.topLeft,
+                            alignment: isRTL ? Alignment.topRight : Alignment.topLeft,
                             child: addText(
                                 'Family History :',
                                 getNormalTextFontSIze() - 1,
@@ -790,7 +792,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                             height: 2.h,
                           ),
                           Align(
-                            alignment: Alignment.topLeft,
+                            alignment: isRTL ? Alignment.topRight : Alignment.topLeft,
                             child: addText(
                                 'Medical Examination Consent',
                                 getNormalTextFontSIze(),
@@ -958,7 +960,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                             height: 2.h,
                           ),
                           Align(
-                              alignment: Alignment.topLeft,
+                              alignment: isRTL ? Alignment.topRight : Alignment.topLeft,
                               child: addText(
                                   'Medication Policy',
                                   getNormalTextFontSIze(),
@@ -1115,7 +1117,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                           ),
                           SizedBox(height:2.h),
                           Align(
-                              alignment: Alignment.topLeft,
+                              alignment: isRTL ? Alignment.topRight : Alignment.topLeft,
                               child: addText(
                                   'Sickness Exclusion Policy',
                                   getNormalTextFontSIze() - 1,

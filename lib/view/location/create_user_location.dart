@@ -17,6 +17,7 @@ import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
+import 'package:staff_app/utility/delete_map.dart';
 import 'package:staff_app/utility/google_map.dart';
 import 'package:staff_app/view/location/controller/location_controller.dart';
 
@@ -72,7 +73,6 @@ class _CreateUserLocationState extends State<CreateUserLocation> {
                           borderColor: Colors.transparent,
                           readOnly: true,
                           onTap: (){
-                            // if (Platform.Platform.isAndroid) {
                               FocusScope.of(Get.context!).requestFocus(new FocusNode());
                               Get.to(MapUiBody())?.then((value){
                                 Map<String, dynamic> addressData = value;
@@ -80,7 +80,6 @@ class _CreateUserLocationState extends State<CreateUserLocation> {
                                 controller.latitudeController.value.text = addressData['latitude'].toString();
                                 controller.longitudeController.value.text = addressData['longtitude'].toString();
                               });
-                            // }
                           },
                           validator: (val){
                             if(controller.addressLocationController.value.text.isEmpty){
@@ -92,7 +91,6 @@ class _CreateUserLocationState extends State<CreateUserLocation> {
                       ),
                       GestureDetector(
                         onTap: (){
-                          // if (Platform.Platform.isAndroid) {
                             FocusScope.of(Get.context!).requestFocus(new FocusNode());
                             Get.to(MapUiBody())?.then((value){
                               Map<String, dynamic> addressData = value;
@@ -100,7 +98,6 @@ class _CreateUserLocationState extends State<CreateUserLocation> {
                               controller.latitudeController.value.text = addressData['latitude'].toString();
                               controller.longitudeController.value.text = addressData['longtitude'].toString();
                             });
-                          // }
                         },
                         child: Padding(
                           padding: EdgeInsets.only(right: 15.sp, left: 15.sp),

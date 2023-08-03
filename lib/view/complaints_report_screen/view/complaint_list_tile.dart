@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:ui' as ui;
 import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/backend/api_end_points.dart';
+import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/storage/sp_keys.dart';
 import 'package:staff_app/utility/base_utility.dart';
@@ -27,7 +30,7 @@ class ComplaintsListTile extends StatefulWidget {
 }
 
 class _ComplaintsListTileState extends State<ComplaintsListTile> {
-
+  final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
   ComplainReportController controller = Get.find<ComplainReportController>();
   String userId = "";
 
@@ -67,16 +70,25 @@ class _ComplaintsListTileState extends State<ComplaintsListTile> {
                 Row(
                   children: [
                     Expanded(child: Text(controller.response?[index].title??"", style: TextStyle(fontSize: 16.sp, color: BaseColors.textBlackColor, fontWeight: FontWeight.w700))),
-                    BaseIcons().view(
-                        url: controller.response?[index].document??"",
-                        leftMargin: 3.w,
-                        concatBaseUrl: true,
-                    ),
-                    BaseIcons().download(onRightButtonPressed: (){
+                    Visibility(
+                      visible: (controller.response?[index].document??"").isNotEmpty,
+                      child: BaseIcons().view(
+                      url: controller.response?[index].document??"",
+                      concatBaseUrl: true,
+                    )),
+                    Visibility(
+                        visible: (controller.response?[index].document??"").isNotEmpty,
+                        child: SizedBox(width: 3.w)),
+                    Visibility(
+                      visible: (controller.response?[index].document??"").isNotEmpty,
+                      child: BaseIcons().download(onRightButtonPressed: (){
                       BaseOverlays().dismissOverlay();
-                        downloadFile(url: controller.response?[index].document??"",concatBaseUrl: true);
-                      },
-                      leftMargin: 3.w,
+                      BaseAPI().download(controller.response?[index].document??"");
+                    }),
+                    ),
+                    Visibility(
+                     visible: (controller.response?[index].document??"").isNotEmpty,
+                     child: SizedBox(width: 3.w),
                     ),
                     Visibility(
                       visible: userId == (controller.response?[index].createdBy??""),
@@ -86,8 +98,11 @@ class _ComplaintsListTileState extends State<ComplaintsListTile> {
                         BaseOverlays().dismissOverlay();
                         Get.to(RaiseComplaintReportScreen(isUpdating: true, data: controller.response?[index]));
                       },
-                      leftMargin: 3.w,
                     )),
+                    Visibility(
+                        visible: userId == (controller.response?[index].createdBy??""),
+                        child: SizedBox(width: 3.w),
+                    ),
                     Visibility(
                         visible: userId == (controller.response?[index].createdBy??""),
                         child: BaseIcons().delete(
@@ -95,12 +110,14 @@ class _ComplaintsListTileState extends State<ComplaintsListTile> {
                           onRightButtonPressed: (){
                             controller.deleteItem(id: controller.response?[index].sId??"", index: index);
                           },
-                          leftMargin: 3.w,
                           showDeleteReason: true,
                           deleteReasonController: controller.deleteReasonController.value,
                           formKey: controller.formKey,
                         ),
                     ),
+                    Visibility(
+                        visible: userId == (controller.response?[index].createdBy??""),
+                        child: SizedBox(width: isRTL ? 0 : 3.w)),
                   ],
                 ),
                 const Divider(),
@@ -116,8 +133,8 @@ class _ComplaintsListTileState extends State<ComplaintsListTile> {
                       detailsLabel: formatBackendDate(controller.response?[index].createdAt??""),
                       showDivider: false,
                     ),
+                    SizedBox(width: 10.w),
                     BaseDetailData(
-                      leftMargin: 10.w,
                       prefixIcon: "assets/images/time_icon.svg",
                       detailsLabel: getFormattedTime(controller.response?[index].createdAt??""),
                       showDivider: false,

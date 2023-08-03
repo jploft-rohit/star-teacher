@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'dart:ui' as ui;
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_toggle_tab_bar.dart';
@@ -18,7 +19,7 @@ class ChatStarTab extends StatefulWidget {
 }
 
 class _ChatStarTabState extends State<ChatStarTab> with SingleTickerProviderStateMixin{
-
+  final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
   late TabController tabController;
 
   @override
@@ -45,21 +46,19 @@ class _ChatStarTabState extends State<ChatStarTab> with SingleTickerProviderStat
             tabs: [
               Tab(
                 child: Padding(
-                  padding: const EdgeInsets.only(right: 6),
+                  padding: EdgeInsets.only(right: isRTL ? 0 : 6, left: isRTL ? 6 : 0),
                   child: BaseButton(title: 'Individual',onPressed: null,verticalPadding: 0,isActive: tabController.index == 0 ? true : false,isToggle: tabController.index == 0 ? true : false),
                 ),
               ),
               Tab(
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 6),
+                  padding: EdgeInsets.only(right: isRTL ? 6 : 0, left: isRTL ? 0 : 6),
                   child: BaseButton(title: 'Group',onPressed: null,verticalPadding: 0,isActive: tabController.index == 1 ? true : false, isToggle: tabController.index == 1 ? true : false),
                 ),
               ),
             ],
           ),
-          SizedBox(
-            height: 2.h,
-          ),
+          SizedBox(height: 2.h),
           Expanded(
             child: TabBarView(
                 controller: tabController,
@@ -145,7 +144,7 @@ class _ChatStarTabState extends State<ChatStarTab> with SingleTickerProviderStat
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(right: 10),
+                                    padding: EdgeInsets.only(right: isRTL ? 0 : 10, left: isRTL ? 10 : 0),
                                     child: GestureDetector(
                                       onTap: (){
                                         Get.to(const ChatingScreen());
@@ -166,7 +165,7 @@ class _ChatStarTabState extends State<ChatStarTab> with SingleTickerProviderStat
                               ),
                             ),
                             Align(
-                              alignment: AlignmentDirectional.topEnd,
+                              alignment: isRTL ? AlignmentDirectional.topStart : AlignmentDirectional.topEnd,
                               child: Container(
                                 decoration: const BoxDecoration(
                                   shape: BoxShape.circle,

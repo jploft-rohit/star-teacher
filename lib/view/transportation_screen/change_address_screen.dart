@@ -73,7 +73,6 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                           hintText: translate(context).type_your_location,
                           hintTxtSize: 14.sp,
                           onTap: (){
-                            if (Platform.Platform.isAndroid) {
                               FocusScope.of(Get.context!).requestFocus(new FocusNode());
                               Get.to(MapUiBody())?.then((value){
                                 Map<String, dynamic> addressData = value;
@@ -81,7 +80,6 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                                 controller.latitudeController.value.text = addressData['latitude'].toString();
                                 controller.longitudeController.value.text = addressData['longtitude'].toString();
                               });
-                            }
                           },
                           readOnly: true,
                           borderColor: Colors.transparent,
@@ -95,7 +93,6 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                       ),
                       GestureDetector(
                         onTap: (){
-                          if (Platform.Platform.isAndroid) {
                             FocusScope.of(Get.context!).requestFocus(new FocusNode());
                             Get.to(MapUiBody())?.then((value){
                               Map<String, dynamic> addressData = value;
@@ -103,7 +100,6 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                               controller.latitudeController.value.text = addressData['latitude'].toString();
                               controller.longitudeController.value.text = addressData['longtitude'].toString();
                             });
-                          }
                         },
                         child: Padding(
                           padding: EdgeInsets.only(right: 15.sp, left: 15.sp),

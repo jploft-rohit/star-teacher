@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/route_manager/route_manager.dart' as route;
@@ -9,13 +10,12 @@ import 'package:staff_app/view/login_screen/login_ctrl.dart';
 import 'route_manager/route_name.dart';
 import 'view/Dashboard_screen/dashboard_screen_ctrl.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Stripe.publishableKey = "pk_test_51NLl4oBJG0qcZ8qIRik60miJ5fayU9GyJgV19GWMPCc9e84A6xyD6ZAU4nIKG01HwukmK9ACWz8mWnht79pDR4t300kYWwP2ox";
+  // Stripe.merchantIdentifier = 'merchant.com.courrierApp';
+  await Stripe.instance.applySettings();
   BaseSharedPreference().sharedPrefInit();
-  // SystemChrome.setSystemUIOverlayStyle(
-  //     const SystemUiOverlayStyle(
-  //     statusBarColor: Colors.transparent,
-  //     statusBarIconBrightness: Brightness.dark));
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,

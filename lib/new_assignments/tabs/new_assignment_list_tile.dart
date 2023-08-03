@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/new_assignments/controller/new_assignment_ctrl.dart';
 import 'package:staff_app/utility/base_utility.dart';
-
+import 'dart:ui' as ui;
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_detail_data.dart';
@@ -22,6 +22,7 @@ class NewAssignmentListTile extends StatefulWidget {
 }
 
 class _NewAssignmentListTileState extends State<NewAssignmentListTile> {
+  final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
   TextEditingController searchCtrl = TextEditingController();
   NewAssignmentCtrl controller = Get.find<NewAssignmentCtrl>();
 
@@ -40,7 +41,7 @@ class _NewAssignmentListTileState extends State<NewAssignmentListTile> {
             },
             child: Card(
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0)
+                  borderRadius: BorderRadius.circular(10)
               ),
               child: Padding(
                 padding: EdgeInsets.all(15.sp),
@@ -53,7 +54,6 @@ class _NewAssignmentListTileState extends State<NewAssignmentListTile> {
                     //     onDeleteProceed: (){
                     //   controller.deleteData(index: index);
                     // },onEditProceed: (){
-                    //
                     //     },showDeleteViewIcons: false,),
                     const Divider(),
                     Visibility(
@@ -109,13 +109,17 @@ class _NewAssignmentListTileState extends State<NewAssignmentListTile> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                         Text(controller.list?[index]?.supportDoc.split("/").last??""??"",style: TextStyle(fontWeight: FontWeight.w700,color: BaseColors.primaryColor,fontSize: 15.sp)),
-                        Row(mainAxisSize: MainAxisSize.min,children: [
-                          BaseIcons().view(rightMargin: 2.5.w,url: controller.list?[index]?.supportDoc??"",concatBaseUrl: true),
-                          BaseIcons().download(leftMargin: 2.5.w, onRightButtonPressed: (){
-                            BaseOverlays().dismissOverlay();
-                            downloadFile(url: (controller.list?[index]?.supportDoc??""),concatBaseUrl: true);
-                          }),
-                        ])
+                        Visibility(
+                          visible: (controller.list?[index]?.supportDoc??"").isNotEmpty,
+                          child: Row(mainAxisSize: MainAxisSize.min,children: [
+                            BaseIcons().view(url: controller.list?[index]?.supportDoc??"",concatBaseUrl: true),
+                            SizedBox(width: 2.5.w),
+                            BaseIcons().download(onRightButtonPressed: (){
+                              BaseOverlays().dismissOverlay();
+                              downloadFile(url: (controller.list?[index]?.supportDoc??""),concatBaseUrl: true);
+                            }),
+                          ]),
+                        )
                       ]),
                     ) : SizedBox.shrink(),
                     Visibility(

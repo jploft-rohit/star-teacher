@@ -8,7 +8,6 @@ import 'package:staff_app/backend/responses_model/school_list_response.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_filter_dropdown.dart';
-import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/filter_textformfield.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/utility/base_utility.dart';
@@ -33,15 +32,17 @@ class _NoteBookScreenState extends State<NoteBookScreen>{
   @override
   void initState() {
     super.initState();
-    /// Clearing Data
-    controller.selectedSchoolId.value = "";
-    controller.selectedSchoolName.value = "";
-    controller.selectedClassId.value = "";
-    controller.selectedClassName.value = "";
-    controller.selectedSectionId.value = "";
-    controller.selectedSectionName.value = "";
-    controller.selectedStarId.value = "";
-    baseCtrl.getStarsList();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      /// Clearing Data
+      controller.selectedSchoolId.value = "";
+      controller.selectedSchoolName.value = "";
+      controller.selectedClassId.value = "";
+      controller.selectedClassName.value = "";
+      controller.selectedSectionId.value = "";
+      controller.selectedSectionName.value = "";
+      controller.selectedStarId.value = "";
+      baseCtrl.getStarsList();
+    });
   }
 
   @override

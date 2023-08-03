@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/storage/base_shared_preference.dart';
+import 'package:staff_app/storage/sp_keys.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
@@ -37,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
   late TabController tabController;
   late ScrollController scrollController;
   bool? fixedScroll;
+  String selectedLanguageCode = "";
 
   @override
   void initState() {
@@ -47,6 +50,10 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
       setState((){});
     });
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      selectedLanguageCode = await BaseSharedPreference().getString(SpKeys().selectedLanguage);
+      print("Selected Language Code -> "+selectedLanguageCode);
+    });
   }
 
   scrollListener() {

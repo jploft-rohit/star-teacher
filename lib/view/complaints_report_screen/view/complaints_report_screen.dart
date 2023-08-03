@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:ui' as ui;
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
@@ -19,6 +20,7 @@ class ComplaintsReportScreen extends StatefulWidget {
 }
 
 class _ComplaintsReportScreenState extends State<ComplaintsReportScreen> with TickerProviderStateMixin{
+  final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
   ComplainReportController controller = Get.put(ComplainReportController());
   late TabController tabCtrl;
 

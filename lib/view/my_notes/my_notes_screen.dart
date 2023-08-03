@@ -1,9 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'dart:ui' as ui;
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
@@ -12,10 +11,7 @@ import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
-import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
-import 'package:staff_app/view/library_screen/notebook_screen/notebook_screen.dart';
-import 'package:staff_app/view/library_screen/ctrl/notebook_ctrl.dart';
 import 'package:staff_app/view/my_notes/add_todo_note.dart';
 import 'package:staff_app/view/my_notes/ctrl/sticky_note_ctrl.dart';
 
@@ -27,6 +23,7 @@ class MyNotesScreen extends StatefulWidget {
 }
 
 class _MyNotesScreenState extends State<MyNotesScreen> {
+  final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
   StickyNoteCtrl controller = Get.put(StickyNoteCtrl());
 
   @override
@@ -107,6 +104,7 @@ class _MyNotesScreenState extends State<MyNotesScreen> {
                                               },
                                             ),
                                           ),
+                                          SizedBox(width: isRTL ? 2.w : 0),
                                           GestureDetector(
                                             onTap: () {
                                               BaseOverlays().showConfirmationDialog(
@@ -118,8 +116,7 @@ class _MyNotesScreenState extends State<MyNotesScreen> {
                                               );
                                             },
                                             child: Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: 3.5.w, right: 2.w),
+                                              padding: EdgeInsets.only(left: isRTL ? 3.w : 3.5.w, right: 2.w),
                                               child: Image.asset(
                                                 editPng,
                                                 height: 15.0,

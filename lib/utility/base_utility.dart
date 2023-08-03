@@ -1,32 +1,23 @@
-import 'dart:io';
 import 'dart:math';
-
-import 'package:dio/dio.dart' as dio;
+import 'dart:ui' as ui;
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:image_downloader/image_downloader.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:open_file/open_file.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:input_with_keyboard_control/input_with_keyboard_control.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/backend/api_end_points.dart';
+import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
-import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/base_qr.dart';
 import 'package:staff_app/utility/constant_images.dart';
 import 'package:staff_app/utility/intl/src/intl/date_format.dart';
-import 'package:staff_app/utility/notificationService.dart';
 import '../constants-classes/color_constants.dart';
 import 'images_icon_path.dart';
 
@@ -106,6 +97,7 @@ List<BoxShadow> baseContainerShadow() {
 }
 
 Widget buildInfoItems(String title,String description,{Function()? onSvgClick,String? svgPath}) {
+  final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
   return RichText(
     text: TextSpan(
       text: '$title : ',
@@ -115,7 +107,7 @@ Widget buildInfoItems(String title,String description,{Function()? onSvgClick,St
         WidgetSpan(child: GestureDetector(
           onTap: onSvgClick??(){},
           child: Padding(
-            padding: const EdgeInsets.only(left: 6),
+            padding: EdgeInsets.only(left: isRTL ? 0 : 6, right: isRTL ? 6 : 0),
             child: SvgPicture.asset(svgPath??"",height: 13,),
           ),
         )),
@@ -341,6 +333,51 @@ Text addAlignedText(
 Text addText(String text, double size, Color color, FontWeight fontWeight) {
   return Text(text.tr, style: TextStyle(color: color, fontSize: size, fontWeight: fontWeight, fontFamily: "Arial"));
 }
+
+class DummyTextField extends StatefulWidget {
+  const DummyTextField({super.key});
+
+  @override
+  State<DummyTextField> createState() => _DummyTextFieldState();
+}
+
+class _DummyTextFieldState extends State<DummyTextField> {
+  @override
+  void initState() {
+    super.initState();
+    // Future.delayed(
+    //   Duration(),
+    //       () => SystemChannels.textInput.invokeMethod('TextInput.hide'),
+    // );
+  }
+  @override
+  Widget build(BuildContext context) {
+    return RawKeyboardListener(
+      focusNode: FocusNode(),
+      onKey: (RawKeyEvent event) {
+        setState(() {
+          if (event is RawKeyUpEvent) {
+            // Handle the key-up event
+            // You can access the pressed key using event.logicalKey
+            var  keyboardInput = event.logicalKey.keyLabel;
+            print("Final Print Value ---> ");
+            print(keyboardInput);
+          }
+        });
+      },
+      child: Container(
+        width: 200,
+        height: 100,
+        color: Colors.grey[200],
+        child: Center(
+          child: Text('Click here and type'),
+        ),
+      ),
+    );
+  }
+}
+
+
 showNFCDialog(BuildContext context,String image){
 
   showDialog(
@@ -374,8 +411,7 @@ showNFCDialog(BuildContext context,String image){
             ],
           ),
           contentPadding: const EdgeInsets.all(10),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           content: SizedBox(
             width: 100.w,
             child: Padding(
@@ -383,6 +419,7 @@ showNFCDialog(BuildContext context,String image){
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // DummyTextField(),
                   GestureDetector(child: Text(image.isEmpty ? translate(context).tap_nfc_card_to_match_frequency : translate(context).nfc_programmed_successfully,
                     style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor,fontSize: 16.sp),
                     textAlign: TextAlign.center,),
@@ -394,6 +431,82 @@ showNFCDialog(BuildContext context,String image){
             ),
           )));
 }
+
+class TextFieldWithNoKeyboard extends EditableText {
+  TextFieldWithNoKeyboard(
+      {required TextEditingController controller,
+        required TextStyle style,
+        required Function onValueUpdated,
+        required Color cursorColor,
+        bool autofocus = false,
+        Color? selectionColor})
+      : super(
+      controller: controller,
+      focusNode: TextfieldFocusNode(),
+      style: style,
+      cursorColor: cursorColor,
+      autofocus: autofocus,
+      selectionColor: selectionColor,
+      backgroundCursorColor: Colors.black,
+      onChanged: (value) {
+        onValueUpdated(value);
+      });
+
+  @override
+  EditableTextState createState() {
+    return TextFieldEditableState();
+  }
+}
+
+//This is to hide keyboard when user tap on textfield.
+class TextFieldEditableState extends EditableTextState {
+  @override
+  void requestKeyboard() {
+    super.requestKeyboard();
+    //hide keyboard
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
+  }
+}
+
+// This hides keyboard from showing on first focus / autofocus
+class TextfieldFocusNode extends FocusNode {
+  @override
+  bool consumeKeyboardToken() {
+    return false;
+  }
+}
+//  Use this custom widget in your screen by replacing TextField //with, TextFieldWithNoKeyboard
+
+//=====Below is example to use in your screen ==//
+
+class QRCodeScanner extends StatefulWidget {
+  QRCodeScanner({Key? key}) : super(key: key);
+
+  @override
+  _QRCodeScannerState createState() => _QRCodeScannerState();
+}
+
+class _QRCodeScannerState extends State<QRCodeScanner> {
+  TextEditingController scanController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        child: TextFieldWithNoKeyboard(
+          controller: scanController,
+          autofocus: true,
+          cursorColor: Colors.green,
+          style: TextStyle(color: Colors.black),
+          onValueUpdated: (value) {
+            print(value);
+          },
+        ),
+      ),
+    );
+  }
+}
+
 showNFCDialog1(BuildContext context,String image,{String? title}){
 
   showDialog(
@@ -613,7 +726,7 @@ String flipDate({required String date}){
 
 String formatFlutterDateTime({required DateTime flutterDateTime,bool? getDayFirst}){
    if (getDayFirst??false) {
-     return "${flutterDateTime.day.toString()}-${flutterDateTime.month.toString().padLeft(2,'0')}-${flutterDateTime.year.toString().padLeft(2,'0')}";
+     return "${flutterDateTime.day.toString().padLeft(2,'0')}-${flutterDateTime.month.toString().padLeft(2,'0')}-${flutterDateTime.year.toString()}";
    }else{
      return "${flutterDateTime.year.toString()}-${flutterDateTime.month.toString().padLeft(2,'0')}-${flutterDateTime.day.toString().padLeft(2,'0')}";
    }
@@ -708,60 +821,61 @@ baseToast({required String message}){
 Future<void> downloadFile({required String url,bool? concatBaseUrl,bool? showLoader}) async {
   // Download the PDF file
   if (url.isNotEmpty) {
-    /// Saving PDF
-    if (url.contains("pdf")) {
-      BaseOverlays().showLoader();
-      final finalUrl = (concatBaseUrl??true) ? (ApiEndPoints().imageBaseUrl) + (url) : url;
-      final request = await HttpClient().getUrl(Uri.parse(finalUrl));
-      final response = await request.close();
-      final bytes = await consolidateHttpClientResponseBytes(response);
-
-      if (Platform.isIOS) {
-        final directory = await getTemporaryDirectory();
-        final filePath = '${directory.path}.pdf';
-        final file = File(filePath);
-        await file.writeAsBytes(bytes);
-        BaseOverlays().dismissOverlay();
-        NotificationService.display(0,'PDF Downloaded','The PDF file has been downloaded successfully.',filePath);
-      }
-      else{
-        final directory = await getExternalStorageDirectory();
-        final filePath = '${directory!.path}.pdf';
-        final file = File(filePath);
-        await file.writeAsBytes(bytes);
-        BaseOverlays().dismissOverlay();
-        NotificationService.display(0,'PDF Downloaded','The PDF file has been downloaded successfully.',filePath);
-      }
-    }
-    /// Properly Saving Image
-    else{
-      BaseOverlays().showLoader(showLoader: showLoader??true);
-      if (await Permission.storage.request().isGranted) {
-        try {
-          var imageId = await ImageDownloader.downloadImage((concatBaseUrl??true) ? ApiEndPoints().imageBaseUrl + url : url,destination: AndroidDestinationType.directoryDownloads).
-          catchError((e){
-            BaseOverlays().dismissOverlay(showLoader: showLoader??true);
-            return e;
-          });
-          if (imageId == null) {
-            return;
-          }
-          var size = await ImageDownloader.findByteSize(imageId);
-          print("Image Url ---> "+url);
-          print("Downloaded Image Size ---> " + (size??0).toString());
-          NotificationService.showMessage(0,'Image Downloaded','The Image has been downloaded successfully.');
-        } on PlatformException catch (error) {
-          BaseOverlays().dismissOverlay(showLoader: showLoader??true);
-          print(error);
-        }
-      }else{
-        Map<Permission, PermissionStatus> statuses = await [
-          Permission.storage,
-        ].request();
-      }
-      BaseOverlays().dismissOverlay(showLoader: showLoader??true);
-      /// New Code
-    }
+    BaseAPI().download(url);
+    // /// Saving PDF
+    // if (url.contains("pdf")) {
+    //   BaseOverlays().showLoader();
+    //   final finalUrl = (concatBaseUrl??true) ? (ApiEndPoints().imageBaseUrl) + (url) : url;
+    //   final request = await HttpClient().getUrl(Uri.parse(finalUrl));
+    //   final response = await request.close();
+    //   final bytes = await consolidateHttpClientResponseBytes(response);
+    //
+    //   if (Platform.isIOS) {
+    //     final directory = await getTemporaryDirectory();
+    //     final filePath = '${directory.path}.pdf';
+    //     final file = File(filePath);
+    //     await file.writeAsBytes(bytes);
+    //     BaseOverlays().dismissOverlay();
+    //     NotificationService.display(0,'PDF Downloaded','The PDF file has been downloaded successfully.',filePath);
+    //   }
+    //   else{
+    //     final directory = await getExternalStorageDirectory();
+    //     final filePath = '${directory!.path}.pdf';
+    //     final file = File(filePath);
+    //     await file.writeAsBytes(bytes);
+    //     BaseOverlays().dismissOverlay();
+    //     NotificationService.display(0,'PDF Downloaded','The PDF file has been downloaded successfully.',filePath);
+    //   }
+    // }
+    // /// Properly Saving Image
+    // else{
+    //   BaseOverlays().showLoader(showLoader: showLoader??true);
+    //   if (await Permission.storage.request().isGranted) {
+    //     try {
+    //       var imageId = await ImageDownloader.downloadImage((concatBaseUrl??true) ? ApiEndPoints().imageBaseUrl + url : url,destination: AndroidDestinationType.directoryDownloads).
+    //       catchError((e){
+    //         BaseOverlays().dismissOverlay(showLoader: showLoader??true);
+    //         return e;
+    //       });
+    //       if (imageId == null) {
+    //         return;
+    //       }
+    //       var size = await ImageDownloader.findByteSize(imageId);
+    //       print("Image Url ---> "+url);
+    //       print("Downloaded Image Size ---> " + (size??0).toString());
+    //       NotificationService.showMessage(0,'Image Downloaded','The Image has been downloaded successfully.');
+    //     } on PlatformException catch (error) {
+    //       BaseOverlays().dismissOverlay(showLoader: showLoader??true);
+    //       print(error);
+    //     }
+    //   }else{
+    //     Map<Permission, PermissionStatus> statuses = await [
+    //       Permission.storage,
+    //     ].request();
+    //   }
+    //   BaseOverlays().dismissOverlay(showLoader: showLoader??true);
+    //   /// New Code
+    // }
   }
 }
 

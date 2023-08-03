@@ -14,6 +14,7 @@ import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/utility/google_map.dart';
 import 'package:staff_app/view/map_screen.dart';
 import 'package:staff_app/view/my_profile_screen/controller/my_profile_ctrl.dart';
 import 'package:staff_app/view/my_profile_screen/my_profile_view/controller/update_my_profile_ctrl.dart';
@@ -78,13 +79,14 @@ class _MyProfileViewState extends State<MyProfileView> {
                                   height: 80,
                                   width: 80,
                                   margin: const EdgeInsets.all(5),
-                                  padding: const EdgeInsets.only(left: 15, right: 15, top: 10.0, bottom: 10.0),
+                                  padding: const EdgeInsets.only(left: 3, right: 3, top: 3, bottom: 3),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(15.0),
                                       border: Border.all(color: BaseColors.primaryColor)),
                                   child: (controller.selectedFile?.value?.path??"").isEmpty
                                       ? BaseImageNetwork(
                                     link: myProfileController.response.value.data?.profilePic??"",
+                                    borderRadius: 10,
                                     concatBaseUrl: true,
                                     errorWidget: SvgPicture.asset(
                                       manSvg,
@@ -220,9 +222,14 @@ class _MyProfileViewState extends State<MyProfileView> {
                                   textInputType: TextInputType.streetAddress,
                                   GestureDetector(
                                       onTap: (){
-                                        Get.to(const MapScreen());
+                                        Get.to(MapUiBody());
                                       },
-                                      child: Image.asset("assets/images/Vector (4).png"))),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(left: 7),
+                                        child: SvgPicture.asset("assets/images/map_ig.svg"),
+                                      ),
+                                  ),
+                              ),
                               addPrimaryColorEditText(
                                   translate(context).country,
                                   controller.countryCtrl,

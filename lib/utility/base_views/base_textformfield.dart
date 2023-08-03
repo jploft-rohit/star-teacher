@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'dart:ui' as ui;
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/packages/drop_downbutton2/dropdown_button2.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
-import 'package:staff_app/utility/validators.dart';
 
 class BaseTextFormField extends StatelessWidget {
   final double? bottomMargin,topMargin,leftMargin,rightMargin;
@@ -33,7 +32,7 @@ class BaseTextFormField extends StatelessWidget {
   final TextInputType? keyboardType;
   final TextEditingController controller;
   BaseTextFormField({Key? key, this.title, required this.controller, this.hintText, this.keyboardType, this.prefixIcon, this.suffixIcon, this.isDropDown = false, this.dropDownValue, this.items = const [], this.onChanged, this.onTap, this.bottomMargin, this.topMargin, this.leftMargin, this.rightMargin, this.maxLine, this.errorText, this.validator, this.underLine = false, this.maxLength,this.textInputFormatter, this.onFieldValueChanged}) : super(key: key);
-
+  final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -116,7 +115,7 @@ class BaseTextFormField extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(5),
                               ),
                             ),
-                          alignment: Alignment.centerLeft,
+                          alignment: isRTL ? Alignment.centerRight : Alignment.centerLeft,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value){
                             if(controller.value.text.isEmpty){
@@ -124,7 +123,7 @@ class BaseTextFormField extends StatelessWidget {
                             }
                             return null;
                           },
-                          hint: Text(controller.text.isEmpty ? hintText??"" : controller.text,style: TextStyle(color: Colors.black,fontSize: textFormFieldHintTs),textAlign: TextAlign.start,),
+                          hint: Text(controller.text.isEmpty ? hintText??"" : controller.text,style: TextStyle(color: Colors.black,fontSize: textFormFieldHintTs),textAlign: isRTL ? TextAlign.start : TextAlign.end,),
                           // icon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black,size: 25.0),
                           // itemPadding: EdgeInsets.zero,
                           items: items,

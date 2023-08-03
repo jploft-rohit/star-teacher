@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "7667547900",
+    "project_id": "star-390806",
+    "storage_bucket": "star-390806.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:7667547900:android:ba6b3632d12ad8009e2179",
+        "android_client_info": {
+          "package_name": "com.stars.admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "7667547900-h4htnh1kgm7tll67jl6at52ricdmi663.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbokl0-38umlnbM7uJ3G63PoHceBZId0w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "7667547900-h4htnh1kgm7tll67jl6at52ricdmi663.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "7667547900-1nn3i308edo3lhsne698bt94mpaelc12.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.stars.admin"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:7667547900:android:5af42f8a46e9581d9e2179",
+        "android_client_info": {
+          "package_name": "com.stars.teacher"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "7667547900-h4htnh1kgm7tll67jl6at52ricdmi663.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbokl0-38umlnbM7uJ3G63PoHceBZId0w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "7667547900-h4htnh1kgm7tll67jl6at52ricdmi663.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "7667547900-1nn3i308edo3lhsne698bt94mpaelc12.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.stars.admin"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

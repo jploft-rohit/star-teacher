@@ -95,7 +95,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                       ),
                   GestureDetector(
                     onTap: (){
-                      Get.to(MyProfileScreen(isFromDrawer: true,index: 1,));
+                      Get.to(MyProfileScreen(isFromDrawer: true, index: 1));
                     },
                     child: buildTile(translate(context).job_details),
                   ),
@@ -108,7 +108,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     onTap: (){
                       Get.to(MyProfileScreen(isFromDrawer: true,index: 3,));
                     },
-                    child: buildTile(translate(context).assigned_schools),),
+                    child: buildTile(translate(context).assigned_schools)),
                 ]),
                 // buildExpensionTile(translate(context).add_new, [
                 //   GestureDetector(
@@ -167,13 +167,13 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 buildExpensionTile("Assignment", [
                   GestureDetector(
                     onTap: (){
-                      Get.to(const NewAssignmentScreen(title: 'Awareness & Courses',));
+                      Get.to(const NewAssignmentScreen(title: 'Awareness & Courses'));
                     },
                     child: buildTile("Awareness & Courses"),
                   ),
                   GestureDetector(
                     onTap: (){
-                      Get.to(const NewAssignmentScreen(title: 'Worksheet',));
+                      Get.to(const NewAssignmentScreen(title: 'Worksheet'));
                     },
                     child: buildTile("Worksheet"),
                   ),

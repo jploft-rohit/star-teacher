@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,6 +9,7 @@ import 'package:staff_app/backend/responses_model/school_list_response.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/utility/base_views/base_school_selection.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
@@ -52,17 +51,8 @@ class _AddLeaveRequestViewState extends State<AddLeaveRequestView> {
             key: controller.formKey,
             child: Column(
                 children: [
-                  BaseTextFormField(
+                  BaseSchoolDropDown(
                     controller: controller.selectSchoolController.value,
-                    errorText: "Please select school",
-                    isDropDown: true,
-                    hintText: controller.selectSchoolController.value.text.isEmpty ? "Select School" : controller.selectSchoolController.value.text,
-                    items: baseCtrl.schoolListData.data?.data?.map((SchoolData data){
-                      return DropdownMenuItem<SchoolData>(
-                        value: data,
-                        child: addText(data.name??"", 15.sp, Colors.black, FontWeight.w400),
-                      );
-                    }).toList(),
                     onChanged: (value) async {
                       controller.selectSchoolController.value.text = value?.name??"";
                       controller.selectedSchoolId.value = value?.sId??"";
@@ -88,7 +78,7 @@ class _AddLeaveRequestViewState extends State<AddLeaveRequestView> {
                     controller: controller.startDateController.value,
                     title: "${translate(context).leave_start}:",
                     prefixIcon: calenderDateSvg,
-                    hintText: "yyyy/mm/dd",
+                    hintText: "dd/mm/yyyy",
                     validator: (val){
                       if (controller.startDateController.value.text.isEmpty) {
                         return "Please select start date";
@@ -108,20 +98,20 @@ class _AddLeaveRequestViewState extends State<AddLeaveRequestView> {
                               child: child!,
                             );
                           },
-                          initialDate: controller.startDateController.value.text.isEmpty ? DateTime.now() : DateTime.parse(controller.startDateController.value.text.trim()),
+                          initialDate: controller.startDateController.value.text.isEmpty ? DateTime.now() : DateTime.parse(flipDate(date: controller.startDateController.value.text.trim())),
                           firstDate: DateTime.now(),
                           lastDate: DateTime(DateTime.now().year+1)
                       ).then((value){
                         if (value != null) {
                           if (controller.endDateController.value.text.trim().isNotEmpty) {
-                            DateTime endDate = DateTime.parse(controller.endDateController.value.text.trim());
+                            DateTime endDate = DateTime.parse(flipDate(date: controller.endDateController.value.text.trim()));
                             if (endDate.isAfter(value)) {
-                              controller.startDateController.value.text = formatFlutterDateTime(flutterDateTime: value);
+                              controller.startDateController.value.text = formatFlutterDateTime(flutterDateTime: value,getDayFirst: true);
                             }else{
                               baseToast(message: "\"Start Date\" can't be more than \"End Date\"");
                             }
                           }else{
-                            controller.startDateController.value.text = formatFlutterDateTime(flutterDateTime: value);
+                            controller.startDateController.value.text = formatFlutterDateTime(flutterDateTime: value,getDayFirst: true);
                           }
                           controller.formKey.currentState?.validate();
                         }
@@ -132,7 +122,7 @@ class _AddLeaveRequestViewState extends State<AddLeaveRequestView> {
                     controller: controller.endDateController.value,
                     title: "${translate(context).leave_end}:",
                     prefixIcon: calenderDateSvg,
-                    hintText: "yyyy/mm/dd",
+                    hintText: "dd/mm/yyyy",
                     validator: (val){
                       if (controller.endDateController.value.text.isEmpty) {
                         return "Please select end date";
@@ -152,20 +142,20 @@ class _AddLeaveRequestViewState extends State<AddLeaveRequestView> {
                               child: child!,
                             );
                           },
-                          initialDate: controller.endDateController.value.text.isEmpty ? DateTime.now() : DateTime.parse(controller.endDateController.value.text.trim()),
+                          initialDate: controller.endDateController.value.text.isEmpty ? DateTime.now() : DateTime.parse(flipDate(date: controller.endDateController.value.text.trim())),
                           firstDate: DateTime.now(),
                           lastDate: DateTime(DateTime.now().year+1)
                       ).then((value){
                         if (value != null) {
                           if (controller.startDateController.value.text.trim().isNotEmpty) {
-                            DateTime startDate = DateTime.parse(controller.startDateController.value.text.trim());
+                            DateTime startDate = DateTime.parse(flipDate(date: controller.startDateController.value.text.trim()));
                             if (startDate.isBefore(value)) {
-                              controller.endDateController.value.text = formatFlutterDateTime(flutterDateTime: value);
+                              controller.endDateController.value.text = formatFlutterDateTime(flutterDateTime: value, getDayFirst: true);
                             }else{
                               baseToast(message: "\"End Date\" can't be less than \"Start Date\"");
                             }
                           }else{
-                            controller.endDateController.value.text = formatFlutterDateTime(flutterDateTime: value);
+                            controller.endDateController.value.text = formatFlutterDateTime(flutterDateTime: value, getDayFirst: true);
                           }
                           controller.formKey.currentState?.validate();
                         }

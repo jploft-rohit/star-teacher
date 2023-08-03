@@ -644,13 +644,13 @@ class BaseOverlays {
       message,
       colorText: Colors.white,
       snackPosition: SnackPosition.TOP,
-      backgroundColor: (title?.toLowerCase()) == "success"
+      backgroundColor: (title?.toLowerCase()) == "success" || (title??"") == "نجاح"
           ? (Colors.green.shade800)
           : Colors.red,
       margin: EdgeInsets.zero,
       borderRadius: 0,
       icon: Icon(
-          (title?.toLowerCase()) == "success"
+          (title?.toLowerCase()) == "success" || (title??"") == "نجاح"
               ? Icons.check_circle_outline
               : Icons.error_outline,
           color: Colors.white),
@@ -760,7 +760,7 @@ class BaseOverlays {
           clipBehavior: Clip.none,
           children: [
             PhotoView(
-              imageProvider: NetworkImage(concatBaseUrl??true ? ApiEndPoints().imageBaseUrl + (url??"") : (url??"")),
+              imageProvider: NetworkImage(((url??"").contains("http")) ? (url??"") :  ApiEndPoints().imageBaseUrl+(url??"")),
               initialScale: PhotoViewComputedScale.contained * 1.0,
               maxScale: PhotoViewComputedScale.contained * 3.0,
               minScale: PhotoViewComputedScale.contained * 0.8,

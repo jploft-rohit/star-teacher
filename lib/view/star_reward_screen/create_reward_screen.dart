@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'dart:ui' as ui;
 import 'package:image_picker/image_picker.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
@@ -24,6 +25,7 @@ class CreateRewardScreen extends StatefulWidget {
 }
 
 class _CreateRewardScreenState extends State<CreateRewardScreen> {
+  final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
   RewardScreenCtrl controller = Get.find<RewardScreenCtrl>();
   XFile? file;
 
@@ -184,11 +186,11 @@ class _CreateRewardScreenState extends State<CreateRewardScreen> {
                             },
                             child: Container(
                               width: 50,
-                              margin: const EdgeInsets.only(left: 10, top: 1),
-                              decoration: const BoxDecoration(
-                                  color: Color(0xffD7DEEA),
-                                  borderRadius:
-                                  BorderRadius.only(topRight: Radius.circular(10))),
+                              margin: EdgeInsets.only(left: isRTL ? 1 : 10, top: 1, right: isRTL ? 10 : 1),
+                              decoration: BoxDecoration(
+                                  color: const Color(0xffD7DEEA),
+                                  borderRadius: BorderRadius.only(topRight: Radius.circular(isRTL ? 0 : 8), topLeft: Radius.circular(isRTL ? 8 : 0)),
+                              ),
                               child: const Icon(
                                 Icons.keyboard_arrow_up_outlined,
                                 color: BaseColors.textBlackColor,
@@ -200,17 +202,17 @@ class _CreateRewardScreenState extends State<CreateRewardScreen> {
                         Expanded(
                           child: GestureDetector(
                             onTap: (){
-                              if (int.parse(controller.pointValueCtrl.value.text) > 0) {
+                              if (int.parse(controller.pointValueCtrl.value.text) > 1) {
                                 controller.pointValueCtrl.value.text = ((int.parse(controller.pointValueCtrl.value.text))-1).toString();
                               }
                             },
                             child: Container(
                               width: 50,
-                              margin: const EdgeInsets.only(left: 10, bottom: 1),
-                              decoration: const BoxDecoration(
-                                  color: Color(0xffD7DEEA),
-                                  borderRadius: BorderRadius.only(
-                                      bottomRight: Radius.circular(10))),
+                              margin: EdgeInsets.only(left: isRTL ? 1 : 10, bottom: 1, right: isRTL ? 10 : 1),
+                              decoration: BoxDecoration(
+                                color: const Color(0xffD7DEEA),
+                                borderRadius: BorderRadius.only(bottomRight: Radius.circular(isRTL ? 0 : 8), bottomLeft: Radius.circular(isRTL ? 8 : 0)),
+                              ),
                               child: const Icon(
                                 Icons.keyboard_arrow_down_outlined,
                                 color: BaseColors.textBlackColor,

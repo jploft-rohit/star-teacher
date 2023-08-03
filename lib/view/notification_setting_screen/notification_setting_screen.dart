@@ -1,6 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'dart:ui' as ui;
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -23,7 +22,7 @@ class NotificationSettingScreen extends StatefulWidget {
 }
 
 class _NotificationSettingScreenState extends State<NotificationSettingScreen> with SingleTickerProviderStateMixin{
-
+  final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
   late TabController tabController;
   final NotificationSettingsController controller = Get.put(NotificationSettingsController());
 
@@ -57,13 +56,13 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> w
               BaseToggleTabBar(controller: tabController, tabs: [
                 Tab(
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 6),
+                    padding: EdgeInsets.only(right: isRTL ? 0 : 6, left: isRTL ? 6 : 0),
                     child: BaseButton(title: 'School',onPressed: null,verticalPadding: 0,isActive: tabController.index == 0 ? true : false,isToggle: tabController.index == 0 ? true : false,btnType: toggleLargeButton,),
                   ),
                 ),
                 Tab(
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 6),
+                    padding: EdgeInsets.only(right: isRTL ? 6 : 0, left: isRTL ? 0 : 6),
                     child: BaseButton(title: 'Transportation',onPressed: null,verticalPadding: 0,isActive: tabController.index == 1 ? true : false, isToggle: tabController.index == 1 ? true : false,btnType: toggleLargeButton,),
                   ),
                 ),

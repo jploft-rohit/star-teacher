@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
@@ -11,6 +12,8 @@ import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/utility/base_views/base_image_network.dart';
+import 'package:staff_app/utility/base_views/base_qr.dart';
 import 'package:staff_app/view/transportation_screen/controller/transportation_screen_ctrl.dart';
 import 'package:staff_app/view/transportation_screen/notify_school_administrator.dart';
 
@@ -36,7 +39,6 @@ class _NotifyAuthorityForBusScreenState extends State<NotifyAuthorityForBusScree
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(15.0),
@@ -44,42 +46,43 @@ class _NotifyAuthorityForBusScreenState extends State<NotifyAuthorityForBusScree
                         color: BaseColors.borderColor
                     )
                 ),
-                child: ListTile(
+                child: Obx(()=>ListTile(
                   visualDensity: VisualDensity(horizontal: -4),
-                  contentPadding: EdgeInsets.only(left: 10.sp, right: 10.sp, top: 15.sp, bottom: 15.sp),
+                  contentPadding: EdgeInsets.only(left: 15.sp, right: 15.sp, top: 15.sp, bottom: 15.sp),
                   leading: Container(
-                    height: double.infinity,
-                    padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
+                    height: 20.w,
+                    width: 17.w,
+                    padding: EdgeInsets.only(top: 7.sp, bottom: 7.sp, left: 7.sp, right: 7.sp),
                     decoration: BoxDecoration(
                       border: Border.all(
                           color: BaseColors.primaryColor
                       ),
-                      borderRadius: BorderRadius.circular(15.0),
+                      borderRadius: BorderRadius.circular(15),
                     ),
-                    child: SvgPicture.asset(manSvg),
+                    child: BaseImageNetwork(
+                      link: controller.tripData.value.passangerUser?.profilePic??"",
+                      concatBaseUrl: false,
+                      borderRadius: 10,
+                      errorWidget: SvgPicture.asset(manSvg),
+                    ),
                   ),
                   title: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Nawaj Alam", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
-                      SizedBox(
-                        height: 2.0,
-                      ),
-                      Text("#12344534", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
-                      SizedBox(
-                        height: 2.0,
-                      ),
-                      Text("English Teacher", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
+                      Text(toBeginningOfSentenceCase(controller.tripData.value.passangerUser?.name??"N/A")??"N/A", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
+                      SizedBox(height: 2),
+                      Text("#${controller.tripData.value.passangerUser?.emirateId??"N/A"}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
+                      SizedBox(height: 2),
+                      Text(toBeginningOfSentenceCase(controller.tripData.value.passangerUser?.role?.name??"N/A")??"N/A", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                     ],
                   ),
                   trailing: GestureDetector(onTap: (){
                     showScanQrDialogue(context, false);
-                  },child: SvgPicture.asset(qrCodeSvg)),
+                  },child: BaseQr(data: controller.tripData.value.passangerUser?.barcode??"")),
+                ),
                 ),
               ),
-              SizedBox(
-                height: 3.h,
-              ),
+              SizedBox(height: 2.h),
               Text("${translate(context).select_your_option} :", style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp),),
               SizedBox(height: 1.h),
                Obx(()=>GestureDetector(

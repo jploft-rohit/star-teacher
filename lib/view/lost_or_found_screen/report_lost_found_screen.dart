@@ -10,6 +10,7 @@ import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_views/base_dropdown_2.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/utility/base_views/base_school_selection.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
 import 'package:staff_app/backend/responses_model/school_list_response.dart' as SchoolData;
 import 'package:staff_app/Utility/sizes.dart';
@@ -46,17 +47,9 @@ class _CreateLostFoundState extends State<CreateLostFound> {
           child: Obx(()=>SingleChildScrollView(
             child: Column(
                 children: [
-                  BaseDropDown2(
+                  BaseSchoolDropDown(
                     controller: controller.schoolController.value,
-                    errorText: "Please select school",
-                    hintText: controller.schoolController.value.text.isEmpty ? "Select School" : controller.schoolController.value.text,
-                    listData: baseCtrl.schoolListData.data?.data?.map((SchoolData.SchoolData data){
-                      return DropdownMenuItem(
-                        value: data,
-                        child: addText(data.name??"", 15.sp, Colors.black, FontWeight.w400),
-                      );
-                    }).toList(),
-                    onChange: (value) async {
+                    onChanged: (value) async {
                       controller.schoolController.value.text = value?.name??"";
                       controller.selectedSchoolName.value = value?.name??"";
                       controller.selectedSchoolId.value = value?.sId??"";
@@ -131,9 +124,11 @@ class _CreateLostFoundState extends State<CreateLostFound> {
                         );
                       },
                   ),
-                  BaseButton(title: widget.isUpdating ? translate(context).update : translate(context).submit_btn_txt, onPressed: (){
-                    controller.createLostFound();
-                  },btnType: largeButton)
+                  BaseButton(
+                      title: widget.isUpdating ? translate(context).update : translate(context).submit_btn_txt,
+                      onPressed: (){ controller.createLostFound(); },
+                      btnType: largeButton,
+                  )
                 ],
               ),
           ),

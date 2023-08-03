@@ -70,17 +70,19 @@ class _TransportationScreenState extends State<TransportationScreen> with Single
                     visualDensity: VisualDensity(horizontal: -4),
                     contentPadding: EdgeInsets.only(left: 15.sp, right: 15.sp, top: 15.sp, bottom: 15.sp),
                     leading: Container(
-                      height: double.infinity,
-                      padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
+                      height: 20.w,
+                      width: 17.w,
+                      padding: EdgeInsets.only(top: 7.sp, bottom: 7.sp, left: 7.sp, right: 7.sp),
                       decoration: BoxDecoration(
                         border: Border.all(
                             color: BaseColors.primaryColor
                         ),
-                        borderRadius: BorderRadius.circular(15.0),
+                        borderRadius: BorderRadius.circular(15),
                       ),
                       child: BaseImageNetwork(
                         link: controller.tripData.value.passangerUser?.profilePic??"",
                         concatBaseUrl: false,
+                        borderRadius: 10,
                         errorWidget: SvgPicture.asset(manSvg),
                       ),
                     ),
@@ -88,9 +90,9 @@ class _TransportationScreenState extends State<TransportationScreen> with Single
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(toBeginningOfSentenceCase(controller.tripData.value.passangerUser?.name??"N/A")??"N/A", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
-                        SizedBox(height: 2.0),
+                        SizedBox(height: 2),
                         Text("#${controller.tripData.value.passangerUser?.emirateId??"N/A"}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
-                        SizedBox(height: 2.0),
+                        SizedBox(height: 2),
                         Text(toBeginningOfSentenceCase(controller.tripData.value.passangerUser?.role?.name??"N/A")??"N/A", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                       ],
                     ),

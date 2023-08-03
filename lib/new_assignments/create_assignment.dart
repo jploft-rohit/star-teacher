@@ -127,7 +127,6 @@ class _CreateAssignmentState extends State<CreateAssignment> with SingleTickerPr
                     children: [
                       Expanded(
                         child: BaseTextFormField(
-                          rightMargin: 1.w,
                           controller: controller.postDateCtrl.value,
                           suffixIcon: calenderDateSvg,
                           hintText: "Assign Date",
@@ -161,9 +160,9 @@ class _CreateAssignmentState extends State<CreateAssignment> with SingleTickerPr
                           },
                         ),
                       ),
+                      SizedBox(width: 2.w),
                       Expanded(
                         child: BaseTextFormField(
-                          leftMargin: 1.w,
                           controller: controller.postTimeCtrl.value,
                           hintText: "Assign Time",
                           onTap: (){
@@ -202,7 +201,6 @@ class _CreateAssignmentState extends State<CreateAssignment> with SingleTickerPr
                     children: [
                       Expanded(
                         child: BaseTextFormField(
-                          rightMargin: 1.w,
                           controller: controller.submitDateCtrl.value,
                           suffixIcon: calenderDateSvg,
                           hintText: "Submit Date",
@@ -236,9 +234,9 @@ class _CreateAssignmentState extends State<CreateAssignment> with SingleTickerPr
                           },
                         ),
                       ),
+                      SizedBox(width: 2.w),
                       Expanded(
                         child: BaseTextFormField(
-                          leftMargin: 1.w,
                           controller: controller.submitTimeCtrl.value,
                           hintText: "Submit Time",
                           onTap: (){

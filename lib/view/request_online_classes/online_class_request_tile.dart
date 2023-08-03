@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'dart:ui' as ui;
 import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -27,23 +28,8 @@ class OnlineClassRequestTile extends StatefulWidget {
 }
 
 class _OnlineClassRequestTileState extends State<OnlineClassRequestTile> {
+  final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
   OnlineClassRequestController controller = Get.find<OnlineClassRequestController>();
-
-  final List<String> pendingMeetingdates = ['July 2,\n8:30PM', '', '', ""];
-
-  final List<String> heading = [
-    'Request\nRaised',
-    'Accepted',
-    'Planned On',
-    'Completed',
-  ];
-
-  final List<String> cancelledStepperTitles = [
-    'Request\nRaised',
-    'Request\nCancelled',
-  ];
-
-  List<String> cancelledStepperDates = [];
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +38,8 @@ class _OnlineClassRequestTileState extends State<OnlineClassRequestTile> {
         : ListView.builder(
           itemCount: controller.list?.length??0,
           shrinkWrap: true,
+          padding: EdgeInsets.only(bottom: 12.h),
           itemBuilder: (context, index) {
-            ///
           List<String> stepperDates = [];
           List<String> stepperTitles = [];
           int stepperIndex = 1;
@@ -64,7 +50,7 @@ class _OnlineClassRequestTileState extends State<OnlineClassRequestTile> {
           //     stepperIndex+1;
           //   }
           // },
-        // );
+          // );
           ///
           controller.list?[index]?.requestStatus?.toList().asMap().forEach((loopIndex,element) {
             if (element.name.toString().toLowerCase() != "rejected") {
@@ -86,10 +72,11 @@ class _OnlineClassRequestTileState extends State<OnlineClassRequestTile> {
                 }
               }
             }
-          });
+          },
+        );
         return Card(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(10),
           ),
           child: Padding(
             padding: EdgeInsets.all(15.sp),
@@ -113,7 +100,7 @@ class _OnlineClassRequestTileState extends State<OnlineClassRequestTile> {
                         },
                       ),
                     ),
-                    SizedBox(width: 4.w),
+                    SizedBox(width: isRTL ? 2.w : 4.w),
                     GestureDetector(
                       onTap: (){
                         showGeneralDialog(
@@ -126,9 +113,7 @@ class _OnlineClassRequestTileState extends State<OnlineClassRequestTile> {
                       child: Column(
                         children: [
                           SvgPicture.asset(uploadDocSvg,height: 15),
-                          const SizedBox(
-                            height: 2.0,
-                          ),
+                          const SizedBox(height: 2),
                           Text("Upload\nEvidence", style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 11.5.sp),textAlign: TextAlign.center,)
                         ],
                       ),
@@ -153,7 +138,7 @@ class _OnlineClassRequestTileState extends State<OnlineClassRequestTile> {
                   prefixIcon: "assets/images/Group (1).svg",
                   detailsLabel:"Reason",
                   detailsValue: controller.list?[index]?.reason??"N/A",
-                  rightMargin: 2.w,
+                  rightMargin: isRTL ? 0 : 2.w,
                 ),
                 Visibility(
                   visible: (controller.list?[index]?.document??"").isNotEmpty,
@@ -166,9 +151,9 @@ class _OnlineClassRequestTileState extends State<OnlineClassRequestTile> {
                       BaseIcons().download(onRightButtonPressed: (){
                         BaseOverlays().dismissOverlay();
                         downloadFile(url: controller.list?[index]?.document??"",concatBaseUrl: false);
-                      },leftMargin: 2.w,
+                      },leftMargin: 2.w,rightMargin: isRTL ? 3.w : 0,
                       ),
-                      BaseIcons().view(url: controller.list?[index]?.document??"",leftMargin: 2.w,concatBaseUrl: false),
+                      BaseIcons().view(url: controller.list?[index]?.document??"",leftMargin: 2.w,rightMargin: isRTL ? 2.w : 0, concatBaseUrl: false),
                     ],
                   ),
                 ),

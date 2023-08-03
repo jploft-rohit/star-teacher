@@ -1,15 +1,21 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' as X;
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/storage/sp_keys.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 
 class BaseAPI {
   late Dio _dio;
+  String languageCode = "";
   static final BaseAPI _singleton = BaseAPI._internal();
 
   factory BaseAPI() {
@@ -29,7 +35,6 @@ class BaseAPI {
       ),
     );
     _dio.interceptors.add(LogInterceptor(responseBody: true,request: true,requestBody: true));
-
   }
 
   /// GET Method
@@ -37,9 +42,10 @@ class BaseAPI {
     if (await checkInternetConnection()) {
       try {
         BaseOverlays().showLoader(showLoader: showLoader??true);
+        languageCode = await BaseSharedPreference().getString(SpKeys().selectedLanguage);
         FocusScope.of(X.Get.context!).requestFocus(new FocusNode());
         final String token = await BaseSharedPreference().getString(SpKeys().apiToken);
-        final response = await _dio.get(url, options: Options(headers: {"Authorization": "Bearer $token"}),queryParameters: queryParameters);
+        final response = await _dio.get(url, options: Options(headers: {"Authorization": "Bearer $token", "Accept-Language":languageCode}), queryParameters: queryParameters);
         BaseOverlays().dismissOverlay(showLoader: showLoader??true);
         return response;
       } on DioError catch (e) {
@@ -58,9 +64,10 @@ class BaseAPI {
     if (await checkInternetConnection()) {
       try {
         BaseOverlays().showLoader(showLoader: showLoader);
+        languageCode = await BaseSharedPreference().getString(SpKeys().selectedLanguage);
         FocusScope.of(X.Get.context!).requestFocus(new FocusNode());
         final String token = await BaseSharedPreference().getString(SpKeys().apiToken)??"";
-        final response = await _dio.post(url, data: data, options: Options(headers: headers??{"Authorization": "Bearer $token"}));
+        final response = await _dio.post(url, data: data, options: Options(headers: headers??{"Authorization": "Bearer $token", "Accept-Language":languageCode}));
         BaseOverlays().dismissOverlay(showLoader: showLoader);
         return response;
       } on DioError catch (e) {
@@ -80,9 +87,10 @@ class BaseAPI {
     if (await checkInternetConnection()) {
       try {
         BaseOverlays().showLoader(showLoader: showLoader);
+        languageCode = await BaseSharedPreference().getString(SpKeys().selectedLanguage);
         FocusScope.of(X.Get.context!).requestFocus(new FocusNode());
         final String token = await BaseSharedPreference().getString(SpKeys().apiToken)??"";
-        final response = await _dio.put(url, data: data, options: Options(headers: headers??{"Authorization": "Bearer $token"}));
+        final response = await _dio.put(url, data: data, options: Options(headers: headers??{"Authorization": "Bearer $token","Accept-Language":languageCode}));
         BaseOverlays().dismissOverlay(showLoader: showLoader);
         return response;
       } on DioError catch (e) {
@@ -103,10 +111,11 @@ class BaseAPI {
     if (await checkInternetConnection()) {
       try {
         BaseOverlays().showLoader();
+        languageCode = await BaseSharedPreference().getString(SpKeys().selectedLanguage);
         FocusScope.of(X.Get.context!).requestFocus(new FocusNode());
         final String token = await BaseSharedPreference().getString(SpKeys().apiToken)??"";
         final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
-        final response = await _dio.patch(url+((concatUserId??false) ? userId : ""), data: data, options: Options(headers: headers??{"Authorization": "Bearer $token"}));
+        final response = await _dio.patch(url+((concatUserId??false) ? userId : ""), data: data, options: Options(headers: headers??{"Authorization": "Bearer $token","Accept-Language":languageCode}));
         BaseOverlays().dismissOverlay();
         return response;
       } on DioError catch (e) {
@@ -127,8 +136,9 @@ class BaseAPI {
     if (await checkInternetConnection()) {
       try {
         BaseOverlays().showLoader();
+        languageCode = await BaseSharedPreference().getString(SpKeys().selectedLanguage);
         final String token = await BaseSharedPreference().getString(SpKeys().apiToken);
-        final response = await _dio.delete(url, data: data, options: Options(headers: headers??{"Authorization": "Bearer $token"}));
+        final response = await _dio.delete(url, data: data, options: Options(headers: headers??{"Authorization": "Bearer $token","Accept-Language":languageCode}));
         BaseOverlays().dismissOverlay();
         return response;
       } on DioError catch (e) {
@@ -148,8 +158,9 @@ class BaseAPI {
     if (await checkInternetConnection()) {
       try {
         BaseOverlays().showLoader();
+        languageCode = await BaseSharedPreference().getString(SpKeys().selectedLanguage);
         final String token = await BaseSharedPreference().getString(SpKeys().apiToken);
-        final response = await _dio.delete(url, queryParameters: data, options: Options(headers: headers??{"Authorization": "Bearer $token"}));
+        final response = await _dio.delete(url, queryParameters: data, options: Options(headers: headers??{"Authorization": "Bearer $token","Accept-Language":languageCode}));
         BaseOverlays().dismissOverlay();
         return response;
       } on DioError catch (e) {
@@ -164,19 +175,95 @@ class BaseAPI {
     }
   }
 
-  /// Download Method
-  Future<Response> download(String url, String savePath, {Map<String, dynamic>? headers, void Function(int, int)? onReceiveProgress}) async {
-    checkInternetConnection();
+  Future<Response> download(String url, {Map<String, dynamic>? headers, void Function(int, int)? onReceiveProgress}) async {
+    // if android sdk greater than 12
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+
+    if (Platform.isIOS) {
+      // For iOS devices
+      PermissionStatus permission = await Permission.storage.status;
+      PermissionStatus permission2 =
+      await Permission.manageExternalStorage.status;
+
+      while (permission != PermissionStatus.granted &&
+          permission2 != PermissionStatus.granted) {
+        Map<Permission, PermissionStatus> statuses = await [
+          Permission.manageExternalStorage,
+          Permission.storage,
+          // Add more permissions as needed
+        ].request();
+        permission = statuses[Permission.storage]!;
+        permission2 = statuses[Permission.manageExternalStorage]!;
+      }
+    } else if (Platform.isAndroid && androidInfo.version.sdkInt < 33) {
+      // For Android devices with SDK version less than 33
+      PermissionStatus permission = await Permission.storage.status;
+      PermissionStatus permission2 = await Permission.manageExternalStorage.status;
+
+      while (permission != PermissionStatus.granted &&
+          permission2 != PermissionStatus.granted) {
+        Map<Permission, PermissionStatus> statuses = await [
+          Permission.manageExternalStorage,
+          Permission.storage,
+          // Add more permissions as needed
+        ].request();
+        permission = statuses[Permission.storage]!;
+        permission2 = statuses[Permission.manageExternalStorage]!;
+      }
+    }
+
     try {
-      final response = await _dio.download(url, savePath,
-          options: Options(headers: headers),
-          onReceiveProgress: onReceiveProgress);
+      String fileName = url.split('/').last;
+      // create a directory in storage
+      Directory? directory;
+      if (Platform.isAndroid) {
+        // Redirects it to download folder in android
+        directory = Directory("/storage/emulated/0/Download");
+      } else if (Platform.isIOS) {
+        // Redirects it to download folder in IOS
+        directory = await getDownloadsDirectory();
+        directory = Directory(directory?.path.replaceAll('/Downloads', '') ?? '');
+      } else {
+        directory = await getApplicationDocumentsDirectory();
+      }
+      int? random = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+      String savePath = (directory.path) + '/$random-$fileName';
+
+      log(savePath);
+      log('/$random-$fileName');
+
+      int previousProgress = 0;
+      bool isFirstProgressEvent = true;
+
+      final response = await _singleton._dio.download(((url).contains("http")) ? (url) :  ApiEndPoints().imageBaseUrl+(url), savePath, options: Options(headers: headers),
+          onReceiveProgress: (receivedBytes, totalBytes) {
+            if (isFirstProgressEvent) {
+              isFirstProgressEvent = false;
+              BaseOverlays().showLoader();
+            }
+
+            int currentProgress = ((receivedBytes / totalBytes) * 100).toInt();
+
+            if (currentProgress - previousProgress >= 1 || currentProgress < 100) {
+              previousProgress = currentProgress;
+            }
+          });
+
+      BaseOverlays().dismissOverlay();
+      showSnackBar(message: 'Download Completed');
+      // var res = await OpenFile.open(savePath);
+      // print(res);
+
       return response;
     } on DioError catch (e) {
+      showSnackBar(message: e.message.toString());
       _handleError(e);
-      rethrow;
+      throw e.message;
     }
   }
+
+
 
   /// Check Internet Connection
   Future<bool> checkInternetConnection() async {
@@ -193,13 +280,11 @@ class BaseAPI {
     }
   }
 
-  Future<dynamic> postFormDataMedical(String url, Map<String, dynamic> formData,
-      {Map<String, dynamic>? headers,
-        Function(int, int)? onSendProgress}) async {
+  Future<dynamic> postFormDataMedical(String url, Map<String, dynamic> formData, {Map<String, dynamic>? headers, Function(int, int)? onSendProgress}) async {
     try {
+      languageCode = await BaseSharedPreference().getString(SpKeys().selectedLanguage);
       final dio = Dio();
       final form = FormData();
-
       formData.forEach((key, value) {
         if (value is String) {
           form.fields.add(MapEntry(key, value));
@@ -208,13 +293,12 @@ class BaseAPI {
         }
       });
       final String token = await BaseSharedPreference().getString(SpKeys().apiToken)??"";
-      final response = await _singleton._dio.post(url, data: form, options: Options(headers: headers??{"Authorization": "Bearer $token"}),
+
+      final response = await _singleton._dio.post(url, data: form, options: Options(headers: headers??{"Authorization": "Bearer $token", "Accept-Language":languageCode}),
         onSendProgress: onSendProgress,
       );
-
       return response;
     } on DioError catch (e) {
-      // String message = _singleton._handleError(e);
       throw e.message;
     }
   }
@@ -227,13 +311,13 @@ class BaseAPI {
       final String token = await BaseSharedPreference().getString(SpKeys().apiToken) ?? "";
       var response;
       if (type == "post") {
-        response = await _dio.post(url, data: FormData.fromMap(formData), options: Options(headers: headers ?? {"Authorization": "Bearer $token"}));
+        response = await _dio.post(url, data: FormData.fromMap(formData), options: Options(headers: headers ?? {"Authorization": "Bearer $token", "Accept-Language":languageCode}));
       }
       if (type == "patch") {
-        response = await _dio.patch(url, data: FormData.fromMap(formData), options: Options(headers: headers ?? {"Authorization": "Bearer $token"}));
+        response = await _dio.patch(url, data: FormData.fromMap(formData), options: Options(headers: headers ?? {"Authorization": "Bearer $token", "Accept-Language":languageCode}));
       }
       if (type == "put") {
-        response = await _dio.put(url, data: FormData.fromMap(formData), options: Options(headers: headers ?? {"Authorization": "Bearer $token"}));
+        response = await _dio.put(url, data: FormData.fromMap(formData), options: Options(headers: headers ?? {"Authorization": "Bearer $token", "Accept-Language":languageCode}));
       }
       // BaseOverlays().dismissOverlay(showLoader: showLoader);
       X.Get.back();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'dart:ui' as ui;
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
@@ -18,6 +19,7 @@ class TopupYourFamilyPopup extends StatefulWidget {
 }
 
 class _TopupYourFamilyPopupState extends State<TopupYourFamilyPopup> {
+  final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
   TextEditingController amtCtrl = TextEditingController();
   WalletController controller = Get.put(WalletController());
   var formKey = GlobalKey<FormState>();
@@ -76,7 +78,7 @@ class _TopupYourFamilyPopupState extends State<TopupYourFamilyPopup> {
                             Get.find<WalletController>().update();
                           },
                           prefixIcon: Padding(
-                            padding: EdgeInsets.only(left: 2.w,bottom: 1),
+                            padding: EdgeInsets.only(left: isRTL ? 0 : 2.w, right: isRTL ? 2.w : 0, bottom: 1),
                             child: Text("AED ",style: TextStyle(fontSize: 11)),
                           ),
                           textInputFormatter: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],

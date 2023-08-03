@@ -12,15 +12,12 @@ import 'package:staff_app/backend/responses_model/star_gallery_category_response
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
-import 'package:staff_app/utility/base_views/base_image_network.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
 import 'package:staff_app/Utility/custom_filter_dropdown.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/constants-classes/color_constants.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
-import 'package:staff_app/utility/base_views/base_video_thumbnail.dart';
-import 'package:staff_app/utility/base_views/base_video_thumbnail2.dart';
 import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 import 'package:staff_app/view/star_gallery/controller/star_gallery_ctrl.dart';
@@ -34,6 +31,9 @@ class CreateGalleryScreen extends StatefulWidget {
 
 class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
   StarGalleryCtrl controller = Get.find<StarGalleryCtrl>();
+  String mediaType1 = "";
+  String mediaType2 = "";
+  String mediaType3 = "";
   BaseCtrl baseCtrl = Get.find<BaseCtrl>();
 
   @override
@@ -147,10 +147,13 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
                                ImagePicker().pickImage(source: ImageSource.camera).then((value){
                                  if (value != null) {
                                    if((controller.image1?.value.path??"").isEmpty){
+                                     mediaType1 = "image";
                                      controller.image1?.value = value;
                                    }else if ((controller.image2?.value.path??"").isEmpty) {
+                                     mediaType2 = "image";
                                      controller.image2?.value = value;
                                    }else if ((controller.image3?.value.path??"").isEmpty) {
+                                     mediaType3 = "image";
                                      controller.image3?.value = value;
                                    }else{
                                      baseToast(message: "You have selected max number of media");
@@ -164,10 +167,13 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
                              ImagePicker().pickImage(source: ImageSource.gallery).then((value){
                                  if (value != null) {
                                    if((controller.image1?.value.path??"").isEmpty){
+                                     mediaType1 = "image";
                                      controller.image1?.value = value;
                                    }else if ((controller.image2?.value.path??"").isEmpty) {
+                                     mediaType2 = "image";
                                      controller.image2?.value = value;
                                    }else if ((controller.image3?.value.path??"").isEmpty) {
+                                     mediaType3 = "image";
                                      controller.image3?.value = value;
                                    }else{
                                      baseToast(message: "You have selected max number of media");
@@ -184,10 +190,13 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
                                  var info = await videoInfo.getVideoInfo(value.path);
                                  if ((info?.duration??0) > 6000) {
                                    if((controller.image1?.value.path??"").isEmpty){
+                                     mediaType1 = "video";
                                      controller.image1?.value = value;
                                    }else if ((controller.image2?.value.path??"").isEmpty) {
+                                     mediaType2 = "video";
                                      controller.image2?.value = value;
                                    }else if ((controller.image3?.value.path??"").isEmpty) {
+                                     mediaType3 = "video";
                                      controller.image3?.value = value;
                                    }else{
                                      baseToast(message: "You have selected max number of media");
@@ -225,7 +234,9 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
                                       padding: const EdgeInsetsDirectional.only(top: 10),
                                       child: SvgPicture.asset("assets/images/school.svg",height: 70,width: 70,fit: BoxFit.scaleDown),
                                       )
-                                    : ((controller.image1?.value.path??"").contains("mp4")) ? Icon(Icons.play_circle_outline, size: 40) :Image.file(File(controller.image1?.value.path??"")),
+                                    : mediaType1 == "video"
+                                    ? Icon(Icons.play_circle_outline, size: 40)
+                                    : Image.file(File(controller.image1?.value.path??"")),
                                 Visibility(
                                   visible: (controller.image1?.value.path??"").isNotEmpty,
                                   child: GestureDetector(
@@ -256,9 +267,11 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
                                 (controller.image2?.value.path??"").isEmpty
                                     ? Padding(
                                     padding: const EdgeInsetsDirectional.only(top: 10),
-                                    child: SvgPicture.asset("assets/images/school.svg",height: 70,width: 70,fit: BoxFit.scaleDown,),
-                                )
-                                    : ((controller.image2?.value.path??"").contains("mp4")) ? Icon(Icons.play_circle_outline, size: 40) :Image.file(File(controller.image2?.value.path??"")),
+                                    child: SvgPicture.asset("assets/images/school.svg",height: 70,width: 70,fit: BoxFit.scaleDown),
+                                    )
+                                    : mediaType2 == "video"
+                                      ? Icon(Icons.play_circle_outline, size: 40)
+                                      : Image.file(File(controller.image2?.value.path??"")),
                                 Visibility(
                                   visible: (controller.image2?.value.path??"").isNotEmpty,
                                   child: GestureDetector(
@@ -290,7 +303,9 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
                                     padding: const EdgeInsetsDirectional.only(top: 10),
                                     child: SvgPicture.asset("assets/images/school.svg",height: 70,width: 70,fit: BoxFit.scaleDown,),
                                 )
-                                    : ((controller.image3?.value.path??"").contains("mp4")) ? Icon(Icons.play_circle_outline, size: 40) :Image.file(File(controller.image3?.value.path??"")),
+                                    : mediaType3 == "video"
+                                      ? Icon(Icons.play_circle_outline, size: 40)
+                                      : Image.file(File(controller.image3?.value.path??"")),
                                 Visibility(
                                   visible: (controller.image3?.value.path??"").isNotEmpty,
                                   child: GestureDetector(

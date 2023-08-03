@@ -96,10 +96,11 @@ class _AccountViewState extends State<AccountView> {
               } else if(index == 15){
                 Get.to(const TransportationScreen());
               }else if(index == 16){
-                if ((myProfileController.response.value.data?.isSendActivationRequest.toString()??"").isEmpty || (myProfileController.response.value.data?.isSendActivationRequest.toString()??"") == "0") {
-                  Get.to(DeactivationDetailScreen(data: myProfileController.response.value.data?.deactivateData,qrCode: myProfileController.response.value.data?.barcode??"",bloodType: myProfileController.response.value.data?.bloodType??""));
-                }else{
+                if ((myProfileController.response.value.data?.isSendActivationRequest?.toString()??"").isEmpty || (myProfileController.response.value.data?.isSendActivationRequest?.toString()??"") == "0") {
                   Get.to(ActivationRequestDetailScreen(data: myProfileController.response.value.data?.deactivateData,qrCode: myProfileController.response.value.data?.barcode??"",bloodType: myProfileController.response.value.data?.bloodType??""));
+                }else{
+                  Get.to(DeactivationDetailScreen(data: myProfileController.response.value.data?.deactivateData,qrCode: myProfileController.response.value.data?.barcode??"",bloodType: myProfileController.response.value.data?.bloodType??""));
+
                 }
               }
             },
