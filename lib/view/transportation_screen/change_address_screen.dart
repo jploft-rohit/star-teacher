@@ -371,7 +371,8 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                                     controller.uploadController.value.text = value.path.split("/").last;
                                   }
                                 });
-                              }
+                              },
+
                           );
                         },
                       ),

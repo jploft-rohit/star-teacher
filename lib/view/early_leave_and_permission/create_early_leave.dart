@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/backend/responses_model/early_leave_response.dart';
-import 'package:staff_app/backend/responses_model/school_list_response.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
@@ -197,7 +196,14 @@ class _CreateEarlyLeaveState extends State<CreateEarlyLeave> {
                               controller.uploadController.text = value.path.split("/").last;
                             }
                           });
-                        }
+                        },
+                            onFilePick: (){
+                              BaseOverlays().dismissOverlay();
+                              pickFile().then((value) {
+                                controller.selectedFile?.value = File(value);
+                                controller.uploadController.text = (value.split("/").last);
+                              });
+                            }
                     );
                   },
                   bottomMargin: 10.h,

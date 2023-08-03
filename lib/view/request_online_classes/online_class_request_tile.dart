@@ -43,15 +43,6 @@ class _OnlineClassRequestTileState extends State<OnlineClassRequestTile> {
           List<String> stepperDates = [];
           List<String> stepperTitles = [];
           int stepperIndex = 1;
-          // controller.list?[index]?.requestStatus?.forEach((element) {
-          //   stepperDates.add(getFormattedTimeWithMonth(element.time??""));
-          //   stepperTitles.add(toBeginningOfSentenceCase(element.name??"")??"");
-          //   if ((element.time??"").toString().isNotEmpty) {
-          //     stepperIndex+1;
-          //   }
-          // },
-          // );
-          ///
           controller.list?[index]?.requestStatus?.toList().asMap().forEach((loopIndex,element) {
             if (element.name.toString().toLowerCase() != "rejected") {
               stepperTitles.add(toBeginningOfSentenceCase(element.name??"")??"");

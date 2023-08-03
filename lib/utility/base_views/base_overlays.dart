@@ -325,7 +325,7 @@ class BaseOverlays {
         });
   }
 
-  showMediaPickerDialog({Function()? onCameraClick, Function()? onGalleryClick, Function()? onVideoClick, Function()? onAudioClick}) {
+  showMediaPickerDialog({Function()? onCameraClick, Function()? onGalleryClick, Function()? onVideoClick, Function()? onAudioClick, Function()? onFilePick}) {
     final ImagePicker picker = ImagePicker();
     XFile? imageData;
     showGeneralDialog(
@@ -400,6 +400,24 @@ class BaseOverlays {
                               ],
                             ),
                           ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: onFilePick != null,
+                      child: Expanded(
+                        child: GestureDetector(
+                          onTap: onFilePick ?? () async {
+                            Get.back();
+                            pickFile();
+                          },
+                          child: Column(
+                            children: [
+                              Icon(Icons.file_present_outlined, color: BaseColors.primaryColor, size: 60),
+                              SizedBox(height: 8),
+                              Text("File"),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                     Visibility(
@@ -992,7 +1010,6 @@ class BaseOverlays {
                                   fileController.text = filePath;
                                 },
                               );
-
                             },
                             child: AbsorbPointer(
                               child: TextFieldWidget(

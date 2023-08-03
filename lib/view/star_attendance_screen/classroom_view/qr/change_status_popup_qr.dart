@@ -13,16 +13,16 @@ import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/intl/intl.dart';
 import 'package:staff_app/view/star_attendance_screen/controller/star_attendance_screen_ctrl.dart';
 
-class ChangeStatusPopup extends StatefulWidget {
+class ChangeStatusPopupQR extends StatefulWidget {
   final bool isFromLateView;
   final int index;
-  ChangeStatusPopup({Key? key, required this.isFromLateView, required this.index,}) : super(key: key);
+  ChangeStatusPopupQR({Key? key, required this.isFromLateView, required this.index,}) : super(key: key);
 
   @override
-  State<ChangeStatusPopup> createState() => _ChangeStatusPopupState();
+  State<ChangeStatusPopupQR> createState() => _ChangeStatusPopupQRState();
 }
 
-class _ChangeStatusPopupState extends State<ChangeStatusPopup> {
+class _ChangeStatusPopupQRState extends State<ChangeStatusPopupQR> {
   StarAttendanceScreenCtrl controller = Get.find<StarAttendanceScreenCtrl>();
   TextEditingController reasonController = TextEditingController();
   String type = "";
@@ -81,7 +81,7 @@ class _ChangeStatusPopupState extends State<ChangeStatusPopup> {
                             text: '${translate(context).name} : ',
                             style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),
                             children: <TextSpan>[
-                              TextSpan(text: toBeginningOfSentenceCase(controller.list?[widget.index].student?.user?.name??""), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
+                              TextSpan(text: toBeginningOfSentenceCase(controller.qrSearchedList?[widget.index].student?.user?.name??""), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
                             ],
                           ),
                         ),
@@ -96,7 +96,7 @@ class _ChangeStatusPopupState extends State<ChangeStatusPopup> {
                             text: '${translate(context).current_status} : ',
                             style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),
                             children: <TextSpan>[
-                              TextSpan(text: toBeginningOfSentenceCase(controller.list?[widget.index].attendanceType??"")??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
+                              TextSpan(text: toBeginningOfSentenceCase(controller.qrSearchedList?[widget.index].attendanceType??"")??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
                             ],
                           ),
                         ),
@@ -147,7 +147,7 @@ class _ChangeStatusPopupState extends State<ChangeStatusPopup> {
                                     controller.reasonList[index]['isSelected'] = !controller.reasonList[index]['isSelected'];
                                     setState(() {});
                                   },
-                                )
+                                ),
                               ],
                             ),
                           ),
@@ -229,8 +229,8 @@ class _ChangeStatusPopupState extends State<ChangeStatusPopup> {
                            if (type.toLowerCase() == "other") {
                              type = reasonController.text.trim();
                            }
-                           controller.changeStarsAttendanceStatus(index: widget.index, attendanceType: type, reason: type, starId: (controller.list?[widget.index].sId??""));
-                           controller.list?[widget.index].sId??"";
+                           controller.changeStarsAttendanceStatus(index: widget.index, attendanceType: type, reason: type, updateQRList: true, starId: controller.qrSearchedList?[widget.index].sId??"");
+                           controller.qrSearchedList?[widget.index].sId??"";
                     }, btnWidth: 35.w),
                   ),
                 ],

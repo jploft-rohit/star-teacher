@@ -35,9 +35,7 @@ class _StarAttendanceScreenState extends State<StarAttendanceScreen> with Single
         controller.selectedAttendanceTabIndex.value = 0;
         WidgetsBinding.instance.addPostFrameCallback((_) async {
           controller.selectedClassType.value = tabController.index;
-          controller.getStarsAttendanceList(
-              selectedClassIndex: controller.selectedClassType.value,
-              selectedAttendanceIndex: controller.selectedAttendanceTabIndex.value);
+          controller.getStarsAttendanceList();
           if (mounted) {
             setState(() {});
           }

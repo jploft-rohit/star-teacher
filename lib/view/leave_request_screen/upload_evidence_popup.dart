@@ -201,6 +201,13 @@ class _UploadEvidencePopupState extends State<UploadEvidencePopup> {
                                 titleCtrl.text = value.path.split("/").last;
                               }
                             });
+                          },
+                          onFilePick: (){
+                            BaseOverlays().dismissOverlay();
+                            pickFile().then((value) {
+                              controller.selectedFile?.value = File(value);
+                              controller.uploadController.value.text = (value.split("/").last);
+                            });
                           }
                       );
                     },

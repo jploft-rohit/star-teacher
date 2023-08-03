@@ -189,8 +189,11 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
                       key: controller.formKey,
                       child: Column(
                         children: [
-                          CustomTextField(controller: controller.dateController, hintText: "yyyy/mm/mm - hh:mm", borderRadius: 3.0,
-                          readOnly: true,
+                          CustomTextField(
+                            controller: controller.dateController,
+                            hintText: "dd/mm/yyyy - hh:mm",
+                            borderRadius: 3.0,
+                            readOnly: true,
                             onTap: (){
                               showDatePicker(
                                   context: context,
@@ -209,7 +212,7 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
                                   lastDate: DateTime((DateTime.now().year+50),1,1),
                               ).then((picked){
                                 if (picked != null) {
-                                  controller.dateController.text = "${picked.year.toString()}-${picked.month.toString().padLeft(2,'0')}-${picked.day.toString().padLeft(2,'0')} - ${DateFormat.Hms().format(DateTime.now())}";
+                                  controller.dateController.text = "${picked.day.toString().padLeft(2,'0')}-${picked.month.toString().padLeft(2,'0')}-${picked.year.toString()} - ${DateFormat.Hms().format(DateTime.now())}";
                                   controller.selectedDateTime.value = "${picked.year.toString()}-${picked.month.toString().padLeft(2,'0')}-${picked.day.toString().padLeft(2,'0')} ${DateFormat.Hms().format(DateTime.now())}";
                                 }
                               });
@@ -267,6 +270,13 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
                                         controller.selectedFile?.value = File(value.path);
                                         controller.uploadController.text = value.path.split("/").last;
                                       }
+                                    });
+                                  },
+                                  onFilePick: (){
+                                    BaseOverlays().dismissOverlay();
+                                    pickFile().then((value) {
+                                      controller.selectedFile?.value = File(value);
+                                      controller.uploadController.text = (value.split("/").last);
                                     });
                                   }
                               );

@@ -67,7 +67,7 @@ class _RewardsScreenState extends State<RewardsScreen> with AutomaticKeepAliveCl
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
-                                margin: EdgeInsets.only(top: 10, left: isRTL ? 10 : 0, right: isRTL ? 10 : 10, bottom: 10),
+                                margin: EdgeInsets.only(top: 10, left: isRTL ? 10 : 10, right: isRTL ? 10 : 10, bottom: 10),
                                 padding: const EdgeInsets.symmetric(horizontal:7, vertical: 7),
                                 decoration: BoxDecoration(
                                     color: Colors.white,

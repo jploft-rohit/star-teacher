@@ -1,17 +1,16 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/backend/responses_model/all_complaint_reports_model.dart';
-import 'package:staff_app/backend/responses_model/school_list_response.dart' as SchoolData;
 import 'package:staff_app/backend/responses_model/comlaint_type_reponse.dart' as ComplaintTypeData;
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
-import 'package:staff_app/utility/base_views/base_dropdown_2.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/base_school_selection.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
@@ -155,7 +154,8 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                   hintText: translate(context).upload_file_or_photo,
                   suffixIcon: "assets/images/upload_icon.svg",
                   onTap: (){
-                    BaseOverlays().showMediaPickerDialog(onCameraClick: () async {
+                    BaseOverlays().showMediaPickerDialog(
+                        onCameraClick: () async {
                       BaseOverlays().dismissOverlay();
                       ImagePicker picker = ImagePicker();
                       await picker.pickImage(source: ImageSource.camera).then((value){
@@ -163,23 +163,30 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                           controller.selectedFile?.value = File(value.path);
                           controller.uploadController.value.text = value.path.split("/").last;
                         }
-                      },
+                        },
                       );
-                    },
+                      },
                         onGalleryClick: () async {
-                          BaseOverlays().dismissOverlay();
-                          ImagePicker picker = ImagePicker();
-                          await picker.pickImage(source: ImageSource.gallery).then((value){
-                            if (value != null) {
-                              controller.selectedFile?.value = File(value.path);
-                              controller.uploadController.value.text = value.path.split("/").last;
-                            }
-                          });
+                      BaseOverlays().dismissOverlay();
+                      pickFile().then((value) {
+                        if (value.isNotEmpty) {
+                          controller.selectedFile?.value = File(value);
+                          controller.uploadController.value.text = (value.split("/").last);
+                        }
+                      });
+                      },
+                        onFilePick: (){
+                           BaseOverlays().dismissOverlay();
+                           pickFile().then((value) {
+                             controller.selectedFile?.value = File(value);
+                             controller.uploadController.value.text = (value.split("/").last);
+                           });
                         }
                     );
                   },
                   bottomMargin: 10.h,
-                )),
+                 ),
+                ),
                 BaseButton(title: "SUBMIT", onPressed: (){
                   if (widget.isUpdating) {
                     controller.updateComplainReportAPI(

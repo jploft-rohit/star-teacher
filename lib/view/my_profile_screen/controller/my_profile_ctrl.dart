@@ -9,6 +9,7 @@ import 'package:staff_app/utility/base_views/base_overlays.dart';
 
 class MyProfileCtrl extends GetxController{
   Rx<MyProfileResponse> response = MyProfileResponse().obs;
+  RxList<FamilyMembers?>? familyMemberList = <FamilyMembers>[].obs;
   BaseSuccessResponse successResponse = BaseSuccessResponse();
   RxList<String> staticsCountList = <String>[
     "0",
@@ -34,6 +35,7 @@ class MyProfileCtrl extends GetxController{
     BaseAPI().get(url: ApiEndPoints().getMyProfile).then((value){
       if (value?.statusCode == 200) {
         response.value = MyProfileResponse.fromJson(value?.data);
+        familyMemberList?.value = MyProfileResponse.fromJson(value?.data).data?.familyMembers??[];
         setStatics();
       }else{
         // BaseDialogs().showSnackBar(message: ,title: response.message??"");
@@ -61,7 +63,8 @@ class MyProfileCtrl extends GetxController{
       if (value?.statusCode == 200) {
         successResponse = BaseSuccessResponse.fromJson(value?.data);
         BaseOverlays().showSnackBar(message: successResponse.message??"",title: translate(Get.context!).success);
-        response.value.data?.familyMembers?.removeAt(index);
+        familyMemberList?.removeAt(index);
+        familyMemberList?.refresh();
         update();
       }else{
         // BaseDialogs().showSnackBar(message: ,title: response.message??"");

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 import 'dart:ui' as ui;
 import 'package:file_picker/file_picker.dart';
@@ -1088,8 +1089,7 @@ Widget saveButton(context, onTap) {
   );
 }
 
-showMediaPickerDialogMedical(
-    void Function(String fileName, String filePath) onPickedImage) {
+showMediaPickerDialogMedical(void Function(String fileName, String filePath) onPickedImage) {
   showGeneralDialog(
     context: Get.context!,
     barrierDismissible: true,
@@ -1190,6 +1190,20 @@ showMediaPickerDialogMedical(
       );
     },
   );
+}
+
+Future<String> pickFile({List<String>? customExtensions}) async {
+  String returnValue = "";
+  List<String> extensionFiltersList = customExtensions ?? ['jpg', 'pdf', 'doc', 'png', 'jpeg', 'heif'];
+  FilePickerResult? value = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['jpg', 'pdf', 'doc', 'png', 'jpeg', 'heif']);
+  if ((value?.files.single.path??"").isNotEmpty) {
+    if (extensionFiltersList.contains((value?.files.single.path?.split(".").last??""))) {
+      returnValue = (value?.files.single.path??"");
+    }else{
+      baseToast(message: "File Type Not Supported");
+    }
+  }
+  return returnValue;
 }
 
 Text addTextCenter(

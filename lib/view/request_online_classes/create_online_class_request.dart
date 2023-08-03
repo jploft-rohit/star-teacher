@@ -179,10 +179,10 @@ class _CreateOnlineClassRequestState extends State<CreateOnlineClassRequest> {
                         if (value != null) {
                           controller.selectedFile?.value = File(value.path);
                           controller.uploadController.text = value.path.split("/").last;
-                            }
-                          },
-                          );
+                        }
                         },
+                      );
+                      },
                         onGalleryClick: () async {
                           BaseOverlays().dismissOverlay();
                           ImagePicker picker = ImagePicker();
@@ -191,6 +191,13 @@ class _CreateOnlineClassRequestState extends State<CreateOnlineClassRequest> {
                               controller.selectedFile?.value = File(value.path);
                               controller.uploadController.text = value.path.split("/").last;
                             }
+                          });
+                        },
+                        onFilePick: (){
+                          BaseOverlays().dismissOverlay();
+                          pickFile().then((value) {
+                            controller.selectedFile?.value = File(value);
+                            controller.uploadController.text = (value.split("/").last);
                           });
                         }
                     );

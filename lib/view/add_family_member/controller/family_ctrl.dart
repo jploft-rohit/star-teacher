@@ -27,7 +27,7 @@ class FamilyCtrl extends GetxController{
   setData({required FamilyMembers? data}){
     nameController.text = data?.fullName??"";
     relationController.text = data?.relation??"";
-    dobController.text = formatBackendDate(data?.dob??"",getDayFirst: false);
+    dobController.text = formatBackendDate(data?.dob??"",getDayFirst: true);
     mobileController.text = data?.mobile??"";
     idController.text = "image1.png";
     idExpiryController.text = data?.emirateIdExpire??"";
@@ -40,10 +40,10 @@ class FamilyCtrl extends GetxController{
         data = dio.FormData.fromMap({
           "fullName": nameController.text.trim(),
           "relation": relationController.text.trim(),
-          "dob": dobController.text.trim(),
+          "dob": flipDate(date: dobController.text.trim()),
           "mobile": mobileController.text.trim(),
           "emirateId": myProfileCtrl.response.value.data?.emirateId??"",
-          "emirateIdExpire": idExpiryController.text.trim(),
+          "emirateIdExpire": flipDate(date: idExpiryController.text.trim()),
           "language": myProfileCtrl.response.value.data?.nativeLanguage??"",
           "document": await dio.MultipartFile.fromFile(selectedFile?.value?.path ?? "", filename: selectedFile?.value?.path.split("/").last??""),
         });
@@ -51,10 +51,10 @@ class FamilyCtrl extends GetxController{
         data = dio.FormData.fromMap({
           "fullName": nameController.text.trim(),
           "relation": relationController.text.trim(),
-          "dob": dobController.text.trim(),
+          "dob": flipDate(date: dobController.text.trim()),
           "mobile": mobileController.text.trim(),
           "emirateId": myProfileCtrl.response.value.data?.emirateId??"",
-          "emirateIdExpire": idExpiryController.text.trim(),
+          "emirateIdExpire": flipDate(date: idExpiryController.text.trim()),
           "language": myProfileCtrl.response.value.data?.nativeLanguage??"",
         });
       }
@@ -78,10 +78,10 @@ class FamilyCtrl extends GetxController{
         data = dio.FormData.fromMap({
           "fullName": nameController.text.trim(),
           "relation": relationController.text.trim(),
-          "dob": dobController.text.trim(),
+          "dob": flipDate(date: dobController.text.trim()),
           "mobile": mobileController.text.trim(),
           "emirateId": myProfileCtrl.response.value.data?.emirateId??"",
-          "emirateIdExpire": idExpiryController.text.trim(),
+          "emirateIdExpire": flipDate(date: idExpiryController.text.trim()),
           "language": myProfileCtrl.response.value.data?.nativeLanguage??"",
           "document": await dio.MultipartFile.fromFile(selectedFile?.value?.path ?? "", filename: selectedFile?.value?.path.split("/").last??""),
         });
@@ -89,10 +89,10 @@ class FamilyCtrl extends GetxController{
         data = dio.FormData.fromMap({
           "fullName": nameController.text.trim(),
           "relation": relationController.text.trim(),
-          "dob": dobController.text.trim(),
+          "dob": flipDate(date: dobController.text.trim()),
           "mobile": mobileController.text.trim(),
           "emirateId": myProfileCtrl.response.value.data?.emirateId??"",
-          "emirateIdExpire": idExpiryController.text.trim(),
+          "emirateIdExpire": flipDate(date: idExpiryController.text.trim()),
           "language": myProfileCtrl.response.value.data?.nativeLanguage??"",
         });
       }

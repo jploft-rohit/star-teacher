@@ -439,7 +439,7 @@ class _DetailViewState extends State<DetailView> {
                 ),
                 SizedBox(height: 2.h),
                 Obx(()=>ListView.builder(
-                    itemCount: controller.response.value.data?.familyMembers?.length??0,
+                    itemCount: (controller.familyMemberList?.length??0),
                     padding: EdgeInsets.zero,
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
@@ -474,7 +474,7 @@ class _DetailViewState extends State<DetailView> {
   Widget buildFamilyItem(int index,BuildContext context){
     return Obx(()=>GestureDetector(
         onTap: (){
-          Get.to(FamilyDetailsScreen(data: controller.response.value.data?.familyMembers?[index]));
+          Get.to(FamilyDetailsScreen(data: controller.familyMemberList?[index]));
         },
         child: Container(
           width: 100.w,
@@ -496,14 +496,14 @@ class _DetailViewState extends State<DetailView> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          BaseDetailData(detailsLabel:translate(context).name, detailsValue: controller.response.value.data?.familyMembers?[index].fullName??na,bottomMargin: bottomMargin,showDivider: showDivider),
-                          BaseDetailData(detailsLabel:translate(context).relation, detailsValue:controller.response.value.data?.familyMembers?[index].relation??na,bottomMargin: bottomMargin,showDivider: showDivider),
+                          BaseDetailData(detailsLabel:translate(context).name, detailsValue: controller.familyMemberList?[index]?.fullName??na,bottomMargin: bottomMargin,showDivider: showDivider),
+                          BaseDetailData(detailsLabel:translate(context).relation, detailsValue:controller.familyMemberList?[index]?.relation??na,bottomMargin: bottomMargin,showDivider: showDivider),
                         ],
                       ),
                       Row(
                         children: [
                           GestureDetector(onTap: (){
-                            Get.to(AddFamilyMemberScreen(isUpdating: true,familyMembers: controller.response.value.data?.familyMembers?[index],));
+                            Get.to(AddFamilyMemberScreen(isUpdating: true,familyMembers: controller.familyMemberList?[index],));
                           },
                             child: Image.asset(editPng, color: BaseColors.primaryColor,height: 17.sp),
                           ),
@@ -544,7 +544,7 @@ class _DetailViewState extends State<DetailView> {
                   padding: EdgeInsets.only(top:3.h),
                   child: Align(alignment: Alignment.center,
                     child: Text(
-                      translate(context).remove_family_member,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor,fontSize: 17.sp),),),
+                      translate(context).remove_family_member,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor,fontSize: 17.sp))),
                 ),
 
                 Align(alignment: AlignmentDirectional.topEnd,
@@ -576,10 +576,10 @@ class _DetailViewState extends State<DetailView> {
                     Align(
                       alignment: Alignment.center,
                       child: BaseButton(borderRadius: 20,btnType: mediumLargeButton,title: translate(context).delete.toUpperCase(), onPressed: () {
-                        controller.deleteFamilyMember(memberId: controller.response.value.data?.familyMembers?[index].sId??"", index: index);
+                        controller.deleteFamilyMember(memberId: controller.familyMemberList?[index]?.sId??"", index: index);
                         BaseOverlays().dismissOverlay();
                         controller.update();
-                        controller.getData();
+                        // controller.getData();
                         },
                       ),
                     )

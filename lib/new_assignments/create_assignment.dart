@@ -312,7 +312,7 @@ class _CreateAssignmentState extends State<CreateAssignment> with SingleTickerPr
                       hintText: "Support Doc (Optional)",
                       onTap: (){
                         BaseOverlays().showMediaPickerDialog(
-                            onCameraClick: () async {
+                          onCameraClick: () async {
                           BaseOverlays().dismissOverlay();
                           ImagePicker picker = ImagePicker();
                           await picker.pickImage(source: ImageSource.camera).then((value){
@@ -331,6 +331,14 @@ class _CreateAssignmentState extends State<CreateAssignment> with SingleTickerPr
                                   controller.selectedFile?.value = File(value.path);
                                   controller.supportDocCtrl.value.text = value.path.split("/").last;
                                 }
+                              },
+                            );
+                          },
+                            onFilePick: (){
+                              BaseOverlays().dismissOverlay();
+                              pickFile().then((value) {
+                                controller.selectedFile?.value = File(value);
+                                controller.uploadController.value.text = (value.split("/").last);
                               });
                             }
                         );

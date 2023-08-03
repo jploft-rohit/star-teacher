@@ -31,22 +31,6 @@ class _EarlyLeaveTileState extends State<EarlyLeaveTile> {
   final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
   final EarlyLeaveController controller = Get.find<EarlyLeaveController>();
 
-  final List<String> pendingMeetingdates = ['July 2,\n8:30PM', '', '', ""];
-
-  final List<String> heading = [
-    'Request\nRaised',
-    'Accepted',
-    'Planned On',
-    'Completed',
-  ];
-
-  final List<String> cancelledStepperTitles = [
-    'Request\nRaised',
-    'Request\nCancelled',
-  ];
-
-  List<String> cancelledStepperDates = [];
-
   @override
   Widget build(BuildContext context) {
     return Obx(()=>(controller.list?.length??0) == 0
@@ -65,6 +49,27 @@ class _EarlyLeaveTileState extends State<EarlyLeaveTile> {
               stepperIndex+1;
             }
           });
+          // controller.list?[index]?.requestStatus?.toList().asMap().forEach((loopIndex,element) {
+          //   if (element.name.toString().toLowerCase() != "rejected") {
+          //     stepperTitles.add(toBeginningOfSentenceCase(element.name??"")??"");
+          //     stepperDates.add(getFormattedTimeWithMonth(element.time??""));
+          //     if (element.time.toString().isNotEmpty) {
+          //       stepperIndex = (loopIndex+1);
+          //     }
+          //   }else{
+          //     if ((element.time??"").toString().isNotEmpty) {
+          //       stepperDates = [];
+          //       stepperTitles = [];
+          //       stepperTitles.add(toBeginningOfSentenceCase(controller.list?[index]?.requestStatus?[0].name??"")??"");
+          //       stepperTitles.add(toBeginningOfSentenceCase(element.name??"")??"");
+          //       stepperDates.add(getFormattedTimeWithMonth(controller.list?[index]?.requestStatus?[0].time??""));
+          //       stepperDates.add(getFormattedTimeWithMonth(element.time??""));
+          //       if (element.time.toString().isNotEmpty) {
+          //         stepperIndex = (loopIndex+1);
+          //       }
+          //     }
+          //   }
+          // },);
         return Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),

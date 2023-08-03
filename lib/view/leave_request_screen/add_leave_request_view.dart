@@ -201,7 +201,14 @@ class _AddLeaveRequestViewState extends State<AddLeaveRequestView> {
                               controller.uploadController.value.text = value.path.split("/").last;
                             }
                           });
-                        }
+                        },
+                          onFilePick: (){
+                            BaseOverlays().dismissOverlay();
+                            pickFile().then((value) {
+                              controller.selectedFile?.value = File(value);
+                              controller.uploadController.value.text = (value.split("/").last);
+                            });
+                          }
                       );
                     },
                     bottomMargin: 10.h,

@@ -23,6 +23,7 @@ class StarAttendanceScreenCtrl extends GetxController{
   final RxBool isManualListChecked = false.obs;
   RxList<String> selectedManualStudentsId = <String>[].obs;
   RxList<StarAttendanceData>? list = <StarAttendanceData>[].obs;
+  RxList<StarAttendanceData>? qrSearchedList = <StarAttendanceData>[].obs;
   RxList<ManualAttendanceStarsListData>? manualList = <ManualAttendanceStarsListData>[].obs;
 
   List<Map<String, dynamic>> reasonList = [
@@ -88,15 +89,15 @@ class StarAttendanceScreenCtrl extends GetxController{
   @override
   void onInit() {
     super.onInit();
-    getStarsAttendanceList(selectedClassIndex: selectedClassType.value, selectedAttendanceIndex: selectedAttendanceTabIndex.value);
+    getStarsAttendanceList();
   }
 
   /// Get Stars Attendance List
-  getStarsAttendanceList({required int selectedClassIndex,required int selectedAttendanceIndex}) async {
+  getStarsAttendanceList({bool? updateQRList}) async {
     list?.value = [];
     var data = {
-      "type": selectedClassIndex == 0 ? "classroom" : selectedClassIndex == 1 ? "online" : "hybrid",
-      "attendanceType": selectedAttendanceIndex == 0 ? "present" : selectedAttendanceIndex == 1 ? "absent" : "late",
+      "type": selectedClassType.value == 0 ? "classroom" : selectedClassType.value == 1 ? "online" : "hybrid",
+      "attendanceType": selectedAttendanceTabIndex.value == 0 ? "present" : selectedAttendanceTabIndex.value == 1 ? "absent" : "late",
       "school":selectedSchoolId.value,
       "class":selectedClassId.value,
       "section":selectedSectionId.value,
@@ -104,6 +105,26 @@ class StarAttendanceScreenCtrl extends GetxController{
     await BaseAPI().get(url: ApiEndPoints().getStarAttendanceList,queryParameters: data).then((value){
       if (value?.statusCode ==  200) {
         list?.value = StarAttendanceListResponse.fromJson(value?.data).data??[];
+        if (updateQRList??false) {
+          // qrSearchedList?.value = StarAttendanceListResponse.fromJson(value?.data).data??[];
+          // qrSearchedList?.refresh();
+          qrSearchedList?.value = [];
+        }
+      }else{
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
+      }
+    });
+  }
+
+  /// Get Stars Attendance List
+  searchStudentWithQRCode({required String keyword}) async {
+    qrSearchedList?.value = [];
+    var data = {
+      "keyword":keyword
+    };
+    await BaseAPI().get(url: ApiEndPoints().getStarAttendanceList,queryParameters: data).then((value){
+      if (value?.statusCode ==  200) {
+        qrSearchedList?.value = StarAttendanceListResponse.fromJson(value?.data).data??[];
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
@@ -168,7 +189,7 @@ class StarAttendanceScreenCtrl extends GetxController{
   }
 
   /// Change Attendance Status
-  changeStarsAttendanceStatus({required int index, required String attendanceType, required String reason}) async {
+  changeStarsAttendanceStatus({required int index,required String starId, required String attendanceType, required String reason, bool? updateQRList}) async {
     BaseOverlays().dismissOverlay();
     String localAttendanceType;
     if (attendanceType.toLowerCase() == "late" || attendanceType.toLowerCase() == "absent" || attendanceType.toLowerCase() == "present") {
@@ -182,11 +203,12 @@ class StarAttendanceScreenCtrl extends GetxController{
       "attendanceType": localAttendanceType.toLowerCase(),
     };
     BaseSuccessResponse baseSuccessResponse = BaseSuccessResponse();
-    await BaseAPI().patch(url: (ApiEndPoints().changeStarAttendanceStatus)+(list?[index].sId??""),data: data).then((value){
+    await BaseAPI().patch(url: (ApiEndPoints().changeStarAttendanceStatus)+(starId),data: data).then((value){
       if (value?.statusCode ==  200) {
+        // qrSearchedList?.value = [];
         baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
         BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: translate(Get.context!).success);
-        getStarsAttendanceList(selectedClassIndex: selectedClassType.value, selectedAttendanceIndex: selectedAttendanceTabIndex.value);
+        getStarsAttendanceList(updateQRList: (updateQRList??false));
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }

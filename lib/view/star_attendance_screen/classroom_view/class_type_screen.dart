@@ -21,6 +21,7 @@ import 'package:staff_app/utility/filter_textformfield.dart';
 import 'package:staff_app/view/sos/sos_scanQR.dart';
 import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/attendance_list_tile.dart';
+import 'package:staff_app/view/star_attendance_screen/classroom_view/qr/attendance_qr_scanner.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/confirmation_popup.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/manual_attendance_list_tile.dart';
 import 'package:staff_app/view/star_attendance_screen/controller/star_attendance_screen_ctrl.dart';
@@ -46,9 +47,7 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
       if (!tabController.indexIsChanging) {
         WidgetsBinding.instance.addPostFrameCallback((_) async {
           controller.selectedAttendanceTabIndex.value = tabController.index;
-          controller.getStarsAttendanceList(
-              selectedClassIndex: controller.selectedClassType.value,
-              selectedAttendanceIndex: controller.selectedAttendanceTabIndex.value);
+          controller.getStarsAttendanceList();
           if (mounted) {
             setState(() {});
           }
@@ -94,10 +93,7 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
                         controller.selectedSectionName.value = "";
                         controller.selectedSectionId.value = "";
                         await baseCtrl.getClassList(schoolId: controller.selectedSchoolId.value);
-                        controller.getStarsAttendanceList(
-                            selectedClassIndex: controller.selectedClassType.value,
-                            selectedAttendanceIndex: controller.selectedAttendanceTabIndex.value,
-                        );
+                        controller.getStarsAttendanceList();
                       },icon: classTakenSvg),
                   Container(
                     child: VerticalDivider(
@@ -117,10 +113,7 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
                         controller.selectedClassId.value = value?.sId??"";
                         controller.selectedClassName.value = value?.name??"";
                         await baseCtrl.getClassSections(classId: controller.selectedClassId.value);
-                        controller.getStarsAttendanceList(
-                          selectedClassIndex: controller.selectedClassType.value,
-                          selectedAttendanceIndex: controller.selectedAttendanceTabIndex.value,
-                        );
+                        controller.getStarsAttendanceList();
                       },icon: classTakenSvg),
                 ],
               ),
@@ -141,10 +134,7 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
                     onChange: (value) async {
                       controller.selectedSectionName.value = value.name;
                       controller.selectedSectionId.value = value.sId;
-                      controller.getStarsAttendanceList(
-                        selectedClassIndex: controller.selectedClassType.value,
-                        selectedAttendanceIndex: controller.selectedAttendanceTabIndex.value,
-                      );
+                      controller.getStarsAttendanceList();
                     },
                     icon: classTakenSvg,
                   ),
@@ -182,7 +172,7 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
                         controller.selectedFMOPos.value = index;
                       }else if(index == 1){
                         controller.selectedFMOPos.value = index;
-                        Get.to(ScanQrCodeScreen());
+                        Get.to(AttendanceQRScanner());
                       }else if(index == 2) {
                         if (controller.selectedSchoolId.value.isNotEmpty) {
                           controller.selectedFMOPos.value = index;

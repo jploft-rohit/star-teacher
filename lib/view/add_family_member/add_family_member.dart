@@ -82,7 +82,7 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
                   controller: ctrl.dobController,
                   title: "${translate(context).dob}:",
                   prefixIcon: calenderDateSvg,
-                  hintText: "yyyy/mm/dd",
+                  hintText: "dd/mm/yyyy",
                   keyboardType: TextInputType.datetime,
                   onTap: (){
                     showDatePicker(
@@ -102,7 +102,7 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
                         lastDate: DateTime.now()
                     ).then((picked){
                       if (picked != null) {
-                        ctrl.dobController..text = "${picked.year.toString()}-${picked.month.toString().padLeft(2,'0')}-${picked.day.toString().padLeft(2,'0')}";
+                        ctrl.dobController..text = formatFlutterDateTime(flutterDateTime: picked, getDayFirst: true);
                       }
                     });
                   },
@@ -152,6 +152,13 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
                               ctrl.idController.text = value.path.split("/").last;
                             }
                           });
+                        },
+                        onFilePick: (){
+                          BaseOverlays().dismissOverlay();
+                          pickFile().then((value) {
+                            ctrl.selectedFile?.value = File(value);
+                            ctrl.idController.text = (value.split("/").last);
+                          });
                         }
                     );
                   },
@@ -160,7 +167,7 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
                   controller: ctrl.idExpiryController,
                   title: "${translate(context).id_expiry_date}:",
                   prefixIcon: calenderDateSvg,
-                  hintText: "yyyy/mm/dd",
+                  hintText: "dd/mm/yyyy",
                   keyboardType: TextInputType.datetime,
                   onTap: (){
                     showDatePicker(
@@ -180,7 +187,7 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
                         lastDate: DateTime((DateTime.now().year+50),1,1),
                     ).then((picked){
                       if (picked != null) {
-                        ctrl.idExpiryController..text = "${picked.year.toString()}-${picked.month.toString().padLeft(2,'0')}-${picked.day.toString().padLeft(2,'0')}";;
+                        ctrl.idExpiryController..text = formatFlutterDateTime(flutterDateTime: picked, getDayFirst: true);
                       }
                     });
                     },

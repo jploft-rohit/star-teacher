@@ -71,20 +71,20 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     ),
                   ],
                 ),
-                Visibility(
-                  visible: kDebugMode,
-                  child: GestureDetector(
-                    onTap: () async {
-                      Locale locale = await setLocalePref('ar');
-                      Get.updateLocale(locale);
-                    },
-                    onDoubleTap: () async {
-                      Locale locale = await setLocalePref('en');
-                      Get.updateLocale(locale);
-                    },
-                    child: buildTile1("Change Language"),
-                  ),
-                ),
+                // Visibility(
+                //   visible: kDebugMode,
+                //   child: GestureDetector(
+                //     onTap: () async {
+                //       Locale locale = await setLocalePref('ar');
+                //       Get.updateLocale(locale);
+                //     },
+                //     onDoubleTap: () async {
+                //       Locale locale = await setLocalePref('en');
+                //       Get.updateLocale(locale);
+                //     },
+                //     child: buildTile1("Change Language"),
+                //   ),
+                // ),
                 buildExpensionTile(translate(context).my_profile,
                     [
                       GestureDetector(

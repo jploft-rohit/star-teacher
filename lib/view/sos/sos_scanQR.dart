@@ -73,32 +73,18 @@ class _ScanQrCodeScreenState extends State<ScanQrCodeScreen> {
                     height: 240,
                     width: 230,
                     margin: EdgeInsets.all(5),
-                    // padding: EdgeInsets.all(30),
-                    // decoration: BoxDecoration(
-                    //     image: DecorationImage(
-                    //     image: AssetImage(Assets.imagesScannerBorder))
-                    // ),
                     child: QRView(
                       key: qrKey,
-                      // overlayMargin: EdgeInsets.all(10.0),
-
                       onQRViewCreated: _onQRViewCreated,
                       overlay: QrScannerOverlayShape(
                           borderColor: BaseColors.primaryColor,
                           borderRadius: 12,
                           borderLength: 30,
                           borderWidth: 10,
-                          // borderRadius: 20.0,
-                          // borderLength: 0.0,
-                          // borderWidth: 0.0,
-                          // cutOutSize: 250,
                           overlayColor: BaseColors.white
                       ),
                     ),
                   ),
-                  // Positioned(
-                  //     bottom: 0,top: 0,left: 0,right: 0,
-                  //     child: SvgPicture.asset(Assets.imagesSosScanSuccess,width: 230,))
                 ],
               ),
               SizedBox(height: 5.0.h),

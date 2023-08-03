@@ -45,71 +45,71 @@ class _SearchScreenState extends State<SearchScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Obx((){
-              return controller.selectedIndex.value == 0
-                  ? GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: controller.fmoImageList.length,
-                  padding: EdgeInsets.zero,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      crossAxisSpacing: 10,
-                      mainAxisExtent: 42,
-                  ),
-                  itemBuilder: (context, index) =>
-                      GestureDetector(
-                        onTap: () {
-                          controller.selectedFMOPos.value = index;
-                          controller.update();
-                          setState((){});
-                          if (index == 1) {
-                            Get.to(ScanQrCodeScreen());
-                          }
-                        },
-                        child: Obx(() {
-                          return Container(
-                            height: 40,
-                            // padding: const EdgeInsets.symmetric(horizontal: 9),
-                            decoration: BoxDecoration(
-                                color: controller.selectedFMOPos.value == index
-                                    ? BaseColors.backgroundColor
-                                    : BaseColors.white,
-                                boxShadow: [getBoxShadow()],
-                                border: controller.selectedFMOPos.value == index
-                                    ? Border.all(
-                                      color: BaseColors.primaryColor, width: 1.5)
-                                    : null,
-                                borderRadius: BorderRadius.circular(10.0)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              // crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(2),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: BaseColors.white, width: 2),
-                                      shape: BoxShape.circle,
-                                      boxShadow: [getBoxShadow()],
-                                      color: controller.selectedFMOPos.value == index
-                                          ? BaseColors.primaryColor
-                                          : BaseColors.borderColor
-                                  ),
-                                  child: Icon(Icons.check, color: BaseColors.white,
-                                      size: 17.sp),
-                                ),
-                                Obx(() => SvgPicture.asset(controller.fmoImageList[index],height: 30,color: controller.selectedFMOPos.value==index ? BaseColors.primaryColor:Colors.black,))
-                              ],
-                            ),
-                          );
-                        }),
-                      ))
-                  : const SizedBox();
-            }),
-            SizedBox(
-              height: 2.h,
-            ),
+            // Obx((){
+            //   return controller.selectedIndex.value == 0
+            //       ? GridView.builder(
+            //       shrinkWrap: true,
+            //       physics: const NeverScrollableScrollPhysics(),
+            //       itemCount: controller.fmoImageList.length,
+            //       padding: EdgeInsets.zero,
+            //       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            //           crossAxisCount: 3,
+            //           crossAxisSpacing: 10,
+            //           mainAxisExtent: 42,
+            //       ),
+            //       itemBuilder: (context, index) =>
+            //           GestureDetector(
+            //             onTap: () {
+            //               controller.selectedFMOPos.value = index;
+            //               controller.update();
+            //               setState((){});
+            //               if (index == 1) {
+            //                 Get.to(ScanQrCodeScreen());
+            //               }
+            //             },
+            //             child: Obx(() {
+            //               return Container(
+            //                 height: 40,
+            //                 // padding: const EdgeInsets.symmetric(horizontal: 9),
+            //                 decoration: BoxDecoration(
+            //                     color: controller.selectedFMOPos.value == index
+            //                         ? BaseColors.backgroundColor
+            //                         : BaseColors.white,
+            //                     boxShadow: [getBoxShadow()],
+            //                     border: controller.selectedFMOPos.value == index
+            //                         ? Border.all(
+            //                           color: BaseColors.primaryColor, width: 1.5)
+            //                         : null,
+            //                     borderRadius: BorderRadius.circular(10.0)),
+            //                 child: Row(
+            //                   mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //                   // crossAxisAlignment: CrossAxisAlignment.center,
+            //                   children: [
+            //                     Container(
+            //                       padding: const EdgeInsets.all(2),
+            //                       decoration: BoxDecoration(
+            //                           border: Border.all(
+            //                               color: BaseColors.white, width: 2),
+            //                           shape: BoxShape.circle,
+            //                           boxShadow: [getBoxShadow()],
+            //                           color: controller.selectedFMOPos.value == index
+            //                               ? BaseColors.primaryColor
+            //                               : BaseColors.borderColor
+            //                       ),
+            //                       child: Icon(Icons.check, color: BaseColors.white,
+            //                           size: 17.sp),
+            //                     ),
+            //                     Obx(() => SvgPicture.asset(controller.fmoImageList[index],height: 30,color: controller.selectedFMOPos.value==index ? BaseColors.primaryColor:Colors.black,))
+            //                   ],
+            //                 ),
+            //               );
+            //             }),
+            //           ))
+            //       : const SizedBox();
+            // }),
+            // SizedBox(
+            //   height: 2.h,
+            // ),
             CustomTextField(
               prefixIcon: Padding(
                 padding: const EdgeInsets.only(left: 10.0, right: 10.0),

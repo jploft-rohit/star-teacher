@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/view/account_deactivation_screen/activation_request_detail_screen.dart';
 import 'package:staff_app/view/account_deactivation_screen/deactivation_detail_screen.dart';
 import 'package:staff_app/view/annual_schedule/annual_schedule.dart';
@@ -99,8 +101,11 @@ class _AccountViewState extends State<AccountView> {
                 if ((myProfileController.response.value.data?.isSendActivationRequest?.toString()??"").isEmpty || (myProfileController.response.value.data?.isSendActivationRequest?.toString()??"") == "0") {
                   Get.to(ActivationRequestDetailScreen(data: myProfileController.response.value.data?.deactivateData,qrCode: myProfileController.response.value.data?.barcode??"",bloodType: myProfileController.response.value.data?.bloodType??""));
                 }else{
-                  Get.to(DeactivationDetailScreen(data: myProfileController.response.value.data?.deactivateData,qrCode: myProfileController.response.value.data?.barcode??"",bloodType: myProfileController.response.value.data?.bloodType??""));
-
+                  if ((myProfileController.response.value.data?.deactivateData?.createdAt??"").isNotEmpty) {
+                    Get.to(DeactivationDetailScreen(data: myProfileController.response.value.data?.deactivateData,qrCode: myProfileController.response.value.data?.barcode??"",bloodType: myProfileController.response.value.data?.bloodType??""));
+                  }else{
+                    baseToast(message: "Account Is Already Activated");
+                  }
                 }
               }
             },

@@ -64,7 +64,7 @@ class _MyProfileViewState extends State<MyProfileView> {
                                     // controller.imageData.value = value.path.split("/").last;
                                   }
                                 });
-                              }
+                              },
                           );
                           // controller.xFile = BaseOverlays().showMediaPickerDialog();
                           // controller.imageData.value = controller.xFile?.path??"";
@@ -166,12 +166,12 @@ class _MyProfileViewState extends State<MyProfileView> {
                                       const SizedBox(),
                                     maxLength: 15
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 25),
-                                    child: BaseButton(removeHorizontalPadding: true,btnType: smallButton,borderRadius: 100,title: translate(context).change,textSize: 11, onPressed: () {
-                                      BaseOverlays().showOtpDialog();
-                                    }),
-                                  )
+                                  // Padding(
+                                  //   padding: const EdgeInsets.only(bottom: 25),
+                                  //   child: BaseButton(removeHorizontalPadding: true,btnType: smallButton,borderRadius: 100,title: translate(context).change,textSize: 11, onPressed: () {
+                                  //     BaseOverlays().showOtpDialog();
+                                  //   }),
+                                  // )
                                 ],
                               ),
                               SizedBox(height: 1.h),
@@ -263,7 +263,7 @@ class _MyProfileViewState extends State<MyProfileView> {
                                       },
                                       initialDate: DateTime.now(),
                                       firstDate: DateTime(1600, 8),
-                                      lastDate: DateTime.now()
+                                      lastDate: DateTime((DateTime.now().year+50),1,1),
                                   ).then((picked){
                                     if (picked != null) {
                                       controller.expiryDateCtrl.text = formatFlutterDateTime(flutterDateTime: picked, getDayFirst: true);
@@ -318,6 +318,13 @@ class _MyProfileViewState extends State<MyProfileView> {
                                             controller.selectedFile?.value = File(value.path);
                                             controller.uploadController.text = value.path.split("/").last;
                                           }
+                                        });
+                                      },
+                                      onFilePick: (){
+                                        BaseOverlays().dismissOverlay();
+                                        pickFile().then((value) {
+                                          controller.selectedFile?.value = File(value);
+                                          controller.uploadController.text = (value.split("/").last);
                                         });
                                       }
                                   );
