@@ -26,6 +26,10 @@ class Data {
   dynamic sId;
   String? isSendActivationRequest;
   dynamic isMobileVerified;
+  dynamic email;
+  dynamic state;
+  dynamic maritalStatus;
+  dynamic country;
   dynamic bloodType;
   dynamic gender;
   dynamic idDocument;
@@ -36,6 +40,7 @@ class Data {
   dynamic currentStatus;
   dynamic mobile;
   dynamic dob;
+  dynamic address;
   dynamic nationality;
   dynamic emirateId;
   dynamic emirateIdExpire;
@@ -61,10 +66,15 @@ class Data {
   Statistics? statistics;
   List<FamilyMembers>? familyMembers;
 
-  Data({this.bloodType, this.isSendActivationRequest,this.placesOfClass,this.designation,this.sId, this.deactivateData, this.currentStatus, this.isMobileVerified, this.gender, this.idDocument, this.deviceType, this.parentId, this.isDeleted, this.name, this.mobile, this.dob, this.nationality, this.emirateId, this.emirateIdExpire, this.nativeLanguage, this.religion, this.profilePic, this.role, this.createdAt, this.updatedAt, this.iV, this.otp, this.deviceToken, this.deviceVoip, this.schoolStaff, this.familyMembers, this.alternativeMobile, this.profileCompletePercentage, this.profileCompleteDate, this.barcode, this.jobDetails, this.statistics});
+  Data({this.country, this.state, this.email, this.bloodType, this.isSendActivationRequest,this.placesOfClass,this.designation,this.sId, this.deactivateData, this.currentStatus, this.isMobileVerified, this.gender, this.idDocument, this.deviceType, this.parentId, this.isDeleted, this.name, this.mobile, this.dob, this.nationality, this.emirateId, this.emirateIdExpire, this.nativeLanguage, this.religion, this.profilePic, this.role, this.createdAt, this.updatedAt, this.iV, this.otp, this.deviceToken, this.deviceVoip, this.schoolStaff, this.familyMembers, this.alternativeMobile, this.profileCompletePercentage, this.profileCompleteDate, this.barcode, this.jobDetails, this.statistics});
 
   Data.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
+    state = json['state'];
+    maritalStatus = json['maritalStatus'];
+    address = json['address'];
+    country = json['country'];
+    email = json['email'];
     bloodType = json['bloodType'];
     designation = json['designation'];
     isMobileVerified = json['isMobileVerified'];
@@ -117,6 +127,10 @@ class Data {
     data['isSendActivationRequest'] = this.isSendActivationRequest;
     data['isMobileVerified'] = this.isMobileVerified;
     data['gender'] = this.gender;
+    data['address'] = this.address;
+    data['country'] = this.country;
+    data['email'] = this.email;
+    data['maritalStatus'] = this.maritalStatus;
     data['bloodType'] = this.bloodType;
     data['deviceType'] = this.deviceType;
     data['parentId'] = this.parentId;
@@ -125,6 +139,7 @@ class Data {
     data['name'] = this.name;
     data['currentStatus'] = this.currentStatus;
     data['mobile'] = this.mobile;
+    data['state'] = this.state;
     data['designation'] = this.designation;
     data['dob'] = this.dob;
     if (this.familyMembers != null) {

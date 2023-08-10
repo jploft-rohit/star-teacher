@@ -167,7 +167,9 @@ class _CreateRewardScreenState extends State<CreateRewardScreen> {
                     ],
                     validator: (val){
                       if ((val??"").isEmpty) {
-                        return "Please enter points value";
+                        return "Please Enter Points Value";
+                      }else if (int.parse(val??"0") < 1) {
+                        return "Minimum 1 Reward Point Required";
                       }
                       return null;
                     },

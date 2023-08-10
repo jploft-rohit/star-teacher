@@ -92,21 +92,24 @@ class _OnlineClassRequestTileState extends State<OnlineClassRequestTile> {
                       ),
                     ),
                     SizedBox(width: isRTL ? 2.w : 4.w),
-                    GestureDetector(
-                      onTap: (){
-                        showGeneralDialog(
-                          context: context,
-                          pageBuilder:  (context, animation, secondaryAnimation) {
-                            return UploadEvidencePopup(id: controller.list?[index]?.sId??"");
-                          },
-                        );
-                      },
-                      child: Column(
-                        children: [
-                          SvgPicture.asset(uploadDocSvg,height: 15),
-                          const SizedBox(height: 2),
-                          Text("Upload\nEvidence", style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 11.5.sp),textAlign: TextAlign.center,)
-                        ],
+                    Visibility(
+                      visible: (controller.list?[index]?.document??"").isEmpty,
+                      child: GestureDetector(
+                        onTap: (){
+                          showGeneralDialog(
+                            context: context,
+                            pageBuilder:  (context, animation, secondaryAnimation) {
+                              return UploadEvidencePopup(id: controller.list?[index]?.sId??"");
+                            },
+                          );
+                        },
+                        child: Column(
+                          children: [
+                            SvgPicture.asset(uploadDocSvg,height: 15),
+                            const SizedBox(height: 2),
+                            Text("Upload\nEvidence", style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 11.5.sp),textAlign: TextAlign.center,)
+                          ],
+                        ),
                       ),
                     ),
                   ],

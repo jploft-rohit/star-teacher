@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:io' show Platform;
@@ -10,11 +11,10 @@ import 'package:staff_app/route_manager/route_name.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/storage/sp_keys.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
-import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 
 class OtpCtrl extends GetxController{
-
   String? selectedLanguageCode;
+  String? token;
   final formKey = GlobalKey<FormState>();
   TextEditingController otpController = TextEditingController();
   OtpResponse response = OtpResponse();
@@ -23,6 +23,9 @@ class OtpCtrl extends GetxController{
   Future<void> onInit() async {
     super.onInit();
     selectedLanguageCode = await BaseSharedPreference().getString(SpKeys().selectedLanguage);
+    FirebaseMessaging.instance.getToken().then((value) {
+      token = value;
+    });
   }
 
   otpApi({required String mobile}){
@@ -32,7 +35,7 @@ class OtpCtrl extends GetxController{
         "userInput": mobile.trim(),
         "otp": otpController.text.trim(),
         "role" : "staff",
-        "deviceToken" : "deviceToken",
+        "deviceToken" : token,
         "deviceType" : Platform.isAndroid ? "android" : "ios",
         "deviceVoip" : "fdsfad"
       };

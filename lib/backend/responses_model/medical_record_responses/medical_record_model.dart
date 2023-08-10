@@ -9,6 +9,7 @@ class MedicalRecord {
   String? updatedBy;
   String? createdAt;
   String? updatedAt;
+  List<RequestStatus>? requestStatus;
 
   MedicalRecord(
       {this.sId,
@@ -20,6 +21,7 @@ class MedicalRecord {
       this.createdBy,
       this.updatedBy,
       this.createdAt,
+      this.requestStatus,
       this.updatedAt});
 
   MedicalRecord.fromJson(Map<String, dynamic> json) {
@@ -27,6 +29,12 @@ class MedicalRecord {
     title = json['title'];
     description = json['description'];
     date = json['date'];
+    if (json['requestStatus'] != null) {
+      requestStatus = <RequestStatus>[];
+      json['requestStatus'].forEach((v) {
+        requestStatus!.add(new RequestStatus.fromJson(v));
+      });
+    }
     student = json['student'];
     document = json['document'];
     createdBy = json['createdBy'];
@@ -38,6 +46,10 @@ class MedicalRecord {
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['_id'] = sId;
+    if (this.requestStatus != null) {
+      data['requestStatus'] =
+          this.requestStatus!.map((v) => v.toJson()).toList();
+    }
     data['title'] = title;
     data['description'] = description;
     data['date'] = date;
@@ -47,6 +59,59 @@ class MedicalRecord {
     data['updatedBy'] = updatedBy;
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
+    return data;
+  }
+}
+
+class RequestStatus {
+  dynamic isDeleted;
+  dynamic sId;
+  dynamic name;
+  dynamic type;
+  dynamic createdBy;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic iV;
+  dynamic order;
+  dynamic date;
+
+  RequestStatus(
+      {this.isDeleted,
+        this.sId,
+        this.name,
+        this.type,
+        this.createdBy,
+        this.createdAt,
+        this.updatedAt,
+        this.iV,
+        this.order,
+        this.date});
+
+  RequestStatus.fromJson(Map<String, dynamic> json) {
+    isDeleted = json['isDeleted'];
+    sId = json['_id'];
+    name = json['name'];
+    type = json['type'];
+    createdBy = json['createdBy'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    iV = json['__v'];
+    order = json['order'];
+    date = json['date'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['isDeleted'] = this.isDeleted;
+    data['_id'] = this.sId;
+    data['name'] = this.name;
+    data['type'] = this.type;
+    data['createdBy'] = this.createdBy;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    data['__v'] = this.iV;
+    data['order'] = this.order;
+    data['date'] = this.date;
     return data;
   }
 }

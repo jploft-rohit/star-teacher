@@ -85,7 +85,7 @@ class _AddNewRewardPopupState extends State<AddNewRewardPopup> {
                     children: [
                       Expanded(
                         child: BaseButton(btnType: mediumButton,title: translate(context).yes, onPressed: (){
-                          if (controller.myRewards?.first.ratings > 0) {
+                          if ((int.parse(controller.myRewards?.first.ratings?.toString()??"0")) > 0) {
                             int points = int.parse((controller.rewardList?[widget.index].points.toString())??"0");
                             BaseOverlays().dismissOverlay();
                             controller.giveReward(points: points, rewardId: controller.rewardList?[widget.index].sId??"", selectedUserId: controller.selectedStarId.value);

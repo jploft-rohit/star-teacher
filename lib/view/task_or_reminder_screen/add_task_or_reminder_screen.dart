@@ -1,13 +1,10 @@
 import 'dart:io';
 
 import 'package:date_picker_timeline/date_picker_timeline.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/responses_model/task_reminder_list_response.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
@@ -19,7 +16,6 @@ import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
-import 'package:staff_app/utility/base_views/show_document.dart';
 import 'package:staff_app/view/task_or_reminder_screen/controller/task_reminder_ctrl.dart';
 
 class AddTaskOrReminderScreen extends StatefulWidget {
@@ -193,15 +189,18 @@ class _AddTaskOrReminderScreenState extends State<AddTaskOrReminderScreen> {
                       ), //R
                 ),
               ):SizedBox.shrink(),
-              TimePickerDialogs(
-                  initialTime: widget.isUpdating ? TimeOfDay(
-                      hour: int.parse(controller.updatedTime[0]),
-                      minute: int.parse(controller.updatedTime[1])) : TimeOfDay.now(),
-                  isShowdate: controller.isShowDate.value,
-                  onChange: (v){
-                    String localTime = "${(v?.hour??0) <= 9 ? "0" + (v?.hour??0).toString() : (v?.hour??0)}:"+"${(v?.minute??0) <= 9 ? "0"+(v?.minute??0).toString():(v?.minute??0)}";
-                    controller.selectedTime.value = localTime;
-                  },
+              MediaQuery(
+                data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+                child: TimePickerDialogs(
+                    initialTime: widget.isUpdating ? TimeOfDay(
+                        hour: int.parse(controller.updatedTime[0]),
+                        minute: int.parse(controller.updatedTime[1])) : TimeOfDay.now(),
+                    isShowdate: controller.isShowDate.value,
+                    onChange: (v){
+                      String localTime = "${(v?.hour??0) <= 9 ? "0" + (v?.hour??0).toString() : (v?.hour??0)}:"+"${(v?.minute??0) <= 9 ? "0"+(v?.minute??0).toString():(v?.minute??0)}";
+                      controller.selectedTime.value = localTime;
+                    },
+                ),
               ),
               Visibility(
                 visible: controller.remindType.value == "specific_date",

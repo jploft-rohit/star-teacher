@@ -9,7 +9,6 @@ import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_image_network.dart';
 import 'package:staff_app/view/chat_screen/chating_screen.dart';
-import 'package:staff_app/view/performance_screen/performance_screen.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/change_status_popup.dart';
 import 'package:staff_app/view/star_attendance_screen/controller/star_attendance_screen_ctrl.dart';
 import 'package:staff_app/view/star_evaluation_screen/star_rating_popup.dart';
@@ -116,7 +115,12 @@ class _AttendanceListTileState extends State<AttendanceListTile> {
                           flex: 2,
                           child: GestureDetector(
                             onTap: (){
-                              Get.to(ChatingScreen());
+                              Get.to(ChatingScreen(
+                                  receiverId: controller.list?[index].student?.user?.sId??"",
+                                  receiverName: controller.list?[index].student?.user?.name??"",
+                                  receiverProfilePic: controller.list?[index].student?.user?.profilePic??"",
+                              ),
+                              );
                             },
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -125,7 +129,7 @@ class _AttendanceListTileState extends State<AttendanceListTile> {
                               children: [
                                 SvgPicture.asset(chatSvg1,),
                                 SizedBox(height:.5.h),
-                                Text(translate(context).chat_with_parents,style: Style.montserratRegularStyle().copyWith(fontSize: 13.sp, color: const Color(0xff686868), ),textAlign: TextAlign.center,),
+                                Text("Chat"/*translate(context).chat_with_parents*/,style: Style.montserratRegularStyle().copyWith(fontSize: 13.sp, color: const Color(0xff686868), ),textAlign: TextAlign.center,),
                               ],
                             ),
                           ),

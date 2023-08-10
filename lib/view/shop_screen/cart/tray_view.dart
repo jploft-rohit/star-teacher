@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
-
-
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
@@ -13,11 +12,11 @@ import 'package:staff_app/utility/base_views/base_image_network.dart';
 import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
-import 'package:staff_app/view/shop_screen/cart/cart_card_detail.dart';
 import 'package:staff_app/view/shop_screen/controller/shop_screen_ctrl.dart';
 import 'package:staff_app/view/shop_screen/controller/stripe_controller.dart';
 
 import '../../../utility/dummy_lists.dart';
+import '../../../utility/images_icon_path.dart';
 
 class TrayView extends StatefulWidget {
   const TrayView({super.key});
@@ -38,6 +37,8 @@ class _TrayViewState extends State<TrayView> {
     controller.servingPlace.text = "";
     controller.servingTime.value.text = "";
     controller.servingPlace.text = "";
+    controller.fromDateController.text = "";
+    controller.toDateController.text = "";
     controller.getUserCart(callGetData: false);
   }
   @override
@@ -86,6 +87,122 @@ class _TrayViewState extends State<TrayView> {
                   SizedBox(height: 1.h),
                   detailRow('Grand Total', '${(controller.userCartData?.value?.grandTotal?.toString()??"")} AED'),
                   const Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      addText('Order Type', 16.sp, BaseColors.textBlackColor, FontWeight.w700),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          radioButton(() {
+                            controller.selectedPreOrderType.value = "NORMAL";
+                            controller.normalSelected();
+                          }, controller.isNormalSelected.value, 'Normal'),
+                          SizedBox(width: 2.h),
+                          radioButton(() {
+                            controller.selectedPreOrderType.value = "PRE-ORDER";
+                            controller.preOrderSelected();
+                          }, controller.isPreOrderSelected.value, 'Pre-Order')
+                        ],
+                      )
+                    ],
+                  ),
+                  Visibility(
+                      visible: controller.isPreOrderSelected.value,
+                      child: SizedBox(height: 2.h)),
+                  Visibility(
+                    visible: controller.isPreOrderSelected.value,
+                    child: BaseTextFormField(
+                      controller: controller.fromDateController,
+                      title: "From Date",
+                      suffixIcon: calenderDateSvg,
+                      hintText: "Select Date",
+                      validator: (val){
+                        if (controller.fromDateController.text.isEmpty) {
+                          return "Please Select From Date";
+                        }
+                        return null;
+                      },
+                      onTap: (){
+                        showDatePicker(
+                            context: context,
+                            builder: (context, child) {
+                              return Theme(
+                                data: Theme.of(context).copyWith(
+                                  colorScheme: ColorScheme.light(
+                                    primary: BaseColors.primaryColor,
+                                  ),
+                                ),
+                                child: child!,
+                              );
+                            },
+                            initialDate: controller.fromDateController.text.isEmpty ? DateTime.now() : DateTime.parse(flipDate(date: controller.fromDateController.text.trim())),
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime(DateTime.now().year+1)
+                        ).then((value){
+                          if (value != null) {
+                            if (controller.toDateController.text.trim().isNotEmpty) {
+                              DateTime endDate = DateTime.parse(flipDate(date: controller.toDateController.text.trim()));
+                              if (endDate.isAfter(value)) {
+                                controller.fromDateController.text = formatFlutterDateTime(flutterDateTime: value, getDayFirst: true);
+                              }else{
+                                baseToast(message: "\"From Date\" can't be more than \"To Date\"");
+                              }
+                            }else{
+                              controller.fromDateController.text = formatFlutterDateTime(flutterDateTime: value, getDayFirst: true);
+                            }
+                          }
+                        });
+                      },
+                    ),
+                  ),
+                  Visibility(
+                    visible: controller.isPreOrderSelected.value,
+                    child: BaseTextFormField(
+                      controller: controller.toDateController,
+                      title: "To Date",
+                      suffixIcon: calenderDateSvg,
+                      hintText: "Select Date",
+                      validator: (val){
+                        if (controller.toDateController.text.isEmpty) {
+                          return "Please Select To Date";
+                        }
+                        return null;
+                      },
+                      onTap: (){
+                        showDatePicker(
+                            context: context,
+                            builder: (context, child) {
+                              return Theme(
+                                data: Theme.of(context).copyWith(
+                                  colorScheme: ColorScheme.light(
+                                    primary: BaseColors.primaryColor,
+                                  ),
+                                ),
+                                child: child!,
+                              );
+                            },
+                            initialDate: controller.toDateController.text.isEmpty ? DateTime.now() : DateTime.parse(flipDate(date: controller.toDateController.text.trim())),
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime(DateTime.now().year+1)
+                        ).then((value){
+                          if (value != null) {
+                            if (controller.fromDateController.text.trim().isNotEmpty) {
+                              DateTime startDate = DateTime.parse(flipDate(date: controller.fromDateController.text.trim()));
+                              if (startDate.isBefore(value)) {
+                                controller.toDateController.text = formatFlutterDateTime(flutterDateTime: value, getDayFirst: true);
+                              }else{
+                                baseToast(message: "\"To Date\" can't be less than \"From Date\"");
+                              }
+                            }else{
+                              controller.toDateController.text = formatFlutterDateTime(flutterDateTime: value, getDayFirst: true);
+                            }
+                          }
+                        },
+                        );
+                      },
+                    ),
+                  ),
                   SizedBox(height: 2.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -225,7 +342,7 @@ class _TrayViewState extends State<TrayView> {
                     },
                   ),
                   Visibility(
-                    visible: (controller.servingTime.value.text == "During The Day") && controller.isThisWeek.value,
+                    visible: (controller.servingTime.value.text == "During The Day"),
                     child: BaseTextFormField(
                       controller: controller.deliveryTime,
                       title: "Delivery Time",
@@ -396,7 +513,7 @@ class _TrayViewState extends State<TrayView> {
                                       }
                                     });
                                   }else{
-                                    BaseOverlays().dismissOverlay();
+                                    // BaseOverlays().dismissOverlay();
                                     controller.createOrder(isFromCart: false);
                                   }
                               });

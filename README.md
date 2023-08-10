@@ -1,4 +1,4 @@
-# staff_app
+# Teacher
 
 A new Flutter project.
 

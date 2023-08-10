@@ -41,13 +41,36 @@ class _LeaveRequestListTileState extends State<LeaveRequestListTile> {
           int stepperIndex = -5;
           controller.statusTime.value = [];
           controller.statusTitle.value = [];
+          // controller.list?[index].requestStatus?.toList().asMap().forEach((loopIndex,element) {
+          //   controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"N/A")??"N/A");
+          //   controller.statusTime.add(getFormattedTimeWithMonth(element.time??""));
+          //   if ((element.time??"").toString().isNotEmpty) {
+          //     stepperIndex = loopIndex;
+          //   }
+          //  },
+          // );
+
           controller.list?[index].requestStatus?.toList().asMap().forEach((loopIndex,element) {
-            controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"N/A")??"N/A");
-            controller.statusTime.add(getFormattedTimeWithMonth(element.time??""));
-            if ((element.time??"").toString().isNotEmpty) {
-              stepperIndex = loopIndex;
+            if (element.name.toString().toLowerCase() != "rejected") {
+              controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
+              controller.statusTime.add(getFormattedTimeWithMonth(element.time??""));
+              if (element.time.toString().isNotEmpty) {
+                stepperIndex = (loopIndex+1);
+              }
+            }else{
+              if ((element.time??"").toString().isNotEmpty) {
+                controller.statusTime.value = [];
+                controller.statusTitle.value = [];
+                controller.statusTitle.add(toBeginningOfSentenceCase(controller.list?[index].requestStatus?[0].name??"")??"");
+                controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
+                controller.statusTime.add(getFormattedTimeWithMonth(controller.list?[index].requestStatus?[0].time??""));
+                controller.statusTime.add(getFormattedTimeWithMonth(element.time??""));
+                if (element.time.toString().isNotEmpty) {
+                  stepperIndex = (loopIndex+1);
+                }
+              }
             }
-           },
+          },
           );
           return Card(
             elevation: 3,
@@ -74,21 +97,24 @@ class _LeaveRequestListTileState extends State<LeaveRequestListTile> {
                         ),
                       ),
                       SizedBox(width: isRTL ? 1.w : 4.w),
-                      GestureDetector(
-                        onTap: (){
-                          showGeneralDialog(
-                            context: context,
-                            pageBuilder:  (context, animation, secondaryAnimation) {
-                              return UploadEvidencePopup(id: controller.list?[index].sId??"");
-                            },
-                          );
-                        },
-                        child: Column(
-                          children: [
-                            SvgPicture.asset(uploadDocSvg, height: 15),
-                            const SizedBox(height: 2),
-                            Text("Upload\nEvidence", style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 11.5.sp),textAlign: TextAlign.center)
-                          ],
+                      Visibility(
+                        visible: (controller.list?[index].document??"").isEmpty,
+                        child: GestureDetector(
+                          onTap: (){
+                            showGeneralDialog(
+                              context: context,
+                              pageBuilder:  (context, animation, secondaryAnimation) {
+                                return UploadEvidencePopup(id: controller.list?[index].sId??"");
+                              },
+                            );
+                          },
+                          child: Column(
+                            children: [
+                              SvgPicture.asset(uploadDocSvg, height: 15),
+                              const SizedBox(height: 2),
+                              Text("Upload\nEvidence", style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 11.5.sp),textAlign: TextAlign.center)
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -118,11 +144,14 @@ class _LeaveRequestListTileState extends State<LeaveRequestListTile> {
                     detailsLabel: translate(context).reason,
                     detailsValue: controller.list?[index].reason??"N/A",
                   ),
-                  // BaseDetailData(
-                  //   prefixIcon: "assets/images/user.svg",
-                  //   detailsLabel: translate(context).comment,
-                  //   detailsValue: toBeginningOfSentenceCase(controller.list?[index].??"N/A")??"N/A",
-                  // ),
+                  Visibility(
+                    visible: (controller.list?[index].comment??"").isNotEmpty,
+                    child: BaseDetailData(
+                      prefixIcon: "assets/images/ic_message.svg",
+                      detailsLabel: translate(context).comment,
+                      detailsValue: toBeginningOfSentenceCase(controller.list?[index].comment??"N/A")??"N/A",
+                    ),
+                  ),
                   Visibility(
                     visible: (controller.list?[index].document??"").isNotEmpty,
                     child: BaseDetailData(

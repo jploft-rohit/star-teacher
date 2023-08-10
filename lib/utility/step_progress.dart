@@ -93,6 +93,7 @@ class StepProgressView extends StatelessWidget {
           children: [
             Container(
               height: 25,
+              margin: EdgeInsets.only(bottom: 3),
               alignment: Alignment.center,
               child: Text(_statuses[i].replaceAll(' ', '\n'), style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: textSize ?? stepperTitleTs),textAlign: TextAlign.center,),
             ),

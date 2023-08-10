@@ -63,8 +63,7 @@ class _DetailViewState extends State<DetailView> {
       clipBehavior: Clip.antiAlias,
       margin: EdgeInsets.zero,
       child: Padding(
-        padding:
-        const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
         child: Theme(
           data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
           child: ExpansionTile(
@@ -75,14 +74,18 @@ class _DetailViewState extends State<DetailView> {
               title: Text(translate(context).my_information, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp)),
               backgroundColor: BaseColors.white,
               expandedCrossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Stack(
+                  clipBehavior: Clip.none,
+                  alignment: Alignment.topRight,
                   children: [
-                    BaseDetailData(
-                      detailsLabel:translate(context).mobile_no,
-                      detailsValue:controller.response.value.data?.mobile??na,
-                      bottomMargin: bottomMargin,showDivider: showDivider,
+                    SizedBox(
+                      width: double.infinity,
+                      child: BaseDetailData(
+                        detailsLabel:translate(context).mobile_no,
+                        detailsValue:controller.response.value.data?.mobile??na,
+                        bottomMargin: bottomMargin,showDivider: showDivider,
+                      ),
                     ),
                     BaseButton(
                       title: "Edit".toUpperCase(),
@@ -97,18 +100,18 @@ class _DetailViewState extends State<DetailView> {
                     ),
                   ],
                 ),
-                SizedBox(height: 2.h),
                 BaseDetailData(
                     detailsLabel: translate(context).alternative_mobile,
                     detailsValue: controller.response.value.data?.alternativeMobile.toString()??na,
                     showDivider: showDivider,
                     bottomMargin: bottomMargin,
                 ),
-                // BaseDetailData(
-                //     translate(context).email, controller.response.data?.email??""),
-                // SizedBox(
-                //   height: 2.h,
-                // ),
+                BaseDetailData(
+                  detailsLabel: translate(context).email,
+                  detailsValue: controller.response.value.data?.email??na,
+                  showDivider: showDivider,
+                  bottomMargin: bottomMargin,
+                ),
                 BaseDetailData(
                   detailsLabel:translate(context).dob,
                   detailsValue: formatBackendDate(controller.response.value.data?.dob??""),
@@ -135,6 +138,18 @@ class _DetailViewState extends State<DetailView> {
                 BaseDetailData(
                   detailsLabel:translate(context).nationality,
                   detailsValue:controller.response.value.data?.nationality??na,
+                  bottomMargin: bottomMargin,
+                  showDivider: showDivider,
+                ),
+                BaseDetailData(
+                  detailsLabel:translate(context).state,
+                  detailsValue:controller.response.value.data?.state??na,
+                  bottomMargin: bottomMargin,
+                  showDivider: showDivider,
+                ),
+                BaseDetailData(
+                  detailsLabel:translate(context).address,
+                  detailsValue:controller.response.value.data?.address??na,
                   bottomMargin: bottomMargin,
                   showDivider: showDivider,
                 ),
@@ -498,6 +513,7 @@ class _DetailViewState extends State<DetailView> {
                         children: [
                           BaseDetailData(detailsLabel:translate(context).name, detailsValue: controller.familyMemberList?[index]?.fullName??na,bottomMargin: bottomMargin,showDivider: showDivider),
                           BaseDetailData(detailsLabel:translate(context).relation, detailsValue:controller.familyMemberList?[index]?.relation??na,bottomMargin: bottomMargin,showDivider: showDivider),
+                          BaseDetailData(detailsLabel:translate(context).emirates_ID, detailsValue:controller.familyMemberList?[index]?.emirateId?.toString()??na,bottomMargin: bottomMargin,showDivider: showDivider),
                         ],
                       ),
                       Row(

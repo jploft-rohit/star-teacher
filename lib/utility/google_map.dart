@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 
@@ -190,7 +191,6 @@ class MapUiBodyState extends State<MapUiBody> {
               child: Padding(
                 padding: EdgeInsets.only(top: 15, bottom: 20,left: 20,right: 20),
                 child: GooglePlaceAutoCompleteTextField(
-
                     textEditingController: _locationController,
                     textStyle:Theme.of(context)
                         .textTheme
@@ -264,49 +264,46 @@ class MapUiBodyState extends State<MapUiBody> {
                   btnType: "large", title: 'SAVE', onPressed: () async{
                   List<Placemark> placemarks = await placemarkFromCoordinates(latitude!, longtitude!);
                   String address = '';
-    if(placemarks.isNotEmpty)
-    {
-    if (placemarks.isNotEmpty) {
-    Placemark placemark = placemarks[0];
-
-    if (placemark.name != null && placemark.name!.isNotEmpty) {
-    address += placemark.name! + ', ';
-    }
-    if (placemark.subThoroughfare != null && placemark.subThoroughfare!.isNotEmpty) {
-    address += placemark.subThoroughfare! + ', ';
-    }
-    if (placemark.thoroughfare != null && placemark.thoroughfare!.isNotEmpty) {
-    address += placemark.thoroughfare! + ', ';
-    }
-    if (placemark.subLocality != null && placemark.subLocality!.isNotEmpty) {
-    address += placemark.subLocality! + ', ';
-    }
-    if (placemark.locality != null && placemark.locality!.isNotEmpty) {
-    address += placemark.locality! + ', ';
-    }
-    if (placemark.administrativeArea != null && placemark.administrativeArea!.isNotEmpty) {
-    address += placemark.administrativeArea! + ' ';
-    }
-    if (placemark.postalCode != null && placemark.postalCode!.isNotEmpty) {
-    address += placemark.postalCode! + ', ';
-    }
-    if (placemark.country != null && placemark.country!.isNotEmpty) {
-    address += placemark.country!;
-    }
-
-    // Remove trailing comma if present
-    if (address.isNotEmpty && address.endsWith(', ')) {
-    address = address.substring(0, address.length - 2);
-    }}
-    }
-
+                  if(placemarks.isNotEmpty)
+                  {
+                    if (placemarks.isNotEmpty) {
+                      Placemark placemark = placemarks[0];
+                      if (placemark.name != null && placemark.name!.isNotEmpty) {
+                        address += placemark.name! + ', ';
+                      }
+                      if (placemark.subThoroughfare != null && placemark.subThoroughfare!.isNotEmpty) {
+                        address += placemark.subThoroughfare! + ', ';
+                      }
+                      if (placemark.thoroughfare != null && placemark.thoroughfare!.isNotEmpty) {
+                        address += placemark.thoroughfare! + ', ';
+                      }
+                      if (placemark.subLocality != null && placemark.subLocality!.isNotEmpty) {
+                        address += placemark.subLocality! + ', ';
+                      }
+                      if (placemark.locality != null && placemark.locality!.isNotEmpty) {
+                        address += placemark.locality! + ', ';
+                      }
+                      if (placemark.administrativeArea != null && placemark.administrativeArea!.isNotEmpty) {
+                        address += placemark.administrativeArea! + ' ';
+                      }
+                      if (placemark.postalCode != null && placemark.postalCode!.isNotEmpty) {
+                        address += placemark.postalCode! + ', ';
+                      }
+                      if (placemark.country != null && placemark.country!.isNotEmpty) {
+                        address += placemark.country!;
+                      }
+                      // Remove trailing comma if present
+                      if (address.isNotEmpty && address.endsWith(', ')) {
+                        address = address.substring(0, address.length - 2);
+                      }}
+                  }
                   Map<String, dynamic> addressData={
-                      "address":address,
+                    "address":address,
                     "latitude":latitude,
                     "longtitude":longtitude
                   };
                   Navigator.pop(context,addressData);
-                },
+                  },
                 ),
               ),
             )

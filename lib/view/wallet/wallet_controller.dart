@@ -8,6 +8,7 @@ import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/storage/sp_keys.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/view/shop_screen/controller/stripe_controller.dart';
 
 class WalletController extends GetxController {
 
@@ -164,7 +165,8 @@ class WalletController extends GetxController {
       var data = {
         "user": userId,
         "wallet": "6464dbb5c129601ee8c610ed",
-        "txnId": "71253671526351",
+        "txnId": Get.find<StripeController>().paymentIntentId??"",
+        "txnResponse": Get.find<StripeController>().pgData??"",
         "txnFor": "TOPUP", // purchase , fee
         "txnType": "TOPUP", // transaction , topup
         "txnMethod": "ONLINE", // online

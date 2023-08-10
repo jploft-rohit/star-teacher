@@ -51,13 +51,28 @@ class _AllFeedbackHelpViewState extends State<AllFeedbackHelpView> {
         int stepperIndex = -5;
         controller.statusTime.value = [];
         controller.statusTitle.value = [];
-        controller.response?[index].complaintStatus?.asMap().forEach((loopIndex,element) {
-          controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
-          controller.statusTime.add(getFormattedTimeWithMonth(element.time??""));
-          if ((element.name??"") == (controller.response?[index].status?.name??"")) {
-            stepperIndex = loopIndex;
+        controller.response?[index].complaintStatus?.toList().asMap().forEach((loopIndex,element) {
+          if (element.name.toString().toLowerCase() != "rejected") {
+            controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
+            controller.statusTime.add(getFormattedTimeWithMonth(element.time??""));
+            if (element.time.toString().isNotEmpty) {
+              stepperIndex = (loopIndex+1);
+            }
+          }else{
+            if ((element.time??"").toString().isNotEmpty) {
+              controller.statusTime.value = [];
+              controller.statusTitle.value = [];
+              controller.statusTitle.add(toBeginningOfSentenceCase(controller.response?[index].complaintStatus?[0].name??"")??"");
+              controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
+              controller.statusTime.add(getFormattedTimeWithMonth(controller.response?[index].complaintStatus?[0].time??""));
+              controller.statusTime.add(getFormattedTimeWithMonth(element.time??""));
+              if (element.time.toString().isNotEmpty) {
+                stepperIndex = (loopIndex+1);
+              }
+            }
           }
-        });
+        },
+        );
         return Card(
           elevation: 3,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
@@ -165,15 +180,62 @@ class _AllFeedbackHelpViewState extends State<AllFeedbackHelpView> {
                   ),
                 ),
                 Visibility(
-                  visible: stepperIndex == 1,
+                  visible: ((controller.response?[index].selfReply??"").isNotEmpty) && (stepperIndex != 3), // Resolver Commented Back
                   child: Row(
                     children: [
-                      Expanded(child: BaseButton(title: translate(context).accept.toUpperCase(), onPressed: (){
-                        controller.acceptItem(itemId: controller.response?[index].sId??"");
-                      },rightMargin: 1.5.w,isActive: false,removeHorizontalPadding: true,btnType: mediumLargeButton,)),
-                      Expanded(child: BaseButton(title: translate(context).comment.toUpperCase(), onPressed: (){
-                        showCommentDialog(itemId: controller.response?[index].sId??"");
-                      },leftMargin: 1.5.w,removeHorizontalPadding: true,btnType: mediumLargeButton,)),
+                      Expanded(
+                          child: BaseButton(
+                            title: translate(context).accept.toUpperCase(),
+                            onPressed: (){
+                              controller.acceptItem(itemId: controller.response?[index].sId??"");
+                            },
+                            rightMargin: 1.5.w,
+                            isActive: true,
+                            removeHorizontalPadding: true,
+                            btnType: mediumLargeButton,
+                          ),
+                      ),
+                      Expanded(
+                          child: BaseButton(
+                            title: translate(context).comment.toUpperCase(),
+                            onPressed: (){},
+                            leftMargin: 1.5.w,
+                            isActive: false,
+                            removeHorizontalPadding: true,
+                            btnType: mediumLargeButton,
+                          ),
+                      ),
+                    ],
+                  ),
+                ),
+                Visibility(
+                  visible: ((controller.response?[index].reply??"").isNotEmpty) && ((controller.response?[index].selfReply??"").isEmpty) && (stepperIndex != 3),
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: BaseButton(
+                            title: translate(context).accept.toUpperCase(),
+                            onPressed: (){
+                              controller.acceptItem(itemId: controller.response?[index].sId??"");
+                            },
+                            rightMargin: 1.5.w,
+                            isActive: true,
+                            removeHorizontalPadding: true,
+                            btnType: mediumLargeButton,
+                          ),
+                      ),
+                      Expanded(
+                          child: BaseButton(
+                            title: translate(context).comment.toUpperCase(),
+                            onPressed: (){
+                              showCommentDialog(itemId: controller.response?[index].sId??"");
+                            },
+                            leftMargin: 1.5.w,
+                            removeHorizontalPadding: true,
+                            isActive: true,
+                            btnType: mediumLargeButton,
+                          ),
+                      ),
                     ],
                   ),
                 ),

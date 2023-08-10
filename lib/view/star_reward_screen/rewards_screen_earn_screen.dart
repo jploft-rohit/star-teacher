@@ -3,25 +3,33 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
-
+import 'dart:ui' as ui;
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_image_network.dart';
-import 'package:staff_app/view/star_reward_screen/create_reward_screen.dart';
 import 'package:staff_app/view/star_reward_screen/reward_screen_ctrl.dart';
 
 import '../../Utility/base_utility.dart';
 
 class RewardView extends StatefulWidget {
-  const RewardView({super.key});
+  final String id;
+  const RewardView({super.key, required this.id});
 
   @override
   State<RewardView> createState() => _RewardViewState();
 }
 
 class _RewardViewState extends State<RewardView> {
+  final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
   RewardScreenCtrl controller = Get.find<RewardScreenCtrl>();
+
+  @override
+  void initState() {
+    super.initState();
+    controller.getRewardHistory(id: widget.id);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,21 +42,26 @@ class _RewardViewState extends State<RewardView> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              padding: EdgeInsets.symmetric(horizontal:10,vertical: 10),
+              margin: EdgeInsets.only(left: isRTL ? 10 : 10, right: isRTL ? 10 : 10, bottom: 10),
+              padding: const EdgeInsets.symmetric(horizontal:7, vertical: 7),
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(15),
                   border: Border.all(color: BaseColors.primaryColor)),
-              child: BaseImageNetwork(link: controller.myRewards?.first.profilePic??"",
-                concatBaseUrl: false,height: 5.h,width: 4.h,
-                errorWidget: SvgPicture.asset(
-                  girlSvg,
-                ),
+              child: BaseImageNetwork(
+                link: controller.myRewards?.first.profilePic??"",
+                concatBaseUrl: false,
+                height: 11.w,
+                width: 11.w,
               ),
             ),
             SizedBox(height: 1.h),
-            addText('Najma Suheil', 15.sp,
-                BaseColors.primaryColor, FontWeight.w700),
+            addText(
+                controller.myRewards?.first.name??"",
+                15.sp,
+                BaseColors.primaryColor,
+                FontWeight.w700,
+            ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 14.h),
               child: Divider(),
@@ -58,7 +71,7 @@ class _RewardViewState extends State<RewardView> {
               padding: EdgeInsets.symmetric(horizontal: 14.h),
               child: Divider(),
             ),
-            addText('#632541', 15.sp, BaseColors.primaryColor, FontWeight.w700),
+            addText("#${controller.myRewards?.first.studentId??""}", 15.sp, BaseColors.primaryColor, FontWeight.w700),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 14.h),
               child: Divider(),
@@ -73,7 +86,8 @@ class _RewardViewState extends State<RewardView> {
                     ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: controller.rewardsList2.length,
+                      padding: EdgeInsets.only(bottom: 8.h),
+                      itemCount: controller.starRewardHistoryList?.length??0,
                       itemBuilder: (context, index) => Container(
                         margin: EdgeInsets.all(8),
                         decoration: BoxDecoration(
@@ -85,14 +99,19 @@ class _RewardViewState extends State<RewardView> {
                             Expanded(
                               flex: 1,
                               child: Container(
-                                padding: EdgeInsets.all(15),
+                                height: 9.h,
+                                width: 8.h,
+                                padding: EdgeInsets.all(6),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(13),
                                     border: Border.all(
                                         color: BaseColors.primaryColor)),
-                                child: SvgPicture.asset(
-                                  controller.rewardsList2[index]['icon']!,
-                                  height: 6.h,
+                                child: BaseImageNetwork(
+                                  height: double.infinity,
+                                  width: double.infinity,
+                                  borderRadius: 10,
+                                  // fit: BoxFit.cover,
+                                  link: controller.starRewardHistoryList?[index]?.reward?.image??"",
                                 ),
                               ),
                             ),
@@ -102,9 +121,9 @@ class _RewardViewState extends State<RewardView> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  buildDetail('${translate(context).reward} : ', controller.rewardsList2[index]['title']),
+                                  buildDetail('${translate(context).reward} : ',controller.starRewardHistoryList?[index]?.reward?.title??""),
                                   SizedBox(height: 0.5.h),
-                                  buildDetail('${translate(context).rewarded_by} : ', controller.rewardsList2[index]['by']),
+                                  buildDetail('${translate(context).rewarded_by} : ',controller.starRewardHistoryList?[index]?.rewardedBy?.name??""),
                                   SizedBox(height: 1.h),
                                   Row(
                                     children: [
@@ -112,9 +131,7 @@ class _RewardViewState extends State<RewardView> {
                                         children: [
                                           SvgPicture.asset("assets/images/Vector (1).svg"),
                                           SizedBox(width: 2.w),
-                                          addText(
-                                              controller.rewardsList2[index]
-                                              ['date']!,
+                                          addText(formatBackendDate(controller.starRewardHistoryList?[index]?.createdAt??""),
                                               13.sp,
                                               BaseColors.textBlackColor,
                                               FontWeight.w400)
@@ -125,9 +142,7 @@ class _RewardViewState extends State<RewardView> {
                                         children: [
                                           SvgPicture.asset("assets/images/time_icon.svg"),
                                           SizedBox(width: 2.w),
-                                          addText(
-                                              controller.rewardsList2[index]
-                                              ['time']!,
+                                          addText(getFormattedTime(controller.starRewardHistoryList?[index]?.createdAt??""),
                                               13.sp,
                                               BaseColors.textBlackColor,
                                               FontWeight.w400)

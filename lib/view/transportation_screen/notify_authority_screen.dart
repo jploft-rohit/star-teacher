@@ -98,6 +98,7 @@ class _NotifyAuthorityForBusScreenState extends State<NotifyAuthorityForBusScree
                  child: Container(
                    margin: EdgeInsets.only(bottom: 8.0),
                    padding: EdgeInsets.all(14.sp),
+                   height: 6.5.h,
                    decoration: BoxDecoration(
                        borderRadius: BorderRadius.circular(8.0),
                        border: Border.all(color: BaseColors.primaryColor)
@@ -106,33 +107,36 @@ class _NotifyAuthorityForBusScreenState extends State<NotifyAuthorityForBusScree
                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                      children: [
                        Text("I will be absent today.", style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
-                       Container(
-                         height: 20,
-                         width: 20,
-                         decoration: BoxDecoration(
-                             color: controller.isFirstOptionSelected.value
-                                 ? BaseColors.backgroundColor
-                                 : BaseColors.borderColor,
-                             boxShadow: [getLightBoxShadow()],
-                             border: controller.isFirstOptionSelected.value
-                                 ? Border.all(
-                                 color: BaseColors.primaryColor, width: 1.5)
-                                 : Border.all(
-                                 color: Colors.transparent, width: 1.5),
-                             borderRadius: BorderRadius.circular(30.0)),
+                       Visibility(
+                         visible: controller.isFirstOptionSelected.value,
                          child: Container(
+                           height: 20,
+                           width: 20,
                            decoration: BoxDecoration(
-                               border: Border.all(
-                                   color: BaseColors.white, width: 1.5),
-                               shape: BoxShape.circle,
-                               boxShadow: [getBoxShadow()],
                                color: controller.isFirstOptionSelected.value
-                                   ? BaseColors.primaryColor
-                                   : BaseColors.borderColor
-                           ),
-                           child: Center(
-                             child: Icon(Icons.check, color: BaseColors.white,
-                                 size: 16.sp),
+                                   ? BaseColors.backgroundColor
+                                   : BaseColors.borderColor,
+                               boxShadow: [getLightBoxShadow()],
+                               border: controller.isFirstOptionSelected.value
+                                   ? Border.all(
+                                   color: BaseColors.primaryColor, width: 1.5)
+                                   : Border.all(
+                                   color: Colors.transparent, width: 1.5),
+                               borderRadius: BorderRadius.circular(30.0)),
+                           child: Container(
+                             decoration: BoxDecoration(
+                                 border: Border.all(
+                                     color: BaseColors.white, width: 1.5),
+                                 shape: BoxShape.circle,
+                                 boxShadow: [getBoxShadow()],
+                                 color: controller.isFirstOptionSelected.value
+                                     ? BaseColors.primaryColor
+                                     : BaseColors.borderColor
+                             ),
+                             child: Center(
+                               child: Icon(Icons.check, color: BaseColors.white,
+                                   size: 16.sp),
+                             ),
                            ),
                          ),
                        ),
@@ -155,6 +159,7 @@ class _NotifyAuthorityForBusScreenState extends State<NotifyAuthorityForBusScree
                 },
                 child: Container(
                   margin: EdgeInsets.only(bottom: 8.0),
+                  height: 6.5.h,
                   padding: EdgeInsets.all(14.sp),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
@@ -164,33 +169,36 @@ class _NotifyAuthorityForBusScreenState extends State<NotifyAuthorityForBusScree
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("Going to school by my own vehicle.", style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
-                      Container(
-                        height: 20,
-                        width: 20,
-                        decoration: BoxDecoration(
-                            color: controller.isSecondOptionSelected.value
-                                ? BaseColors.backgroundColor
-                                : BaseColors.borderColor,
-                            boxShadow: [getLightBoxShadow()],
-                            border: controller.isSecondOptionSelected.value
-                                ? Border.all(
-                                color: BaseColors.primaryColor, width: 1.5)
-                                : Border.all(
-                                color: Colors.transparent, width: 1.5),
-                            borderRadius: BorderRadius.circular(30.0)),
+                      Visibility(
+                        visible: controller.isSecondOptionSelected.value,
                         child: Container(
+                          height: 20,
+                          width: 20,
                           decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: BaseColors.white, width: 1.5),
-                              shape: BoxShape.circle,
-                              boxShadow: [getBoxShadow()],
                               color: controller.isSecondOptionSelected.value
-                                  ? BaseColors.primaryColor
-                                  : BaseColors.borderColor
-                          ),
-                          child: Center(
-                            child: Icon(Icons.check, color: BaseColors.white,
-                                size: 16.sp),
+                                  ? BaseColors.backgroundColor
+                                  : BaseColors.borderColor,
+                              boxShadow: [getLightBoxShadow()],
+                              border: controller.isSecondOptionSelected.value
+                                  ? Border.all(
+                                  color: BaseColors.primaryColor, width: 1.5)
+                                  : Border.all(
+                                  color: Colors.transparent, width: 1.5),
+                              borderRadius: BorderRadius.circular(30.0)),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: BaseColors.white, width: 1.5),
+                                shape: BoxShape.circle,
+                                boxShadow: [getBoxShadow()],
+                                color: controller.isSecondOptionSelected.value
+                                    ? BaseColors.primaryColor
+                                    : BaseColors.borderColor
+                            ),
+                            child: Center(
+                              child: Icon(Icons.check, color: BaseColors.white,
+                                  size: 16.sp),
+                            ),
                           ),
                         ),
                       ),
@@ -209,6 +217,7 @@ class _NotifyAuthorityForBusScreenState extends State<NotifyAuthorityForBusScree
                   }
                 },
                 child: Container(
+                  height: 6.5.h,
                   margin: EdgeInsets.only(bottom: 8.0),
                   padding: EdgeInsets.all(14.sp),
                   decoration: BoxDecoration(
@@ -219,33 +228,36 @@ class _NotifyAuthorityForBusScreenState extends State<NotifyAuthorityForBusScree
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("Returning home by my own vehicle.", style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
-                      Container(
-                        height: 20,
-                        width: 20,
-                        decoration: BoxDecoration(
-                            color: controller.isThirdOptionSelected.value
-                                ? BaseColors.backgroundColor
-                                : BaseColors.borderColor,
-                            boxShadow: [getLightBoxShadow()],
-                            border: controller.isThirdOptionSelected.value
-                                ? Border.all(
-                                  color: BaseColors.primaryColor, width: 1.5)
-                                : Border.all(
-                                color: Colors.transparent, width: 1.5),
-                            borderRadius: BorderRadius.circular(30.0)),
+                      Visibility(
+                        visible: controller.isThirdOptionSelected.value,
                         child: Container(
+                          height: 20,
+                          width: 20,
                           decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: BaseColors.white, width: 1.5),
-                              shape: BoxShape.circle,
-                              boxShadow: [getBoxShadow()],
                               color: controller.isThirdOptionSelected.value
-                                  ? BaseColors.primaryColor
-                                  : BaseColors.borderColor
-                          ),
-                          child: Center(
-                            child: Icon(Icons.check, color: BaseColors.white,
-                                   size: 16.sp),
+                                  ? BaseColors.backgroundColor
+                                  : BaseColors.borderColor,
+                              boxShadow: [getLightBoxShadow()],
+                              border: controller.isThirdOptionSelected.value
+                                  ? Border.all(
+                                    color: BaseColors.primaryColor, width: 1.5)
+                                  : Border.all(
+                                  color: Colors.transparent, width: 1.5),
+                              borderRadius: BorderRadius.circular(30.0)),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: BaseColors.white, width: 1.5),
+                                shape: BoxShape.circle,
+                                boxShadow: [getBoxShadow()],
+                                color: controller.isThirdOptionSelected.value
+                                    ? BaseColors.primaryColor
+                                    : BaseColors.borderColor
+                            ),
+                            child: Center(
+                              child: Icon(Icons.check, color: BaseColors.white,
+                                     size: 16.sp),
+                            ),
                           ),
                         ),
                       ),
@@ -257,12 +269,22 @@ class _NotifyAuthorityForBusScreenState extends State<NotifyAuthorityForBusScree
                 height: 3.h,
               ),
               Center(child: BaseButton(title: "SUBMIT", onPressed: (){
-                showGeneralDialog(
-                  context: context,
-                  pageBuilder: (context, animation, secondaryAnimation) {
-                    return NotifySchoolAdministratorPopup();
-                  },
-                );
+                // if (controller.isFirstOptionSelected.value) {
+                //
+                // }
+                // controller.optionsList.forEach((element) {
+                //   print(element.option??"");
+                // });
+                if (controller.isFirstOptionSelected.value || controller.isSecondOptionSelected.value || controller.isThirdOptionSelected.value) {
+                  showGeneralDialog(
+                    context: context,
+                    pageBuilder: (context, animation, secondaryAnimation) {
+                      return NotifySchoolAdministratorPopup();
+                    },
+                  );
+                }else{
+                  baseToast(message: "Please Select At Least 1 Option");
+                }
               },btnType: largeButton))
             ],
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:dio/dio.dart' as dio;
 import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/backend/responses_model/class_schedule_weekly_plan_response.dart';
@@ -21,6 +22,21 @@ class TodayScheduleController extends GetxController{
   Rx<DateTime> selectedDate = DateTime.now().obs;
   /// Weekly Plan
   final calenderTimeTable = <Timetable>[].obs;
+
+  Rx<DateTime> fromDate = DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1)).obs;
+  Rx<DateTime> endDate = DateTime.now().subtract(Duration(days: DateTime.now().weekday - 5)).obs;
+
+  void getNextWeekMondayDate() {
+    fromDate.value = fromDate.value.add(Duration(days: 7));
+    endDate.value = endDate.value.add(Duration(days: 7));
+    getWeeklyClassScheduledData();
+  }
+
+  void getPreviousWeekMondayDate() {
+    fromDate.value = fromDate.value.subtract(Duration(days: 7));
+    endDate.value = endDate.value.subtract(Duration(days: 7));
+    getWeeklyClassScheduledData();
+  }
 
   void goToPreviousDate() {
     selectedDate.value = selectedDate.value.subtract(Duration(days: 1));
@@ -46,10 +62,29 @@ class TodayScheduleController extends GetxController{
     });
   }
 
+  notifyAdminClassSchedule({String? reason, String? comment, bool? isPermanentReschedule, String? startDate, String? endDate}) async {
+    final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
+    dio.FormData data = dio.FormData.fromMap({
+      "user[0]": userId,
+      "reason": reason??"",
+      "comment": comment??"",
+      "permanentReschedule": isPermanentReschedule??false,
+      "startDate": flipDate(date: (startDate??"")),
+      "endDate": flipDate(date: (endDate??"")),
+    });
+    BaseAPI().post(url: ApiEndPoints().notifyAdmin, data: data).then((value){
+      if (value?.statusCode ==  200) {
+        BaseOverlays().showSnackBar(message: "Notified Successfully"/*(BaseSuccessResponse.fromJson(value?.data).message??"")*/,title: "Success");
+      }else{
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
+      }
+    });
+  }
+
   getWeeklyClassScheduledData() async {
     weekList?.clear();
     final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
-    BaseAPI().get(url: ApiEndPoints().getWeeklyClassSchedule+userId).then((value){
+    BaseAPI().get(url: (ApiEndPoints().getWeeklyClassSchedule)+(userId),queryParameters: {"from":formatFlutterDateTime(flutterDateTime: fromDate.value, getDayFirst: false), "to":formatFlutterDateTime(flutterDateTime: endDate.value, getDayFirst: false)}).then((value){
       if (value?.statusCode ==  200) {
         weekList?.value = ClassScheduleWeeklyPlanResponse.fromJson(value?.data).data??[];
         weekPlanListToTimeTable();

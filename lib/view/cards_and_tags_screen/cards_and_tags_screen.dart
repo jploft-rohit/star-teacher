@@ -169,13 +169,36 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
                        int stepperIndex = -5;
                        controller.statusTime.value = [];
                        controller.statusTitle.value = [];
-                       controller.ordersList?[index]?.requestStatus?.asMap().forEach((loopIndex,element) {
-                       controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
-                       controller.statusTime.add(getFormattedTimeWithMonth(element.date??""));
-                       if ((element.date?.toString()??"").isNotEmpty) {
-                         stepperIndex = loopIndex;
-                       }
-                    });
+
+                       // controller.ordersList?[index]?.requestStatus?.asMap().forEach((loopIndex,element) {
+                       // controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
+                       // controller.statusTime.add(getFormattedTimeWithMonth(element.date??""));
+                       // if ((element.date?.toString()??"").isNotEmpty) {
+                       //   stepperIndex = loopIndex;
+                       // }
+                       // });
+                       controller.ordersList?[index]?.requestStatus?.toList().asMap().forEach((loopIndex,element) {
+                         if (element.name.toString().toLowerCase() != "rejected") {
+                           controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
+                           controller.statusTime.add(getFormattedTimeWithMonth(element.date??""));
+                           if (element.date.toString().isNotEmpty) {
+                             stepperIndex = (loopIndex+1);
+                           }
+                         }else{
+                           if ((element.date??"").toString().isNotEmpty) {
+                             controller.statusTime.value = [];
+                             controller.statusTitle.value = [];
+                             controller.statusTitle.add(toBeginningOfSentenceCase(controller.ordersList?[index]?.requestStatus?[0].name??"")??"");
+                             controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
+                             controller.statusTime.add(getFormattedTimeWithMonth(controller.ordersList?[index]?.requestStatus?[0].date??""));
+                             controller.statusTime.add(getFormattedTimeWithMonth(element.date??""));
+                             if (element.date.toString().isNotEmpty) {
+                               stepperIndex = (loopIndex+1);
+                             }
+                           }
+                         }
+                       },
+                       );
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 15.0),
                       child: Container(

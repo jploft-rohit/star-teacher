@@ -42,34 +42,35 @@ class _EarlyLeaveTileState extends State<EarlyLeaveTile> {
           List<String> stepperDates = [];
           List<String> stepperTitles = [];
           int stepperIndex = 1;
-          controller.list?[index]?.requestStatus?.forEach((element) {
-            stepperDates.add(getFormattedTimeWithMonth(element.time??""));
-            stepperTitles.add(toBeginningOfSentenceCase(element.name??"\n\n")??"\n\n");
-            if ((element.time??"").isNotEmpty) {
-              stepperIndex+1;
-            }
-          });
-          // controller.list?[index]?.requestStatus?.toList().asMap().forEach((loopIndex,element) {
-          //   if (element.name.toString().toLowerCase() != "rejected") {
-          //     stepperTitles.add(toBeginningOfSentenceCase(element.name??"")??"");
-          //     stepperDates.add(getFormattedTimeWithMonth(element.time??""));
-          //     if (element.time.toString().isNotEmpty) {
-          //       stepperIndex = (loopIndex+1);
-          //     }
-          //   }else{
-          //     if ((element.time??"").toString().isNotEmpty) {
-          //       stepperDates = [];
-          //       stepperTitles = [];
-          //       stepperTitles.add(toBeginningOfSentenceCase(controller.list?[index]?.requestStatus?[0].name??"")??"");
-          //       stepperTitles.add(toBeginningOfSentenceCase(element.name??"")??"");
-          //       stepperDates.add(getFormattedTimeWithMonth(controller.list?[index]?.requestStatus?[0].time??""));
-          //       stepperDates.add(getFormattedTimeWithMonth(element.time??""));
-          //       if (element.time.toString().isNotEmpty) {
-          //         stepperIndex = (loopIndex+1);
-          //       }
-          //     }
+          // controller.list?[index]?.requestStatus?.forEach((element) {
+          //   stepperDates.add(getFormattedTimeWithMonth(element.time??""));
+          //   stepperTitles.add(toBeginningOfSentenceCase(element.name??"\n\n")??"\n\n");
+          //   if ((element.time??"").isNotEmpty) {
+          //     stepperIndex+1;
           //   }
-          // },);
+          // });
+
+          controller.list?[index]?.requestStatus?.toList().asMap().forEach((loopIndex,element) {
+            if (element.name.toString().toLowerCase() != "rejected") {
+              stepperTitles.add(toBeginningOfSentenceCase(element.name??"")??"");
+              stepperDates.add(getFormattedTimeWithMonth(element.time??""));
+              if (element.time.toString().isNotEmpty) {
+                stepperIndex = (loopIndex+1);
+              }
+            }else{
+              if ((element.time??"").toString().isNotEmpty) {
+                stepperDates = [];
+                stepperTitles = [];
+                stepperTitles.add(toBeginningOfSentenceCase(controller.list?[index]?.requestStatus?[0].name??"")??"");
+                stepperTitles.add(toBeginningOfSentenceCase(element.name??"")??"");
+                stepperDates.add(getFormattedTimeWithMonth(controller.list?[index]?.requestStatus?[0].time??""));
+                stepperDates.add(getFormattedTimeWithMonth(element.time??""));
+                if (element.time.toString().isNotEmpty) {
+                  stepperIndex = (loopIndex+1);
+                }
+              }
+            }
+          },);
         return Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
@@ -97,23 +98,26 @@ class _EarlyLeaveTileState extends State<EarlyLeaveTile> {
                       ),
                     ),
                     SizedBox(width: isRTL ? 0 : 4.w),
-                    GestureDetector(
-                      onTap: (){
-                        showGeneralDialog(
-                          context: context,
-                          pageBuilder:  (context, animation, secondaryAnimation) {
-                            return UploadEvidencePopup(id: controller.list?[index]?.sId??"");
-                          },
-                        );
-                      },
-                      child: Column(
-                        children: [
-                          SvgPicture.asset(uploadDocSvg,height: 15),
-                          const SizedBox(
-                            height: 2.0,
-                          ),
-                          Text("Upload\nEvidence", style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 11.5.sp),textAlign: TextAlign.center,)
-                        ],
+                    Visibility(
+                      visible: (controller.list?[index]?.document??"").isEmpty,
+                      child: GestureDetector(
+                        onTap: (){
+                          showGeneralDialog(
+                            context: context,
+                            pageBuilder:  (context, animation, secondaryAnimation) {
+                              return UploadEvidencePopup(id: controller.list?[index]?.sId??"");
+                            },
+                          );
+                        },
+                        child: Column(
+                          children: [
+                            SvgPicture.asset(uploadDocSvg,height: 15),
+                            const SizedBox(
+                              height: 2.0,
+                            ),
+                            Text("Upload\nEvidence", style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 11.5.sp),textAlign: TextAlign.center,)
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -124,12 +128,12 @@ class _EarlyLeaveTileState extends State<EarlyLeaveTile> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    BaseDetailData(showDivider: false,prefixIcon: "assets/images/time_icon.svg", detailsLabel:getFormattedTime3(controller.list?[index]?.outTime??"")),
+                    BaseDetailData(showDivider: false,prefixIcon: "assets/images/time_icon.svg", detailsLabel:getFormattedTime(controller.list?[index]?.outTime??"")),
                     Padding(padding: EdgeInsets.symmetric(horizontal: 16.w),
                       child: Text("To",style: TextStyle(fontSize: 14.sp),
                       ),
                     ),
-                    BaseDetailData(showDivider: false, prefixIcon: "assets/images/time_icon.svg",detailsLabel:getFormattedTime3(controller.list?[index]?.inTime??"")),
+                    BaseDetailData(showDivider: false, prefixIcon: "assets/images/time_icon.svg",detailsLabel:getFormattedTime(controller.list?[index]?.inTime??"")),
                   ],
                 ),
                 const Divider(),

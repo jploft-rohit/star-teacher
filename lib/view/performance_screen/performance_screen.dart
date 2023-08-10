@@ -281,18 +281,20 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
                           width: 1.w,
                         ),
                         addText(getFormattedTime(controller.list?[index]?.createdAt??""), 15.sp, BaseColors.textBlackColor, FontWeight.w400),
-                        SizedBox(
-                          width: 10.w,
+                        Visibility(
+                          visible: (controller.list?[index]?.isAnonymous.toString().toLowerCase()) == "false",
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SizedBox(width: 10.w),
+                              SvgPicture.asset("assets/images/teacher_icon.svg"),
+                              SizedBox(width: 1.w),
+                              addText(controller.list?[index]?.ratedBy?.name??"", 15.sp, BaseColors.textBlackColor, FontWeight.w400),
+                              SizedBox(width: 1.w),
+                              addText("(${controller.list?[index]?.ratedBy?.role?.displayName??""})", 13.sp, BaseColors.primaryColor, FontWeight.w400)
+                            ],
+                          ),
                         ),
-                        SvgPicture.asset("assets/images/teacher_icon.svg"),
-                        SizedBox(
-                          width: 1.w,
-                        ),
-                        addText(controller.list?[index]?.ratedBy?.name??"", 15.sp, BaseColors.textBlackColor, FontWeight.w400),
-                        SizedBox(
-                          width: 1.w,
-                        ),
-                        addText("(${controller.list?[index]?.ratedBy?.role?.displayName??""})", 13.sp, BaseColors.primaryColor, FontWeight.w400)
                       ],
                     )
                   ],

@@ -163,9 +163,18 @@ class ComplainReportController extends GetxController{
     }
   }
 
-  getData(){
+  getData() async {
+    final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
     response?.value = [];
-    BaseAPI().get(url: ApiEndPoints().getAllComplaintReport,queryParameters: {"type": selectedTabIndex.value == 0 ? "" : selectedTabIndex.value == 1 ? "complaint" : "report", "school":selectedSchoolId.value}).then((value){
+    BaseAPI().get(url: ApiEndPoints().getAllComplaintReport,queryParameters: {
+      "type": selectedTabIndex.value == 0
+          ? ""
+          : selectedTabIndex.value == 1
+          ? "complaint"
+          : "report",
+      "school":selectedSchoolId.value,
+      "user":userId
+    }).then((value){
       if (value?.statusCode ==  200) {
         response?.value = AllComplainReportResponse.fromJson(value?.data).data??[];
       }else{

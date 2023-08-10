@@ -35,8 +35,8 @@ class OnlineClassRequestController extends GetxController{
   setData({bool? isUpdating, OnlineClassRequestData? data}){
     if(isUpdating??false){
       schoolController.text = data?.school?.name??"";
-      fromDateController.text = formatBackendDate(data?.startDate??"",getDayFirst: false);
-      toDateController.text = formatBackendDate(data?.endDate??"",getDayFirst: false);
+      fromDateController.text = formatBackendDate(data?.startDate??"",getDayFirst: true);
+      toDateController.text = formatBackendDate(data?.endDate??"",getDayFirst: true);
       reasonController.text = data?.reason??"";
       uploadController.text = (data?.document??"").split("/").last??"";
       selectedSchoolId.value = data?.school?.sId??"";
@@ -87,8 +87,8 @@ class OnlineClassRequestController extends GetxController{
           "school" : selectedSchoolId.value,
           "user[0]":userId,
           "typeOfRequest":"onlineClass",
-          "startDate":fromDateController.text.trim(),
-          "endDate":toDateController.text.trim(),
+          "startDate":flipDate(date: fromDateController.text.trim()),
+          "endDate":flipDate(date: toDateController.text.trim()),
           "reason":reasonController.text.trim(),
           "document": await dio.MultipartFile.fromFile(selectedFile?.value.path??"", filename: selectedFile?.value.path.split("/").last??"")
         });
@@ -97,8 +97,8 @@ class OnlineClassRequestController extends GetxController{
           "school" : selectedSchoolId.value,
           "user[0]":userId,
           "typeOfRequest":"onlineClass",
-          "startDate":fromDateController.text.trim(),
-          "endDate":toDateController.text.trim(),
+          "startDate":flipDate(date: fromDateController.text.trim()),
+          "endDate":flipDate(date: toDateController.text.trim()),
           "reason":reasonController.text.trim(),
         });
       }
@@ -125,8 +125,8 @@ class OnlineClassRequestController extends GetxController{
           "school" : selectedSchoolId.value,
           "user[0]":userId,
           "typeOfRequest":"onlineClass",
-          "startDate":fromDateController.text.trim(),
-          "endDate":toDateController.text.trim(),
+          "startDate":flipDate(date: fromDateController.text.trim()),
+          "endDate":flipDate(date: toDateController.text.trim()),
           "reason":reasonController.text.trim(),
           "document": await dio.MultipartFile.fromFile(selectedFile?.value.path??"", filename: selectedFile?.value.path.split("/").last??"")
         });
@@ -135,8 +135,8 @@ class OnlineClassRequestController extends GetxController{
           "school" : selectedSchoolId.value,
           "user[0]":userId,
           "typeOfRequest":"onlineClass",
-          "startDate":fromDateController.text.trim(),
-          "endDate":toDateController.text.trim(),
+          "startDate":flipDate(date: fromDateController.text.trim()),
+          "endDate":flipDate(date: toDateController.text.trim()),
           "reason":reasonController.text.trim(),
         });
       }

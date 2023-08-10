@@ -47,7 +47,7 @@ class NotebookCtrl extends GetxController{
     if (isUpdating??false) {
       titleController.text = data?.title??"";
       gradeController.text = "5th";
-      dateController.text = formatBackendDate(data?.date??"",getDayFirst: false);
+      dateController.text = formatBackendDate(data?.date??"",getDayFirst: true);
       descriptionController.text = data?.description??"";
       recommendationController.text = data?.recommandation??"";
       commentController.text = data?.comment??"";
@@ -78,7 +78,7 @@ class NotebookCtrl extends GetxController{
         "school": selectedSchoolId.value,
         "type": selectedIndex3.value == 0 ? "talent" : "improvement",
         "title": titleController.text.trim(),
-        "date": dateController.text.trim(),
+        "date": flipDate(date: dateController.text.trim()),
         "description": descriptionController.text.trim(),
         "recommandation": recommendationController.text.trim(),
         "subject": selectedSubjectId.value,
@@ -86,7 +86,7 @@ class NotebookCtrl extends GetxController{
         "starId": "6443a18eed5d074580c2b2a0",
         "teacher": "645255336784ea41b08b3ea8",
       });
-      BaseAPI().post(url: ApiEndPoints().createNotebook,data: data).then((value){
+      BaseAPI().post(url: ApiEndPoints().createNotebook, data: data).then((value){
         if (value?.statusCode == 200) {
           Get.back();
           BaseSuccessResponse response = BaseSuccessResponse.fromJson(value?.data);

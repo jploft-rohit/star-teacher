@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'dart:ui' as ui;
 import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/storage/sp_keys.dart';
@@ -53,12 +52,28 @@ class _ComplaintsListTileState extends State<ComplaintsListTile> {
         controller.statusTime.value = [];
         controller.statusTitle.value = [];
         controller.response?[index].complaintStatus?.toList().asMap().forEach((loopIndex,element) {
-          controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
-          controller.statusTime.add(getFormattedTimeWithMonth(element.time??""));
-          if ((element.name??"") == (controller.response?[index].status?.name??"")) {
-            stepperIndex = loopIndex;
+          if (element.name.toString().toLowerCase() != "rejected") {
+            controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
+            controller.statusTime.add(getFormattedTimeWithMonth(element.time??""));
+            if (element.time.toString().isNotEmpty) {
+              stepperIndex = (loopIndex+1);
+            }
+          }else{
+            if ((element.time??"").toString().isNotEmpty) {
+              controller.statusTime.value = [];
+              controller.statusTitle.value = [];
+              controller.statusTitle.add(toBeginningOfSentenceCase(controller.response?[index].complaintStatus?[0].name??"")??"");
+              controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
+              controller.statusTime.add(getFormattedTimeWithMonth(controller.response?[index].complaintStatus?[0].time??""));
+              controller.statusTime.add(getFormattedTimeWithMonth(element.time??""));
+              if (element.time.toString().isNotEmpty) {
+                stepperIndex = (loopIndex+1);
+              }
+            }
           }
-        });
+        },
+        );
+        print("Final Stepper Value ---> " + (stepperIndex.toString()));
         return Card(
           elevation: 3,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
@@ -75,10 +90,12 @@ class _ComplaintsListTileState extends State<ComplaintsListTile> {
                       child: BaseIcons().view(
                       url: controller.response?[index].document??"",
                       concatBaseUrl: true,
-                    )),
+                     ),
+                    ),
                     Visibility(
                         visible: (controller.response?[index].document??"").isNotEmpty,
-                        child: SizedBox(width: 3.w)),
+                        child: SizedBox(width: 3.w),
+                    ),
                     Visibility(
                       visible: (controller.response?[index].document??"").isNotEmpty,
                       child: BaseIcons().download(onRightButtonPressed: (){
@@ -117,7 +134,8 @@ class _ComplaintsListTileState extends State<ComplaintsListTile> {
                     ),
                     Visibility(
                         visible: userId == (controller.response?[index].createdBy??""),
-                        child: SizedBox(width: isRTL ? 0 : 3.w)),
+                        child: SizedBox(width: isRTL ? 0 : 3.w),
+                    ),
                   ],
                 ),
                 const Divider(),
@@ -184,21 +202,66 @@ class _ComplaintsListTileState extends State<ComplaintsListTile> {
                   ),
                 ),
                 Visibility(
-                  visible: stepperIndex == 1 && (controller.response?[index].resolverComment??"").isNotEmpty,
+                  visible: ((controller.response?[index].selfComment??"").isNotEmpty) && (stepperIndex != 3), // Resolver Commented Back
                   child: Row(
                     children: [
-                      Expanded(child: BaseButton(title: translate(context).accept.toUpperCase(), onPressed: (){
-                        controller.acceptComplaintReport(itemId: controller.response?[index].sId??"");
-                      },rightMargin: 1.5.w,isActive: false,removeHorizontalPadding: true,btnType: mediumLargeButton,)),
-                      Expanded(child: BaseButton(title: translate(context).comment.toUpperCase(), onPressed: (){
-                        showCommentDialog(itemId: controller.response?[index].sId??"");
-                      },leftMargin: 1.5.w,removeHorizontalPadding: true,btnType: mediumLargeButton,)),
+                      Expanded(
+                          child: BaseButton(
+                            title: translate(context).accept.toUpperCase(),
+                            onPressed: (){
+                              controller.acceptComplaintReport(itemId: controller.response?[index].sId??"");
+                            },
+                            rightMargin: 1.5.w,
+                            isActive: true,
+                            removeHorizontalPadding: true,
+                            btnType: mediumLargeButton,
+                          ),
+                      ),
+                      Expanded(
+                          child: BaseButton(
+                            title: translate(context).comment.toUpperCase(),
+                            onPressed: (){},
+                            leftMargin: 1.5.w,
+                            removeHorizontalPadding: true,
+                            btnType: mediumLargeButton,
+                            isActive: false,
+                          ),
+                      ),
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 1.h,
+                Visibility(
+                  visible: ((controller.response?[index].resolverComment??"").isNotEmpty) && ((controller.response?[index].selfComment??"").isEmpty) && (stepperIndex != 3),// Resolver Commented Back
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: BaseButton(
+                            title: translate(context).accept.toUpperCase(),
+                            onPressed: (){
+                              controller.acceptComplaintReport(itemId: controller.response?[index].sId??"");
+                              },
+                            rightMargin: 1.5.w,
+                            isActive: true,
+                            removeHorizontalPadding: true,
+                            btnType: mediumLargeButton,
+                          ),
+                      ),
+                      Expanded(
+                          child: BaseButton(
+                            title: translate(context).comment.toUpperCase(),
+                            onPressed: (){
+                              showCommentDialog(itemId: controller.response?[index].sId??"");
+                              },
+                            leftMargin: 1.5.w,
+                            removeHorizontalPadding: true,
+                            btnType: mediumLargeButton,
+                            isActive: true,
+                          ),
+                      ),
+                    ],
+                  ),
                 ),
+                SizedBox(height: 1.h),
                 StepProgressView(
                   width: MediaQuery.of(context).size.width,
                   curStep: stepperIndex+1,

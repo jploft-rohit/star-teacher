@@ -97,9 +97,9 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
                             child: child!,
                           );
                         },
-                        initialDate: DateTime.now(),
+                        initialDate: DateTime(DateTime.now().year-3,1),
                         firstDate: DateTime(1600, 8),
-                        lastDate: DateTime.now()
+                        lastDate: DateTime(DateTime.now().year-3)
                     ).then((picked){
                       if (picked != null) {
                         ctrl.dobController..text = formatFlutterDateTime(flutterDateTime: picked, getDayFirst: true);

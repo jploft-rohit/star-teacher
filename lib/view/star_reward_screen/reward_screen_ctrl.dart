@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
+import 'package:staff_app/backend/responses_model/star_reward_history_response.dart';
 import 'package:staff_app/backend/responses_model/star_reward_response.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
@@ -27,6 +28,7 @@ class RewardScreenCtrl extends GetxController{
   RxString selectedSectionName = "".obs;
   RxList<MyRewards>? myRewards = <MyRewards>[].obs;
   RxList<RewardsList>? rewardList = <RewardsList>[].obs;
+  RxList<StarRewardHistroryData?>? starRewardHistoryList = <StarRewardHistroryData>[].obs;
 
 
 
@@ -37,6 +39,16 @@ class RewardScreenCtrl extends GetxController{
         rewardList?.value = StarRewardResponse.fromJson(value?.data).data?.rewards??[];
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
+      }
+    });
+  }
+
+  getRewardHistory({required String id}){
+    BaseAPI().get(url: (ApiEndPoints().viewRewardHistory)+id).then((value){
+      if (value?.statusCode ==  200) {
+        starRewardHistoryList?.value = StarRewardHistoryResponse.fromJson(value?.data).data?.reward??[];
+      }else{
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
       }
     });
   }

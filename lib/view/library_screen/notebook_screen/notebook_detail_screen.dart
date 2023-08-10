@@ -299,6 +299,13 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
                                 // buildInfoItems("Comment", controller.notebookList?[index].comment??na),
                                 const Divider(),
                                 buildInfoItems("Recommendation", controller.notebookList?[index].recommandation??na),
+                                Visibility(
+                                  visible: (controller.notebookList?[index].comment??"").isNotEmpty,
+                                  child: const Divider(),
+                                ),
+                                Visibility(
+                                    visible: (controller.notebookList?[index].comment??"").isNotEmpty,
+                                    child: buildInfoItems("Comment", controller.notebookList?[index].comment??na)),
                                 SizedBox(
                                   height: 1.h,
                                 ),

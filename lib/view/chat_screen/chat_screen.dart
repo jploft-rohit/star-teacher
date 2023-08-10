@@ -15,7 +15,7 @@ import 'package:staff_app/view/chat_screen/chat_screen_ctrl.dart';
 import 'package:staff_app/view/chat_screen/views/chat_admins_tab.dart';
 import 'package:staff_app/view/chat_screen/views/chat_parents_tab.dart';
 import 'package:staff_app/view/chat_screen/views/chat_staff_tab.dart';
-import 'package:staff_app/view/chat_screen/views/chat_star_tab.dart';
+import 'package:staff_app/view/chat_screen/views/chat_list_tile.dart';
 
 class ChatScreen extends StatefulWidget {
   final bool isFromBtmBar;
@@ -27,36 +27,37 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin{
   final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
-  var tabCtrl;
-  late TabController tabController;
+  late TabController tabCtrl;
 
   ChatScreenCtrl controller = Get.put(ChatScreenCtrl());
   DashboardScreenCtrl ctrl = Get.find<DashboardScreenCtrl>();
 
   @override
   void initState() {
-    tabCtrl = TabController(length: 4, vsync: this);
-    tabController = TabController(length: 2, vsync: this)..addListener(() {
-      setState(() {});
-    });
     super.initState();
-  }
-  @override
-  void dispose() {
-    tabController.dispose();
-    super.dispose();
+    controller.getChatHistory();
+    tabCtrl = TabController(length: 4, vsync: this)..addListener(() {
+      if (!(tabCtrl.indexIsChanging)) {
+        controller.primarySelectedIndex.value = tabCtrl.index;
+        controller.secondarySelectedIndex.value = 0;
+        controller.getChatHistory();
+      }
+    });
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: BaseAppBar(title: "Chats", onBackPressed: (){
-        if(widget.isFromBtmBar){
-          ctrl.bottomNavigationKey.currentState?.setPage(2);
-        }else{
-          Navigator.pop(context);
-        }
-      }),
+      appBar: BaseAppBar(
+          title: "Chats",
+          onBackPressed: (){
+            if(widget.isFromBtmBar){
+              ctrl.bottomNavigationKey.currentState?.setPage(2);
+            }else{
+              Navigator.pop(context);
+            }
+          },
+      ),
       body: Padding(
         padding: EdgeInsets.all(15.sp),
         child: Column(
@@ -100,10 +101,13 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin{
                 physics: const NeverScrollableScrollPhysics(),
                 controller: tabCtrl,
                 children: [
-                  ChatStarTab(),
-                  ChatParentsTab(),
-                  ChatStaffTab(),
-                  ChatAdminTab()
+                  ChatListTile(),
+                  ChatListTile(),
+                  ChatListTile(),
+                  ChatListTile(),
+                  // ChatParentsTab(),
+                  // ChatStaffTab(),
+                  // ChatAdminTab()
                 ],
               ),
             )
@@ -130,21 +134,21 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin{
             const Tab(
               text: 'Parents',
             ),
-            Align(
-              alignment: AlignmentDirectional.topEnd,
-              child: Padding(
-                padding: const EdgeInsetsDirectional.only(start: 60.0),
-                child: Container(
-                  height: 15.0,
-                  padding: const EdgeInsets.all(2.0),
-                  decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: BaseColors.primaryColor
-                  ),
-                  child: Center(child: Text("10", style: Style.montserratRegularStyle().copyWith(color: Colors.white, fontSize: 13.sp),)),
-                ),
-              ),
-            )
+            // Align(
+            //   alignment: AlignmentDirectional.topEnd,
+            //   child: Padding(
+            //     padding: const EdgeInsetsDirectional.only(start: 60.0),
+            //     child: Container(
+            //       height: 15.0,
+            //       padding: const EdgeInsets.all(2.0),
+            //       decoration: const BoxDecoration(
+            //           shape: BoxShape.circle,
+            //           color: BaseColors.primaryColor
+            //       ),
+            //       child: Center(child: Text("10", style: Style.montserratRegularStyle().copyWith(color: Colors.white, fontSize: 13.sp),)),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
         Stack(
@@ -176,24 +180,30 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin{
             const Tab(
               text: 'Admins',
             ),
-            Align(
-              alignment: AlignmentDirectional.topEnd,
-              child: Padding(
-                padding: const EdgeInsetsDirectional.only(start: 60.0),
-                child: Container(
-                  height: 15.0,
-                  padding: const EdgeInsets.all(2.0),
-                  decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: BaseColors.primaryColor
-                  ),
-                  child: Center(child: Text("10", style: Style.montserratRegularStyle().copyWith(color: Colors.white, fontSize: 13.sp),)),
-                ),
-              ),
-            )
+            // Align(
+            //   alignment: AlignmentDirectional.topEnd,
+            //   child: Padding(
+            //     padding: const EdgeInsetsDirectional.only(start: 60.0),
+            //     child: Container(
+            //       height: 15.0,
+            //       padding: const EdgeInsets.all(2.0),
+            //       decoration: const BoxDecoration(
+            //           shape: BoxShape.circle,
+            //           color: BaseColors.primaryColor
+            //       ),
+            //       child: Center(child: Text("10", style: Style.montserratRegularStyle().copyWith(color: Colors.white, fontSize: 13.sp),)),
+            //     ),
+            //   ),
+            // )
           ],
         ),
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    tabCtrl.dispose();
+    super.dispose();
   }
 }

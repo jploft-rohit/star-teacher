@@ -71,7 +71,7 @@ class _CreateOnlineClassRequestState extends State<CreateOnlineClassRequest> {
                   controller: controller.fromDateController,
                   title: "${translate(context).leave_start}:",
                   prefixIcon: calenderDateSvg,
-                  hintText: "yyyy/mm/dd",
+                  hintText: "dd/mm/yyyy",
                   validator: (val){
                     if (controller.fromDateController.text.isEmpty) {
                       return "Please select start date";
@@ -91,22 +91,21 @@ class _CreateOnlineClassRequestState extends State<CreateOnlineClassRequest> {
                             child: child!,
                           );
                         },
-                        initialDate: controller.fromDateController.text.isEmpty ? DateTime.now() : DateTime.parse(controller.fromDateController.text.trim()),
+                        initialDate: controller.fromDateController.text.isEmpty ? DateTime.now() : DateTime.parse(flipDate(date: controller.fromDateController.text.trim())),
                         firstDate: DateTime.now(),
                         lastDate: DateTime(DateTime.now().year+1)
                     ).then((value){
                       if (value != null) {
                         if (controller.toDateController.text.trim().isNotEmpty) {
-                          DateTime endDate = DateTime.parse(controller.toDateController.text.trim());
+                          DateTime endDate = DateTime.parse(flipDate(date: controller.toDateController.text.trim()));
                           if (endDate.isAfter(value)) {
-                            controller.fromDateController.text = formatFlutterDateTime(flutterDateTime: value);
+                            controller.fromDateController.text = formatFlutterDateTime(flutterDateTime: value, getDayFirst: true);
                           }else{
                             baseToast(message: "\"Start Date\" can't be more than \"End Date\"");
                           }
                         }else{
-                          controller.fromDateController.text = formatFlutterDateTime(flutterDateTime: value);
+                          controller.fromDateController.text = formatFlutterDateTime(flutterDateTime: value, getDayFirst: true);
                         }
-                        controller.formKey.currentState?.validate();
                       }
                     });
                   },
@@ -115,7 +114,7 @@ class _CreateOnlineClassRequestState extends State<CreateOnlineClassRequest> {
                   controller: controller.toDateController,
                   title: "${translate(context).leave_end}:",
                   prefixIcon: calenderDateSvg,
-                  hintText: "yyyy/mm/dd",
+                  hintText: "dd/mm/yyyy",
                   validator: (val){
                     if (controller.toDateController.text.isEmpty) {
                       return "Please select end date";
@@ -135,22 +134,21 @@ class _CreateOnlineClassRequestState extends State<CreateOnlineClassRequest> {
                             child: child!,
                           );
                         },
-                        initialDate: controller.toDateController.text.isEmpty ? DateTime.now() : DateTime.parse(controller.toDateController.text.trim()),
+                        initialDate: controller.toDateController.text.isEmpty ? DateTime.now() : DateTime.parse(flipDate(date: controller.toDateController.text.trim())),
                         firstDate: DateTime.now(),
                         lastDate: DateTime(DateTime.now().year+1)
                     ).then((value){
                       if (value != null) {
                         if (controller.fromDateController.text.trim().isNotEmpty) {
-                          DateTime startDate = DateTime.parse(controller.fromDateController.text.trim());
-                          if (startDate.isBefore(value)) {
-                            controller.toDateController.text = formatFlutterDateTime(flutterDateTime: value);
-                          }else{
+                          DateTime startDate = DateTime.parse(flipDate(date: controller.fromDateController.text.trim()));
+                           if (startDate.isBefore(value)) {
+                            controller.toDateController.text = formatFlutterDateTime(flutterDateTime: value, getDayFirst: true);
+                           }else{
                             baseToast(message: "\"End Date\" can't be less than \"Start Date\"");
-                          }
+                           }
                         }else{
-                          controller.toDateController.text = formatFlutterDateTime(flutterDateTime: value);
+                          controller.toDateController.text = formatFlutterDateTime(flutterDateTime: value, getDayFirst: true);
                         }
-                        controller.formKey.currentState?.validate();
                       }
                     },
                     );

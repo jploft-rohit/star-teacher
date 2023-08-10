@@ -18,65 +18,6 @@ class LeaveBalancePopup extends StatefulWidget {
 
 class _LeaveBalancePopupState extends State<LeaveBalancePopup> {
   LeaveRequestCtrl controller = Get.find<LeaveRequestCtrl>();
-  List<Map<String, dynamic>> leaveBalanceList = [
-    {
-      "title": "Annual leave",
-      "balance": "2",
-      "balance1": "2",
-    },
-    {
-      "title": "Compassionate leave",
-      "balance": "6",
-      "balance1": "6",
-    },
-    {
-      "title": "Sick leave",
-      "balance": "1",
-      "balance1": "1",
-    },
-    {
-      "title": "Local escort leave",
-      "balance": "6",
-      "balance1": "6",
-    },
-    {
-      "title": "Abroad escort leave",
-      "balance": "2",
-      "balance1": "2",
-    },
-    {
-      "title": "National service leave",
-      "balance": "1",
-      "balance1": "1",
-    },
-    {
-      "title": "Event leave",
-      "balance": "1",
-      "balance1": "1",
-    },
-    {
-      "title": "Hajj leave",
-      "balance": "6",
-      "balance1": "6",
-    },
-    {
-      "title": "Paternity Leave",
-      "balance": "2",
-      "balance1": "2",
-    },
-    {
-      "title": "Maternity Leave",
-      "balance": "2",
-      "balance1": "2",
-    },
-    {
-      "title": "Leave without pay",
-      "balance": "1",
-      "balance1": "1",
-    },
-
-  ];
-  final tooltipController = JustTheController();
 
   @override
   void initState() {
@@ -165,51 +106,23 @@ class _LeaveBalancePopupState extends State<LeaveBalancePopup> {
                                       Row(
                                         children: [
                                           Text(controller.leaveBalanceList?[index].leaveType?.name??"", style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
-                                          SizedBox(
-                                            width: 2.w,
-                                          ),
-                                          // GestureDetector(
-                                          //   onTap: (){
-                                          //     SuperTooltip(
-                                          //       popupDirection: TooltipDirection.down,
-                                          //       content: new Material(
-                                          //           child: Text(
-                                          //             "Lorem ipsum dolor sit amet, consetetur sadipscingelitr, "
-                                          //                 "sed diam nonumy eirmod tempor invidunt ut laboreet dolore magna aliquyam erat, "
-                                          //                 "sed diam voluptua. At vero eos et accusam et justoduo dolores et ea rebum. ",
-                                          //             softWrap: true,
-                                          //           )),
-                                          //     ).show(context);
-                                          //   },
-                                          //   child: SvgPicture.asset("assets/images/information-button(1) 1.svg"),)
-                                          Tooltip(
-                                            showDuration: const Duration(seconds: 10),
-                                            margin: const EdgeInsets.symmetric(horizontal: 30),
-                                            textStyle: TextStyle(
-                                              color: BaseColors.primaryColor,
-                                              fontSize: 1.8.h - 1,
-                                            ),
-                                            decoration: BoxDecoration(
-                                              color: BaseColors.secondaryColor,
-                                              border: Border.all(color: BaseColors.primaryColor),
-                                              // boxShadow: [getDeepBoxShadow()],
-                                              borderRadius: BorderRadius.circular(20),
+                                          SizedBox(width: 2.w),
+                                          JustTheTooltip(
+                                            child: Material(
+                                              color: Colors.white,
+                                              shape: const CircleBorder(),
+                                              elevation: 4.0,
+                                              child: SvgPicture.asset("assets/images/information-button(1) 1.svg"),
                                             ),
                                             triggerMode: TooltipTriggerMode.tap,
-                                            padding: const EdgeInsets.symmetric(horizontal: 6),
-                                            // controller: tooltipController,
-                                            // tailBaseWidth: 10,
-                                            // tailLength: 10,
-                                            // elevation: 10.0,
-                                            // borderRadius: BorderRadius.circular(10.0),
-                                            // child: Material(
-                                            //   shape: const CircleBorder(),
-                                            //   elevation: 4.0,
-                                            //   child: SvgPicture.asset("assets/images/information-button(1) 1.svg"),
-                                            // ),
-                                            message: controller.leaveBalanceList?[index].leaveType?.description??"N/A",
-                                            child:  SvgPicture.asset("assets/images/information-button(1) 1.svg"),
-                                          )
+                                            tailBaseWidth: 10,
+                                            tailLength: 7,
+                                            content: Padding(
+                                              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                              child: Text(controller.leaveBalanceList?[index].leaveType?.description??"N/A",
+                                              ),
+                                            ),
+                                          ),
                                         ],
                                       ),
                                       Text(controller.leaveBalanceList?[index].totalLeave??"N/A", style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
@@ -218,8 +131,7 @@ class _LeaveBalancePopupState extends State<LeaveBalancePopup> {
                               ],
                             ),
                           ),
-                          if(leaveBalanceList.length - 1 != index)
-                          Divider(),
+                          Divider()
                         ],
                       );
                     },

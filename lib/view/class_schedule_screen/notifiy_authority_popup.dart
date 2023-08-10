@@ -11,15 +11,18 @@ import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/class_schedule_screen/reschedule_class_popup.dart';
+import 'package:staff_app/view/today_schedule_module/controller/today_schedule_controller.dart';
 
 class NotifyAuthorityPopup extends StatefulWidget {
-  const NotifyAuthorityPopup({Key? key}) : super(key: key);
+  final String name;
+  const NotifyAuthorityPopup({Key? key, required this.name}) : super(key: key);
 
   @override
   State<NotifyAuthorityPopup> createState() => _NotifyAuthorityPopupState();
 }
 
 class _NotifyAuthorityPopupState extends State<NotifyAuthorityPopup> {
+  TodayScheduleController controller = Get.find<TodayScheduleController>();
   List<Map<String, dynamic>> list = [
     {
       "title":translate(Get.context!).i_will_be_absent,
@@ -69,7 +72,8 @@ class _NotifyAuthorityPopupState extends State<NotifyAuthorityPopup> {
                       onTap: (){
                         Get.back();
                       },
-                      child: const Icon(Icons.close, color: Colors.black,),)
+                      child: const Icon(Icons.close, color: Colors.black),
+                    )
                   ],
                 ),
                   SizedBox(
@@ -85,7 +89,7 @@ class _NotifyAuthorityPopupState extends State<NotifyAuthorityPopup> {
                           for(var i in list){
                             i['isSelected'] = false;
                           }
-                          list[index]['isSelected'] = !list[index]['isSelected'];
+                          list[index]['isSelected'] = !(list[index]['isSelected']);
                           setState(() {});
                         },
                         child: Container(
@@ -105,14 +109,14 @@ class _NotifyAuthorityPopupState extends State<NotifyAuthorityPopup> {
                                 side: const BorderSide(color: Colors.transparent),
                                 activeColor: BaseColors.primaryColor,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50.0),
+                                  borderRadius: BorderRadius.circular(50),
                                 ),
                                 value: list[index]['isSelected'],
                                 onChanged: (value){
                                   for(var i in list){
                                     i['isSelected'] = false;
                                   }
-                                  list[index]['isSelected'] = !list[index]['isSelected'];
+                                  list[index]['isSelected'] = !(list[index]['isSelected']);
                                   setState(() {});
                                 },
                               )
@@ -122,19 +126,26 @@ class _NotifyAuthorityPopupState extends State<NotifyAuthorityPopup> {
                       );
                     },
                   ),
-                  CustomTextField(controller: reasonCtrl, hintText: translate(context).reason, maxLine: 3,),
-                SizedBox(
-                  height: 3.h,
-                ),
-
+                CustomTextField(controller: reasonCtrl, hintText: translate(context).reason, maxLine: 3),
+                SizedBox(height: 3.h),
                 Center(
                   child: BaseButton(removeHorizontalPadding: true,borderRadius: 100,btnType: mediumButton,title: translate(context).submit_btn_txt, onPressed: (){
-                    print((list.length-3).toString());
+                    String reason = "";
+                    list.forEach((element) {
+                      if (element['isSelected']) {
+                        reason = element['title'];
+                      }
+                    });
                       Get.back();
                       if (list.last['isSelected']) {
                         showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation) {
-                          return const RescheduleClassPopup();
+                          return RescheduleClassPopup(name: widget.name, reason: reason, comment: reasonCtrl.text.trim(),);
                         });
+                      }else{
+                        controller.notifyAdminClassSchedule(
+                          comment: reasonCtrl.text.trim(),
+                          reason: reason,
+                        );
                       }
                   }),
                 ),

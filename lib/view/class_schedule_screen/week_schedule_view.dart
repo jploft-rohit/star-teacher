@@ -27,81 +27,75 @@ class _WeekScheduleViewState extends State<WeekScheduleView> {
     return SingleChildScrollView(
       child: Obx(()=>Column(
           children: [
-            Stack(
-              children: [
-                SizedBox(
-                  height: 20.0,
-                  child: PageView.builder(
-                    itemCount: 3,
-                    physics: NeverScrollableScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(calenderDateSvg),
-                          SizedBox(
-                            width: 2.w,
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              text: '${translate(context).from} : ',
-                              style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),
-                              children: <TextSpan>[
-                                TextSpan(text: "05/06/2023", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
-                              ],
+            SizedBox(
+              height: 20,
+              child: PageView.builder(
+                itemCount: 3,
+                physics: NeverScrollableScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: (){
+                          controller.getPreviousWeekMondayDate();
+                          setState(() {});
+                        },
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.arrow_back_ios,
+                              size: 18.sp,
+                              color: BaseColors.primaryColor,
                             ),
-                          ),
-                          SizedBox(
-                            width: 5.w,
-                          ),
-                          SvgPicture.asset(calenderDateSvg),
-                          SizedBox(
-                            width: 2.w,
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              text: '${translate(context).to} : ',
-                              style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),
-                              children: <TextSpan>[
-                                TextSpan(text: "09/06/2023", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
-                              ],
+                            SvgPicture.asset(calenderDateSvg),
+                            SizedBox(width: 2.w),
+                            RichText(
+                              text: TextSpan(
+                                text: '${translate(context).from} : ',
+                                style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),
+                                children: <TextSpan>[
+                                  TextSpan(text: formatFlutterDateTime(flutterDateTime: controller.fromDate.value, getDayFirst: true), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                ),
-                Align(
-                  alignment: AlignmentDirectional.centerStart,
-                  child: IconButton(
-                    onPressed: (){},
-                    visualDensity: VisualDensity(horizontal: -4,vertical: -4),
-                    padding: EdgeInsets.zero,
-                    constraints: BoxConstraints(maxHeight: 10),
-                    icon: Icon(
-                      Icons.arrow_back_ios,
-                      size: 18.sp,
-                      color: BaseColors.primaryColor,
-                    ),
-                  ),
-                ),
-                Align(
-                  alignment: AlignmentDirectional.centerEnd,
-                  child: IconButton(
-                    onPressed: (){},
-                    visualDensity: VisualDensity(horizontal: -4,vertical: -4),
-                    padding: EdgeInsets.zero,
-                    constraints: BoxConstraints(maxHeight: 10),
-                    icon: Icon(
-                      Icons.arrow_forward_ios,
-                      size: 18.sp,
-                      color: BaseColors.primaryColor,
-                    ),
-                  ),
-                )
-              ],
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 5.w),
+                      SvgPicture.asset(calenderDateSvg),
+                      SizedBox(width: 2.w),
+                      GestureDetector(
+                        onTap: (){
+                          controller.getNextWeekMondayDate();
+                          setState(() {});
+                        },
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            RichText(
+                              text: TextSpan(
+                                text: '${translate(context).to} : ',
+                                style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),
+                                children: <TextSpan>[
+                                  TextSpan(text: formatFlutterDateTime(flutterDateTime: controller.endDate.value, getDayFirst: true), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp)),
+                                ],
+                              ),
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              size: 18.sp,
+                              color: BaseColors.primaryColor,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
             SizedBox(height: 7.h),
             timetable(),
@@ -112,9 +106,9 @@ class _WeekScheduleViewState extends State<WeekScheduleView> {
   }
   timetable() {
     return (controller.weekList?.length??0) == 0
-        ? BaseNoData()
+        ? BaseNoData(topMargin: 23.h)
         : GestureDetector(
-      onTap: (){
+        onTap: (){
         int count = 1;
         showDialog(
           context: context,

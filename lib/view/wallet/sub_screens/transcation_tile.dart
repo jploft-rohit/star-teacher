@@ -76,11 +76,10 @@ class _TransactionTileState extends State<TransactionTile> {
                                   ],
                                 ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(width: 2.w),
-                              Column(
+                          Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 2.w),
+                              child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -90,7 +89,11 @@ class _TransactionTileState extends State<TransactionTile> {
                                   const SizedBox(height: 4),
                                   controller.selectedTabIndex.value == 0
                                       ? Text('#${controller.list?[index]?.txnId??""}', style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.primaryColor))
-                                      : Text('TR No : ${controller.list?[index]?.txnId??""}', style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp)),
+                                      : Row(
+                                        children: [
+                                          Text('TR No : ${controller.list?[index]?.txnId??""}', style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp)),
+                                        ],
+                                      ),
                                   Visibility(
                                     visible: controller.selectedTabIndex.value == 0,
                                     child: Padding(
@@ -111,11 +114,11 @@ class _TransactionTileState extends State<TransactionTile> {
                                   ),
                                 ],
                               ),
-                            ],
+                            ),
                           ),
-                          const Spacer(),
+                          // const Spacer(),
                           Padding(
-                            padding: EdgeInsets.only(right: isRTL ? 0 : 35,top: 2, left: isRTL ? 10 : 0),
+                            padding: EdgeInsets.only(right: isRTL ? 0 : 10,top: 2, left: isRTL ? 10 : 0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,

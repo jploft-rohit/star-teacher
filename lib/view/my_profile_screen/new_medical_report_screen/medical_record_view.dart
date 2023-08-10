@@ -18,6 +18,8 @@ import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/base_qr.dart';
 import 'package:staff_app/utility/base_views/textfieldwidget.dart';
 import 'package:staff_app/utility/constant_images.dart';
+import 'package:staff_app/utility/intl/intl.dart';
+import 'package:staff_app/utility/step_progress.dart';
 import 'package:staff_app/view/my_profile_screen/controller/my_profile_ctrl.dart';
 import 'package:staff_app/view/my_profile_screen/new_medical_report_screen/controller/medical_record_controller.dart';
 import '../../../utility/base_utility.dart';
@@ -430,21 +432,17 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                           ),
                                         ),
                                       )),
-                                      Obx(
-                                            () => Visibility(
+                                      Obx(() => Visibility(
                                           visible: controller.diseases.value?.infection?[index].active ?? false,
-                                          child: InkWell(
+                                          child: ((controller.diseases.value?.infection?[index].document??"").isEmpty)
+                                              ? InkWell(
                                             onTap: () {
-                                              showMediaPickerDialog(
-                                                      (fileName, filePath) {
-                                                    controller.diseases.update(
-                                                          (val) {
+                                              showMediaPickerDialog((fileName, filePath) {
+                                                    controller.diseases.update((val) {
                                                         val?.infection?[index].document = filePath;
                                                       },
                                                     );
-                                                    controller.addOrUpdateDisease(
-                                                        controller.diseases.value
-                                                            ?.infection?[index]);
+                                                    controller.addOrUpdateDisease(controller.diseases.value?.infection?[index]);
                                                   });
                                             },
                                             child: Padding(
@@ -463,6 +461,10 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                                     });
                                               }, "assets/images/upload_icon.svg"),
                                             ),
+                                          ) : BaseIcons().view(
+                                              topMargin: 2.h,
+                                              concatBaseUrl: false,
+                                              url: 'https://stars.tasksplan.com:4000/star-backend${controller.diseases.value?.infection?[index].document??""}',
                                           ),
                                         ),
                                       ),
@@ -596,7 +598,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                       )),
                                       Obx(() => Visibility(
                                           visible: controller.diseases.value?.condition?[index].active ?? false,
-                                          child: InkWell(
+                                          child: ((controller.diseases.value?.condition?[index].document??"").isEmpty) ? InkWell(
                                             onTap: () {
                                               showMediaPickerDialog(
                                                       (fileName, filePath) {
@@ -620,7 +622,13 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                                     });
                                               }, "assets/images/upload_icon.svg"),
                                             ),
-                                          ))),
+                                          )
+                                              : BaseIcons().view(
+                                            topMargin: 2.h,
+                                            concatBaseUrl: false,
+                                            url: controller.diseases.value?.condition?[index].document??"",
+                                          ),
+                                      )),
                                     ]),
                                   ],
                                 ),
@@ -648,8 +656,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                           ),
                           SizedBox(height:1.h),
                           ListView.builder(
-                            itemCount:
-                            controller.diseases.value?.history?.length,
+                            itemCount: controller.diseases.value?.history?.length,
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
@@ -1647,8 +1654,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                     ],
                   ),
                 ),
-                Obx(
-                      () => Visibility(
+                Obx(() => Visibility(
                     visible: controller.selectindex.value == 2,
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1659,6 +1665,30 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                             padding: EdgeInsets.zero,
                             physics: NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
+                              List<String> stepperDates = [];
+                              List<String> stepperTitles = [];
+                              int stepperIndex = 1;
+                              controller.medicalRecordList[index].requestStatus?.toList().asMap().forEach((loopIndex,element) {
+                                if (element.name.toString().toLowerCase() != "rejected") {
+                                  stepperTitles.add(toBeginningOfSentenceCase(element.name??"")??"");
+                                  stepperDates.add(getFormattedTimeWithMonth(element.date??""));
+                                  if (element.date.toString().isNotEmpty) {
+                                    stepperIndex = (loopIndex+1);
+                                  }
+                                }else{
+                                  if ((element.date??"").toString().isNotEmpty) {
+                                    stepperDates = [];
+                                    stepperTitles = [];
+                                    stepperTitles.add(toBeginningOfSentenceCase(controller.medicalRecordList[index].requestStatus?[0].name??"")??"");
+                                    stepperTitles.add(toBeginningOfSentenceCase(element.name??"")??"");
+                                    stepperDates.add(getFormattedTimeWithMonth(controller.medicalRecordList[index].requestStatus?[0].date??""));
+                                    stepperDates.add(getFormattedTimeWithMonth(element.date??""));
+                                    if (element.date.toString().isNotEmpty) {
+                                      stepperIndex = (loopIndex+1);
+                                    }
+                                  }
+                                }
+                              });
                               MedicalRecord medicalRecord = controller.medicalRecordList[index];
                               return Container(
                                 margin: EdgeInsets.only(bottom: 1.5.h),
@@ -1712,20 +1742,27 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                         children: [
                                           Expanded(child: Text(medicalRecord.document?.split('/').last??"",style: TextStyle(fontSize: 11))),
                                           BaseIcons().view(
-                                            url: "http://3.28.14.143:4000/star-backend/${medicalRecord.document}",
+                                            url: "https://stars.tasksplan.com:4000/star-backend/${medicalRecord.document}",
                                             leftMargin: 3.w,
                                             concatBaseUrl: false,
                                           ),
                                           BaseIcons().download(onRightButtonPressed: (){
                                             BaseOverlays().dismissOverlay();
-                                            downloadFile(url: "http://3.28.14.143:4000/star-backend/${medicalRecord.document}", concatBaseUrl: false);
+                                            downloadFile(url: "https://stars.tasksplan.com:4000/star-backend/${medicalRecord.document}", concatBaseUrl: false);
                                           },
                                             leftMargin: 3.w,
                                           ),
                                         ],
                                       ),
                                     ),
-                                    SizedBox(height:1.h)
+                                    SizedBox(height:1.h),
+                                    StepProgressView(
+                                      width: MediaQuery.of(context).size.width,
+                                      curStep: stepperIndex,
+                                      color: BaseColors.primaryColor,
+                                      titles: stepperDates,
+                                      statuses: stepperTitles,
+                                    ),
                                   ],
                                 ),
                               );
@@ -1928,15 +1965,13 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
             ),
             Flexible(
                 flex: 1,
-                child: diseaseData?.active ?? false
+                child: (diseaseData?.active ?? false) && (diseaseData?.document??"").isEmpty
                     ? InkWell(
                   onTap: () async {
                     showMediaPickerDialog(
                           (fileName, filePath) {
-                        controller.diseases.update(
-                              (val) {
-                            int? index = val?.history?.indexWhere(
-                                    (element) => element.sId == diseaseData?.sId);
+                        controller.diseases.update((val) {
+                            int? index = val?.history?.indexWhere((element) => element.sId == diseaseData?.sId);
                             if (index != null && index >= 0) {
                               val?.history?[index].document = filePath;
                             }
@@ -1950,8 +1985,12 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                     "assets/images/upload_icon.svg",
                     color: BaseColors.primaryColor,
                   ),
-                )
-                    : SizedBox.shrink()),
+                ) : BaseIcons().view(
+                  topMargin: 0.5.h,
+                  concatBaseUrl: false,
+                  url: diseaseData?.document??"",
+                ),
+            ),
           ],
         ),
         buildDivider(),

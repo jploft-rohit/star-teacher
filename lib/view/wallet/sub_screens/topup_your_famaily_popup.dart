@@ -8,6 +8,7 @@ import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/view/shop_screen/controller/stripe_controller.dart';
 import 'package:staff_app/view/wallet/sub_screens/cartd_detail_popup.dart';
 import 'package:staff_app/view/wallet/wallet_controller.dart';
 
@@ -21,6 +22,7 @@ class TopupYourFamilyPopup extends StatefulWidget {
 class _TopupYourFamilyPopupState extends State<TopupYourFamilyPopup> {
   final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
   TextEditingController amtCtrl = TextEditingController();
+  StripeController stripeController = Get.put(StripeController());
   WalletController controller = Get.put(WalletController());
   var formKey = GlobalKey<FormState>();
   @override
@@ -142,13 +144,13 @@ class _TopupYourFamilyPopupState extends State<TopupYourFamilyPopup> {
                           onPressed: (){
                             if (formKey.currentState?.validate()??false) {
                               controller.selectedAmount.value = int.parse(amtCtrl.text.trim());
-                              Get.back();
-                              showGeneralDialog(
-                                context: context,
-                                pageBuilder:  (context, animation, secondaryAnimation) {
-                                  return CardDetailPopup();
-                                },
-                              );
+                              stripeController.makePayment(controller.selectedAmount.value.toString()).then((value) {
+                                if (value) {
+                                  controller.addWalletMoney();
+                                }
+                              });
+                              // Get.back();
+
                             }
                           },
                         ),

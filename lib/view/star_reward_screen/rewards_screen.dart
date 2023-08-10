@@ -45,7 +45,7 @@ class _RewardsScreenState extends State<RewardsScreen> with AutomaticKeepAliveCl
             SizedBox(height: 2.h),
             GestureDetector(
               onTap: (){
-                Get.to(RewardView());
+                Get.to(RewardView(id: controller.myRewards?.first.sId));
               },
               child: Obx(()=>(controller.myRewards?.length??0) == 0
                   ? SizedBox.shrink()
@@ -89,7 +89,7 @@ class _RewardsScreenState extends State<RewardsScreen> with AutomaticKeepAliveCl
                               Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  addText(controller.myRewards?.first.name??"", 16.sp, BaseColors.textBlackColor, FontWeight.w700),
+                                    addText(controller.myRewards?.first.name??"", 16.sp, BaseColors.textBlackColor, FontWeight.w700),
                                 ],
                               ),
                               SizedBox(height: 0.3.h),
@@ -117,10 +117,10 @@ class _RewardsScreenState extends State<RewardsScreen> with AutomaticKeepAliveCl
                             borderRadius: BorderRadius.circular(7)),
                         padding: const EdgeInsets.all(6),
                         margin: EdgeInsets.only(bottom: 8.5.h),
-                        child: addText(((controller.myRewards?.first.ratings.toString()??"0").toString()), 14.sp,
+                        child: addText(int.parse((controller.myRewards?.first.ratings.toString()??"0").toString()) > 0 ? (controller.myRewards?.first.ratings.toString()??"0") : "0", 14.sp,
                             BaseColors.white, FontWeight.w500),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -131,7 +131,8 @@ class _RewardsScreenState extends State<RewardsScreen> with AutomaticKeepAliveCl
                 translate(context).reward_star_by_redeeming_real_life_rewards,
                 15.sp,
                 BaseColors.textBlackColor,
-                FontWeight.w400),
+                FontWeight.w400,
+            ),
             Expanded(
               child: Obx(()=>GridView.builder(
                   physics: const BouncingScrollPhysics(),

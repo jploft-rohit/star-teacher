@@ -1,9 +1,16 @@
-/// baseUrl: 'http://3.28.14.143:4000/star-backend/api/',
-/// baseUrl: 'http://3.28.14.143:5000/star-backend/api/',
+/// Debug Server: 'http://3.28.14.143:4000/star-backend/api/',
+/// Release Server: 'http://3.28.14.143:5000/star-backend/api/',
+/// Final Server: 'https://www.stars-ai.com:4000/',
 
 class ApiEndPoints {
 
-  final String imageBaseUrl = "http://3.28.14.143:4000/star-backend/";
+  final String debugServer = 'http://3.28.14.143:4000/star-backend/api/';
+  final String releaseServer = 'http://3.28.14.143:5000/star-backend/api/';
+  final String finalServer = 'https://www.stars-ai.com:4000/star-backend/api/';
+
+  final String baseUrl = 'https://stars.tasksplan.com:4000/star-backend/api/';
+
+  final String imageBaseUrl = "https://stars.tasksplan.com:4000/star-backend/";
 
   /// OnBoarding EndPoints
   final String loginNewUser = "auth/send-otp";
@@ -240,7 +247,16 @@ class ApiEndPoints {
 
   /// Class Schedule
   final String getWeeklyClassSchedule = "timeTable/teacher/week-plan/";
+  final String notifyAdmin = "requestRoutes/create";
 
   /// Payment Gateway
   final String checkStripeStatus = "fees/check_intent/";
+
+  /// Nationality
+  final String getNationality = "nationality/get-all";
+
+  /// Chat
+  final String chatBaseUrl = "nationality/get-all";
+  final String getChatList = "user/chatUserListAPI/";
+  final String getGroupChatList = "user/userGroupsListAPI/";
 }

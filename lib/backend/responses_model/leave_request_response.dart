@@ -44,6 +44,7 @@ class LeaveRequestData {
   dynamic meetingFeedBackDesc;
   dynamic isDeleted;
   dynamic sId;
+  dynamic comment;
   School? school;
   dynamic startDate;
   dynamic endDate;
@@ -62,6 +63,7 @@ class LeaveRequestData {
   LeaveRequestData(
       {this.date,
         this.time,
+        this.comment,
         this.reason,
         this.meetingUrl,
         this.meetingFeedBackRating,
@@ -86,6 +88,7 @@ class LeaveRequestData {
   LeaveRequestData.fromJson(Map<String, dynamic> json) {
     date = json['date'];
     time = json['time'];
+    comment = json['comment'];
     reason = json['reason'];
     meetingUrl = json['meetingUrl'];
     meetingFeedBackRating = json['meetingFeedBackRating'];
@@ -123,6 +126,7 @@ class LeaveRequestData {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['date'] = this.date;
     data['time'] = this.time;
+    data['comment'] = this.comment;
     data['reason'] = this.reason;
     data['meetingUrl'] = this.meetingUrl;
     data['meetingFeedBackRating'] = this.meetingFeedBackRating;

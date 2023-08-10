@@ -31,6 +31,11 @@ class _CartViewState extends State<CartView> {
     super.initState();
     controller.getUserCart(callGetData: false);
     controller.selectedPaymentPos.value = 0;
+    controller.servingPlace.text = "";
+    controller.servingTime.value.text = "";
+    controller.servingPlace.text = "";
+    controller.fromDateController.text = "";
+    controller.toDateController.text = "";
   }
   @override
   Widget build(BuildContext context) {
@@ -44,7 +49,18 @@ class _CartViewState extends State<CartView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                addText('Items', 15.sp, BaseColors.textBlackColor, FontWeight.w400),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    addText('Items', 15.sp, BaseColors.textBlackColor, FontWeight.w400),
+                    BaseButton(
+                        btnType: smallButton,
+                        title: "Add item",
+                        onPressed: () {
+                          Get.back();
+                        })
+                  ],
+                ),
                 SizedBox(height: 2.h),
                 (controller.cartProductsList?.length??0) == 0
                     ? BaseNoData(message: "No Products Added")
@@ -105,19 +121,119 @@ class _CartViewState extends State<CartView> {
                 detailRow('Grand Total', '${(controller.userCartData?.value?.grandTotal?.toString()??"")} AED'),
                 SizedBox(height:3.h),
                 Center(
-                  child: BaseButton(title: (widget.isUpdating??false) ? "Update Order" : "Proceed To Pay", onPressed: (){
-                    if ((controller.cartProductsList?.length??0) != 0) {
-                      // showGeneralDialog(
-                      //   context: context,
-                      //   pageBuilder:  (context, animation, secondaryAnimation) {
-                      //     return CartCardDetail(isUpdating: widget.isUpdating??false, isFromCart: true);
-                      //   },
-                      // );
-                      stripeController.makePayment("100");
-                    }else{
-                      baseToast(message: "No Product Found In Cart");
-                    }
-                  },btnType: largeButton),
+                  child: SizedBox(
+                    height: 13.h,
+                    child: ListView.builder(
+                      itemCount: controller.paymentImageList.length,
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () async {
+                            controller.selectedPaymentPos.value = index;
+                          },
+                          child: Obx(
+                                () => Container(
+                              width: Get.width/3.64,
+                              margin: EdgeInsets.symmetric(horizontal: 1.w, vertical: 2),
+                              decoration: BoxDecoration(
+                                  color: controller.selectedPaymentPos.value == index
+                                      ? BaseColors.primaryColorLight
+                                      : BaseColors.white,
+                                  boxShadow: [getBoxShadow()],
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Stack(
+                                children: [
+                                  Positioned(
+                                    top: 10,
+                                    left: 10,
+                                    child: Container(
+                                      padding: const EdgeInsets.all(2),
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          boxShadow: [getDeepBoxShadow()],
+                                          color: controller.selectedPaymentPos.value == index
+                                              ? BaseColors.primaryColor
+                                              : BaseColors.greyColor),
+                                      child: Icon(
+                                        Icons.check,
+                                        color: BaseColors.white,
+                                        size: 14,
+                                      ),
+                                    ),
+                                  ),
+
+                                  Center(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          child: SvgPicture.asset(
+                                            controller.paymentImageList[index],
+                                            // color: controller.selectedPaymentPos.value == index ? BaseColors.primaryColor : BaseColors.black,
+                                            color: BaseColors.primaryColor,
+                                            height: 24,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 5,),
+                                        addText(controller.paymentTitleList[index], 12, BaseColors.black, FontWeight.normal)
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                SizedBox(height:3.h),
+                // Center(
+                //   child: BaseButton(title: (widget.isUpdating??false) ? "Update Order" : "Proceed To Pay", onPressed: (){
+                //     if ((controller.cartProductsList?.length??0) != 0) {
+                //       // showGeneralDialog(
+                //       //   context: context,
+                //       //   pageBuilder:  (context, animation, secondaryAnimation) {
+                //       //     return CartCardDetail(isUpdating: widget.isUpdating??false, isFromCart: true);
+                //       //   },
+                //       // );
+                //       stripeController.makePayment((controller.userCartData?.value?.grandTotal?.toString()??""));
+                //     }else{
+                //       baseToast(message: "No Product Found In Cart");
+                //     }
+                //   },btnType: largeButton),
+                // ),
+                Center(
+                    child: BaseButton(title: "CHECKOUT", onPressed: (){
+                      if ((controller.cartProductsList?.length??0) != 0) {
+                          BaseOverlays().showConfirmationDialog(title: "Are you sure you want to purchase this order?",
+                              onRightButtonPressed: (){
+                                BaseOverlays().dismissOverlay();
+                                if (controller.selectedPaymentPos.value == 1) {
+                                  // showGeneralDialog(
+                                  //   context: context,
+                                  //   pageBuilder:  (context, animation, secondaryAnimation) {
+                                  //     return const CartCardDetail(isFromCart: false,);
+                                  //   },
+                                  // );
+                                  stripeController.makePayment((controller.userCartData?.value?.grandTotal?.toString()??"")).then((value) {
+                                    if (value) {
+                                      controller.createOrder(isFromCart: false);
+                                    }else{
+
+                                    }
+                                  });
+                                }else{
+                                  // BaseOverlays().dismissOverlay();
+                                  controller.createOrder(isFromCart: false);
+                                }
+                              });
+                      }else{
+                        baseToast(message: "No Product Found In Cart");
+                      }
+                    },btnType: largeButton)
                 ),
                 SizedBox(height:3.h),
               ],

@@ -891,8 +891,7 @@ class BaseOverlays {
               opacity: a1.value,
               child: AlertDialog(
                 insetPadding: const EdgeInsets.symmetric(horizontal: 10),
-                shape:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(16.0)),
+                shape: OutlineInputBorder(borderRadius: BorderRadius.circular(16.0)),
                 content: SizedBox(
                   width: 100.w,
                   child: Padding(
@@ -917,7 +916,8 @@ class BaseOverlays {
                                       'Add Medical Records',
                                       dialogHeadingTs,
                                       Colors.black,
-                                      FontWeight.w700),
+                                      FontWeight.w700,
+                                  ),
                                 ),
                               ),
                             ],

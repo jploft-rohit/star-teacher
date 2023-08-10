@@ -313,8 +313,7 @@ Widget iconButton(ontap, icon) {
 Widget radioButton(onTap, value, label) {
   return Row(
     children: [
-      iconButton(
-          onTap, value ? "assets/images/Group 7585.svg" : "assets/images/Ellipse 33.svg"),
+      iconButton(onTap, value ? "assets/images/Group 7585.svg" : "assets/images/Ellipse 33.svg"),
       SizedBox(width: 0.5.h),
       addText(label, radioButtonTitleTs, BaseColors.textBlackColor,
           FontWeight.w400),
@@ -1153,6 +1152,34 @@ showMediaPickerDialogMedical(void Function(String fileName, String filePath) onP
                     child: GestureDetector(
                       onTap: () async {
                         Get.back();
+                        final result = await ImagePicker().pickImage(
+                          source: ImageSource.gallery,
+                        );
+                        if (result != null) {
+                          final fileBytes = await result.readAsBytes();
+                          final fileName = result.path.split('/').last;
+                          final filePath = result.path;
+                          // Do something with the fileBytes and fileName
+                          onPickedImage(fileName, filePath);
+                        }
+                      },
+                      child: Column(
+                        children: [
+                          Icon(
+                            Icons.photo_library_outlined,
+                            color: ColorConstants.primaryColor,
+                            size: 60,
+                          ),
+                          SizedBox(height: 8),
+                          Text("Gallery"),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () async {
+                        Get.back();
                         final result = await FilePicker.platform.pickFiles(
                           type: FileType.any,
                           allowMultiple: true,
@@ -1171,16 +1198,21 @@ showMediaPickerDialogMedical(void Function(String fileName, String filePath) onP
                       child: Column(
                         children: [
                           Icon(
-                            Icons.photo_library_outlined,
+                            Icons.file_present_outlined,
                             color: ColorConstants.primaryColor,
                             size: 60,
                           ),
                           SizedBox(height: 8),
-                          Text("Gallery"),
+                          Text("File"),
                         ],
                       ),
                     ),
                   ),
+                        // BaseOverlays().dismissOverlay();
+                        // pickFile().then((value) {
+                        // ctrl.selectedFile?.value = File(value);
+                        // ctrl.idController.text = (value.split("/").last);
+                        // });
                 ],
               ),
               const SizedBox(height: 40),

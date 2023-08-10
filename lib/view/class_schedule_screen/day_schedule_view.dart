@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
-
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
@@ -42,10 +41,10 @@ class _DayScheduleViewState extends State<DayScheduleView> {
               child: Icon(Icons.arrow_forward_ios,color: BaseColors.primaryColor,size: 22,),
             ),onTap: (){
               controller.goToNextDate();
-            },
+              },
             ),
           ],
-        ),
+         ),
         ),
         SizedBox(
           height: 2.h,
@@ -139,8 +138,21 @@ class _DayScheduleViewState extends State<DayScheduleView> {
                               ],
                             ),
                             const SizedBox(height: 4),
-                            SizedBox(height: 26,child: BaseButton(removeHorizontalPadding: true,
-                              verticalPadding: 0,title: toBeginningOfSentenceCase(controller.list?[index]?.status.toString()??"N/A")??"N/A", onPressed: (){},btnType: mediumButton,textSize: 14.sp,))
+                            SizedBox(
+                                height: 26,
+                                child: BaseButton(
+                                  removeHorizontalPadding: true,
+                                  verticalPadding: 0,
+                                  title: "NOTIFY ADMIN",
+                                  onPressed: (){
+                                    showDialog(context: context, builder: (context){
+                                      return NotifyAuthorityPopup(name: controller.list?[index]?.classes?.name??"");
+                                    });
+                                  },
+                                  btnType: mediumButton,
+                                  textSize: 14.sp,
+                                ),
+                            )
                           ],
                         ),
                       ),

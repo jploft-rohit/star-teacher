@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/backend/custom_models/custom_product_list_model.dart';
@@ -25,9 +26,12 @@ class ShopScreenCtrl extends GetxController{
   RxBool isEveryWeek = false.obs;
   RxBool collecting = true.obs;
   RxBool deliver = false.obs;
+  RxBool isNormalSelected = true.obs;
+  RxBool isPreOrderSelected = false.obs;
   RxInt selectedPaymentPos = 0.obs;
   var selectedWeekDays = [];
   RxString selectedShipping = "HOME_DELIVERY".obs;
+  RxString selectedPreOrderType = "NORMAL".obs;
   RxString selectedPaymentMode = "".obs;
   RxString selectedServingTime = "".obs;
   Rx<UserCartData?>? userCartData = UserCartData().obs;
@@ -37,6 +41,8 @@ class ShopScreenCtrl extends GetxController{
   Rx<SingleOrderProductData?>? singleOrderProductData = SingleOrderProductData().obs;
   RxList<SingleOrderProduct?>? singleOrderProductList = <SingleOrderProduct>[].obs;
   Rx<TextEditingController> servingTime = TextEditingController().obs;
+  TextEditingController fromDateController = TextEditingController();
+  TextEditingController toDateController = TextEditingController();
   TextEditingController deliveryTime = TextEditingController();
   TextEditingController servingPlace = TextEditingController();
   var weekList = [
@@ -105,7 +111,10 @@ class ShopScreenCtrl extends GetxController{
 
   getUserCart({bool? callGetData}) async {
     final String userId = await BaseSharedPreference().getString(SpKeys().userId);
-    await BaseAPI().get(url: ApiEndPoints().getUserCart+userId).then((value){
+    var data = {
+      "type": secondaryTabIndex.value == 0 ? "STATIONARY" : secondaryTabIndex.value == 1 ? "STARS_STORE" : "CANTEEN",
+    };
+    await BaseAPI().get(url: ApiEndPoints().getUserCart+userId,queryParameters: data).then((value){
       if (value?.statusCode ==  200) {
         userCartData?.value = UserCartResponse.fromJson(value?.data).data;
         cartProductsList?.value = UserCartResponse.fromJson(value?.data).data?.items ?? [];
@@ -179,7 +188,9 @@ class ShopScreenCtrl extends GetxController{
         "userId": userId,
         "shippingType": selectedShipping.value,
         "paymentMode": selectedPaymentPos.value ==  0 ? "WALLET" : selectedPaymentPos.value ==  1 ? "CARD" : "CASH",
-        "orderType":"NORMAL",
+        "orderType":selectedPreOrderType.value,
+        "startDate":flipDate(date: fromDateController.text.trim()),
+        "endDate":flipDate(date: toDateController.text.trim()),
         "deliveryBreakTime":selectedServingTime.value,
         "servingPlace":servingPlace.text.trim(),
         "deliveryTime":deliveryTime.text.trim(),
@@ -187,27 +198,47 @@ class ShopScreenCtrl extends GetxController{
         "txnResponse": Get.find<StripeController>().pgData??"",
       };
     }else{
-      data = {
-        "cartId": userCartData?.value?.sId??"",
-        "userId": userId,
-        "shippingType": selectedShipping.value,
-        "paymentMode": selectedPaymentPos.value ==  0 ? "WALLET" : selectedPaymentPos.value ==  1 ? "CARD" : "CASH",
-        "orderType":"NORMAL",
-        "deliveryBreakTime":selectedServingTime.value,
-        "servingPlace":servingPlace.text.trim(),
-        "deliveryTime":deliveryTime.text.trim(),
-      };
+      if (fromDateController.text.isNotEmpty && toDateController.text.isNotEmpty) {
+        data = {
+          "cartId": userCartData?.value?.sId??"",
+          "userId": userId,
+          "shippingType": selectedShipping.value,
+          "paymentMode": selectedPaymentPos.value ==  0 ? "WALLET" : selectedPaymentPos.value ==  1 ? "CARD" : "CASH",
+          "orderType":selectedPreOrderType.value,
+          "startDate":flipDate(date: fromDateController.text.trim()),
+          "endDate":flipDate(date: toDateController.text.trim()),
+          "deliveryBreakTime":selectedServingTime.value,
+          "servingPlace":servingPlace.text.trim(),
+          "deliveryTime":deliveryTime.text.trim(),
+        };
+      }else{
+        data = {
+          "cartId": userCartData?.value?.sId??"",
+          "userId": userId,
+          "shippingType": selectedShipping.value,
+          "paymentMode": selectedPaymentPos.value ==  0 ? "WALLET" : selectedPaymentPos.value ==  1 ? "CARD" : "CASH",
+          "orderType":selectedPreOrderType.value,
+          "deliveryBreakTime":selectedServingTime.value,
+          "servingPlace":servingPlace.text.trim(),
+          "deliveryTime":deliveryTime.text.trim(),
+        };
+      }
     }
-    await BaseAPI().post(url: ApiEndPoints().createOrder,data: data).then((value) async {
+    await BaseAPI().post(url: ApiEndPoints().createOrder,
+        data: data).then((value) async {
       if (value?.statusCode ==  200) {
         BaseOverlays().showOkDialog(title: "Order Successfully Placed!", onBtnPressed: (){
           BaseOverlays().dismissOverlay();
           if (isFromCart) {
             Get.back();
+          }else{
+            Get.back();
           }
         }, onClose: (){
           BaseOverlays().dismissOverlay();
           if (isFromCart) {
+            Get.back();
+          }else{
             Get.back();
           }
         });
@@ -283,6 +314,17 @@ class ShopScreenCtrl extends GetxController{
   deliverSelected() {
     collecting.value = false;
     deliver.value = true;
+  }
+
+  /// Pre-Order
+  normalSelected() {
+    isNormalSelected.value = true;
+    isPreOrderSelected.value = false;
+  }
+
+  preOrderSelected() {
+    isNormalSelected.value = false;
+    isPreOrderSelected.value = true;
   }
 
   var isHomeDelivery = true.obs;

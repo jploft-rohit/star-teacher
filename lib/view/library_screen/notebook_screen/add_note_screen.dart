@@ -7,6 +7,7 @@ import 'package:staff_app/backend/responses_model/school_list_response.dart';
 import 'package:staff_app/backend/responses_model/subjects_response.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
+import 'package:staff_app/utility/base_views/base_school_selection.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
 
 
@@ -53,17 +54,8 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
             padding: EdgeInsets.all(15.sp),
             child: Column(
               children: [
-                BaseTextFormField(
+                BaseSchoolDropDown(
                   controller: controller.schoolController.value,
-                  errorText: "Please select school",
-                  isDropDown: true,
-                  hintText: controller.schoolController.value.text.isEmpty ? "Select School" : controller.schoolController.value.text,
-                  items: baseCtrl.schoolListData.data?.data?.map((SchoolData data){
-                    return DropdownMenuItem(
-                      value: data,
-                      child: addText(data.name??"", 15.sp, Colors.black, FontWeight.w400),
-                    );
-                  }).toList(),
                   onChanged: (value) async {
                     controller.schoolController.value.text = value?.name??"";
                     controller.selectedSchoolId.value = value?.sId??"";
@@ -99,12 +91,11 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                           ),
                           child: Text("Has Talent", style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex3.value == 0 ? BaseColors.primaryColor : BaseColors.txtFiledBorderColor, fontSize: 16.sp,
                           fontWeight: controller.selectedIndex3.value == 0?FontWeight.bold:FontWeight.w400),),
-                        ),
+                       ),
                       ),
-                    )),
-                    SizedBox(
-                      width: 2.w,
+                     ),
                     ),
+                    SizedBox(width: 2.w),
                     Obx(() => Flexible(
                       flex: 1,
                       child: GestureDetector(
@@ -112,7 +103,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                           controller.selectedIndex3.value = 1;
                         },
                         child: Container(
-                          height: 40.0,
+                          height: 40,
                           width: getWidth(context) * 50 / 100,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
@@ -132,7 +123,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                               borderRadius: BorderRadius.circular(10)
                           ),
                           child: Text("Need Improvement", style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex3.value == 1 ? BaseColors.primaryColor : BaseColors.txtFiledBorderColor, fontSize: 16.sp,
-                              fontWeight: controller.selectedIndex3.value == 0?FontWeight.bold:FontWeight.w400),),
+                              fontWeight: controller.selectedIndex3.value == 1?FontWeight.bold:FontWeight.w400),),
                         ),
                       ),
                     )),
@@ -174,7 +165,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                             Expanded(
                               child: CustomTextField(
                                 controller: controller.dateController,
-                                hintText: "yyyy/mm/dd",
+                                hintText: "dd/mm/yyyy",
                                 readOnly: true,
                                 onTap: (){
                                   showDatePicker(
@@ -194,7 +185,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                                       lastDate: DateTime((DateTime.now().year+50),1,1),
                                   ).then((picked){
                                     if (picked != null) {
-                                      controller.dateController..text = "${picked.year.toString()}-${picked.month.toString().padLeft(2,'0')}-${picked.day.toString().padLeft(2,'0')}";
+                                      controller.dateController..text = formatFlutterDateTime(flutterDateTime: picked, getDayFirst: true);
                                     }
                                   });
                                 },

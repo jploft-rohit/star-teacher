@@ -151,8 +151,9 @@ class _AddToDoNoteState extends State<AddToDoNote> {
                     SizedBox(width: 2.w),
                     GestureDetector(
                       onTap: (){
-                        ctrl.isChecked.value = !ctrl.isChecked.value;
-                        ctrl.update();
+                        // ctrl.isChecked.value = !ctrl.isChecked.value;
+                        // ctrl.update();
+                        Get.to(AddTaskOrReminderScreen(isUpdating: false));
                       },
                         child: addText(
                             "Set Reminder",
@@ -170,15 +171,15 @@ class _AddToDoNoteState extends State<AddToDoNote> {
                     child: BaseButton(
                         title: widget.isEditing?"UPDATE":"SUBMIT",
                         onPressed: () {
-                          if (ctrl.isChecked.value) {
-                            Get.to(AddTaskOrReminderScreen(isUpdating: false));
-                          }else{
+                          // if (ctrl.isChecked.value) {
+                          //   Get.to(AddTaskOrReminderScreen(isUpdating: false));
+                          // }else{
                             if (widget.isEditing) {
                               controller.updateStickyNote(color: controller.colorList[controller.selectedColorIndex.value], id: widget.data?.sId??"");
                             }else{
                               controller.createStickyNote(color: controller.colorList[controller.selectedColorIndex.value]);
                             }
-                          }
+                          // }
                         },btnType: largeButton,))
               ],
             ),
