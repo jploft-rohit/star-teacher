@@ -1,3 +1,4 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -101,6 +102,28 @@ class _AccountActivationScreenState extends State<AccountActivationScreen> {
                             }
                             return null;
                           },
+                          innerPrefixWidget: GestureDetector(
+                            onTap: (){
+                              showCountryPicker(
+                                context: context,
+                                favorite: ["AE"],
+                                showPhoneCode: true, // optional. Shows phone code before the country name.
+                                onSelect: (Country country) {
+                                  controller.selectedCountryCode.value = country.phoneCode;
+                                  print('Select country: ${country.phoneCode}');
+                                  setState(() {});
+                                },
+                              );
+                            },
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(width: 2.w),
+                                Text("+"+(controller.selectedCountryCode.value),style: TextStyle(fontSize: textFormFieldHintTs)),
+                                Icon(Icons.arrow_drop_down_rounded, color: Colors.grey),
+                              ],
+                            ),
+                          ),
                         ),
                         BaseButton(
                           topMargin: 2.h,

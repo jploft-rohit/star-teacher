@@ -41,13 +41,10 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
   
   @override
   void initState() {
+    super.initState();
     tabCtrl = TabController(length: 4, vsync: this);
     tabCtrl.animateTo(widget.index);
-    super.initState();
-    Future.delayed(
-      Duration(),
-          () => SystemChannels.textInput.invokeMethod('TextInput.hide'),
-    );
+    Future.delayed(Duration(), () => SystemChannels.textInput.invokeMethod('TextInput.hide'));
   }
   @override
   Widget build(BuildContext context) {

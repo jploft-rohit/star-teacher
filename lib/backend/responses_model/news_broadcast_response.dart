@@ -1,6 +1,7 @@
 class NewsBroadCastListData {
   dynamic statusCode;
   dynamic message;
+  dynamic totalUnreadCount;
   List<NewsBroadCastData>? data;
   Pagination? pagination;
 
@@ -10,6 +11,7 @@ class NewsBroadCastListData {
   NewsBroadCastListData.fromJson(Map<String, dynamic> json) {
     statusCode = json['statusCode'];
     message = json['message'];
+    totalUnreadCount = json['totalUnreadCount'];
     if (json['data'] != null) {
       data = <NewsBroadCastData>[];
       json['data'].forEach((v) {
@@ -25,6 +27,7 @@ class NewsBroadCastListData {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['statusCode'] = this.statusCode;
     data['message'] = this.message;
+    data['totalUnreadCount'] = this.totalUnreadCount;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }

@@ -150,7 +150,11 @@ class NewAssignmentCtrl extends GetxController{
           "school":selectedSchoolId.value,
           "title":titleController.value.text.trim(),
           "assignmentNo":assignmentNumberCtrl.value.text.trim(),
-          "type":assessmentType.value == "worksheet" ? (assessmentType.value).toLowerCase() : (assignmentTypeCtrl.value.text.trim()) == "Awareness & courses" ? "awarenessCourses" : (assignmentTypeCtrl.value.text.trim()).toLowerCase(),
+          "type":assessmentType.value == "worksheet"
+              ? (assessmentType.value).toLowerCase()
+              : (assignmentTypeCtrl.value.text.trim()) == "Awareness & courses"
+              ? "awarenessCourses"
+              : (assignmentTypeCtrl.value.text.trim()).toLowerCase(),
           "assignTo[]":selectedPersonId.value,
           "postDate":postDateCtrl.value.text.trim(),
           "postTime":postTimeCtrl.value.text.trim(),

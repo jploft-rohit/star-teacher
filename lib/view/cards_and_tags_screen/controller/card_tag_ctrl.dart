@@ -35,6 +35,7 @@ class CardTagCtrl extends GetxController{
   var isHomeDelivery = true.obs;
   var isSchoolDelivery = false.obs;
   RxString selectedSchoolId = "".obs;
+  RxString nfcValue = "".obs;
   TextEditingController selectedSchoolController = TextEditingController();
   RxList<Orders?>? ordersList = <Orders>[].obs;
   RxList<UserTags?>? userTagsList = <UserTags>[].obs;

@@ -410,7 +410,8 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                                     ? StarIcons.radioFilled
                                                     : StarIcons.radioUnfilled,
                                                 height: 2.h,
-                                              )),
+                                              ),
+                                          ),
                                         ),
                                       ),
                                       Obx(() => Padding(
@@ -452,10 +453,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                               child: iconButton(() {
                                                 showMediaPickerDialog(
                                                         (fileName, filePath) {
-                                                      controller.diseases.update(
-                                                            (val) {
-                                                          val?.infection?[index].document = filePath;
-                                                        },
+                                                      controller.diseases.update((val) {val?.infection?[index].document = filePath;},
                                                       );
                                                       controller.addOrUpdateDisease(controller.diseases.value?.infection?[index]);
                                                     });
@@ -464,7 +462,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                           ) : BaseIcons().view(
                                               topMargin: 2.h,
                                               concatBaseUrl: false,
-                                              url: 'https://stars.tasksplan.com:4000/star-backend${controller.diseases.value?.infection?[index].document??""}',
+                                              url: 'https://stars.tasksplan.com:4000/star-backend/${controller.diseases.value?.infection?[index].document??""}',
                                           ),
                                         ),
                                       ),
@@ -602,7 +600,9 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                             onTap: () {
                                               showMediaPickerDialog(
                                                       (fileName, filePath) {
-                                                    controller.diseases.update((val) {val?.condition?[index].document = filePath;},
+                                                    controller.diseases.update((val) {
+                                                      val?.condition?[index].document = filePath;
+                                                      },
                                                     );
                                                     controller.addOrUpdateDisease(controller.diseases.value?.condition?[index]);
                                                   });
@@ -1942,12 +1942,12 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                   InkWell(
                     onTap: () {
                       controller.diseases.update((val) {
-                        int? index = val?.history?.indexWhere(
-                                (element) => element.sId == diseaseData?.sId);
+                        int? index = val?.history?.indexWhere((element) => element.sId == diseaseData?.sId);
                         if (index != null && index >= 0) {
                           val?.history?[index].active = false;
                         }
-                      });
+                       },
+                      );
                       controller.addOrUpdateDisease(diseaseData);
                     },
                     child: SvgPicture.asset(

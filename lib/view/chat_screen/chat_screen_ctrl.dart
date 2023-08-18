@@ -19,7 +19,7 @@ class ChatScreenCtrl extends GetxController{
   RxInt secondarySelectedIndex = 0.obs;
   RxBool isInitialLoading = true.obs;
   Map<String, dynamic> joinRoomData = {};
-  RxList<ChatData?>? messageList = <ChatData>[].obs;
+  RxList<ChatData>? messageList = <ChatData>[].obs;
   ScrollController scrollController = ScrollController();
   RxList<ChatHistoryData?>? chatHistoryList = <ChatHistoryData>[].obs;
 
@@ -74,7 +74,7 @@ class ChatScreenCtrl extends GetxController{
     });
   }
 
-  connectSocket({required String reciverId, schoolId}) async {
+  connectSocket({required String receiverId, required String schoolId}) async {
     final String userId = await BaseSharedPreference().getString(SpKeys().userId);
     socket = io.io("https://stars.tasksplan.com:4000",
       <String, dynamic>{
@@ -87,22 +87,20 @@ class ChatScreenCtrl extends GetxController{
     );
     socket?.connect();
     socket?.onConnect((data) {
-      socket?.emitWithAck("JOIN_ROOM", {userId,reciverId}, ack: (data){
-        print("msg1231:- $data");
+      socket?.emitWithAck("JOIN_ROOM", {userId,receiverId,schoolId}, ack: (data){
+        print("JOIN_ROOM:- $data");
       });
       socket?.on("JOIN_ROOM_RESPONSE", (data){
-        print("msg1:- ${json.decode(data)}");
+        print("JOIN_ROOM_RESPONSE:- ${json.decode(data)}");
         if(joinRoomData == null || joinRoomData.isEmpty) {
           joinRoomData = json.decode(data);
           socket?.emitWithAck("CHAT_DETAIL_NEW",
-              {joinRoomData["data"]["roomId"], userId,reciverId},
+              {joinRoomData["data"]["roomId"], userId,receiverId},
               ack: (data) {
-                print("msg222:- $data");
+                print("CHAT_DETAIL_NEW:- $data");
               });
           socket?.on("CHAT_DETAIL_RESPONSE_NEW", (data) {
-            print("msg222:- $data");
-            // messageList = MessageListResponse.fromJson(jsonDecode(data)).data?.chatData?.reversed.toList() ?? [];
-            // update();
+            print("CHAT_DETAIL_RESPONSE_NEW:- $data");
             messageList?.clear();
             messageList?.value = MessageListResponse.fromJson(jsonDecode(data)).data?.chatData?.toList()  ?? [];
             print(messageList?.length??0);
@@ -119,11 +117,13 @@ class ChatScreenCtrl extends GetxController{
             });
             });
         }
-      });
-    });
+      },
+     );
+    },
+  );
     socket?.onDisconnect((_) {
       print("Socket Disconnect");
-      connectSocket(reciverId: reciverId);
+      connectSocket(receiverId: receiverId, schoolId: schoolId);
     });
     socket?.onConnectError((_) {
       print("Socket Connection Error: $_");
@@ -144,13 +144,101 @@ class ChatScreenCtrl extends GetxController{
         "message": message,
         "type": type
       }, ack: (data) {
-        print("msg1231:- $data");
+        print("NEW_MESSAGE:- $data");
       });
       socket?.on("NEW_MESSAGE_RESPONSE", (data) {
-        print("msg232323:- $data");
+        print("NEW_MESSAGE_RESPONSE:- $data");
         if (jsonDecode(data)['status'] == true) {
           socket?.emitWithAck("CHAT_DETAIL_NEW",{joinRoomData["data"]["roomId"], userId,receiverId}, ack: (data) {
-            print("msg222:- $data");
+            print("CHAT_DETAIL_NEW:- $data");
+          });
+        } else {
+          baseToast(message: (jsonDecode(data)['message'] ?? ""));
+        }
+      });
+    }catch(_){
+      print("Exception....$_....");
+    }
+  }
+
+  /// Group
+  connectGroupSocket({required String reqRoomId}) async {
+    final String userId = await BaseSharedPreference().getString(SpKeys().userId);
+    socket = io.io("https://stars.tasksplan.com:4000",
+      <String, dynamic>{
+        'transports': ['websocket'],
+        'autoConnect': false,
+        "force new connection": true,
+        "reconnectionAttempt": "Infinity",
+        "timeout": 10000,
+      },
+    );
+    socket?.connect();
+    socket?.onConnect((data) {
+      socket?.emitWithAck("GROUP_CHAT_DETAIL_NEW", {reqRoomId, userId}, ack: (data){
+        print("GROUP_CHAT_DETAIL_NEW:- $data");
+      });
+      socket?.on("GROUP_CHAT_DETAIL_RESPONSE_NEW", (data){
+        print("GROUP_CHAT_DETAIL_RESPONSE_NEW:- ${json.decode(data)}");
+        // if(joinRoomData == null || joinRoomData.isEmpty) {
+        //   joinRoomData = json.decode(data);
+          // socket?.emitWithAck("GROUP_CHAT_DETAIL_NEW",
+          //     {joinRoomData["data"]["roomId"], userId,receiverId},
+          //     ack: (data) {
+          //       print("GROUP_CHAT_DETAIL_NEW:- $data");
+          //     });
+          // socket?.on("CHAT_DETAIL_RESPONSE_NEW", (data) {
+          //   print("CHAT_DETAIL_RESPONSE_NEW:- $data");
+          //
+          // });
+          messageList?.clear();
+          messageList?.value = MessageListResponse.fromJson(jsonDecode(data)).data?.chatData?.toList()  ?? [];
+          print(messageList?.length??0);
+          if (isInitialLoading.value) {
+            BaseOverlays().dismissOverlay();
+            isInitialLoading.value = false;
+          }
+          Future.delayed(const Duration(milliseconds: 500), () {
+            scrollController.animateTo(
+              scrollController.position.maxScrollExtent,
+              duration: Duration(milliseconds: 300),
+              curve: Curves.easeIn,
+            );
+          });
+      },
+      );
+    },
+    );
+    socket?.onDisconnect((_) {
+      print("Socket Disconnect");
+      connectGroupSocket(reqRoomId: reqRoomId);
+    });
+    socket?.onConnectError((_) {
+      print("Socket Connection Error: $_");
+      // connectSocket();
+    });
+    socket?.on('error', (data) {
+      print(data+"_________");
+    });
+  }
+
+  sendGroupMessage({String? roomId, String? message, String? type,String? groupId }) async {
+    final String userId = await BaseSharedPreference().getString(SpKeys().userId);
+    try {
+      socket?.emitWithAck("NEW_GROUP_MESSAGE", {
+        "userGroups": groupId,
+        "senderId": userId,
+        "roomId": roomId,
+        "message": message,
+        "type": "text"
+      }, ack: (data) {
+        print("NEW_GROUP_MESSAGE:- $data");
+      });
+      socket?.on("NEW_GROUP_MESSAGE_RESPONSE", (data) {
+        print("NEW_GROUP_MESSAGE_RESPONSE:- $data");
+        if (jsonDecode(data)['status'] == true) {
+          socket?.emitWithAck("GROUP_CHAT_DETAIL_NEW", {roomId, userId}, ack: (data){
+            print("GROUP_CHAT_DETAIL_NEW:- $data");
           });
         } else {
           baseToast(message: (jsonDecode(data)['message'] ?? ""));

@@ -23,6 +23,8 @@ class TransportationScreenCtrl extends GetxController{
   RxBool isSecondOptionSelected = false.obs;
   RxBool isThirdOptionSelected = false.obs;
   RxBool isAnonymous = false.obs;
+  RxString selectedCountryCode = "971".obs;
+  RxString selectedLandlineCode = "971".obs;
   RxDouble selectedRating = 4.0.obs;
   Rx<TripData> tripData = TripData().obs;
   RxList<String> statusTime = [""].obs;
@@ -66,8 +68,10 @@ class TransportationScreenCtrl extends GetxController{
       buildingController.value.text = data?.building??"";
       flatController.value.text =  data?.flat??"";
       landmarkController.value.text = data?.landmark??"";
-      mobileController.value.text =  data?.mobileNo??"";
-      landlineController.value.text = data?.landlineNo??"";
+      mobileController.value.text = (data?.mobileNo??"").toString().split(" ").last;
+      selectedCountryCode.value = ((data?.mobileNo??"").toString().split(" ").first).replaceAll("+", "");
+      landlineController.value.text = (data?.landlineNo??"").toString().split(" ").last;
+      selectedLandlineCode.value = ((data?.landlineNo??"").toString().split(" ").first).replaceAll("+", "");
       latitudeController.value.text = data?.location?.coordinates?[1]??"";
       longitudeController.value.text = data?.location?.coordinates?[0]??"";
       uploadController.value.text = (data?.flatPhoto??"").split("/").last;
@@ -120,8 +124,8 @@ class TransportationScreenCtrl extends GetxController{
           "building": buildingController.value.text.trim(),
           "flat": flatController.value.text.trim(),
           "landmark": landmarkController.value.text.trim(),
-          "mobileNo": mobileController.value.text.trim(),
-          "landlineNo": landlineController.value.text.trim(),
+          "mobileNo": "+${selectedCountryCode} ${(mobileController.value.text.trim())}",
+          "landlineNo": "+${selectedLandlineCode} ${(landlineController.value.text.trim())}",
           "trip": tripData.value.trip?.sId??"",
           "addressType": "home",
           "flatPhoto": await dio.MultipartFile.fromFile(selectedFile?.value?.path??"", filename: selectedFile?.value?.path.split("/").last??""),
@@ -139,8 +143,8 @@ class TransportationScreenCtrl extends GetxController{
           "building": buildingController.value.text.trim(),
           "flat": flatController.value.text.trim(),
           "landmark": landmarkController.value.text.trim(),
-          "mobileNo": mobileController.value.text.trim(),
-          "landlineNo": landlineController.value.text.trim(),
+          "mobileNo": "+${selectedCountryCode} ${(mobileController.value.text.trim())}",
+          "landlineNo": "+${selectedLandlineCode} ${(landlineController.value.text.trim())}",
           "trip": tripData.value.trip?.sId??"",
           "addressType": "home",
         });
@@ -175,8 +179,8 @@ class TransportationScreenCtrl extends GetxController{
           "building": buildingController.value.text.trim(),
           "flat": flatController.value.text.trim(),
           "landmark": landmarkController.value.text.trim(),
-          "mobileNo": mobileController.value.text.trim(),
-          "landlineNo": landlineController.value.text.trim(),
+          "mobileNo": "+${selectedCountryCode} ${(mobileController.value.text.trim())}",
+          "landlineNo": "+${selectedLandlineCode} ${(landlineController.value.text.trim())}",
           "trip": tripData.value.trip?.sId??"",
           "addressType": "home",
           "flatPhoto": await dio.MultipartFile.fromFile(selectedFile?.value?.path??"", filename: selectedFile?.value?.path.split("/").last??""),
@@ -194,8 +198,8 @@ class TransportationScreenCtrl extends GetxController{
           "building": buildingController.value.text.trim(),
           "flat": flatController.value.text.trim(),
           "landmark": landmarkController.value.text.trim(),
-          "mobileNo": mobileController.value.text.trim(),
-          "landlineNo": landlineController.value.text.trim(),
+          "mobileNo": "+${selectedCountryCode} ${(mobileController.value.text.trim())}",
+          "landlineNo": "+${selectedLandlineCode} ${(landlineController.value.text.trim())}",
           "trip": tripData.value.trip?.sId??"",
           "addressType": "home",
         });

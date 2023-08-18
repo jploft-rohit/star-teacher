@@ -78,7 +78,40 @@ class _DelegationScreenState extends State<DelegationScreen> {
               children: [
                 SvgPicture.asset("assets/images/profile.svg",height: 2.1.h),
                 SizedBox(width: 2.w),
+                Flexible(child: buildInfoItems("Requested From", controller.list?[index]?.whoWillServe?.name??""))
+              ],
+            ),
+            const Divider(),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SvgPicture.asset("assets/images/profile.svg",height: 2.1.h),
+                SizedBox(width: 2.w),
                 Flexible(child: buildInfoItems(translate(context).requested_to, controller.list?[index]?.assistingWhom?.name??""))
+              ],
+            ),
+            const Divider(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SvgPicture.asset("assets/images/Vector (1).svg",height: 15.sp,),
+                    SizedBox(width: 2.w),
+                    Flexible(child: buildInfoItems("Class", controller.list?[index]?.classes?.name??"")),
+                  ],
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SvgPicture.asset("assets/images/Vector (1).svg"),
+                    SizedBox(
+                      width: 2.w,
+                    ),
+                    Flexible(child: buildInfoItems("Section", controller.list?[index]?.section?.name??"")),
+                  ],
+                ),
               ],
             ),
             const Divider(),
@@ -128,72 +161,80 @@ class _DelegationScreenState extends State<DelegationScreen> {
               ],
             ),
             const Divider(),
-            SizedBox(height: 3.h),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.w),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: BaseButton(title: translate(context).reject.toUpperCase(),btnType: mediumLargeButton,
-                      isActive: false,
-                      onPressed: (){
-                        // showGeneralDialog(
-                        //     context: context,
-                        //     pageBuilder: (ctx,a,b){
-                        //       return Dialog(
-                        //         child: Padding(
-                        //           padding: const EdgeInsets.all(18),
-                        //           child: Column(
-                        //             mainAxisSize: MainAxisSize.min,
-                        //             crossAxisAlignment: CrossAxisAlignment.center,
-                        //             children: [
-                        //               Row(
-                        //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //                 children: [
-                        //                   const Icon(Icons.close_rounded,color: Colors.transparent),
-                        //                   Text(translate(context).reject_reason,
-                        //                       style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: Colors.black)),
-                        //                   GestureDetector(onTap: (){
-                        //                     Navigator.pop(context);
-                        //                   },child: const Icon(Icons.close_rounded))
-                        //                 ],
-                        //               ),
-                        //               const SizedBox(height: 10),
-                        //               CustomTextField(controller: reasonController, hintText: translate(context).type_here,maxLine: 5,),
-                        //               const SizedBox(height: 16),
-                        //               BaseButton(btnType: mediumButton,
-                        //                   borderRadius: 20,
-                        //                   title: translate(context).submit_btn_txt, onPressed: (){Navigator.pop(context);}),
-                        //             ],
-                        //           ),
-                        //         ),
-                        //       );
-                        //     });
-                        BaseOverlays().showReasonDeleteDialog(
-                          title: "Reject Reason",
-                          controller: controller.reasonController,
-                          formKey: controller.formKey,
-                          onProceed: (){
-                            if (controller.formKey.currentState?.validate()??false) {
-                              BaseOverlays().dismissOverlay();
-                              controller.updateStatus(id: controller.list?[index]?.sId??"", status: "rejected");
+            Visibility(
+                visible: ((controller.list?[index]?.status?.name??"").toLowerCase()) == "request raised",
+                child: SizedBox(height: 3.h)),
+            Visibility(
+              visible: ((controller.list?[index]?.status?.name??"").toLowerCase()) == "request raised",
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: BaseButton(title: translate(context).reject.toUpperCase(),btnType: mediumLargeButton,
+                        isActive: false,
+                        onPressed: (){
+                          // showGeneralDialog(
+                          //     context: context,
+                          //     pageBuilder: (ctx,a,b){
+                          //       return Dialog(
+                          //         child: Padding(
+                          //           padding: const EdgeInsets.all(18),
+                          //           child: Column(
+                          //             mainAxisSize: MainAxisSize.min,
+                          //             crossAxisAlignment: CrossAxisAlignment.center,
+                          //             children: [
+                          //               Row(
+                          //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //                 children: [
+                          //                   const Icon(Icons.close_rounded,color: Colors.transparent),
+                          //                   Text(translate(context).reject_reason,
+                          //                       style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: Colors.black)),
+                          //                   GestureDetector(onTap: (){
+                          //                     Navigator.pop(context);
+                          //                   },child: const Icon(Icons.close_rounded))
+                          //                 ],
+                          //               ),
+                          //               const SizedBox(height: 10),
+                          //               CustomTextField(controller: reasonController, hintText: translate(context).type_here,maxLine: 5,),
+                          //               const SizedBox(height: 16),
+                          //               BaseButton(btnType: mediumButton,
+                          //                   borderRadius: 20,
+                          //                   title: translate(context).submit_btn_txt, onPressed: (){Navigator.pop(context);}),
+                          //             ],
+                          //           ),
+                          //         ),
+                          //       );
+                          //     });
+                          BaseOverlays().showReasonDeleteDialog(
+                            title: "Reject Reason",
+                            controller: controller.reasonController,
+                            formKey: controller.formKey,
+                            onProceed: (){
+                              if (controller.formKey.currentState?.validate()??false) {
+                                BaseOverlays().dismissOverlay();
+                                controller.updateStatus(id: controller.list?[index]?.sId??"", status: "rejected");
+                              }
                             }
-                          }
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 4.w),
-                  Expanded(
-                    child: BaseButton(title: translate(context).accept.toUpperCase(), onPressed: (){
-                      controller.updateStatus(id: controller.list?[index]?.sId??"", status: 'accepted');
-                    },btnType: mediumLargeButton),
-                  ),
-                ],
+                    SizedBox(width: 4.w),
+                    Expanded(
+                      child: BaseButton(title: translate(context).accept.toUpperCase(), onPressed: (){
+                        controller.updateStatus(id: controller.list?[index]?.sId??"", status: 'accepted');
+                      },btnType: mediumLargeButton),
+                    ),
+                  ],
+                ),
               ),
             ),
-            SizedBox(
-              height: 2.h,
+            Visibility(
+              visible: ((controller.list?[index]?.status?.name??"").toLowerCase()) == "request raised",
+              child: SizedBox(
+                height: 2.h,
+              ),
             ),
           ],
         ),

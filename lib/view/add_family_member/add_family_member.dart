@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -113,18 +115,44 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
                     return null;
                   },
                 ),
-                BaseTextFormField(
-                  controller: ctrl.mobileController,
-                  title: "${translate(context).mobile_number}:",
-                  hintText: translate(context).mobile_number,
-                  maxLength: 20,
-                  keyboardType: TextInputType.phone,
-                  validator: (val){
-                    if ((val??"").isEmpty) {
-                      return "Please enter a valid phone no. between 7 to 15 digits.";
-                    }
-                    return null;
-                  },
+                Stack(
+                  children: [
+                    BaseTextFormField(
+                      controller: ctrl.mobileController,
+                      title: "${translate(context).mobile_number}:",
+                      hintText: translate(context).mobile_number,
+                      maxLength: 20,
+                      innerPrefixWidget: GestureDetector(
+                        onTap: (){
+                          showCountryPicker(
+                            context: context,
+                            favorite: ["AE"],
+                            showPhoneCode: true, // optional. Shows phone code before the country name.
+                            onSelect: (Country country) {
+                              ctrl.selectedCountryCode.value = country.phoneCode;
+                              print('Select country: ${country.phoneCode}');
+                              setState(() {});
+                            },
+                          );
+                        },
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(width: 2.w),
+                            Text("+"+(ctrl.selectedCountryCode.value),style: TextStyle(fontSize: textFormFieldHintTs),),
+                            Icon(Icons.arrow_drop_down_rounded,color: Colors.grey,),
+                          ],
+                        ),
+                      ),
+                      keyboardType: TextInputType.phone,
+                      validator: (val){
+                        if ((val??"").isEmpty) {
+                          return "Please enter a valid phone no. between 7 to 15 digits.";
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
                 ),
                 BaseTextFormField(
                   controller: ctrl.idController,

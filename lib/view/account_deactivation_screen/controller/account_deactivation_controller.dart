@@ -12,6 +12,7 @@ import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/storage/sp_keys.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/view/account_deactivation_screen/activation_request_detail_screen.dart';
+import 'package:staff_app/view/my_profile_screen/controller/my_profile_ctrl.dart';
 
 class AccountDeactivationController extends GetxController{
   TextEditingController dateController = TextEditingController();
@@ -24,6 +25,7 @@ class AccountDeactivationController extends GetxController{
   Rx<File?>? selectedFile = File("").obs;
   RxString selectedDateTime = "".obs;
   final formKey = GlobalKey<FormState>();
+  MyProfileCtrl myProfileCtrl = Get.find<MyProfileCtrl>();
 
   sendActivationRequest({final DeactivateData? deactivateData}) async {
     if (formKey.currentState?.validate()??false) {
@@ -35,6 +37,8 @@ class AccountDeactivationController extends GetxController{
         "medCertDesc":messageController.text.trim(),
         "medCertDocument": await dio.MultipartFile.fromFile(selectedFile?.value?.path??"", filename: selectedFile?.value?.path.split("/").last??"")
       });
+      print("sdljkfs");
+      print(data.files.toString());
       BaseAPI().post(url: ApiEndPoints().sendRequestForActivation,data: data).then((value){
         if (value?.statusCode ==  200) {
           // showGeneralDialog(
@@ -46,6 +50,7 @@ class AccountDeactivationController extends GetxController{
           //   Get.to(const ActivationRequestDetailScreen());
           // });
           Get.off(ActivationRequestDetailScreen(data: deactivateData));
+          myProfileCtrl.getData();
           BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"", title: translate(Get.context!).success);
         }else{
           BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");

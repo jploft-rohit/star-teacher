@@ -147,30 +147,30 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                       ),
                     ],
                   ),
-                  SizedBox(height: 1.h),
-                  const Divider(),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: buildInfoItems(translate(context).deactivation_date, formatBackendDate(widget.data?.deactivatedUser?.createdAt??""))),
-                      ),
-                      Container(
-                        height: 20,
-                        width: 1,
-                        color: BaseColors.borderColor,
-                      ),
-                      SizedBox(
-                        width: 5.w,
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: buildInfoItems(translate(context).time, getFormattedTime(widget.data?.deactivatedUser?.createdAt??"")),
-                      ),
-                    ],
-                  )
+                  // SizedBox(height: 1.h),
+                  // const Divider(),
+                  // Row(
+                  //   children: [
+                  //     Expanded(
+                  //       flex: 2,
+                  //       child: Align(
+                  //         alignment: Alignment.centerLeft,
+                  //         child: buildInfoItems(translate(context).deactivation_date, formatBackendDate(widget.data?.deactivatedUser?.createdAt??""))),
+                  //     ),
+                  //     Container(
+                  //       height: 20,
+                  //       width: 1,
+                  //       color: BaseColors.borderColor,
+                  //     ),
+                  //     SizedBox(
+                  //       width: 5.w,
+                  //     ),
+                  //     Expanded(
+                  //       flex: 1,
+                  //       child: buildInfoItems(translate(context).time, getFormattedTime(widget.data?.deactivatedUser?.createdAt??"")),
+                  //     ),
+                  //   ],
+                  // )
                 ],
               ),
             ),

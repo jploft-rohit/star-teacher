@@ -37,6 +37,7 @@ class ScheduledMeetingResponse {
 
 class ScheduledMeetingData {
   dynamic time;
+  dynamic statusData;
   dynamic meetingUrl;
   dynamic isDeleted;
   dynamic sId;
@@ -64,6 +65,7 @@ class ScheduledMeetingData {
 
   ScheduledMeetingData(
       {this.time,
+        this.statusData,
         this.meetingUrl,
         this.teacher,
         this.isDeleted,
@@ -95,6 +97,7 @@ class ScheduledMeetingData {
     meetingUrl = json['meetingUrl'];
     isDeleted = json['isDeleted'];
     sId = json['_id'];
+    statusData = json['statusData'];
     meetingType = json['meetingType'];
     school = json['school'] != null ? new School.fromJson(json['school']) : null;
     startDate = json['startDate'];
@@ -132,6 +135,7 @@ class ScheduledMeetingData {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['time'] = this.time;
+    data['statusData'] = this.statusData;
     data['meetingUrl'] = this.meetingUrl;
     data['isDeleted'] = this.isDeleted;
     data['_id'] = this.sId;

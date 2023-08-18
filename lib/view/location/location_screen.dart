@@ -131,17 +131,25 @@ class _LocationScreenState extends State<LocationScreen> with SingleTickerProvid
                         Expanded(child: Text((controller.list?.first?.address??""),style: TextStyle(fontSize: 14.sp,color: BaseColors.primaryColor,fontWeight: FontWeight.bold),)),
                       ]),
                         SizedBox(height: 2.h),
-                      Container(
-                        height: 25.h,
-                        width: 100.w,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: BaseColors.primaryColor),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: BaseImageNetwork(
-                          link: (controller.list??[]).isNotEmpty ? controller.list?.first?.document??"" : "",
-                          width: double.infinity,
-                          errorWidget: SvgPicture.asset(homeSvg, fit: BoxFit.scaleDown),
+                      GestureDetector(
+                        onTap: (){
+                          BaseOverlays().viewPhoto(url: (controller.list??[]).isNotEmpty ? controller.list?.first?.document??"" : "",);
+                        },
+                        child: Container(
+                          height: 25.h,
+                          width: 100.w,
+                          padding: EdgeInsets.all(2),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: BaseColors.primaryColor),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: BaseImageNetwork(
+                            link: (controller.list??[]).isNotEmpty ? controller.list?.first?.document??"" : "",
+                            width: double.infinity,
+                            fit: BoxFit.fitWidth,
+                            borderRadius: 13,
+                            errorWidget: SvgPicture.asset(homeSvg, fit: BoxFit.scaleDown),
+                          ),
                         ),
                       ),
                       SizedBox(height: 1.h),

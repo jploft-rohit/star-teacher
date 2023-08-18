@@ -4,17 +4,12 @@ import 'dart:ui' as ui;
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_tab_bar.dart';
-import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_filter_dropdown.dart';
 import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/filter_textformfield.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/view/Dashboard_screen/dashboard_screen_ctrl.dart';
 import 'package:staff_app/view/chat_screen/chat_screen_ctrl.dart';
-import 'package:staff_app/view/chat_screen/views/chat_admins_tab.dart';
-import 'package:staff_app/view/chat_screen/views/chat_parents_tab.dart';
-import 'package:staff_app/view/chat_screen/views/chat_staff_tab.dart';
 import 'package:staff_app/view/chat_screen/views/chat_list_tile.dart';
 
 class ChatScreen extends StatefulWidget {

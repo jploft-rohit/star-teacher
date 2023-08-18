@@ -14,15 +14,15 @@ import 'package:staff_app/view/chat_screen/chat_screen_ctrl.dart';
 import 'package:staff_app/view/chat_screen/video_call_screen.dart';
 import 'package:translator/translator.dart';
 
-class ChatingScreen extends StatefulWidget {
-  final String? receiverId, receiverName, receiverProfilePic, schoolId;
-  const ChatingScreen({Key? key, this.receiverId, this.receiverName, this.receiverProfilePic, this.schoolId}) : super(key: key);
+class GroupChattingScreen extends StatefulWidget {
+  final String? roomId, groupId;
+  const GroupChattingScreen({Key? key, this.roomId, this.groupId}) : super(key: key);
 
   @override
-  State<ChatingScreen> createState() => _ChatingScreenState();
+  State<GroupChattingScreen> createState() => _GroupChattingScreenState();
 }
 
-class _ChatingScreenState extends State<ChatingScreen> {
+class _GroupChattingScreenState extends State<GroupChattingScreen> {
   final translator = GoogleTranslator();
   ChatScreenCtrl ctrl = Get.put(ChatScreenCtrl());
   String userID = "";
@@ -36,7 +36,7 @@ class _ChatingScreenState extends State<ChatingScreen> {
       BaseOverlays().showLoader();
       ctrl.messageList?.clear();
       userID = await BaseSharedPreference().getString(SpKeys().userId);
-      ctrl.connectSocket(receiverId: (widget.receiverId??""),schoolId: (widget.schoolId??""));
+      ctrl.connectGroupSocket(reqRoomId: widget.roomId??"");
     });
   }
 
@@ -67,24 +67,24 @@ class _ChatingScreenState extends State<ChatingScreen> {
                       },
                       ),
                       SizedBox(width: 1.h),
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(16,8,0,8),
-                        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 8),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: BaseColors.primaryColor)),
-                        child:BaseImageNetwork(
-                            link: widget.receiverProfilePic??"",
-                            concatBaseUrl: false,
-                            height: 4.h,
-                        ),
-                      ),
+                      // Container(
+                      //   margin: const EdgeInsets.fromLTRB(16,8,0,8),
+                      //   padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 8),
+                      //   decoration: BoxDecoration(
+                      //       borderRadius: BorderRadius.circular(10),
+                      //       border: Border.all(color: BaseColors.primaryColor)),
+                      //   child:BaseImageNetwork(
+                      //       link: widget.receiverProfilePic??"",
+                      //       concatBaseUrl: false,
+                      //       height: 4.h,
+                      //   ),
+                      // ),
                       SizedBox(width: 2.w),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          addText(widget.receiverName??"", 14.sp, BaseColors.primaryColor, FontWeight.w700),
+                          // addText(widget.receiverName??"", 14.sp, BaseColors.primaryColor, FontWeight.w700),
                           SizedBox(height: .5.h),
                           addText("Father", 14.sp, BaseColors.primaryColor, FontWeight.w700),
                           SizedBox(height: .5.h),
@@ -311,11 +311,10 @@ class _ChatingScreenState extends State<ChatingScreen> {
             GestureDetector(
               onTap: (){
                 if (msgCtrl.text.trim().isNotEmpty) {
-                  ctrl.sendMessage(widget.receiverId, msgCtrl.text.trim(), "text");
+                  ctrl.sendGroupMessage(roomId: widget.roomId,message: msgCtrl.text.trim(), groupId: widget.groupId);
                   ctrl.update();
                   msgCtrl.clear();
                   setState(() {});
-
                 }
               },
               child: Container(

@@ -19,6 +19,8 @@ class LocationController extends GetxController{
   final formKey = GlobalKey<FormState>();
   Rx<File?>? selectedFile = File("").obs;
   RxInt selectedTabIndex = 0.obs;
+  RxString selectedCountryCode = "971".obs;
+  RxString selectedLandlineCode = "971".obs;
   Rx<TextEditingController> addressLocationController = TextEditingController().obs;
   Rx<TextEditingController> sectorController = TextEditingController().obs;
   Rx<TextEditingController> areaController = TextEditingController().obs;
@@ -48,8 +50,10 @@ class LocationController extends GetxController{
       buildingController.value.text = data?.buildingVilla??"";
       flatController.value.text =  data?.flatVillaNo??"";
       landmarkController.value.text = data?.landmark??"";
-      mobileController.value.text =  data?.mobile??"";
-      landlineController.value.text = data?.landline??"";
+      mobileController.value.text = (data?.mobile??"").toString().split(" ").last;
+      selectedCountryCode.value = ((data?.mobile??"").toString().split(" ").first).replaceAll("+", "");
+      landlineController.value.text = (data?.landline??"").toString().split(" ").last;
+      selectedLandlineCode.value = ((data?.landline??"").toString().split(" ").first).replaceAll("+", "");
       latitudeController.value.text = data?.location?.coordinates?[1]??"";
       longitudeController.value.text = data?.location?.coordinates?[0]??"";
       uploadController.value.text =  (data?.document??"").split("/").last;
@@ -107,8 +111,8 @@ class LocationController extends GetxController{
           "buildingVilla":buildingController.value.text.trim(),
           "flatVillaNo":flatController.value.text.trim(),
           "landmark":landmarkController.value.text.trim(),
-          "mobile":mobileController.value.text.trim(),
-          "landline":landlineController.value.text.trim(),
+          "mobile": "+${selectedCountryCode} ${(mobileController.value.text.trim())}",
+          "landline":"+${selectedLandlineCode} ${(landlineController.value.text.trim())}",
           "user":userId,
           "locationType":selectedTabIndex.value == 0 ? "home" : "emergency",
           "address":addressLocationController.value.text.trim(),
@@ -124,8 +128,8 @@ class LocationController extends GetxController{
           "buildingVilla":buildingController.value.text.trim(),
           "flatVillaNo":flatController.value.text.trim(),
           "landmark":landmarkController.value.text.trim(),
-          "mobile":mobileController.value.text.trim(),
-          "landline":landlineController.value.text.trim(),
+          "mobile": "+${selectedCountryCode} ${(mobileController.value.text.trim())}",
+          "landline":"+${selectedLandlineCode} ${(landlineController.value.text.trim())}",
           "user":userId,
           "locationType":selectedTabIndex.value == 0 ? "home" : "emergency",
           "address":addressLocationController.value.text.trim(),

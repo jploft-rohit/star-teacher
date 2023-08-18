@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'dart:ui' as ui;
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
@@ -15,6 +16,8 @@ import 'package:staff_app/view/star_reward_screen/add_new_reward_popup.dart';
 import 'package:staff_app/view/star_reward_screen/create_reward_screen.dart';
 import 'package:staff_app/view/star_reward_screen/reward_screen_ctrl.dart';
 import 'package:staff_app/view/star_reward_screen/rewards_screen_earn_screen.dart';
+
+import '../../utility/sizes.dart';
 
 class RewardsScreen extends StatefulWidget {
   const RewardsScreen({Key? key}) : super(key: key);
@@ -95,7 +98,7 @@ class _RewardsScreenState extends State<RewardsScreen> with AutomaticKeepAliveCl
                               SizedBox(height: 0.3.h),
                               addText("#${controller.myRewards?.first.studentId??""}", 16.sp, BaseColors.primaryColor, FontWeight.w700),
                               SizedBox(height: 0.8.h),
-                              // BaseButton(title: "View History", onPressed: (){},btnType: smallButton,removeHorizontalPadding: true,),
+                              BaseButton(title: "View History", onPressed: (){},btnType: smallButton,removeHorizontalPadding: true,),
                             ],
                           ),
                           // addText("#632541", 16.sp, BaseColors.primaryColor, FontWeight.w700),

@@ -44,7 +44,7 @@ class BaseAPI {
         BaseOverlays().showLoader(showLoader: showLoader??true);
         languageCode = await BaseSharedPreference().getString(SpKeys().selectedLanguage);
         FocusScope.of(X.Get.context!).requestFocus(new FocusNode());
-        final String token = await BaseSharedPreference().getString(SpKeys().apiToken);
+        final String token = await BaseSharedPreference().getString(SpKeys().apiToken)??"";
         final response = await _dio.get(url, options: Options(headers: {"Authorization": "Bearer $token", "Accept-Language":languageCode}), queryParameters: queryParameters);
         BaseOverlays().dismissOverlay(showLoader: showLoader??true);
         return response;
@@ -183,8 +183,7 @@ class BaseAPI {
     if (Platform.isIOS) {
       // For iOS devices
       PermissionStatus permission = await Permission.storage.status;
-      PermissionStatus permission2 =
-      await Permission.manageExternalStorage.status;
+      PermissionStatus permission2 = await Permission.manageExternalStorage.status;
 
       while (permission != PermissionStatus.granted &&
           permission2 != PermissionStatus.granted) {

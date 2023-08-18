@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:html/parser.dart';
 import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/backend/responses_model/base_success_response.dart';
@@ -12,6 +13,9 @@ class AccountActivationController extends GetxController{
   TextEditingController mobileController = TextEditingController();
   TextEditingController otpController = TextEditingController();
   TextEditingController employeeIdController = TextEditingController();
+  RxString codeOfConduct = "".obs;
+  RxString responsibilities = "".obs;
+  RxString selectedCountryCode = "971".obs;
   final formKey = GlobalKey<FormState>();
 
   sendAccountActivationRequest(){
@@ -19,7 +23,7 @@ class AccountActivationController extends GetxController{
       final data = {
         "name":fullNameController.text.trim(),
         "uniqueId":employeeIdController.text.trim(),
-        "mobile":mobileController.text.trim(),
+        "mobile":"+${selectedCountryCode} ${(mobileController.value.text.trim())}"
       };
         BaseAPI().post(url: ApiEndPoints().sendAccountActivationRequest, data: data).then((value){
           BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"",title: translate(Get.context!).success);
@@ -30,5 +34,29 @@ class AccountActivationController extends GetxController{
           }
         });
     }
+  }
+
+  getCodeOfConduct(){
+      BaseAPI().get(url: ApiEndPoints().getCodeOfConduct).then((value){
+        if (value?.statusCode ==  200) {
+          var document = parse(value?.data["data"][0]["description"]??"");
+          codeOfConduct.value = document.outerHtml;
+        }else{
+          BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"",title: translate(Get.context!).error);
+        }
+        },
+      );
+  }
+
+  getResponsibilities(){
+    BaseAPI().get(url: ApiEndPoints().getResponsibilities).then((value){
+      if (value?.statusCode ==  200) {
+        var document = parse(value?.data["data"][0]["description"]??"");
+        responsibilities.value = document.outerHtml;
+      }else{
+        BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"",title: translate(Get.context!).error);
+      }
+    },
+    );
   }
 }

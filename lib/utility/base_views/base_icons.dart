@@ -78,7 +78,7 @@ class BaseIcons{
       },
       child: Padding(
           padding: EdgeInsets.only(top: topMargin??0,bottom: bottomMargin??0,right: rightMargin??0,left: leftMargin??0),
-          child: SvgPicture.asset(icDownload,height: 2.h,width: 2.h,)
+          child: SvgPicture.asset(icDownload, height: 2.h, width: 2.h),
       ),
     );
   }

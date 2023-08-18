@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_views/base_image_network.dart';
 import 'package:staff_app/utility/base_views/base_no_data.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/base_school_selection.dart';
 import 'package:staff_app/utility/base_views/base_switch.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/utility/constant_images.dart';
 import 'package:staff_app/view/cards_and_tags_screen/controller/card_tag_ctrl.dart';
 import 'package:staff_app/view/my_profile_screen/controller/my_profile_ctrl.dart';
 import 'package:staff_app/view/shop_screen/shop_screen.dart';
@@ -31,16 +35,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
   final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
   CardTagCtrl controller = Get.put(CardTagCtrl());
   MyProfileCtrl profileController = Get.find<MyProfileCtrl>();
-  bool isCardEnable = true;
-  bool isTagEnable = false;
-  final List<String> pendingMeetingdates = ['July 2, 8:30PM', '', '', ''];
 
-  final List<String> heading = [
-    'Request\nRaised',
-    'Request\nAccepted',
-    'Card\nIssued',
-    'Received'
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,7 +125,10 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
                 },btnType: "iconButton"),
                 SizedBox(height: 1.h,),
                 BaseButton(title: translate(context).synchronize_nfc_to_cards_tags, onPressed: (){
-                  showNFCDialog(context,"");
+                  showProgramNFCDialogue(context,
+                      start: starNfcListen,
+                      stop: stopNfcListen,
+                  );
                 },btnType: "iconButton"),
                 SizedBox(height: 2.h),
                 Text("${translate(context).linked_card_tag} :", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 16.sp),),
@@ -169,14 +167,6 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
                        int stepperIndex = -5;
                        controller.statusTime.value = [];
                        controller.statusTitle.value = [];
-
-                       // controller.ordersList?[index]?.requestStatus?.asMap().forEach((loopIndex,element) {
-                       // controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
-                       // controller.statusTime.add(getFormattedTimeWithMonth(element.date??""));
-                       // if ((element.date?.toString()??"").isNotEmpty) {
-                       //   stepperIndex = loopIndex;
-                       // }
-                       // });
                        controller.ordersList?[index]?.requestStatus?.toList().asMap().forEach((loopIndex,element) {
                          if (element.name.toString().toLowerCase() != "rejected") {
                            controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
@@ -305,27 +295,6 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
     );
   }
 
-  Widget buildTile(String title) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 8.0),
-      padding: EdgeInsets.all(14.sp),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.0),
-          border: Border.all(color: BaseColors.primaryColor)
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(title, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 17.sp),),
-          Icon(
-            Icons.arrow_forward,
-            color: BaseColors.primaryColor,
-            size: 20.sp,
-          )
-        ],
-      ),
-    );
-  }
   Widget buildCardTile(String title, String heading, isEnable ,Function(bool) onChanged){
      return Container(
       margin: const EdgeInsets.only(bottom: 8.0),
@@ -375,4 +344,126 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
       ),
     );
   }
+
+  void showProgramNFCDialogue(BuildContext context, {start, stop}) {
+    if (start != null) {
+      start();
+    }
+    showGeneralDialog(
+        barrierColor: Colors.black.withOpacity(0.5),
+        transitionBuilder: (context, a1, a2, widget) {
+          return Transform.scale(
+            scale: a1.value,
+            child: Opacity(
+              opacity: a1.value,
+              child: AlertDialog(
+                insetPadding: const EdgeInsets.symmetric(horizontal: 20),
+                shape:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(16.0)),
+                content: SizedBox(
+                  width: 100.w,
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Stack(
+                          children: [
+                            Align(
+                              alignment: AlignmentDirectional.topEnd,
+                              child: iconButton(() {
+                                if (stop != null) {
+                                  stop();
+                                }
+                                Get.back();
+                              }, StarIcons.closeIconBlack),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 10),
+                              child: Center(
+                                child: addAlignedText(
+                                    translate(context).programme_NFC,
+                                    getHeadingTextFontSIze(),
+                                    Colors.black,
+                                    FontWeight.w700),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 3.h,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Get.back();
+                            showNFCDialog1(context,"assets/images/check 1.svg");
+                          },
+                          child: addAlignedText(
+                              translate(context).tap_nfc_card_to_match_frequency,
+                              getSubheadingTextFontSIze(),
+                              BaseColors.black,
+                              FontWeight.w700),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 200),
+        barrierDismissible: true,
+        barrierLabel: '',
+        context: context,
+        pageBuilder: (context, animation1, animation2) {
+          return const SizedBox();
+        },
+    );
+  }
+
+  starNfcListen() {
+    RawKeyboard.instance.addListener(handleKeyPress);
+    print('starNfcListen');
+  }
+
+  stopNfcListen() {
+    RawKeyboard.instance.removeListener(handleKeyPress);
+    print('stopNfcListen');
+  }
+
+  Future<void> handleKeyPress(RawKeyEvent event) async {
+    if (event is RawKeyUpEvent) {
+      FocusScope.of(Get.context!).unfocus();
+      print(event.data.logicalKey.keyLabel);
+      if (event.data.logicalKey.keyLabel == 'Enter' ||
+          event.data.logicalKey.keyLabel == 'Shift') {
+        controller.nfcValue.value = controller.nfcValue.value.replaceAll('Enter', '');
+        await callApi(controller.nfcValue.value);
+        controller.nfcValue.value = '';
+      }
+      controller.nfcValue.value += event.data.logicalKey.keyLabel;
+    }
+  }
+
+  callApi(data) async {
+    try {
+      stopNfcListen();
+      Get.back();
+      BaseOverlays().showLoader();
+      await BaseAPI().get(url: 'user/check_user_tag?tagNo=${data.toString().toLowerCase()}').then((response) {
+        print(response);
+        BaseOverlays().dismissOverlay();
+        Get.back();
+      });
+    } catch (e) {
+      print(e);
+      BaseOverlays().dismissOverlay();
+      Get.back();
+      // BaseOverlays().showSnackBar(message: 'Tag number is not active', title: "Error");
+      // showSnackBar(message: 'Tag number is not active', success: false);
+    }
+  }
+
+
 }

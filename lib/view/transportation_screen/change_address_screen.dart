@@ -1,5 +1,6 @@
 import 'dart:io' as Platform;
 
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -308,6 +309,28 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                                 }
                                 return null;
                               },
+                              prefixIcon: GestureDetector(
+                                onTap: (){
+                                  showCountryPicker(
+                                    context: context,
+                                    favorite: ["AE"],
+                                    showPhoneCode: true, // optional. Shows phone code before the country name.
+                                    onSelect: (Country country) {
+                                      controller.selectedCountryCode.value = country.phoneCode;
+                                      print('Select country: ${country.phoneCode}');
+                                      setState(() {});
+                                    },
+                                  );
+                                },
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    SizedBox(width: 2.w),
+                                    Text("+"+(controller.selectedCountryCode.value),style: TextStyle(fontSize: textFormFieldHintTs)),
+                                    Icon(Icons.arrow_drop_down_rounded, color: Colors.grey),
+                                  ],
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -334,6 +357,28 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                                 }
                                 return null;
                               },
+                              prefixIcon: GestureDetector(
+                                onTap: (){
+                                  showCountryPicker(
+                                    context: context,
+                                    favorite: ["AE"],
+                                    showPhoneCode: true, // optional. Shows phone code before the country name.
+                                    onSelect: (Country country) {
+                                      controller.selectedLandlineCode.value = country.phoneCode;
+                                      print('Select country: ${country.phoneCode}');
+                                      setState(() {});
+                                    },
+                                  );
+                                },
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    SizedBox(width: 2.w),
+                                    Text("+"+(controller.selectedLandlineCode.value),style: TextStyle(fontSize: textFormFieldHintTs)),
+                                    Icon(Icons.arrow_drop_down_rounded, color: Colors.grey),
+                                  ],
+                                ),
+                              ),
                             ),
                           ],
                         ),

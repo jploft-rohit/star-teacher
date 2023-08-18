@@ -32,12 +32,33 @@ class _OrderListTileState extends State<OrderListTile> {
         itemCount: controller.shopOrdersList?.length??0,
         padding: EdgeInsets.zero,
         itemBuilder: (context, index) {
-          int stepperIndex = -5;
           controller.statusTime.value = ["\n","\n","\n"];
           controller.statusTitle.value = ["Order Placed", "Confirmed", "Served"];
+          // controller.shopOrdersList?[index]?.progressStatus?.toList().asMap().forEach((loopIndex,element) {
+          //   controller.statusTime[loopIndex] = (getFormattedTimeWithMonth(element.timestamp??""));
+          //   stepperIndex = loopIndex;
+          // });
+          int stepperIndex = 1;
           controller.shopOrdersList?[index]?.progressStatus?.toList().asMap().forEach((loopIndex,element) {
-            controller.statusTime[loopIndex] = (getFormattedTimeWithMonth(element.timestamp??""));
-            stepperIndex = loopIndex;
+            if (element.name.toString().toLowerCase() != "rejected" && element.name.toString().toLowerCase() != "cancelled" && element.name.toString().toLowerCase() != "returned") {
+              if (element.isReached.toString() == "true") {
+                controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
+                controller.statusTime.add(getFormattedTimeWithMonth(element.updatedAt??""));
+                stepperIndex = (loopIndex+1);
+              }
+            }else{
+              if (element.isReached.toString() == "true") {
+                controller.statusTime.clear();
+                controller.statusTitle.clear();
+                controller.statusTitle.add(toBeginningOfSentenceCase(controller.shopOrdersList?[index]?.progressStatus?[0].name??"")??"");
+                controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
+                controller.statusTime.add(getFormattedTimeWithMonth(controller.shopOrdersList?[index]?.progressStatus?[0].updatedAt??""));
+                controller.statusTime.add(getFormattedTimeWithMonth(element.updatedAt??""));
+                if (element.updatedAt.toString().isNotEmpty) {
+                  stepperIndex = (loopIndex+1);
+                }
+              }
+            }
           });
           return buildCanteenThisWeekOrderBox(context, index, stepperIndex: stepperIndex);
         },
@@ -80,16 +101,16 @@ class _OrderListTileState extends State<OrderListTile> {
                 flex: 1,
                 child: Row(
                   children: [
-                    Visibility(
-                      visible: (stepperIndex) == 2,
-                      child: BaseButton(
-                          title: "Return",
-                          btnType: smallButton,
-                          removeHorizontalPadding: true,
-                          onPressed: () {
-                            Get.to(ShopReturnView());
-                          }),
-                    ),
+                    // Visibility(
+                    //   visible: (stepperIndex) == 2,
+                    //   child: BaseButton(
+                    //       title: "Return",
+                    //       btnType: smallButton,
+                    //       removeHorizontalPadding: true,
+                    //       onPressed: () {
+                    //         Get.to(ShopReturnView());
+                    //       }),
+                    // ),
                     Visibility(
                       visible: (stepperIndex) != 2,
                       child: BaseButton(
@@ -111,16 +132,16 @@ class _OrderListTileState extends State<OrderListTile> {
                           },
                       ),
                     ),
-                    SizedBox(width: 1.5.w),
-                    Expanded(
-                      flex: 1,
-                      child: GestureDetector(
-                        onTap: (){
-                          Get.to(EditOrderView(id: controller.shopOrdersList?[index]?.sId??""));
-                        },
-                        child: Align(alignment: Alignment.centerRight,child: Image.asset(editPng, color: BaseColors.primaryColor,height: 18.sp,)),
-                      ),
-                    )
+                    // SizedBox(width: 1.5.w),
+                    // Expanded(
+                    //   flex: 1,
+                    //   child: GestureDetector(
+                    //     onTap: (){
+                    //       Get.to(EditOrderView(id: controller.shopOrdersList?[index]?.sId??""));
+                    //     },
+                    //     child: Align(alignment: Alignment.centerRight,child: Image.asset(editPng, color: BaseColors.primaryColor,height: 18.sp,)),
+                    //   ),
+                    // )
                   ],
                 ),
               )
@@ -132,7 +153,7 @@ class _OrderListTileState extends State<OrderListTile> {
             padding: EdgeInsets.symmetric(horizontal: 8),
             child: StepProgressView(
               width: MediaQuery.of(context).size.width,
-              curStep: stepperIndex+1,
+              curStep: stepperIndex,
               color: BaseColors.primaryColor,
               titles: controller.statusTime,
               statuses: controller.statusTitle,

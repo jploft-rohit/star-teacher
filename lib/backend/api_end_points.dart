@@ -259,4 +259,8 @@ class ApiEndPoints {
   final String chatBaseUrl = "nationality/get-all";
   final String getChatList = "user/chatUserListAPI/";
   final String getGroupChatList = "user/userGroupsListAPI/";
+
+  /// Code Of Conduct
+  final String getCodeOfConduct = "appContent/get-all/codeofconduct/teacher";
+  final String getResponsibilities = "appContent/get-all/responsibilities/teacher";
 }

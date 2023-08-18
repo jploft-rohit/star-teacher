@@ -13,8 +13,11 @@ import 'package:staff_app/backend/responses_model/medical_record_responses/vacci
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/storage/sp_keys.dart';
+import 'package:staff_app/utility/base_views/base_loader.dart';
 
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+
+import '../../../../utility/base_utility.dart';
 
 class MedicalRecordController extends GetxController {
   final useCanteenServicesPos = 1.obs;
@@ -193,20 +196,6 @@ class MedicalRecordController extends GetxController {
 
   addOrUpdateDisease(DiseaseData? diseaseData) async {
     try {
-      // check if disease list having any disease active status but document is not selected
-      // if (diseaseList.any((element) =>
-      //     element.active == true && element.document == null && element.sId != diseaseData?.sId)) {
-      //   showSnackBar(
-      //       message: 'Please select document for active disease', success: false);
-      //   return;
-      // }
-      // check if diseaseData is active and document is not selected
-      // if (diseaseData?.active == true && diseaseData?.document == null) {
-      //   showSnackBar(
-      //       message: 'Please select document for active disease',
-      //       success: false);
-      //   return;
-      // }
       final String userId = await BaseSharedPreference().getString(SpKeys().userId);
       BaseOverlays().showLoader();
       Map<String, dynamic> data = {
@@ -233,16 +222,34 @@ class MedicalRecordController extends GetxController {
   }
 
   saveDiseaseDeatils() async {
+    final String userId = await BaseSharedPreference().getString(SpKeys().userId);
     try {
       BaseOverlays().showLoader();
-      await BaseAPI().get(url: 'registerStar/save_disease/6443a18eed5d074580c2b2a0');
-      Get.back();
+      await BaseAPI().get(url: 'registerStar/save_disease/${userId}');
+      // Get.back();
       BaseOverlays().showSnackBar(message: 'Disease details saved successfully',title: translate(Get.context!).success);
       FocusScope.of(Get.context!).unfocus();
+      getMedicalSurveyTwo();
     } catch (e) {
-      Get.back();
+      // Get.back();
       print(e.toString() + 'saveDiseaseDeatils');
       BaseOverlays().showSnackBar(message: e.toString(), title: "Error");
+    }
+  }
+
+  getMedicalSurveyTwo() async {
+    final String userId = await BaseSharedPreference().getString(SpKeys().userId);
+    try {
+      BaseLoader();
+      var response = await BaseAPI().get(url:'registerStar/get_medical_survey/${userId}');
+      MedicalSurvey medicalSurvey =
+      MedicalSurvey.fromJson(response?.data["data"]);
+      prefill(medicalSurvey);
+      Get.back();
+    } catch (e) {
+      print(e.toString() + 'medical');
+      Get.back();
+      showSnackBar(message: e.toString(), success: false);
     }
   }
 
@@ -274,8 +281,7 @@ class MedicalRecordController extends GetxController {
   getMedicalRecordList() async {
     try {
       loading.value = true;
-      var response =
-          await BaseAPI().get(url: 'medicalRecord/get-all');
+      var response = await BaseAPI().get(url: 'medicalRecord/get-all');
       medicalRecordList.clear();
       medicalRecordList.addAll((response?.data["data"] as List).map((e) => MedicalRecord.fromJson(e)).toList());
     } catch (e) {

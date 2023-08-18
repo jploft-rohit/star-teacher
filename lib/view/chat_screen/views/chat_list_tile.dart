@@ -11,6 +11,7 @@ import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/view/chat_screen/chat_screen_ctrl.dart';
 import 'package:staff_app/view/chat_screen/chating_screen.dart';
+import 'package:staff_app/view/chat_screen/group_chatting_screen.dart';
 import 'package:staff_app/view/schedule_meeting_screen/schedule_meeting_screen.dart';
 
 class ChatListTile extends StatefulWidget {
@@ -44,27 +45,31 @@ class _ChatListTileState extends State<ChatListTile> with SingleTickerProviderSt
   Widget build(BuildContext context) {
     return Obx(()=>Column(
         children: [
-          BaseToggleTabBar(
-            controller: tabController,
-            tabs: [
-              Tab(
-                child: Padding(
-                  padding: EdgeInsets.only(right: isRTL ? 0 : 6, left: isRTL ? 6 : 0),
-                  child: BaseButton(title: 'Individual',onPressed: null,verticalPadding: 0,isActive: controller.secondarySelectedIndex.value == 0 ? true : false,isToggle: controller.secondarySelectedIndex.value == 0 ? true : false),
+          Visibility(
+            visible: controller.primarySelectedIndex.value != 3,
+            child: BaseToggleTabBar(
+              controller: tabController,
+              tabs: [
+                Tab(
+                  child: Padding(
+                    padding: EdgeInsets.only(right: isRTL ? 0 : 6, left: isRTL ? 6 : 0),
+                    child: BaseButton(title: 'Individual',onPressed: null,verticalPadding: 0,isActive: controller.secondarySelectedIndex.value == 0 ? true : false,isToggle: controller.secondarySelectedIndex.value == 0 ? true : false),
+                  ),
                 ),
-              ),
-              Tab(
-                child: Padding(
-                  padding: EdgeInsets.only(right: isRTL ? 6 : 0, left: isRTL ? 0 : 6),
-                  child: BaseButton(title: 'Group',onPressed: null,verticalPadding: 0,isActive: controller.secondarySelectedIndex.value == 1 ? true : false, isToggle: controller.secondarySelectedIndex.value == 1 ? true : false),
+                Tab(
+                  child: Padding(
+                    padding: EdgeInsets.only(right: isRTL ? 6 : 0, left: isRTL ? 0 : 6),
+                    child: BaseButton(title: 'Group',onPressed: null,verticalPadding: 0,isActive: controller.secondarySelectedIndex.value == 1 ? true : false, isToggle: controller.secondarySelectedIndex.value == 1 ? true : false),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           SizedBox(height: 2.h),
           Expanded(
             child: TabBarView(
                 controller: tabController,
+                physics: controller.primarySelectedIndex.value == 3 ? NeverScrollableScrollPhysics() : ScrollPhysics(),
                 children: [
                   listTile(),
                   listTile(),
@@ -116,29 +121,30 @@ class _ChatListTileState extends State<ChatListTile> with SingleTickerProviderSt
                               errorWidget: SvgPicture.asset(girlSvg, height: 40),
                             ),
                           ),
-                          SizedBox(
-                            width: 2.w,
-                          ),
+                          SizedBox(width: 2.w),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               addText(controller.secondarySelectedIndex.value == 0 ? (controller.chatHistoryList?[index]?.name??"") : (controller.chatHistoryList?[index]?.title??""), 15.sp, BaseColors.primaryColor, FontWeight.w700),
-                              SizedBox(height: 0.5.h),
-                              controller.primarySelectedIndex.value == 0 && controller.secondarySelectedIndex.value == 0
+                              Visibility(visible: controller.secondarySelectedIndex.value != 1,child: SizedBox(height: 0.5.h)),
+                              Visibility(
+                                visible: controller.secondarySelectedIndex.value != 1,
+                                child: controller.primarySelectedIndex.value == 0 && controller.secondarySelectedIndex.value == 0
                                   ? RichText(
-                                text: TextSpan(
-                                  text: 'ID: ',
-                                  style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),
-                                  children: <TextSpan>[
-                                    TextSpan(text: "#${controller.chatHistoryList?[index]?.uniqueId?.toString()??""}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp,)),
-                                  ],
+                                  text: TextSpan(
+                                    text: 'ID: ',
+                                    style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),
+                                    children: <TextSpan>[
+                                      TextSpan(text: "#${controller.chatHistoryList?[index]?.uniqueId?.toString()??""}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp,)),
+                                    ],
+                                   ),
+                                  ) : addText(
+                                  controller.chatHistoryList?[index]?.role?.name??"",
+                                  15.sp,
+                                  BaseColors.primaryColor,
+                                  FontWeight.w700,
                                 ),
-                              ) : addText(
-                                controller.chatHistoryList?[index]?.role?.name??"",
-                                15.sp,
-                                BaseColors.primaryColor,
-                                FontWeight.w700,
                               ),
                               SizedBox(height: 0.5.h),
                               controller.primarySelectedIndex.value != 3 || controller.secondarySelectedIndex.value == 1
@@ -147,7 +153,7 @@ class _ChatListTileState extends State<ChatListTile> with SingleTickerProviderSt
                                   text: 'Message: ',
                                   style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),
                                   children: <TextSpan>[
-                                    TextSpan(text: controller.secondarySelectedIndex.value == 0 ? (controller.chatHistoryList?[index]?.message?.message??"") : (controller.chatHistoryList?[index]?.groupMessage??""), style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp,),),
+                                    // TextSpan(text: controller.secondarySelectedIndex.value == 0 ? (controller.chatHistoryList?[index]?.message?.message??"") : (controller.chatHistoryList?[index]?.groupMessage??""), style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp,),),
                                   ],
                                 ),
                               ) : addText(
@@ -184,7 +190,7 @@ class _ChatListTileState extends State<ChatListTile> with SingleTickerProviderSt
                       flex: 1,
                       child: GestureDetector(
                         onTap: (){
-                          Get.to(const ChatingScreen());
+                          Get.to(GroupChattingScreen(roomId: (controller.chatHistoryList?[index]?.roomId??""), groupId: (controller.chatHistoryList?[index]?.sId??""),));
                         },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,

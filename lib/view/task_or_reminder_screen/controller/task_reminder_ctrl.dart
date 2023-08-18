@@ -58,7 +58,7 @@ class TaskReminderCtrl extends GetxController{
     });
   }
 
-  createTaskReminder() async {
+  createTaskReminder({String? meetingId}) async {
     if (formKey.currentState?.validate()??false) {
       var data;
       if ((selectedFile?.value?.path??"").isEmpty) {
@@ -69,6 +69,8 @@ class TaskReminderCtrl extends GetxController{
           "typeValue":selectedSpecificDays.isNotEmpty ? selectedSpecificDays.join(",") : "", // For Specific Days
           "date":remindType.value == "specific_date" ? selectedDate.value : formatBackendDate(DateTime.now().toString()), // For Specific Date
           "forType":"mySelf",
+          "scheduleId": meetingId??"",
+          "reminderType": (meetingId??"").isEmpty ? "" : "scheduleMeet",
         });
       }else{
         data = dio.FormData.fromMap({
@@ -78,6 +80,8 @@ class TaskReminderCtrl extends GetxController{
           "typeValue":selectedSpecificDays.isNotEmpty ? selectedSpecificDays.join(",") : "", // For Specific Days
           "date":remindType.value == "specific_date" ? selectedDate.value : formatBackendDate(DateTime.now().toString()), // For Specific Date
           "forType":"mySelf",
+          "scheduleId": meetingId??"",
+          "reminderType": (meetingId??"").isEmpty ? "" : "scheduleMeet",
           "document":await dio.MultipartFile.fromFile(selectedFile?.value?.path??"", filename: (selectedFile?.value?.path??"").split("/").last)
         });
       }
@@ -95,7 +99,7 @@ class TaskReminderCtrl extends GetxController{
     }
   }
 
-  updateTaskReminder({required id}) async {
+  updateTaskReminder({required id, String? meetingId}) async {
     if (formKey.currentState?.validate()??false) {
       var data;
       if ((selectedFile?.value?.path??"").isEmpty) {
@@ -106,6 +110,8 @@ class TaskReminderCtrl extends GetxController{
           "typeValue":selectedSpecificDays.isNotEmpty ? selectedSpecificDays.join(",") : "", // For Specific Days
           "date":remindType.value == "specific_date" ? selectedDate.value : formatBackendDate(DateTime.now().toString(),getDayFirst: false), // For Specific Date
           "forType":"mySelf",
+          "scheduleId": meetingId??"",
+          "reminderType": (meetingId??"").isEmpty ? "" : "scheduleMeet",
         });
       }else{
         data = dio.FormData.fromMap({
@@ -115,6 +121,8 @@ class TaskReminderCtrl extends GetxController{
           "typeValue":selectedSpecificDays.isNotEmpty ? selectedSpecificDays.join(",") : "", // For Specific Days
           "date":remindType.value == "specific_date" ? selectedDate.value : formatBackendDate(DateTime.now().toString(),getDayFirst: false), // For Specific Date
           "forType":"mySelf",
+          "scheduleId": meetingId??"",
+          "reminderType": (meetingId??"").isEmpty ? "" : "scheduleMeet",
           "document":await dio.MultipartFile.fromFile(selectedFile?.value?.path??"", filename: (selectedFile?.value?.path??"").split("/").last)
         });
       }

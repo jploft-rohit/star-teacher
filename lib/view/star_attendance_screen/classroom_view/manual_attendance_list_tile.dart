@@ -10,9 +10,7 @@ import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/view/chat_screen/chating_screen.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/confirmation_popup.dart';
 import 'package:staff_app/view/star_attendance_screen/controller/star_attendance_screen_ctrl.dart';
-
 import '../../../utility/images_icon_path.dart';
-import '../../../utility/sizes.dart';
 
 class ManualAttendanceListTile extends StatefulWidget {
   final int index;
@@ -56,22 +54,14 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
                   Expanded(
                     flex: 2,
                     child: Container(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(8,8,8,8),
-                        child: Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  border: Border.all(color: BaseColors.primaryColor)),
-                              child:BaseImageNetwork(
-                                link: controller.manualList?[widget.index].user?.profilePic??"",
-                                errorWidget: SvgPicture.asset(girlSvg),
-                              ),
-                            ),
-                          ],
-                        ),
+                      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                      margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(color: BaseColors.primaryColor)),
+                      child:BaseImageNetwork(
+                        link: controller.manualList?[widget.index].user?.profilePic??"",
+                        // errorWidget: SvgPicture.asset(girlSvg),
                       ),
                     ),
                   ),

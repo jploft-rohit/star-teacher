@@ -40,8 +40,10 @@ class Data {
   dynamic currentStatus;
   dynamic mobile;
   dynamic dob;
+  dynamic isDeactivateRequestData;
   dynamic address;
   dynamic nationality;
+  dynamic nationalityId;
   dynamic emirateId;
   dynamic emirateIdExpire;
   dynamic nativeLanguage;
@@ -66,10 +68,12 @@ class Data {
   Statistics? statistics;
   List<FamilyMembers>? familyMembers;
 
-  Data({this.country, this.state, this.email, this.bloodType, this.isSendActivationRequest,this.placesOfClass,this.designation,this.sId, this.deactivateData, this.currentStatus, this.isMobileVerified, this.gender, this.idDocument, this.deviceType, this.parentId, this.isDeleted, this.name, this.mobile, this.dob, this.nationality, this.emirateId, this.emirateIdExpire, this.nativeLanguage, this.religion, this.profilePic, this.role, this.createdAt, this.updatedAt, this.iV, this.otp, this.deviceToken, this.deviceVoip, this.schoolStaff, this.familyMembers, this.alternativeMobile, this.profileCompletePercentage, this.profileCompleteDate, this.barcode, this.jobDetails, this.statistics});
+  Data({this.isDeactivateRequestData, this.nationalityId, this.country, this.state, this.email, this.bloodType, this.isSendActivationRequest,this.placesOfClass,this.designation,this.sId, this.deactivateData, this.currentStatus, this.isMobileVerified, this.gender, this.idDocument, this.deviceType, this.parentId, this.isDeleted, this.name, this.mobile, this.dob, this.nationality, this.emirateId, this.emirateIdExpire, this.nativeLanguage, this.religion, this.profilePic, this.role, this.createdAt, this.updatedAt, this.iV, this.otp, this.deviceToken, this.deviceVoip, this.schoolStaff, this.familyMembers, this.alternativeMobile, this.profileCompletePercentage, this.profileCompleteDate, this.barcode, this.jobDetails, this.statistics});
 
   Data.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
+    isDeactivateRequestData = json['isDeactivateRequestData'];
+    nationalityId = json['nationalityId'];
     state = json['state'];
     maritalStatus = json['maritalStatus'];
     address = json['address'];
@@ -121,12 +125,14 @@ class Data {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['_id'] = this.sId;
+    data['nationalityId'] = this.nationalityId;
     if (this.deactivateData != null) {
       data['deactivateData'] = this.deactivateData!.toJson();
     }
     data['isSendActivationRequest'] = this.isSendActivationRequest;
     data['isMobileVerified'] = this.isMobileVerified;
     data['gender'] = this.gender;
+    data['isDeactivateRequestData'] = this.isDeactivateRequestData;
     data['address'] = this.address;
     data['country'] = this.country;
     data['email'] = this.email;

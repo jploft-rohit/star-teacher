@@ -8,7 +8,6 @@ import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
-import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -146,7 +145,7 @@ class _UploadEvidencePopupState extends State<UploadEvidencePopup> {
                       return null;
                     },
                   ),
-                  BaseTextFormField(controller: titleCtrl,
+                  BaseTextFormField(controller: controller.uploadController,
                     hintText: translate(context).upload_file,
                     bottomMargin: 3.h,
                     suffixIcon: "assets/images/upload_icon.svg",
@@ -164,16 +163,16 @@ class _UploadEvidencePopupState extends State<UploadEvidencePopup> {
                           if (value != null) {
                             controller.selectedFile?.value = File(value.path);
                             controller.uploadController.text = value.path.split("/").last;
-                          }
-                        });
-                      },
+                             }
+                           });
+                          },
                           onGalleryClick: () async {
                             BaseOverlays().dismissOverlay();
                             ImagePicker picker = ImagePicker();
                             await picker.pickImage(source: ImageSource.gallery).then((value){
                               if (value != null) {
                                 controller.selectedFile?.value = File(value.path);
-                                titleCtrl.text = value.path.split("/").last;
+                                controller.uploadController.text = value.path.split("/").last;
                               }
                             });
                           },

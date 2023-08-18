@@ -136,8 +136,8 @@ class StarAttendanceScreenCtrl extends GetxController{
     manualList?.value = [];
     var data = {
       "keyword":"",
-      "classId":"645f2caf3433614b6d0fbcd6",
-      "school":"6453a39493426d11484fe225",
+      "classId":selectedClassId.value,
+      "school":selectedSchoolId.value,
       "section":selectedSectionId.value,
       "type": "classroom",
     };

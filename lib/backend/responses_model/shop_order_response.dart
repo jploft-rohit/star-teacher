@@ -170,20 +170,30 @@ class ShopOrderData {
 }
 
 class ProgressStatus {
-  dynamic status;
-  dynamic timestamp;
+  dynamic sId;
+  dynamic isReached;
+  dynamic name;
+  dynamic filter;
+  dynamic updatedAt;
 
-  ProgressStatus({this.status, this.timestamp});
+  ProgressStatus(
+      {this.sId, this.isReached, this.name, this.filter, this.updatedAt});
 
   ProgressStatus.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
-    timestamp = json['timestamp'];
+    sId = json['_id'];
+    isReached = json['isReached'];
+    name = json['name'];
+    filter = json['filter'];
+    updatedAt = json['updatedAt'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['timestamp'] = this.timestamp;
+    data['_id'] = this.sId;
+    data['isReached'] = this.isReached;
+    data['name'] = this.name;
+    data['filter'] = this.filter;
+    data['updatedAt'] = this.updatedAt;
     return data;
   }
 }

@@ -29,7 +29,7 @@ class MapUiBody extends StatefulWidget {
 
 class MapUiBodyState extends State<MapUiBody> {
   MapUiBodyState();
-  TextEditingController _locationController=TextEditingController();
+  TextEditingController _locationController = TextEditingController();
 
   static const CameraPosition _kInitialPosition = CameraPosition(
     target: LatLng(26.912434, 75.787270),
@@ -189,28 +189,26 @@ class MapUiBodyState extends State<MapUiBody> {
             SizedBox(
               height: 100,
               child: Padding(
-                padding: EdgeInsets.only(top: 15, bottom: 20,left: 20,right: 20),
+                padding:
+                EdgeInsets.only(top: 15, bottom: 20, left: 20, right: 20),
                 child: GooglePlaceAutoCompleteTextField(
                     textEditingController: _locationController,
-                    textStyle:Theme.of(context)
-                        .textTheme
-                        .caption
-                        ?.copyWith(fontSize: 100.w / 30)??const TextStyle(),
-                    googleAPIKey: "AIzaSyAiLOIQqbdpaBgrwsBMPjVSm0lgPHPkrqQ",
+                    textStyle: Theme.of(context).textTheme.bodySmall
+                        ?.copyWith(fontSize: 100.w / 30) ??
+                        const TextStyle(),
+                    googleAPIKey: "AIzaSyDPKbUbuYTrDlGMxf41rUjFJ-5QKghdh2c",
                     inputDecoration: InputDecoration(
                       // contentPadding: EdgeInsets.symmetric(horizontal: 8.0),
                       enabled: true,
                       border: OutlineInputBorder(
-                        borderSide: BorderSide(color: BaseColors.primaryColor,width: 1)
-                      ),
+                          borderSide: BorderSide(
+                              color: BaseColors.primaryColor, width: 1)),
                       fillColor: Colors.white,
                       filled: true,
-                      hintText: "Your location will be used to find tradespeople near you.",
+                      hintText:
+                      "Your location will be used to find tradespeople near you.",
                       // hintMaxLines: null,
-                      hintStyle: Theme.of(context)
-                          .inputDecorationTheme
-                          .hintStyle
-                          ?.copyWith(fontSize: 100.w / 30),
+                      hintStyle: Theme.of(context).inputDecorationTheme.hintStyle?.copyWith(fontSize: 100.w / 30),
                       suffixIcon: IconButton(
                         onPressed: () {},
                         icon: const Icon(
@@ -221,19 +219,24 @@ class MapUiBodyState extends State<MapUiBody> {
                       ),
                     ),
                     debounceTime: 800, // default 600 ms,
-                    isLatLngRequired:true,// if you required coordinates from place detail
-                    getPlaceDetailWithLatLng: (Prediction prediction) async{
+                    isLatLngRequired:
+                    true, // if you required coordinates from place detail
+                    getPlaceDetailWithLatLng: (Prediction prediction) async {
                       // this method will return latlng with place detail
                       print("placeDetails" + prediction.lng.toString());
                       print("placeDetails" + prediction.lat.toString());
                       // _lat=double.parse(prediction.lat.toString());
                       // _long=double.parse(prediction.lng.toString());
                       setState(() {});
-                      List<Placemark> placemarks = await placemarkFromCoordinates(double.parse(prediction.lat.toString()), double.parse(prediction.lng.toString()));
+                      List<Placemark> placemarks =
+                      await placemarkFromCoordinates(
+                          double.parse(prediction.lat.toString()),
+                          double.parse(prediction.lng.toString()));
 
                       Placemark placemark = placemarks[0];
                       _position = CameraPosition(
-                        target: LatLng(double.parse(prediction.lat.toString()), double.parse(prediction.lng.toString())),
+                        target: LatLng(double.parse(prediction.lat.toString()),
+                            double.parse(prediction.lng.toString())),
                         zoom: 15.0,
                       );
                       final GoogleMapController controller = await _controller;
@@ -242,15 +245,16 @@ class MapUiBodyState extends State<MapUiBody> {
                       ));
 
                       setState(() {
-                      _controller = controller;
+                        _controller = controller;
                       });
-                      latitude=double.parse(prediction.lat.toString());
-                      longtitude=double.parse(prediction.lng.toString());
-                      _addMarker(LatLng(double.parse(prediction.lat.toString()), double.parse(prediction.lng.toString())));
+                      latitude = double.parse(prediction.lat.toString());
+                      longtitude = double.parse(prediction.lng.toString());
+                      _addMarker(LatLng(double.parse(prediction.lat.toString()),
+                          double.parse(prediction.lng.toString())));
                     }, // this callback is called when isLatLngRequired is true
                     itemClick: (Prediction prediction) {
-                      _locationController.text = prediction.description!;
-                      _locationController.selection = TextSelection.fromPosition(TextPosition(offset: prediction.description!.length));
+                      _locationController.text = prediction.description??"";
+                      _locationController.selection = TextSelection.fromPosition(TextPosition(offset: (prediction.description??"").length));
                     }
                 ),
               ),
@@ -332,8 +336,7 @@ class UtilMethods {
   factory UtilMethods() => utilSharedInstanace;
   UtilMethods._internal();
 
-  String capitalize(String val) =>
-      "${val[0].toUpperCase()}${val.substring(1).toLowerCase()}";
+  String capitalize(String val) => "${val[0].toUpperCase()}${val.substring(1).toLowerCase()}";
 
   Future<LocationDataModel?> location(context) async {
     LocationPermission locationPermission;

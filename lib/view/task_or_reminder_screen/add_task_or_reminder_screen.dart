@@ -20,8 +20,9 @@ import 'package:staff_app/view/task_or_reminder_screen/controller/task_reminder_
 
 class AddTaskOrReminderScreen extends StatefulWidget {
   final bool isUpdating;
+  final String? meetingId;
   final TaskReminderListData? data;
-  const AddTaskOrReminderScreen({Key? key, this.isUpdating = false, this.data}) : super(key: key);
+  const AddTaskOrReminderScreen({Key? key, this.isUpdating = false, this.data, this.meetingId}) : super(key: key);
 
   @override
   State<AddTaskOrReminderScreen> createState() => _AddTaskOrReminderScreenState();
@@ -276,9 +277,9 @@ class _AddTaskOrReminderScreenState extends State<AddTaskOrReminderScreen> {
                 alignment: Alignment.topCenter,
                 child: BaseButton(title: translate(context).set_reminder.toUpperCase(), onPressed: (){
                   if (widget.isUpdating) {
-                    controller.updateTaskReminder(id: widget.data?.sId??"");
+                    controller.updateTaskReminder(id: widget.data?.sId??"", meetingId: widget.meetingId??"");
                   }else{
-                    controller.createTaskReminder();
+                    controller.createTaskReminder(meetingId: widget.meetingId??"");
                   }
                 },btnType: largeButton),
               ),

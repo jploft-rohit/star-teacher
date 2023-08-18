@@ -20,7 +20,6 @@ import 'package:staff_app/view/early_leave_and_permission/upload_evidence_popup.
 import '../../utility/images_icon_path.dart';
 
 class EarlyLeaveTile extends StatefulWidget {
-
   EarlyLeaveTile({Key? key}) : super(key: key);
 
   @override
@@ -42,14 +41,6 @@ class _EarlyLeaveTileState extends State<EarlyLeaveTile> {
           List<String> stepperDates = [];
           List<String> stepperTitles = [];
           int stepperIndex = 1;
-          // controller.list?[index]?.requestStatus?.forEach((element) {
-          //   stepperDates.add(getFormattedTimeWithMonth(element.time??""));
-          //   stepperTitles.add(toBeginningOfSentenceCase(element.name??"\n\n")??"\n\n");
-          //   if ((element.time??"").isNotEmpty) {
-          //     stepperIndex+1;
-          //   }
-          // });
-
           controller.list?[index]?.requestStatus?.toList().asMap().forEach((loopIndex,element) {
             if (element.name.toString().toLowerCase() != "rejected") {
               stepperTitles.add(toBeginningOfSentenceCase(element.name??"")??"");
@@ -70,7 +61,8 @@ class _EarlyLeaveTileState extends State<EarlyLeaveTile> {
                 }
               }
             }
-          },);
+          },
+        );
         return Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
@@ -152,6 +144,12 @@ class _EarlyLeaveTileState extends State<EarlyLeaveTile> {
                     bottomMargin: 1.h,
                     suffixWidgetsList: [
                       BaseIcons().download(onRightButtonPressed: (){
+                        // final List<int> codeUnits = (controller.list?[index]?.document??"").codeUnits;
+                        // Uint8List urlData = Uint8List.fromList(codeUnits);
+                        // print("Downloading File Details ->");
+                        // print("File Name -> "+((controller.list?[index]?.document??"").split("/").last));
+                        // print("File Name -> "+"image/${(controller.list?[index]?.document??"").split(".").last}");
+                        // DocumentFileSavePlus().saveFile(urlData, (controller.list?[index]?.document??"").split("/").last, "image/${(controller.list?[index]?.document??"").split(".").last}");
                         BaseOverlays().dismissOverlay();
                         downloadFile(url: controller.list?[index]?.document??"", concatBaseUrl: false);
                       },leftMargin: 2.w, rightMargin: isRTL ? 2.w : 0),

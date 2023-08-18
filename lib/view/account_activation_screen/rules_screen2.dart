@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -8,7 +9,7 @@ import 'package:staff_app/Utility/strings.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
-import 'package:staff_app/view/Dashboard_screen/dashboard_screen.dart';
+import 'package:staff_app/view/account_activation_screen/controller/account_activation_controller.dart';
 import 'package:staff_app/view/login_screen/login_screen.dart';
 
 class RulesScreen2 extends StatefulWidget {
@@ -19,12 +20,63 @@ class RulesScreen2 extends StatefulWidget {
 }
 
 class _RulesScreen2State extends State<RulesScreen2> {
+  AccountActivationController controller = Get.find<AccountActivationController>();
   bool isRulesChecked = false;
+
+  @override
+  void initState() {
+    super.initState();
+    controller.getResponsibilities();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: BaseColors.white,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Obx(() => HtmlWidget(controller.responsibilities.value)),
+                    SizedBox(height: 20),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 22,
+                          width: 22,
+                          child: Checkbox(
+                            checkColor: Colors.white,
+                            activeColor: BaseColors.primaryColor,
+                            value: isRulesChecked,
+                            side: const BorderSide(color: BaseColors.primaryColor),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(3),
+                            ),
+                            onChanged: (bool? value) {
+                              isRulesChecked = value!;
+                              setState(() {});
+                            },
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Expanded(child: Text('I have read all the terms and responsibility guidelines and I agree to all of them.', style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),)
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
       bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -79,57 +131,6 @@ class _RulesScreen2State extends State<RulesScreen2> {
             ),
           ),
         ],
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    buildTitle('Responsibilities of School Bus Drivers & Supervisors:'),
-                    SizedBox(
-                      height: 1.5.h,
-                    ),
-                    buildSubtitle("Aims and Principals "),
-                    SizedBox(
-                      height: 1.5.h,
-                    ),
-                    buildSubtitle(rules),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 22,
-                          width: 22,
-                          child: Checkbox(
-                            checkColor: Colors.white,
-                            activeColor: BaseColors.primaryColor,
-                            value: isRulesChecked,
-                            side: const BorderSide(color: BaseColors.primaryColor),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(3),
-                            ),
-                            onChanged: (bool? value) {
-                              isRulesChecked = value!;
-                              setState(() {});
-                            },
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        Expanded(child: Text('I have read all the terms and responsibility guidelines and I agree to all of them.', style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),)
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

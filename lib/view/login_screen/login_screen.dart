@@ -24,7 +24,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String selectedCountryCode = "971";
   LoginCtrl controller = Get.find<LoginCtrl>();
 
   @override
@@ -77,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               favorite: ["AE"],
                               showPhoneCode: true, // optional. Shows phone code before the country name.
                               onSelect: (Country country) {
-                                selectedCountryCode = country.phoneCode;
+                                controller.selectedCountryCode.value = country.phoneCode;
                                 print('Select country: ${country.phoneCode}');
                                 setState(() {});
                               },
@@ -87,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               SizedBox(width: 2.w),
-                              Text("+"+selectedCountryCode),
+                              Text("+"+(controller.selectedCountryCode.value)),
                               Icon(Icons.arrow_drop_down_rounded,color: Colors.grey,),
                               Container(height: 20,width: 1,color: Colors.grey),
                               SizedBox(width: 2.w),

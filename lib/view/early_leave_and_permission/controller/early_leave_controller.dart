@@ -11,6 +11,7 @@ import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/storage/sp_keys.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 
 class EarlyLeaveController extends GetxController{
 
@@ -24,6 +25,7 @@ class EarlyLeaveController extends GetxController{
   TextEditingController inTimeController = TextEditingController();
   TextEditingController reasonController = TextEditingController();
   TextEditingController uploadController = TextEditingController();
+  BaseCtrl baseCtrl = Get.find<BaseCtrl>();
 
   @override
   void onInit() {

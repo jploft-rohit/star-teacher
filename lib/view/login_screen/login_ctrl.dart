@@ -11,12 +11,14 @@ class LoginCtrl extends GetxController{
   final formKey = GlobalKey<FormState>();
   TextEditingController mobileCtrl = TextEditingController();
   LoginResponse response = LoginResponse();
+  RxString selectedCountryCode = "971".obs;
 
   loginApi({bool? isResend}){
     FocusScope.of(Get.context!).requestFocus(new FocusNode());
     if (formKey.currentState?.validate()??false) {
       Map<String, dynamic> data = {
-        "mobile": mobileCtrl.text.trim(),
+        "mobile": "+${selectedCountryCode} ${(mobileCtrl.text.trim())}",
+        // "mobile": mobileCtrl.text.trim(),
         "role" : "staff"
       };
       BaseAPI().post(url: ApiEndPoints().loginNewUser,data: data).then((value){
@@ -25,7 +27,7 @@ class LoginCtrl extends GetxController{
             if ((response.data?.message??"").isNotEmpty) {
               BaseOverlays().showSnackBar(message: response.data?.message??"",title: response.message??"");
             }
-            Get.to(OTPScreen(mobile: mobileCtrl.text.trim()));
+            Get.to(OTPScreen(mobile: "+${selectedCountryCode} ${(mobileCtrl.text.trim())}"));
         }
       });
     }

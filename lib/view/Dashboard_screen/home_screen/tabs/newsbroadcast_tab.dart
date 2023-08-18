@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_utility.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_loader.dart';
@@ -43,7 +44,7 @@ class _NewsBroadCastTabState extends State<NewsBroadCastTab> {
                           shape: BoxShape.circle,
                           color: BaseColors.primaryColor
                       ),
-                      child: Center(child: Text((controller.list?.length??0).toString(), style: Style.montserratRegularStyle().copyWith(color: Colors.white))),
+                      child: Center(child: Text((controller.totalUnReadNewsBroadcastCount.value).toString(), style: Style.montserratRegularStyle().copyWith(color: Colors.white))),
                     )
                   ],
                 ),
@@ -137,6 +138,10 @@ class _NewsBroadCastTabState extends State<NewsBroadCastTab> {
                           ),
                         ),
                       ),
+                      if(controller.list?[index].isRead.toString() != "false")
+                        Center(
+                          child: BaseButton(title: "AGREED", onPressed: (){}, isActive: false, textSize: 17.sp,topMargin: 1.5.h,),
+                        ),
                     ],
                   ),
                 ),

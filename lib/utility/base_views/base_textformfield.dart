@@ -31,7 +31,8 @@ class BaseTextFormField extends StatelessWidget {
   final ValueChanged? onChanged;
   final TextInputType? keyboardType;
   final TextEditingController controller;
-  BaseTextFormField({Key? key, this.title, required this.controller, this.hintText, this.keyboardType, this.prefixIcon, this.suffixIcon, this.isDropDown = false, this.dropDownValue, this.items = const [], this.onChanged, this.onTap, this.bottomMargin, this.topMargin, this.leftMargin, this.rightMargin, this.maxLine, this.errorText, this.validator, this.underLine = false, this.maxLength,this.textInputFormatter, this.onFieldValueChanged}) : super(key: key);
+  final Widget? innerPrefixWidget;
+  BaseTextFormField({Key? key, this.title, required this.controller, this.hintText, this.keyboardType, this.prefixIcon, this.suffixIcon, this.isDropDown = false, this.dropDownValue, this.items = const [], this.onChanged, this.onTap, this.bottomMargin, this.topMargin, this.leftMargin, this.rightMargin, this.maxLine, this.errorText, this.validator, this.underLine = false, this.maxLength,this.textInputFormatter, this.onFieldValueChanged, this.innerPrefixWidget}) : super(key: key);
   final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
   @override
   Widget build(BuildContext context) {
@@ -146,6 +147,7 @@ class BaseTextFormField extends StatelessWidget {
                       onChanged: onFieldValueChanged,
                       maxLength: maxLength??400,
                       textInputType: keyboardType,
+                      prefixIcon: innerPrefixWidget,
                       suffixIcon: Padding(
                       padding: EdgeInsets.only(right: 1.8.w,left: 1.8.w),
                       child: SvgPicture.asset(suffixIcon??""),

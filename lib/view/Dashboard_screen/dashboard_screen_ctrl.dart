@@ -12,6 +12,7 @@ import 'package:staff_app/utility/base_views/base_overlays.dart';
 class DashboardScreenCtrl extends GetxController{
   RxBool isBroadCastLoading = false.obs;
   RxList<NewsBroadCastData>? list = <NewsBroadCastData>[].obs;
+  RxString totalUnReadNewsBroadcastCount = "0".obs;
   RxList<TodaySchedule>? todayScheduledList = <TodaySchedule>[].obs;
   RxString? numberOfClassesTaken = "0".obs;
   RxString? rationOfPerformance = "0".obs;
@@ -51,6 +52,7 @@ class DashboardScreenCtrl extends GetxController{
       if (value?.statusCode ==  200) {
         isBroadCastLoading.value = false;
         list?.value = NewsBroadCastListData.fromJson(value?.data).data??[];
+        totalUnReadNewsBroadcastCount.value = (NewsBroadCastListData.fromJson(value?.data).totalUnreadCount?.toString()??"0").toString();
       }else{
         isBroadCastLoading.value = false;
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
@@ -72,7 +74,8 @@ class DashboardScreenCtrl extends GetxController{
   }
 
   agreeNewsBroadCast({required String id, required int index}){
-    BaseAPI().patch(url: ApiEndPoints().agreeNewsBroadCast+id).then((value){
+    var data = {"isRead":1};
+    BaseAPI().patch(url: ApiEndPoints().agreeNewsBroadCast+id, data: data).then((value){
       if (value?.statusCode ==  200) {
         BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"", title: translate(Get.context!).success);
         list?[index].isRead = true;

@@ -93,7 +93,11 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
                         controller.selectedSectionName.value = "";
                         controller.selectedSectionId.value = "";
                         await baseCtrl.getClassList(schoolId: controller.selectedSchoolId.value);
-                        controller.getStarsAttendanceList();
+                        if (controller.selectedFMOPos.value == 2 && controller.selectedClassType.value == 0) {
+                          controller.getManualStarAttendanceList();
+                        }else{
+                          controller.getStarsAttendanceList();
+                        }
                       },icon: classTakenSvg),
                   Container(
                     child: VerticalDivider(
@@ -113,7 +117,11 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
                         controller.selectedClassId.value = value?.sId??"";
                         controller.selectedClassName.value = value?.name??"";
                         await baseCtrl.getClassSections(classId: controller.selectedClassId.value);
-                        controller.getStarsAttendanceList();
+                        if (controller.selectedFMOPos.value == 2 && controller.selectedClassType.value == 0) {
+                          controller.getManualStarAttendanceList();
+                        }else{
+                          controller.getStarsAttendanceList();
+                        }
                       },icon: classTakenSvg),
                 ],
               ),
@@ -134,7 +142,11 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
                     onChange: (value) async {
                       controller.selectedSectionName.value = value.name;
                       controller.selectedSectionId.value = value.sId;
-                      controller.getStarsAttendanceList();
+                      if (controller.selectedFMOPos.value == 2 && controller.selectedClassType.value == 0) {
+                        controller.getManualStarAttendanceList();
+                      }else{
+                        controller.getStarsAttendanceList();
+                      }
                     },
                     icon: classTakenSvg,
                   ),
@@ -273,7 +285,7 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
                   ),
                   onChanged: (bool? value) {
                     controller.manualList?.forEach((element) {
-                      element.isSelected = !(element.isSelected??false);
+                      element.isSelected = controller.isSelectAll.value == false ? true : false;
                     });
                     controller.isSelectAll.value = (value??false);
                     controller.selectedFMOPos1.value = (value??false) ? 1 : 0;

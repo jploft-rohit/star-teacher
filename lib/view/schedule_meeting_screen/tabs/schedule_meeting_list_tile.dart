@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
@@ -14,6 +15,7 @@ import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/custom_text_field.dart';
 import 'package:staff_app/utility/step_progress.dart';
+import 'package:staff_app/view/chat_screen/audio_call_screen.dart';
 import 'package:staff_app/view/chat_screen/chating_screen.dart';
 import 'package:staff_app/view/schedule_meeting_screen/choose_meeting_date_time_popup.dart';
 import 'package:staff_app/view/schedule_meeting_screen/controller/schedule_meeting_screen_ctrl.dart';
@@ -49,14 +51,31 @@ class ScheduleMeetingListTile extends StatelessWidget {
           itemCount: controller.list?.length??0,
           shrinkWrap: true,
           itemBuilder: (context, index) {
-          if (controller.selectedTabIndex.value == 2) {
-            cancelledStepperDates.clear();
-            controller.list?[index].requestStatus?.forEach((element) {
-              if (element.name.toString().toLowerCase() == "request raised" || element.name.toString().toLowerCase() == "cancelled") {
-                cancelledStepperDates.add(getFormattedTimeWithMonth(element.time));
+            List<String> stepperDates = [];
+            List<String> stepperTitles = [];
+            int stepperIndex = 1;
+            controller.list?[index].requestStatus?.toList().asMap().forEach((loopIndex,element) {
+              if (element.name.toString().toLowerCase() != "cancelled") {
+                stepperTitles.add(toBeginningOfSentenceCase(element.name??"")??"");
+                stepperDates.add(getFormattedTimeWithMonth(element.time??""));
+                if (element.time.toString().isNotEmpty) {
+                  stepperIndex = (loopIndex+1);
+                }
+              }else{
+                if ((element.time??"").toString().isNotEmpty) {
+                  stepperDates = [];
+                  stepperTitles = [];
+                  stepperTitles.add(toBeginningOfSentenceCase(controller.list?[index].requestStatus?[0].name??"")??"");
+                  stepperTitles.add(toBeginningOfSentenceCase(element.name??"")??"");
+                  stepperDates.add(getFormattedTimeWithMonth(controller.list?[index].requestStatus?[0].time??""));
+                  stepperDates.add(getFormattedTimeWithMonth(element.time??""));
+                  if (element.time.toString().isNotEmpty) {
+                    stepperIndex = (loopIndex+1);
+                  }
+                }
               }
-            });
-          }
+            },
+            );
           return Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
@@ -85,7 +104,7 @@ class ScheduleMeetingListTile extends StatelessWidget {
                                 leftMargin: isRTL ? 2.w : 0,
                             ),
                             GestureDetector(
-                                onTap: (){Get.to(ChatingScreen());},
+                                onTap: (){Get.to(ChatingScreen(receiverId: controller.list?[index].createdBy?.sId??""));},
                                 child: SvgPicture.asset("assets/images/chat_img.svg")),
                           ],
                         ),
@@ -94,7 +113,7 @@ class ScheduleMeetingListTile extends StatelessWidget {
                         visible: controller.selectedTabIndex.value == 0 || controller.selectedTabIndex.value == 1,
                         child: Expanded(flex: 1,child: BaseButton(title: controller.selectedTabIndex.value == 0 ? "Reminder" : "Start", onPressed: (){
                           if (controller.selectedTabIndex.value == 0) {
-                            Get.to(AddTaskOrReminderScreen());
+                            Get.to(AddTaskOrReminderScreen(meetingId: controller.list?[index].sId??"",));
                           }
                         }, textSize: smallButtonTs,verticalPadding: 1.h)),
                       ),
@@ -132,9 +151,14 @@ class ScheduleMeetingListTile extends StatelessWidget {
                         ),
                         Visibility(
                           visible: controller.selectedTabIndex.value == 0 || controller.selectedTabIndex.value == 1,
-                          child: Expanded(flex: 1,child: BaseButton(title: controller.selectedTabIndex.value == 0 ? "Reminder" : "Start", onPressed: (){
+                          child: Expanded(flex: 1,child: BaseButton(
+                              title: controller.selectedTabIndex.value == 0
+                                  ? "Reminder"
+                                  : "Start", onPressed: (){
                             if (controller.selectedTabIndex.value == 0) {
                               Get.to(AddTaskOrReminderScreen());
+                            }else{
+                              Get.to(AudioCallScreen());
                             }
                           }, textSize: smallButtonTs,verticalPadding: 1.h)),
                         ),
@@ -157,7 +181,7 @@ class ScheduleMeetingListTile extends StatelessWidget {
                               },
                             );
                           },
-                              isActive: controller.selectedTabIndex.value == 0 ? false : true,
+                              isActive: true,
                               textSize: 15.sp,rightMargin: 1.w,
                           ),
                         ),
@@ -171,12 +195,14 @@ class ScheduleMeetingListTile extends StatelessWidget {
                                   return MeetingCancelReasonPopup(id: controller.list?[index].sId??"");
                                 },
                               );
-                            }, isActive: false, textSize: 15.sp,leftMargin: 1.w,rightMargin: 1.w),
+                            }, isActive: true, textSize: 15.sp,leftMargin: 1.w,rightMargin: 1.w),
                           ),
                         ),
                         Visibility(
-                          visible: controller.selectedTabIndex.value == 0 && (controller.list?[index].createdBy?.sId??"") != (controller.userId??""),
-                          child: Expanded(child: BaseButton(title: "ACCEPT", onPressed: (){
+                          visible: (controller.selectedTabIndex.value == 0)
+                                && ((controller.list?[index].updatedBy?.sId??"") != (controller.userId??""))
+                                && ((controller.list?[index].statusData).toLowerCase() != "accepted"),
+                          child: Expanded(child: BaseButton(title: "ACCEPT", isActive: true,onPressed: (){
                             BaseOverlays().showConfirmationDialog(
                               title: "Are you sure, you want to accept this meeting ?",
                               onRightButtonPressed: (){
@@ -230,10 +256,10 @@ class ScheduleMeetingListTile extends StatelessWidget {
                   SizedBox(height: 2.h),
                   StepProgressView(
                     width: MediaQuery.of(context).size.width,
-                    curStep: 2,
+                    curStep: stepperIndex,
                     color: BaseColors.primaryColor,
-                    titles: controller.selectedTabIndex == 2 ? cancelledStepperDates : pendingMeetingdates,
-                    statuses: controller.selectedTabIndex == 2 ? cancelledStepperTitles : heading,
+                    titles: stepperDates,
+                    statuses: stepperTitles,
                   ),
                 ],
               ),

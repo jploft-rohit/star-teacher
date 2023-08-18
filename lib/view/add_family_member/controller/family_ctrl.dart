@@ -23,51 +23,58 @@ class FamilyCtrl extends GetxController{
   MyProfileCtrl myProfileCtrl = Get.find<MyProfileCtrl>();
   final formKey = GlobalKey<FormState>();
   Rx<File?>? selectedFile = File("").obs;
+  RxString selectedCountryCode = "971".obs;
 
   setData({required FamilyMembers? data}){
     nameController.text = data?.fullName??"";
     relationController.text = data?.relation??"";
     dobController.text = formatBackendDate(data?.dob??"",getDayFirst: true);
-    mobileController.text = data?.mobile??"";
+    mobileController.text = (data?.mobile??"").toString().split(" ").last;
+    selectedCountryCode.value = ((data?.mobile??"").toString().split(" ").first).replaceAll("+", "");
     idController.text = "image1.png";
-    idExpiryController.text = data?.emirateIdExpire??"";
+    idExpiryController.text = formatBackendDate(data?.emirateIdExpire??"");
+
   }
 
   addFamilyMember() async {
     if (formKey.currentState?.validate()??false) {
-      var data;
-      if ((selectedFile?.value?.path??"").isNotEmpty) {
-        data = dio.FormData.fromMap({
-          "fullName": nameController.text.trim(),
-          "relation": relationController.text.trim(),
-          "dob": flipDate(date: dobController.text.trim()),
-          "mobile": mobileController.text.trim(),
-          "emirateId": myProfileCtrl.response.value.data?.emirateId??"",
-          "emirateIdExpire": flipDate(date: idExpiryController.text.trim()),
-          "language": myProfileCtrl.response.value.data?.nativeLanguage??"",
-          "document": await dio.MultipartFile.fromFile(selectedFile?.value?.path ?? "", filename: selectedFile?.value?.path.split("/").last??""),
+      if (selectedCountryCode.value.isNotEmpty) {
+        var data;
+        if ((selectedFile?.value?.path??"").isNotEmpty) {
+          data = dio.FormData.fromMap({
+            "fullName": nameController.text.trim(),
+            "relation": relationController.text.trim(),
+            "dob": flipDate(date: dobController.text.trim()),
+            "mobile": "+${selectedCountryCode} ${(mobileController.text.trim())}",
+            "emirateId": myProfileCtrl.response.value.data?.emirateId??"",
+            "emirateIdExpire": flipDate(date: idExpiryController.text.trim()),
+            "language": myProfileCtrl.response.value.data?.nativeLanguage??"",
+            "document": await dio.MultipartFile.fromFile(selectedFile?.value?.path ?? "", filename: selectedFile?.value?.path.split("/").last??""),
+          });
+        }else{
+          data = dio.FormData.fromMap({
+            "fullName": nameController.text.trim(),
+            "relation": relationController.text.trim(),
+            "dob": flipDate(date: dobController.text.trim()),
+            "mobile": "+${selectedCountryCode} ${(mobileController.text.trim())}",
+            "emirateId": myProfileCtrl.response.value.data?.emirateId??"",
+            "emirateIdExpire": flipDate(date: idExpiryController.text.trim()),
+            "language": myProfileCtrl.response.value.data?.nativeLanguage??"",
+          });
+        }
+        BaseAPI().post(url: ApiEndPoints().createFamilyMember, data: data).then((value){
+          if (value?.statusCode == 200) {
+            successResponse = BaseSuccessResponse.fromJson(value?.data);
+            Get.back();
+            BaseOverlays().showSnackBar(message: successResponse.message??"",title: translate(Get.context!).success);
+            myProfileCtrl.getData();
+          }else{
+            // BaseDialogs().showSnackBar(message: ,title: response.message??"");
+          }
         });
       }else{
-        data = dio.FormData.fromMap({
-          "fullName": nameController.text.trim(),
-          "relation": relationController.text.trim(),
-          "dob": flipDate(date: dobController.text.trim()),
-          "mobile": mobileController.text.trim(),
-          "emirateId": myProfileCtrl.response.value.data?.emirateId??"",
-          "emirateIdExpire": flipDate(date: idExpiryController.text.trim()),
-          "language": myProfileCtrl.response.value.data?.nativeLanguage??"",
-        });
+        baseToast(message: "Please Select Country Code");
       }
-      BaseAPI().post(url: ApiEndPoints().createFamilyMember, data: data).then((value){
-        if (value?.statusCode == 200) {
-          successResponse = BaseSuccessResponse.fromJson(value?.data);
-          Get.back();
-          BaseOverlays().showSnackBar(message: successResponse.message??"",title: translate(Get.context!).success);
-          myProfileCtrl.getData();
-        }else{
-          // BaseDialogs().showSnackBar(message: ,title: response.message??"");
-        }
-      });
     }
   }
 
@@ -79,7 +86,7 @@ class FamilyCtrl extends GetxController{
           "fullName": nameController.text.trim(),
           "relation": relationController.text.trim(),
           "dob": flipDate(date: dobController.text.trim()),
-          "mobile": mobileController.text.trim(),
+          "mobile": "+${selectedCountryCode} ${(mobileController.text.trim())}",
           "emirateId": myProfileCtrl.response.value.data?.emirateId??"",
           "emirateIdExpire": flipDate(date: idExpiryController.text.trim()),
           "language": myProfileCtrl.response.value.data?.nativeLanguage??"",
@@ -90,7 +97,7 @@ class FamilyCtrl extends GetxController{
           "fullName": nameController.text.trim(),
           "relation": relationController.text.trim(),
           "dob": flipDate(date: dobController.text.trim()),
-          "mobile": mobileController.text.trim(),
+          "mobile": "+${selectedCountryCode} ${(mobileController.text.trim())}",
           "emirateId": myProfileCtrl.response.value.data?.emirateId??"",
           "emirateIdExpire": flipDate(date: idExpiryController.text.trim()),
           "language": myProfileCtrl.response.value.data?.nativeLanguage??"",

@@ -111,7 +111,6 @@ class _MyProfileViewState extends State<MyProfileView> {
                       child: Container(
                         alignment: Alignment.bottomCenter,
                         padding: EdgeInsets.only(left: 7.w, right: 7.w, top: 3.h),
-                        // EdgeInsets.symmetric(vertical: 3.h, horizontal: 7.w),
                         width: 100.w,
                         decoration: BoxDecoration(
                             borderRadius: const BorderRadius.only(
@@ -138,7 +137,7 @@ class _MyProfileViewState extends State<MyProfileView> {
                                 alignment: AlignmentDirectional.centerEnd,
                                 children: [
                                   IgnorePointer(
-                                    ignoring: true,
+                                    ignoring: false,
                                     child: addPrimaryColorEditText(
                                         translate(context).mobile_no,
                                         controller.mobileCtrl,
@@ -333,7 +332,15 @@ class _MyProfileViewState extends State<MyProfileView> {
                               Divider(color: Colors.grey.shade400),
                               SizedBox(height: 5),
                               addPrimaryColorEditText(
-                                  translate(context).marital_status, controller.maritalStatusCtrl, const SizedBox.shrink()),
+                                  translate(context).marital_status,
+                                  controller.maritalStatusCtrl,
+                                  const SizedBox.shrink(),
+                              ),
+                              addPrimaryColorEditText(
+                                "Blood Group",
+                                controller.bloodCtrl,
+                                const SizedBox.shrink(),
+                              ),
                               IgnorePointer(
                                 ignoring: true,
                                 child: addPrimaryColorEditText(

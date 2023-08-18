@@ -56,7 +56,7 @@ class _OTPScreenState extends State<OTPScreen> {
                   child: ListView(
                     shrinkWrap: true,
                     children: [
-                      SizedBox(height: MediaQuery.of(context).size.height*0.05,),
+                      SizedBox(height: MediaQuery.of(context).size.height*0.05),
                       Text(translate(context).otp_sent,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: onBoardingTitleTs),),
                       SizedBox(height: 0.5.h),
                       Text(translate(context).enter_4_digit_otp,style: Style.montserratRegularStyle().copyWith(color: const Color(0xff6B6B6B), fontSize: onBoardingSubTitleTs, height: 1.5),),

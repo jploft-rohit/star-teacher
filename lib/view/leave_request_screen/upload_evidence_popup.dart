@@ -113,7 +113,7 @@ class _UploadEvidencePopupState extends State<UploadEvidencePopup> {
                               baseToast(message: "\"Start Date\" can't be more than \"End Date\"");
                             }
                           }else{
-                            controller.startDateController.value.text = formatFlutterDateTime(flutterDateTime: value);
+                            // controller.startDateController.value.text = formatFlutterDateTime(flutterDateTime: value);
                           }
                         }
                       });
@@ -165,13 +165,13 @@ class _UploadEvidencePopupState extends State<UploadEvidencePopup> {
                           }else{
                             controller.endDateController.value.text = formatFlutterDateTime(flutterDateTime: value);
                           }
-                          controller.formKey.currentState?.validate();
+                          // controller.formKey.currentState?.validate();
                         }
                       },
                       );
                     },
                   ),
-                  BaseTextFormField(controller: titleCtrl,
+                  BaseTextFormField(controller: controller.uploadController.value,
                     hintText: translate(context).upload_file,
                     bottomMargin: 3.h,
                     suffixIcon: "assets/images/upload_icon.svg",
@@ -182,23 +182,24 @@ class _UploadEvidencePopupState extends State<UploadEvidencePopup> {
                     return null;
                     },
                     onTap: (){
-                      BaseOverlays().showMediaPickerDialog(onCameraClick: () async {
+                      BaseOverlays().showMediaPickerDialog(
+                          onCameraClick: () async {
                         BaseOverlays().dismissOverlay();
                         ImagePicker picker = ImagePicker();
                         await picker.pickImage(source: ImageSource.camera).then((value){
                           if (value != null) {
                             controller.selectedFile?.value = File(value.path);
                             controller.uploadController.value.text = value.path.split("/").last;
-                          }
-                        });
-                      },
+                             }
+                           });
+                         },
                           onGalleryClick: () async {
                             BaseOverlays().dismissOverlay();
                             ImagePicker picker = ImagePicker();
                             await picker.pickImage(source: ImageSource.gallery).then((value){
                               if (value != null) {
                                 controller.selectedFile?.value = File(value.path);
-                                titleCtrl.text = value.path.split("/").last;
+                                controller.uploadController.value.text = value.path.split("/").last;
                               }
                             });
                           },

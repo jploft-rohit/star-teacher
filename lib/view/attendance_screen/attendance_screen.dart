@@ -80,7 +80,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> with TickerProvider
                       border: Border.all(
                           color: BaseColors.primaryColor
                       ),
-                      borderRadius: BorderRadius.circular(15.0),
+                      borderRadius: BorderRadius.circular(15),
                     ),
                     child: BaseImageNetwork(
                       link: controller.teacherData.value.profilePic??"",
@@ -92,9 +92,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> with TickerProvider
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(controller.teacherData.value.name??"N/A", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
-                      const SizedBox(
-                        height: 2.0,
-                      ),
+                      const SizedBox(height: 2.0),
                       Text("#${controller.teacherData.value.emirateId??"N/A"}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                       const SizedBox(
                         height: 2.0,
