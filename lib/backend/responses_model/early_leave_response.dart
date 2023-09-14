@@ -38,6 +38,7 @@ class EarlyLeaveResponse {
 class EarlyLeaveData {
   dynamic date;
   dynamic time;
+  dynamic comment;
   dynamic outTime;
   dynamic inTime;
   dynamic reason;
@@ -69,6 +70,7 @@ class EarlyLeaveData {
         this.outTime,
         this.inTime,
         this.reason,
+        this.comment,
         this.meetingUrl,
         this.meetingFeedBackRating,
         this.meetingFeedBackDesc,
@@ -93,6 +95,7 @@ class EarlyLeaveData {
 
   EarlyLeaveData.fromJson(Map<String, dynamic> json) {
     date = json['date'];
+    comment = json['comment'];
     time = json['time'];
     outTime = json['outTime'];
     inTime = json['inTime'];
@@ -136,6 +139,7 @@ class EarlyLeaveData {
     data['time'] = this.time;
     data['outTime'] = this.outTime;
     data['inTime'] = this.inTime;
+    data['comment'] = this.comment;
     data['reason'] = this.reason;
     data['meetingUrl'] = this.meetingUrl;
     data['meetingFeedBackRating'] = this.meetingFeedBackRating;

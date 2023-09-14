@@ -3,7 +3,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_student_filter.dart';
 import 'package:staff_app/utility/base_views/base_tab_bar.dart';
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/star_evaluation_screen/assesment_view.dart';
 import 'package:staff_app/view/star_evaluation_screen/behavior_view.dart';

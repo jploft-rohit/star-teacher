@@ -22,7 +22,7 @@ import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/constant_images.dart';
 import 'package:staff_app/view/cards_and_tags_screen/controller/card_tag_ctrl.dart';
 import 'package:staff_app/view/my_profile_screen/controller/my_profile_ctrl.dart';
-import 'package:staff_app/view/shop_screen/shop_screen.dart';
+import 'package:staff_app/view/shop_screen/cards_and_tags_screen/card_tag_shop_screen.dart';
 
 class CardsAndTagsScreen extends StatefulWidget {
   const CardsAndTagsScreen({Key? key}) : super(key: key);
@@ -76,28 +76,20 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         buildInfoItems(translate(context).name, profileController.response.value.data?.name??""),
-                        const SizedBox(
-                          height: 2.0,
-                        ),
+                        const SizedBox(height: 2),
                         buildInfoItems(translate(context).id, "#${profileController.response.value.data?.emirateId??""}"),
-                        const SizedBox(
-                          height: 2.0,
-                        ),
+                        const SizedBox(height: 2),
                         buildInfoItems(translate(context).designation, profileController.response.value.data?.designation??"Teacher"),
-                        const SizedBox(
-                          height: 2.0,
-                        ),
-                        buildInfoItems(translate(context).subject, "Maths"),
-                        const SizedBox(
-                          height: 2.0,
-                        ),
+                        const SizedBox(height: 2),
+                        buildInfoItems(translate(context).subject, profileController.response.value.data?.jobDetails?.subjectData?.name??""),
+                        const SizedBox(height: 2),
                       ],
                     ),
                     trailing: GestureDetector(
                       onTap: (){
                         showScanQrDialogue(context, false,data: profileController.response.value.data?.barcode??"");
                       },
-                      child: QrImage(
+                      child: QrImageView(
                         data: profileController.response.value.data?.barcode??"",
                         version: QrVersions.auto,
                         size: 70,
@@ -121,9 +113,12 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
                   height: 1.h,
                 ),
                 BaseButton(title: translate(context).request_cards_tags, onPressed: (){
-                  Get.to(ShopView(initialTabIndex: 1,));
+                  // Get.to(const ShopView(initialTabIndex: 1));
+                  Get.to(const CardTagShopScreen())?.then((value) {
+                    controller.getData();
+                  });
                 },btnType: "iconButton"),
-                SizedBox(height: 1.h,),
+                SizedBox(height: 1.h),
                 BaseButton(title: translate(context).synchronize_nfc_to_cards_tags, onPressed: (){
                   showProgramNFCDialogue(context,
                       start: starNfcListen,
@@ -138,7 +133,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
                     : ListView.builder(
                       itemCount: controller.userTagsList?.length??0,
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context,index){
                       return buildCardTile(
                       translate(context).card_No,
@@ -202,7 +197,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
                                 spreadRadius: 1.0,
                                 blurRadius: 2.0,
                                 offset: Offset(0, 3)
-                            )
+                            ),
                           ],
                         ),
                         child: Column(
@@ -222,20 +217,26 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
                               thickness: 1.0,
                               height: 3.h,
                             ),
-                            Row(
-                              children: [
-                                SvgPicture.asset("assets/images/report.svg",height: 2.1.h),
-                                SizedBox(
-                                  width: 2.w,
-                                ),
-                                Text("${translate(context).reason} : ", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
-                                Flexible(child: Text((controller.ordersList?[index]?.reason??"N/A"), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),maxLines: 1, overflow: TextOverflow.ellipsis,)),
-                              ],
+                            Visibility(
+                              visible: (controller.ordersList?[index]?.reason??"").toString().isNotEmpty,
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset("assets/images/report.svg",height: 2.1.h),
+                                  SizedBox(
+                                    width: 2.w,
+                                  ),
+                                  Text("${translate(context).reason} : ", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
+                                  Flexible(child: Text((controller.ordersList?[index]?.reason??"N/A"), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),maxLines: 1, overflow: TextOverflow.ellipsis,)),
+                                ],
+                              ),
                             ),
-                            Divider(
-                              color: BaseColors.borderColor,
-                              thickness: 1.0,
-                              height: 3.h,
+                            Visibility(
+                              visible: (controller.ordersList?[index]?.reason??"").toString().isNotEmpty,
+                              child: Divider(
+                                color: BaseColors.borderColor,
+                                thickness: 1.0,
+                                height: 3.h,
+                              ),
                             ),
                             Row(
                               children: [
@@ -379,7 +380,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
                               }, StarIcons.closeIconBlack),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(top: 10),
+                              padding: const EdgeInsets.only(top: 10),
                               child: Center(
                                 child: addAlignedText(
                                     translate(context).programme_NFC,

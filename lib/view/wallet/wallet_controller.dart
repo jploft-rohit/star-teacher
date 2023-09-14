@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/backend/responses_model/transactions_history_response.dart';
@@ -9,6 +10,8 @@ import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/storage/sp_keys.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/view/shop_screen/controller/stripe_controller.dart';
+
+import '../../utility/sizes.dart';
 
 class WalletController extends GetxController {
 
@@ -21,6 +24,9 @@ class WalletController extends GetxController {
   RxString toDate = "".obs;
   Rx<WalletBalanceData?>? walletBalanceData = WalletBalanceData().obs;
   RxList<TransactionHistoryData?>? list = <TransactionHistoryData>[].obs;
+  /// Pagination
+  RxInt page = 1.obs;
+  final RefreshController refreshController = RefreshController(initialRefresh: false);
 
   @override
   void onInit() {
@@ -28,77 +34,6 @@ class WalletController extends GetxController {
     getHistory();
     getWalletData();
   }
-
-  var purchasesList = [
-    {
-      'image': 'assets/images/image 20.png',
-      'item': 'Cookies',
-      'amount': '2 AED',
-      'starname': 'Zoya ',
-      'time': '09:00:30pm',
-      'date': '20/10/2022',
-    },
-    {
-      'image': 'assets/images/image 21.png',
-      'item': 'Lunch',
-      'amount': '13 AED',
-      'starname': 'Sania',
-      'time': '09:00:30pm',
-      'date': '20/10/2022',
-    },
-    {
-      'image': 'assets/images/image 19.png',
-      'item': 'Mango Juice',
-      'amount': '4 AED',
-      'starname': 'Zoya',
-      'time': '09:00:30pm',
-      'date': '20/10/2022',
-    },
-  ];
-
-  var feesList = [
-    {
-      'id': '89786',
-      'term': 'Academic Fees Term 1',
-      'starname': 'Thurayya Suheil',
-      'duedate': '10 May',
-      'status': 'Pending',
-      'amount': '1000 AED',
-    },
-    {
-      'id': '89786',
-      'term': 'Academic Fees Term 2',
-      'starname': 'Najma Suheil',
-      'duedate': '10 May',
-      'status': 'Due',
-      'amount': '1000 AED',
-    },
-    {
-      'id': '89786',
-      'term': 'Academic Fees Term 3',
-      'starname': 'Thurayya Suheil',
-      'duedate': '10 May',
-      'status': 'Paid',
-      'amount': '1000 AED',
-    },
-  ];
-
-  var paymentMethodList2 = [
-    {'title': 'Registration', 'body': 'Registration: ', 'amount': '500 AED'},
-    {
-      'title': 'Transportation Registration',
-      'body': 'Transportation Registration: ',
-      'amount': '500 AED'
-    },
-    {
-      'title': 'Pay Full Year Fees',
-      'body': 'Term 1 Fees: ',
-      'amount': '1000 AED'
-    },
-    {'title': 'Pay Term', 'body': 'Full Year Fees: ', 'amount': '5000 AED'},
-    {'title': 'Pay Monthly', 'body': 'Monthly Fees: ', 'amount': '1200 AED'},
-    {'title': 'Pay at School', 'body': '', 'amount': ''},
-  ];
 
   var actionRequiredEventsList = [
     {
@@ -213,12 +148,36 @@ class WalletController extends GetxController {
     );
   }
 
-  getHistory() async {
-    list?.clear();
+  getHistory({String? refreshType}) async {
+    // list?.clear();
+    if (refreshType == 'refresh' || refreshType == null) {
+      list?.clear();
+      refreshController.loadComplete();
+      page.value = 1;
+    } else if (refreshType == 'load') {
+      page.value++;
+    }
     final String userId = await BaseSharedPreference().getString(SpKeys().userId);
-    BaseAPI().get(url: ApiEndPoints().getTransactionHistory+userId,queryParameters: {"from":fromDate.value,"to":toDate.value,"txnType":selectedTabIndex.value == 0 ? "TRANSACTION" : "TOPUP", "limit":100}).then((value){
+    BaseAPI().get(url: ApiEndPoints().getTransactionHistory+userId,queryParameters: {
+      "from":fromDate.value,
+      "to":toDate.value,
+      "txnType":selectedTabIndex.value == 0 ? "TRANSACTION" : "TOPUP",
+      "limit":apiItemLimit,
+      "page":page.value.toString()
+    },showLoader: page.value == 1).then((value){
       if (value?.statusCode ==  200) {
-        list?.value = TransactionsHistoryResponse.fromJson(value?.data).data??[];
+        // list?.value = TransactionsHistoryResponse.fromJson(value?.data).data??[];
+        if(refreshType == 'refresh'){
+          list?.clear();
+          refreshController.loadComplete();
+          refreshController.refreshCompleted();
+        }else if((TransactionsHistoryResponse.fromJson(value?.data).data??[]).isEmpty && refreshType == 'load'){
+          refreshController.loadNoData();
+        }
+        else if(refreshType == 'load'){
+          refreshController.loadComplete();
+        }
+        list?.addAll(TransactionsHistoryResponse.fromJson(value?.data).data??[]);
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }

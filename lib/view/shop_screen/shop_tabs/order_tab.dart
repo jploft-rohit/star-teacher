@@ -22,20 +22,20 @@ class _OrderTabState extends State<OrderTab> with SingleTickerProviderStateMixin
     tabCtrl = TabController(length: 2, vsync: this)..addListener(() {
       if (!(tabCtrl.indexIsChanging)) {
         controller.ordersTabIndex.value = tabCtrl.index;
+        controller.refreshController.loadComplete();
         controller.getShopOrders();
       }
     });
   }
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // color: CustomColors.red,
+    return SizedBox(
       height: MediaQuery.of(context).size.height - 64.sp,
       child: Column(
         children: [
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 5),
             child: buildTabBar(),
           ),
           SizedBox(height: 2.h),

@@ -29,7 +29,7 @@ class MapUiBody extends StatefulWidget {
 
 class MapUiBodyState extends State<MapUiBody> {
   MapUiBodyState();
-  TextEditingController _locationController = TextEditingController();
+  final TextEditingController _locationController = TextEditingController();
 
   static const CameraPosition _kInitialPosition = CameraPosition(
     target: LatLng(26.912434, 75.787270),
@@ -39,22 +39,22 @@ class MapUiBodyState extends State<MapUiBody> {
   CameraPosition _position = _kInitialPosition;
   bool _isMapCreated = false;
   final bool _isMoving = false;
-  bool _compassEnabled = true;
-  bool _mapToolbarEnabled = true;
-  CameraTargetBounds _cameraTargetBounds = CameraTargetBounds.unbounded;
-  MinMaxZoomPreference _minMaxZoomPreference = MinMaxZoomPreference.unbounded;
-  MapType _mapType = MapType.normal;
-  bool _rotateGesturesEnabled = true;
-  bool _scrollGesturesEnabled = true;
-  bool _tiltGesturesEnabled = true;
-  bool _zoomControlsEnabled = false;
-  bool _zoomGesturesEnabled = true;
-  bool _indoorViewEnabled = true;
-  bool _myLocationEnabled = true;
-  bool _myTrafficEnabled = false;
-  bool _myLocationButtonEnabled = true;
+  final bool _compassEnabled = true;
+  final bool _mapToolbarEnabled = true;
+  final CameraTargetBounds _cameraTargetBounds = CameraTargetBounds.unbounded;
+  final MinMaxZoomPreference _minMaxZoomPreference = MinMaxZoomPreference.unbounded;
+  final MapType _mapType = MapType.normal;
+  final bool _rotateGesturesEnabled = true;
+  final bool _scrollGesturesEnabled = true;
+  final bool _tiltGesturesEnabled = true;
+  final bool _zoomControlsEnabled = false;
+  final bool _zoomGesturesEnabled = true;
+  final bool _indoorViewEnabled = true;
+  final bool _myLocationEnabled = true;
+  final bool _myTrafficEnabled = false;
+  final bool _myLocationButtonEnabled = true;
   late GoogleMapController _controller;
-  bool _nightMode = false;
+  final bool _nightMode = false;
   double? latitude;
   double? longtitude;
 

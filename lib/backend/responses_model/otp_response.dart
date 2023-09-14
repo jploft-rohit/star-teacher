@@ -55,6 +55,8 @@ class User {
   String? mobile;
   String? password;
   String? otp;
+  bool? isReadTermCondtion;
+  bool? isReadResponsibility;
   String? emirateId;
   String? emirateIdExpire;
 
@@ -62,6 +64,8 @@ class User {
         this.isDeleted,
         this.sId,
         this.name,
+    this.isReadResponsibility,
+    this.isReadTermCondtion,
         this.email,
         this.mobile,
         this.password,
@@ -71,6 +75,8 @@ class User {
 
   User.fromJson(Map<String, dynamic> json) {
     gender = json['gender'];
+    isReadResponsibility = json['isReadResponsibility'];
+    isReadTermCondtion = json['isReadTermCondtion'];
     isDeleted = json['isDeleted'];
     sId = json['_id'];
     name = json['name'];
@@ -85,6 +91,8 @@ class User {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['gender'] = this.gender;
+    data['isReadResponsibility'] = this.isReadResponsibility;
+    data['isReadTermCondtion'] = this.isReadTermCondtion;
     data['isDeleted'] = this.isDeleted;
     data['_id'] = this.sId;
     data['name'] = this.name;

@@ -7,14 +7,14 @@ class ApiEndPoints {
   final String debugServer = 'http://3.28.14.143:4000/star-backend/api/';
   final String releaseServer = 'http://3.28.14.143:5000/star-backend/api/';
   final String finalServer = 'https://www.stars-ai.com:4000/star-backend/api/';
+  final String testingServerForClient = 'https://stars.tasksplan.com:5000/star-backend/api/'; //https://stars.tasksplan.com:5000/
 
-  final String baseUrl = 'https://stars.tasksplan.com:4000/star-backend/api/';
-
-  final String imageBaseUrl = "https://stars.tasksplan.com:4000/star-backend/";
+  final String concatBaseUrl = 'https://stars.tasksplan.com:5000';
 
   /// OnBoarding EndPoints
   final String loginNewUser = "auth/send-otp";
   final String otp = "auth/login";
+  final String updateOnBoardingReadStatus = "user/update_read_status";
 
   /// About Us EndPoints
   final String aboutUs = "settings/page/aboutus";
@@ -62,6 +62,7 @@ class ApiEndPoints {
   final String deleteFamilyMember = "staff/family/delete/";
   final String createFamilyMember = "staff/family/create";
   final String editFamilyMember = "staff/family/update/";
+  final String getFamilyRelation = "registerStar/relation_list";
 
   /// Roles EndPoints
   final String getAllRoles = "role/getAll";
@@ -81,11 +82,11 @@ class ApiEndPoints {
   final String deleteStickyNote = "stickyNotes/delete/";
 
   /// Staff EndPoints
-  final String getStaffData = "complaintReport/staff";
+  final String getStaffData = "search/searchAllRole";
 
   /// Notifications EndPoints
   final String getNotificationList = "notification/list";
-  final String createNotification = "notification/create";
+  final String createNotification = "transportNew/updateStatusAndSendNotification";//http://localhost:4000/star-backend/api/transportNew/updateStatusAndSendNotification
   final String getNotificationSettingsList = "notificationSetting/get-all";
   final String changeNotificationSetting = "notificationSetting/change-notification";
 
@@ -119,6 +120,7 @@ class ApiEndPoints {
   // final String rescheduleMeeting = "requestRoutes/updateRequestStatus/";
   final String rescheduleMeeting = "requestRoutes/update/";
   final String updateScheduledMeetingStatus = "requestRoutes/updateRequestStatus/";
+  final String updateMeetingStartStatus = "requestRoutes/updateScheduleMeetingStart/";
 
   /// Subject EndPoint
   final String getSubjects = "subject/get/all";
@@ -129,7 +131,7 @@ class ApiEndPoints {
   final String createLeaveRequest = "requestRoutes/create";
   final String getLeaveTypes = "requestRoutes/leaveTypeList";
   final String uploadEvidence = "requestRoutes/update/";
-  final String getLeaveBalance = "staffLeave/list";
+  final String getLeaveBalance = "requestRoutes/getUserLeaves";
 
   /// Wallet
   final String addWalletMoney = "wallet/transaction/create";
@@ -190,6 +192,7 @@ class ApiEndPoints {
 
   /// Transportation
   final String getTransportationData = "transport/trip/passenger/getTransportDetail/";
+  final String getTransportationDataNew = "transportNew/singalTrip";
   final String notifyTransportAuthority = "transport/trip/passenger/notifyAuthority";
   final String getLocationData = "transport/trip/passenger/getTransportLocation";
   final String deleteLocation = "requestRoutes/delete/";
@@ -259,8 +262,32 @@ class ApiEndPoints {
   final String chatBaseUrl = "nationality/get-all";
   final String getChatList = "user/chatUserListAPI/";
   final String getGroupChatList = "user/userGroupsListAPI/";
+  final String createGroup = "user/createGroupAPI";
+  final String deleteGroup = "user/deleteGroupAPI/";
+  final String updateGroup = "user/updateGroupAPI/";
+  final String removeGroupUser = "user/deleteGroupUserAPI/";
+  final String getGroupInfo = "user/groupsDetailAPI/";
+  final String getUploadedMediaUrl = "auth/getFileUrlForChat";
 
   /// Code Of Conduct
   final String getCodeOfConduct = "appContent/get-all/codeofconduct/teacher";
   final String getResponsibilities = "appContent/get-all/responsibilities/teacher";
+
+  /// Star Rating
+  final String giveStarRating = "studentRating/add";
+
+  /// Salary Slip
+  final String getSalarySlip = "staff/salarySlipList/";
+
+  /// Delete Account
+  final String deleteAccount = "auth/delete_account";
+
+  /// Add Topics
+  final String addTopics = "timeTable/topic/add/";
+
+  /// Subject EndPoint
+  final String getAreaList = "school/all/area";
+
+  /// Check Terms Condition Status
+  final String getTermsConditionStatus = "user/checkResponsibilityInProfile";
 }

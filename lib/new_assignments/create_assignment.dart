@@ -109,7 +109,7 @@ class _CreateAssignmentState extends State<CreateAssignment> with SingleTickerPr
                         showGeneralDialog(
                           context: context,
                           pageBuilder: (context, animation, secondaryAnimation) {
-                            return AssignmentSelectPerson();
+                            return AssignmentSelectPerson(screenName: widget.title);
                           },
                         );
                       }else{
@@ -136,7 +136,7 @@ class _CreateAssignmentState extends State<CreateAssignment> with SingleTickerPr
                                 builder: (context, child) {
                                   return Theme(
                                     data: Theme.of(context).copyWith(
-                                      colorScheme: ColorScheme.light(
+                                      colorScheme: const ColorScheme.light(
                                         primary: BaseColors.primaryColor,
                                       ),
                                     ),
@@ -171,7 +171,7 @@ class _CreateAssignmentState extends State<CreateAssignment> with SingleTickerPr
                               builder: (context, child) {
                                 return Theme(
                                   data: Theme.of(context).copyWith(
-                                    colorScheme: ColorScheme.light(
+                                    colorScheme: const ColorScheme.light(
                                       primary: BaseColors.primaryColor,
                                     ),
                                   ),
@@ -210,7 +210,7 @@ class _CreateAssignmentState extends State<CreateAssignment> with SingleTickerPr
                               builder: (context, child) {
                                 return Theme(
                                   data: Theme.of(context).copyWith(
-                                    colorScheme: ColorScheme.light(
+                                    colorScheme: const ColorScheme.light(
                                       primary: BaseColors.primaryColor,
                                     ),
                                   ),
@@ -245,7 +245,7 @@ class _CreateAssignmentState extends State<CreateAssignment> with SingleTickerPr
                               builder: (context, child) {
                                 return Theme(
                                   data: Theme.of(context).copyWith(
-                                    colorScheme: ColorScheme.light(
+                                    colorScheme: const ColorScheme.light(
                                       primary: BaseColors.primaryColor,
                                     ),
                                   ),
@@ -281,7 +281,7 @@ class _CreateAssignmentState extends State<CreateAssignment> with SingleTickerPr
                         builder: (context, child) {
                           return Theme(
                             data: Theme.of(context).copyWith(
-                              colorScheme: ColorScheme.light(
+                              colorScheme: const ColorScheme.light(
                                 primary: BaseColors.primaryColor,
                               ),
                             ),

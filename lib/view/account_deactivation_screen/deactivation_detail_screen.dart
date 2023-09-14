@@ -116,7 +116,7 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
                             GestureDetector(
                                 onTap: (){
                                   showScanQrDialogue(context, false,data: widget.qrCode??"");
-                                },child: QrImage(
+                                },child: QrImageView(
                               data: widget.qrCode??"",
                               version: QrVersions.auto,
                               size: 70,

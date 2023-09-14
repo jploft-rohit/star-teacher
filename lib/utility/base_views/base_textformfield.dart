@@ -3,12 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'dart:ui' as ui;
+import 'package:staff_app/utility/sizes.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/packages/drop_downbutton2/dropdown_button2.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/sizes.dart';
+
 import 'package:staff_app/utility/base_utility.dart';
 
 class BaseTextFormField extends StatelessWidget {
@@ -17,6 +18,7 @@ class BaseTextFormField extends StatelessWidget {
   final String? hintText;
   final String? errorText;
   final String? prefixIcon;
+  final String? initialValue;
   final String? suffixIcon;
   final bool isDropDown;
   final List<TextInputFormatter>? textInputFormatter;
@@ -32,7 +34,7 @@ class BaseTextFormField extends StatelessWidget {
   final TextInputType? keyboardType;
   final TextEditingController controller;
   final Widget? innerPrefixWidget;
-  BaseTextFormField({Key? key, this.title, required this.controller, this.hintText, this.keyboardType, this.prefixIcon, this.suffixIcon, this.isDropDown = false, this.dropDownValue, this.items = const [], this.onChanged, this.onTap, this.bottomMargin, this.topMargin, this.leftMargin, this.rightMargin, this.maxLine, this.errorText, this.validator, this.underLine = false, this.maxLength,this.textInputFormatter, this.onFieldValueChanged, this.innerPrefixWidget}) : super(key: key);
+  BaseTextFormField({Key? key, this.title, required this.controller, this.hintText, this.keyboardType, this.prefixIcon, this.suffixIcon, this.isDropDown = false, this.dropDownValue, this.items = const [], this.onChanged, this.onTap, this.bottomMargin, this.topMargin, this.leftMargin, this.rightMargin, this.maxLine, this.errorText, this.validator, this.underLine = false, this.maxLength,this.textInputFormatter, this.onFieldValueChanged, this.innerPrefixWidget, this.initialValue}) : super(key: key);
   final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
   @override
   Widget build(BuildContext context) {
@@ -78,7 +80,7 @@ class BaseTextFormField extends StatelessWidget {
                       child: DropdownButtonFormField2<dynamic>(
                           isExpanded: true,
                           isDense: true,
-                        dropdownStyleData: DropdownStyleData(offset: Offset(0, -10),
+                        dropdownStyleData: DropdownStyleData(offset: const Offset(0, -10),
                             padding: EdgeInsets.symmetric(vertical: 1.h,horizontal: 2.8.w)),
                         menuItemStyleData: MenuItemStyleData(
                           padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 0),
@@ -86,33 +88,33 @@ class BaseTextFormField extends StatelessWidget {
                         iconStyleData: IconStyleData(
                           icon: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 1.2.h),
-                            child: Icon(Icons.keyboard_arrow_down_rounded,color: Colors.black,size: 25),
+                            child: const Icon(Icons.keyboard_arrow_down_rounded,color: Colors.black,size: 25),
                           ),
                         ),
                           style: TextStyle(color: Colors.black,fontSize: textFormFieldHintTs),
                             decoration: InputDecoration(
-                              fillColor: (errorText??"").toLowerCase() == "please select school" || (errorText??"") == "الرجاء تحديد المدرسة" ? Color(0xFFF8F4E9) : Colors.transparent,
+                              fillColor: (errorText??"").toLowerCase() == "please select school" || (errorText??"") == "الرجاء تحديد المدرسة" ? const Color(0xFFF8F4E9) : Colors.transparent,
                               filled: true,
                               hintStyle: TextStyle(color: Colors.black,fontSize: textFormFieldHintTs),
-                              contentPadding: EdgeInsets.only(top: 0,bottom: 15,right: 0,left: 0),
+                              contentPadding: const EdgeInsets.only(top: 0,bottom: 15,right: 0,left: 0),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: BaseColors.txtFiledBorderColor, width: 1.0),
+                                borderSide: const BorderSide(color: BaseColors.txtFiledBorderColor, width: 1.0),
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               disabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: BaseColors.txtFiledBorderColor, width: 1.0),
+                                borderSide: const BorderSide(color: BaseColors.txtFiledBorderColor, width: 1.0),
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: BaseColors.txtFiledBorderColor, width: 1.0),
+                                borderSide: const BorderSide(color: BaseColors.txtFiledBorderColor, width: 1.0),
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               errorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.red, width: 1.0),
+                                borderSide: const BorderSide(color: Colors.red, width: 1.0),
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               focusedErrorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: BaseColors.txtFiledBorderColor, width: 1.0),
+                                borderSide: const BorderSide(color: BaseColors.txtFiledBorderColor, width: 1.0),
                                 borderRadius: BorderRadius.circular(5),
                               ),
                             ),
@@ -141,6 +143,7 @@ class BaseTextFormField extends StatelessWidget {
                       textInputFormatter: textInputFormatter,
                       errorText: errorText,
                       validator: validator,
+                      // initialValue: initialValue??"",
                       maxLine: maxLine??1,
                       readOnly: (onTap) == null ? false : true,
                       onTap: onTap,
@@ -149,8 +152,8 @@ class BaseTextFormField extends StatelessWidget {
                       textInputType: keyboardType,
                       prefixIcon: innerPrefixWidget,
                       suffixIcon: Padding(
-                      padding: EdgeInsets.only(right: 1.8.w,left: 1.8.w),
-                      child: SvgPicture.asset(suffixIcon??""),
+                        padding: EdgeInsets.only(right: 1.8.w,left: 1.8.w),
+                        child: SvgPicture.asset(suffixIcon??""),
                     ),
                   ),
                 )

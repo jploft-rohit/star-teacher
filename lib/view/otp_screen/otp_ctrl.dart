@@ -11,6 +11,9 @@ import 'package:staff_app/route_manager/route_name.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/storage/sp_keys.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/video_call_zego_utility/login_service.dart';
+import 'package:staff_app/view/account_activation_screen/rules_screen.dart';
+import 'package:staff_app/view/account_activation_screen/rules_screen2.dart';
 
 class OtpCtrl extends GetxController{
   String? selectedLanguageCode;
@@ -25,11 +28,12 @@ class OtpCtrl extends GetxController{
     selectedLanguageCode = await BaseSharedPreference().getString(SpKeys().selectedLanguage);
     FirebaseMessaging.instance.getToken().then((value) {
       token = value;
+      print("FireBase Token \n $token");
     });
   }
 
-  otpApi({required String mobile}){
-    FocusScope.of(Get.context!).requestFocus(new FocusNode());
+  otpApi({required String mobile, bool? isFromActivation}){
+    FocusScope.of(Get.context!).requestFocus(FocusNode());
     if (formKey.currentState?.validate()??false) {
       Map<String, dynamic> data = {
         "userInput": mobile.trim(),
@@ -44,14 +48,32 @@ class OtpCtrl extends GetxController{
         if (response.statusCode == 200) {
           otpController.clear();
           otpController.text = "";
-          BaseSharedPreference().setBool(SpKeys().isLoggedIn, true);
           BaseSharedPreference().setString(SpKeys().apiToken, response.data?.token??"");
           BaseSharedPreference().setString(SpKeys().userId, response.data?.user?.sId??"");
+          BaseSharedPreference().setString(SpKeys().userName, response.data?.user?.name??"");
           if ((response.data?.message??"").isNotEmpty) {
             BaseOverlays().showSnackBar(message: response.data?.message??"",title: response.message??"");
           }
           // Get.put(BaseCtrl());
-          Get.offAllNamed(dashboardScreenRoute);
+          currentUser.id = response.data?.user?.sId??"";
+          currentUser.name = response.data?.user?.name??"";
+          if(Platform.isAndroid) {
+            onUserLogin();
+          }
+        if ((response.data?.user?.isReadTermCondtion??false) == false) {
+          if((response.data?.user?.isReadResponsibility??false) == false){
+            Get.offAll(RulesScreen(isFromActivation: isFromActivation??false));
+          }else{
+            Get.offAll(RulesScreen2(isFromActivation: isFromActivation??false));
+          }
+        }else{
+          if((response.data?.user?.isReadResponsibility??false) == false){
+            Get.offAll(RulesScreen2(isFromActivation: isFromActivation??false,));
+          }else{
+            BaseSharedPreference().setBool(SpKeys().isLoggedIn, true);
+            Get.offAllNamed(dashboardScreenRoute);
+          }
+        }
         }else{
           if ((response.message??"").isNotEmpty) {
             BaseOverlays().showSnackBar(message: response.message??"",title: translate(Get.context!).error);
@@ -61,8 +83,8 @@ class OtpCtrl extends GetxController{
     }
   }
 
-  verifyActivationRequest({required String employeeId ,required String mobile, required String otp}){
-    FocusScope.of(Get.context!).requestFocus(new FocusNode());
+  verifyActivationRequest({required String employeeId ,required String mobile, required String otp, bool? isFromActivation}){
+    FocusScope.of(Get.context!).requestFocus(FocusNode());
     if (formKey.currentState?.validate()??false) {
       Map<String, dynamic> data = {
         "uniqueId" : employeeId,
@@ -73,7 +95,9 @@ class OtpCtrl extends GetxController{
         if (value?.statusCode ==  200) {
           otpController.clear();
           otpController.text = "";
-          Get.toNamed(ruleScreenRoute);
+          BaseSharedPreference().setString(SpKeys().apiToken, value?.data["data"]["token"]??"");
+          Get.off(RulesScreen(isFromActivation: isFromActivation??false));
+          // Get.toNamed(ruleScreenRoute);
           BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"", title: translate(Get.context!).success);
         }else{
           BaseOverlays().showSnackBar(message: response.message??"", title: translate(Get.context!).error);

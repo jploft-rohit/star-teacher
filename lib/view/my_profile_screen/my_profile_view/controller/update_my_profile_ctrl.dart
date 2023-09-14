@@ -53,7 +53,7 @@ class UpdateMyProfileCtrl extends GetxController{
     emailCtrl.text = myProfileCtrl.response.value.data?.email??"";
     addressCtrl.text = myProfileCtrl.response.value.data?.address??"";
     countryCtrl.text = myProfileCtrl.response.value.data?.country??"";
-    stateCtrl.text = myProfileCtrl.response.value.data?.state??"";
+    stateCtrl.text = myProfileCtrl.response.value.data?.sector??"";
     imageData.value = myProfileCtrl.response.value.data?.profilePic??"";
     nationalityCtrl.text = myProfileCtrl.response.value.data?.nationality??"";
     emiratesCtrl.text = getFormattedEmirateId(myProfileCtrl.response.value.data?.emirateId.toString()??"");
@@ -78,7 +78,7 @@ class UpdateMyProfileCtrl extends GetxController{
           "email": emailCtrl.text.trim(),
           "address": addressCtrl.text.trim(),
           "country": countryCtrl.text.trim(),
-          "state": stateCtrl.text.trim(),
+          "sector": stateCtrl.text.trim(),
           "bloodType": bloodCtrl.text.trim(),
           "nationality": selectedNationality.value,//"6450a9e2e2719e102c7459cd"
           "maritalStatus": maritalStatusCtrl.text.trim(),
@@ -100,7 +100,7 @@ class UpdateMyProfileCtrl extends GetxController{
           "bloodType": bloodCtrl.text.trim(),
           "address": addressCtrl.text.trim(),
           "country": countryCtrl.text.trim(),
-          "state": stateCtrl.text.trim(),
+          "sector": stateCtrl.text.trim(),
           "nationality": selectedNationality.value,//"6450a9e2e2719e102c7459cd"
           "maritalStatus": maritalStatusCtrl.text.trim(),
           // "emirateId": emiratesCtrl.text.trim(),
@@ -114,9 +114,9 @@ class UpdateMyProfileCtrl extends GetxController{
         });
       }
 
-      // if((selectedDocument?.value?.path??"").isNotEmpty){
-      //   data.files.add(MapEntry("idDocument", await dio.MultipartFile.fromFile((selectedDocument?.value?.path??""))));
-      // }
+      if((selectedDocument?.value?.path??"").isNotEmpty){
+        data.files.add(MapEntry("document", await dio.MultipartFile.fromFile((selectedDocument?.value?.path??""))));
+      }
       BaseAPI().patch(url: (ApiEndPoints().updateMyProfile),data: data,concatUserId: true).then((value){
         if (value?.statusCode == 200) {
           response = BaseSuccessResponse.fromJson(value?.data);

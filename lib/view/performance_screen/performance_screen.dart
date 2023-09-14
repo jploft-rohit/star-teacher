@@ -3,17 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_no_data.dart';
+import 'package:staff_app/utility/base_views/base_pagination_footer.dart';
 import 'package:staff_app/utility/base_views/base_tab_bar.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/performance_screen/controller/performance_screen_ctrl.dart';
 
+import '../../utility/sizes.dart';
+
 class PerformanceScreen extends StatefulWidget {
   final int index;
-  PerformanceScreen({Key? key,required this.index }) : super(key: key);
+  const PerformanceScreen({Key? key,required this.index}) : super(key: key);
 
   @override
   State<PerformanceScreen> createState() => _PerformanceScreenState();
@@ -27,10 +32,11 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
   @override
   void initState() {
     super.initState();
+
     tabCtrl = TabController(length: 4, vsync: this)..addListener(() {
       if (!(tabCtrl.indexIsChanging)) {
         controller.selectedTabIndex.value = tabCtrl.index;
-        controller.getData();
+        controller.getData(refreshType: "refresh");
       }
     });
   }
@@ -88,16 +94,12 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
                 ),
               ),
             ),
-            SizedBox(
-              height: 4.h,
-            ),
+            SizedBox(height: 4.h),
             buildTabBar(),
-            SizedBox(
-              height: 2.h,
-            ),
+            SizedBox(height: 2.h),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: Container(
+              child: SizedBox(
                 height: 5.5.h,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -115,8 +117,9 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
                       itemBuilder: (context, index) {
                         return Obx(() => GestureDetector(
                           onTap: (){
+                            controller.list?.clear();
                             controller.selectedRatingIndex.value = index;
-                            controller.getData();
+                            controller.getData(refreshType: "refresh");
                           },
                           child: Column(
                             children: [
@@ -205,106 +208,117 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
     );
   }
   Widget tabBarViews(){
-    return Obx(()=>ListView.builder(
-        itemCount: controller.list?.length??0,
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          return Container(
-            padding: const EdgeInsets.only(left: 12.0, right: 12.0, top: 10.0, bottom: 10.0),
-            margin: const EdgeInsets.only(bottom: 10.0),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                border: Border.all(color: BaseColors.borderColor)
-            ),
-            child: Stack(
-              alignment: isRTL ? Alignment.topLeft : Alignment.topRight,
-              children: [
-                Column(
-                  children: [
-                    Row(
-                      children: [
-                        RatingBar.builder(
-                          initialRating: double.parse(controller.list?[index]?.rating.toString()??"0.0"),
-                          direction: Axis.horizontal,
-                          allowHalfRating: true,
-                          maxRating: double.parse(controller.list?[index]?.rating.toString()??"0.0"),
-                          minRating: 1,
-                          itemCount: int.parse(controller.list?[index]?.rating.toString()??"0"),
-                          itemSize: 20.sp,
-                          ignoreGestures: true,
-                          itemBuilder: (context, _) => const Icon(
-                            CupertinoIcons.star_fill,
-                            color: BaseColors.primaryColor,
-                          ),
-                          unratedColor: BaseColors.primaryColor.withOpacity(0.3),
-                          itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                          onRatingUpdate: (rating) {
-                            print(rating);
-                          },
-                        ),
-                        if((controller.list?[index]?.comment??"").toString().isNotEmpty)
-                          Tooltip(
-                            showDuration: const Duration(seconds: 10),
-                            margin: const EdgeInsets.symmetric(horizontal: 30),
-                            textStyle: TextStyle(
+    return Obx(()=>SmartRefresher(
+      footer: const BasePaginationFooter(),
+      controller: controller.refreshController,
+      enablePullDown: enablePullToRefresh,
+      enablePullUp: true,
+      onLoading: (){
+        controller.getData(refreshType: "load");
+      },
+      onRefresh: (){
+        controller.getData(refreshType: "refresh");
+      },
+      child: (controller.list?.length??0) == 0
+          ? const BaseNoData()
+          : ListView.builder(
+             itemCount: controller.list?.length??0,
+             padding: const EdgeInsets.only(bottom: 100),
+             shrinkWrap: true,
+             itemBuilder: (context, index) {
+             return Container(
+              padding: const EdgeInsets.only(left: 12.0, right: 12.0, top: 10.0, bottom: 10.0),
+              margin: const EdgeInsets.only(bottom: 10.0),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  border: Border.all(color: BaseColors.borderColor)
+              ),
+              child: Stack(
+                alignment: isRTL ? Alignment.topLeft : Alignment.topRight,
+                children: [
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          RatingBar.builder(
+                            initialRating: double.parse(controller.list?[index]?.rating.toString()??"0.0"),
+                            direction: Axis.horizontal,
+                            allowHalfRating: true,
+                            maxRating: double.parse(controller.list?[index]?.rating.toString()??"0.0"),
+                            minRating: 1,
+                            itemCount: int.parse(controller.list?[index]?.rating.toString()??"0"),
+                            itemSize: 20.sp,
+                            ignoreGestures: true,
+                            itemBuilder: (context, _) => const Icon(
+                              CupertinoIcons.star_fill,
                               color: BaseColors.primaryColor,
-                              fontSize: 1.8.h - 1,
                             ),
-                            decoration: BoxDecoration(
-                              color: BaseColors.secondaryColor,
-                              border: Border.all(color: BaseColors.primaryColor),
-                              // boxShadow: [getDeepBoxShadow()],
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            padding: const EdgeInsets.all(20),
-                            message: controller.list?[index]?.comment??"N/A",
-                            triggerMode: TooltipTriggerMode.tap,
-                            child: Container(
-                              padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0, bottom: 5.0),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                  color: BaseColors.backgroundColor,
-                                  border: Border.all(color: BaseColors.primaryColor)
+                            unratedColor: BaseColors.primaryColor.withOpacity(0.3),
+                            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                            onRatingUpdate: (rating) {
+                              print(rating);
+                            },
+                          ),
+                          if((controller.list?[index]?.comment??"").toString().isNotEmpty)
+                            Tooltip(
+                              showDuration: const Duration(seconds: 10),
+                              margin: const EdgeInsets.symmetric(horizontal: 30),
+                              textStyle: TextStyle(
+                                color: BaseColors.primaryColor,
+                                fontSize: 1.8.h - 1,
                               ),
-                              child: addText(controller.list?[index]?.comment??"N/A", 14.sp, BaseColors.primaryColor, FontWeight.w400),
+                              decoration: BoxDecoration(
+                                color: BaseColors.secondaryColor,
+                                border: Border.all(color: BaseColors.primaryColor),
+                                // boxShadow: [getDeepBoxShadow()],
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              padding: const EdgeInsets.all(20),
+                              message: controller.list?[index]?.comment??"N/A",
+                              triggerMode: TooltipTriggerMode.tap,
+                              child: Container(
+                                padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0, bottom: 5.0),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                    color: BaseColors.backgroundColor,
+                                    border: Border.all(color: BaseColors.primaryColor)
+                                ),
+                                child: addText(controller.list?[index]?.comment??"N/A", 14.sp, BaseColors.primaryColor, FontWeight.w400),
+                              ),
+                            ),
+                        ],
+                      ),
+                      SizedBox(height: 1.h),
+                      Row(
+                        children: [
+                          SvgPicture.asset("assets/images/time_icon.svg"),
+                          SizedBox(width: 1.w),
+                          addText(getFormattedTime(controller.list?[index]?.createdAt??""), 15.sp, BaseColors.textBlackColor, FontWeight.w400),
+                          Visibility(
+                            visible: (controller.list?[index]?.isAnonymous.toString().toLowerCase()) == "false",
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(width: 10.w),
+                                SvgPicture.asset("assets/images/teacher_icon.svg"),
+                                SizedBox(width: 1.w),
+                                addText(controller.list?[index]?.ratedBy?.name??"", 15.sp, BaseColors.textBlackColor, FontWeight.w400),
+                                SizedBox(width: 1.w),
+                                addText("(${controller.list?[index]?.ratedBy?.role?.displayName??""})", 13.sp, BaseColors.primaryColor, FontWeight.w400)
+                              ],
                             ),
                           ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 1.h,
-                    ),
-                    Row(
-                      children: [
-                        SvgPicture.asset("assets/images/time_icon.svg"),
-                        SizedBox(
-                          width: 1.w,
-                        ),
-                        addText(getFormattedTime(controller.list?[index]?.createdAt??""), 15.sp, BaseColors.textBlackColor, FontWeight.w400),
-                        Visibility(
-                          visible: (controller.list?[index]?.isAnonymous.toString().toLowerCase()) == "false",
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(width: 10.w),
-                              SvgPicture.asset("assets/images/teacher_icon.svg"),
-                              SizedBox(width: 1.w),
-                              addText(controller.list?[index]?.ratedBy?.name??"", 15.sp, BaseColors.textBlackColor, FontWeight.w400),
-                              SizedBox(width: 1.w),
-                              addText("(${controller.list?[index]?.ratedBy?.role?.displayName??""})", 13.sp, BaseColors.primaryColor, FontWeight.w400)
-                            ],
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-                Text(getFormattedMonthDate(controller.list?[index]?.createdAt),style: TextStyle(fontSize: 8,color: Colors.grey),),
-              ],
-            ),
-          );
-        },
-      ),
+                        ],
+                      )
+                    ],
+                  ),
+                  Text(getFormattedMonthDate(controller.list?[index]?.createdAt),style: const TextStyle(fontSize: 8,color: Colors.grey),),
+                ],
+              ),
+            );
+          },
+        ),
+    ),
     );
   }
 }

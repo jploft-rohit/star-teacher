@@ -8,13 +8,14 @@ import 'package:staff_app/utility/base_views/base_button.dart';
 
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/transportation_screen/controller/transportation_screen_ctrl.dart';
 
 class BusArrivingSoonScreen extends StatefulWidget {
-  const BusArrivingSoonScreen({Key? key}) : super(key: key);
+  final String id;
+  const BusArrivingSoonScreen({Key? key, required this.id}) : super(key: key);
 
   @override
   State<BusArrivingSoonScreen> createState() => _BusArrivingSoonScreenState();
@@ -65,11 +66,11 @@ class _BusArrivingSoonScreenState extends State<BusArrivingSoonScreen> {
                     }
                     list[index]['isSelected'] = !list[index]['isSelected'];
                     selectedOption = list[index]['title'];
-                    print("Selected Option --> " + selectedOption);
+                    print("Selected Option --> $selectedOption");
                     setState(() {});
                   },
                   child: Container(
-                    margin: EdgeInsets.only(bottom: 8.0),
+                    margin: const EdgeInsets.only(bottom: 8.0),
                     padding: EdgeInsets.all(14.sp),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.0),
@@ -80,9 +81,9 @@ class _BusArrivingSoonScreenState extends State<BusArrivingSoonScreen> {
                       children: [
                         Text(list[index]['title'], style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp),),
                         Checkbox(
-                          visualDensity: VisualDensity(vertical: -4),
+                          visualDensity: const VisualDensity(vertical: -4),
                           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          side: BorderSide(color: Colors.transparent),
+                          side: const BorderSide(color: Colors.transparent),
                           activeColor: BaseColors.primaryColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50.0),
@@ -94,7 +95,7 @@ class _BusArrivingSoonScreenState extends State<BusArrivingSoonScreen> {
                             }
                             list[index]['isSelected'] = !list[index]['isSelected'];
                             selectedOption = list[index]['title'];
-                            print("Selected Option --> " + selectedOption);
+                            print("Selected Option --> $selectedOption");
                             setState(() {});
                           },
                         )
@@ -108,7 +109,7 @@ class _BusArrivingSoonScreenState extends State<BusArrivingSoonScreen> {
               height: 3.h,
             ),
             Center(child: BaseButton(title: translate(context).notify.toUpperCase(), onPressed: (){
-              controller.sendBusNotification(selectedOption: selectedOption);
+              controller.sendBusNotification(selectedOption: selectedOption, id: widget.id,);
             },btnType: largeButton))
           ],
         ),

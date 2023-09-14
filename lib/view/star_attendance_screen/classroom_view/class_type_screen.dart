@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/backend/responses_model/class_response.dart';
 import 'package:staff_app/backend/responses_model/class_section_response.dart';
 import 'package:staff_app/backend/responses_model/school_list_response.dart';
@@ -15,6 +17,7 @@ import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/utility/constant_images.dart';
 import 'package:staff_app/utility/custom_filter_dropdown.dart';
 import 'package:staff_app/utility/dummy_lists.dart';
 import 'package:staff_app/utility/filter_textformfield.dart';
@@ -88,6 +91,7 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
                         controller.selectedSchoolId.value = value?.sId??"";
                         controller.selectedSchoolName.value = value?.name??"";
                         /// Clear Data
+                        controller.searchController.clear();
                         controller.selectedClassId.value = "";
                         controller.selectedClassName.value = "";
                         controller.selectedSectionName.value = "";
@@ -99,12 +103,12 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
                           controller.getStarsAttendanceList();
                         }
                       },icon: classTakenSvg),
-                  Container(
+                  const SizedBox(
+                    height: 35,
+                    width: 1,
                     child: VerticalDivider(
                       width: 1,
                     ),
-                    height: 35,
-                    width: 1,
                   ),
                   CustomFilterDropDown(
                       hintText: controller.selectedClassName.value.isEmpty ? 'Class' : controller.selectedClassName.value,
@@ -114,6 +118,7 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
                             child: addText(value.name??"", 16.sp, Colors.black, FontWeight.w400));
                       }).toList(),
                       onChange: (value) async {
+                        controller.searchController.clear();
                         controller.selectedClassId.value = value?.sId??"";
                         controller.selectedClassName.value = value?.name??"";
                         await baseCtrl.getClassSections(classId: controller.selectedClassId.value);
@@ -122,10 +127,11 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
                         }else{
                           controller.getStarsAttendanceList();
                         }
-                      },icon: classTakenSvg),
+                      },icon: classTakenSvg,
+                  ),
                 ],
               ),
-              Divider(
+              const Divider(
                 height: 1,
                 thickness: 1,
               ),
@@ -140,6 +146,7 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
                       );
                     }).toList(),
                     onChange: (value) async {
+                      controller.searchController.clear();
                       controller.selectedSectionName.value = value.name;
                       controller.selectedSectionId.value = value.sId;
                       if (controller.selectedFMOPos.value == 2 && controller.selectedClassType.value == 0) {
@@ -152,12 +159,23 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
                   ),
                 ],
               ),
-              Divider(
+              const Divider(
                 height: 1,
                 thickness: 1,
               ),
-              FilterTextFormField(onChange: (String val) {
-              }, hintText: "Search Star,ID...", keyBoardType: TextInputType.name,
+              FilterTextFormField(
+                controller: controller.searchController,
+                onChange: (value) {
+                  controller.baseDebouncer.run((){
+                  if (controller.selectedFMOPos.value == 2 && controller.selectedClassType.value == 0) {
+                    controller.getManualStarAttendanceList();
+                  }else{
+                    controller.getStarsAttendanceList();
+                  }
+                });
+                },
+                hintText: "Search Star, ID...",
+                keyBoardType: TextInputType.name,
               ),
             ],
           ),
@@ -168,7 +186,7 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
           return controller.selectedClassType.value == 0
               ? GridView.builder(
               shrinkWrap: true,
-              padding: EdgeInsets.symmetric(horizontal: 1),
+              padding: const EdgeInsets.symmetric(horizontal: 1),
               physics: const NeverScrollableScrollPhysics(),
               itemCount: controller.fmoImageList.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -182,10 +200,13 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
                     onTap: () {
                       if (index == 0) {
                         controller.selectedFMOPos.value = index;
+                        starNfcListen();
                       }else if(index == 1){
+                        stopNfcListen();
                         controller.selectedFMOPos.value = index;
-                        Get.to(AttendanceQRScanner());
+                        Get.to(const AttendanceQRScanner());
                       }else if(index == 2) {
+                        stopNfcListen();
                         if (controller.selectedSchoolId.value.isNotEmpty) {
                           controller.selectedFMOPos.value = index;
                           controller.getManualStarAttendanceList();
@@ -247,7 +268,7 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
                       padding: const EdgeInsets.symmetric(horizontal: 5.0),
                       child: GestureDetector(child: SvgPicture.asset(qrCodeSvg, height: 25.sp,color: BaseColors.primaryColor,),onTap: (){
                       // showScanQrDialogue(context, true);
-                      Get.to(ScanQrCodeScreen());
+                      Get.to(const ScanQrCodeScreen());
                     }))
                   : const SizedBox.shrink(),
             ],
@@ -260,15 +281,15 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
             return Expanded(
               child: TabBarView(
                 controller: tabController,
-                children: [
-                  const AttendanceListTile(),
-                  const AttendanceListTile(),
-                  const AttendanceListTile(),
+                children: const [
+                  AttendanceListTile(),
+                  AttendanceListTile(),
+                  AttendanceListTile(),
                 ],
               ),
             );
           }else{
-            return SizedBox.shrink();
+            return const SizedBox.shrink();
           }
         }),
         Obx(()=>Visibility(
@@ -396,6 +417,50 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
       ],
     );
   }
+
+  starNfcListen() {
+    RawKeyboard.instance.addListener(handleKeyPress);
+    print('starNfcListen');
+  }
+
+  stopNfcListen() {
+    RawKeyboard.instance.removeListener(handleKeyPress);
+    print('stopNfcListen');
+  }
+
+  Future<void> handleKeyPress(RawKeyEvent event) async {
+    if (event is RawKeyUpEvent) {
+      FocusScope.of(Get.context!).unfocus();
+      print(event.data.logicalKey.keyLabel);
+      if (event.data.logicalKey.keyLabel == 'Enter' ||
+          event.data.logicalKey.keyLabel == 'Shift') {
+        controller.nfcValue.value = controller.nfcValue.value.replaceAll('Enter', '');
+        await controller.searchStudentWithQRCode(keyword: controller.nfcValue.value);
+        controller.nfcValue.value = '';
+      }
+      controller.nfcValue.value += event.data.logicalKey.keyLabel;
+    }
+  }
+
+  callApi(data) async {
+    try {
+      stopNfcListen();
+      Get.back();
+      BaseOverlays().showLoader();
+      await BaseAPI().get(url: '').then((response) {
+        print(response);
+        BaseOverlays().dismissOverlay();
+        Get.back();
+      });
+    } catch (e) {
+      print(e);
+      BaseOverlays().dismissOverlay();
+      Get.back();
+      // BaseOverlays().showSnackBar(message: 'Tag number is not active', title: "Error");
+      // showSnackBar(message: 'Tag number is not active', success: false);
+    }
+  }
+
   Widget buildTabBar() {
     return BaseTabBar(
       controller: tabController,

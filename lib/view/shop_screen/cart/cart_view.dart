@@ -5,7 +5,8 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/base_views/base_textformfield.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_image_network.dart';
 import 'package:staff_app/utility/base_views/base_no_data.dart';
@@ -15,9 +16,9 @@ import 'package:staff_app/view/shop_screen/controller/shop_screen_ctrl.dart';
 import 'package:staff_app/view/shop_screen/controller/stripe_controller.dart';
 
 class CartView extends StatefulWidget {
-  final bool? isStationery, isStarsStore, isUpdating;
+  final bool? isStationery, isStarsStore, isUpdating, isFromCardsTags;
   final String? id;
-  const CartView({super.key, this.isStationery, this.isStarsStore, this.isUpdating, this.id});
+  const CartView({super.key, this.isStationery, this.isStarsStore, this.isUpdating, this.id, this.isFromCardsTags});
 
   @override
   State<CartView> createState() => _CartViewState();
@@ -63,15 +64,27 @@ class _CartViewState extends State<CartView> {
                 ),
                 SizedBox(height: 2.h),
                 (controller.cartProductsList?.length??0) == 0
-                    ? BaseNoData(message: "No Products Added")
+                    ? const BaseNoData(message: "No Products Added")
                     : ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   padding: EdgeInsets.zero,
                   shrinkWrap: true,
                   itemCount: controller.cartProductsList?.length??0,
                   itemBuilder: (context, index) {
-                    return buildCartCard(controller.cartProductsList?[index]?.images?[0]??"", controller.cartProductsList?[index]?.name??"", ((controller.cartProductsList?[index]?.price?.toString()??"")+" AED"), controller.cartProductsList?[index]?.quantity,index);
+                    return buildCartCard(controller.cartProductsList?[index]?.images?[0]??"", controller.cartProductsList?[index]?.name??"", ("${controller.cartProductsList?[index]?.price?.toString()??""} AED"), controller.cartProductsList?[index]?.quantity,index);
                   },
+                ),
+                Visibility(
+                    visible: widget.isFromCardsTags??false,
+                    child: SizedBox(height:2.h)),
+                Visibility(
+                  visible: widget.isFromCardsTags??false,
+                  child: BaseTextFormField(
+                    bottomMargin: 0,
+                    topMargin: 0,
+                    controller: controller.reasonController,
+                    hintText: "Reason",
+                  ),
                 ),
                 SizedBox(height:2.h),
                 Container(
@@ -97,8 +110,8 @@ class _CartViewState extends State<CartView> {
                           radioButton(() {
                             controller.selectedShipping.value = "HOME_DELIVERY";
                             controller.homeDelivertSelected();
-                          }, controller.isHomeDelivery.value,
-                              'Home delivery'),
+
+                          }, controller.isHomeDelivery.value, 'Home delivery'),
                           SizedBox(width: 2.h),
                           radioButton(() {
                             controller.selectedShipping.value = "SCHOOL_PICKUP";
@@ -112,11 +125,11 @@ class _CartViewState extends State<CartView> {
                   ),
                 ),
                 SizedBox(height:2.h),
-                detailRow('Sub Total', (controller.userCartData?.value?.totalAmount?.toString()??"")+" AED"),
+                detailRow('Sub Total', "${controller.userCartData?.value?.totalAmount?.toString()??""} AED"),
                 SizedBox(height:1.h),
-                detailRow('Taxes (${controller.userCartData?.value?.tax?.toString()??""}%)', (controller.userCartData?.value?.taxAmount?.toString()??"")+" AED"),
+                detailRow('Taxes (${controller.userCartData?.value?.tax?.toString()??""}%)', "${controller.userCartData?.value?.taxAmount?.toString()??""} AED"),
                 SizedBox(height:1.h),
-                detailRow('Shipping Charges', '0 AED'),
+                detailRow('Shipping Charges', "${controller.userCartData?.value?.shippingCharges?.toString()??""} AED"),
                 SizedBox(height:1.h),
                 detailRow('Grand Total', '${(controller.userCartData?.value?.grandTotal?.toString()??"")} AED'),
                 SizedBox(height:3.h),
@@ -155,7 +168,7 @@ class _CartViewState extends State<CartView> {
                                           color: controller.selectedPaymentPos.value == index
                                               ? BaseColors.primaryColor
                                               : BaseColors.greyColor),
-                                      child: Icon(
+                                      child: const Icon(
                                         Icons.check,
                                         color: BaseColors.white,
                                         size: 14,
@@ -224,12 +237,14 @@ class _CartViewState extends State<CartView> {
                                     }else{
 
                                     }
-                                  });
+                                  },
+                                  );
                                 }else{
                                   // BaseOverlays().dismissOverlay();
                                   controller.createOrder(isFromCart: false);
                                 }
-                              });
+                              },
+                          );
                       }else{
                         baseToast(message: "No Product Found In Cart");
                       }
@@ -255,7 +270,7 @@ class _CartViewState extends State<CartView> {
       child: Row(
         children: [
           Container(
-              padding: EdgeInsets.symmetric(vertical: 2),
+              padding: const EdgeInsets.symmetric(vertical: 2),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(color: BaseColors.txtFiledBorderColor)
@@ -286,9 +301,9 @@ class _CartViewState extends State<CartView> {
                       height: 20,
                       width: 70,
                       decoration: BoxDecoration(
-                          color: Color(0xffF8F4E9),
+                          color: const Color(0xffF8F4E9),
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Color(0xffC19444))
+                          border: Border.all(color: const Color(0xffC19444))
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -307,7 +322,7 @@ class _CartViewState extends State<CartView> {
                                   });
                                 }
                               }
-                            },child: Icon(Icons.remove,size: 18,color: BaseColors.primaryColor)),
+                            },child: const Icon(Icons.remove,size: 18,color: BaseColors.primaryColor)),
                           ),
                           GestureDetector(onTap: () async {
                             if((int.parse((controller.cartProductsList?[index]?.quantity??0).toString())) == 0){
@@ -315,7 +330,7 @@ class _CartViewState extends State<CartView> {
                                 setState(() {});
                               });
                             }
-                          },child: Text(int.parse((controller.cartProductsList?[index]?.quantity??0).toString()) == 0 ? "+ Add" : (controller.cartProductsList?[index]?.quantity??0).toString(),style: TextStyle(color: BaseColors.primaryColor,fontWeight: FontWeight.bold))),
+                          },child: Text(int.parse((controller.cartProductsList?[index]?.quantity??0).toString()) == 0 ? "+ Add" : (controller.cartProductsList?[index]?.quantity??0).toString(),style: const TextStyle(color: BaseColors.primaryColor,fontWeight: FontWeight.bold))),
                           Visibility(
                             visible: int.parse((controller.cartProductsList?[index]?.quantity??0).toString()) > 0,
                             child: GestureDetector(onTap: () async {
@@ -323,7 +338,7 @@ class _CartViewState extends State<CartView> {
                                 setState(() {});
                               });
                             },
-                              child: Icon(Icons.add, size: 18,color: BaseColors.primaryColor),
+                              child: const Icon(Icons.add, size: 18,color: BaseColors.primaryColor),
                             ),
                           ),
                         ],

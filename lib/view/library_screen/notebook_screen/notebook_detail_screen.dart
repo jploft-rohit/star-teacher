@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
@@ -13,7 +14,8 @@ import 'package:staff_app/utility/base_views/base_image_network.dart';
 import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/base_views/base_pagination_footer.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_qr.dart';
 import 'package:staff_app/view/library_screen/notebook_screen/add_note_screen.dart';
@@ -49,279 +51,290 @@ class _NotebookDetailScreenState extends State<NotebookDetailScreen> {
         onTap: () {Get.to(const AddNoteScreen());},
         title: 'Add Note',
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(15.sp),
-          child: Column(
-            children: [
-              Obx(()=>Container(
-                  padding: EdgeInsets.all(15.sp),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: BaseColors.borderColor)
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 7),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15.0),
-                                border: Border.all(color: BaseColors.primaryColor)
-                            ),
-                            child: BaseImageNetwork(
-                              link: controller.starData?.value.user?.profilePic??"",
-                              width: 50,
-                              height: 50,
-                              borderRadius: 10,
-                              errorWidget: SvgPicture.asset(girlSvg, height: 6.h),
-                            ),
+      body: Padding(
+        padding: EdgeInsets.all(15.sp),
+        child: Column(
+          children: [
+            Obx(()=>Container(
+                padding: EdgeInsets.all(15.sp),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: BaseColors.borderColor)
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 7),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15.0),
+                              border: Border.all(color: BaseColors.primaryColor)
                           ),
-                          SizedBox(width: 3.w),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(controller.starData?.value.user?.name??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
-                              SizedBox(height: 0.5.h),
-                              Container(
-                                width: 30.w,
-                                height: 1,
-                                color: BaseColors.borderColor,
-                              ),
-                              SizedBox(
-                                height: .5.h,
-                              ),
-                              Text("#"+(controller.starData?.value.studentId??"#"), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
-                              SizedBox(
-                                height: .5.h,
-                              ),
-                              Container(
-                                width: 30.w,
-                                height: 1,
-                                color: BaseColors.borderColor,
-                              ),
-                              SizedBox(
-                                height: .5.h,
-                              ),
-                              Text("${controller.starData?.value.classes?.name??""}-${controller.starData?.value.classsection?.name??""}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
-                            ],
+                          child: BaseImageNetwork(
+                            link: controller.starData?.value.user?.profilePic??"",
+                            width: 50,
+                            height: 50,
+                            borderRadius: 10,
+                            errorWidget: SvgPicture.asset(girlSvg, height: 6.h),
                           ),
-                        ],
-                      ),
-                      BaseQr(data: controller.starData?.value.barcode??"")
-                    ],
-                  ),
+                        ),
+                        SizedBox(width: 3.w),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(controller.starData?.value.user?.name??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
+                            SizedBox(height: 0.5.h),
+                            Container(
+                              width: 30.w,
+                              height: 1,
+                              color: BaseColors.borderColor,
+                            ),
+                            SizedBox(
+                              height: .5.h,
+                            ),
+                            Text("#"+(controller.starData?.value.studentId??"#"), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
+                            SizedBox(
+                              height: .5.h,
+                            ),
+                            Container(
+                              width: 30.w,
+                              height: 1,
+                              color: BaseColors.borderColor,
+                            ),
+                            SizedBox(
+                              height: .5.h,
+                            ),
+                            Text("${controller.starData?.value.classes?.name??""}-${controller.starData?.value.classsection?.name??""}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
+                          ],
+                        ),
+                      ],
+                    ),
+                    BaseQr(data: controller.starData?.value.barcode??"")
+                  ],
                 ),
               ),
-              SizedBox(
-                height: 2.h,
-              ),
-              Row(
-                children: [
-                  Obx(() => Flexible(
-                    flex: 1,
-                    child: GestureDetector(
-                      onTap: (){
-                        controller.selectedIndex1.value = 0;
-                        controller.getNotebookNotes();
-                      },
-                      child: Container(
-                        height: 40.0,
-                        width: getWidth(context) * 50 / 100,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            color: controller.selectedIndex1.value == 0 ? BaseColors.backgroundColor : BaseColors.txtFieldTextColor,
-                            border: Border.all(
-                                color: controller.selectedIndex1.value == 0 ? Colors.transparent : BaseColors.txtFiledBorderColor
-                            ),
-                            boxShadow: [
-                              if(controller.selectedIndex1.value == 0)
-                                const BoxShadow(
-                                    color: BaseColors.darkShadowColor,
-                                    spreadRadius: 1.0,
-                                    blurRadius: 2.0,
-                                    offset: Offset(0, 3)
-                                )
-                            ],
-                            borderRadius: BorderRadius.circular(10)
-                        ),
-                        child: Text("Has Talent", style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex1.value == 0 ? BaseColors.primaryColor : BaseColors.txtFiledBorderColor, fontSize: toggleButtonTs,
-                            fontWeight: controller.selectedIndex1.value == 0?FontWeight.bold:FontWeight.w400),),
+            ),
+            SizedBox(
+              height: 2.h,
+            ),
+            Row(
+              children: [
+                Obx(() => Flexible(
+                  flex: 1,
+                  child: GestureDetector(
+                    onTap: (){
+                      controller.selectedIndex1.value = 0;
+                      controller.getNotebookNotes();
+                    },
+                    child: Container(
+                      height: 40.0,
+                      width: getWidth(context) * 50 / 100,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: controller.selectedIndex1.value == 0 ? BaseColors.backgroundColor : BaseColors.txtFieldTextColor,
+                          border: Border.all(
+                              color: controller.selectedIndex1.value == 0 ? Colors.transparent : BaseColors.txtFiledBorderColor
+                          ),
+                          boxShadow: [
+                            if(controller.selectedIndex1.value == 0)
+                              const BoxShadow(
+                                  color: BaseColors.darkShadowColor,
+                                  spreadRadius: 1.0,
+                                  blurRadius: 2.0,
+                                  offset: Offset(0, 3)
+                              )
+                          ],
+                          borderRadius: BorderRadius.circular(10)
                       ),
+                      child: Text("Has Talent", style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex1.value == 0 ? BaseColors.primaryColor : BaseColors.txtFiledBorderColor, fontSize: toggleButtonTs,
+                          fontWeight: controller.selectedIndex1.value == 0?FontWeight.bold:FontWeight.w400),),
                     ),
-                  )),
-                  SizedBox(
-                    width: 2.w,
                   ),
-                  Obx(() => Flexible(
-                    flex: 1,
-                    child: GestureDetector(
-                      onTap: (){
-                        controller.selectedIndex1.value = 1;
-                        controller.getNotebookNotes();
-                      },
-                      child: Container(
-                        height: 40.0,
-                        width: getWidth(context) * 50 / 100,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            color: controller.selectedIndex1.value == 1 ? BaseColors.backgroundColor : BaseColors.txtFieldTextColor,
-                            border: Border.all(
-                                color: controller.selectedIndex1.value == 1 ? Colors.transparent : BaseColors.txtFiledBorderColor
-                            ),
-                            boxShadow: [
-                              if(controller.selectedIndex1.value == 1)
-                                const BoxShadow(
-                                    color: BaseColors.darkShadowColor,
-                                    spreadRadius: 1.0,
-                                    blurRadius: 2.0,
-                                    offset: Offset(0, 3)
-                                )
-                            ],
-                            borderRadius: BorderRadius.circular(10)
-                        ),
-                        child: Text("Need Improvement", style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex1.value == 1 ? BaseColors.primaryColor : BaseColors.txtFiledBorderColor, fontSize: toggleButtonTs,
-                            fontWeight: controller.selectedIndex1.value == 1?FontWeight.bold:FontWeight.w400),),
+                )),
+                SizedBox(
+                  width: 2.w,
+                ),
+                Obx(() => Flexible(
+                  flex: 1,
+                  child: GestureDetector(
+                    onTap: (){
+                      controller.selectedIndex1.value = 1;
+                      controller.getNotebookNotes();
+                    },
+                    child: Container(
+                      height: 40.0,
+                      width: getWidth(context) * 50 / 100,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: controller.selectedIndex1.value == 1 ? BaseColors.backgroundColor : BaseColors.txtFieldTextColor,
+                          border: Border.all(
+                              color: controller.selectedIndex1.value == 1 ? Colors.transparent : BaseColors.txtFiledBorderColor
+                          ),
+                          boxShadow: [
+                            if(controller.selectedIndex1.value == 1)
+                              const BoxShadow(
+                                  color: BaseColors.darkShadowColor,
+                                  spreadRadius: 1.0,
+                                  blurRadius: 2.0,
+                                  offset: Offset(0, 3)
+                              )
+                          ],
+                          borderRadius: BorderRadius.circular(10)
                       ),
+                      child: Text("Need Improvement", style: Style.montserratBoldStyle().copyWith(color: controller.selectedIndex1.value == 1 ? BaseColors.primaryColor : BaseColors.txtFiledBorderColor, fontSize: toggleButtonTs,
+                          fontWeight: controller.selectedIndex1.value == 1?FontWeight.bold:FontWeight.w400),),
                     ),
-                  )),
-                ],
-              ),
-              SizedBox(
-                height: 2.h,
-              ),
-              Obx(()=>(controller.notebookList?.length??0) == 0
-                  ? BaseNoData(topMargin: Get.height/4)
-                  : ListView.builder(
-                  itemCount: controller.notebookList?.length??0,
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 10.0),
-                      child: Card(
-                        elevation: 3.0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(15.sp),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      addText("Title: ", 16.sp, BaseColors.textBlackColor, FontWeight.w700),
-                                      addText(controller.notebookList?[index].title??na,
-                                          16.sp, BaseColors.primaryColor, FontWeight.w700),
-                                    ],
-                                  ),
-                                  Visibility(
-                                    visible: (userId) == (controller.notebookList?[index].createdBy?.sId??""),
-                                    child: Row(
-                                      children: [
-                                        GestureDetector(
-                                          onTap: (){
-                                            Get.to(AddNoteScreen(isUpdating: true,data: controller.notebookList?[index]));
-                                          },
-                                          child: Image.asset(
-                                            editPng,
-                                            color: BaseColors.primaryColor,
-                                            height: 18.sp,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 5.w,
-                                        ),
-                                        GestureDetector(
-                                          onTap: (){
-                                            BaseOverlays().showReasonDeleteDialog(
-                                                title: "Delete Note",
-                                                controller: controller.reasonController,
-                                                formKey: controller.formKey,
-                                                onProceed: (){
-                                                  controller.deleteNotebook(notebookId: controller.notebookList?[index].sId??"",index: index,reason: controller.reasonController.text.trim());
-                                                }
-                                            );
-                                          },
-                                          child: Icon(
-                                            CupertinoIcons.delete,
-                                            color: BaseColors.primaryColor,
-                                            size: 18.sp,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const Divider(),
-                              Row(
-                                children: [
-                                  buildInfoItems("Grade", controller.starData?.value.classes?.name??""),
-                                  SizedBox(
-                                    width: 10.w,
-                                  ),
-                                  Container(
-                                    height: 20.0,
-                                    width: 1,
-                                    color: BaseColors.borderColor,
-                                  ),
-                                  SizedBox(
-                                    width: 10.w,
-                                  ),
-                                  SvgPicture.asset("assets/images/Group (1).svg", height: 15,),
-                                  SizedBox(
-                                    width: 2.w,
-                                  ),
-                                  buildInfoItems("Date", formatBackendDate(controller.notebookList?[index].date??na)),
-                                  // buildInfoItems("Date", "07/07/2022"),
-                                ],
-                              ),
-                              const Divider(),
-                              buildInfoItems("Description", controller.notebookList?[index].description??na),
-                              const Divider(),
-                              buildInfoItems("Teacher", controller.notebookList?[index].createdBy?.name??""),
-                              const Divider(),
-                              buildInfoItems("Subject", controller.notebookList?[index].subject?.name??na),
-                          Visibility(
-                            visible: controller.selectedIndex1.value == 0,
+                  ),
+                )),
+              ],
+            ),
+            SizedBox(
+              height: 2.h,
+            ),
+            Obx(()=>Expanded(
+              child: SmartRefresher(
+                footer: const BasePaginationFooter(),
+                controller: controller.refreshController,
+                enablePullDown: enablePullToRefresh,
+                enablePullUp: true,
+                onLoading: (){
+                  controller.getNotebookNotes(refreshType: "load");
+                },
+                onRefresh: (){
+                  controller.getNotebookNotes(refreshType: "refresh");
+                },
+                child: (controller.notebookList?.length??0) == 0
+                    ? BaseNoData(topMargin: Get.height/4)
+                    : ListView.builder(
+                    itemCount: controller.notebookList?.length??0,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 10.0),
+                        child: Card(
+                          elevation: 3.0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(15.sp),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
                               children: [
-                                // const Divider(),
-                                // buildInfoItems("Comment", controller.notebookList?[index].comment??na),
-                                const Divider(),
-                                buildInfoItems("Recommendation", controller.notebookList?[index].recommandation??na),
-                                Visibility(
-                                  visible: (controller.notebookList?[index].comment??"").isNotEmpty,
-                                  child: const Divider(),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        addText("Title: ", 16.sp, BaseColors.textBlackColor, FontWeight.w700),
+                                        addText(controller.notebookList?[index].title??na,
+                                            16.sp, BaseColors.primaryColor, FontWeight.w700),
+                                      ],
+                                    ),
+                                    Visibility(
+                                      visible: (userId) == (controller.notebookList?[index].createdBy?.sId??""),
+                                      child: Row(
+                                        children: [
+                                          GestureDetector(
+                                            onTap: (){
+                                              Get.to(AddNoteScreen(isUpdating: true,data: controller.notebookList?[index]));
+                                            },
+                                            child: Image.asset(
+                                              editPng,
+                                              color: BaseColors.primaryColor,
+                                              height: 18.sp,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 5.w,
+                                          ),
+                                          GestureDetector(
+                                            onTap: (){
+                                              BaseOverlays().showReasonDeleteDialog(
+                                                  title: "Delete Note",
+                                                  controller: controller.reasonController,
+                                                  formKey: controller.formKey,
+                                                  onProceed: (){
+                                                    controller.deleteNotebook(notebookId: controller.notebookList?[index].sId??"",index: index,reason: controller.reasonController.text.trim());
+                                                  }
+                                              );
+                                            },
+                                            child: Icon(
+                                              CupertinoIcons.delete,
+                                              color: BaseColors.primaryColor,
+                                              size: 18.sp,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Visibility(
+                                const Divider(),
+                                Row(
+                                  children: [
+                                    buildInfoItems("Grade", controller.starData?.value.classes?.name??""),
+                                    SizedBox(
+                                      width: 10.w,
+                                    ),
+                                    Container(
+                                      height: 20.0,
+                                      width: 1,
+                                      color: BaseColors.borderColor,
+                                    ),
+                                    SizedBox(
+                                      width: 10.w,
+                                    ),
+                                    SvgPicture.asset("assets/images/Group (1).svg", height: 15,),
+                                    SizedBox(
+                                      width: 2.w,
+                                    ),
+                                    buildInfoItems("Date", formatBackendDate(controller.notebookList?[index].date??na)),
+                                    // buildInfoItems("Date", "07/07/2022"),
+                                  ],
+                                ),
+                                const Divider(),
+                                buildInfoItems("Description", controller.notebookList?[index].description??na),
+                                const Divider(),
+                                buildInfoItems("Teacher", controller.notebookList?[index].createdBy?.name??""),
+                                const Divider(),
+                                buildInfoItems("Subject", controller.notebookList?[index].subject?.name??na),
+                            Visibility(
+                              visible: controller.selectedIndex1.value == 0,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  // const Divider(),
+                                  // buildInfoItems("Comment", controller.notebookList?[index].comment??na),
+                                  const Divider(),
+                                  buildInfoItems("Recommendation", controller.notebookList?[index].recommandation??na),
+                                  Visibility(
                                     visible: (controller.notebookList?[index].comment??"").isNotEmpty,
-                                    child: buildInfoItems("Comment", controller.notebookList?[index].comment??na)),
-                                SizedBox(
-                                  height: 1.h,
+                                    child: const Divider(),
+                                  ),
+                                  Visibility(
+                                      visible: (controller.notebookList?[index].comment??"").isNotEmpty,
+                                      child: buildInfoItems("Comment", controller.notebookList?[index].comment??na)),
+                                  SizedBox(
+                                    height: 1.h,
+                                  ),
+                                ],
+                                 ),
                                 ),
                               ],
-                               ),
-                              ),
-                            ],
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  },
-                ),
+                      );
+                    },
+                  ),
               ),
-            ],
-          ),
+            ),
+            ),
+          ],
         ),
       ),
     );

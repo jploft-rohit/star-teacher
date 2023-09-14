@@ -6,7 +6,6 @@ import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
 
 import 'package:staff_app/utility/base_views/base_colors.dart';
-import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/view/awareness_courses_screen/start_quiz_popup.dart';
@@ -41,7 +40,7 @@ class _AwarenessCoursesScreenState extends State<AwarenessCoursesScreen> {
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 decoration: BoxDecoration(
                   color: BaseColors.backgroundColor,
                   borderRadius: BorderRadius.circular(5.0),
@@ -63,14 +62,14 @@ class _AwarenessCoursesScreenState extends State<AwarenessCoursesScreen> {
               ListView.builder(
                 itemCount: 2,
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: (){
                       showGeneralDialog(
                         context: context,
                         pageBuilder:  (context, animation, secondaryAnimation) {
-                          return StartQuizPopup();
+                          return const StartQuizPopup();
                         },
                       );
                     },
@@ -107,7 +106,7 @@ class _AwarenessCoursesScreenState extends State<AwarenessCoursesScreen> {
                             child: Column(
                               children: [
                                 buildInfoItems("Description", "New Uniform need to be purchase for sania we have new uniform for the Grade 6 Stars"),
-                                Divider(),
+                                const Divider(),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
@@ -128,7 +127,7 @@ class _AwarenessCoursesScreenState extends State<AwarenessCoursesScreen> {
                                     buildInfoItems("Due Date", "30/06/2022")
                                   ],
                                 ),
-                                Divider(),
+                                const Divider(),
                                 StepProgressView(
                                   width: MediaQuery.of(context).size.width,
                                   curStep: 4,

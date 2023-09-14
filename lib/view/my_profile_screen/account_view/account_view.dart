@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/view/account_deactivation_screen/activation_request_detail_screen.dart';
 import 'package:staff_app/view/account_deactivation_screen/deactivation_detail_screen.dart';
 import 'package:staff_app/view/annual_schedule/annual_schedule.dart';
@@ -40,10 +40,10 @@ class _AccountViewState extends State<AccountView> {
       translate(context).class_schedule,
       translate(context).attendance,
       translate(context).performance,
-      "Early Leave & Permission",
+      translate(context).early_leave_permission,
       translate(context).leave_request,
-      "My Notes",
-      "Annual Schedule",
+      translate(context).my_notes,
+      translate(context).annual_schedule,
       translate(context).online_class_request,
       translate(context).medical_records,
       translate(context).notification_settings,
@@ -53,7 +53,8 @@ class _AccountViewState extends State<AccountView> {
       translate(context).location,
       translate(context).wallet,
       translate(context).transportation,
-      "Account Activation/Deactivation",
+      translate(context).account_activation_deactivation,
+      translate(context).delete_account,
     ];
     return Scaffold(
       body: ListView.builder(
@@ -67,7 +68,7 @@ class _AccountViewState extends State<AccountView> {
               } else if(index == 1){
                 Get.to(const AttendanceScreen());
               } else if(index == 2){
-                Get.to(PerformanceScreen(index: 0));
+                Get.to(const PerformanceScreen(index: 0));
               } else if(index == 3){
                 Get.to(const EarlyLeavePermission());
               } /* else if(index == 4){
@@ -75,11 +76,11 @@ class _AccountViewState extends State<AccountView> {
               } */ else if(index == 4){
                 Get.to(const LeaveRequestScreen());
               } else if(index == 5){
-                Get.to(MyNotesScreen());
+                Get.to(const MyNotesScreen());
               } else if(index == 6){
-                Get.to(AnnualScheduleScreen());
+                Get.to(const AnnualScheduleScreen());
               } else if(index == 7){
-                Get.to(RequestOnlineClassesDetail());
+                Get.to(const RequestOnlineClassesDetail());
               } else if(index == 8){
                 Get.to(MedicalRecordView(headerData: myProfileController.response.value.data));
               } else if(index == 9){
@@ -94,20 +95,39 @@ class _AccountViewState extends State<AccountView> {
                 Get.to(const LocationScreen());
               } else if(index == 14){
                 Get.to(const WalletView());
-              } else if(index == 15){
+              }
+              else if(index == 15){
                 Get.to(const TransportationScreen());
-              }else if(index == 16){
+              }
+              else if(index == 16){
                 if ((myProfileController.response.value.data?.isDeactivateRequestData?.toString()??"") == "0") {
                   /// History Of Sent Request
-                  Get.to(ActivationRequestDetailScreen(data: myProfileController.response.value.data?.deactivateData,qrCode: myProfileController.response.value.data?.barcode??"",bloodType: myProfileController.response.value.data?.bloodType??""));
+                  Get.to(ActivationRequestDetailScreen(
+                      data: myProfileController.response.value.data?.deactivateData,
+                      qrCode: myProfileController.response.value.data?.barcode??"",
+                      bloodType: myProfileController.response.value.data?.bloodType??""),
+                  );
                 }else{
                   /// Send New Request For Activation
-                  Get.to(DeactivationDetailScreen(data: myProfileController.response.value.data?.deactivateData,qrCode: myProfileController.response.value.data?.barcode??"",bloodType: myProfileController.response.value.data?.bloodType??""));
+                  Get.to(DeactivationDetailScreen(
+                      data: myProfileController.response.value.data?.deactivateData,
+                      qrCode: myProfileController.response.value.data?.barcode??"",
+                      bloodType: myProfileController.response.value.data?.bloodType??""),
+                  );
                 }
+              } else if(index == 17){
+                // Get.to(const WalletView());
+                BaseOverlays().showConfirmationDialog(
+                  title: translate(context).are_you_sure_you_want_to_delete_this_account,
+                  onRightButtonPressed: (){
+                    BaseOverlays().dismissOverlay();
+                    myProfileController.deleteAccount();
+                  }
+                );
               }
             },
-            child: Padding(padding: EdgeInsets.only(bottom: 6),
-            child: BaseButton(title: list[index], onPressed: null,btnType: "iconButton")),
+            child: Padding(padding: const EdgeInsets.only(bottom: 6),
+            child: BaseButton(title: list[index], onPressed: null, btnType: "iconButton")),
           );
         },
       ),

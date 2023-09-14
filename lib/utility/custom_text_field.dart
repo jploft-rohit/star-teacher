@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
-import 'package:staff_app/Utility/sizes.dart';
+
 
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -13,8 +14,9 @@ class CustomTextField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final List<TextInputFormatter>? textInputFormatter;
   final TextInputType? textInputType;
-  final String? errorText;
+  final String? errorText, initialValue;
   final int? maxLine;
+  final FocusNode? focusNode;
   final bool? underLine;
   final int? maxLength;
   final EdgeInsetsGeometry? contentPadding;
@@ -29,7 +31,7 @@ class CustomTextField extends StatelessWidget {
   final String? Function(String?)? validator;
   final Color? hintTextColor;
 
-  CustomTextField({Key? key, required this.controller, this.obscureText, required this.hintText, this.textInputAction, this.textInputType, this.textInputFormatter, this.suffixIcon, this.prefixIcon, this.errorText, this.borderRadius, this.fillColor, this.txtColor, this.borderColor, this.maxLine, this.contentPadding, this.hintTxtSize, this.onTap, this.readOnly, this.hintTextColor, this.validator, this.maxLength, this.underLine = false, this.onChanged}) : super(key: key);
+  const CustomTextField({Key? key, required this.controller, this.obscureText, required this.hintText, this.textInputAction, this.textInputType, this.textInputFormatter, this.suffixIcon, this.prefixIcon, this.errorText, this.borderRadius, this.fillColor, this.txtColor, this.borderColor, this.maxLine, this.contentPadding, this.hintTxtSize, this.onTap, this.readOnly, this.hintTextColor, this.validator, this.maxLength, this.underLine = false, this.onChanged, this.focusNode, this.initialValue}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -38,6 +40,8 @@ class CustomTextField extends StatelessWidget {
       obscuringCharacter: "*",
       maxLines: maxLine??1,
       onTap: onTap,
+      focusNode: focusNode,
+      // initialValue: initialValue??"",
       readOnly: readOnly ?? false,
       textInputAction: textInputAction,
       keyboardType: textInputType,
@@ -52,8 +56,8 @@ class CustomTextField extends StatelessWidget {
         hintMaxLines: 2,
         hintText: hintText,
         errorText: errorText,
-        counter: SizedBox.shrink(),
-        counterStyle: TextStyle(fontSize: 0,color: Colors.transparent),
+        counter: const SizedBox.shrink(),
+        counterStyle: const TextStyle(fontSize: 0,color: Colors.transparent),
         counterText: "",
         semanticCounterText: "",
         suffixIconConstraints: const BoxConstraints(maxHeight: 45),
@@ -79,7 +83,7 @@ class CustomTextField extends StatelessWidget {
         ),
         errorBorder: OutlineInputBorder(
           // borderSide: BorderSide.none,
-          borderSide: BorderSide(color: Colors.red, width: 1.0),
+          borderSide: const BorderSide(color: Colors.red, width: 1.0),
           borderRadius: BorderRadius.circular(borderRadius??8.0),
         ),
         focusedErrorBorder: OutlineInputBorder(

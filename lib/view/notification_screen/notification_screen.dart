@@ -5,7 +5,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_toggle_tab_bar.dart';
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/notification_screen/controller/notification_ctrl.dart';
 import 'package:staff_app/view/notification_screen/notification_list_tile.dart';
@@ -26,13 +26,11 @@ class _NotificationScreenState extends State<NotificationScreen> with SingleTick
   @override
   void initState() {
     super.initState();
-    controller.getData(page: "1", limit: "10", type: "school");
+    controller.getData();
     tabController = TabController(length: 2, vsync: this)..addListener(() {
       if (!tabController.indexIsChanging) {
         controller.tabIndex.value = tabController.index;
-        controller.getData(page: "1",
-            limit: "10",
-            type: tabController.index == 0 ? "school" : "transportation");
+        controller.getData();
         setState(() {});
       }
     });

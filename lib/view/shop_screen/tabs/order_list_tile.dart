@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/base_views/base_no_data.dart';
+import 'package:staff_app/utility/base_views/base_pagination_footer.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
@@ -27,49 +30,88 @@ class _OrderListTileState extends State<OrderListTile> {
   ShopScreenCtrl controller = Get.find<ShopScreenCtrl>();
   @override
   Widget build(BuildContext context) {
-    return Obx(()=>ListView.builder(
-        shrinkWrap: true,
-        itemCount: controller.shopOrdersList?.length??0,
-        padding: EdgeInsets.zero,
-        itemBuilder: (context, index) {
-          controller.statusTime.value = ["\n","\n","\n"];
-          controller.statusTitle.value = ["Order Placed", "Confirmed", "Served"];
-          // controller.shopOrdersList?[index]?.progressStatus?.toList().asMap().forEach((loopIndex,element) {
-          //   controller.statusTime[loopIndex] = (getFormattedTimeWithMonth(element.timestamp??""));
-          //   stepperIndex = loopIndex;
-          // });
-          int stepperIndex = 1;
-          controller.shopOrdersList?[index]?.progressStatus?.toList().asMap().forEach((loopIndex,element) {
-            if (element.name.toString().toLowerCase() != "rejected" && element.name.toString().toLowerCase() != "cancelled" && element.name.toString().toLowerCase() != "returned") {
-              if (element.isReached.toString() == "true") {
-                controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
-                controller.statusTime.add(getFormattedTimeWithMonth(element.updatedAt??""));
-                stepperIndex = (loopIndex+1);
-              }
-            }else{
-              if (element.isReached.toString() == "true") {
-                controller.statusTime.clear();
-                controller.statusTitle.clear();
-                controller.statusTitle.add(toBeginningOfSentenceCase(controller.shopOrdersList?[index]?.progressStatus?[0].name??"")??"");
-                controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
-                controller.statusTime.add(getFormattedTimeWithMonth(controller.shopOrdersList?[index]?.progressStatus?[0].updatedAt??""));
-                controller.statusTime.add(getFormattedTimeWithMonth(element.updatedAt??""));
-                if (element.updatedAt.toString().isNotEmpty) {
+    return Obx(()=> SmartRefresher(
+      footer: const BasePaginationFooter(),
+      controller: controller.refreshController,
+      enablePullDown: enablePullToRefresh,
+      enablePullUp: true,
+      onLoading: (){
+        controller.getData(refreshType: "load");
+      },
+      onRefresh: (){
+        controller.getData(refreshType: "refresh");
+      },
+      child: (controller.shopOrdersList?.length??0) == 0
+          ? const BaseNoData()
+          : ListView.builder(
+          shrinkWrap: true,
+          itemCount: controller.shopOrdersList?.length??0,
+          padding: EdgeInsets.zero,
+          itemBuilder: (context, index) {
+            controller.statusTime.value = [];
+            controller.statusTitle.value = [];
+            // controller.shopOrdersList?[index]?.progressStatus?.toList().asMap().forEach((loopIndex,element) {
+            //   controller.statusTime[loopIndex] = (getFormattedTimeWithMonth(element.timestamp??""));
+            //   stepperIndex = loopIndex;
+            // });
+            int stepperIndex = 1;
+            controller.shopOrdersList?[index]?.progressStatus?.toList().asMap().forEach((loopIndex,element) {
+              if (element.name.toString().toLowerCase() != "rejected" && element.name.toString().toLowerCase() != "cancelled" && element.name.toString().toLowerCase() != "returned") {
+                  controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
+                  controller.statusTime.add(getFormattedTimeWithMonth(element.updatedAt??""));
                   stepperIndex = (loopIndex+1);
+              }else{
+                if ((element.updatedAt??"").isNotEmpty) {
+                  controller.statusTime.clear();
+                  controller.statusTitle.clear();
+                  controller.statusTitle.add(toBeginningOfSentenceCase(controller.shopOrdersList?[index]?.progressStatus?[0].name??"")??"");
+                  controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
+                  controller.statusTime.add(getFormattedTimeWithMonth(controller.shopOrdersList?[index]?.progressStatus?[0].updatedAt??""));
+                  controller.statusTime.add(getFormattedTimeWithMonth(element.updatedAt??""));
+                  if (element.updatedAt.toString().isNotEmpty) {
+                    stepperIndex = (loopIndex+1);
+                  }
                 }
               }
-            }
-          });
-          return buildCanteenThisWeekOrderBox(context, index, stepperIndex: stepperIndex);
-        },
-      ),
+             },
+            );
+
+            // int stepperIndex = -5;
+            // controller.statusTime.value = [];
+            // controller.statusTitle.value = [];
+            // controller.shopOrdersList?[index]?.progressStatus?.toList().asMap().forEach((loopIndex,element) {
+            //   if (element.name.toString().toLowerCase() != "cancelled") {
+            //     controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
+            //     controller.statusTime.add(getFormattedTimeWithMonth(element.updatedAt??""));
+            //     if (element.isReached.toString() == "true") {
+            //       stepperIndex = (loopIndex+1);
+            //     }
+            //   }else{
+            //     if ((element.updatedAt??"").toString().isNotEmpty) {
+            //       controller.statusTime.value = [];
+            //       controller.statusTitle.value = [];
+            //       controller.statusTitle.add(toBeginningOfSentenceCase(controller.shopOrdersList?[index]?.progressStatus?[0].name??"")??"");
+            //       controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
+            //       controller.statusTime.add(getFormattedTimeWithMonth(controller.shopOrdersList?[index]?.progressStatus?[0].updatedAt??""));
+            //       controller.statusTime.add(getFormattedTimeWithMonth(element.updatedAt??""));
+            //       if (element.isReached.toString() == "true") {
+            //         stepperIndex = (loopIndex+1);
+            //       }
+            //     }
+            //   }
+            // },
+            // );
+            return buildCanteenThisWeekOrderBox(context, index, stepperIndex: stepperIndex);
+          },
+        ),
+    ),
     );
   }
 
   Widget buildCanteenThisWeekOrderBox(context, index,{required int stepperIndex}) {
     return Container(
       alignment: Alignment.topLeft,
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 2),
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 2),
       width: 100.w,
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
       decoration: BoxDecoration(
@@ -148,9 +190,9 @@ class _OrderListTileState extends State<OrderListTile> {
 
             ],
           ),
-          Divider(),
+          const Divider(),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
             child: StepProgressView(
               width: MediaQuery.of(context).size.width,
               curStep: stepperIndex,

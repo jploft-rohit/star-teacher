@@ -48,7 +48,7 @@ class _LeaveBalancePopupState extends State<LeaveBalancePopup> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(""),
+                    const Text(""),
                     Text(translate(context).leave_balance, style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: Colors.black),),
                     GestureDetector(
                       onTap: (){
@@ -80,9 +80,9 @@ class _LeaveBalancePopupState extends State<LeaveBalancePopup> {
                     ],
                   ),
                 ),
-                Divider(),
+                const Divider(),
                 Obx(()=> controller.isLeaveBalanceLoading.value
-                      ? BaseLoader()
+                      ? const BaseLoader()
                       : ListView.builder(
                         itemCount: controller.leaveBalanceList?.length??0,
                         scrollDirection: Axis.vertical,
@@ -108,30 +108,30 @@ class _LeaveBalancePopupState extends State<LeaveBalancePopup> {
                                           Text(controller.leaveBalanceList?[index].leaveType?.name??"", style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
                                           SizedBox(width: 2.w),
                                           JustTheTooltip(
+                                            triggerMode: TooltipTriggerMode.tap,
+                                            tailBaseWidth: 10,
+                                            tailLength: 7,
+                                            content: Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                              child: Text(controller.leaveBalanceList?[index].leaveType?.description??"N/A",
+                                              ),
+                                            ),
                                             child: Material(
                                               color: Colors.white,
                                               shape: const CircleBorder(),
                                               elevation: 4.0,
                                               child: SvgPicture.asset("assets/images/information-button(1) 1.svg"),
                                             ),
-                                            triggerMode: TooltipTriggerMode.tap,
-                                            tailBaseWidth: 10,
-                                            tailLength: 7,
-                                            content: Padding(
-                                              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                                              child: Text(controller.leaveBalanceList?[index].leaveType?.description??"N/A",
-                                              ),
-                                            ),
                                           ),
                                         ],
                                       ),
-                                      Text(controller.leaveBalanceList?[index].totalLeave??"N/A", style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
-                                      Text(controller.leaveBalanceList?[index].remainLeave??"N/A", style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
+                                      Text(controller.leaveBalanceList?[index].allocated?.toString()??"N/A", style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
+                                      Text(controller.leaveBalanceList?[index].remaining?.toString()??"N/A", style: Style.montserratRegularStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
                                     ]),
                               ],
                             ),
                           ),
-                          Divider()
+                          const Divider()
                         ],
                       );
                     },

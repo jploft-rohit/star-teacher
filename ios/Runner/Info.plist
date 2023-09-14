@@ -4,8 +4,6 @@
 <dict>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
-	<key>UISupportsDocumentBrowser</key>
-    <true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -18,39 +16,69 @@
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>Teacher</string>
+	<key>NSFaceIDUsageDescription</key>
+    <string>This app using face lock security for app entry</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
-	<key>CFBundleShortVersionString</key>
+    <key>CFBundleShortVersionString</key>
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+    <false/>
+	<key>FDAllFilesDownloadedMessage</key>
+	<string>All files have been downloaded</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>This app needs camera access to scan QR codes</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>This app needs access to location when open and in the background.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This app needs access to location when in the background.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app needs access location when open.</string>
+	<string>This app needs access to location in the background.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>MyApp uses the microphone to record your speech and convert it to text.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app requires access to the camera.</string>
+	<string>This app requires access to the photo library.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+		<string>fetch</string>
+		<string>processing</string>
+		<string>remote-notification</string>
+		<string>voip</string>
+	</array>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+    <array>
+        <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+    </array>
+	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
-	<key>UIStatusBarHidden</key>
-	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
@@ -59,5 +87,4 @@
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
 </dict>
-
 </plist>

@@ -11,7 +11,7 @@ import 'package:staff_app/utility/base_views/base_textformfield.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/rating_screens/rating_screen_ctrl.dart';
@@ -72,7 +72,7 @@ class _RatingScreenState extends State<RatingScreen> {
                       borderRadius: BorderRadius.circular(15.0),
                     ),
                     child: BaseImageNetwork(
-                      link: widget.title == "Driver" ? controller.tripData.value.driverUser?.profilePic??"" : widget.title == "Supervisor" ? controller.tripData.value.supervisorUser?.profilePic??"" : controller.tripData.value.bus?.image??"",
+                      link: widget.title == "Driver" ? controller.tripData.value?.driverUser?.profilePic??"" : widget.title == "Supervisor" ? controller.tripData.value?.supervisorUser?.profilePic??"" : controller.tripData.value?.bus?.image??"",
                       errorWidget: SvgPicture.asset(widget.title == "Staff"
                           ? manSvg
                           : widget.title != "Bus"
@@ -89,23 +89,23 @@ class _RatingScreenState extends State<RatingScreen> {
                       children: [
                         /// Drive
                         if (widget.title == "Driver") ...[
-                          buildInfoItems(translate(context).name, controller.tripData.value.driverUser?.name??"N/A"),
+                          buildInfoItems(translate(context).name, controller.tripData.value?.driverUser?.name??"N/A"),
                           SizedBox(height: .5.h),
                           buildInfoItems(translate(context).designation, "Bus Driver"),
                         ]
                         /// Supervisor
                         else if (widget.title == "Supervisor") ...[
-                          buildInfoItems(translate(context).name, controller.tripData.value.supervisorUser?.name??"N/A"),
+                          buildInfoItems(translate(context).name, controller.tripData.value?.supervisorUser?.name??"N/A"),
                           SizedBox(height: .5.h),
                           buildInfoItems(translate(context).designation, "Supervisor"),
                         ]
                         /// Bus
                         else ...[
-                          buildInfoItems(translate(context).bus_id, "#${controller.tripData.value.bus?.school?.schoolId.toString()??"N/A"}"),
+                          buildInfoItems(translate(context).bus_id, "#${controller.tripData.value?.bus?.school?.schoolId.toString()??"N/A"}"),
                           SizedBox(height: .5.h),
-                          buildInfoItems(translate(context).bus_plate, controller.tripData.value.bus?.plateNo.toString()??""),
+                          buildInfoItems(translate(context).bus_plate, controller.tripData.value?.bus?.plateNo.toString()??""),
                           SizedBox(height: .5.h),
-                          buildInfoItems(translate(context).school_id, "#${controller.tripData.value.bus?.school?.schoolId.toString()??"N/A"}"),
+                          buildInfoItems(translate(context).school_id, "#${controller.tripData.value?.bus?.school?.schoolId.toString()??"N/A"}"),
                         ]
                       ],
                     ),

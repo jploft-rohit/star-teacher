@@ -22,6 +22,7 @@ class TopupYourFamilyPopup extends StatefulWidget {
 class _TopupYourFamilyPopupState extends State<TopupYourFamilyPopup> {
   final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
   TextEditingController amtCtrl = TextEditingController();
+  bool isPaymentButtonEnable = true;
   StripeController stripeController = Get.put(StripeController());
   WalletController controller = Get.put(WalletController());
   var formKey = GlobalKey<FormState>();
@@ -143,14 +144,20 @@ class _TopupYourFamilyPopupState extends State<TopupYourFamilyPopup> {
                           borderRadius: 20,
                           onPressed: (){
                             if (formKey.currentState?.validate()??false) {
-                              controller.selectedAmount.value = int.parse(amtCtrl.text.trim());
-                              stripeController.makePayment(controller.selectedAmount.value.toString()).then((value) {
-                                if (value) {
-                                  controller.addWalletMoney();
-                                }
-                              });
+                              if (isPaymentButtonEnable) {
+                                isPaymentButtonEnable = false;
+                                controller.selectedAmount.value = int.parse(amtCtrl.text.trim());
+                                Future.delayed(const Duration(seconds: 3), () {
+                                  isPaymentButtonEnable = true;
+                                });
+                                stripeController.makePayment(controller.selectedAmount.value.toString()).then((value) {
+                                  if (value) {
+                                    controller.addWalletMoney();
+                                  }
+                                 },
+                                );
+                              }
                               // Get.back();
-
                             }
                           },
                         ),

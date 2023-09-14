@@ -104,5 +104,6 @@ class BaseSharedPreference{
     final SharedPreferences prefs = await _prefs;
     prefs.remove(SpKeys().isLoggedIn);
     prefs.remove(SpKeys().apiToken);
+    prefs.remove(SpKeys().isBiometricEnable);
   }
 }

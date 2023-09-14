@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'dart:ui' as ui;
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/responses_model/medical_record_responses/disease_model.dart';
 import 'package:staff_app/backend/responses_model/medical_record_responses/drop_down_model.dart';
 import 'package:staff_app/backend/responses_model/medical_record_responses/medical_record_model.dart';
@@ -14,7 +16,9 @@ import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
 import 'package:staff_app/utility/base_views/base_icons.dart';
 import 'package:staff_app/utility/base_views/base_image_network.dart';
 import 'package:staff_app/utility/base_views/base_loader.dart';
+import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/utility/base_views/base_pagination_footer.dart';
 import 'package:staff_app/utility/base_views/base_qr.dart';
 import 'package:staff_app/utility/base_views/textfieldwidget.dart';
 import 'package:staff_app/utility/constant_images.dart';
@@ -25,6 +29,8 @@ import 'package:staff_app/view/my_profile_screen/new_medical_report_screen/contr
 import '../../../utility/base_utility.dart';
 import '../../../utility/images_icon_path.dart';
 import '../../../utility/sizes.dart';
+
+
 
 class MedicalRecordView extends StatefulWidget {
   final Data? headerData;
@@ -65,167 +71,179 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
             );
           }),
         )
-            : SizedBox.shrink(),
+            : const SizedBox.shrink(),
       ),
       backgroundColor: BaseColors.white,
-      appBar: BaseAppBar(title: 'Medical Records'),
+      appBar: const BaseAppBar(title: 'Medical Records'),
       body: Obx(
-            () => controller.loading.value
-            ? BaseLoader()
-            : SingleChildScrollView(
+            () => SmartRefresher(
+              footer: const BasePaginationFooter(),
+              controller: controller.refreshController,
+              enablePullDown: enablePullToRefresh,
+              enablePullUp: true,
+              onLoading: (){
+                controller.getMedicalRecordList(refreshType: "load");
+              },
+              onRefresh: (){
+                controller.getMedicalRecordList(refreshType: "refresh");
+              },
+              child: controller.loading.value
+              ? const BaseLoader()
+              : SingleChildScrollView(
           child: Column(
-            children: [
-              Stack(
-                children: [
-                  Container(
-                    margin: marginSymetric(20, 4),
-                    width: 100.w,
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: BaseColors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                          color: BaseColors.lightGreyColor),
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.center,
-                              children: [
-                                SizedBox(height:1.h),
-                                GestureDetector(
-                                  onTap: () {
-                                    // Get.toNamed(Routes.starProfileView);
-                                    // showStarRatingDialogue(context);
-                                  },
-                                  child: Container(
-                                    height: 8.h,
-                                    width: 8.h,
-                                    padding: marginSymetric(6, 6),
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(15),
-                                        border: Border.all(color: BaseColors.primaryColor),
-                                    ),
-                                    child: BaseImageNetwork(
-                                      link: myProfileCtrl.response.value.data?.profilePic??"",
-                                      errorWidget: SvgPicture.asset(manSvg),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height:1.h),
-                              ],
-                            ),
-                            SizedBox(width:1.5.h),
-                            Expanded(
-                              child: Column(
+              children: [
+                Stack(
+                  children: [
+                    Container(
+                      margin: marginSymetric(20, 4),
+                      width: 100.w,
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: BaseColors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                            color: BaseColors.lightGreyColor),
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
                                 crossAxisAlignment:
-                                CrossAxisAlignment.start,
+                                CrossAxisAlignment.center,
                                 children: [
-                                  SizedBox(height:1.5.h),
-                                  addText(
-                                      myProfileCtrl.response.value.data?.name ?? 'N/A',
-                                      detailValueTs,
-                                      BaseColors.primaryColor,
-                                      FontWeight.w700,
+                                  SizedBox(height:1.h),
+                                  GestureDetector(
+                                    onTap: () {
+                                      // Get.toNamed(Routes.starProfileView);
+                                      // showStarRatingDialogue(context);
+                                    },
+                                    child: Container(
+                                      height: 8.h,
+                                      width: 8.h,
+                                      padding: marginSymetric(6, 6),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(15),
+                                          border: Border.all(color: BaseColors.primaryColor),
+                                      ),
+                                      child: BaseImageNetwork(
+                                        link: myProfileCtrl.response.value.data?.profilePic??"",
+                                        errorWidget: SvgPicture.asset(manSvg),
+                                      ),
+                                    ),
                                   ),
-                                  // SizedBox(height:0.5.h),
-                                  buildDivider3(),
-                                  addText(
-                                      '#${myProfileCtrl.response.value.data?.emirateId?.toString() ?? 'N/A'}',
-                                      detailValueTs,
-                                      BaseColors.primaryColor,
-                                      FontWeight.w700),
-                                  // SizedBox(height:0.5.h),
-                                  buildDivider3(),
-                                  Row(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.end,
-                                    children: [
-                                      addText(
-                                          'Blood Type : ',
-                                          detailLabelTs,
-                                          BaseColors.black,
-                                          FontWeight.w400),
-                                      addText(
-                                          myProfileCtrl.response.value.data?.bloodType ?? 'N/A',
-                                          detailValueTs,
-                                          BaseColors.primaryColor,
-                                          FontWeight.w700),
-                                    ],
-                                  )
+                                  SizedBox(height:1.h),
                                 ],
                               ),
-                            ),
-                            SizedBox(width:2.h),
-                            Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.center,
-                              children: [
-                                // BaseButton(
-                                //     btnType: 'small',
-                                //     title: 'ACTIVE',
-                                //     onPressed: () {}),
-                                SizedBox(height:1.h),
-                                GestureDetector(
-                                  onTap: () {
-                                    showScanQrDialogueMedical(context, barcode: controller
-                                        .starProfile?.barcode ??
-                                        '');
-                                  },
-                                  child: BaseQr(
-                                    data: controller.starProfile?.barcode ?? '',
-                                  ),
+                              SizedBox(width:1.5.h),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(height:1.5.h),
+                                    addText(
+                                        myProfileCtrl.response.value.data?.name ?? 'N/A',
+                                        detailValueTs,
+                                        BaseColors.primaryColor,
+                                        FontWeight.w700,
+                                    ),
+                                    // SizedBox(height:0.5.h),
+                                    buildDivider3(),
+                                    addText(
+                                        '#${myProfileCtrl.response.value.data?.emirateId?.toString() ?? 'N/A'}',
+                                        detailValueTs,
+                                        BaseColors.primaryColor,
+                                        FontWeight.w700),
+                                    // SizedBox(height:0.5.h),
+                                    buildDivider3(),
+                                    Row(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.end,
+                                      children: [
+                                        addText(
+                                            'Blood Type : ',
+                                            detailLabelTs,
+                                            BaseColors.black,
+                                            FontWeight.w400),
+                                        addText(
+                                            myProfileCtrl.response.value.data?.bloodType ?? 'N/A',
+                                            detailValueTs,
+                                            BaseColors.primaryColor,
+                                            FontWeight.w700),
+                                      ],
+                                    )
+                                  ],
                                 ),
-                              ],
-                            ),
-                            SizedBox(width:1.h)
-                          ],
-                        ),
-                        // SizedBox(height:1.h),
-                      ],
+                              ),
+                              SizedBox(width:2.h),
+                              Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.center,
+                                children: [
+                                  // BaseButton(
+                                  //     btnType: 'small',
+                                  //     title: 'ACTIVE',
+                                  //     onPressed: () {}),
+                                  SizedBox(height:1.h),
+                                  GestureDetector(
+                                    onTap: () {
+                                      showScanQrDialogueMedical(context, barcode: controller
+                                          .starProfile?.barcode ??
+                                          '');
+                                    },
+                                    child: BaseQr(
+                                      data: controller.starProfile?.barcode ?? '',
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(width:1.h)
+                            ],
+                          ),
+                          // SizedBox(height:1.h),
+                        ],
+                      ),
                     ),
-                  ),
-                  // Positioned(
-                  //   right: 0,
-                  //   top: 5.0.h,
-                  //   child: GestureDetector(
-                  //     onTap: () {
-                  //       // showStarRatingDialogue(context,
-                  //       //     id: controller.starProfile!.sId!);
-                  //     },
-                  //     child: Container(
-                  //         margin: EdgeInsets.only(right: 5),
-                  //         padding: EdgeInsets.all(5),
-                  //         decoration: BoxDecoration(
-                  //             color: Colors.white,
-                  //             borderRadius: BorderRadius.circular(20),
-                  //             boxShadow: kElevationToShadow[4]),
-                  //         child: SvgPicture.asset(StarIcons.star2)),
-                  //   ),
-                  // ),
-                ],
-              ),
-              SizedBox(height: 2.h),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: buildMedicalSurvey(context),
-              ),
-              SizedBox(height: 2.h),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: buildMedicalRecords(context),
-              ),
-              SizedBox(
-                height: 12.h,
-              ),
-            ],
+                    // Positioned(
+                    //   right: 0,
+                    //   top: 5.0.h,
+                    //   child: GestureDetector(
+                    //     onTap: () {
+                    //       // showStarRatingDialogue(context,
+                    //       //     id: controller.starProfile!.sId!);
+                    //     },
+                    //     child: Container(
+                    //         margin: EdgeInsets.only(right: 5),
+                    //         padding: EdgeInsets.all(5),
+                    //         decoration: BoxDecoration(
+                    //             color: Colors.white,
+                    //             borderRadius: BorderRadius.circular(20),
+                    //             boxShadow: kElevationToShadow[4]),
+                    //         child: SvgPicture.asset(StarIcons.star2)),
+                    //   ),
+                    // ),
+                  ],
+                ),
+                SizedBox(height: 2.h),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: buildMedicalSurvey(context),
+                ),
+                SizedBox(height: 2.h),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: buildMedicalRecords(context),
+                ),
+                SizedBox(
+                  height: 12.h,
+                ),
+              ],
           ),
         ),
+            ),
       ),
     );
   }
@@ -292,11 +310,11 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Obx(() => Visibility(
-                              child: saveButton(context, () {}),
                               visible: controller.selectindex.value == 1,
+                              child: saveButton(context, () {}),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 5,
                           ),
                           Obx(() => Icon(
@@ -320,7 +338,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                           Align(
                             alignment: isRTL ? Alignment.topRight : Alignment.topLeft,
                             child: addText(
-                                'Student Medical History',
+                                'Medical History',
                                 getNormalTextFontSIze(),
                                 BaseColors.primaryColor,
                                 FontWeight.w700),
@@ -367,8 +385,9 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                           SizedBox(
                             height: 2.h,
                           ),
+                          (controller.diseases.value?.infection?.length??0) == 0 ? BaseNoData(topMargin: 2.5.h,) :
                           ListView.builder(
-                            itemCount: controller.diseases.value?.infection?.length,
+                            itemCount: controller.diseases.value?.infection?.length??0,
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
@@ -462,7 +481,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                           ) : BaseIcons().view(
                                               topMargin: 2.h,
                                               concatBaseUrl: false,
-                                              url: 'https://stars.tasksplan.com:4000/star-backend/${controller.diseases.value?.infection?[index].document??""}',
+                                              url: '${ApiEndPoints().concatBaseUrl}/star-backend/${controller.diseases.value?.infection?[index].document??""}',
                                           ),
                                         ),
                                       ),
@@ -473,13 +492,16 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                             },
                           ),
                           SizedBox(height:2.h),
-                          Align(
-                            alignment: Alignment.center,
-                            child: GestureDetector(
-                              onTap: () {},
-                              child: saveButton(context, () {
-                                controller.saveDiseaseDeatils();
-                              }),
+                          Visibility(
+                            visible: (controller.diseases.value?.infection?.length??0) != 0,
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: GestureDetector(
+                                onTap: () {},
+                                child: saveButton(context, () {
+                                  controller.saveDiseaseDeatils();
+                                }),
+                              ),
                             ),
                           ),
                           SizedBox(height:2.0.h),
@@ -523,14 +545,15 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                           SizedBox(
                             height: 2.h,
                           ),
-                          ListView.builder(
-                            itemCount:
-                            controller.diseases.value?.condition?.length,
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return Container(
+                          (controller.diseases.value?.condition?.length??0) == 0
+                              ? BaseNoData(topMargin: 2.5.h)
+                              : ListView.builder(
+                                itemCount: controller.diseases.value?.condition?.length??0,
+                                scrollDirection: Axis.vertical,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                return Container(
                                 color: Colors.white,
                                 child: Table(
                                   border: TableBorder.all(
@@ -636,13 +659,17 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                             },
                           ),
                           SizedBox(height:2.h),
-                          Align(
-                            alignment: Alignment.center,
-                            child: GestureDetector(
-                              onTap: () {},
-                              child: saveButton(context, () {
-                                controller.saveDiseaseDeatils();
-                              }),
+                          Visibility(
+                            visible: (controller.diseases.value?.condition?.length??0) != 0,
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: GestureDetector(
+                                onTap: () {},
+                                child: saveButton(context, () {
+                                  controller.saveDiseaseDeatils();
+                                 },
+                                ),
+                              ),
                             ),
                           ),
                           SizedBox(height:2.h),
@@ -655,23 +682,26 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                 FontWeight.bold),
                           ),
                           SizedBox(height:1.h),
-                          ListView.builder(
-                            itemCount: controller.diseases.value?.history?.length,
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return _buildRow2(controller.diseases.value?.history?[index]??DiseaseData());
-                            },
-                          ),
+                          (controller.diseases.value?.history?.length??0) == 0
+                              ? BaseNoData(topMargin: 2.h, bottomMargin: 2.h)
+                              : ListView.builder(
+                                itemCount: controller.diseases.value?.history?.length??0,
+                                scrollDirection: Axis.vertical,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                 return _buildRow2(controller.diseases.value?.history?[index]??DiseaseData());
+                                },
+                             ),
+                          buildDivider(),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               addText('Currently using :', detailValueTs,
                                   BaseColors.black, FontWeight.w400),
                               Expanded(
-                                child: ListView.builder(
-                                  physics: NeverScrollableScrollPhysics(),
+                                child: (controller.currentlyUsingList.length) == 0 ? const BaseNoData() : ListView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
                                   padding: EdgeInsets.zero,
                                   shrinkWrap: true,
                                   itemCount: controller.currentlyUsingList.length,
@@ -681,7 +711,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                         children: [
                                           Transform.scale(
                                             scale: 0.8,
-                                            child: Container(
+                                            child: SizedBox(
                                               width: 25,
                                               height: 20,
                                               child: Obx(
@@ -695,8 +725,8 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                                       .currentlyUsingList[
                                                   index]),
                                                   activeColor:
-                                                  Color(0xFFF7F7F7),
-                                                  checkColor: Color(0xFFC19444),
+                                                  const Color(0xFFF7F7F7),
+                                                  checkColor: const Color(0xFFC19444),
                                                   side: MaterialStateBorderSide.resolveWith((Set<MaterialState>states) {
                                                       if (states.contains(
                                                           MaterialState
@@ -748,11 +778,12 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                             child: saveButton(context, () async {
                               await controller.saveDiseaseDeatils();
                               Map<String, String> data = {};
-                              for (int i = 0;
-                              i <
-                                  controller.selectedCurrentlyUsingList.length;
-                              i++) {
-                                data['accessories[$i]'] = controller.selectedCurrentlyUsingList[i];
+                              if (controller.selectedCurrentlyUsingList.isEmpty) {
+                                data['accessories[]'] = '';
+                              }else{
+                                for (int i = 0; i < controller.selectedCurrentlyUsingList.length; i++) {
+                                  data['accessories[$i]'] = controller.selectedCurrentlyUsingList[i];
+                                }
                               }
                               controller.addMedicalSurvey(data);
                             }),
@@ -808,10 +839,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                           ),
                           buildDivider(),
                           SizedBox(
-                            height: 1.h,
-                          ),
-                          SizedBox(
-                            height: 1.h,
+                            height: 2.h,
                           ),
                           addText(
                               controller.medicalExaminationConsent,
@@ -824,11 +852,11 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                           ),
                           Row(
                             children: [
-                              Container(
+                              SizedBox(
                                 width: 25,
                                 child: Checkbox(
-                                  activeColor: Color(0xFFF7F7F7),
-                                  checkColor: Color(0xFFC19444),
+                                  activeColor: const Color(0xFFF7F7F7),
+                                  checkColor: const Color(0xFFC19444),
                                   side: MaterialStateBorderSide.resolveWith(
                                         (Set<MaterialState> states) {
                                       if (states.contains(MaterialState.selected)) {
@@ -856,15 +884,14 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                               ),
                             ],
                           ),
-                          // SizedBox(height:2.h),
+                          SizedBox(height:2.h),
                           // Row(
                           //   children: [
                           //     Row(
                           //       children: [
                           //         Obx(() => InkWell(
                           //           onTap: () {
-                          //             controller.isMedicalExmined.value =
-                          //             true;
+                          //             controller.isMedicalExmined.value = true;
                           //           },
                           //           child: SvgPicture.asset(
                           //             controller.isMedicalExmined.value
@@ -883,8 +910,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                           //       children: [
                           //         Obx(() => InkWell(
                           //           onTap: () {
-                          //             controller.isMedicalExmined.value =
-                          //             false;
+                          //             controller.isMedicalExmined.value = false;
                           //           },
                           //           child: SvgPicture.asset(
                           //             controller.isMedicalExmined.value
@@ -913,8 +939,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                           //       children: [
                           //         Obx(() => InkWell(
                           //           onTap: () {
-                          //             controller.isPresentinExam.value =
-                          //             true;
+                          //             controller.isPresentinExam.value = true;
                           //           },
                           //           child: SvgPicture.asset(
                           //             controller.isPresentinExam.value
@@ -924,8 +949,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                           //           ),
                           //         )),
                           //         SizedBox(width:0.5.h),
-                          //         addText('Yes', radioButtonTitleTs,
-                          //             BaseColors.black, FontWeight.w400)
+                          //         addText('Yes', radioButtonTitleTs, BaseColors.black, FontWeight.w400)
                           //       ],
                           //     ),
                           //     SizedBox(width:3.h),
@@ -933,8 +957,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                           //       children: [
                           //         Obx(() => InkWell(
                           //           onTap: () {
-                          //             controller.isPresentinExam.value =
-                          //             false;
+                          //             controller.isPresentinExam.value = false;
                           //           },
                           //           child: SvgPicture.asset(
                           //             controller.isPresentinExam.value
@@ -981,11 +1004,11 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Container(
+                              SizedBox(
                                 width: 25,
                                 child: Checkbox(
-                                  activeColor: Color(0xFFF7F7F7),
-                                  checkColor: Color(0xFFC19444),
+                                  activeColor: const Color(0xFFF7F7F7),
+                                  checkColor: const Color(0xFFC19444),
                                   side: MaterialStateBorderSide.resolveWith(
                                         (Set<MaterialState> states) {
                                       if (states
@@ -1020,47 +1043,45 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                               getSmallTextFontSIze() + 1,
                               BaseColors.black,
                               FontWeight.normal),
-                          // SizedBox(height: 2.h),
-                          // Row(
-                          //   crossAxisAlignment: CrossAxisAlignment.center,
-                          //   mainAxisAlignment: MainAxisAlignment.start,
-                          //   children: [
-                          //     Container(
-                          //       width: 25,
-                          //       child: Checkbox(
-                          //         activeColor: Color(0xFFF7F7F7),
-                          //         checkColor: Color(0xFFC19444),
-                          //         side: MaterialStateBorderSide.resolveWith(
-                          //               (Set<MaterialState> states) {
-                          //             if (states
-                          //                 .contains(MaterialState.selected)) {
-                          //               return const BorderSide(
-                          //                   color: Color(0xFFC19444));
-                          //             }
-                          //             return const BorderSide(
-                          //                 color: Color(0xFFC19444));
-                          //           },
-                          //         ),
-                          //         shape: RoundedRectangleBorder(
-                          //           borderRadius: BorderRadius.circular(5),
-                          //         ),
-                          //         value: controller
-                          //             .isMedicationPolicyChecked2.value,
-                          //         visualDensity: const VisualDensity(
-                          //             horizontal: -4, vertical: -4),
-                          //         onChanged: (bool? value) {
-                          //           controller.isMedicationPolicyChecked2
-                          //               .value = value!;
-                          //         },
-                          //       ),
-                          //     ),
-                          //     addText(
-                          //         'I Agree with',
-                          //         getSmallTextFontSIze() + 1,
-                          //         BaseColors.black,
-                          //         FontWeight.normal),
-                          //   ],
-                          // ),
+                          SizedBox(height: 2.h),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: 25,
+                                child: Checkbox(
+                                  activeColor: const Color(0xFFF7F7F7),
+                                  checkColor: const Color(0xFFC19444),
+                                  side: MaterialStateBorderSide.resolveWith(
+                                        (Set<MaterialState> states) {
+                                      if (states
+                                          .contains(MaterialState.selected)) {
+                                        return const BorderSide(
+                                            color: Color(0xFFC19444));
+                                      }
+                                      return const BorderSide(
+                                          color: Color(0xFFC19444));
+                                    },
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  value: controller.isMedicationPolicyChecked2.value,
+                                  visualDensity: const VisualDensity(
+                                      horizontal: -4, vertical: -4),
+                                  onChanged: (bool? value) {
+                                    controller.isMedicationPolicyChecked2.value = value??false;
+                                  },
+                                ),
+                              ),
+                              addText(
+                                  'I Agree with',
+                                  getSmallTextFontSIze() + 1,
+                                  BaseColors.black,
+                                  FontWeight.normal),
+                            ],
+                          ),
                           // addText(
                           //     controller.medicationPolicy2,
                           //     getSmallTextFontSIze() + 1,
@@ -1090,7 +1111,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                 Obx(() => yesNoButtons(
                                     context, controller.isAllergic1.value,
                                         () {
-                                      controller.isAllergic1.value = !controller.isAllergic1.value;
+                                      controller.isAllergic1.value = !(controller.isAllergic1.value);
                                     })),
                                 SizedBox(height:1.h),
                                 Visibility(
@@ -1135,11 +1156,11 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Container(
+                              SizedBox(
                                 width: 25,
                                 child: Checkbox(
-                                  activeColor: Color(0xFFF7F7F7),
-                                  checkColor: Color(0xFFC19444),
+                                  activeColor: const Color(0xFFF7F7F7),
+                                  checkColor: const Color(0xFFC19444),
                                   side: MaterialStateBorderSide.resolveWith(
                                         (Set<MaterialState> states) {
                                       if (states.contains(MaterialState.selected)) {
@@ -1171,10 +1192,9 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                               controller.sicknessPolicy,
                               getSmallTextFontSIze() + 1,
                               BaseColors.black,
-                              FontWeight.normal),
-                          SizedBox(
-                            height: 2.h,
+                              FontWeight.normal,
                           ),
+                          SizedBox(height: 2.h),
                           buildDivider(),
                           Align(
                             alignment: Alignment.center,
@@ -1184,17 +1204,16 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                 showSnackBar(
                                     success: false,
                                     message:
-                                    'Please accept the medication policy');
+                                    'Please accept the medication policy',
+                                );
                                 return;
                               } else if (controller.isMedicationPolicyChecked2.value == false) {
                                 showSnackBar(
                                     success: false,
-                                    message:
-                                    'Please accept the medication policy');
+                                    message: 'Please accept the medication policy',
+                                );
                                 return;
-                              } else if (controller
-                                  .isSicknessPolicyChecked.value ==
-                                  false) {
+                              } else if (controller.isSicknessPolicyChecked.value == false) {
                                 showSnackBar(
                                     success: false,
                                     message:
@@ -1208,7 +1227,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                 controller.isAllergic1.value.toString(),
                               };
                               if (controller.isAllergic1.value) {
-                                data['allergiName'] = controller.allergicMedicineController?.text;
+                                data['allergiName'] = controller.allergicMedicineController?.text??"";
                               }
                               controller.addMedicalSurvey(data);
                             }),
@@ -1232,12 +1251,12 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                           //   crossAxisAlignment: CrossAxisAlignment.start,
                           //   // mainAxisAlignment: MainAxisAlignment.start,
                           //   children: [
-                          //     Container(
+                          //     SizedBox(
                           //       // margin: EdgeInsets.only(bottom: 20),
                           //       width: 25,
                           //       child: Checkbox(
-                          //         activeColor: Color(0xFFF7F7F7),
-                          //         checkColor: Color(0xFFC19444),
+                          //         activeColor: const Color(0xFFF7F7F7),
+                          //         checkColor: const Color(0xFFC19444),
                           //         side: MaterialStateBorderSide.resolveWith(
                           //               (Set<MaterialState> states) {
                           //             if (states
@@ -1256,8 +1275,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                           //         visualDensity: const VisualDensity(
                           //             horizontal: -4, vertical: -4),
                           //         onChanged: (bool? value) {
-                          //           controller.isCertificateChecked.value =
-                          //           value!;
+                          //           controller.isCertificateChecked.value = value??false;
                           //         },
                           //       ),
                           //     ),
@@ -1282,7 +1300,9 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                           //         'Vaccination Doses',
                           //         getNormalTextFontSIze() - 1,
                           //         BaseColors.primaryColor,
-                          //         FontWeight.bold)),
+                          //         FontWeight.bold,
+                          //     ),
+                          // ),
                           // buildDivider(),
                           // Container(
                           //   color: Colors.white,
@@ -1480,18 +1500,16 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                           //   controller.notChildPhoto.value =
                           //   !controller.notChildPhoto.value;
                           // })),
-                          // SizedBox(height: 15),
-                          // addLeftText("is_the_star_allowed_to_use_the_school_canteen"),
-                          // SizedBox(height:0.8.h),
-                          // Obx(() => yesNoButtons(context,
-                          //     controller.isSchoolCanteenAllowed.value, () {
-                          //       controller.isSchoolCanteenAllowed.value =
-                          //       !controller.isSchoolCanteenAllowed.value;
-                          //     })),
+                          const SizedBox(height: 15),
+                          addLeftText("Do you want to use School Canteen Services? "),
+                          SizedBox(height:0.8.h),
+                          Obx(() => yesNoButtons(context,
+                              controller.isSchoolCanteenAllowed.value, () {
+                                controller.isSchoolCanteenAllowed.value = !controller.isSchoolCanteenAllowed.value;
+                              })),
                           SizedBox(height:2.0.h),
                           Visibility(
-                            visible:
-                            controller.isSchoolCanteenAllowed.value == true,
+                            visible: controller.isSchoolCanteenAllowed.value == true,
                             child: Card(
                               elevation: 5,
                               shape: RoundedRectangleBorder(
@@ -1511,14 +1529,11 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                         controller.isAllergic.value, () {controller.isAllergic.value = !controller.isAllergic.value;
                                         })),
                                     SizedBox(height:1.5.h),
-                                    Obx(
-                                          () => Visibility(
-                                        visible:
-                                        controller.isAllergic.value == true,
-                                        child: ListView.builder(
+                                    Obx(() => Visibility(
+                                        visible: controller.isAllergic.value == true,
+                                        child: (controller.foodList.length??0) == 0 ? const BaseNoData() : ListView.builder(
                                           padding: EdgeInsets.zero,
-                                          physics:
-                                          NeverScrollableScrollPhysics(),
+                                          physics: const NeverScrollableScrollPhysics(),
                                           shrinkWrap: true,
                                           itemCount: controller.foodList.length,
                                           itemBuilder: (context, index) =>
@@ -1528,7 +1543,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                                     children: [
                                                       Transform.scale(
                                                         scale: 0.8,
-                                                        child: Container(
+                                                        child: SizedBox(
                                                             width: 25,
                                                             height: 20,
                                                             child: Obx(
@@ -1536,27 +1551,16 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                                                 materialTapTargetSize:
                                                                 MaterialTapTargetSize.shrinkWrap,
                                                                 value: controller.selectedFoodList.contains(controller.foodList[index]),
-                                                                activeColor: Color(0xFFF7F7F7),
-                                                                checkColor: Color(0xFFC19444),
+                                                                activeColor: const Color(0xFFF7F7F7),
+                                                                checkColor: const Color(0xFFC19444),
                                                                 side: MaterialStateBorderSide.resolveWith((Set<MaterialState>states) {
-                                                                    if (states.contains(
-                                                                        MaterialState.selected)) {
-                                                                      return const BorderSide(
-                                                                          color: Color(
-                                                                              0xFFC19444));
+                                                                    if (states.contains(MaterialState.selected)) {
+                                                                      return const BorderSide(color: Color(0xFFC19444));
                                                                     }
-                                                                    return const BorderSide(
-                                                                        color: Color(
-                                                                            0xFFC19444));
+                                                                    return const BorderSide(color: Color(0xFFC19444));
                                                                   },
                                                                 ),
-                                                                shape:
-                                                                RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                      5),
-                                                                ),
+                                                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                                                                 onChanged: (value) {
                                                                   if (value??false) {
                                                                     controller.selectedFoodList.add(controller.foodList[index]);
@@ -1593,15 +1597,14 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                       };
                                       if (controller.isAllergic.value) {
                                         for (int i = 0;
-                                        i < controller
-                                            .selectedFoodList.length;
+                                        i < controller.selectedFoodList.length;
                                         i++) {
-                                          data['foods[$i]'] = controller
-                                              .selectedFoodList[i].sId;
+                                          data['foods[$i]'] = controller.selectedFoodList[i].sId;
                                         }
                                       }
                                       controller.addMedicalSurvey(data);
-                                    }),
+                                     },
+                                   ),
                                   ],
                                 ),
                               ),
@@ -1612,7 +1615,8 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                   ),
                 ),
               ],
-            )),
+            ),
+        ),
       ),
     );
   }
@@ -1663,7 +1667,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                           ListView.builder(
                             shrinkWrap: true,
                             padding: EdgeInsets.zero,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
                               List<String> stepperDates = [];
                               List<String> stepperTitles = [];
@@ -1692,7 +1696,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                               MedicalRecord medicalRecord = controller.medicalRecordList[index];
                               return Container(
                                 margin: EdgeInsets.only(bottom: 1.5.h),
-                                padding: EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
                                     color: BaseColors.white,
@@ -1705,6 +1709,20 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                       'Description : ',
                                       medicalRecord.description ?? 'N/A',
                                     ),
+                                    Visibility(
+                                      visible: (medicalRecord.rejectedReason??"").toString().isNotEmpty,
+                                      child: buildTextSpan(
+                                        'Reason : ',
+                                        medicalRecord.rejectedReason ?? 'N/A',
+                                      ),
+                                    ),
+                                    Visibility(
+                                      visible: (medicalRecord.comment??"").isNotEmpty,
+                                      child: buildTextSpan(
+                                        'Comment : ',
+                                        medicalRecord.comment ?? 'N/A',
+                                      ),
+                                    ),
                                     Row(
                                       children: [
                                         Expanded(
@@ -1716,7 +1734,8 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                                   getFormattedDate(medicalRecord.date ?? ''),
                                                   getNormalTextFontSIze() - 1,
                                                   BaseColors.primaryColor,
-                                                  FontWeight.w700),
+                                                  FontWeight.w700,
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -1729,7 +1748,8 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                                   getFormattedTime(medicalRecord.createdAt ?? ''),
                                                   getNormalTextFontSIze() - 1,
                                                   BaseColors.primaryColor,
-                                                  FontWeight.w700),
+                                                  FontWeight.w700,
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -1740,15 +1760,15 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                       visible: (medicalRecord.document??"").isNotEmpty,
                                       child: Row(
                                         children: [
-                                          Expanded(child: Text(medicalRecord.document?.split('/').last??"",style: TextStyle(fontSize: 11))),
+                                          Expanded(child: Text(medicalRecord.document?.split('/').last??"",style: const TextStyle(fontSize: 11))),
                                           BaseIcons().view(
-                                            url: "https://stars.tasksplan.com:4000/star-backend/${medicalRecord.document}",
+                                            url: "${ApiEndPoints().concatBaseUrl}/star-backend/${medicalRecord.document}",
                                             leftMargin: 3.w,
                                             concatBaseUrl: false,
                                           ),
                                           BaseIcons().download(onRightButtonPressed: (){
                                             BaseOverlays().dismissOverlay();
-                                            downloadFile(url: "https://stars.tasksplan.com:4000/star-backend/${medicalRecord.document}", concatBaseUrl: false);
+                                            downloadFile(url: "${ApiEndPoints().concatBaseUrl}/star-backend/${medicalRecord.document}", concatBaseUrl: false);
                                           },
                                             leftMargin: 3.w,
                                           ),
@@ -1851,7 +1871,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
+            SizedBox(
                 width: 11.h,
                 child: addText(label, textFormFieldLabelTs, Colors.black,
                     FontWeight.w700)),
@@ -1875,7 +1895,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                     controller: controller,
                     validator: validator,
                     fillColor: BaseColors.white3,
-                    hintColor: Color(0xffBECADA),
+                    hintColor: const Color(0xffBECADA),
                     borderRadius: BorderRadius.circular(4),
                     height: 45,
                     fontsize: textFormFieldHintTs,

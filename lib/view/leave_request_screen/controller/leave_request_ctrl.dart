@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart'as dio;
 import 'package:image_picker/image_picker.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
@@ -15,6 +16,9 @@ import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/storage/sp_keys.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
+
+import '../../../utility/sizes.dart';
 
 class LeaveRequestCtrl extends GetxController{
 
@@ -35,10 +39,17 @@ class LeaveRequestCtrl extends GetxController{
   Rx<TextEditingController> endDateController = TextEditingController().obs;
   Rx<TextEditingController> reasonController = TextEditingController().obs;
   Rx<TextEditingController> uploadController = TextEditingController().obs;
+  BaseCtrl baseCtrl = Get.find<BaseCtrl>();
+
+  /// Pagination
+  RxInt page = 1.obs;
+  final RefreshController refreshController = RefreshController(initialRefresh: false);
 
   @override
   void onInit() {
     super.onInit();
+    selectedSchoolId.value = baseCtrl.schoolListData.data?.data?.first.sId??"";
+    selectSchoolController.value.text = baseCtrl.schoolListData.data?.data?.first.name??"";
     get();
     getLeaveTypes();
   }
@@ -82,15 +93,34 @@ class LeaveRequestCtrl extends GetxController{
     }
   }
 
-  get(){
-    list?.value = [];
+  get({String? refreshType}){
+    if (refreshType == 'refresh' || refreshType == null) {
+      list?.clear();
+      refreshController.loadComplete();
+      page.value = 1;
+    } else if (refreshType == 'load') {
+      page.value++;
+    }
     BaseAPI().get(url: ApiEndPoints().getLeaveRequests,queryParameters: {
       "typeOfRequest":"leave",
       "school":selectedSchoolId.value,
       "leaveType":selectedLeaveTypeId.value,
-    }).then((value){
+      "limit":apiItemLimit,
+      "page":page.value.toString()
+    },showLoader: page.value == 1).then((value){
       if (value?.statusCode ==  200) {
-        list?.value = LeaveRequestResponse.fromJson(value?.data).data??[];
+        // list?.value = LeaveRequestResponse.fromJson(value?.data).data??[];
+        if(refreshType == 'refresh'){
+          list?.clear();
+          refreshController.loadComplete();
+          refreshController.refreshCompleted();
+        }else if((LeaveRequestResponse.fromJson(value?.data).data??[]).isEmpty && refreshType == 'load'){
+          refreshController.loadNoData();
+        }
+        else if(refreshType == 'load'){
+          refreshController.loadComplete();
+        }
+        list?.addAll(LeaveRequestResponse.fromJson(value?.data).data??[]);
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
@@ -106,8 +136,8 @@ class LeaveRequestCtrl extends GetxController{
         "user[0]": userId,
         "typeOfRequest": "leave",
         "reason":reasonController.value.text.trim(),
-        "startDate":formatBackendDate(startDateController.value.text.trim(),getDayFirst: false),
-        "endDate":formatBackendDate(endDateController.value.text.trim(),getDayFirst: false),
+        "startDate":flipDate(date: startDateController.value.text.trim()),
+        "endDate":flipDate(date: endDateController.value.text.trim()),
         "document": await dio.MultipartFile.fromFile(selectedFile?.value.path??"",filename: selectedFile?.value.path.split("/").last??"")
       });
     BaseAPI().put(url: ApiEndPoints().uploadEvidence+id,data: data).then((value){
@@ -235,12 +265,7 @@ class LeaveRequestCtrl extends GetxController{
   getLeaveBalance() async {
     leaveBalanceList?.clear();
     final String userId = await BaseSharedPreference().getString(SpKeys().userId);
-    var data = {
-      "page":1,
-      "limit":100,
-      "userId":userId
-    };
-    BaseAPI().post(url: ApiEndPoints().getLeaveBalance,data: data,showLoader: false).then((value){
+    BaseAPI().get(url: ApiEndPoints().getLeaveBalance, queryParameters: {"id":userId}, showLoader: false).then((value){
       if (value?.statusCode ==  200) {
         leaveBalanceList?.value = LeaveBalanceResponse.fromJson(value?.data).data??[];
       }else{

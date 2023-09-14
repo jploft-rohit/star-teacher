@@ -5,15 +5,16 @@ import 'package:staff_app/constants-classes/color_constants.dart';
 
 class FilterTextFormField extends StatelessWidget {
   final String hintText;
-  final Function(String val) onChange;
+  final void Function(String)? onChange;
   final TextInputType keyBoardType;
-  FilterTextFormField({Key? key,required this.hintText,required this.onChange,
-  required this.keyBoardType}) : super(key: key);
+  final TextEditingController? controller;
+  const FilterTextFormField({Key? key,required this.hintText,required this.onChange,
+  required this.keyBoardType, this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return  TextFormField(
-      controller: TextEditingController(),
+      controller: controller,
       textAlignVertical: TextAlignVertical.center,
       decoration: InputDecoration(
           constraints: BoxConstraints(maxHeight: 4.h),
@@ -39,8 +40,7 @@ class FilterTextFormField extends StatelessWidget {
               ?.copyWith(
               fontSize: 15.sp,fontWeight: FontWeight.w400),
           ),
-      style: Theme.of(context).textTheme.caption?.copyWith(
-          fontSize: 15.sp,fontWeight: FontWeight.w400),
+      style: Theme.of(context).textTheme.caption?.copyWith(fontSize: 15.sp,fontWeight: FontWeight.w400),
       keyboardType: keyBoardType,
       textInputAction: TextInputAction.done,
       onChanged: onChange,

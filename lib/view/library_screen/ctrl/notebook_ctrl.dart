@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/backend/responses_model/base_success_response.dart';
 import 'package:staff_app/backend/responses_model/notebook_list_response.dart';
 import 'package:staff_app/backend/responses_model/subjects_response.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/utility/base_debouncer.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+
+import '../../../utility/sizes.dart';
 
 class NotebookCtrl extends GetxController{
 
@@ -27,9 +31,13 @@ class NotebookCtrl extends GetxController{
   RxString selectedStarId = "".obs;
   RxList<NotebookList>? notebookList = <NotebookList>[].obs;
   Rx<StarData>? starData = StarData().obs;
+  final baseDebouncer = BaseDebouncer();
   final selectedIndex1 = 0.obs;
   final selectedIndex3 = 0.obs;
   final isChecked = false.obs;
+  /// Pagination
+  RxInt page = 1.obs;
+  final RefreshController refreshController = RefreshController(initialRefresh: false);
 
   /// Add Notebook Field Controller
   Rx<TextEditingController> schoolController = TextEditingController().obs;
@@ -41,6 +49,7 @@ class NotebookCtrl extends GetxController{
   TextEditingController subjectController = TextEditingController();
   TextEditingController commentController = TextEditingController();
   TextEditingController reasonController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
 
   /// Set Data for Add Notebook Field Controller
   setData({bool? isUpdating, required NotebookList? data}){
@@ -142,24 +151,45 @@ class NotebookCtrl extends GetxController{
               BaseOverlays().showSnackBar(message: response.message??"",title: translate(Get.context!).success);
             }
           }
-        });
+        },
+      );
     }
   }
 
   /// Get Notebook Notes
-  getNotebookNotes(){
-    starData?.value = StarData();
-    notebookList?.clear();
+  getNotebookNotes({String? refreshType}){
+    if (refreshType == 'refresh' || refreshType == null) {
+      starData?.value = StarData();
+      notebookList?.clear();
+      refreshController.loadComplete();
+      page.value = 1;
+    } else if (refreshType == 'load') {
+      page.value++;
+    }
     final data = {
-      "limit":300,
       "type":selectedIndex1.value == 0 ? "talent" : "improvement",
       "starId":selectedStarId.value,
+      "limit":apiItemLimit,
+      "page":page.value.toString()
     };
-    BaseAPI().post(url: ApiEndPoints().getNotebookList,data: data).then((value){
+    BaseAPI().post(url: ApiEndPoints().getNotebookList,data: data, showLoader: page.value == 1).then((value){
       if (value?.statusCode == 200) {
         NoteBookListResponse response = NoteBookListResponse.fromJson(value?.data);
+        if (page.value == 1) {
+          starData?.value = response.data?.starData??StarData();
+        }
+
+        if(refreshType == 'refresh'){
+          notebookList?.clear();
+          refreshController.loadComplete();
+          refreshController.refreshCompleted();
+        }else if((response.data?.notebookList??[]).isEmpty && refreshType == 'load'){
+          refreshController.loadNoData();
+        }
+        else if(refreshType == 'load'){
+          refreshController.loadComplete();
+        }
         notebookList?.addAll(response.data?.notebookList??[]);
-        starData?.value = response.data?.starData??StarData();
       }
      },
    );

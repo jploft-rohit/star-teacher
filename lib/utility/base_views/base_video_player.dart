@@ -1,5 +1,6 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/utility/base_views/base_loader.dart';
 import 'package:video_player/video_player.dart';
 
@@ -13,7 +14,7 @@ class BaseVideoPlayer extends StatefulWidget {
 
 class _BaseVideoPlayerState extends State<BaseVideoPlayer> {
 
-  late VideoPlayerController videoPlayerController = VideoPlayerController.network(widget.videoUrl);
+  late VideoPlayerController videoPlayerController = VideoPlayerController.network(widget.videoUrl.contains("http") ? widget.videoUrl : ("${ApiEndPoints().concatBaseUrl}/star-backend/")+widget.videoUrl);
   late ChewieController chewieController;
   bool isVideoInitializing = true;
 
@@ -32,12 +33,13 @@ class _BaseVideoPlayerState extends State<BaseVideoPlayer> {
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade500,
       body: isVideoInitializing
-          ? BaseLoader()
+          ? const BaseLoader()
           : Chewie(
             controller: chewieController,
       ),

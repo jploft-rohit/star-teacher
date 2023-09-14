@@ -76,16 +76,16 @@ class _TransportationLocationScreenState extends State<TransportationLocationScr
                       )
                   ),
                   child: Obx(()=>ListTile(
-                    visualDensity: VisualDensity(horizontal: -4),
+                    visualDensity: const VisualDensity(horizontal: -4),
                     contentPadding: EdgeInsets.only(left: 15.sp, right: 15.sp, top: 15.sp, bottom: 15.sp),
                     leading: GestureDetector(
                       onTap: (){
-                        BaseOverlays().viewPhoto(url: controller.tripData.value.passangerUser?.profilePic??"");
+                        BaseOverlays().viewPhoto(url: controller.tripData.value?.passangerUser?.profilePic??"");
                       },
                       child: Container(
                         height: 20.w,
                         width: 17.w,
-                        padding: EdgeInsets.all(2),
+                        padding: const EdgeInsets.all(2),
                         decoration: BoxDecoration(
                           border: Border.all(
                               color: BaseColors.primaryColor
@@ -93,7 +93,7 @@ class _TransportationLocationScreenState extends State<TransportationLocationScr
                           borderRadius: BorderRadius.circular(15),
                         ),
                         child: BaseImageNetwork(
-                          link: controller.tripData.value.passangerUser?.profilePic??"",
+                          link: controller.tripData.value?.passangerUser?.profilePic??"",
                           concatBaseUrl: false,
                           borderRadius: 13,
                           fit: BoxFit.fitWidth,
@@ -104,16 +104,16 @@ class _TransportationLocationScreenState extends State<TransportationLocationScr
                     title: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(toBeginningOfSentenceCase(controller.tripData.value.passangerUser?.name??"N/A")??"N/A", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
-                        SizedBox(height: 2.0),
-                        Text("#${controller.tripData.value.passangerUser?.emirateId??"N/A"}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
-                        SizedBox(height: 2.0),
-                        Text(toBeginningOfSentenceCase(controller.tripData.value.passangerUser?.role?.name??"N/A")??"N/A", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
+                        Text(toBeginningOfSentenceCase(controller.tripData.value?.passangerUser?.name??"N/A")??"N/A", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
+                        const SizedBox(height: 2.0),
+                        Text("#${controller.tripData.value?.passangerUser?.emirateId??"N/A"}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
+                        const SizedBox(height: 2.0),
+                        Text(toBeginningOfSentenceCase(controller.tripData.value?.passangerUser?.role?.name??"N/A")??"N/A", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                       ],
                     ),
                     trailing: GestureDetector(onTap: (){
                       showScanQrDialogue(context, false);
-                    },child: BaseQr(data: controller.tripData.value.passangerUser?.barcode??"")),
+                    },child: BaseQr(data: controller.tripData.value?.passangerUser?.barcode??"")),
                   ),
                   ),
                 ),
@@ -235,21 +235,21 @@ class _TransportationLocationScreenState extends State<TransportationLocationScr
                     SizedBox(height: .5.h),
                     buildInfoItems(translate(context).landmark, controller.locationData?.value?.changeLocationRequestData?.landmark??""),
                     SizedBox(height: .5.h),
-                    buildInfoItems(translate(context).mobile_no, controller.locationData?.value?.changeLocationRequestData?.mobileNo.toString()??"",svgPath: "assets/images/copy 2.svg",onSvgClick: () async {
-                      await Clipboard.setData(ClipboardData(text: controller.locationData?.value?.changeLocationRequestData?.mobileNo.toString()??""));
+                    buildInfoItems(translate(context).mobile_no, controller.locationData?.value?.changeLocationRequestData?.mobileNo?.toString()??"",svgPath: "assets/images/copy 2.svg",onSvgClick: () async {
+                      await Clipboard.setData(ClipboardData(text: controller.locationData?.value?.changeLocationRequestData?.mobileNo?.toString()??""));
                       Fluttertoast.showToast(msg: "Copied");
                     }),
                     SizedBox(
                       height: .5.h,
                     ),
-                    buildInfoItems(translate(context).landline_no, controller.locationData?.value?.changeLocationRequestData?.landlineNo.toString()??"",svgPath: "assets/images/copy 2.svg",onSvgClick: () async {
-                      await Clipboard.setData(ClipboardData(text: controller.locationData?.value?.changeLocationRequestData?.landlineNo.toString()??""));
+                    buildInfoItems(translate(context).landline_no, controller.locationData?.value?.changeLocationRequestData?.landlineNo?.toString()??"",svgPath: "assets/images/copy 2.svg",onSvgClick: () async {
+                      await Clipboard.setData(ClipboardData(text: controller.locationData?.value?.changeLocationRequestData?.landlineNo?.toString()??""));
                       Fluttertoast.showToast(msg: "Copied");
                     }),
                     SizedBox(
                       height: 1.5.h,
                     ),
-                    Divider(),
+                    const Divider(),
                     SizedBox(
                       height: 1.h,
                     ),

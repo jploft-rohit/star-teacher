@@ -23,13 +23,13 @@ class StarGalleryListTile extends StatefulWidget {
 
 class _StarGalleryListTileState extends State<StarGalleryListTile> {
   StarGalleryCtrl controller = Get.find<StarGalleryCtrl>();
-  var _controller = PageController(viewportFraction: 1.0);
+  final _controller = PageController(viewportFraction: 1.0);
   int selectindex = 0;
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 14),
-      padding: EdgeInsets.symmetric(horizontal: 12,vertical: 10),
+      margin: const EdgeInsets.only(bottom: 14),
+      padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 10),
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
@@ -38,7 +38,7 @@ class _StarGalleryListTileState extends State<StarGalleryListTile> {
               color: Colors.grey.withOpacity(0.8),
               spreadRadius: 1.0,
               blurRadius: 4.0,
-              offset: Offset(0,0),
+              offset: const Offset(0,0),
             ),
           ]
       ),
@@ -49,8 +49,8 @@ class _StarGalleryListTileState extends State<StarGalleryListTile> {
           Row(
             children: [
               Container(
-                margin: EdgeInsets.only(right: 5),
-                padding: EdgeInsets.all(10),
+                margin: const EdgeInsets.only(right: 5),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(width: 1,color: BaseColors.primaryColor),
@@ -62,7 +62,7 @@ class _StarGalleryListTileState extends State<StarGalleryListTile> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text.rich(
-                    style: TextStyle(color: BaseColors.primaryColor),
+                    style: const TextStyle(color: BaseColors.primaryColor),
                     TextSpan(
                       children: [
                         TextSpan(text:  controller.list?[widget.index].user?.name??"",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16.sp),),
@@ -76,16 +76,16 @@ class _StarGalleryListTileState extends State<StarGalleryListTile> {
               )
             ],
           ),
-          SizedBox(height: 6),
+          const SizedBox(height: 6),
           Text(controller.list?[widget.index].title??"N/A",style: TextStyle(fontWeight: FontWeight.w500,color: BaseColors.primaryColor,fontSize: 16.sp)),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Row(
               children: [
                 SvgPicture.asset("assets/images/calender_date.svg",height: 2.h,width: 2.h,),
-                SizedBox(width: 6),
+                const SizedBox(width: 6),
                 Text("Posted: ${formatBackendDate(controller.list?[widget.index].createdAt??"")}, ${getFormattedTime(controller.list?[widget.index].createdAt??"")}",style: TextStyle(fontSize: 14.sp)),
               ]),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           Container(
               width: 100.w,
               height: 25.h,
@@ -128,7 +128,7 @@ class _StarGalleryListTileState extends State<StarGalleryListTile> {
                   children: List.generate(
                       controller.list?[widget.index].uploads?.length??0,
                           (index) => AnimatedContainer(
-                          margin: EdgeInsets.symmetric(horizontal: 5),
+                          margin: const EdgeInsets.symmetric(horizontal: 5),
                           width: 1.2.h,
                           height: 1.2.h,
                           decoration: BoxDecoration(
@@ -136,7 +136,7 @@ class _StarGalleryListTileState extends State<StarGalleryListTile> {
                               color:
                               selectindex == index
                                   ? BaseColors.primaryColor
-                                  : Color(0xFFE1E1E1)),
+                                  : const Color(0xFFE1E1E1)),
                           duration: const Duration(milliseconds: 300)))),
             ],
           ),
@@ -173,7 +173,7 @@ class _StarGalleryListTileState extends State<StarGalleryListTile> {
               child: Container(
                 width: 20.0,
                 height: 20.0,
-                child: CircularProgressIndicator(),
+                child: const CircularProgressIndicator(),
               ),
             ),
             pageController: PageController(initialPage: selectindex),
@@ -182,8 +182,8 @@ class _StarGalleryListTileState extends State<StarGalleryListTile> {
             onTap: (){
               BaseOverlays().dismissOverlay();
             },
-            child: Padding(
-              padding: const EdgeInsets.all(40),
+            child: const Padding(
+              padding: EdgeInsets.all(40),
               child: Icon(Icons.close_rounded,color: Colors.white,size: 40),
             ),
           )),

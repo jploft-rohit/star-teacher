@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_tab_bar.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/view/assignments_screen/controller/assignment_screen_ctrl.dart';
 import 'package:staff_app/view/assignments_screen/assignment_to_me_view/assesment_view/assesment_view.dart';

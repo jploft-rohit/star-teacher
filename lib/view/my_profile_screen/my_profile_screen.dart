@@ -44,7 +44,6 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
     super.initState();
     tabCtrl = TabController(length: 4, vsync: this);
     tabCtrl.animateTo(widget.index);
-    Future.delayed(Duration(), () => SystemChannels.textInput.invokeMethod('TextInput.hide'));
   }
   @override
   Widget build(BuildContext context) {
@@ -64,7 +63,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
           padding: EdgeInsets.all(scaffoldPadding),
           decoration: BoxDecoration(
             color: BaseColors.white,
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(10),
             border: Border.all(color: BaseColors.borderColor),
             boxShadow: [getLightBoxShadow()],
           ),child: Column(
@@ -72,7 +71,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
             profileProgress(value: double.parse((controller.response.value.data?.profileCompletePercentage??"0").toString()), profileCompletionData: (controller.response.value.data?.profileCompleteDate).toString()),
             GestureDetector(
               onTap: (){
-                Get.to(const MyProfileView());
+                Get.to(const MyProfileView(editable: false));
               },
               child: Padding(
                 padding: EdgeInsets.only(bottom: 2.h),
@@ -83,16 +82,16 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
                       flex: 2,
                       child: Container(
                         height: 7.h,
-                        padding: EdgeInsets.only(top: 3, bottom: 3, left: 3, right: 3),
+                        padding: const EdgeInsets.only(top: 3, bottom: 3, left: 3, right: 3),
                         decoration: BoxDecoration(
                           border: Border.all(
                               color: BaseColors.primaryColor
                           ),
-                          borderRadius: BorderRadius.circular(15.0),
+                          borderRadius: BorderRadius.circular(10),
                         ),
                         child: BaseImageNetwork(
                           link: controller.response.value.data?.profilePic??"",
-                          borderRadius: 10,
+                          borderRadius: 12,
                           errorWidget: SvgPicture.asset(manSvg),
                         ),//controller.response.value.data?.designation??"Teacher"
                       ),
@@ -105,7 +104,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
                         children: [
                           Text(controller.response.value.data?.name??na, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 17.sp)),
                           SizedBox(height: 0.5.h),
-                          BaseDetailData(bottomMargin: 1.5.h, showDivider: false, detailsLabel: translate(context).designation,detailsValue: controller.response.value.data?.designation??"Teacher"),
+                          BaseDetailData(bottomMargin: 1.5.h, showDivider: false, detailsLabel: translate(context).designation,detailsValue: controller.response.value.data?.designation??(translate(context).teacher)),
                         ],
                       ),
                     ),
@@ -126,7 +125,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
                                 border: Border.all(color: BaseColors.primaryColor),
                                 borderRadius: BorderRadius.circular(10)
                               ),
-                              child: Text("DEACTIVATED",style: TextStyle(fontSize: 10,fontWeight: FontWeight.w700,color: BaseColors.primaryColor)),
+                              child: const Text("DEACTIVATED",style: TextStyle(fontSize: 10,fontWeight: FontWeight.w700,color: BaseColors.primaryColor)),
                             ),
                           ),
                         ),
@@ -134,7 +133,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
                           onTap: (){
                             showScanQrDialogue(context, false,data: controller.response.value.data?.barcode??na);
                           },
-                          child: QrImage(
+                          child: QrImageView(
                             data: controller.response.value.data?.barcode??na,
                             version: QrVersions.auto,
                             size: 55,
@@ -193,7 +192,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
             borderRadius: BorderRadius.circular(10.0),
             child: LinearProgressIndicator(
               value: value/100,
-              valueColor: AlwaysStoppedAnimation<Color>(BaseColors.primaryColor),
+              valueColor: const AlwaysStoppedAnimation<Color>(BaseColors.primaryColor),
               backgroundColor: BaseColors.backgroundColor,
             ),
           ),
@@ -201,9 +200,10 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("${(translate(context).profile_complete)+" "+(controller.response.value.data?.profileCompletePercentage.toString()??"")}%", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 13.sp),),
-            Text("${translate(context).complete_your_profile_till +" "+profileCompletionData}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textRedColor, fontSize: 13.sp),),
-            // addText('Complete Your Profile Till: 25 July, 2022', getSmallTextFontSIze()-1, Colors.redAccent, FontWeight.w500),
+            Text("${"${translate(context).profile_complete} ${controller.response.value.data?.profileCompletePercentage.toString()??""}"}%", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 13.sp),),
+            Visibility(
+              visible: (controller.response.value.data?.profileCompletePercentage.toString()??"") != "100",
+                child: Text("${translate(context).complete_your_profile_till} $profileCompletionData", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textRedColor, fontSize: 13.sp),)),
           ],
         ),
         SizedBox(height: bottomMargin??3.h),

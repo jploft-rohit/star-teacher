@@ -7,7 +7,7 @@ import 'package:staff_app/Utility/curved_navigation_bar/curved_navigation_bar.da
 import 'dart:io' show Platform;
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/sizes.dart';
+
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
@@ -20,8 +20,10 @@ import 'package:staff_app/view/search_screen/search_screen.dart';
 import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 import 'package:staff_app/view/task_or_reminder_screen/task_or_reminder_screen.dart';
 
+import '../../Utility/sizes.dart';
+
 class DashboardScreen extends GetView<DashboardScreenCtrl>{
-  DashboardScreen({super.key});
+  const DashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -135,14 +137,14 @@ class DashboardScreen extends GetView<DashboardScreenCtrl>{
   Widget buildPages() {
     switch (controller.currentIndex.value) {
       case 0:
-        return TaskOrReminderScreen(isFromBtmBar: true,);
+        return const TaskOrReminderScreen(isFromBtmBar: true,);
       case 1:{
         return const SearchScreen();
       }
       case 2:
         return const HomeScreen();
       case 3:
-        return ChatScreen(isFromBtmBar: true,);
+        return const ChatScreen(isFromBtmBar: true,);
       case 4:
         return MyProfileScreen(isFromDrawer: false,index: 0);
       default:

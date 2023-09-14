@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/wallet/sub_screens/purchases_view.dart';
 import 'package:staff_app/view/wallet/wallet_controller.dart';

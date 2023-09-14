@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/backend/responses_model/today_schedule_response.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/class_schedule_screen/reschedule_class_popup.dart';
@@ -15,7 +16,8 @@ import 'package:staff_app/view/today_schedule_module/controller/today_schedule_c
 
 class NotifyAuthorityPopup extends StatefulWidget {
   final String name;
-  const NotifyAuthorityPopup({Key? key, required this.name}) : super(key: key);
+  final TodayScheduleData? todayScheduleData;
+  const NotifyAuthorityPopup({Key? key, required this.name, this.todayScheduleData}) : super(key: key);
 
   @override
   State<NotifyAuthorityPopup> createState() => _NotifyAuthorityPopupState();
@@ -139,7 +141,12 @@ class _NotifyAuthorityPopupState extends State<NotifyAuthorityPopup> {
                       Get.back();
                       if (list.last['isSelected']) {
                         showGeneralDialog(context: context, pageBuilder: (context, animation, secondaryAnimation) {
-                          return RescheduleClassPopup(name: widget.name, reason: reason, comment: reasonCtrl.text.trim(),);
+                          return RescheduleClassPopup(
+                            name: widget.name,
+                            reason: reason,
+                            comment: reasonCtrl.text.trim(),
+                            todayScheduleData: widget.todayScheduleData,
+                          );
                         });
                       }else{
                         controller.notifyAdminClassSchedule(

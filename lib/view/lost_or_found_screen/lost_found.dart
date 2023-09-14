@@ -11,6 +11,7 @@ import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/lost_or_found_screen/controller/lost_found_controller.dart';
 import 'package:staff_app/view/lost_or_found_screen/report_lost_found_screen.dart';
 import 'package:staff_app/view/lost_or_found_screen/tabs/lost_found_tab.dart';
+import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 
 class LostAndFoundScreen extends StatefulWidget {
   const LostAndFoundScreen({Key? key}) : super(key: key);
@@ -21,10 +22,13 @@ class LostAndFoundScreen extends StatefulWidget {
 
 class _LostAndFoundScreenState extends State<LostAndFoundScreen> with TickerProviderStateMixin {
   LostFoundController controller = Get.put(LostFoundController());
+  BaseCtrl baseCtrl = Get.find<BaseCtrl>();
   late TabController tabController;
 
   @override
   void initState() {
+    controller.selectedSchoolId.value = baseCtrl.schoolListData.data?.data?.first.sId??"";
+    controller.schoolController.value.text = baseCtrl.schoolListData.data?.data?.first.name??"";
     controller.getData(type: "found");
     tabController = TabController(length: 2, vsync: this)..addListener(() {
       if (!tabController.indexIsChanging) {
@@ -76,7 +80,7 @@ class _LostAndFoundScreenState extends State<LostAndFoundScreen> with TickerProv
                 },
               ),
               Expanded(
-                child: TabBarView(controller: tabController, children: [
+                child: TabBarView(controller: tabController, children: const [
                   LostFoundTab(),
                   LostFoundTab(),
                 ]),

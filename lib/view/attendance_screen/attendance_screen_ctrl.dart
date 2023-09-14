@@ -5,6 +5,7 @@ import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
@@ -17,6 +18,8 @@ import 'package:staff_app/storage/sp_keys.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+
+import '../../utility/sizes.dart';
 
 class AttendanceScreenController extends GetxController{
   final primaryTabIndex = 0.obs;
@@ -34,6 +37,9 @@ class AttendanceScreenController extends GetxController{
   EventList<Event> markedDateMap = EventList<Event>(
     events: {},
   );
+  /// Pagination
+  RxInt page = 1.obs;
+  final RefreshController refreshController = RefreshController(initialRefresh: false);
 
   @override
   void onInit() {
@@ -41,19 +47,28 @@ class AttendanceScreenController extends GetxController{
     getData();
   }
 
-  Future getData({bool? getMonthData, DateTime? date}) async {
-    list?.clear();
-    monthData?.value = [];
-    lateMarkers.value.clear();
-    absentMarkers.value.clear();
-    presentMarkers.value.clear();
-
+  Future getData({bool? getMonthData, DateTime? date, String? refreshType}) async {
+    // list?.clear();
+    // monthData?.value = [];
+    // lateMarkers.value.clear();
+    // absentMarkers.value.clear();
+    // presentMarkers.value.clear();
+    if (refreshType == 'refresh' || refreshType == null) {
+      list?.clear();
+      monthData?.value = [];
+      lateMarkers.value.clear();
+      absentMarkers.value.clear();
+      presentMarkers.value.clear();
+      refreshController.loadComplete();
+      page.value = 1;
+    } else if (refreshType == 'load') {
+      page.value++;
+    }
     final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
     var data;
     if (getMonthData??false) {
       data = {
         "user": userId,
-        "limit": 100,
         "monthYear": formatFlutterDateTimeWithoutDate(flutterDateTime: date??selectedDate.value, getDayFirst: false),
         "type": primaryTabIndex.value == 0 ? "classroom" : primaryTabIndex.value == 1 ? "online" : "transportation",
         "attendanceType": secondaryTabIndex.value == 0 ? primaryTabIndex.value == 2 ? "ontime" : "present" : secondaryTabIndex.value == 1 ? primaryTabIndex.value == 2 ? "late" : "absent" : "late",
@@ -61,13 +76,14 @@ class AttendanceScreenController extends GetxController{
     }else{
       data = {
         "user": userId,
-        "limit": 100,
         "date": formatFlutterDateTime(flutterDateTime: selectedDate.value, getDayFirst: false),
         "type": primaryTabIndex.value == 0 ? "classroom" : primaryTabIndex.value == 1 ? "online" : "transportation",
         "attendanceType": secondaryTabIndex.value == 0 ? primaryTabIndex.value == 2 ? "ontime" : "present" : secondaryTabIndex.value == 1 ? primaryTabIndex.value == 2 ? "late" : "absent" : "late",
+        "limit":apiItemLimit,
+        "page":page.value.toString()
       };
     }
-    await BaseAPI().get(url: ApiEndPoints().getTeacherAttendance, queryParameters: data).then((value){
+    await BaseAPI().get(url: ApiEndPoints().getTeacherAttendance, queryParameters: data, showLoader: page.value == 1).then((value){
       if (value?.statusCode ==  200) {
         if (getMonthData??false) {
           monthData?.value = TeacherAttendanceResponse.fromJson(value?.data).data?.attendanceData??[];
@@ -75,7 +91,22 @@ class AttendanceScreenController extends GetxController{
             addMarker(DateTime.parse(element?.date.toString().split("T")[0]??""), (element?.attendanceType??""));
           });
         }else{
-          list?.value = TeacherAttendanceResponse.fromJson(value?.data).data?.attendanceData??[];
+          // list?.value = TeacherAttendanceResponse.fromJson(value?.data).data?.attendanceData??[];
+          if(refreshType == 'refresh'){
+            list?.clear();
+            monthData?.value = [];
+            lateMarkers.value.clear();
+            absentMarkers.value.clear();
+            presentMarkers.value.clear();
+            refreshController.loadComplete();
+            refreshController.refreshCompleted();
+          }else if((TeacherAttendanceResponse.fromJson(value?.data).data?.attendanceData??[]).isEmpty && refreshType == 'load'){
+            refreshController.loadNoData();
+          }
+          else if(refreshType == 'load'){
+            refreshController.loadComplete();
+          }
+          list?.addAll(TeacherAttendanceResponse.fromJson(value?.data).data?.attendanceData??[]);
         }
         teacherData.value = TeacherAttendanceResponse.fromJson(value?.data).data?.user ?? TeacherData();
       } else {
@@ -86,7 +117,6 @@ class AttendanceScreenController extends GetxController{
   }
 
   addMarker(DateTime startEventDateTime,String attendanceType) {
-
     var eventDateTime = startEventDateTime;
     if(attendanceType == "absent"){
       absentMarkers.value.add(

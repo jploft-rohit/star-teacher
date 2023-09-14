@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
@@ -13,9 +14,12 @@ import 'package:staff_app/backend/responses_model/user_cart_response.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/storage/sp_keys.dart';
+import 'package:staff_app/utility/base_debouncer.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/view/shop_screen/controller/stripe_controller.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/confirmation_popup.dart';
+
+import '../../../utility/sizes.dart';
 
 class ShopScreenCtrl extends GetxController{
   RxInt primaryTabIndex = 0.obs;
@@ -42,9 +46,27 @@ class ShopScreenCtrl extends GetxController{
   RxList<SingleOrderProduct?>? singleOrderProductList = <SingleOrderProduct>[].obs;
   Rx<TextEditingController> servingTime = TextEditingController().obs;
   TextEditingController fromDateController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
   TextEditingController toDateController = TextEditingController();
   TextEditingController deliveryTime = TextEditingController();
   TextEditingController servingPlace = TextEditingController();
+  TextEditingController reasonController = TextEditingController();
+  final baseBouncer = BaseDebouncer();
+  final RefreshController refreshController = RefreshController(initialRefresh: false);
+  RxList<ShopProductData?>? list = <ShopProductData>[].obs;
+  RxList<ShopCategoryListData?>? shopCategoryList = <ShopCategoryListData>[].obs;
+  RxList<ShopOrderData?>? shopOrdersList = <ShopOrderData>[].obs;
+  TextEditingController schoolController = TextEditingController();
+  RxString selectedSchoolId = "".obs;
+  RxString selectedTabBarId = "".obs;
+  /// Pagination
+  RxInt page = 1.obs;
+  RxString limit = "5".obs;
+  RxBool hasNextPage = true.obs;
+  RxBool isDismiss = false.obs;
+  RxBool isLoadMore = false.obs;
+  late ScrollController scrollController;
+
   var weekList = [
     'Monday',
     'Tuesday',
@@ -85,29 +107,59 @@ class ShopScreenCtrl extends GetxController{
       'price': '4 AED',
     },
   ];
-  ///
-  RxList<ShopProductData?>? list = <ShopProductData>[].obs;
-  RxList<ShopCategoryListData?>? shopCategoryList = <ShopCategoryListData>[].obs;
-  RxList<ShopOrderData?>? shopOrdersList = <ShopOrderData>[].obs;
-  TextEditingController schoolController = TextEditingController();
-  RxString selectedSchoolId = "".obs;
-  RxString selectedTabBarId = "".obs;
 
-  getData() async {
-    list?.clear();
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   scrollController = ScrollController()..addListener(loadMore);
+  // }
+
+  getData({String? type, String? refreshType}) async {
+    if (refreshType == 'refresh' || refreshType == null) {
+      list?.clear();
+      refreshController.loadComplete();
+      page.value = 1;
+    } else if (refreshType == 'load') {
+      page.value++;
+    }
     await BaseAPI().get(url: ApiEndPoints().getShopProducts, queryParameters: {
       "school":selectedSchoolId.value,
       "shopType":secondaryTabIndex.value == 0 ? "STATIONARY" : secondaryTabIndex.value == 1 ? "STARS_STORE" : "CANTEEN",
       "category":selectedTabBarId.value,
       "isAvailable":true,
-    }).then((value){
+      "limit":"1000",
+      "page":page.value.toString(),
+      "keyword":searchController.text.trimLeft()
+    },showLoader: page.value == 1).then((value){
       if (value?.statusCode ==  200) {
-        list?.value = ShopProductsResponse.fromJson(value?.data).data ?? [];
+        // list?.value = ShopProductsResponse.fromJson(value?.data).data ?? [];
+        if(refreshType == 'refresh'){
+          list?.clear();
+          refreshController.loadComplete();
+          refreshController.refreshCompleted();
+        }else if((ShopProductsResponse.fromJson(value?.data).data??[]).isEmpty && refreshType == 'load'){
+          refreshController.loadNoData();
+        }
+        else if(refreshType == 'load'){
+          refreshController.loadComplete();
+        }
+        list?.addAll(ShopProductsResponse.fromJson(value?.data).data??[]);
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }
+
+  // void loadMore() {
+  //   if (hasNextPage.value == true
+  //       && isLoadMore.value == false
+  //       && scrollController.position.maxScrollExtent == scrollController.position.pixels) {
+  //     Future.microtask(() {
+  //       setLoadMore(value: true);
+  //       getData();
+  //     });
+  //   }
+  // }
 
   getUserCart({bool? callGetData}) async {
     final String userId = await BaseSharedPreference().getString(SpKeys().userId);
@@ -130,7 +182,12 @@ class ShopScreenCtrl extends GetxController{
   getShopCategoryListData() async {
     shopCategoryList?.clear();
     await BaseAPI().get(url: ApiEndPoints().getShopCategoryListData, queryParameters: {
-      "shopType":secondaryTabIndex.value == 0 ? "STATIONARY" : secondaryTabIndex.value == 1 ? "STARS_STORE" : "CANTEEN",
+      "shopType":secondaryTabIndex.value == 0
+          ? "STATIONARY"
+          : secondaryTabIndex.value == 1
+          ? "STARS_STORE"
+          : "CANTEEN",
+      "school":selectedSchoolId.value
     }).then((value){
       if (value?.statusCode ==  200) {
         shopCategoryList?.value = ShopCategoryListResponse.fromJson(value?.data).data ?? [];
@@ -183,20 +240,37 @@ class ShopScreenCtrl extends GetxController{
     final String userId = await BaseSharedPreference().getString(SpKeys().userId);
     var data;
     if (selectedPaymentPos.value == 1) {
-      data = {
-        "cartId": userCartData?.value?.sId??"",
-        "userId": userId,
-        "shippingType": selectedShipping.value,
-        "paymentMode": selectedPaymentPos.value ==  0 ? "WALLET" : selectedPaymentPos.value ==  1 ? "CARD" : "CASH",
-        "orderType":selectedPreOrderType.value,
-        "startDate":flipDate(date: fromDateController.text.trim()),
-        "endDate":flipDate(date: toDateController.text.trim()),
-        "deliveryBreakTime":selectedServingTime.value,
-        "servingPlace":servingPlace.text.trim(),
-        "deliveryTime":deliveryTime.text.trim(),
-        "txnId": Get.find<StripeController>().paymentIntentId??"",
-        "txnResponse": Get.find<StripeController>().pgData??"",
-      };
+      if (fromDateController.text.isNotEmpty && toDateController.text.isNotEmpty) {
+        data = {
+          "cartId": userCartData?.value?.sId??"",
+          "userId": userId,
+          "shippingType": selectedShipping.value,
+          "paymentMode": selectedPaymentPos.value ==  0 ? "WALLET" : selectedPaymentPos.value ==  1 ? "CARD" : "CASH",
+          "orderType":selectedPreOrderType.value,
+          "startDate":flipDate(date: fromDateController.text.trim()),
+          "endDate":flipDate(date: toDateController.text.trim()),
+          "deliveryBreakTime":selectedServingTime.value,
+          "servingPlace":servingPlace.text.trim(),
+          "deliveryTime":deliveryTime.text.trim(),
+          "txnId": Get.find<StripeController>().paymentIntentId??"",
+          "txnResponse": Get.find<StripeController>().pgData??"",
+          "reason": reasonController.text.trim(),
+        };
+      }else{
+        data = {
+          "cartId": userCartData?.value?.sId??"",
+          "userId": userId,
+          "shippingType": selectedShipping.value,
+          "paymentMode": selectedPaymentPos.value ==  0 ? "WALLET" : selectedPaymentPos.value ==  1 ? "CARD" : "CASH",
+          "orderType":selectedPreOrderType.value,
+          "deliveryBreakTime":selectedServingTime.value,
+          "servingPlace":servingPlace.text.trim(),
+          "deliveryTime":deliveryTime.text.trim(),
+          "txnId": Get.find<StripeController>().paymentIntentId??"",
+          "txnResponse": Get.find<StripeController>().pgData??"",
+          "reason": reasonController.text.trim(),
+        };
+      }
     }else{
       if (fromDateController.text.isNotEmpty && toDateController.text.isNotEmpty) {
         data = {
@@ -210,6 +284,7 @@ class ShopScreenCtrl extends GetxController{
           "deliveryBreakTime":selectedServingTime.value,
           "servingPlace":servingPlace.text.trim(),
           "deliveryTime":deliveryTime.text.trim(),
+          "reason": reasonController.text.trim(),
         };
       }else{
         data = {
@@ -221,11 +296,11 @@ class ShopScreenCtrl extends GetxController{
           "deliveryBreakTime":selectedServingTime.value,
           "servingPlace":servingPlace.text.trim(),
           "deliveryTime":deliveryTime.text.trim(),
+          "reason": reasonController.text.trim(),
         };
       }
     }
-    await BaseAPI().post(url: ApiEndPoints().createOrder,
-        data: data).then((value) async {
+    await BaseAPI().post(url: ApiEndPoints().createOrder, data: data).then((value) async {
       if (value?.statusCode ==  200) {
         BaseOverlays().showOkDialog(title: "Order Successfully Placed!", onBtnPressed: (){
           BaseOverlays().dismissOverlay();

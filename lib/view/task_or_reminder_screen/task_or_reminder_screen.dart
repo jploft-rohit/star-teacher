@@ -3,11 +3,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'dart:ui' as ui;
 import 'package:intl/intl.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/base_views/base_no_data.dart';
+import 'package:staff_app/utility/base_views/base_pagination_footer.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_icons.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
@@ -19,7 +22,7 @@ import '../../Utility/base_utility.dart';
 
 class TaskOrReminderScreen extends StatefulWidget {
   final bool isFromBtmBar;
-  TaskOrReminderScreen({Key? key, required this.isFromBtmBar}) : super(key: key);
+  const TaskOrReminderScreen({Key? key, required this.isFromBtmBar}) : super(key: key);
 
   @override
   State<TaskOrReminderScreen> createState() => _TaskOrReminderScreenState();
@@ -55,13 +58,27 @@ class _TaskOrReminderScreenState extends State<TaskOrReminderScreen> {
           title: translate(context).add_task,
         ),
       ),
-      body: Obx(()=>ListView.builder(
-          itemCount: controller.list?.length??0,
-          padding: EdgeInsets.only(left: 14.sp, right: 14.sp, top: 14.sp, bottom: widget.isFromBtmBar ? 20.h : 14.sp),
-          itemBuilder: (context, index) {
-            return buildDailyTaskCard(index: index);
-          },
-        ),
+      body: Obx(()=>SmartRefresher(
+        footer: const BasePaginationFooter(),
+        controller: controller.refreshController,
+        enablePullDown: enablePullToRefresh,
+        enablePullUp: true,
+        onLoading: (){
+          controller.getTaskReminders(refreshType: "load");
+        },
+        onRefresh: (){
+          controller.getTaskReminders(refreshType: "refresh");
+        },
+        child: (controller.list?.length??0) == 0
+            ? const BaseNoData()
+            : ListView.builder(
+            itemCount: controller.list?.length??0,
+            padding: EdgeInsets.only(left: 14.sp, right: 14.sp, top: 14.sp, bottom: widget.isFromBtmBar ? 20.h : 14.sp),
+            itemBuilder: (context, index) {
+              return buildDailyTaskCard(index: index);
+            },
+          ),
+      ),
       ),
     );
   }

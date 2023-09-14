@@ -83,11 +83,13 @@ class Orders {
   dynamic iV;
   dynamic transaction;
   dynamic reason;
+  dynamic rejectedReason;
   List<RequestStatus>? requestStatus;
   UserTags? userTags;
 
   Orders(
       {this.sId,
+        this.rejectedReason,
         this.orderId,
         this.isPreOrderClosed,
         this.orderStatus,
@@ -119,6 +121,7 @@ class Orders {
 
   Orders.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
+    rejectedReason = json['rejectedReason'];
     orderId = json['orderId'];
     isPreOrderClosed = json['isPreOrderClosed'];
     orderStatus = json['orderStatus'];
@@ -164,6 +167,7 @@ class Orders {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['_id'] = this.sId;
+    data['rejectedReason'] = this.rejectedReason;
     data['orderId'] = this.orderId;
     data['isPreOrderClosed'] = this.isPreOrderClosed;
     data['orderStatus'] = this.orderStatus;

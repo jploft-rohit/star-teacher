@@ -7,7 +7,6 @@ import 'package:staff_app/utility/base_views/base_button.dart';
 
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_filter_dropdown.dart';
-import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/filter_textformfield.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
@@ -36,10 +35,10 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
   void initState() {
     super.initState();
     DummyLists.initialRole = "Select Person";
-    complainReportController.getStaffData(
-        selectedSchoolId: widget.selectedSchoolId,
-        selectedRoleId: baseCtrl.rolesListResponse.data?.first.sId??""
-    );
+    // complainReportController.getStaffData(
+    //     selectedSchoolId: widget.selectedSchoolId,
+    //     selectedRoleId: baseCtrl.rolesListResponse.data?.first.name??""
+    // );
   }
 
   @override
@@ -65,20 +64,20 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(""),
+                    const Text(""),
                     Text("Select Person", style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: Colors.black),),
                     GestureDetector(
                       onTap: (){
                         Get.back();
                       },
-                      child: Icon(Icons.close, color: Colors.black,),)
+                      child: const Icon(Icons.close, color: Colors.black,),)
                   ],
                 ),
                 SizedBox(
                   height: 2.h,
                 ),
                 Container(
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),border: Border.all(color: Color(0xFFCECECE),width: 1)),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),border: Border.all(color: const Color(0xFFCECECE),width: 1)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -92,15 +91,17 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                                 value: value,
                                 child: addText(value.name??"", 16.sp, Colors.black, FontWeight.w400));
                             }).toList(),
-                            onChange: (value) {selectedRoleId = value.sId??"";
+                            onChange: (value) {
+                              selectedRoleId = value.name??"";
                             setState(() {
                               DummyLists.initialRole=value.name??"";
                             });
                             complainReportController.getStaffData(selectedRoleId: selectedRoleId, selectedSchoolId: widget.selectedSchoolId);
-                          },icon: jobDetailSvg),
+                          },icon: jobDetailSvg,
+                          ),
                         ],
                       ),
-                      Divider(height: 1,thickness: 1,),
+                      const Divider(height: 1,thickness: 1,),
                       FilterTextFormField(onChange: (String val) {
                       }, hintText: "Search By ID...", keyBoardType: TextInputType.name,
                       ),
@@ -111,10 +112,10 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                   height: 3.h,
                 ),
                 Obx(()=> complainReportController.isStaffLoading.value
-                    ? Center(child: SizedBox(height: 30,width: 30,child: CircularProgressIndicator()))
+                    ? const Center(child: SizedBox(height: 30,width: 30,child: CircularProgressIndicator()))
                     : ListView.builder(
                       shrinkWrap: true,
-                      itemCount: complainReportController.staffData.length,
+                      itemCount: complainReportController.staffData?.length??0,
                       padding: EdgeInsets.zero,
                       itemBuilder: (context, index) {
                       return Padding(
@@ -122,8 +123,8 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                         child: GestureDetector(
                           onTap: (){
                             selectedFMOPos = index;
-                            complainReportController.selectedPersonId.value = complainReportController.staffData[index].user?.sId??"";
-                            complainReportController.personController.value.text = complainReportController.staffData[index].user?.name??"";
+                            complainReportController.selectedPersonId.value = complainReportController.staffData?[index].sId??"";
+                            complainReportController.personController.value.text = complainReportController.staffData?[index].name??"";
                             setState(() {});
                           },
                           child: Container(
@@ -141,7 +142,7 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                                   children: [
                                     Container(
                                       padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
-                                      margin: EdgeInsets.only(left: 2),
+                                      margin: const EdgeInsets.only(left: 2),
                                       decoration: BoxDecoration(
                                         border: Border.all(
                                             color: BaseColors.primaryColor
@@ -152,21 +153,21 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                                       child: SvgPicture.asset(manSvg,height: 30,),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 10.sp),
+                                      padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 10.sp),
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text(complainReportController.staffData[index].user?.name??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
+                                          Text(complainReportController.staffData?[index].name??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                                           SizedBox(
                                             height: .5.h,
                                           ),
                                           Row(
                                             children: [
-                                              buildInfoItems("Subject", complainReportController.staffData[index].subject?.name??""),
+                                              buildInfoItems("Role", complainReportController.staffData?[index].role?.displayName??""),
                                               SizedBox(
-                                                width: 5.w,
+                                                width: 1.w,
                                               ),
-                                              buildInfoItems("ID", complainReportController.staffData[index].employeeId??""),
+                                              buildInfoItems("ID", complainReportController.staffData?[index].uniqueId?.toString()??""),
                                             ],
                                           ),
                                         ],
@@ -176,7 +177,7 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                                 ),
 
                                 Padding(
-                                  padding: const EdgeInsets.only(right: 10.0, left: 10.0),
+                                  padding: const EdgeInsets.only(right: 10.0, left: 0.0),
                                   child: Container(
                                     height: 20,
                                     width: 20,

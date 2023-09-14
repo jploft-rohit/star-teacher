@@ -8,8 +8,6 @@ import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_detail_data.dart';
 import 'package:staff_app/utility/google_map.dart';
 import 'package:staff_app/utility/images_icon_path.dart';
-import 'package:staff_app/view/location/location_screen.dart';
-import 'package:staff_app/view/map_screen.dart';
 import 'package:staff_app/view/my_profile_screen/controller/my_profile_ctrl.dart';
 
 class SchoolsView extends StatefulWidget {
@@ -22,11 +20,6 @@ class SchoolsView extends StatefulWidget {
 class _SchoolsViewState extends State<SchoolsView> {
   final String na = translate(Get.context!).na;
   MyProfileCtrl controller = Get.find<MyProfileCtrl>();
-  List<String> list = [
-    "1. Ignite Group School",
-    "2. UAE Public School",
-    "3. Oman Public School",
-  ];
   double bottomMargin = 1.h;
   @override
   Widget build(BuildContext context) {
@@ -49,7 +42,7 @@ class _SchoolsViewState extends State<SchoolsView> {
                 itemCount: controller.response.value.data?.schoolStaff?.length??0,
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 10.0),
@@ -70,6 +63,12 @@ class _SchoolsViewState extends State<SchoolsView> {
     // });
     // print("placesOfClass :-");
     // print(controller.response.value.data?.placesOfClass??"");
+    List<String?>? gradeClass = [];
+    controller.response.value.data?.schoolStaff?[index].classSectionList?.forEach((element) {
+      if ((element.classes?.name??"").toString().isNotEmpty) {
+        gradeClass.add(element.classes?.name??"");
+      }
+    });
     return Card(
       elevation: 5,
       shape: RoundedRectangleBorder(
@@ -102,7 +101,7 @@ class _SchoolsViewState extends State<SchoolsView> {
                     BaseDetailData(detailsLabel: translate(context).school_sector, detailsValue: controller.response.value.data?.schoolStaff?[index].school?.schoolSector?.name??na),
                     GestureDetector(
                         onTap: (){
-                          Get.to(MapUiBody());
+                          Get.to(const MapUiBody());
                         },
                       child: SvgPicture.asset("assets/images/map_ig.svg"),
                     ),
@@ -121,7 +120,7 @@ class _SchoolsViewState extends State<SchoolsView> {
                 SizedBox(
                   height: 0.5.h,
                 ),
-                buildTile(translate(context).subject, "Maths", classTakenSvg),
+                buildTile(translate(context).subject, controller.response.value.data?.schoolStaff?[index].subjectData?.name??"", classTakenSvg),
                 SizedBox(
                   height: 0.5.h,
                 ),
@@ -131,10 +130,10 @@ class _SchoolsViewState extends State<SchoolsView> {
                 ),
                 (controller.response.value.data?.schoolStaff?[index].school?.staffsubjects?.classSection??[]).isNotEmpty
                     ? buildTile(translate(context).place_of_class, controller.response.value.data?.schoolStaff?[index].school?.staffsubjects?.classSection?[0].roomNo??na, classTakenSvg)
-                    : SizedBox.shrink(),
+                    : const SizedBox.shrink(),
                 // buildTile(translate(context).place_of_class,"1,2", classTakenSvg),
                 SizedBox(height: 0.5.h),
-                buildTile(translate(context).grade_class, "G3 : H1 ,H2 , H3 , C5 , C3\nG4 : J4 , K5 ,K9 ,F2 ,F3", jobDetailSvg),
+                buildTile(translate(context).grade_class, gradeClass.join(", "), jobDetailSvg),
                 const SizedBox(height: 20,),
               ]),
         ),

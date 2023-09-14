@@ -1,11 +1,14 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
+import 'package:staff_app/view/Dashboard_screen/dashboard_screen_ctrl.dart';
 import 'package:staff_app/view/notification_screen/notification_screen.dart';
 import 'package:staff_app/view/sos/sos_screen.dart';
 
@@ -21,14 +24,28 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final DashboardScreenCtrl dashboardScreenCtrl = Get.find<DashboardScreenCtrl>();
     return AppBar(
-      title: Text(title??"", style: Style.montserratBoldStyle().copyWith(fontSize: appBarHeadingTs, color: BaseColors.appBarTextColor)),
+      title: GestureDetector(
+            onTap: () async {
+              if (kDebugMode) {
+                Locale locale = await setLocalePref('ar');
+                Get.updateLocale(locale);
+              }
+            },
+              onDoubleTap: () async {
+                if (kDebugMode) {
+                  Locale locale = await setLocalePref('en');
+                  Get.updateLocale(locale);
+                }
+              },
+          child: Text(title??"", style: Style.montserratBoldStyle().copyWith(fontSize: appBarHeadingTs, color: BaseColors.appBarTextColor))),
       backgroundColor: Colors.transparent,
       elevation: 0.0,
       centerTitle: true,
       automaticallyImplyLeading: false,
       bottom: PreferredSize(preferredSize: Size.fromHeight(bottomWidgetHeight??0),
-      child: bottomChild??SizedBox.shrink()),
+      child: bottomChild ?? const SizedBox.shrink()),
       leading: onDrawerPressed != null
       ///   Drawer Icon
           ? GestureDetector(onTap: onDrawerPressed, child: Padding(
@@ -45,18 +62,18 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       actions: [
       ///  SOS Icon
-        Visibility(
-          visible: showSos??false,
-          child: GestureDetector(
-            onTap: (){
-              Get.to(const SOSView());
-            },
-            child: SvgPicture.asset(sosSvg),
-          ),
-        ),
-        SizedBox(
-          width: 2.w,
-        ),
+      //   Visibility(
+      //     visible: showSos??false,
+      //     child: GestureDetector(
+      //       onTap: (){
+      //         Get.to(const SOSView());
+      //       },
+      //       child: SvgPicture.asset(sosSvg),
+      //     ),
+      //   ),
+      //   SizedBox(
+      //     width: 2.w,
+      //   ),
       /// Notification Icon
         Visibility(
           visible: showNotification??true,
@@ -65,7 +82,9 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
             children: [
               GestureDetector(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const NotificationScreen()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const NotificationScreen())).then((value) {
+                      dashboardScreenCtrl.notificationCount?.value = "0";
+                    });
                   },
                   child: Padding(
                     padding: EdgeInsets.only(right: 4.w,left: 4.w),
@@ -73,18 +92,22 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
                   ),
               ),
               /// Notification Count
-              Positioned(
-                top: 1.8.h,
-                right: 4.w,
-                child: Container(
-                  height: 17.sp,
-                  width: 17.sp,
-                  alignment: Alignment.center,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: BaseColors.primaryColor
+              Obx(()=>Visibility(
+                  visible: (dashboardScreenCtrl.notificationCount?.value??"0") != "0" && (dashboardScreenCtrl.notificationCount?.value??"0").toLowerCase() != "null",
+                  child: Positioned(
+                    top: 1.8.h,
+                    right: 4.w,
+                    child: Container(
+                      height: 17.sp,
+                      width: 17.sp,
+                      alignment: Alignment.center,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: BaseColors.primaryColor
+                      ),
+                      child: Text((dashboardScreenCtrl.notificationCount?.value??"0"),style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.w500)),
+                    ),
                   ),
-                  child: Text("1",style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.w500)),
                 ),
               )
             ],

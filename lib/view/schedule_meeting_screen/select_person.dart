@@ -12,7 +12,6 @@ import 'package:staff_app/Utility/filter_textformfield.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
-import 'package:staff_app/view/complaints_report_screen/controller/complaint_report_controller.dart';
 import 'package:staff_app/view/schedule_meeting_screen/controller/schedule_meeting_screen_ctrl.dart';
 import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 
@@ -45,11 +44,11 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
       body: Dialog(
         insetPadding: EdgeInsets.only(left: 15.sp, right: 15.sp),
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0)
+            borderRadius: BorderRadius.circular(15)
         ),
         child: Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15.0),
+              borderRadius: BorderRadius.circular(15),
               color: Colors.white
           ),
           child: Padding(
@@ -61,20 +60,18 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(""),
+                    const Text(""),
                     Text("Select Person", style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: Colors.black),),
                     GestureDetector(
                       onTap: (){
                         Get.back();
                       },
-                      child: Icon(Icons.close, color: Colors.black,),)
+                      child: const Icon(Icons.close, color: Colors.black,),)
                   ],
                 ),
-                SizedBox(
-                  height: 2.h,
-                ),
+                SizedBox(height: 2.h),
                 Container(
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),border: Border.all(color: Color(0xFFCECECE),width: 1)),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),border: Border.all(color: const Color(0xFFCECECE),width: 1)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -89,7 +86,7 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                                     child: addText(value.name??"", 16.sp, Colors.black, FontWeight.w400));
                               }).toList(),
                               onChange: (value) {
-                                controller.selectedRoleId.value = value.sId??"";
+                                controller.selectedRoleId.value = value.name??"";
                                 controller.selectedRoleName.value = value.name??"";
                                 setState(() {
                                   DummyLists.initialRole=value.name??"";
@@ -98,7 +95,7 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                               },icon: jobDetailSvg),
                         ],
                       ),
-                      Divider(height: 1,thickness: 1),
+                      const Divider(height: 1,thickness: 1),
                       FilterTextFormField(onChange: (String val) {
                       }, hintText: "Search By ID...", keyBoardType: TextInputType.name,
                       ),
@@ -109,7 +106,7 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                   height: 3.h,
                 ),
                 Obx(()=> controller.isStaffLoading.value
-                    ? Center(child: SizedBox(height: 30,width: 30,child: CircularProgressIndicator()))
+                    ? const Center(child: SizedBox(height: 30,width: 30,child: CircularProgressIndicator()))
                     : ListView.builder(
                   shrinkWrap: true,
                   itemCount: controller.staffData.length,
@@ -120,8 +117,8 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                       child: GestureDetector(
                         onTap: (){
                           selectedFMOPos = index;
-                          controller.selectedPersonId.value = controller.staffData[index].user?.sId??"";
-                          controller.selectedPersonController.value.text = controller.staffData[index].user?.name??"";
+                          controller.selectedPersonId.value = controller.staffData[index].sId??"";
+                          controller.selectedPersonController.value.text = controller.staffData[index].name??"";
                           setState(() {});
                         },
                         child: Container(
@@ -138,8 +135,8 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                               Row(
                                 children: [
                                   Container(
-                                    padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
-                                    margin: EdgeInsets.only(left: 2,bottom: 2,top: 2),
+                                    padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 10.sp, right: 10.sp),
+                                    margin: const EdgeInsets.only(left: 2,bottom: 2,top: 2),
                                     decoration: BoxDecoration(
                                       border: Border.all(
                                           color: BaseColors.primaryColor
@@ -150,21 +147,17 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                                     child: SvgPicture.asset(manSvg,height: 30,),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 10.sp),
+                                    padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 10.sp),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(controller.staffData[index].user?.name??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
-                                        SizedBox(
-                                          height: .5.h,
-                                        ),
+                                        Text(controller.staffData[index].name??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
+                                        SizedBox(height: 0.5.h),
                                         Row(
                                           children: [
-                                            buildInfoItems("Subject", controller.staffData[index].subject?.name??""),
-                                            SizedBox(
-                                              width: 5.w,
-                                            ),
-                                            buildInfoItems("ID", controller.staffData[index].employeeId??""),
+                                            buildInfoItems("Role", controller.staffData[index].role?.displayName??""),
+                                            SizedBox(width: 1.w),
+                                            buildInfoItems("ID", controller.staffData[index].uniqueId??""),
                                           ],
                                         ),
                                       ],
@@ -174,7 +167,7 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                               ),
 
                               Padding(
-                                padding: const EdgeInsets.only(right: 10.0, left: 10.0),
+                                padding: const EdgeInsets.only(right: 10.0, left: 0.0),
                                 child: Container(
                                   height: 20,
                                   width: 20,

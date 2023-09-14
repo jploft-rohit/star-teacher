@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:staff_app/Utility/base_utility.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
 import 'package:dio/dio.dart'as dio;
@@ -34,15 +36,38 @@ class StarGalleryCtrl extends GetxController{
   Rx<TextEditingController> classController = TextEditingController().obs;
   Rx<TextEditingController> classSectionController = TextEditingController().obs;
   RxList<StarGalleryCategoryData>? starGalleryCategoryList = <StarGalleryCategoryData>[].obs;
+  /// Pagination
+  RxInt page = 1.obs;
+  final RefreshController refreshController = RefreshController(initialRefresh: false);
 
-  getData({required String type,required showLoader}) async {
+  getData({required String type,required bool? showLoader, String? refreshType}) async {
     isGalleryLoading.value = true;
-    list?.value = [];
-    await BaseAPI().get(url: ApiEndPoints().getStarGallery,queryParameters: type.isNotEmpty ? {"type": type,"limit": 300} : null,showLoader: showLoader).then((value){
+    if (refreshType == 'refresh' || refreshType == null) {
+      list?.clear();
+      refreshController.loadComplete();
+      page.value = 1;
+    } else if (refreshType == 'load') {
+      page.value++;
+    }
+    await BaseAPI().get(url: ApiEndPoints().getStarGallery,queryParameters: type.isNotEmpty ? {
+      "type": type,
+      "limit":apiItemLimit,
+      "page":page.value.toString()
+    } : null,showLoader: showLoader??page.value == 1).then((value){
       isGalleryLoading.value = false;
       if (value?.statusCode ==  200) {
-        list?.value = StarGalleryResponse.fromJson(value?.data).data??[];
-
+        // list?.value = StarGalleryResponse.fromJson(value?.data).data??[];
+        if(refreshType == 'refresh'){
+          list?.clear();
+          refreshController.loadComplete();
+          refreshController.refreshCompleted();
+        }else if((StarGalleryResponse.fromJson(value?.data).data??[]).isEmpty && refreshType == 'load'){
+          refreshController.loadNoData();
+        }
+        else if(refreshType == 'load'){
+          refreshController.loadComplete();
+        }
+        list?.addAll(StarGalleryResponse.fromJson(value?.data).data??[]);
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }

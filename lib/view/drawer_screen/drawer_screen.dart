@@ -12,10 +12,8 @@ import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/view/about_us/about_us.dart';
-import 'package:staff_app/view/custody/custody_view.dart';
 import 'package:staff_app/view/delegation/delegation_screen.dart';
 import 'package:staff_app/view/e_library/e_library_assignments.dart';
-import 'package:staff_app/view/events/events_screen.dart';
 import 'package:staff_app/view/exam_time_table/exam_time_table_screen.dart';
 import 'package:staff_app/view/feedback_help_screen/feedback_help_screen.dart';
 import 'package:staff_app/view/library_screen/notebook_screen/notebook_screen.dart';
@@ -25,9 +23,9 @@ import 'package:staff_app/view/my_profile_screen/my_profile_screen.dart';
 import 'package:staff_app/view/schedule_meeting_screen/schedule_meeting_screen.dart';
 import 'package:staff_app/view/shop_screen/shop_screen.dart';
 import 'package:staff_app/view/star_attendance_screen/star_attendance_screen.dart';
-import 'package:staff_app/view/star_evaluation_screen/star_evaluation_screen.dart';
 import 'package:staff_app/view/star_reward_screen/star_reward_screen.dart';
 import 'package:staff_app/view/task_or_reminder_screen/task_or_reminder_screen.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 
 
 class DrawerScreen extends StatefulWidget {
@@ -55,7 +53,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SvgPicture.asset(appLogoSvg, height: 31.sp,),
+                    SvgPicture.asset(appLogoSvg, height: 31.sp),
                     IconButton(
                       onPressed: (){
                         Get.back();
@@ -70,20 +68,6 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     ),
                   ],
                 ),
-                // Visibility(
-                //   visible: kDebugMode,
-                //   child: GestureDetector(
-                //     onTap: () async {
-                //       Locale locale = await setLocalePref('ar');
-                //       Get.updateLocale(locale);
-                //     },
-                //     onDoubleTap: () async {
-                //       Locale locale = await setLocalePref('en');
-                //       Get.updateLocale(locale);
-                //     },
-                //     child: buildTile1("Change Language"),
-                //   ),
-                // ),
                 buildExpensionTile(translate(context).my_profile,
                     [
                       GestureDetector(
@@ -124,12 +108,12 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     },
                     child: buildTile(translate(context).stars_attendance),
                   ),
-                  GestureDetector(
-                    onTap: (){
-                      Get.to(const StarEvaluationScreen());
-                    },
-                    child: buildTile(translate(context).star_evaluation),
-                  ),
+                  // GestureDetector(
+                  //   onTap: (){
+                  //     Get.to(const StarEvaluationScreen());
+                  //   },
+                  //   child: buildTile(translate(context).star_evaluation),
+                  // ),
                   // GestureDetector(
                   //   onTap: (){
                   //     Get.to(const AssignmentScreen());
@@ -232,7 +216,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 //   child: buildTile1(translate(context).school_library),),
                 GestureDetector(
                   onTap: (){
-                    Get.to(TaskOrReminderScreen(isFromBtmBar: false,));
+                    Get.to(const TaskOrReminderScreen(isFromBtmBar: false,));
                   },
                   child: buildTile1(translate(context).tasks_reminders)),
                 // GestureDetector(
@@ -255,21 +239,21 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     Get.to(const FeedbackHelpScreen());
                   },
                   child: buildTile1(translate(context).help_feedback),),
-                GestureDetector(
-                    onTap: (){
-                      Get.to(const EventsScreen());
-                    },
-                    child: buildTile1("Events")),
+                // GestureDetector(
+                //     onTap: (){
+                //       Get.to(const EventsScreen());
+                //     },
+                //     child: buildTile1("Events")),
                 // GestureDetector(
                 //     onTap: (){
                 //       Get.to(const RouteView());
                 //     },
                 //     child: buildTile1("Route")),
-                GestureDetector(
-                    onTap: (){
-                      Get.to(const CustodyView());
-                    },
-                    child: buildTile1("Custody")),
+                // GestureDetector(
+                //     onTap: (){
+                //       Get.to(const CustodyView());
+                //     },
+                //     child: buildTile1("Custody")),
                 GestureDetector(
                     onTap: (){
                       Get.to(const ExamTimeTableScreen());
@@ -292,7 +276,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
                           BaseOverlays().showLoader();
                           Future.delayed(const Duration(seconds: 2), () async {
                             await BaseSharedPreference().clearLoginSession();
-                            Get.offAll(LoginScreen());
+                            await BaseSharedPreference().clearAllSharedPreference();
+                            Get.offAll(const LoginScreen());
+                            ZegoUIKitPrebuiltCallInvitationService().uninit();
                           });
                         }
                       );

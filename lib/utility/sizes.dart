@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 /// Ts Stands For Text Size
 /// All Buttons Has w700 Boldness
@@ -48,4 +49,6 @@ const String toggleMediumButton = "toggleMediumButton";
 const String toggleLargeButton = "togglelarge";
 const String buttonIcon = "iconButton";
 const String dialogButton = "dialogButton";
+const bool enablePullToRefresh = kDebugMode;
+const String apiItemLimit = "10";
 

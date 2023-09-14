@@ -167,7 +167,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                         ],
                       ),
                     ),
-                    SizedBox(width: 6),
+                    const SizedBox(width: 6),
                     Column(
                       children: [
                         // buildDeactivated(),
@@ -299,7 +299,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                 return Container(
                                   color: Colors.white,
                                   child: Table(
-                                    border: TableBorder(
+                                    border: const TableBorder(
                                       top: BorderSide(width: 1, color: BaseColors.borderColor),
                                       verticalInside: BorderSide(width: 1, color: BaseColors.borderColor),
                                       // bottom: BorderSide(width: 1, color: Colors.black),
@@ -413,7 +413,7 @@ class _MedicalReportViewState extends State<MedicalReportView> {
                                 return Container(
                                   color: Colors.white,
                                   child: Table(
-                                    border: TableBorder(
+                                    border: const TableBorder(
                                       top: BorderSide(width: 1, color: BaseColors.borderColor),
                                       verticalInside: BorderSide(width: 1, color: BaseColors.borderColor),
                                       // bottom: BorderSide(width: 1, color: Colors.black),

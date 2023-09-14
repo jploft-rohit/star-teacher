@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/backend/responses_model/area_list_response.dart';
 import 'package:staff_app/backend/responses_model/location_response.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
@@ -20,6 +21,7 @@ import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
 import 'package:staff_app/utility/google_map.dart';
 import 'package:staff_app/view/location/controller/location_controller.dart';
+import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 
 class CreateUserLocation extends StatefulWidget {
   final bool? isUpdating;
@@ -33,6 +35,7 @@ class CreateUserLocation extends StatefulWidget {
 class _CreateUserLocationState extends State<CreateUserLocation> {
 
   LocationController controller = Get.find<LocationController>();
+  BaseCtrl baseCtrl = Get.find<BaseCtrl>();
 
   @override
   void initState() {
@@ -73,8 +76,8 @@ class _CreateUserLocationState extends State<CreateUserLocation> {
                           borderColor: Colors.transparent,
                           readOnly: true,
                           onTap: (){
-                              FocusScope.of(Get.context!).requestFocus(new FocusNode());
-                              Get.to(MapUiBody())?.then((value){
+                              FocusScope.of(Get.context!).requestFocus(FocusNode());
+                              Get.to(const MapUiBody())?.then((value){
                                 Map<String, dynamic> addressData = value;
                                 controller.addressLocationController.value.text=addressData['address'];
                                 controller.latitudeController.value.text = addressData['latitude'].toString();
@@ -91,8 +94,8 @@ class _CreateUserLocationState extends State<CreateUserLocation> {
                       ),
                       GestureDetector(
                         onTap: (){
-                            FocusScope.of(Get.context!).requestFocus(new FocusNode());
-                            Get.to(MapUiBody())?.then((value){
+                            FocusScope.of(Get.context!).requestFocus(FocusNode());
+                            Get.to(const MapUiBody())?.then((value){
                               Map<String, dynamic> addressData = value;
                               controller.addressLocationController.value.text=addressData['address'];
                               controller.latitudeController.value.text = addressData['latitude'].toString();
@@ -124,13 +127,9 @@ class _CreateUserLocationState extends State<CreateUserLocation> {
                             SizedBox(
                               height: .5.h,
                             ),
-                            CustomTextField(
-                              hintTextColor: Colors.grey.shade500,
-                              fillColor: BaseColors.txtFieldTextColor,
+                            BaseTextFormField(
                               controller: controller.sectorController.value,
-                              hintText: "Dubai",
-                              textInputType: TextInputType.streetAddress,
-                              borderRadius: 3.0,
+                              hintText: "Enter Sector",
                               validator: (val){
                                 if(controller.sectorController.value.text.isEmpty){
                                   return "Please Enter Sector Name";
@@ -149,19 +148,22 @@ class _CreateUserLocationState extends State<CreateUserLocation> {
                           children: [
                             Text(translate(context).area, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),),
                             SizedBox(height: .5.h),
-                            CustomTextField(
-                              hintTextColor: Colors.grey.shade500,
-                              fillColor: BaseColors.txtFieldTextColor,
+                            BaseTextFormField(
                               controller: controller.areaController.value,
-                              hintText: "Jumeriah",
-                              textInputType: TextInputType.streetAddress,
-                              borderRadius: 3.0,
-                              validator: (val){
-                                if(controller.areaController.value.text.isEmpty){
-                                  return "Please Enter Area Name";
-                                }
-                                return null;
+                              hintText: "Select Area",
+                              isDropDown: true,
+                              errorText: "Please Select Area",
+                              onChanged: (value){
+                                controller.areaController.value.text = value?.name??"";
+                                controller.selectedAreaID.value = value?.sId??"";
+                                setState(() {});
                               },
+                              items:  baseCtrl.areaList?.map((value) {
+                                return DropdownMenuItem<AreaListData>(
+                                  value: value,
+                                  child: addText(value.name??"", 16.sp, Colors.black, FontWeight.w400),);
+                              }).toList(),
+
                             ),
                           ],
                         ),
@@ -178,13 +180,10 @@ class _CreateUserLocationState extends State<CreateUserLocation> {
                           children: [
                             Text(translate(context).street, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),),
                             SizedBox(height: .5.h),
-                            CustomTextField(
-                              hintTextColor: Colors.grey.shade500,
-                              fillColor: BaseColors.txtFieldTextColor,
+                            BaseTextFormField(
                               controller: controller.streetController.value,
-                              hintText: "53 B",
-                              textInputType: TextInputType.streetAddress,
-                              borderRadius: 3.0,
+                              hintText: "Enter Street",
+                              keyboardType: TextInputType.streetAddress,
                               validator: (val){
                                 if(controller.streetController.value.text.isEmpty){
                                   return "Please Enter Street Name";
@@ -203,13 +202,10 @@ class _CreateUserLocationState extends State<CreateUserLocation> {
                           children: [
                             Text(translate(context).building_villa, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),),
                             SizedBox(height: .5.h),
-                            CustomTextField(
-                              hintTextColor: Colors.grey.shade500,
-                              fillColor: BaseColors.txtFieldTextColor,
+                            BaseTextFormField(
                               controller: controller.buildingController.value,
-                              textInputType: TextInputType.streetAddress,
-                              hintText: "KM Tower A",
-                              borderRadius: 3.0,
+                              keyboardType: TextInputType.streetAddress,
+                              hintText: "Enter Building Name",
                               validator: (val){
                                 if(controller.buildingController.value.text.isEmpty){
                                   return "Please Enter Building Name";
@@ -232,12 +228,9 @@ class _CreateUserLocationState extends State<CreateUserLocation> {
                           children: [
                             Text(translate(context).flat_villa_no, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),),
                             SizedBox(height: .5.h),
-                            CustomTextField(
-                              hintTextColor: Colors.grey.shade500,
-                              fillColor: BaseColors.txtFieldTextColor,
+                            BaseTextFormField(
                               controller: controller.flatController.value,
-                              hintText: "#123456",
-                              borderRadius: 3.0,
+                              hintText: "Enter Flat Number",
                               validator: (val){
                                 if(controller.flatController.value.text.isEmpty){
                                   return "Please Enter Flat Name";
@@ -260,13 +253,10 @@ class _CreateUserLocationState extends State<CreateUserLocation> {
                             SizedBox(
                               height: .5.h,
                             ),
-                            CustomTextField(
-                              hintTextColor: Colors.grey.shade500,
-                              fillColor: BaseColors.txtFieldTextColor,
+                            BaseTextFormField(
                               controller: controller.landmarkController.value,
-                              hintText: "Jumeriah",
-                              textInputType: TextInputType.streetAddress,
-                              borderRadius: 3.0,
+                              hintText: "Enter Landmark",
+                              keyboardType: TextInputType.streetAddress,
                               validator: (val){
                                 if(controller.landmarkController.value.text.isEmpty){
                                   return "Please Enter Landmark Name";
@@ -312,13 +302,13 @@ class _CreateUserLocationState extends State<CreateUserLocation> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     SizedBox(width: 2.w),
-                                    Text("+"+(controller.selectedCountryCode.value),style: TextStyle(fontSize: textFormFieldHintTs)),
-                                    Icon(Icons.arrow_drop_down_rounded, color: Colors.grey),
+                                    Text("+${controller.selectedCountryCode.value}",style: TextStyle(fontSize: textFormFieldHintTs)),
+                                    const Icon(Icons.arrow_drop_down_rounded, color: Colors.grey),
                                   ],
                                 ),
                               ),
                               controller: controller.mobileController.value,
-                              hintText: "0503664321",
+                              hintText: "Enter Mobile",
                               textInputType: TextInputType.phone,
                               textInputFormatter: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                               borderRadius: 3.0,
@@ -345,7 +335,7 @@ class _CreateUserLocationState extends State<CreateUserLocation> {
                               hintTextColor: Colors.grey.shade500,
                               fillColor: BaseColors.txtFieldTextColor,
                               controller: controller.landlineController.value,
-                              hintText: "043674882",
+                              hintText: "Enter Landline",
                               borderRadius: 3.0,
                               textInputType: TextInputType.phone,
                               validator: (val){
@@ -371,8 +361,8 @@ class _CreateUserLocationState extends State<CreateUserLocation> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     SizedBox(width: 2.w),
-                                    Text("+"+(controller.selectedLandlineCode.value),style: TextStyle(fontSize: textFormFieldHintTs)),
-                                    Icon(Icons.arrow_drop_down_rounded, color: Colors.grey),
+                                    Text("+${controller.selectedLandlineCode.value}",style: TextStyle(fontSize: textFormFieldHintTs)),
+                                    const Icon(Icons.arrow_drop_down_rounded, color: Colors.grey),
                                   ],
                                 ),
                               ),
@@ -424,8 +414,7 @@ class _CreateUserLocationState extends State<CreateUserLocation> {
                           );
                         },
                       ),
-                      SizedBox(height: 0.5.h),
-                      Text("${translate(context).photo_uploaded} 132KB", style: TextStyle(color: Color(0xff1C6BA4),fontSize: 13.sp),),
+                      Text("${translate(context).photo_uploaded} 132KB", style: TextStyle(color: const Color(0xff1C6BA4),fontSize: 13.sp),),
                       SizedBox(height: 5.h),
                       Center(child: BaseButton(title: translate(context).send_request, onPressed: (){
                         controller.updateData();

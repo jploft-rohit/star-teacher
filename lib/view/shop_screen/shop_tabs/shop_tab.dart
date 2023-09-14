@@ -72,7 +72,7 @@ class _ShopTabState extends State<ShopTab> with TickerProviderStateMixin {
             Expanded(
               child: TabBarView(
                   controller: tabController,
-                  children: [
+                  children: const [
                     ShopDynamicTabs(),
                     ShopDynamicTabs(),
                     ShopDynamicTabs(),

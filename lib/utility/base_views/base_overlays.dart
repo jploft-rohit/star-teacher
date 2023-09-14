@@ -22,6 +22,7 @@ import 'package:staff_app/utility/constant_images.dart';
 import 'package:staff_app/utility/custom_text_field.dart';
 
 class BaseOverlays {
+
   showOtpDialog() {
     final first = TextEditingController(),
         second = TextEditingController(),
@@ -54,7 +55,7 @@ class BaseOverlays {
                           onTap: () {
                             Get.back();
                           },
-                          child: Icon(Icons.close, color: Colors.black)),
+                          child: const Icon(Icons.close, color: Colors.black)),
                     ],
                   ),
                   SizedBox(
@@ -200,7 +201,7 @@ class BaseOverlays {
         pageBuilder: (context, a1, a2) {
           return Dialog(
             // insetPadding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10))),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -231,7 +232,7 @@ class BaseOverlays {
                       BaseButton(
                         btnType: mediumButton,
                         borderRadius: 20,
-                        title: leftButtonTitle ?? "Cancel",
+                        title: leftButtonTitle ?? (translate(Get.context!).cancel),
                         onPressed: onLeftButtonPressed ??
                             () {
                               Get.back();
@@ -241,7 +242,7 @@ class BaseOverlays {
                       BaseButton(
                           btnType: mediumButton,
                           borderRadius: 20,
-                          title: rightButtonTitle ?? "Proceed",
+                          title: rightButtonTitle ?? (translate(Get.context!).proceed),
                           onPressed: onRightButtonPressed ??
                               () {
                                 Get.back();
@@ -274,7 +275,7 @@ class BaseOverlays {
             onWillPop: () async => false,
             child: Dialog(
               insetPadding: EdgeInsets.symmetric(horizontal: 3.w),
-              shape: RoundedRectangleBorder(
+              shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(14))),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -282,7 +283,7 @@ class BaseOverlays {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     Align(
                       alignment: Alignment.topRight,
                       child: GestureDetector(
@@ -293,11 +294,11 @@ class BaseOverlays {
                           child: SvgPicture.asset("assets/images/ic_close.svg",
                               height: 16)),
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     Visibility(
                         visible: (iconSvg ?? "").isNotEmpty,
                         child: SvgPicture.asset(iconSvg ?? "")),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     Text(title ?? "",
                         textAlign: TextAlign.center,
                         style: const TextStyle(
@@ -335,7 +336,7 @@ class BaseOverlays {
       pageBuilder: (context, a1, a2) {
         return Dialog(
           insetPadding: EdgeInsets.symmetric(horizontal: 3.w),
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(14))),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -343,7 +344,7 @@ class BaseOverlays {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
                 Align(
                   alignment: Alignment.topRight,
                   child: GestureDetector(
@@ -353,7 +354,7 @@ class BaseOverlays {
                       child: SvgPicture.asset("assets/images/ic_close.svg",
                           height: 16)),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 Row(
                   children: [
                     Visibility(
@@ -370,9 +371,9 @@ class BaseOverlays {
                             },
                             child: Column(
                               children: [
-                                Icon(Icons.camera_alt_outlined,
+                                const Icon(Icons.camera_alt_outlined,
                                     color: BaseColors.primaryColor, size: 60),
-                                SizedBox(height: 8),
+                                const SizedBox(height: 8),
                                 Text(translate(Get.context!).camera),
                               ],
                             ),
@@ -393,9 +394,9 @@ class BaseOverlays {
                             },
                             child: Column(
                               children: [
-                                Icon(Icons.photo_library_outlined,
+                                const Icon(Icons.photo_library_outlined,
                                     color: BaseColors.primaryColor, size: 60),
-                                SizedBox(height: 8),
+                                const SizedBox(height: 8),
                                 Text(translate(Get.context!).gallery),
                               ],
                             ),
@@ -412,9 +413,9 @@ class BaseOverlays {
                           },
                           child: Column(
                             children: [
-                              Icon(Icons.file_present_outlined, color: BaseColors.primaryColor, size: 60),
-                              SizedBox(height: 8),
-                              Text("File"),
+                              const Icon(Icons.file_present_outlined, color: BaseColors.primaryColor, size: 60),
+                              const SizedBox(height: 8),
+                              Text(translate(Get.context!).file),
                             ],
                           ),
                         ),
@@ -432,7 +433,7 @@ class BaseOverlays {
                               }
                             });
                           },
-                          child: Column(
+                          child: const Column(
                             children: [
                               Icon(Icons.video_collection_outlined,
                                   color: BaseColors.primaryColor, size: 60),
@@ -459,7 +460,7 @@ class BaseOverlays {
                             //   setState(() {});
                             // }
                           },
-                          child: Column(
+                          child: const Column(
                             children: [
                               Icon(Icons.audio_file_outlined,
                                   color: BaseColors.primaryColor, size: 60),
@@ -491,7 +492,7 @@ class BaseOverlays {
       pageBuilder: (context, a1, a2) {
         return Dialog(
           insetPadding: EdgeInsets.symmetric(horizontal: 3.w),
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(14))),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -499,7 +500,7 @@ class BaseOverlays {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
                 Align(
                   alignment: Alignment.topRight,
                   child: GestureDetector(
@@ -508,7 +509,7 @@ class BaseOverlays {
                       },
                       child: SvgPicture.asset("assets/images/ic_close.svg", height: 16)),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
@@ -525,8 +526,8 @@ class BaseOverlays {
                           child: Column(
                             children: [
                               SvgPicture.asset("assets/images/document 1.svg",height: 55),
-                              SizedBox(height: 8),
-                              Text("PDF"),
+                              const SizedBox(height: 8),
+                              const Text("PDF"),
                             ],
                           ),
                         )),
@@ -540,7 +541,7 @@ class BaseOverlays {
                               }
                             });
                           },
-                          child: Column(
+                          child: const Column(
                             children: [
                               Icon(Icons.photo_library_outlined,
                                   color: BaseColors.primaryColor, size: 60),
@@ -574,7 +575,7 @@ class BaseOverlays {
         pageBuilder: (context, a1, a2) {
           return Dialog(
             insetPadding: EdgeInsets.symmetric(horizontal: 3.w),
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(14))),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -759,12 +760,12 @@ class BaseOverlays {
     );
   }
 
-  viewPdfDialog({String? url,bool? concatBaseUrl}){
+  viewPdfDialog({String? url,bool? concatBaseUrl, required String title}){
     showGeneralDialog(context: Get.context!,
       pageBuilder: (context, animation, secondaryAnimation) {
         return ShowPdfViewDialog(
-          url: (concatBaseUrl??true) ? (ApiEndPoints().imageBaseUrl) + (url??"") : (url??""),
-          title: "Task & Reminder",
+          url: (concatBaseUrl??true) ? "${ApiEndPoints().concatBaseUrl}/star-backend/${url??""}" : (url??""),
+          title: title,
         );
       },
     );
@@ -774,31 +775,58 @@ class BaseOverlays {
     showGeneralDialog(context: Get.context!,
       pageBuilder: (context, animation, secondaryAnimation) {
         return Stack(
-          alignment: Alignment.bottomCenter,
-          clipBehavior: Clip.none,
+          alignment: Alignment.topLeft,
           children: [
-            PhotoView(
-              imageProvider: NetworkImage(((url??"").contains("http")) ? (url??"") :  ApiEndPoints().imageBaseUrl+(url??"")),
-              initialScale: PhotoViewComputedScale.contained * 1.0,
-              maxScale: PhotoViewComputedScale.contained * 3.0,
-              minScale: PhotoViewComputedScale.contained * 0.8,
-              loadingBuilder: (context, event) => Center(
-                child: Container(
-                  width: 20.0,
-                  height: 20.0,
-                  child: CircularProgressIndicator(),
+            Padding(
+              padding: EdgeInsets.only(top: 2.h),
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 2.h, vertical: 4.h),
+                padding: EdgeInsets.symmetric(horizontal: 4.h, vertical: 4.h),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10)
+                ),
+                child: PhotoView(
+                  disableGestures: true,
+                  imageProvider: NetworkImage(((url??"").contains("http")) ? (url??"") :  "${ApiEndPoints().concatBaseUrl}/star-backend/${url??""}"),
+                  initialScale: PhotoViewComputedScale.contained * 1.0,
+                  maxScale: PhotoViewComputedScale.contained * 3.0,
+                  minScale: PhotoViewComputedScale.contained * 0.8,
+                  loadingBuilder: (context, event) => const Center(
+                    child: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
                 ),
               ),
             ),
-            Positioned(child: GestureDetector(
-              onTap: (){
-                BaseOverlays().dismissOverlay();
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(40),
-                child: Icon(Icons.close_rounded,color: Colors.white,size: 40),
+            Positioned(
+                top: 7.h,
+                left: 3.h,
+                child: GestureDetector(
+                  onTap: (){
+                    BaseOverlays().dismissOverlay();
+                    },
+                  child: const Icon(Icons.close_rounded,color: Colors.black,size: 20),
+                ),
+            ),
+            Positioned(
+              bottom: 5.h,
+              left: 20.h,
+              right: 3.h,
+              child: Material(
+                  type: MaterialType.transparency,
+                  child: Text(
+                    getDateFromUrl(url??""),
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 12,
+                    ),
+                  ),
               ),
-            )),
+            ),
           ],
         );
       },
@@ -819,7 +847,7 @@ class BaseOverlays {
                 child: StatefulBuilder(builder: (context, setSta) {
                   return Container(
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 15),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
                     width: MediaQuery.of(context).size.width,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -834,7 +862,7 @@ class BaseOverlays {
                               }, "assets/images/crossIcon.svg"),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(top: 10),
+                              padding: const EdgeInsets.only(top: 10),
                               child: Center(
                                   child: Text(
                                     "Your Details has been submitted\nsuccessfully",
@@ -910,7 +938,7 @@ class BaseOverlays {
                                 }, StarIcons.closeIconBlack),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(top: 10),
+                                padding: const EdgeInsets.only(top: 10),
                                 child: Center(
                                   child: addAlignedText(
                                       'Add Medical Records',
@@ -963,7 +991,7 @@ class BaseOverlays {
                                   builder: (context, child) {
                                     return Theme(
                                       data: Theme.of(context).copyWith(
-                                        colorScheme: ColorScheme.light(
+                                        colorScheme: const ColorScheme.light(
                                           primary: BaseColors.primaryColor,
                                         ),
                                       ),

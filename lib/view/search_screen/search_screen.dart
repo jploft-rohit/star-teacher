@@ -7,7 +7,7 @@ import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/search_screen/controller/search_screen_ctrl.dart';
@@ -134,13 +134,13 @@ class _SearchScreenState extends State<SearchScreen> {
               borderColor: BaseColors.borderColor,
               controller: searchCtrl,
               hintText: translate(context).search,
-              suffixIcon: controller.selectedFMOPos.value == 2 ? const SizedBox() : Padding(
-                padding: const EdgeInsetsDirectional.only(end: 10.0),
-                child: SvgPicture.asset(controller.fmoImageList[controller.selectedFMOPos.value],color: BaseColors.primaryColor,),
-              ),
+              // suffixIcon: controller.selectedFMOPos.value == 2 ? const SizedBox() : Padding(
+              //   padding: const EdgeInsetsDirectional.only(end: 10.0),
+              //   child: SvgPicture.asset(controller.fmoImageList[controller.selectedFMOPos.value],color: BaseColors.primaryColor,),
+              // ),
             ),
             SizedBox(height: 3.h),
-            Text(translate(context).search_results, style: Style.montserratBoldStyle().copyWith(fontSize: 17.sp),),
+            Text(translate(context).search_results, style: Style.montserratBoldStyle().copyWith(fontSize: 17.sp)),
             SizedBox(height: 2.h),
             Expanded(
               child: Obx(()=>ListView.builder(

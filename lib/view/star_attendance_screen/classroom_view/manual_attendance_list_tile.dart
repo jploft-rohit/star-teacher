@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_views/base_image_network.dart';
@@ -61,7 +60,7 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
                           border: Border.all(color: BaseColors.primaryColor)),
                       child:BaseImageNetwork(
                         link: controller.manualList?[widget.index].user?.profilePic??"",
-                        // errorWidget: SvgPicture.asset(girlSvg),
+                        errorWidget: SvgPicture.asset(manSvg),
                       ),
                     ),
                   ),
@@ -78,20 +77,23 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
                           children: [
                             GestureDetector(
                               onTap: (){
-                                showGeneralDialog(
-                                  context: context,
-                                  pageBuilder: (context, animation, secondaryAnimation) {
-                                    return ConfirmationDialog(msg: "Are you sure you've selected present stars?",isShowBtn: true,onTap: () async {
-                                      BaseOverlays().dismissOverlay();
-                                      await controller.updateManualAttendance(presentStatus: "1", attendanceType: "present", singleStudentId: controller.manualList?[widget.index].sId??"").then((value){
-                                        if (value) {
-                                          selectedRadioButton = "present";
-                                          setState(() {});
-                                        }
-                                      });
-                                    },);
-                                  },
-                                );
+                                if (selectedRadioButton != "present") {
+                                  showGeneralDialog(
+                                    context: context,
+                                    pageBuilder: (context, animation, secondaryAnimation) {
+                                      return ConfirmationDialog(msg: "Are you sure you've selected present stars?",isShowBtn: true,
+                                        onTap: () async {
+                                        BaseOverlays().dismissOverlay();
+                                        await controller.updateManualAttendance(presentStatus: "1", attendanceType: "present", singleStudentId: controller.manualList?[widget.index].sId??"").then((value){
+                                          if (value) {
+                                            selectedRadioButton = "present";
+                                            setState(() {});
+                                          }
+                                        });
+                                      },);
+                                    },
+                                  );
+                                }
                               },
                               child: Container(
                                 color: Colors.white,
@@ -135,21 +137,23 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
                             ),
                             GestureDetector(
                               onTap: (){
-                                showGeneralDialog(
-                                  context: context,
-                                  pageBuilder: (context, animation, secondaryAnimation) {
-                                    return ConfirmationDialog(msg: "Are you sure you've selected late stars?",isShowBtn: true,onTap: () async {
-                                      await controller.updateManualAttendance(presentStatus: "0.75", attendanceType: "late",singleStudentId: controller.manualList?[widget.index].sId??"").then((value){
-                                        BaseOverlays().dismissOverlay();
-                                        if (value) {
-                                          selectedRadioButton = "late";
-                                          setState(() {});
-                                        }
-                                      });
+                                if (selectedRadioButton != "late") {
+                                  showGeneralDialog(
+                                    context: context,
+                                    pageBuilder: (context, animation, secondaryAnimation) {
+                                      return ConfirmationDialog(msg: "Are you sure you've selected late stars?",isShowBtn: true,onTap: () async {
+                                        await controller.updateManualAttendance(presentStatus: "0.75", attendanceType: "late",singleStudentId: controller.manualList?[widget.index].sId??"").then((value){
+                                          BaseOverlays().dismissOverlay();
+                                          if (value) {
+                                            selectedRadioButton = "late";
+                                            setState(() {});
+                                          }
+                                        });
+                                      },
+                                      );
                                     },
-                                    );
-                                  },
-                                );
+                                  );
+                                }
                               },
                               child: Container(
                                 color: Colors.white,
@@ -193,21 +197,23 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
                             ),
                             GestureDetector(
                               onTap: (){
-                                showGeneralDialog(
-                                  context: context,
-                                  pageBuilder: (context, animation, secondaryAnimation) {
-                                    return ConfirmationDialog(msg: "Are you sure you've selected absent stars?",isShowBtn: true,onTap: () async {
-                                      await controller.updateManualAttendance(presentStatus: "0", attendanceType: "absent",singleStudentId: controller.manualList?[widget.index].sId??"").then((value){
-                                        BaseOverlays().dismissOverlay();
-                                        if (value) {
-                                          selectedRadioButton = "absent";
-                                          setState(() {});
-                                        }
-                                      });
+                                if (selectedRadioButton != "absent") {
+                                  showGeneralDialog(
+                                    context: context,
+                                    pageBuilder: (context, animation, secondaryAnimation) {
+                                      return ConfirmationDialog(msg: "Are you sure you've selected absent stars?",isShowBtn: true,onTap: () async {
+                                        await controller.updateManualAttendance(presentStatus: "0", attendanceType: "absent",singleStudentId: controller.manualList?[widget.index].sId??"").then((value){
+                                          BaseOverlays().dismissOverlay();
+                                          if (value) {
+                                            selectedRadioButton = "absent";
+                                            setState(() {});
+                                          }
+                                        });
+                                      },
+                                      );
                                     },
-                                    );
-                                  },
-                                );
+                                  );
+                                }
                               },
                               child: Container(
                                 color: Colors.white,
@@ -264,15 +270,21 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
                       ),
                       child: GestureDetector(
                         onTap: (){
-                          Get.to(ChatingScreen());
+                          Get.to(ChatingScreen(
+                            receiverId: controller.manualList?[widget.index].user?.sId??"",
+                            receiverName: controller.manualList?[widget.index].user?.name??"",
+                            receiverProfilePic: controller.manualList?[widget.index].user?.profilePic??"",
+                            schoolId: controller.manualList?[widget.index].school??"",
+                            uniqueId: controller.manualList?[widget.index].studentId??"",
+                          ));
                         },
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8),
                           child: Column(
                             children: [
                               SvgPicture.asset(chatSvg1),
                               SizedBox(height:1.1.h),
-                              Text(translate(context).chat_with_parents,style: Style.montserratRegularStyle().copyWith(fontSize: 13.sp, color: const Color(0xff686868), ),textAlign: TextAlign.center,),
+                              Text("Chats",style: Style.montserratRegularStyle().copyWith(fontSize: 13.sp, color: const Color(0xff686868), ),textAlign: TextAlign.center,),
                             ],
                           ),
                         ),

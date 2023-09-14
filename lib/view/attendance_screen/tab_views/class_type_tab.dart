@@ -47,15 +47,15 @@ class _ClassTypeTabState extends State<ClassTypeTab> with SingleTickerProviderSt
         Obx(()=>Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              GestureDetector(child: Padding(
-                padding: const EdgeInsets.only(right: 20,top: 6,bottom: 6,left: 6),
+              GestureDetector(child: const Padding(
+                padding: EdgeInsets.only(right: 20,top: 6,bottom: 6,left: 6),
                 child: Icon(Icons.arrow_back_ios,color: BaseColors.primaryColor,size: 22,),
               ),onTap: (){
                 controller.goToPreviousDate();
               }),
               addText(convertDateFormat7(controller.selectedDate.value.toLocal().toString()), 16, Colors.black, FontWeight.w700),
-              GestureDetector(child: Padding(
-                padding: const EdgeInsets.only(right: 6,top: 6,bottom: 6,left: 20),
+              GestureDetector(child: const Padding(
+                padding: EdgeInsets.only(right: 6,top: 6,bottom: 6,left: 20),
                 child: Icon(Icons.arrow_forward_ios,color: BaseColors.primaryColor,size: 22,),
               ),onTap: (){
                 controller.goToNextDate();

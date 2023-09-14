@@ -2,21 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/backend/responses_model/today_schedule_response.dart';
+import 'package:staff_app/storage/base_shared_preference.dart';
+import 'package:staff_app/storage/sp_keys.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/intl/src/intl/date_format.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/view/class_schedule_screen/class_schedule_select_person.dart';
 import 'package:staff_app/view/today_schedule_module/controller/today_schedule_controller.dart';
 
 import '../../language_classes/language_constants.dart';
 
 class RescheduleClassPopup extends StatefulWidget {
   final String name, reason, comment;
-  const RescheduleClassPopup({Key? key, required this.name, required this.reason, required this.comment}) : super(key: key);
+  final TodayScheduleData? todayScheduleData;
+  const RescheduleClassPopup({Key? key, required this.name, required this.reason, required this.comment, this.todayScheduleData}) : super(key: key);
 
   @override
   State<RescheduleClassPopup> createState() => _RescheduleClassPopupState();
@@ -27,6 +33,22 @@ class _RescheduleClassPopupState extends State<RescheduleClassPopup> {
   bool isChecked = true;
   String startDate = flipDate(date: formatFlutterDateTime(flutterDateTime: DateTime.now()));
   String endDate = flipDate(date: formatFlutterDateTime(flutterDateTime: DateTime.now()));
+  String? userName;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      controller.selectedRescheduleDate.value = "Select Date";
+      controller.selectedInTime.value = "Select In Time";
+      controller.selectedOutTime.value = "Select Out Time";
+      controller.selectedOutTimeAPI.value = "";
+      controller.selectedInTimeAPI.value = "";
+      controller.selectedTeacherName.value = "Select Teacher";
+      userName = await BaseSharedPreference().getString(SpKeys().userName)??"";
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,20 +73,18 @@ class _RescheduleClassPopupState extends State<RescheduleClassPopup> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(""),
+                    const Text(""),
                     Text(translate(context).reschedule, style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: Colors.black),),
                     GestureDetector(
                       onTap: (){
                         Get.back();
                       },
-                      child: Icon(Icons.close, color: Colors.black,),)
+                      child: const Icon(Icons.close, color: Colors.black,),)
                   ],
                 ),
-                  Text(translate(context).current, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
-                  SizedBox(
-                    height: 2.h,
-                  ),
-                  Row(
+                Text(translate(context).current, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
+                SizedBox(height: 2.h),
+                Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       SvgPicture.asset(calenderDateSvg,color: BaseColors.primaryColor,height: 20.sp,),
@@ -79,15 +99,61 @@ class _RescheduleClassPopupState extends State<RescheduleClassPopup> {
                               borderRadius: BorderRadius.circular(20.0),
                               border: Border.all(color: BaseColors.primaryColor)
                           ),
-                          child: Text(flipDate(date: formatFlutterDateTime(flutterDateTime: DateTime.now())), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
+                          child: Text(formatBackendDate(widget.todayScheduleData?.completeDateTime??"", getDayFirst: true), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(
+                SizedBox(
                     height: 2.h,
                   ),
-                  Row(
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    SvgPicture.asset("assets/images/time_icon.svg",color: BaseColors.primaryColor,height: 20.sp,),
+                    SizedBox(
+                      width: 5.w,
+                    ),
+                    Expanded(
+                      child: Container(
+                        padding: EdgeInsets.all(10.sp),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.0),
+                            border: Border.all(color: BaseColors.primaryColor)
+                        ),
+                        child: Text(getFormattedTime(widget.todayScheduleData?.startTime??""), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 2.h,
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    SvgPicture.asset("assets/images/time_icon.svg",color: BaseColors.primaryColor,height: 20.sp,),
+                    SizedBox(
+                      width: 5.w,
+                    ),
+                    Expanded(
+                      child: Container(
+                        padding: EdgeInsets.all(10.sp),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.0),
+                            border: Border.all(color: BaseColors.primaryColor)
+                        ),
+                        child: Text(getFormattedTime(widget.todayScheduleData?.endTime??""), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 2.h,
+                ),
+                Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       SvgPicture.asset("assets/images/Vector (3).svg",height: 20.sp,),
@@ -102,22 +168,23 @@ class _RescheduleClassPopupState extends State<RescheduleClassPopup> {
                               borderRadius: BorderRadius.circular(20.0),
                               border: Border.all(color: BaseColors.primaryColor)
                           ),
-                          child: Text(widget.name, style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
+                          child: Text(userName??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 2.h),
-                  Text("${translate(context).reschedule} ${translate(context).to}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
-                  SizedBox(height: 2.h),
-                  GestureDetector(
+                SizedBox(height: 2.h),
+                /// Reschedule To
+                Text("${translate(context).reschedule} ${translate(context).to}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
+                SizedBox(height: 2.h),
+                GestureDetector(
                     onTap: (){
                       showDatePicker(
                           context: context,
                           builder: (context, child) {
                             return Theme(
                               data: Theme.of(context).copyWith(
-                                colorScheme: ColorScheme.light(
+                                colorScheme: const ColorScheme.light(
                                   primary: BaseColors.primaryColor,
                                 ),
                               ),
@@ -129,7 +196,7 @@ class _RescheduleClassPopupState extends State<RescheduleClassPopup> {
                           lastDate: DateTime((DateTime.now().year+50),1,1),
                       ).then((picked){
                         if (picked != null) {
-                          endDate = formatFlutterDateTime(flutterDateTime: picked, getDayFirst: true);
+                          controller.selectedRescheduleDate.value = formatFlutterDateTime(flutterDateTime: picked, getDayFirst: true);
                           setState(() {});
                         }
                       });
@@ -147,33 +214,137 @@ class _RescheduleClassPopupState extends State<RescheduleClassPopup> {
                                 borderRadius: BorderRadius.circular(20.0),
                                 border: Border.all(color: BaseColors.primaryColor)
                             ),
-                            child: Text(endDate, style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
+                            child: Text(controller.selectedRescheduleDate.value, style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 2.h),
-                  Row(
+                SizedBox(height: 2.h),
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    SvgPicture.asset("assets/images/time_icon.svg",color: BaseColors.primaryColor,height: 20.sp,),
+                    SizedBox(width: 5.w),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: (){
+                          showTimePicker(
+                            context: context,
+                            builder: (context, child) {
+                              return MediaQuery(
+                                data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+                                child: Theme(
+                                  data: Theme.of(context).copyWith(
+                                    colorScheme: const ColorScheme.light(
+                                      primary: BaseColors.primaryColor,
+                                    ),
+                                  ),
+                                  child: child!,
+                                ),
+                              );
+                            },
+                            initialTime: TimeOfDay.now(),
+                          ).then((picked){
+                            if (picked != null) {
+                              controller.selectedInTime.value = (picked.to12hours(context))/*+(":00")*/;
+                              controller.selectedInTimeAPI.value = (picked.to24hours())+(":00");
+                              setState(() {});
+                            }
+                          });
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(10.sp),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20.0),
+                              border: Border.all(color: BaseColors.primaryColor)
+                          ),
+                          child: Text(controller.selectedInTime.value, style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 2.h),
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    SvgPicture.asset("assets/images/time_icon.svg",color: BaseColors.primaryColor,height: 20.sp,),
+                    SizedBox(width: 5.w),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: (){
+                          showTimePicker(
+                            context: context,
+                            builder: (context, child) {
+                              return MediaQuery(
+                                data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+                                child: Theme(
+                                  data: Theme.of(context).copyWith(
+                                    colorScheme: const ColorScheme.light(
+                                      primary: BaseColors.primaryColor,
+                                    ),
+                                  ),
+                                  child: child!,
+                                ),
+                              );
+                            },
+                            initialTime: TimeOfDay.now(),
+                          ).then((picked){
+                            if (picked != null) {
+                              controller.selectedOutTime.value = (picked.to12hours(context));
+                              controller.selectedOutTimeAPI.value = (picked.to24hours())+(":00");
+                              setState(() {});
+                            }
+                          });
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(10.sp),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20.0),
+                              border: Border.all(color: BaseColors.primaryColor)
+                          ),
+                          child: Text(controller.selectedOutTime.value, style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 2.h),
+                Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       SvgPicture.asset("assets/images/Vector (3).svg",height: 20.sp,),
                       SizedBox(width: 5.w),
                       Expanded(
-                        child: Container(
-                          padding: EdgeInsets.all(10.sp),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(color: BaseColors.primaryColor)
+                        child: GestureDetector(
+                          onTap: (){
+                            showGeneralDialog(
+                              context: context,
+                              pageBuilder:  (context, animation, secondaryAnimation) {
+                                return ClassScheduleSelectPersonPopup(selectedSchoolId: controller.selectedSchoolId.value);
+                              },
+                            ).then((value){
+                              setState(() {});
+                            });
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(10.sp),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(color: BaseColors.primaryColor)
+                            ),
+                            child: Text(controller.selectedTeacherName.value, style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                           ),
-                          child: Text(widget.name, style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 2.h),
-                  Row(
+                SizedBox(height: 2.h),
+                Row(
                     children: [
                       Checkbox(
                         checkColor: BaseColors.primaryColor,
@@ -182,11 +353,11 @@ class _RescheduleClassPopupState extends State<RescheduleClassPopup> {
                         value: isChecked,
                         visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                         side: MaterialStateBorderSide.resolveWith(
-                              (states) => BorderSide(width: 1.0, color: BaseColors.primaryColor),
+                              (states) => const BorderSide(width: 1.0, color: BaseColors.primaryColor),
                         ),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(3),
-                            side: BorderSide(color: BaseColors.primaryColor)
+                            side: const BorderSide(color: BaseColors.primaryColor)
                         ),
                         onChanged: (bool? value) {
                           isChecked = value!;
@@ -199,20 +370,35 @@ class _RescheduleClassPopupState extends State<RescheduleClassPopup> {
                       Flexible(child: Text(translate(context).do_you_want_a_permanent_reschedule, style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),)),
                     ],
                   ),
-                SizedBox(
-                  height: 3.h,
-                ),
-
+                SizedBox(height: 3.h),
                 Center(
                   child: BaseButton(borderRadius: 100,btnType: mediumButton,title: "SUBMIT", onPressed: (){
-                    BaseOverlays().dismissOverlay();
-                      controller.notifyAdminClassSchedule(
-                        reason: widget.reason,
-                        comment: widget.comment,
-                        startDate: startDate,
-                        endDate: endDate,
-                        isPermanentReschedule: isChecked,
-                      );
+                    if (controller.selectedRescheduleDate.value != "Select Date") {
+                      if (controller.selectedInTime.value != "Select In Time") {
+                        if (controller.selectedOutTime.value != "Select Out Time") {
+                          if (controller.selectedTeacherName.value != "Select Teacher") {
+                            BaseOverlays().dismissOverlay();
+                              controller.notifyAdminClassSchedule(
+                                reason: widget.reason,
+                                comment: widget.comment,
+                                startDate: startDate,
+                                endDate: controller.selectedRescheduleDate.value,
+                                isPermanentReschedule: isChecked,
+                                // inTime: ,
+                                // outTime: ,
+                              );
+                          }else{
+                            baseToast(message: "Please Select Teacher");
+                          }
+                        }else{
+                          baseToast(message: "Please Select Out Time");
+                        }
+                      }else{
+                        baseToast(message: "Please Select In Time");
+                      }
+                    }else{
+                      baseToast(message: "Please Select Date");
+                    }
                   }),
                 ),
               ],

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'dart:ui' as ui;
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
@@ -12,6 +13,7 @@ import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_image_network.dart';
+import 'package:staff_app/utility/base_views/base_pagination_footer.dart';
 import 'package:staff_app/view/star_reward_screen/add_new_reward_popup.dart';
 import 'package:staff_app/view/star_reward_screen/create_reward_screen.dart';
 import 'package:staff_app/view/star_reward_screen/reward_screen_ctrl.dart';
@@ -51,7 +53,7 @@ class _RewardsScreenState extends State<RewardsScreen> with AutomaticKeepAliveCl
                 Get.to(RewardView(id: controller.myRewards?.first.sId));
               },
               child: Obx(()=>(controller.myRewards?.length??0) == 0
-                  ? SizedBox.shrink()
+                  ? const SizedBox.shrink()
                   : Stack(
                   alignment: isRTL ? Alignment.centerLeft : Alignment.centerRight,
                   children: [
@@ -81,6 +83,7 @@ class _RewardsScreenState extends State<RewardsScreen> with AutomaticKeepAliveCl
                                   concatBaseUrl: false,
                                   height: 11.w,
                                   width: 11.w,
+                                  errorWidget: SvgPicture.asset(manSvg),
                                   ),
                               ),
                             ],
@@ -136,94 +139,107 @@ class _RewardsScreenState extends State<RewardsScreen> with AutomaticKeepAliveCl
                 BaseColors.textBlackColor,
                 FontWeight.w400,
             ),
+            SizedBox(height: 2.h),
             Expanded(
-              child: Obx(()=>GridView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  padding: EdgeInsets.only(top: 2.h,bottom: 14.h),
-                  itemCount: controller.rewardList?.length??0,
-                  shrinkWrap: true,
-                  cacheExtent: 99999999,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisExtent: 140,
-                      mainAxisSpacing: 15,
-                      crossAxisSpacing: 5,
-                  ),
-                  itemBuilder: (context, index) => GestureDetector(
-                    onTap: () {
-                      showGeneralDialog(
-                        context: context,
-                        pageBuilder:  (context, animation, secondaryAnimation) {
-                          return AddNewRewardPopup(index: index, uploadedImage: controller.rewardList?[index].image??"",);
-                        },
-                      );
-                    },
-                    child: Stack(
-                      alignment: Alignment.topRight,
-                      children: [
-                        Container(
-                          width: double.infinity,
-                          margin: const EdgeInsets.only(right: 15, left: 10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(40),
-                            boxShadow: kElevationToShadow[4],
-                            color: BaseColors.backgroundColor,
+              child: Obx(()=>SmartRefresher(
+                footer: const BasePaginationFooter(),
+                controller: controller.refreshController,
+                enablePullDown: enablePullToRefresh,
+                enablePullUp: true,
+                onLoading: (){
+                  controller.getRewards(refreshType: "load");
+                },
+                onRefresh: (){
+                  controller.getRewards(refreshType: "refresh");
+                },
+                child: GridView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    padding: EdgeInsets.only(top: 2.h,bottom: 14.h),
+                    itemCount: controller.rewardList?.length??0,
+                    shrinkWrap: true,
+                    cacheExtent: 99999999,
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisExtent: 140,
+                        mainAxisSpacing: 15,
+                        crossAxisSpacing: 5,
+                    ),
+                    itemBuilder: (context, index) => GestureDetector(
+                      onTap: () {
+                        showGeneralDialog(
+                          context: context,
+                          pageBuilder:  (context, animation, secondaryAnimation) {
+                            return AddNewRewardPopup(index: index, uploadedImage: controller.rewardList?[index].image??"",);
+                          },
+                        );
+                      },
+                      child: Stack(
+                        alignment: Alignment.topRight,
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            margin: const EdgeInsets.only(right: 15, left: 10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40),
+                              boxShadow: kElevationToShadow[4],
+                              color: BaseColors.backgroundColor,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                BaseImageNetwork(
+                                  link: controller.rewardList?[index].image??"",
+                                  height: 8.h,
+                                  width: 8.h,
+                                  concatBaseUrl: true,
+                                  cacheHeight: 150,
+                                  cacheWidth: 80,
+                                  fit: BoxFit.fitHeight,
+                                ),
+                                SizedBox(height:2.h),
+                                addText(
+                                    controller.rewardList?[index].title??"",
+                                    15.sp,
+                                    BaseColors.primaryColor,
+                                    FontWeight.w700)
+                              ],
+                            ),
                           ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              BaseImageNetwork(
-                                link: controller.rewardList?[index].image??"",
-                                height: 8.h,
-                                width: 8.h,
-                                concatBaseUrl: true,
-                                cacheHeight: 150,
-                                cacheWidth: 80,
-                                fit: BoxFit.fitHeight,
-                              ),
-                              SizedBox(height:2.h),
-                              addText(
-                                  controller.rewardList?[index].title??"",
-                                  15.sp,
-                                  BaseColors.primaryColor,
-                                  FontWeight.w700)
-                            ],
+                          Container(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: Column(
+                              children: [
+                                Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Icon(CupertinoIcons.star_fill, color: BaseColors.primaryColor,size: 26.sp,),
+                                    addText(
+                                        (controller.rewardList?[index].points.toString())??"",
+                                        13.sp,
+                                        BaseColors.white,
+                                        FontWeight.w700)
+                                  ],
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.all(6),
+                                  decoration: BoxDecoration(
+                                      boxShadow: kElevationToShadow[1],
+                                      border: Border.all(
+                                          color: BaseColors.primaryColor),
+                                      shape: BoxShape.circle,
+                                      color:
+                                      BaseColors.backgroundColor),
+                                  child:
+                                  SvgPicture.asset("assets/images/edit_icon.svg"),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(top: 20),
-                          child: Column(
-                            children: [
-                              Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  Icon(CupertinoIcons.star_fill, color: BaseColors.primaryColor,size: 26.sp,),
-                                  addText(
-                                      (controller.rewardList?[index].points.toString())??"",
-                                      13.sp,
-                                      BaseColors.white,
-                                      FontWeight.w700)
-                                ],
-                              ),
-                              Container(
-                                padding: const EdgeInsets.all(6),
-                                decoration: BoxDecoration(
-                                    boxShadow: kElevationToShadow[1],
-                                    border: Border.all(
-                                        color: BaseColors.primaryColor),
-                                    shape: BoxShape.circle,
-                                    color:
-                                    BaseColors.backgroundColor),
-                                child:
-                                SvgPicture.asset("assets/images/edit_icon.svg"),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
+              ),
               ),
             )
           ],

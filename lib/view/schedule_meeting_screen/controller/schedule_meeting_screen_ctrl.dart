@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
@@ -11,8 +12,11 @@ import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/storage/sp_keys.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/intl/src/intl/date_format.dart';
+import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:dio/dio.dart' as dio;
+
+import '../../../utility/sizes.dart';
 
 class ScheduleMeetingScreenCtrl extends GetxController{
 
@@ -30,6 +34,7 @@ class ScheduleMeetingScreenCtrl extends GetxController{
   List<StaffListData> staffData = [];
   RxList<String> stepperTimeDate = ["","","",""].obs;
   final formKey = GlobalKey<FormState>();
+  final selectDateFormKey = GlobalKey<FormState>();
   RxList<ScheduledMeetingData>? list = <ScheduledMeetingData>[].obs;
   Rx<TextEditingController> meetingTypeController = TextEditingController().obs;
   Rx<TextEditingController> selectRoleController = TextEditingController().obs;
@@ -38,10 +43,17 @@ class ScheduleMeetingScreenCtrl extends GetxController{
   Rx<TextEditingController> selectedPersonController = TextEditingController().obs;
   Rx<TextEditingController> schoolController = TextEditingController().obs;
   Rx<TextEditingController> dateController = TextEditingController().obs;
+  Rx<TextEditingController> timeController = TextEditingController().obs;
+  BaseCtrl baseCtrl = Get.find<BaseCtrl>();
+  /// Pagination
+  RxInt page = 1.obs;
+  final RefreshController refreshController = RefreshController(initialRefresh: false);
 
   @override
   onInit() async {
     super.onInit();
+   selectedSchoolId.value = baseCtrl.schoolListData.data?.data?.first.sId??"";
+   schoolController.value.text = baseCtrl.schoolListData.data?.data?.first.name??"";
     getScheduledMeetingData();
     userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
   }
@@ -49,10 +61,8 @@ class ScheduleMeetingScreenCtrl extends GetxController{
   clearData(){
     meetingTypeController.value.clear();
     selectRoleController.value.clear();
-    selectSchoolController.value.clear();
     searchRoleDataController.value.clear();
     selectedPersonController.value.clear();
-    selectedSchoolId.value = "";
     selectedRoleId.value = "";
     selectedRoleName.value = "";
     selectedPersonId.value = "";
@@ -60,14 +70,33 @@ class ScheduleMeetingScreenCtrl extends GetxController{
     dateController.value.text = "";
   }
 
-  getScheduledMeetingData(){
-    list?.clear();
+  getScheduledMeetingData({String? refreshType}){
+    if (refreshType == 'refresh' || refreshType == null) {
+      list?.clear();
+      refreshController.loadComplete();
+      page.value = 1;
+    } else if (refreshType == 'load') {
+      page.value++;
+    }
     BaseAPI().get(url: ApiEndPoints().getScheduledMeetings, queryParameters: {
-      "status" : selectedTabIndex.value == 0 ? "request raised" : selectedTabIndex.value == 1 ? "planned" : selectedTabIndex.value == 2 ? "cancelled" : "completed","typeOfRequest":"scheduleMeeting",
+      "status" : selectedTabIndex.value == 0 ? "request raised" : selectedTabIndex.value == 1 ? "planned on" : selectedTabIndex.value == 2 ? "cancelled" : "completed","typeOfRequest":"scheduleMeeting",
       "school" : selectedSchoolId.value,
-    }).then((value){
+      "limit":apiItemLimit,
+      "page":page.value.toString()
+    },showLoader: page.value == 1).then((value){
       if (value?.statusCode ==  200) {
-        list?.value = ScheduledMeetingResponse.fromJson(value?.data).data??[];
+        // list?.value = ScheduledMeetingResponse.fromJson(value?.data).data??[];
+        if(refreshType == 'refresh'){
+          list?.clear();
+          refreshController.loadComplete();
+          refreshController.refreshCompleted();
+        }else if((ScheduledMeetingResponse.fromJson(value?.data).data??[]).isEmpty && refreshType == 'load'){
+          refreshController.loadNoData();
+        }
+        else if(refreshType == 'load'){
+          refreshController.loadComplete();
+        }
+        list?.addAll(ScheduledMeetingResponse.fromJson(value?.data).data??[]);
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
@@ -82,8 +111,8 @@ class ScheduleMeetingScreenCtrl extends GetxController{
           "school":selectedSchoolId.value,
           "user[0]":userId,
           "typeOfRequest":"scheduleMeeting",
-          "date":"${(DateFormat('yyyy-MM-dd').format(selectedDay)).toString()}",
-          "time":(selectedTime.value).toString()+":00",
+          "date":flipDate(date: dateController.value.text),
+          "time":selectedTime.value,
           "meetingType":meetingTypeController.value.text.trim(),
           "teacher":selectedPersonId.value,
         });
@@ -109,9 +138,9 @@ class ScheduleMeetingScreenCtrl extends GetxController{
     staffData = [];
     var data = {
       "school" : selectedSchoolId,
-      "role" : selectedRoleId
+      "roleName" : selectedRoleId
     };
-    BaseAPI().post(url: ApiEndPoints().getStaffData, data: data, showLoader: false).then((value){
+    BaseAPI().get(url: ApiEndPoints().getStaffData, queryParameters: data, showLoader: false).then((value){
       if (value?.statusCode ==  200) {
         isStaffLoading.value = false;
         staffData = StaffListResponse.fromJson(value?.data).data??[];
@@ -124,8 +153,8 @@ class ScheduleMeetingScreenCtrl extends GetxController{
 
   rescheduleMeeting({required id}) async {
     dio.FormData data = dio.FormData.fromMap({
-      "date":"${(DateFormat('yyyy-MM-dd').format(selectedDay)).toString()}",
-      "time":(selectedTime.value).toString()+":00",
+      "date":flipDate(date: dateController.value.text),
+      "time":selectedTime.value,
       "isReschedule":"1",
     });
     BaseSuccessResponse baseSuccessResponse = BaseSuccessResponse();
@@ -141,25 +170,32 @@ class ScheduleMeetingScreenCtrl extends GetxController{
     });
   }
 
-  updateStatus({required id,type,meetingFeedBackRating,meetingFeedBackDesc,reason}) async {
-    BaseOverlays().dismissOverlay();
+  Future<bool> updateStatus({required id,type,meetingFeedBackRating,meetingFeedBackDesc,reason, isScheduleMeetingStart, int? index, bool? shouldDismissDialog}) async {
+    bool returnValue = false;
+    if (shouldDismissDialog??true) {
+      BaseOverlays().dismissOverlay();
+    }
     dio.FormData data = dio.FormData.fromMap({
       "statusType":"scheduleMeeting",
       "status":type,
       "reason":reason,
       "meetingFeedBackRating":meetingFeedBackRating,
-      "meetingFeedBackDesc":meetingFeedBackDesc
+      "meetingFeedBackDesc":meetingFeedBackDesc,
+      "isScheduleMeetingStart":isScheduleMeetingStart,
     });
     BaseSuccessResponse baseSuccessResponse = BaseSuccessResponse();
-    BaseAPI().put(url: ApiEndPoints().updateScheduledMeetingStatus+id,data: data).then((value){
+    await BaseAPI().put(url: ApiEndPoints().updateScheduledMeetingStatus+id,data: data).then((value){
       if (value?.statusCode ==  200) {
+        returnValue = true;
         baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
         BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: translate(Get.context!).success);
         getScheduledMeetingData();
       }else{
+        returnValue = false;
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
+    return returnValue;
   }
 
   updateRating({required id,required meetingFeedBackRating}) async {
@@ -172,8 +208,19 @@ class ScheduleMeetingScreenCtrl extends GetxController{
     BaseAPI().put(url: ApiEndPoints().rescheduleMeeting+id,data: data).then((value){
       if (value?.statusCode ==  200) {
         baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
-        BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: translate(Get.context!).success);
+        BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: "Success");
         getScheduledMeetingData();
+      }else{
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
+      }
+    });
+  }
+
+  updateMeetingStatus({required id, required int index}) async {
+    await BaseAPI().get(url: ApiEndPoints().updateMeetingStartStatus+id, showLoader: false).then((value){
+      if (value?.statusCode ==  200) {
+        list?[index].isScheduleMeetingStart = "1";
+        list?.refresh();
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }

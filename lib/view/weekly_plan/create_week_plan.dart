@@ -94,7 +94,7 @@ class _CreateWeekPlanState extends State<CreateWeekPlan> {
                 controller: dateCtrl,
                 title: "${translate(context).date}:",
                 prefixIcon: calenderDateSvg,
-                hintText: "dd/mm/yyyy",
+                hintText: translate(context).dd_mm_yyyy,
                 suffixIcon: "assets/images/ic_down.svg",
                 onTap: (){
                   print("hello");

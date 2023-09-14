@@ -12,6 +12,7 @@ import 'package:staff_app/utility/base_views/base_tab_button.dart';
 import 'package:staff_app/utility/base_views/base_toggle_tab_bar.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 
 class NewAssignmentScreen extends StatefulWidget {
   final String title;
@@ -24,11 +25,14 @@ class NewAssignmentScreen extends StatefulWidget {
 class _NewAssignmentScreenState extends State<NewAssignmentScreen> with SingleTickerProviderStateMixin{
   final bool isRTL = ((Directionality.of(Get.context!)) == (ui.TextDirection.rtl));
   NewAssignmentCtrl controller = Get.put(NewAssignmentCtrl());
+  BaseCtrl baseCtrl = Get.find<BaseCtrl>();
   late TabController tabController;
 
   @override
   void initState() {
     super.initState();
+    controller.selectedSchoolId.value = baseCtrl.schoolListData.data?.data?.first.sId??"";
+    controller.schoolCtrl.value.text = baseCtrl.schoolListData.data?.data?.first.name??"";
     controller.secondaryTabIndex.value = 0;
     controller.assessmentType.value = widget.title == "Awareness & Courses" ? "awarenessCourses" : widget.title.toLowerCase();
     controller.getData();

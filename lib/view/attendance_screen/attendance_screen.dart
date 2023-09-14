@@ -52,12 +52,12 @@ class _AttendanceScreenState extends State<AttendanceScreen> with TickerProvider
     return Scaffold(
       appBar: BaseAppBar(title: translate(context).attendance),
       floatingActionButton: BaseFloatingActionButton(
-        onTap: () { Get.to(const CalenderView()); },
-        title: "View on\nCalendar",
+        onTap: () { Get.to(const CalenderView());},
+        title: translate(context).view_on_calendar,
         isCalendar: true,
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(
           children: [
             Container(
@@ -75,7 +75,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> with TickerProvider
                   leading: Container(
                     height: double.infinity,
                     width: 16.w,
-                    padding: EdgeInsets.only(top: 8.sp, bottom: 8.sp, left: 10.sp, right: 10.sp),
+                    padding: EdgeInsets.only(top: 8.sp, bottom: 8.sp, left: 8.sp, right: 8.sp),
                     decoration: BoxDecoration(
                       border: Border.all(
                           color: BaseColors.primaryColor
@@ -84,6 +84,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> with TickerProvider
                     ),
                     child: BaseImageNetwork(
                       link: controller.teacherData.value.profilePic??"",
+                      borderRadius: 10,
                       errorWidget: SvgPicture.asset(manSvg),
                     ),
                   ),
@@ -119,7 +120,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> with TickerProvider
             Expanded(
               child: TabBarView(
                 controller: tabController,
-                children: [
+                children: const [
                   ClassTypeTab(),
                   ClassTypeTab(),
                   TransportationTab(),

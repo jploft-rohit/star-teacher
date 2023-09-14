@@ -7,10 +7,10 @@ import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/view/account_activation_screen/controller/account_activation_controller.dart';
-import 'package:staff_app/view/account_activation_screen/rules_screen2.dart';
 
 class RulesScreen extends StatefulWidget {
-  const RulesScreen({Key? key}) : super(key: key);
+  final bool? isFromActivation;
+  const RulesScreen({Key? key, this.isFromActivation}) : super(key: key);
 
   @override
   State<RulesScreen> createState() => _RulesScreenState();
@@ -38,7 +38,7 @@ class _RulesScreenState extends State<RulesScreen> {
             child: Column(
               children: [
                 Obx(() => HtmlWidget(controller.codeOfConduct.value)),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -55,12 +55,12 @@ class _RulesScreenState extends State<RulesScreen> {
                           borderRadius: BorderRadius.circular(3),
                         ),
                         onChanged: (bool? value) {
-                          isRulesChecked = value!;
+                          isRulesChecked = value??false;
                           setState(() {});
                         },
                       ),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Expanded(child: Text('I have read all the terms and responsibility guidelines and I agree to all of them.', style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),)
                   ],
                 ),
@@ -95,13 +95,10 @@ class _RulesScreenState extends State<RulesScreen> {
                     child: Text(translate(context).decline, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
                   ),
                 ),
-
-
                 GestureDetector(
                   onTap: () {
                     if (isRulesChecked) {
-                      Get.closeAllSnackbars();
-                      Get.to(RulesScreen2());
+                      controller.updateRule1Status(isFromActivation: widget.isFromActivation??false);
                     }else{
                       BaseOverlays().showSnackBar(message: "Please agree with code of conduct",title: translate(Get.context!).error);
                     }

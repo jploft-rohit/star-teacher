@@ -21,6 +21,7 @@ class LocationController extends GetxController{
   RxInt selectedTabIndex = 0.obs;
   RxString selectedCountryCode = "971".obs;
   RxString selectedLandlineCode = "971".obs;
+  RxString selectedAreaID = "".obs;
   Rx<TextEditingController> addressLocationController = TextEditingController().obs;
   Rx<TextEditingController> sectorController = TextEditingController().obs;
   Rx<TextEditingController> areaController = TextEditingController().obs;
@@ -106,13 +107,13 @@ class LocationController extends GetxController{
       if ((selectedFile?.value?.path??"").isNotEmpty) {
         data = dio.FormData.fromMap({
           "sector":sectorController.value.text.trim(),
-          "area":areaController.value.text.trim(),
+          "areaForTransport":selectedAreaID.value,
           "street":streetController.value.text.trim(),
           "buildingVilla":buildingController.value.text.trim(),
           "flatVillaNo":flatController.value.text.trim(),
           "landmark":landmarkController.value.text.trim(),
-          "mobile": "+${selectedCountryCode} ${(mobileController.value.text.trim())}",
-          "landline":"+${selectedLandlineCode} ${(landlineController.value.text.trim())}",
+          "mobile": "+$selectedCountryCode ${(mobileController.value.text.trim())}",
+          "landline":"+$selectedLandlineCode ${(landlineController.value.text.trim())}",
           "user":userId,
           "locationType":selectedTabIndex.value == 0 ? "home" : "emergency",
           "address":addressLocationController.value.text.trim(),
@@ -123,13 +124,13 @@ class LocationController extends GetxController{
       }else{
         data = dio.FormData.fromMap({
           "sector":sectorController.value.text.trim(),
-          "area":areaController.value.text.trim(),
+          "areaForTransport":selectedAreaID.value,
           "street":streetController.value.text.trim(),
           "buildingVilla":buildingController.value.text.trim(),
           "flatVillaNo":flatController.value.text.trim(),
           "landmark":landmarkController.value.text.trim(),
-          "mobile": "+${selectedCountryCode} ${(mobileController.value.text.trim())}",
-          "landline":"+${selectedLandlineCode} ${(landlineController.value.text.trim())}",
+          "mobile": "+$selectedCountryCode ${(mobileController.value.text.trim())}",
+          "landline":"+$selectedLandlineCode ${(landlineController.value.text.trim())}",
           "user":userId,
           "locationType":selectedTabIndex.value == 0 ? "home" : "emergency",
           "address":addressLocationController.value.text.trim(),

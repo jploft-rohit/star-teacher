@@ -14,7 +14,7 @@ class NationalityResponse {
     if (json['data'] != null) {
       data = <NationalityData>[];
       json['data'].forEach((v) {
-        data!.add(new NationalityData.fromJson(v));
+        data!.add(NationalityData.fromJson(v));
       });
     }
     success = json['success'];
@@ -23,7 +23,7 @@ class NationalityResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -49,7 +49,7 @@ class NationalityData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['_id'] = this.sId;
     data['name'] = this.name;
     return data;

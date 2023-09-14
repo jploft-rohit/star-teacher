@@ -10,11 +10,12 @@ import 'package:staff_app/utility/base_views/base_tab_button.dart';
 import 'package:staff_app/utility/base_views/base_toggle_tab_bar.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/intl/intl.dart';
 import 'package:staff_app/view/chat_screen/chating_screen.dart';
+import 'package:staff_app/view/my_profile_screen/controller/my_profile_ctrl.dart';
 import 'package:staff_app/view/rating_screens/driver_rating_screen.dart';
 import 'package:staff_app/view/transportation_screen/bus_arriving_soon_screen.dart';
 import 'package:staff_app/view/transportation_screen/transportation_location_screen.dart';
@@ -30,6 +31,7 @@ class TransportationScreen extends StatefulWidget {
 
 class _TransportationScreenState extends State<TransportationScreen> with SingleTickerProviderStateMixin{
   TransportationScreenCtrl controller = Get.put(TransportationScreenCtrl());
+  MyProfileCtrl myProfileCtrl = Get.find<MyProfileCtrl>();
   late TabController tabController;
 
   @override
@@ -40,14 +42,16 @@ class _TransportationScreenState extends State<TransportationScreen> with Single
         controller.selectedIndex.value = tabController.index;
         setState(() {});
         controller.getData();
-      };
+      }
     });
   }
+
   @override
   void dispose() {
     tabController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +71,7 @@ class _TransportationScreenState extends State<TransportationScreen> with Single
                     )
                 ),
                 child: Obx(()=>ListTile(
-                    visualDensity: VisualDensity(horizontal: -4),
+                    visualDensity: const VisualDensity(horizontal: -4),
                     contentPadding: EdgeInsets.only(left: 15.sp, right: 15.sp, top: 15.sp, bottom: 15.sp),
                     leading: Container(
                       height: 20.w,
@@ -80,7 +84,7 @@ class _TransportationScreenState extends State<TransportationScreen> with Single
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: BaseImageNetwork(
-                        link: controller.tripData.value.passangerUser?.profilePic??"",
+                        link: myProfileCtrl.response.value.data?.profilePic??"",
                         concatBaseUrl: false,
                         borderRadius: 10,
                         errorWidget: SvgPicture.asset(manSvg),
@@ -89,30 +93,34 @@ class _TransportationScreenState extends State<TransportationScreen> with Single
                     title: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(toBeginningOfSentenceCase(controller.tripData.value.passangerUser?.name??"N/A")??"N/A", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
-                        SizedBox(height: 2),
-                        Text("#${controller.tripData.value.passangerUser?.emirateId??"N/A"}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
-                        SizedBox(height: 2),
-                        Text(toBeginningOfSentenceCase(controller.tripData.value.passangerUser?.role?.name??"N/A")??"N/A", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
+                        Text(myProfileCtrl.response.value.data?.name??"N/A", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
+                        const SizedBox(height: 2),
+                        Text("#${myProfileCtrl.response.value.data?.emirateId?.toString()??"N/A"}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
+                        const SizedBox(height: 2),
+                        Text(toBeginningOfSentenceCase(myProfileCtrl.response.value.data?.designation??(translate(context).teacher))??(translate(context).teacher), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                       ],
                     ),
                     trailing: GestureDetector(onTap: (){
                       showScanQrDialogue(context, false);
-                    },child: BaseQr(data: controller.tripData.value.passangerUser?.barcode??"")),
+                    },child: BaseQr(data: myProfileCtrl.response.value.data?.barcode?.toString()??"")),
                   ),
                 ),
               ),
               SizedBox(height: 2.h),
               BaseButton(title: translate(context).notify_authority, onPressed: (){
-                Get.to(NotifyAuthorityForBusScreen());
+                Get.to(const NotifyAuthorityForBusScreen());
               },btnType: buttonIcon),
               SizedBox(height: 1.h),
               BaseButton(title: translate(context).location, onPressed: (){
-                Get.to(TransportationLocationScreen());
+                if ((controller.tripData.value?.driverUser?.sId??"").toString().isNotEmpty) {
+                  Get.to(const TransportationLocationScreen());
+                }
               },btnType: buttonIcon),
               SizedBox(height: 1.h),
               BaseButton(title: translate(context).bus_notifications, onPressed: (){
-                Get.to(BusArrivingSoonScreen());
+                if ((controller.tripData.value?.sId??"").toString().isNotEmpty) {
+                  Get.to(BusArrivingSoonScreen(id: controller.tripData.value?.sId??"",));
+                }
               },btnType: buttonIcon),
               SizedBox(height: 1.h),
               BaseToggleTabBar(controller: tabController, tabs: [
@@ -145,57 +153,57 @@ class _TransportationScreenState extends State<TransportationScreen> with Single
                                     SizedBox(
                                       width: 2.w,
                                     ),
-                                    buildInfoItems(translate(context).driver, controller.tripData.value.driverUser?.name??"N/A")
+                                    buildInfoItems(translate(context).driver, controller.tripData.value?.driverUser?.name??"N/A")
                                   ],
                                 ),
-                                Divider(),
+                                const Divider(),
                                 Row(
                                   children: [
                                     SvgPicture.asset(mobileSvg1),
                                     SizedBox(
                                       width: 2.w,
                                     ),
-                                    buildInfoItems(translate(context).mobile_no, controller.tripData.value.driverUser?.mobile.toString()??"N/A")
+                                    buildInfoItems(translate(context).mobile_no, controller.tripData.value?.driverUser?.mobile.toString()??"N/A")
                                   ],
                                 ),
-                                Divider(),
+                                const Divider(),
                                 Row(
                                   children: [
                                     SvgPicture.asset(supervisorSvg),
                                     SizedBox(
                                       width: 1.w,
                                     ),
-                                    buildInfoItems(translate(context).supervisor, controller.tripData.value.supervisorUser?.name??"N/A")
+                                    buildInfoItems(translate(context).supervisor, controller.tripData.value?.supervisorUser?.name??"N/A")
                                   ],
                                 ),
-                                Divider(),
+                                const Divider(),
                                 Row(
                                   children: [
                                     SvgPicture.asset(mobileSvg1),
                                     SizedBox(
                                       width: 2.w,
                                     ),
-                                    buildInfoItems(translate(context).mobile_no, controller.tripData.value.supervisorUser?.mobile.toString()??"N/A")
+                                    buildInfoItems(translate(context).mobile_no, controller.tripData.value?.supervisorUser?.mobile.toString()??"N/A")
                                   ],
                                 ),
-                                Divider(),
+                                const Divider(),
                                 Row(
                                   children: [
                                     SvgPicture.asset(schoolIdSvg),
                                     SizedBox(
                                       width: 2.w,
                                     ),
-                                    buildInfoItems(translate(context).bus_school_id, controller.tripData.value.bus?.school?.schoolId.toString()??"N/A")
+                                    buildInfoItems(translate(context).bus_school_id, controller.tripData.value?.bus?.school?.schoolId.toString()??"N/A")
                                   ],
                                 ),
-                                Divider(),
+                                const Divider(),
                                 Row(
                                   children: [
                                     SvgPicture.asset("assets/images/plate_no.svg"),
                                     SizedBox(
                                       width: 2.w,
                                     ),
-                                    buildInfoItems(translate(context).plate_no, controller.tripData.value.bus?.plateNo.toString()??"")
+                                    buildInfoItems(translate(context).plate_no, controller.tripData.value?.bus?.plateNo.toString()??"")
                                   ],
                                 ),
                               ],
@@ -204,13 +212,19 @@ class _TransportationScreenState extends State<TransportationScreen> with Single
                         ),
                         GestureDetector(
                           onTap: (){
-                            Get.to(ChatingScreen());
+                            Get.to(ChatingScreen(
+                              receiverName: controller.tripData.value?.driverUser?.name??"N/A",
+                              receiverProfilePic: controller.tripData.value?.driverUser?.profilePic??"",
+                              receiverId: controller.tripData.value?.driverUser?.sId??"",
+                              schoolId: controller.tripData.value?.school??"",
+                              uniqueId: controller.tripData.value?.driverUser?.uniqueId?.toString()??"",
+                            ));
                           },
                           child: Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               color: Color(0xffF8F8F8),
                             ),
-                            padding: EdgeInsets.only(left: 15, right: 15),
+                            padding: const EdgeInsets.only(left: 15, right: 15),
                             alignment: Alignment.center,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -231,7 +245,7 @@ class _TransportationScreenState extends State<TransportationScreen> with Single
                 ),
               ),
               SizedBox(height: 1.5.h),
-              Divider(),
+              const Divider(),
               SizedBox(height: 3.h),
               Text("${translate(context).rate}: ", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
               SizedBox(height: 1.h),
@@ -267,7 +281,7 @@ class _TransportationScreenState extends State<TransportationScreen> with Single
   }
   Widget buildTile(String title) {
     return Container(
-      margin: EdgeInsets.only(bottom: 8.0),
+      margin: const EdgeInsets.only(bottom: 8.0),
       padding: EdgeInsets.all(14.sp),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),

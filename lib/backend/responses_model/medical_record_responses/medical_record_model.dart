@@ -2,6 +2,8 @@ class MedicalRecord {
   String? sId;
   String? title;
   String? description;
+  String? rejectedReason;
+  String? comment;
   String? date;
   dynamic student;
   String? document;
@@ -14,8 +16,10 @@ class MedicalRecord {
   MedicalRecord(
       {this.sId,
       this.title,
+      this.rejectedReason,
       this.description,
       this.date,
+      this.comment,
       this.student,
       this.document,
       this.createdBy,
@@ -26,6 +30,8 @@ class MedicalRecord {
 
   MedicalRecord.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
+    rejectedReason = json['rejectedReason'];
+    comment = json['comment'];
     title = json['title'];
     description = json['description'];
     date = json['date'];
@@ -46,11 +52,13 @@ class MedicalRecord {
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['_id'] = sId;
+    data['comment'] = comment;
     if (this.requestStatus != null) {
       data['requestStatus'] =
           this.requestStatus!.map((v) => v.toJson()).toList();
     }
     data['title'] = title;
+    data['rejectedReason'] = rejectedReason;
     data['description'] = description;
     data['date'] = date;
     data['student'] = student;

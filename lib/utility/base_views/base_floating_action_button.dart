@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
-import 'package:staff_app/Utility/sizes.dart';
+
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/constants-classes/color_constants.dart';
 

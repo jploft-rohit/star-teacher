@@ -6,6 +6,7 @@ import 'package:dio/dio.dart' as dio;
 import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/backend/responses_model/base_success_response.dart';
+import 'package:staff_app/backend/responses_model/family_response_list_response.dart';
 import 'package:staff_app/backend/responses_model/my_profile_response.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_utility.dart';
@@ -20,6 +21,7 @@ class FamilyCtrl extends GetxController{
   TextEditingController idController = TextEditingController();
   TextEditingController idExpiryController = TextEditingController();
   BaseSuccessResponse successResponse = BaseSuccessResponse();
+  RxList<FamilyRelationData?>? familyRelationList = <FamilyRelationData>[].obs;
   MyProfileCtrl myProfileCtrl = Get.find<MyProfileCtrl>();
   final formKey = GlobalKey<FormState>();
   Rx<File?>? selectedFile = File("").obs;
@@ -33,7 +35,17 @@ class FamilyCtrl extends GetxController{
     selectedCountryCode.value = ((data?.mobile??"").toString().split(" ").first).replaceAll("+", "");
     idController.text = "image1.png";
     idExpiryController.text = formatBackendDate(data?.emirateIdExpire??"");
+  }
 
+  getRelationList() async {
+    familyRelationList?.clear();
+    await BaseAPI().get(url: ApiEndPoints().getFamilyRelation).then((value){
+      if (value?.statusCode ==  200) {
+        familyRelationList?.value = FamilyRelationListResponse.fromJson(value?.data).data ?? <FamilyRelationData>[];
+      }else{
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
+      }
+    });
   }
 
   addFamilyMember() async {

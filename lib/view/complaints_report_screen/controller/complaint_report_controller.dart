@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart'as dio;
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/backend/responses_model/all_complaint_reports_model.dart';
@@ -27,7 +29,7 @@ class ComplainReportController extends GetxController{
   Rx<TextEditingController> deleteReasonController = TextEditingController().obs;
   RxList<String> statusTime = [""].obs;
   RxList<String> statusTitle = [""].obs;
-  List<StaffListData> staffData = [];
+  List<StaffListData>? staffData = [];
   Rx<File>? selectedFile = File("").obs;
   RxBool isStaffLoading = false.obs;
   RxInt selectedTabIndex = 0.obs;
@@ -37,11 +39,17 @@ class ComplainReportController extends GetxController{
   RxString selectedSchoolId = "".obs;
   RxString selectedComplaintTypeId = "".obs;
   BaseSuccessResponse baseSuccessResponse = BaseSuccessResponse();
+  /// Pagination
+  RxInt page = 1.obs;
+  final RefreshController refreshController = RefreshController(initialRefresh: false);
+
 
   @override
   void onInit() {
     super.onInit();
     baseCtrl = Get.find<BaseCtrl>();
+    selectedSchoolId.value = baseCtrl.schoolListData.data?.data?.first.sId??"";
+    selectSchoolController.value.text = baseCtrl.schoolListData.data?.data?.first.name??"";
     getData();
   }
 
@@ -163,9 +171,15 @@ class ComplainReportController extends GetxController{
     }
   }
 
-  getData() async {
+  getData({String? refreshType}) async {
     final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
-    response?.value = [];
+    if (refreshType == 'refresh' || refreshType == null) {
+      response?.clear();
+      refreshController.loadComplete();
+      page.value = 1;
+    } else if (refreshType == 'load') {
+      page.value++;
+    }
     BaseAPI().get(url: ApiEndPoints().getAllComplaintReport,queryParameters: {
       "type": selectedTabIndex.value == 0
           ? ""
@@ -173,10 +187,23 @@ class ComplainReportController extends GetxController{
           ? "complaint"
           : "report",
       "school":selectedSchoolId.value,
-      "user":userId
-    }).then((value){
+      "user":userId,
+      "limit":apiItemLimit,
+      "page":(page.value).toString(),
+    }, showLoader: page.value == 1).then((value){
       if (value?.statusCode ==  200) {
-        response?.value = AllComplainReportResponse.fromJson(value?.data).data??[];
+        // response?.addAll(AllComplainReportResponse.fromJson(value?.data).data??[]);
+        if(refreshType == 'refresh'){
+          response?.clear();
+          refreshController.loadComplete();
+          refreshController.refreshCompleted();
+        }else if((AllComplainReportResponse.fromJson(value?.data).data??[]).isEmpty && refreshType == 'load'){
+          refreshController.loadNoData();
+        }
+        else if(refreshType == 'load'){
+          refreshController.loadComplete();
+        }
+        response?.addAll(AllComplainReportResponse.fromJson(value?.data).data??[]);
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
@@ -188,9 +215,9 @@ class ComplainReportController extends GetxController{
     staffData = [];
     var data = {
         "school" : selectedSchoolId,
-        "role" : selectedRoleId
+        "roleName" : selectedRoleId
     };
-    BaseAPI().post(url: ApiEndPoints().getStaffData, data: data, showLoader: false).then((value){
+    BaseAPI().get(url: ApiEndPoints().getStaffData, queryParameters: data, showLoader: false).then((value){
       if (value?.statusCode ==  200) {
         isStaffLoading.value = false;
         staffData = StaffListResponse.fromJson(value?.data).data??[];

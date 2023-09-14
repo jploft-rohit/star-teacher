@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/backend/responses_model/sticky_notes_list_response.dart';
+import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
@@ -37,7 +38,7 @@ class _AddToDoNoteState extends State<AddToDoNote> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: BaseAppBar(title: widget.isEditing ? "Edit Note" : "Add Note"),
+      appBar: BaseAppBar(title: widget.isEditing ? translate(context).edit_note : translate(context).add_note),
       body: Form(
         key: controller.formKey,
         child: SingleChildScrollView(
@@ -66,7 +67,7 @@ class _AddToDoNoteState extends State<AddToDoNote> {
                                     "assets/images/selected_color_img.svg",
                                     fit: BoxFit.scaleDown,
                                   )
-                                : SizedBox(),
+                                : const SizedBox(),
                           ),
                         ));
                   }),
@@ -76,12 +77,12 @@ class _AddToDoNoteState extends State<AddToDoNote> {
                 ),
                 CustomTextField(
                   controller: controller.titleController.value,
-                  hintText: "Title",
+                  hintText: translate(context).title,
                   borderRadius: 4.0,
                   fillColor: BaseColors.txtFieldTextColor,
                   validator: (val){
                     if (controller.titleController.value.text.isEmpty) {
-                      return "Please enter title";
+                      return translate(context).please_enter_title;
                     }
                     return null;
                   },
@@ -91,20 +92,18 @@ class _AddToDoNoteState extends State<AddToDoNote> {
                 ),
                 CustomTextField(
                   controller: controller.descriptionController.value,
-                  hintText: "Type here..",
+                  hintText: translate(context).type_here,
                   borderRadius: 4.0,
                   fillColor: BaseColors.txtFieldTextColor,
                   maxLine: null,
                   validator: (val){
                     if (controller.descriptionController.value.text.isEmpty) {
-                      return "Please enter description";
+                      return translate(context).please_enter_description;
                     }
                     return null;
                   },
                 ),
-                SizedBox(
-                  height: 1.h,
-                ),
+                SizedBox(height: 1.h),
                 Row(
                   children: [
                     GetBuilder<NotebookCtrl>(
@@ -153,10 +152,10 @@ class _AddToDoNoteState extends State<AddToDoNote> {
                       onTap: (){
                         // ctrl.isChecked.value = !ctrl.isChecked.value;
                         // ctrl.update();
-                        Get.to(AddTaskOrReminderScreen(isUpdating: false));
+                        Get.to(const AddTaskOrReminderScreen(isUpdating: false));
                       },
                         child: addText(
-                            "Set Reminder",
+                            translate(context).set_reminder,
                             14.sp,
                             BaseColors.textBlackColor,
                             FontWeight.w400,
@@ -169,7 +168,7 @@ class _AddToDoNoteState extends State<AddToDoNote> {
                 ),
                 Center(
                     child: BaseButton(
-                        title: widget.isEditing?"UPDATE":"SUBMIT",
+                        title: widget.isEditing?(translate(context).update).toUpperCase():(translate(context).submit_btn_txt).toUpperCase(),
                         onPressed: () {
                           // if (ctrl.isChecked.value) {
                           //   Get.to(AddTaskOrReminderScreen(isUpdating: false));

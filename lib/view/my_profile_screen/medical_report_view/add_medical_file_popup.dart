@@ -81,7 +81,7 @@ class _AddMedicalFilePopupState extends State<AddMedicalFilePopup> {
                   onTap: (){
                     selectDate(context);
                   },
-                  hintText: "dd/mm/yyyy", suffixIcon: Padding(
+                  hintText: translate(context).dd_mm_yyyy, suffixIcon: Padding(
                   padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                   child: SvgPicture.asset(calenderDateSvg),
                 ),),

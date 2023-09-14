@@ -8,11 +8,11 @@ class MessageListResponse {
   MessageListResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['status'] = this.status;
     data['message'] = this.message;
     if (this.data != null) {
@@ -35,13 +35,13 @@ class Data {
     if (json['chatData'] != null) {
       chatData = <ChatData>[];
       json['chatData'].forEach((v) {
-        chatData!.add(new ChatData.fromJson(v));
+        chatData!.add(ChatData.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['receiverName'] = this.receiverName;
     data['receiverProfileImage'] = this.receiverProfileImage;
     if (this.chatData != null) {
@@ -62,13 +62,13 @@ class ChatData {
     if (json['chatList'] != null) {
       chatList = <ChatList>[];
       json['chatList'].forEach((v) {
-        chatList!.add(new ChatList.fromJson(v));
+        chatList!.add(ChatList.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['date'] = this.date;
     if (this.chatList != null) {
       data['chatList'] = this.chatList!.map((v) => v.toJson()).toList();
@@ -113,10 +113,10 @@ class ChatList {
     isDeleted = json['isDeleted'];
     sId = json['_id'];
     senderId = json['senderId'] != null
-        ? new SenderId.fromJson(json['senderId'])
+        ? SenderId.fromJson(json['senderId'])
         : null;
     receiverId = json['receiverId'] != null
-        ? new ReceiverId.fromJson(json['receiverId'])
+        ? ReceiverId.fromJson(json['receiverId'])
         : null;
     message = json['message'];
     roomId = json['roomId'];
@@ -125,7 +125,7 @@ class ChatList {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['type'] = this.type;
     data['isEnglish'] = this.isEnglish;
     data['isRead'] = this.isRead;
@@ -238,7 +238,7 @@ class SenderId {
     nativeLanguage = json['nativeLanguage'];
     religion = json['religion'];
     profilePic = json['profilePic'];
-    role = json['role'] != null ? new Role.fromJson(json['role']) : null;
+    role = json['role'] != null ? Role.fromJson(json['role']) : null;
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     otp = json['otp'];
@@ -256,7 +256,7 @@ class SenderId {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['isMobileVerified'] = this.isMobileVerified;
     data['gender'] = this.gender;
     data['idDocument'] = this.idDocument;
@@ -336,7 +336,7 @@ class Role {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['isDeleted'] = this.isDeleted;
     data['_id'] = this.sId;
     data['name'] = this.name;
@@ -422,7 +422,7 @@ class ReceiverId {
     name = json['name'];
     email = json['email'];
     mobile = json['mobile'];
-    role = json['role'] != null ? new Role.fromJson(json['role']) : null;
+    role = json['role'] != null ? Role.fromJson(json['role']) : null;
     dob = json['dob'];
     emirateId = json['emirateId'];
     emirateIdExpire = json['emirateIdExpire'];
@@ -440,7 +440,7 @@ class ReceiverId {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['isMobileVerified'] = this.isMobileVerified;
     data['gender'] = this.gender;
     data['docDate'] = this.docDate;

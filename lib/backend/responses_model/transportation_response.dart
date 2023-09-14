@@ -1,179 +1,23 @@
 class TransportationResponse {
   dynamic statusCode;
   dynamic message;
-  Data? data;
+  TripData? data;
 
   TransportationResponse({this.statusCode, this.message, this.data});
 
   TransportationResponse.fromJson(Map<String, dynamic> json) {
     statusCode = json['statusCode'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? TripData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['statusCode'] = this.statusCode;
     data['message'] = this.message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
-    return data;
-  }
-}
-
-class Data {
-  PickupLocation? pickupLocation;
-  PickupLocation? dropLocation;
-  dynamic passangerType;
-  dynamic isDeleted;
-  dynamic sId;
-  dynamic passanger;
-  dynamic passangerUser;
-  dynamic pickupAddress;
-  dynamic dropAddress;
-  dynamic school;
-  dynamic createdBy;
-  dynamic updatedBy;
-  Status? status;
-  dynamic createdAt;
-  dynamic updatedAt;
-  dynamic iV;
-  TripData? tripData;
-
-  Data(
-      {this.pickupLocation,
-        this.dropLocation,
-        this.passangerType,
-        this.isDeleted,
-        this.sId,
-        this.passanger,
-        this.passangerUser,
-        this.pickupAddress,
-        this.dropAddress,
-        this.school,
-        this.createdBy,
-        this.updatedBy,
-        this.status,
-        this.createdAt,
-        this.updatedAt,
-        this.iV,
-        this.tripData});
-
-  Data.fromJson(Map<String, dynamic> json) {
-    pickupLocation = json['pickupLocation'] != null
-        ? new PickupLocation.fromJson(json['pickupLocation'])
-        : null;
-    dropLocation = json['dropLocation'] != null
-        ? new PickupLocation.fromJson(json['dropLocation'])
-        : null;
-    passangerType = json['passangerType'];
-    isDeleted = json['isDeleted'];
-    sId = json['_id'];
-    passanger = json['passanger'];
-    passangerUser = json['passangerUser'];
-    pickupAddress = json['pickupAddress'];
-    dropAddress = json['dropAddress'];
-    school = json['school'];
-    createdBy = json['createdBy'];
-    updatedBy = json['updatedBy'];
-    status =
-    json['status'] != null ? new Status.fromJson(json['status']) : null;
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-    iV = json['__v'];
-    tripData = json['tripData'] != null
-        ? new TripData.fromJson(json['tripData'])
-        : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.pickupLocation != null) {
-      data['pickupLocation'] = this.pickupLocation!.toJson();
-    }
-    if (this.dropLocation != null) {
-      data['dropLocation'] = this.dropLocation!.toJson();
-    }
-    data['passangerType'] = this.passangerType;
-    data['isDeleted'] = this.isDeleted;
-    data['_id'] = this.sId;
-    data['passanger'] = this.passanger;
-    data['passangerUser'] = this.passangerUser;
-    data['pickupAddress'] = this.pickupAddress;
-    data['dropAddress'] = this.dropAddress;
-    data['school'] = this.school;
-    data['createdBy'] = this.createdBy;
-    data['updatedBy'] = this.updatedBy;
-    if (this.status != null) {
-      data['status'] = this.status!.toJson();
-    }
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    data['__v'] = this.iV;
-    if (this.tripData != null) {
-      data['tripData'] = this.tripData!.toJson();
-    }
-    return data;
-  }
-}
-
-class PickupLocation {
-  List<double>? coordinates;
-  dynamic type;
-
-  PickupLocation({this.coordinates, this.type});
-
-  PickupLocation.fromJson(Map<String, dynamic> json) {
-    coordinates = json['coordinates'].cast<double>();
-    type = json['type'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['coordinates'] = this.coordinates;
-    data['type'] = this.type;
-    return data;
-  }
-}
-
-class Status {
-  dynamic isDeleted;
-  dynamic sId;
-  dynamic name;
-  dynamic type;
-  dynamic createdAt;
-  dynamic updatedAt;
-  dynamic iV;
-
-  Status(
-      {this.isDeleted,
-        this.sId,
-        this.name,
-        this.type,
-        this.createdAt,
-        this.updatedAt,
-        this.iV});
-
-  Status.fromJson(Map<String, dynamic> json) {
-    isDeleted = json['isDeleted'];
-    sId = json['_id'];
-    name = json['name'];
-    type = json['type'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-    iV = json['__v'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['isDeleted'] = this.isDeleted;
-    data['_id'] = this.sId;
-    data['name'] = this.name;
-    data['type'] = this.type;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    data['__v'] = this.iV;
     return data;
   }
 }
@@ -184,15 +28,28 @@ class TripData {
   dynamic passangerType;
   dynamic tripStatus;
   dynamic tripType;
+  dynamic isWithoutNfc;
+  dynamic onVehicleUpdateTime;
+  dynamic leftTheBusWithSomeoneUpdateTime;
+  dynamic stampedByMistakeUpdateTime;
+  dynamic returnToHomeAfterStampedUpdateTime;
+  dynamic pendingUpdateTime;
+  dynamic readyUpdateTime;
+  dynamic pickupUpdateTime;
+  dynamic dropUpdateTime;
+  dynamic lateUpdateTime;
+  dynamic absentUpdateTime;
+  dynamic notshowUpdateTime;
+  dynamic requesttoadminUpdateTime;
+  dynamic tripStartRealTime;
+  dynamic tripEndRealTime;
   dynamic isDeleted;
   dynamic sId;
   Trip? trip;
   Route? route;
   DriverUser? driverUser;
-  Supervisor? supervisor;
   SupervisorUser? supervisorUser;
   Bus? bus;
-  dynamic passanger;
   dynamic school;
   PassangerUser? passangerUser;
   dynamic pickupAddress;
@@ -211,15 +68,28 @@ class TripData {
         this.passangerType,
         this.tripStatus,
         this.tripType,
+        this.isWithoutNfc,
+        this.onVehicleUpdateTime,
+        this.leftTheBusWithSomeoneUpdateTime,
+        this.stampedByMistakeUpdateTime,
+        this.returnToHomeAfterStampedUpdateTime,
+        this.pendingUpdateTime,
+        this.readyUpdateTime,
+        this.pickupUpdateTime,
+        this.dropUpdateTime,
+        this.lateUpdateTime,
+        this.absentUpdateTime,
+        this.notshowUpdateTime,
+        this.requesttoadminUpdateTime,
+        this.tripStartRealTime,
+        this.tripEndRealTime,
         this.isDeleted,
         this.sId,
         this.trip,
         this.route,
         this.driverUser,
-        this.supervisor,
         this.supervisorUser,
         this.bus,
-        this.passanger,
         this.school,
         this.passangerUser,
         this.pickupAddress,
@@ -234,38 +104,50 @@ class TripData {
 
   TripData.fromJson(Map<String, dynamic> json) {
     pickupLocation = json['pickupLocation'] != null
-        ? new PickupLocation.fromJson(json['pickupLocation'])
+        ? PickupLocation.fromJson(json['pickupLocation'])
         : null;
     dropLocation = json['dropLocation'] != null
-        ? new PickupLocation.fromJson(json['dropLocation'])
+        ? PickupLocation.fromJson(json['dropLocation'])
         : null;
     passangerType = json['passangerType'];
     tripStatus = json['tripStatus'];
     tripType = json['tripType'];
+    isWithoutNfc = json['isWithoutNfc'];
+    onVehicleUpdateTime = json['onVehicleUpdateTime'];
+    leftTheBusWithSomeoneUpdateTime = json['leftTheBusWithSomeoneUpdateTime'];
+    stampedByMistakeUpdateTime = json['stampedByMistakeUpdateTime'];
+    returnToHomeAfterStampedUpdateTime =
+    json['returnToHomeAfterStampedUpdateTime'];
+    pendingUpdateTime = json['pendingUpdateTime'];
+    readyUpdateTime = json['readyUpdateTime'];
+    pickupUpdateTime = json['pickupUpdateTime'];
+    dropUpdateTime = json['dropUpdateTime'];
+    lateUpdateTime = json['lateUpdateTime'];
+    absentUpdateTime = json['absentUpdateTime'];
+    notshowUpdateTime = json['notshowUpdateTime'];
+    requesttoadminUpdateTime = json['requesttoadminUpdateTime'];
+    tripStartRealTime = json['tripStartRealTime'];
+    tripEndRealTime = json['tripEndRealTime'];
     isDeleted = json['isDeleted'];
     sId = json['_id'];
-    trip = json['trip'] != null ? new Trip.fromJson(json['trip']) : null;
-    route = json['route'] != null ? new Route.fromJson(json['route']) : null;
+    trip = json['trip'] != null ? Trip.fromJson(json['trip']) : null;
+    route = json['route'] != null ? Route.fromJson(json['route']) : null;
     driverUser = json['driverUser'] != null
-        ? new DriverUser.fromJson(json['driverUser'])
-        : null;
-    supervisor = json['supervisor'] != null
-        ? new Supervisor.fromJson(json['supervisor'])
+        ? DriverUser.fromJson(json['driverUser'])
         : null;
     supervisorUser = json['supervisorUser'] != null
-        ? new SupervisorUser.fromJson(json['supervisorUser'])
+        ? SupervisorUser.fromJson(json['supervisorUser'])
         : null;
-    bus = json['bus'] != null ? new Bus.fromJson(json['bus']) : null;
-    passanger = json['passanger'];
+    bus = json['bus'] != null ? Bus.fromJson(json['bus']) : null;
     school = json['school'];
     passangerUser = json['passangerUser'] != null
-        ? new PassangerUser.fromJson(json['passangerUser'])
+        ? PassangerUser.fromJson(json['passangerUser'])
         : null;
     pickupAddress = json['pickupAddress'];
     dropAddress = json['dropAddress'];
     isEmergencyLocation = json['isEmergencyLocation'];
     status =
-    json['status'] != null ? new Status.fromJson(json['status']) : null;
+    json['status'] != null ? Status.fromJson(json['status']) : null;
     lateTime = json['lateTime'];
     tripStart = json['tripStart'];
     tripEnd = json['tripEnd'];
@@ -274,7 +156,7 @@ class TripData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.pickupLocation != null) {
       data['pickupLocation'] = this.pickupLocation!.toJson();
     }
@@ -284,6 +166,23 @@ class TripData {
     data['passangerType'] = this.passangerType;
     data['tripStatus'] = this.tripStatus;
     data['tripType'] = this.tripType;
+    data['isWithoutNfc'] = this.isWithoutNfc;
+    data['onVehicleUpdateTime'] = this.onVehicleUpdateTime;
+    data['leftTheBusWithSomeoneUpdateTime'] =
+        this.leftTheBusWithSomeoneUpdateTime;
+    data['stampedByMistakeUpdateTime'] = this.stampedByMistakeUpdateTime;
+    data['returnToHomeAfterStampedUpdateTime'] =
+        this.returnToHomeAfterStampedUpdateTime;
+    data['pendingUpdateTime'] = this.pendingUpdateTime;
+    data['readyUpdateTime'] = this.readyUpdateTime;
+    data['pickupUpdateTime'] = this.pickupUpdateTime;
+    data['dropUpdateTime'] = this.dropUpdateTime;
+    data['lateUpdateTime'] = this.lateUpdateTime;
+    data['absentUpdateTime'] = this.absentUpdateTime;
+    data['notshowUpdateTime'] = this.notshowUpdateTime;
+    data['requesttoadminUpdateTime'] = this.requesttoadminUpdateTime;
+    data['tripStartRealTime'] = this.tripStartRealTime;
+    data['tripEndRealTime'] = this.tripEndRealTime;
     data['isDeleted'] = this.isDeleted;
     data['_id'] = this.sId;
     if (this.trip != null) {
@@ -295,16 +194,12 @@ class TripData {
     if (this.driverUser != null) {
       data['driverUser'] = this.driverUser!.toJson();
     }
-    if (this.supervisor != null) {
-      data['supervisor'] = this.supervisor!.toJson();
-    }
     if (this.supervisorUser != null) {
       data['supervisorUser'] = this.supervisorUser!.toJson();
     }
     if (this.bus != null) {
       data['bus'] = this.bus!.toJson();
     }
-    data['passanger'] = this.passanger;
     data['school'] = this.school;
     if (this.passangerUser != null) {
       data['passangerUser'] = this.passangerUser!.toJson();
@@ -324,9 +219,27 @@ class TripData {
   }
 }
 
+class PickupLocation {
+  List<double>? coordinates;
+  dynamic type;
+
+  PickupLocation({this.coordinates, this.type});
+
+  PickupLocation.fromJson(Map<String, dynamic> json) {
+    coordinates = json['coordinates'].cast<double>();
+    type = json['type'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['coordinates'] = this.coordinates;
+    data['type'] = this.type;
+    return data;
+  }
+}
+
 class Trip {
   dynamic tripType;
-  List<String>? passanger;
   dynamic isDeleted;
   dynamic sId;
   dynamic tripNo;
@@ -335,21 +248,19 @@ class Trip {
   dynamic endTime;
   dynamic school;
   dynamic status;
-  dynamic createdBy;
-  dynamic updatedBy;
-  Sunday? sunday;
-  Sunday? monday;
-  Sunday? wednesday;
-  Sunday? tuesday;
-  Sunday? thursday;
-  Sunday? saturday;
-  Sunday? friday;
+  Wednesday? wednesday;
+  Wednesday? friday;
+  Wednesday? monday;
+  Wednesday? thursday;
+  Wednesday? sunday;
+  Wednesday? tuesday;
+  Wednesday? saturday;
+  dynamic date;
   dynamic createdAt;
   dynamic updatedAt;
 
   Trip(
       {this.tripType,
-        this.passanger,
         this.isDeleted,
         this.sId,
         this.tripNo,
@@ -358,54 +269,53 @@ class Trip {
         this.endTime,
         this.school,
         this.status,
-        this.createdBy,
-        this.updatedBy,
-        this.sunday,
-        this.monday,
         this.wednesday,
-        this.tuesday,
-        this.thursday,
-        this.saturday,
         this.friday,
+        this.monday,
+        this.thursday,
+        this.sunday,
+        this.tuesday,
+        this.saturday,
+        this.date,
         this.createdAt,
         this.updatedAt});
 
   Trip.fromJson(Map<String, dynamic> json) {
     tripType = json['tripType'];
-    passanger = json['passanger'].cast<String>();
     isDeleted = json['isDeleted'];
     sId = json['_id'];
     tripNo = json['tripNo'];
-    route = json['route'] != null ? new Route.fromJson(json['route']) : null;
+    route = json['route'] != null ? Route.fromJson(json['route']) : null;
     startTime = json['startTime'];
     endTime = json['endTime'];
     school = json['school'];
     status = json['status'];
-    createdBy = json['createdBy'];
-    updatedBy = json['updatedBy'];
-    sunday =
-    json['sunday'] != null ? new Sunday.fromJson(json['sunday']) : null;
-    monday =
-    json['monday'] != null ? new Sunday.fromJson(json['monday']) : null;
     wednesday = json['wednesday'] != null
-        ? new Sunday.fromJson(json['wednesday'])
+        ? Wednesday.fromJson(json['wednesday'])
         : null;
-    tuesday =
-    json['tuesday'] != null ? new Sunday.fromJson(json['tuesday']) : null;
-    thursday =
-    json['thursday'] != null ? new Sunday.fromJson(json['thursday']) : null;
-    saturday =
-    json['saturday'] != null ? new Sunday.fromJson(json['saturday']) : null;
     friday =
-    json['friday'] != null ? new Sunday.fromJson(json['friday']) : null;
+    json['friday'] != null ? Wednesday.fromJson(json['friday']) : null;
+    monday =
+    json['monday'] != null ? Wednesday.fromJson(json['monday']) : null;
+    thursday = json['thursday'] != null
+        ? Wednesday.fromJson(json['thursday'])
+        : null;
+    sunday =
+    json['sunday'] != null ? Wednesday.fromJson(json['sunday']) : null;
+    tuesday = json['tuesday'] != null
+        ? Wednesday.fromJson(json['tuesday'])
+        : null;
+    saturday = json['saturday'] != null
+        ? Wednesday.fromJson(json['saturday'])
+        : null;
+    date = json['date'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['tripType'] = this.tripType;
-    data['passanger'] = this.passanger;
     data['isDeleted'] = this.isDeleted;
     data['_id'] = this.sId;
     data['tripNo'] = this.tripNo;
@@ -416,29 +326,28 @@ class Trip {
     data['endTime'] = this.endTime;
     data['school'] = this.school;
     data['status'] = this.status;
-    data['createdBy'] = this.createdBy;
-    data['updatedBy'] = this.updatedBy;
-    if (this.sunday != null) {
-      data['sunday'] = this.sunday!.toJson();
-    }
-    if (this.monday != null) {
-      data['monday'] = this.monday!.toJson();
-    }
     if (this.wednesday != null) {
       data['wednesday'] = this.wednesday!.toJson();
-    }
-    if (this.tuesday != null) {
-      data['tuesday'] = this.tuesday!.toJson();
-    }
-    if (this.thursday != null) {
-      data['thursday'] = this.thursday!.toJson();
-    }
-    if (this.saturday != null) {
-      data['saturday'] = this.saturday!.toJson();
     }
     if (this.friday != null) {
       data['friday'] = this.friday!.toJson();
     }
+    if (this.monday != null) {
+      data['monday'] = this.monday!.toJson();
+    }
+    if (this.thursday != null) {
+      data['thursday'] = this.thursday!.toJson();
+    }
+    if (this.sunday != null) {
+      data['sunday'] = this.sunday!.toJson();
+    }
+    if (this.tuesday != null) {
+      data['tuesday'] = this.tuesday!.toJson();
+    }
+    if (this.saturday != null) {
+      data['saturday'] = this.saturday!.toJson();
+    }
+    data['date'] = this.date;
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
     return data;
@@ -450,13 +359,15 @@ class Route {
   PickupLocation? endLocation;
   dynamic isDeleted;
   dynamic sId;
+  dynamic school;
   dynamic name;
+  dynamic routeNo;
   dynamic startAddress;
-  dynamic startLatitude;
-  dynamic startLongitude;
   dynamic endAddress;
-  dynamic endLatitude;
-  dynamic endLongitude;
+  dynamic selectedPassanger;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic status;
   dynamic createdAt;
   dynamic updatedAt;
 
@@ -465,38 +376,42 @@ class Route {
         this.endLocation,
         this.isDeleted,
         this.sId,
+        this.school,
         this.name,
+        this.routeNo,
         this.startAddress,
-        this.startLatitude,
-        this.startLongitude,
         this.endAddress,
-        this.endLatitude,
-        this.endLongitude,
+        this.selectedPassanger,
+        this.createdBy,
+        this.updatedBy,
+        this.status,
         this.createdAt,
         this.updatedAt});
 
   Route.fromJson(Map<String, dynamic> json) {
     startLocation = json['startLocation'] != null
-        ? new PickupLocation.fromJson(json['startLocation'])
+        ? PickupLocation.fromJson(json['startLocation'])
         : null;
     endLocation = json['endLocation'] != null
-        ? new PickupLocation.fromJson(json['endLocation'])
+        ? PickupLocation.fromJson(json['endLocation'])
         : null;
     isDeleted = json['isDeleted'];
     sId = json['_id'];
+    school = json['school'];
     name = json['name'];
+    routeNo = json['routeNo'];
     startAddress = json['startAddress'];
-    startLatitude = json['startLatitude'];
-    startLongitude = json['startLongitude'];
     endAddress = json['endAddress'];
-    endLatitude = json['endLatitude'];
-    endLongitude = json['endLongitude'];
+    selectedPassanger = json['selectedPassanger'];
+    createdBy = json['createdBy'];
+    updatedBy = json['updatedBy'];
+    status = json['status'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.startLocation != null) {
       data['startLocation'] = this.startLocation!.toJson();
     }
@@ -505,40 +420,39 @@ class Route {
     }
     data['isDeleted'] = this.isDeleted;
     data['_id'] = this.sId;
+    data['school'] = this.school;
     data['name'] = this.name;
+    data['routeNo'] = this.routeNo;
     data['startAddress'] = this.startAddress;
-    data['startLatitude'] = this.startLatitude;
-    data['startLongitude'] = this.startLongitude;
     data['endAddress'] = this.endAddress;
-    data['endLatitude'] = this.endLatitude;
-    data['endLongitude'] = this.endLongitude;
+    data['selectedPassanger'] = this.selectedPassanger;
+    data['createdBy'] = this.createdBy;
+    data['updatedBy'] = this.updatedBy;
+    data['status'] = this.status;
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
     return data;
   }
 }
 
-class Sunday {
+class Wednesday {
   dynamic driverUser;
   dynamic bus;
   dynamic supervisorUser;
-  dynamic supervisor;
 
-  Sunday({this.driverUser, this.bus, this.supervisorUser, this.supervisor});
+  Wednesday({this.driverUser, this.bus, this.supervisorUser});
 
-  Sunday.fromJson(Map<String, dynamic> json) {
+  Wednesday.fromJson(Map<String, dynamic> json) {
     driverUser = json['driverUser'];
     bus = json['bus'];
     supervisorUser = json['supervisorUser'];
-    supervisor = json['supervisor'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['driverUser'] = this.driverUser;
     data['bus'] = this.bus;
     data['supervisorUser'] = this.supervisorUser;
-    data['supervisor'] = this.supervisor;
     return data;
   }
 }
@@ -546,10 +460,19 @@ class Sunday {
 class DriverUser {
   dynamic isMobileVerified;
   dynamic gender;
-  dynamic idDocument;
+  dynamic docDate;
   dynamic deviceType;
-  dynamic parentId;
+  dynamic alternativeMobile;
   dynamic isDeleted;
+  dynamic currentStatus;
+  dynamic isSendActivationRequest;
+  dynamic isFirstVerifyActivationRequest;
+  dynamic profileCompletePercent;
+  dynamic classStatus;
+  dynamic attendanceStatus;
+  dynamic isReadTermCondtion;
+  dynamic isReadResponsibility;
+  dynamic isAppAccess;
   dynamic sId;
   dynamic name;
   dynamic mobile;
@@ -571,17 +494,27 @@ class DriverUser {
   dynamic email;
   dynamic status;
   dynamic state;
-  dynamic alternativeMobile;
   dynamic sector;
   dynamic maritalStatus;
+  dynamic barcode;
+  dynamic uniqueId;
 
   DriverUser(
       {this.isMobileVerified,
         this.gender,
-        this.idDocument,
+        this.docDate,
         this.deviceType,
-        this.parentId,
+        this.alternativeMobile,
         this.isDeleted,
+        this.currentStatus,
+        this.isSendActivationRequest,
+        this.isFirstVerifyActivationRequest,
+        this.profileCompletePercent,
+        this.classStatus,
+        this.attendanceStatus,
+        this.isReadTermCondtion,
+        this.isReadResponsibility,
+        this.isAppAccess,
         this.sId,
         this.name,
         this.mobile,
@@ -603,17 +536,27 @@ class DriverUser {
         this.email,
         this.status,
         this.state,
-        this.alternativeMobile,
         this.sector,
-        this.maritalStatus});
+        this.maritalStatus,
+        this.barcode,
+        this.uniqueId});
 
   DriverUser.fromJson(Map<String, dynamic> json) {
     isMobileVerified = json['isMobileVerified'];
     gender = json['gender'];
-    idDocument = json['idDocument'];
-    parentId = json['parentId'];
+    docDate = json['docDate'];
     deviceType = json['deviceType'];
+    alternativeMobile = json['alternativeMobile'];
     isDeleted = json['isDeleted'];
+    currentStatus = json['currentStatus'];
+    isSendActivationRequest = json['isSendActivationRequest'];
+    isFirstVerifyActivationRequest = json['isFirstVerifyActivationRequest'];
+    profileCompletePercent = json['profileCompletePercent'];
+    classStatus = json['classStatus'];
+    attendanceStatus = json['attendanceStatus'];
+    isReadTermCondtion = json['isReadTermCondtion'];
+    isReadResponsibility = json['isReadResponsibility'];
+    isAppAccess = json['isAppAccess'];
     sId = json['_id'];
     name = json['name'];
     mobile = json['mobile'];
@@ -624,7 +567,7 @@ class DriverUser {
     nativeLanguage = json['nativeLanguage'];
     religion = json['religion'];
     profilePic = json['profilePic'];
-    role = json['role'] != null ? new Role.fromJson(json['role']) : null;
+    role = json['role'] != null ? Role.fromJson(json['role']) : null;
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     otp = json['otp'];
@@ -635,19 +578,30 @@ class DriverUser {
     email = json['email'];
     status = json['status'];
     state = json['state'];
-    alternativeMobile = json['alternativeMobile'];
     sector = json['sector'];
     maritalStatus = json['maritalStatus'];
+    barcode = json['barcode'];
+    uniqueId = json['uniqueId'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['isMobileVerified'] = this.isMobileVerified;
     data['gender'] = this.gender;
-    data['idDocument'] = this.idDocument;
-    data['parentId'] = this.parentId;
+    data['docDate'] = this.docDate;
     data['deviceType'] = this.deviceType;
+    data['alternativeMobile'] = this.alternativeMobile;
     data['isDeleted'] = this.isDeleted;
+    data['currentStatus'] = this.currentStatus;
+    data['isSendActivationRequest'] = this.isSendActivationRequest;
+    data['isFirstVerifyActivationRequest'] =
+        this.isFirstVerifyActivationRequest;
+    data['profileCompletePercent'] = this.profileCompletePercent;
+    data['classStatus'] = this.classStatus;
+    data['attendanceStatus'] = this.attendanceStatus;
+    data['isReadTermCondtion'] = this.isReadTermCondtion;
+    data['isReadResponsibility'] = this.isReadResponsibility;
+    data['isAppAccess'] = this.isAppAccess;
     data['_id'] = this.sId;
     data['name'] = this.name;
     data['mobile'] = this.mobile;
@@ -671,9 +625,10 @@ class DriverUser {
     data['email'] = this.email;
     data['status'] = this.status;
     data['state'] = this.state;
-    data['alternativeMobile'] = this.alternativeMobile;
     data['sector'] = this.sector;
     data['maritalStatus'] = this.maritalStatus;
+    data['barcode'] = this.barcode;
+    data['uniqueId'] = this.uniqueId;
     return data;
   }
 }
@@ -716,7 +671,7 @@ class Role {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['isDeleted'] = this.isDeleted;
     data['_id'] = this.sId;
     data['name'] = this.name;
@@ -731,66 +686,22 @@ class Role {
   }
 }
 
-class Supervisor {
-  dynamic isDeleted;
-  dynamic sId;
-  dynamic user;
-  dynamic school;
-  dynamic role;
-  dynamic dateOfEmployment;
-  dynamic createdBy;
-  dynamic updatedBy;
-  dynamic createdAt;
-  dynamic updatedAt;
-
-  Supervisor(
-      {this.isDeleted,
-        this.sId,
-        this.user,
-        this.school,
-        this.role,
-        this.dateOfEmployment,
-        this.createdBy,
-        this.updatedBy,
-        this.createdAt,
-        this.updatedAt});
-
-  Supervisor.fromJson(Map<String, dynamic> json) {
-    isDeleted = json['isDeleted'];
-    sId = json['_id'];
-    user = json['user'];
-    school = json['school'];
-    role = json['role'];
-    dateOfEmployment = json['dateOfEmployment'];
-    createdBy = json['createdBy'];
-    updatedBy = json['updatedBy'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['isDeleted'] = this.isDeleted;
-    data['_id'] = this.sId;
-    data['user'] = this.user;
-    data['school'] = this.school;
-    data['role'] = this.role;
-    data['dateOfEmployment'] = this.dateOfEmployment;
-    data['createdBy'] = this.createdBy;
-    data['updatedBy'] = this.updatedBy;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    return data;
-  }
-}
-
 class SupervisorUser {
   dynamic isMobileVerified;
   dynamic gender;
-  dynamic idDocument;
+  dynamic docDate;
   dynamic deviceType;
-  dynamic parentId;
+  dynamic alternativeMobile;
   dynamic isDeleted;
+  dynamic currentStatus;
+  dynamic isSendActivationRequest;
+  dynamic isFirstVerifyActivationRequest;
+  dynamic profileCompletePercent;
+  dynamic classStatus;
+  dynamic attendanceStatus;
+  dynamic isReadTermCondtion;
+  dynamic isReadResponsibility;
+  dynamic isAppAccess;
   dynamic sId;
   dynamic name;
   dynamic mobile;
@@ -804,14 +715,24 @@ class SupervisorUser {
   Role? role;
   dynamic createdAt;
   dynamic updatedAt;
+  dynamic uniqueId;
 
   SupervisorUser(
       {this.isMobileVerified,
         this.gender,
-        this.idDocument,
+        this.docDate,
         this.deviceType,
-        this.parentId,
+        this.alternativeMobile,
         this.isDeleted,
+        this.currentStatus,
+        this.isSendActivationRequest,
+        this.isFirstVerifyActivationRequest,
+        this.profileCompletePercent,
+        this.classStatus,
+        this.attendanceStatus,
+        this.isReadTermCondtion,
+        this.isReadResponsibility,
+        this.isAppAccess,
         this.sId,
         this.name,
         this.mobile,
@@ -824,15 +745,25 @@ class SupervisorUser {
         this.profilePic,
         this.role,
         this.createdAt,
-        this.updatedAt});
+        this.updatedAt,
+        this.uniqueId});
 
   SupervisorUser.fromJson(Map<String, dynamic> json) {
     isMobileVerified = json['isMobileVerified'];
     gender = json['gender'];
-    idDocument = json['idDocument'];
-    parentId = json['parentId'];
+    docDate = json['docDate'];
     deviceType = json['deviceType'];
+    alternativeMobile = json['alternativeMobile'];
     isDeleted = json['isDeleted'];
+    currentStatus = json['currentStatus'];
+    isSendActivationRequest = json['isSendActivationRequest'];
+    isFirstVerifyActivationRequest = json['isFirstVerifyActivationRequest'];
+    profileCompletePercent = json['profileCompletePercent'];
+    classStatus = json['classStatus'];
+    attendanceStatus = json['attendanceStatus'];
+    isReadTermCondtion = json['isReadTermCondtion'];
+    isReadResponsibility = json['isReadResponsibility'];
+    isAppAccess = json['isAppAccess'];
     sId = json['_id'];
     name = json['name'];
     mobile = json['mobile'];
@@ -843,19 +774,29 @@ class SupervisorUser {
     nativeLanguage = json['nativeLanguage'];
     religion = json['religion'];
     profilePic = json['profilePic'];
-    role = json['role'] != null ? new Role.fromJson(json['role']) : null;
+    role = json['role'] != null ? Role.fromJson(json['role']) : null;
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
+    uniqueId = json['uniqueId'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['isMobileVerified'] = this.isMobileVerified;
     data['gender'] = this.gender;
-    data['idDocument'] = this.idDocument;
+    data['docDate'] = this.docDate;
     data['deviceType'] = this.deviceType;
-    data['parentId'] = this.parentId;
+    data['alternativeMobile'] = this.alternativeMobile;
     data['isDeleted'] = this.isDeleted;
+    data['currentStatus'] = this.currentStatus;
+    data['isSendActivationRequest'] = this.isSendActivationRequest;
+    data['isFirstVerifyActivationRequest'] = this.isFirstVerifyActivationRequest;
+    data['profileCompletePercent'] = this.profileCompletePercent;
+    data['classStatus'] = this.classStatus;
+    data['attendanceStatus'] = this.attendanceStatus;
+    data['isReadTermCondtion'] = this.isReadTermCondtion;
+    data['isReadResponsibility'] = this.isReadResponsibility;
+    data['isAppAccess'] = this.isAppAccess;
     data['_id'] = this.sId;
     data['name'] = this.name;
     data['mobile'] = this.mobile;
@@ -871,6 +812,7 @@ class SupervisorUser {
     }
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
+    data['uniqueId'] = this.uniqueId;
     return data;
   }
 }
@@ -912,7 +854,8 @@ class Bus {
   Bus.fromJson(Map<String, dynamic> json) {
     isDeleted = json['isDeleted'];
     sId = json['_id'];
-    school = json['school'] != null ? new School.fromJson(json['school']) : null;
+    school =
+    json['school'] != null ? School.fromJson(json['school']) : null;
     plateNo = json['plateNo'];
     busSchoolNo = json['busSchoolNo'];
     seats = json['seats'];
@@ -928,7 +871,7 @@ class Bus {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['isDeleted'] = this.isDeleted;
     data['_id'] = this.sId;
     if (this.school != null) {
@@ -974,7 +917,7 @@ class School {
   dynamic createdAt;
   dynamic updatedAt;
   dynamic updatedBy;
-  dynamic rating;
+  dynamic rating; // double
 
   School(
       {this.location,
@@ -1004,7 +947,7 @@ class School {
 
   School.fromJson(Map<String, dynamic> json) {
     location = json['location'] != null
-        ? new PickupLocation.fromJson(json['location'])
+        ? PickupLocation.fromJson(json['location'])
         : null;
     brouchure = json['brouchure'];
     isDeleted = json['isDeleted'];
@@ -1032,7 +975,7 @@ class School {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.location != null) {
       data['location'] = this.location!.toJson();
     }
@@ -1066,10 +1009,19 @@ class School {
 class PassangerUser {
   dynamic isMobileVerified;
   dynamic gender;
-  dynamic idDocument;
+  dynamic docDate;
   dynamic deviceType;
-  dynamic parentId;
+  dynamic alternativeMobile;
   dynamic isDeleted;
+  dynamic currentStatus;
+  dynamic isSendActivationRequest;
+  dynamic isFirstVerifyActivationRequest;
+  dynamic profileCompletePercent;
+  dynamic classStatus;
+  dynamic attendanceStatus;
+  dynamic isReadTermCondtion;
+  dynamic isReadResponsibility;
+  dynamic isAppAccess;
   dynamic sId;
   dynamic name;
   dynamic email;
@@ -1091,14 +1043,31 @@ class PassangerUser {
   dynamic deviceToken;
   dynamic deviceVoip;
   dynamic uniqueId;
+  dynamic religion;
+  dynamic nationality;
+  dynamic address;
+  dynamic country;
+  dynamic maritalStatus;
+  dynamic sector;
+  dynamic starToBecome;
+  dynamic profileCompleteDate;
 
   PassangerUser(
       {this.isMobileVerified,
         this.gender,
-        this.idDocument,
+        this.docDate,
         this.deviceType,
-        this.parentId,
+        this.alternativeMobile,
         this.isDeleted,
+        this.currentStatus,
+        this.isSendActivationRequest,
+        this.isFirstVerifyActivationRequest,
+        this.profileCompletePercent,
+        this.classStatus,
+        this.attendanceStatus,
+        this.isReadTermCondtion,
+        this.isReadResponsibility,
+        this.isAppAccess,
         this.sId,
         this.name,
         this.email,
@@ -1119,20 +1088,37 @@ class PassangerUser {
         this.otp,
         this.deviceToken,
         this.deviceVoip,
-        this.uniqueId});
+        this.uniqueId,
+        this.religion,
+        this.nationality,
+        this.address,
+        this.country,
+        this.maritalStatus,
+        this.sector,
+        this.starToBecome,
+        this.profileCompleteDate});
 
   PassangerUser.fromJson(Map<String, dynamic> json) {
     isMobileVerified = json['isMobileVerified'];
     gender = json['gender'];
-    idDocument = json['idDocument'];
+    docDate = json['docDate'];
     deviceType = json['deviceType'];
-    parentId = json['parentId'];
+    alternativeMobile = json['alternativeMobile'];
     isDeleted = json['isDeleted'];
+    currentStatus = json['currentStatus'];
+    isSendActivationRequest = json['isSendActivationRequest'];
+    isFirstVerifyActivationRequest = json['isFirstVerifyActivationRequest'];
+    profileCompletePercent = json['profileCompletePercent'];
+    classStatus = json['classStatus'];
+    attendanceStatus = json['attendanceStatus'];
+    isReadTermCondtion = json['isReadTermCondtion'];
+    isReadResponsibility = json['isReadResponsibility'];
+    isAppAccess = json['isAppAccess'];
     sId = json['_id'];
     name = json['name'];
     email = json['email'];
     mobile = json['mobile'];
-    role = json['role'] != null ? new Role.fromJson(json['role']) : null;
+    role = json['role'] != null ? Role.fromJson(json['role']) : null;
     dob = json['dob'];
     emirateId = json['emirateId'];
     emirateIdExpire = json['emirateIdExpire'];
@@ -1149,16 +1135,34 @@ class PassangerUser {
     deviceToken = json['deviceToken'];
     deviceVoip = json['deviceVoip'];
     uniqueId = json['uniqueId'];
+    religion = json['religion'];
+    nationality = json['nationality'];
+    address = json['address'];
+    country = json['country'];
+    maritalStatus = json['maritalStatus'];
+    sector = json['sector'];
+    starToBecome = json['starToBecome'];
+    profileCompleteDate = json['profileCompleteDate'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['isMobileVerified'] = this.isMobileVerified;
     data['gender'] = this.gender;
-    data['idDocument'] = this.idDocument;
+    data['docDate'] = this.docDate;
     data['deviceType'] = this.deviceType;
-    data['parentId'] = this.parentId;
+    data['alternativeMobile'] = this.alternativeMobile;
     data['isDeleted'] = this.isDeleted;
+    data['currentStatus'] = this.currentStatus;
+    data['isSendActivationRequest'] = this.isSendActivationRequest;
+    data['isFirstVerifyActivationRequest'] =
+        this.isFirstVerifyActivationRequest;
+    data['profileCompletePercent'] = this.profileCompletePercent;
+    data['classStatus'] = this.classStatus;
+    data['attendanceStatus'] = this.attendanceStatus;
+    data['isReadTermCondtion'] = this.isReadTermCondtion;
+    data['isReadResponsibility'] = this.isReadResponsibility;
+    data['isAppAccess'] = this.isAppAccess;
     data['_id'] = this.sId;
     data['name'] = this.name;
     data['email'] = this.email;
@@ -1182,6 +1186,55 @@ class PassangerUser {
     data['deviceToken'] = this.deviceToken;
     data['deviceVoip'] = this.deviceVoip;
     data['uniqueId'] = this.uniqueId;
+    data['religion'] = this.religion;
+    data['nationality'] = this.nationality;
+    data['address'] = this.address;
+    data['country'] = this.country;
+    data['maritalStatus'] = this.maritalStatus;
+    data['sector'] = this.sector;
+    data['starToBecome'] = this.starToBecome;
+    data['profileCompleteDate'] = this.profileCompleteDate;
+    return data;
+  }
+}
+
+class Status {
+  dynamic isDeleted;
+  dynamic sId;
+  dynamic name;
+  dynamic type;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic order;
+
+  Status(
+      {this.isDeleted,
+        this.sId,
+        this.name,
+        this.type,
+        this.createdAt,
+        this.updatedAt,
+        this.order});
+
+  Status.fromJson(Map<String, dynamic> json) {
+    isDeleted = json['isDeleted'];
+    sId = json['_id'];
+    name = json['name'];
+    type = json['type'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    order = json['order'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['isDeleted'] = this.isDeleted;
+    data['_id'] = this.sId;
+    data['name'] = this.name;
+    data['type'] = this.type;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    data['order'] = this.order;
     return data;
   }
 }

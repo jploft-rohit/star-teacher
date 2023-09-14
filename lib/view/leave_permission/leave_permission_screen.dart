@@ -59,7 +59,7 @@ class _LeavePermissionScreenState extends State<LeavePermissionScreen> {
               SizedBox(height: 1.h,),
               BaseTextFormField(
                 controller: dateController,
-                hintText: "dd/mm/yyyy",
+                hintText: translate(context).dd_mm_yyyy,
                 title: translate(context).date,
                 prefixIcon: calenderDateSvg,
                 onTap: (){

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
 import 'package:staff_app/utility/base_views/base_school_selection.dart';
@@ -23,10 +24,10 @@ class _EarlyLeavePermissionState extends State<EarlyLeavePermission> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(title: "Early Leave & Permission"),
+      appBar: BaseAppBar(title: translate(context).early_leave_permission),
       floatingActionButton: BaseFloatingActionButton(
         onTap: () {Get.to(const CreateEarlyLeave());},
-        title: 'Request',
+        title: translate(context).request,
       ),
       body: Padding(
         padding: EdgeInsets.all(scaffoldPadding),
@@ -40,7 +41,7 @@ class _EarlyLeavePermissionState extends State<EarlyLeavePermission> {
                 ctrl.getData();
               },
             ),
-            Expanded(child: EarlyLeaveTile()),
+            const Expanded(child: EarlyLeaveTile()),
           ],
         ),
       ),

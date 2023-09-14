@@ -46,7 +46,8 @@ class CardTagCtrl extends GetxController{
   @override
   void onInit() {
     super.onInit();
-    selectedSchoolId.value = baseCtrl.schoolListData.data?.data?[0].sId??"";
+    selectedSchoolId.value = baseCtrl.schoolListData.data?.data?.first.sId??"";
+    selectedSchoolController.text = baseCtrl.schoolListData.data?.data?.first.name??"";
     getData();
   }
 
@@ -73,7 +74,7 @@ class CardTagCtrl extends GetxController{
          showGeneralDialog(
            context: Get.context!,
            pageBuilder:  (context, animation, secondaryAnimation) {
-             return SuccessDialogScreen(msg: "New Card/Tags Activated");
+             return const SuccessDialogScreen(msg: "New Card/Tags Activated");
            },
          );
        }

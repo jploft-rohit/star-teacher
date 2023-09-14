@@ -12,7 +12,7 @@ class BaseQr extends StatelessWidget {
         onTap: (){
           showScanQrDialogue(context, false,data: data??"");
         },
-        child: QrImage(
+        child: QrImageView(
           data: data??"",
           version: QrVersions.auto,
           size: 70,

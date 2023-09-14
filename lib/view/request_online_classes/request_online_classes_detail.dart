@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 import 'package:get/get.dart';
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -13,7 +13,7 @@ import 'package:staff_app/view/request_online_classes/create_online_class_reques
 import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 
 class RequestOnlineClassesDetail extends StatefulWidget {
-  RequestOnlineClassesDetail({Key? key}) : super(key: key);
+  const RequestOnlineClassesDetail({Key? key}) : super(key: key);
 
   @override
   State<RequestOnlineClassesDetail> createState() => _RequestOnlineClassesDetailState();
@@ -46,7 +46,7 @@ class _RequestOnlineClassesDetailState extends State<RequestOnlineClassesDetail>
                 controller.getData();
               },
             ),
-            Expanded(child: OnlineClassRequestTile())
+            const Expanded(child: OnlineClassRequestTile())
           ],
         ),
       ),

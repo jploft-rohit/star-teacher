@@ -19,6 +19,7 @@ class FamilyDetailsScreen extends StatefulWidget {
 
 class _FamilyDetailsScreenState extends State<FamilyDetailsScreen> {
   final String na = translate(Get.context!).na;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

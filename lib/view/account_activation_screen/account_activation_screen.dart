@@ -7,7 +7,7 @@ import 'package:staff_app/utility/base_views/base_button.dart';
 
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
@@ -119,8 +119,8 @@ class _AccountActivationScreenState extends State<AccountActivationScreen> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 SizedBox(width: 2.w),
-                                Text("+"+(controller.selectedCountryCode.value),style: TextStyle(fontSize: textFormFieldHintTs)),
-                                Icon(Icons.arrow_drop_down_rounded, color: Colors.grey),
+                                Text("+${controller.selectedCountryCode.value}",style: TextStyle(fontSize: textFormFieldHintTs)),
+                                const Icon(Icons.arrow_drop_down_rounded, color: Colors.grey),
                               ],
                             ),
                           ),

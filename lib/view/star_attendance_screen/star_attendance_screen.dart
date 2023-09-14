@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_tab_button.dart';
 import 'package:staff_app/utility/base_views/base_toggle_tab_bar.dart';
@@ -23,8 +23,6 @@ class _StarAttendanceScreenState extends State<StarAttendanceScreen> with Single
 
   @override
   void didChangeDependencies() {
-    controller.selectedSchoolId.value = "";
-    controller.selectedSchoolName.value = "";
     controller.selectedClassId.value = "";
     controller.selectedClassName.value = "";
     controller.selectedSectionId.value = "";
@@ -66,10 +64,10 @@ class _StarAttendanceScreenState extends State<StarAttendanceScreen> with Single
           padding: EdgeInsets.all(scaffoldPadding),
           child: TabBarView(
             controller: tabController,
-            children: [
-              const ClassTypeScreen(),
-              const ClassTypeScreen(),
-              const ClassTypeScreen(),
+            children: const [
+              ClassTypeScreen(),
+              ClassTypeScreen(),
+              ClassTypeScreen(),
           ]),
         ),
       ),

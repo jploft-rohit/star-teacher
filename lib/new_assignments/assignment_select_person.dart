@@ -12,10 +12,12 @@ import 'package:staff_app/Utility/filter_textformfield.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
+import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 
 class AssignmentSelectPerson extends StatefulWidget {
-  const AssignmentSelectPerson({Key? key}) : super(key: key);
+  final String screenName;
+  const AssignmentSelectPerson({Key? key, required this.screenName}) : super(key: key);
 
   @override
   State<AssignmentSelectPerson> createState() => _AssignmentSelectPersonState();
@@ -33,7 +35,10 @@ class _AssignmentSelectPersonState extends State<AssignmentSelectPerson> {
   void initState() {
     super.initState();
     DummyLists.initialRole = "Select Person";
-    controller.getStaffData(selectedRoleId: baseCtrl.rolesListResponse.data?.first.sId??"");
+    // controller.getStaffData(selectedRoleId: baseCtrl.rolesListResponse.data?.first.sId??"");
+    if (widget.screenName == "Assessment" || widget.screenName == "Lab") {
+      controller.getStaffData(selectedRoleId: "Star");
+    }
   }
 
   @override
@@ -59,56 +64,60 @@ class _AssignmentSelectPersonState extends State<AssignmentSelectPerson> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(""),
+                    const Text(""),
                     Text("Select Person", style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: Colors.black),),
                     GestureDetector(
                       onTap: (){
                         Get.back();
                       },
-                      child: Icon(Icons.close, color: Colors.black))
+                      child: const Icon(Icons.close, color: Colors.black))
                   ],
                 ),
                 SizedBox(height: 2.h),
-                Container(
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),border: Border.all(color: Color(0xFFCECECE),width: 1)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          CustomFilterDropDown(
-                              initialValue: DummyLists.initialRole,
-                              hintText: DummyLists.initialRole??'Select Person',
-                              item: baseCtrl.rolesListResponse.data?.map((RolesData value){
-                                return DropdownMenuItem<RolesData>(
-                                    value: value,
-                                    child: addText(value.name??"", 16.sp, Colors.black, FontWeight.w400));
-                              }).toList(),
-                              onChange: (value) {
-                                DummyLists.initialRole=value.name??"";
-                                controller.selectedPersonId.value = value.sId??"";
-                                controller.assignmentToCtrl.value.text = value.name;
-                                controller.getStaffData(selectedRoleId: controller.selectedPersonId.value);
-                                setState(() {});
-                              },icon: jobDetailSvg,
-                          ),
-                        ],
-                      ),
-                      Divider(height: 1,thickness: 1),
-                      FilterTextFormField(onChange: (String val) {
-                      }, hintText: "Search By ID...", keyBoardType: TextInputType.name,
-                      ),
-                    ],
+                Visibility(
+                  visible: widget.screenName == "Awareness & Courses" || widget.screenName == "Worksheet",
+                  child: Container(
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),border: Border.all(color: const Color(0xFFCECECE),width: 1)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            CustomFilterDropDown(
+                                initialValue: DummyLists.initialRole,
+                                hintText: DummyLists.initialRole??'Select Person',
+                                item: baseCtrl.rolesListResponse.data?.map((RolesData value){
+                                  return DropdownMenuItem<RolesData>(
+                                      value: value,
+                                      child: addText(value.name??"", 16.sp, Colors.black, FontWeight.w400));
+                                }).toList(),
+                                onChange: (value) {
+                                  DummyLists.initialRole=value.name??"";
+                                  controller.selectedPersonId.value = value.name??"";
+                                  controller.assignmentToCtrl.value.text = value.name;
+                                  controller.getStaffData(selectedRoleId: controller.selectedPersonId.value);
+                                  setState(() {});
+                                },icon: jobDetailSvg,
+                            ),
+                          ],
+                        ),
+                        const Divider(height: 1,thickness: 1),
+                        FilterTextFormField(onChange: (String val) {
+                        }, hintText: "Search By ID...", keyBoardType: TextInputType.name,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                SizedBox(
-                  height: 3.h,
+                Visibility(
+                  visible: widget.screenName == "Awareness & Courses" || widget.screenName == "Worksheet",
+                  child: SizedBox(height: 3.h),
                 ),
                 Obx(()=> controller.isStaffLoading.value
-                    ? Center(child: SizedBox(height: 30,width: 30,child: CircularProgressIndicator()))
+                    ? const Center(child: SizedBox(height: 30,width: 30,child: CircularProgressIndicator()))
                     : SizedBox(
                   height: 30.h,
-                      child: ListView.builder(
+                  child: (controller.staffData.isEmpty) ? const BaseNoData() : ListView.builder(
                   shrinkWrap: true,
                   itemCount: controller.staffData.length,
                   padding: EdgeInsets.zero,
@@ -118,8 +127,8 @@ class _AssignmentSelectPersonState extends State<AssignmentSelectPerson> {
                         child: GestureDetector(
                           onTap: (){
                             selectedFMOPos = index;
-                            controller.selectedPersonId.value = controller.staffData[index].user?.sId??"";
-                            controller.assignmentToCtrl.value.text = controller.staffData[index].user?.name??"";
+                            controller.selectedPersonId.value = controller.staffData[index].sId??"";
+                            controller.assignmentToCtrl.value.text = controller.staffData[index].name??"";
                             setState(() {});
                           },
                           child: Container(
@@ -137,7 +146,7 @@ class _AssignmentSelectPersonState extends State<AssignmentSelectPerson> {
                                   children: [
                                     Container(
                                       padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
-                                      margin: EdgeInsets.only(left: 2),
+                                      margin: const EdgeInsets.only(left: 2),
                                       decoration: BoxDecoration(
                                         border: Border.all(
                                             color: BaseColors.primaryColor
@@ -148,21 +157,21 @@ class _AssignmentSelectPersonState extends State<AssignmentSelectPerson> {
                                       child: SvgPicture.asset(manSvg,height: 30,),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 10.sp),
+                                      padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 10.sp),
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text(controller.staffData[index].user?.name??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
+                                          Text(controller.staffData[index].name??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                                           SizedBox(
                                             height: .5.h,
                                           ),
                                           Row(
                                             children: [
-                                              buildInfoItems("Subject", controller.staffData[index].subject?.name??""),
+                                              buildInfoItems("Role", controller.staffData[index].role?.displayName??""),
                                               SizedBox(
-                                                width: 5.w,
+                                                width: 1.w,
                                               ),
-                                              buildInfoItems("ID", controller.staffData[index].employeeId??""),
+                                              buildInfoItems("ID", controller.staffData[index].uniqueId??""),
                                             ],
                                           ),
                                         ],
@@ -172,7 +181,7 @@ class _AssignmentSelectPersonState extends State<AssignmentSelectPerson> {
                                 ),
 
                                 Padding(
-                                  padding: const EdgeInsets.only(right: 10.0, left: 10.0),
+                                  padding: const EdgeInsets.only(right: 10.0, left: 0.0),
                                   child: Container(
                                     height: 20,
                                     width: 20,

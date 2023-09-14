@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/backend/responses_model/my_profile_response.dart';
@@ -11,6 +12,7 @@ import 'package:staff_app/utility/base_views/base_icons.dart';
 import 'package:staff_app/utility/base_views/base_image_network.dart';
 import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/utility/base_views/base_pagination_footer.dart';
 import 'package:staff_app/utility/base_views/base_tab_bar.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
@@ -20,6 +22,8 @@ import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/account_deactivation_screen/controller/account_deactivation_controller.dart';
 import 'package:staff_app/view/my_profile_screen/controller/my_profile_ctrl.dart';
 import 'package:staff_app/view/salary_slip_screen/salary_slip_poup.dart';
+
+import '../../utility/sizes.dart';
 
 class ActivationRequestDetailScreen extends StatefulWidget {
   final DeactivateData? data;
@@ -70,7 +74,6 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
               child: Column(
                 children: [
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Container(
                         height: 70,
@@ -127,7 +130,9 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                               padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 4),
                               child: Center(
                                 child: Text(
-                                  translate(context).deactivated.toUpperCase(),
+                                    (myProfileController.response.value.data?.currentStatus??"").toString().toLowerCase() == "inactive"
+                                        ? translate(context).deactivated.toUpperCase()
+                                        : "ACTIVATED",
                                   style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 12.sp),),
                               ),
                             ),
@@ -136,7 +141,7 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                           GestureDetector(
                             onTap: (){
                               showScanQrDialogue(context, false,data: widget.qrCode??"");
-                            },child: QrImage(
+                            },child: QrImageView(
                             data: widget.qrCode??"",
                             version: QrVersions.auto,
                             size: 70,
@@ -210,168 +215,180 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
   }
 
   Widget buildPendingView() {
-    return Obx(()=> (controller.list?.length??0) == 0
-        ? BaseNoData()
-        : ListView.builder(
-        itemCount: controller.list?.length??0,
-        shrinkWrap: true,
-        padding: EdgeInsets.only(bottom: 40),
-        itemBuilder: (context, index) {
-          int stepperIndex = -5;
-          controller.statusTime = [];
-          controller.statusTitle = [];
-          controller.list?[index]?.requestStatus?.toList().asMap().forEach((loopIndex,element) {
-            if (element.name.toString().toLowerCase() != "rejected") {
-              controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
-              controller.statusTime.add(getFormattedTimeWithMonth(element.time??""));
-              if (element.time.toString().isNotEmpty) {
-                stepperIndex = loopIndex;
-              }
-            }else{
-              if ((element.time??"").toString().isNotEmpty) {
-                controller.statusTime = [];
-                controller.statusTitle = [];
-                controller.statusTitle.add(toBeginningOfSentenceCase(controller.list?[index]?.requestStatus?[0].name??"")??"");
+    return Obx(()=> SmartRefresher(
+      footer: const BasePaginationFooter(),
+      controller: controller.refreshController,
+      enablePullDown: enablePullToRefresh,
+      enablePullUp: true,
+      onLoading: (){
+        controller.getActivationRequests(refreshType: "load");
+      },
+      onRefresh: (){
+        controller.getActivationRequests(refreshType: "refresh");
+      },
+      child: (controller.list?.length??0) == 0
+          ? const BaseNoData()
+          : ListView.builder(
+          itemCount: controller.list?.length??0,
+          shrinkWrap: true,
+          padding: const EdgeInsets.only(bottom: 40),
+          itemBuilder: (context, index) {
+            int stepperIndex = -5;
+            controller.statusTime = [];
+            controller.statusTitle = [];
+            controller.list?[index]?.requestStatus?.toList().asMap().forEach((loopIndex,element) {
+              if (element.name.toString().toLowerCase() != "rejected") {
                 controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
-                controller.statusTime.add(getFormattedTimeWithMonth(controller.list?[index]?.requestStatus?[0].time??""));
                 controller.statusTime.add(getFormattedTimeWithMonth(element.time??""));
+                if (element.time.toString().isNotEmpty) {
+                  stepperIndex = loopIndex;
+                }
+              }else{
+                if ((element.time??"").toString().isNotEmpty) {
+                  controller.statusTime = [];
+                  controller.statusTitle = [];
+                  controller.statusTitle.add(toBeginningOfSentenceCase(controller.list?[index]?.requestStatus?[0].name??"")??"");
+                  controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
+                  controller.statusTime.add(getFormattedTimeWithMonth(controller.list?[index]?.requestStatus?[0].time??""));
+                  controller.statusTime.add(getFormattedTimeWithMonth(element.time??""));
+                }
               }
-            }
-          });
-          return Card(
-            child: Padding(
-              padding: EdgeInsets.all(15.sp),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    children: [
-                      Row(
-                        children: [
-                          SvgPicture.asset("assets/images/Vector (1).svg"),
-                          SizedBox(
-                            width: 2.w,
-                          ),
-                          Text(formatBackendDate(controller.list?[index]?.createdAt??""), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
-                        ],
-                      ),
-                      SizedBox(width: 20.w),
-                      Row(
-                        children: [
-                          SvgPicture.asset("assets/images/time_icon.svg"),
-                          SizedBox(width: 2.w),
-                          Text(getFormattedTime(controller.list?[index]?.createdAt??""), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const Divider(),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SvgPicture.asset("assets/images/report.svg"),
-                      SizedBox(
-                        width: 2.w,
-                      ),
-                      Flexible(child: buildInfoItems(translate(context).deactivation_reason, controller.list?[index]?.deactivationReason??"N/A"))
-                    ],
-                  ),
-                  const Divider(),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SvgPicture.asset("assets/images/report.svg"),
-                      SizedBox(
-                        width: 2.w,
-                      ),
-                      Flexible(child: buildInfoItems(translate(context).required_evidence, controller.list?[index]?.requiredEvidance??""))
-                    ],
-                  ),
-                  const Divider(),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SvgPicture.asset("assets/images/Vector (1).svg"),
-                      SizedBox(
-                        width: 2.w,
-                      ),
-                      Flexible(child: buildInfoItems(translate(context).due_date, formatBackendDate(controller.list?[index]?.dueDate??"")))
-                    ],
-                  ),
-                  const Divider(),
-                  Visibility(
-                    visible: (controller.list?[index]?.requestStatus?[2].time??"").toString().isNotEmpty,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+            });
+            return Card(
+              child: Padding(
+                padding: EdgeInsets.all(15.sp),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
                       children: [
-                        Text(translate(context).activation, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),),
-                        SizedBox(height: 1.h),
                         Row(
                           children: [
-                            Row(
-                              children: [
-                                SvgPicture.asset("assets/images/Vector (1).svg"),
-                                SizedBox(
-                                  width: 2.w,
-                                ),
-                                Text(formatBackendDate(controller.list?[index]?.requestStatus?[2].time??"N/A"), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
-                              ],
+                            SvgPicture.asset("assets/images/Vector (1).svg"),
+                            SizedBox(
+                              width: 2.w,
                             ),
-                            SizedBox(width: 20.w),
-                            Row(
-                              children: [
-                                SvgPicture.asset("assets/images/time_icon.svg"),
-                                SizedBox(
-                                  width: 2.w,
-                                ),
-                                Text(getFormattedTime(controller.list?[index]?.requestStatus?[2].time??"N/A"), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
-                              ],
-                            ),
+                            Text(formatBackendDate(controller.list?[index]?.createdAt??""), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
                           ],
                         ),
-                        const Divider(),
-                      ],
-                    ),
-                  ),
-                  Visibility(
-                    visible: (controller.list?[index]?.medCertDocument??"").toString().isNotEmpty,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(translate(context).medical_certificate, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp)),
-                        Visibility(
-                          visible: (controller.list?[index]?.medCertDocument??"").isNotEmpty,
-                          child: Row(
-                            children: [
-                              BaseIcons().view(concatBaseUrl: false,url: controller.list?[index]?.medCertDocument??""),
-                              SizedBox(width: 10),
-                              BaseIcons().download(onRightButtonPressed: (){
-                                BaseOverlays().dismissOverlay();
-                                downloadFile(url: (controller.list?[index]?.medCertDocument??""),concatBaseUrl: false);
-                              }),
-                            ],
-                          ),
+                        SizedBox(width: 20.w),
+                        Row(
+                          children: [
+                            SvgPicture.asset("assets/images/time_icon.svg"),
+                            SizedBox(width: 2.w),
+                            Text(getFormattedTime(controller.list?[index]?.createdAt??""), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
+                          ],
                         ),
                       ],
                     ),
-                  ),
-                  Visibility(
+                    const Divider(),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SvgPicture.asset("assets/images/report.svg"),
+                        SizedBox(
+                          width: 2.w,
+                        ),
+                        Flexible(child: buildInfoItems(translate(context).deactivation_reason, controller.list?[index]?.deactivationReason??"N/A"))
+                      ],
+                    ),
+                    const Divider(),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SvgPicture.asset("assets/images/report.svg"),
+                        SizedBox(
+                          width: 2.w,
+                        ),
+                        Flexible(child: buildInfoItems(translate(context).required_evidence, controller.list?[index]?.requiredEvidance??""))
+                      ],
+                    ),
+                    const Divider(),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SvgPicture.asset("assets/images/Vector (1).svg"),
+                        SizedBox(
+                          width: 2.w,
+                        ),
+                        Flexible(child: buildInfoItems(translate(context).due_date, formatBackendDate(controller.list?[index]?.dueDate??"")))
+                      ],
+                    ),
+                    const Divider(),
+                    Visibility(
+                      visible: (controller.list?[index]?.requestStatus?[2].time??"").toString().isNotEmpty,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(translate(context).activation, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),),
+                          SizedBox(height: 1.h),
+                          Row(
+                            children: [
+                              Row(
+                                children: [
+                                  SvgPicture.asset("assets/images/Vector (1).svg"),
+                                  SizedBox(
+                                    width: 2.w,
+                                  ),
+                                  Text(formatBackendDate(controller.list?[index]?.requestStatus?[2].time??"N/A"), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
+                                ],
+                              ),
+                              SizedBox(width: 20.w),
+                              Row(
+                                children: [
+                                  SvgPicture.asset("assets/images/time_icon.svg"),
+                                  SizedBox(
+                                    width: 2.w,
+                                  ),
+                                  Text(getFormattedTime(controller.list?[index]?.requestStatus?[2].time??"N/A"), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
+                                ],
+                              ),
+                            ],
+                          ),
+                          const Divider(),
+                        ],
+                      ),
+                    ),
+                    Visibility(
                       visible: (controller.list?[index]?.medCertDocument??"").toString().isNotEmpty,
-                      child: const Divider()),
-                  StepProgressView(
-                    width: MediaQuery.of(context).size.width,
-                    curStep: stepperIndex+1,
-                    color: BaseColors.primaryColor,
-                    titles: controller.statusTime,
-                    statuses: controller.statusTitle,
-                  ),
-                ],
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(translate(context).medical_certificate, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp)),
+                          Visibility(
+                            visible: (controller.list?[index]?.medCertDocument??"").isNotEmpty,
+                            child: Row(
+                              children: [
+                                BaseIcons().view(concatBaseUrl: false,url: controller.list?[index]?.medCertDocument??""),
+                                const SizedBox(width: 10),
+                                BaseIcons().download(onRightButtonPressed: (){
+                                  BaseOverlays().dismissOverlay();
+                                  downloadFile(url: (controller.list?[index]?.medCertDocument??""),concatBaseUrl: false);
+                                }),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Visibility(
+                        visible: (controller.list?[index]?.medCertDocument??"").toString().isNotEmpty,
+                        child: const Divider()),
+                    StepProgressView(
+                      width: MediaQuery.of(context).size.width,
+                      curStep: stepperIndex+1,
+                      color: BaseColors.primaryColor,
+                      titles: controller.statusTime,
+                      statuses: controller.statusTitle,
+                    ),
+                  ],
+                ),
               ),
-            ),
-          );
-        },
-      ),
+            );
+          },
+        ),
+    ),
     );
   }
   Widget buildCompletedView() {

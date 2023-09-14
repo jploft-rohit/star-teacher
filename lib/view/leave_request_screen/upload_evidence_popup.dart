@@ -100,20 +100,20 @@ class _UploadEvidencePopupState extends State<UploadEvidencePopup> {
                               child: child!,
                             );
                           },
-                          initialDate: controller.startDateController.value.text.isEmpty ? DateTime.now() : DateTime.parse(controller.startDateController.value.text.trim()),
+                          initialDate: controller.startDateController.value.text.isEmpty ? DateTime.now() : DateTime.parse(flipDate(date: controller.startDateController.value.text.trim())),
                           firstDate: DateTime.now(),
                           lastDate: DateTime(DateTime.now().year+2)
                       ).then((value){
                         if (value != null) {
                           if (controller.endDateController.value.text.trim().isNotEmpty) {
-                            DateTime endDate = DateTime.parse(controller.endDateController.value.text.trim());
+                            DateTime endDate = DateTime.parse(flipDate(date: controller.endDateController.value.text.trim()));
                             if (endDate.isAfter(value)) {
-                              controller.startDateController.value.text = formatFlutterDateTime(flutterDateTime: value);
+                              controller.startDateController.value.text = formatFlutterDateTime(flutterDateTime: value, getDayFirst: true);
                             }else{
                               baseToast(message: "\"Start Date\" can't be more than \"End Date\"");
                             }
                           }else{
-                            // controller.startDateController.value.text = formatFlutterDateTime(flutterDateTime: value);
+                            controller.startDateController.value.text = formatFlutterDateTime(flutterDateTime: value, getDayFirst: true);
                           }
                         }
                       });
@@ -150,20 +150,20 @@ class _UploadEvidencePopupState extends State<UploadEvidencePopup> {
                               child: child!,
                             );
                           },
-                          initialDate: controller.endDateController.value.text.isEmpty ? DateTime.now() : DateTime.parse(controller.endDateController.value.text.trim()),
+                          initialDate: controller.endDateController.value.text.isEmpty ? DateTime.now() : DateTime.parse(flipDate(date: controller.endDateController.value.text.trim())),
                           firstDate: DateTime.now(),
                           lastDate: DateTime(DateTime.now().year+2)
                       ).then((value){
                         if (value != null) {
                           if (controller.startDateController.value.text.trim().isNotEmpty) {
-                            DateTime startDate = DateTime.parse(controller.startDateController.value.text.trim());
+                            DateTime startDate = DateTime.parse(flipDate(date: controller.startDateController.value.text.trim()));
                             if (startDate.isBefore(value)) {
-                              controller.endDateController.value.text = formatFlutterDateTime(flutterDateTime: value);
+                              controller.endDateController.value.text = formatFlutterDateTime(flutterDateTime: value,getDayFirst: true);
                             }else{
                               baseToast(message: "\"End Date\" can't be less than \"Start Date\"");
                             }
                           }else{
-                            controller.endDateController.value.text = formatFlutterDateTime(flutterDateTime: value);
+                            controller.endDateController.value.text = formatFlutterDateTime(flutterDateTime: value, getDayFirst: true);
                           }
                           // controller.formKey.currentState?.validate();
                         }

@@ -235,7 +235,7 @@
 //                   ],
 //                 ),
 //                 const Spacer(),
-//                 // QrImageView(
+//                 // QrImageViewView(
 //                 //   data: controller.attendanceResponse.value?.user.barcode ?? '',
 //                 //   version: QrVersions.auto,
 //                 //   size: 70,

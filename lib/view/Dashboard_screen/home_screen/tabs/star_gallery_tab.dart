@@ -21,9 +21,11 @@ class _StarGalleryTabState extends State<StarGalleryTab> with TickerProviderStat
   void initState() {
     controller.getData(type: "both", showLoader: false);
     tabController = TabController(length: 3, vsync: this)..addListener(() {
-      controller.getData(type: (tabController.index) == 0 ? "both" : (tabController.index) == 1 ? "image" : "video", showLoader: false);
-      controller.selectedTabIndex.value = tabController.index;
-      setState(() {});
+      if (!(tabController.indexIsChanging)) {
+        controller.selectedTabIndex.value = tabController.index;
+        controller.getData(type: (tabController.index) == 0 ? "both" : (tabController.index) == 1 ? "image" : "video", showLoader: false);
+        setState(() {});
+      }
     });
     super.initState();
   }
@@ -44,11 +46,11 @@ class _StarGalleryTabState extends State<StarGalleryTab> with TickerProviderStat
             SvgPicture.asset("assets/images/ic_videos.svg", color: tabController.index == 2 ? BaseColors.primaryColor : Colors.black),
            ],
           ),
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
           Expanded(
             child: TabBarView(
                 controller: tabController,
-                children: [
+                children: const [
                   HomePhotoVideoTab(),
                   HomePhotoVideoTab(),
                   HomePhotoVideoTab(),

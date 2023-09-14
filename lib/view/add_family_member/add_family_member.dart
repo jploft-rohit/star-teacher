@@ -1,20 +1,20 @@
 import 'dart:io';
 
 import 'package:country_picker/country_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/backend/responses_model/family_response_list_response.dart';
 import 'package:staff_app/backend/responses_model/my_profile_response.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
-import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/add_family_member/controller/family_ctrl.dart';
@@ -34,10 +34,11 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
 
   @override
   void initState() {
+    super.initState();
+    ctrl.getRelationList();
     if(widget.isUpdating){
       ctrl.setData(data: widget.familyMembers);
     }
-    super.initState();
   }
 
   @override
@@ -63,28 +64,29 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
                     return null;
                   },
                 ),
-                BaseTextFormField(
-                  controller: ctrl.relationController,
-                  title: "${translate(context).relation}:",
-                  hintText: translate(context).choose,
-                  isDropDown: true,
-                  dropDownValue: ctrl.relationController.text,
-                  errorText: "Please select relation",
-                  onChanged: (newValue){
-                    setState(() {
-                      ctrl.relationController.text = newValue.toString();
-                    });},
-                    items: DummyLists().list1.map((value) {
-                      return DropdownMenuItem(
-                        value: value,
-                        child: addText(value, 16.sp, Colors.black, FontWeight.w400),);
-                    }).toList(),
+                Obx(()=>BaseTextFormField(
+                    controller: ctrl.relationController,
+                    title: "${translate(context).relation}:",
+                    hintText: translate(context).choose,
+                    isDropDown: true,
+                    dropDownValue: ctrl.relationController.text,
+                    errorText: "Please select relation",
+                    onChanged: (newValue){
+                      ctrl.relationController.text = newValue?.name??"";
+                      setState(() {});
+                      },
+                      items: ctrl.familyRelationList?.map((value) {
+                        return DropdownMenuItem<FamilyRelationData>(
+                          value: value,
+                          child: addText(value?.name??"", 16.sp, Colors.black, FontWeight.w400),);
+                      }).toList(),
+                  ),
                 ),
                 BaseTextFormField(
                   controller: ctrl.dobController,
                   title: "${translate(context).dob}:",
                   prefixIcon: calenderDateSvg,
-                  hintText: "dd/mm/yyyy",
+                  hintText: translate(context).dd_mm_yyyy,
                   keyboardType: TextInputType.datetime,
                   onTap: (){
                     showDatePicker(
@@ -92,7 +94,7 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
                         builder: (context, child) {
                           return Theme(
                             data: Theme.of(context).copyWith(
-                              colorScheme: ColorScheme.light(
+                              colorScheme: const ColorScheme.light(
                                 primary: BaseColors.primaryColor,
                               ),
                             ),
@@ -104,7 +106,7 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
                         lastDate: DateTime(DateTime.now().year-3)
                     ).then((picked){
                       if (picked != null) {
-                        ctrl.dobController..text = formatFlutterDateTime(flutterDateTime: picked, getDayFirst: true);
+                        ctrl.dobController.text = formatFlutterDateTime(flutterDateTime: picked, getDayFirst: true);
                       }
                     });
                   },
@@ -130,7 +132,9 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
                             showPhoneCode: true, // optional. Shows phone code before the country name.
                             onSelect: (Country country) {
                               ctrl.selectedCountryCode.value = country.phoneCode;
-                              print('Select country: ${country.phoneCode}');
+                              if (kDebugMode) {
+                                print('Select country: ${country.phoneCode}');
+                              }
                               setState(() {});
                             },
                           );
@@ -139,8 +143,8 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             SizedBox(width: 2.w),
-                            Text("+"+(ctrl.selectedCountryCode.value),style: TextStyle(fontSize: textFormFieldHintTs),),
-                            Icon(Icons.arrow_drop_down_rounded,color: Colors.grey,),
+                            Text("+${ctrl.selectedCountryCode.value}",style: TextStyle(fontSize: textFormFieldHintTs),),
+                            const Icon(Icons.arrow_drop_down_rounded,color: Colors.grey,),
                           ],
                         ),
                       ),
@@ -195,7 +199,7 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
                   controller: ctrl.idExpiryController,
                   title: "${translate(context).id_expiry_date}:",
                   prefixIcon: calenderDateSvg,
-                  hintText: "dd/mm/yyyy",
+                  hintText: translate(context).dd_mm_yyyy,
                   keyboardType: TextInputType.datetime,
                   onTap: (){
                     showDatePicker(
@@ -203,7 +207,7 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
                         builder: (context, child) {
                           return Theme(
                             data: Theme.of(context).copyWith(
-                              colorScheme: ColorScheme.light(
+                              colorScheme: const ColorScheme.light(
                                 primary: BaseColors.primaryColor,
                               ),
                             ),
@@ -215,7 +219,7 @@ class _AddFamilyMemberScreenState extends State<AddFamilyMemberScreen> {
                         lastDate: DateTime((DateTime.now().year+50),1,1),
                     ).then((picked){
                       if (picked != null) {
-                        ctrl.idExpiryController..text = formatFlutterDateTime(flutterDateTime: picked, getDayFirst: true);
+                        ctrl.idExpiryController.text = formatFlutterDateTime(flutterDateTime: picked, getDayFirst: true);
                       }
                     });
                     },

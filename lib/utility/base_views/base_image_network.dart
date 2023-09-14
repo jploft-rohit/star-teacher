@@ -17,7 +17,7 @@ class BaseImageNetwork extends StatelessWidget {
       padding: EdgeInsets.only(top: topMargin??0,right: rightMargin??0,bottom: bottomMargin??0,left: leftMargin??0),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(borderRadius??0),
-        child: Image.network(((link??"").contains("http")) ? (link??"") :  ApiEndPoints().imageBaseUrl+(link??""),
+        child: Image.network(((link??"").contains("http")) ? (link??"") :  "${ApiEndPoints().concatBaseUrl}/star-backend/${link??""}",
           width: width??null,
           height: height??null,
           cacheHeight: cacheHeight??null,
@@ -27,7 +27,7 @@ class BaseImageNetwork extends StatelessWidget {
             if (errorWidget == null) {
               return Icon(Icons.image, size: width);
             }else{
-              return errorWidget??SizedBox();
+              return errorWidget??const SizedBox();
             }
           },
           loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {

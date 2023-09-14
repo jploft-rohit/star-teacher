@@ -5,7 +5,9 @@ import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/backend/responses_model/base_success_response.dart';
 import 'package:staff_app/backend/responses_model/my_profile_response.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
+import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/view/login_screen/login_screen.dart';
 
 class MyProfileCtrl extends GetxController{
   Rx<MyProfileResponse> response = MyProfileResponse().obs;
@@ -30,9 +32,9 @@ class MyProfileCtrl extends GetxController{
     getData();
   }
 
-  getData(){
+  getData() async {
     FocusScope.of(Get.context!).requestFocus(FocusNode());
-    BaseAPI().get(url: ApiEndPoints().getMyProfile).then((value){
+    await BaseAPI().get(url: ApiEndPoints().getMyProfile).then((value){
       if (value?.statusCode == 200) {
         response.value = MyProfileResponse.fromJson(value?.data);
         familyMemberList?.value = MyProfileResponse.fromJson(value?.data).data?.familyMembers??[];
@@ -71,4 +73,15 @@ class MyProfileCtrl extends GetxController{
       }
     });
   }
+
+  deleteAccount(){
+    BaseAPI().delete(url: ApiEndPoints().deleteAccount).then((value) async {
+      if (value?.statusCode == 200) {
+        await BaseSharedPreference().clearLoginSession();
+        Get.offAll(const LoginScreen());
+      }else{
+      }
+    });
+  }
+
 }

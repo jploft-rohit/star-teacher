@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/backend/responses_model/base_success_response.dart';
@@ -15,6 +17,9 @@ class StickyNoteCtrl extends GetxController{
   Rx<TextEditingController> titleController = TextEditingController().obs;
   Rx<TextEditingController> descriptionController = TextEditingController().obs;
   final formKey = GlobalKey<FormState>();
+  /// Pagination
+  RxInt page = 1.obs;
+  final RefreshController refreshController = RefreshController(initialRefresh: false);
 
   @override
   void onInit() {
@@ -35,12 +40,33 @@ class StickyNoteCtrl extends GetxController{
   }
 
   /// Get All Note
-  getStickyNotesData(){
-    checkedNotes?.value = [];
-    unCheckedNotes?.value = [];
+  getStickyNotesData({String? refreshType}){
+    if (refreshType == 'refresh' || refreshType == null) {
+      checkedNotes?.value = [];
+      unCheckedNotes?.value = [];
+      refreshController.loadComplete();
+      page.value = 1;
+    } else if (refreshType == 'load') {
+      page.value++;
+    }
+    var data = {
+      "page":page.value.toString(),
+      "limit":apiItemLimit
+    };
     StickyNotesListResponse response = StickyNotesListResponse();
-    BaseAPI().post(url: ApiEndPoints().getStickyNotesList).then((value){
+    BaseAPI().post(url: ApiEndPoints().getStickyNotesList, data: data,showLoader: page.value == 1).then((value){
       if (value?.statusCode ==  200) {
+        if(refreshType == 'refresh'){
+          checkedNotes?.value = [];
+          unCheckedNotes?.value = [];
+          refreshController.loadComplete();
+          refreshController.refreshCompleted();
+        }else if((StickyNotesListResponse.fromJson(value?.data).data??[]).isEmpty && refreshType == 'load'){
+          refreshController.loadNoData();
+        }
+        else if(refreshType == 'load'){
+          refreshController.loadComplete();
+        }
         response = StickyNotesListResponse.fromJson(value?.data);
         response.data?.forEach((element) {
           if ((element.noteStatus?.name??"") == "completed") {
@@ -98,9 +124,9 @@ class StickyNoteCtrl extends GetxController{
   }
 
   /// Update Note
-  updateStickyNoteStatus({required id,required index}){
+  updateStickyNoteStatus({required id,required index, String? status}){
     Dio.FormData data = Dio.FormData.fromMap({
-      "status":"completed",
+      "status":status??"completed",
     });
     BaseSuccessResponse baseSuccessResponse = BaseSuccessResponse();
     BaseAPI().patch(url: ApiEndPoints().updateStickyNote+id,data: data).then((value){
@@ -125,6 +151,7 @@ class StickyNoteCtrl extends GetxController{
         "title":titleController.value.text.trim(),
         "description":descriptionController.value.text.trim(),
         "isSetReminder":"0",
+        "status":"pending",
       });
       BaseAPI().patch(url: ApiEndPoints().updateStickyNote+id,data: data).then((value){
         if (value?.statusCode ==  200) {

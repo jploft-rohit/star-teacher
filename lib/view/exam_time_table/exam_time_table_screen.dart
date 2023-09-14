@@ -20,35 +20,9 @@ class _ExamTimeTableScreenState extends State<ExamTimeTableScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final list = [
-      [
-        'Mon',
-        '05/06/23',
-        '09:00 - 10:00',
-        'English',
-      ],
-      [
-        'Thu',
-        '05/06/23',
-        '09:00 - 10:00',
-        'English',
-      ],
-      [
-        'Mon',
-        '05/06/23',
-        '09:00 - 10:00',
-        'English',
-      ],
-      [
-        'Wed',
-        '05/06/23',
-        '09:00 - 10:00',
-        'English',
-      ]
-    ];
     return Scaffold(
       backgroundColor: ColorConstants.white,
-      appBar: BaseAppBar(title: 'Exam Time Table'),
+      appBar: const BaseAppBar(title: 'Exam Time Table'),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -72,46 +46,46 @@ class _ExamTimeTableScreenState extends State<ExamTimeTableScreen> {
                 FontWeight.w700,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Container(
               height: 1,
               width: Get.width,
-              color: Color(0xFFEBEBEB),
+              color: const Color(0xFFEBEBEB),
             ),
             Table(
               columnWidths: {
-                0: FlexColumnWidth(2),
-                1: FlexColumnWidth(3),
-                2: FlexColumnWidth(2.5),
-                3: FlexColumnWidth(1.8),
+                0: const FlexColumnWidth(2),
+                1: const FlexColumnWidth(3),
+                2: const FlexColumnWidth(2.5),
+                3: const FlexColumnWidth(1.8),
               },
               children: [
-                TableRow(
+                const TableRow(
                   children: [
                     TableCell(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                             vertical: 13, horizontal: 5),
                         child: Text("DATE",textAlign: TextAlign.center, style: TextStyle(fontSize: 11,color: Colors.black,fontWeight: FontWeight.w900)),
                       ),
                     ),
                     TableCell(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                             vertical: 13, horizontal: 5),
                         child: Text("TIME",textAlign: TextAlign.center, style: TextStyle(fontSize: 11,color: Colors.black,fontWeight: FontWeight.w900)),
                       ),
                     ),
                     TableCell(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                             vertical: 13, horizontal: 5),
                         child: Text("SUBJECT",textAlign: TextAlign.center, style: TextStyle(fontSize: 11,color: Colors.black,fontWeight: FontWeight.w900)),
                     ),
                     ),
                     TableCell(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                             vertical: 13, horizontal: 5),
                         child: Text("CLASS ROOM",textAlign: TextAlign.center, style: TextStyle(fontSize: 11,color: Colors.black,fontWeight: FontWeight.w900)),
                       ),
@@ -123,19 +97,19 @@ class _ExamTimeTableScreenState extends State<ExamTimeTableScreen> {
             Container(
               height: 1,
               width: Get.width,
-              color: Color(0xFFEBEBEB),
+              color: const Color(0xFFEBEBEB),
             ),
             Obx(() => Table(
                 defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                border: TableBorder(
+                border: const TableBorder(
                   horizontalInside: BorderSide(color: Color(0xFFEBEBEB)),
                   verticalInside: BorderSide(color: Color(0xFFEBEBEB)),
                 ),
                 columnWidths: {
-                  0: FlexColumnWidth(2),
-                  1: FlexColumnWidth(3),
-                  2: FlexColumnWidth(2.5),
-                  3: FlexColumnWidth(1.8),
+                  0: const FlexColumnWidth(2),
+                  1: const FlexColumnWidth(3),
+                  2: const FlexColumnWidth(2.5),
+                  3: const FlexColumnWidth(1.8),
                 },
                 children: List.generate(
                   controller.list?.length??0, (index) => TableRow(
@@ -145,7 +119,7 @@ class _ExamTimeTableScreenState extends State<ExamTimeTableScreen> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               vertical: 13, horizontal: 5),
-                          child: Text(formatBackendDate(controller.list?[index]?.date??""), textAlign: TextAlign.center, style: TextStyle(fontSize: 10,color: Colors.black,fontWeight: FontWeight.w400),),
+                          child: Text(formatBackendDate(controller.list?[index]?.date??""), textAlign: TextAlign.center, style: const TextStyle(fontSize: 10,color: Colors.black,fontWeight: FontWeight.w400),),
                         ),
                       ),
                       TableCell(
@@ -153,7 +127,7 @@ class _ExamTimeTableScreenState extends State<ExamTimeTableScreen> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               vertical: 13, horizontal: 5),
-                          child: Text("${getFormattedTime(controller.list?[index]?.startTime??"")} - ${getFormattedTime(controller.list?[index]?.endTime??"")}", textAlign: TextAlign.center, style: TextStyle(fontSize: 10,color: Colors.black,fontWeight: FontWeight.w400),),
+                          child: Text("${getFormattedTime(controller.list?[index]?.startTime??"")} - ${getFormattedTime(controller.list?[index]?.endTime??"")}", textAlign: TextAlign.center, style: const TextStyle(fontSize: 10,color: Colors.black,fontWeight: FontWeight.w400),),
                         ),
                       ),
                       TableCell(
@@ -161,7 +135,7 @@ class _ExamTimeTableScreenState extends State<ExamTimeTableScreen> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               vertical: 13, horizontal: 5),
-                          child: Text(controller.list?[index]?.subject?.name??"", textAlign: TextAlign.center, style: TextStyle(fontSize: 10,color: Colors.black,fontWeight: FontWeight.w400),),
+                          child: Text(controller.list?[index]?.subject?.name??"", textAlign: TextAlign.center, style: const TextStyle(fontSize: 10,color: Colors.black,fontWeight: FontWeight.w400),),
                         ),
                       ),
                       TableCell(
@@ -169,7 +143,7 @@ class _ExamTimeTableScreenState extends State<ExamTimeTableScreen> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               vertical: 13, horizontal: 5),
-                          child: Text(controller.list?[index]?.classRoomNo.toString()??"", textAlign: TextAlign.center, style: TextStyle(fontSize: 10,color: Colors.black,fontWeight: FontWeight.w400),),
+                          child: Text(controller.list?[index]?.classRoomNo.toString()??"", textAlign: TextAlign.center, style: const TextStyle(fontSize: 10,color: Colors.black,fontWeight: FontWeight.w400),),
                         ),
                       ),
                     ]
@@ -180,7 +154,7 @@ class _ExamTimeTableScreenState extends State<ExamTimeTableScreen> {
             Container(
               height: 1,
               width: Get.width,
-              color: Color(0xFFEBEBEB),
+              color: const Color(0xFFEBEBEB),
             ),
           ],
         ),

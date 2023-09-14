@@ -10,7 +10,9 @@ class StaffListResponse {
     message = json['message'];
     if (json['data'] != null) {
       data = <StaffListData>[];
-      json['data'].forEach((v) { data!.add(new StaffListData.fromJson(v)); });
+      json['data'].forEach((v) {
+        data!.add(new StaffListData.fromJson(v));
+      });
     }
   }
 
@@ -26,106 +28,19 @@ class StaffListResponse {
 }
 
 class StaffListData {
-  dynamic sId;
-  dynamic isDeleted;
-  User? user;
-  dynamic school;
-  dynamic role;
-  dynamic dateOfEmployment;
-  dynamic designation;
-  dynamic classPerWeek;
-  dynamic employeeId;
-  dynamic employmentCertificate;
-  dynamic jobCertificate;
-  dynamic jobGrade;
-  dynamic jobTitle;
-  dynamic salaryCertificate;
-  dynamic slotNumber;
-  dynamic slotType;
-  dynamic studentGender;
-  dynamic titleGrade;
-  dynamic weekDays;
-  dynamic createdAt;
-  dynamic updatedAt;
-  dynamic iV;
-  dynamic staffsubject;
-  Subject? subject;
-
-  StaffListData({this.sId, this.isDeleted, this.user, this.school, this.role, this.dateOfEmployment, this.designation, this.classPerWeek, this.employeeId, this.employmentCertificate, this.jobCertificate, this.jobGrade, this.jobTitle, this.salaryCertificate, this.slotNumber, this.slotType, this.studentGender, this.titleGrade, this.weekDays, this.createdAt, this.updatedAt, this.iV, this.staffsubject, this.subject});
-
-  StaffListData.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
-    isDeleted = json['isDeleted'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
-    school = json['school'];
-    role = json['role'] != null ? new Role.fromJson(json['role']) : null;
-    dateOfEmployment = json['dateOfEmployment'];
-    designation = json['designation'];
-    classPerWeek = json['classPerWeek'];
-    employeeId = json['employeeId'];
-    employmentCertificate = json['employmentCertificate'];
-    jobCertificate = json['jobCertificate'];
-    jobGrade = json['jobGrade'];
-    jobTitle = json['jobTitle'];
-    salaryCertificate = json['salaryCertificate'];
-    slotNumber = json['slotNumber'];
-    slotType = json['slotType'];
-    studentGender = json['studentGender'];
-    titleGrade = json['titleGrade'];
-    weekDays = json['weekDays'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-    iV = json['__v'];
-    staffsubject = json['staffsubject'] != null ? new Staffsubject.fromJson(json['staffsubject']) : null;
-    subject = json['subject'] != null ? new Subject.fromJson(json['subject']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['isDeleted'] = this.isDeleted;
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
-    }
-    data['school'] = this.school;
-    if (this.role != null) {
-      data['role'] = this.role!.toJson();
-    }
-    data['dateOfEmployment'] = this.dateOfEmployment;
-    data['designation'] = this.designation;
-    data['classPerWeek'] = this.classPerWeek;
-    data['employeeId'] = this.employeeId;
-    data['employmentCertificate'] = this.employmentCertificate;
-    data['jobCertificate'] = this.jobCertificate;
-    data['jobGrade'] = this.jobGrade;
-    data['jobTitle'] = this.jobTitle;
-    data['salaryCertificate'] = this.salaryCertificate;
-    data['slotNumber'] = this.slotNumber;
-    data['slotType'] = this.slotType;
-    data['studentGender'] = this.studentGender;
-    data['titleGrade'] = this.titleGrade;
-    data['weekDays'] = this.weekDays;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    data['__v'] = this.iV;
-    if (this.staffsubject != null) {
-      data['staffsubject'] = this.staffsubject!.toJson();
-    }
-    if (this.subject != null) {
-      data['subject'] = this.subject!.toJson();
-    }
-    return data;
-  }
-}
-
-class User {
-  dynamic sId;
   dynamic isMobileVerified;
+  dynamic isSelected;
   dynamic gender;
   dynamic idDocument;
+  dynamic docDate;
   dynamic deviceType;
   dynamic parentId;
   dynamic isDeleted;
+  dynamic currentStatus;
+  dynamic isSendActivationRequest;
+  dynamic isFirstVerifyActivationRequest;
+  dynamic profileCompletePercent;
+  dynamic sId;
   dynamic name;
   dynamic mobile;
   dynamic dob;
@@ -135,27 +50,81 @@ class User {
   dynamic nativeLanguage;
   dynamic religion;
   dynamic profilePic;
-  dynamic role;
+  Role? role;
+  dynamic createdBy;
+  dynamic updatedBy;
+  dynamic uniqueId;
+  dynamic status;
   dynamic createdAt;
   dynamic updatedAt;
-  dynamic iV;
-  dynamic address;
-  dynamic country;
-  dynamic email;
+  dynamic alternativeMobile;
   dynamic otp;
   dynamic deviceToken;
   dynamic deviceVoip;
+  dynamic address;
+  dynamic bloodType;
+  dynamic country;
+  dynamic email;
+  dynamic maritalStatus;
+  dynamic state;
+  dynamic profileCompleteDate;
 
-  User({this.sId, this.isMobileVerified, this.gender, this.idDocument, this.deviceType, this.parentId, this.isDeleted, this.name, this.mobile, this.dob, this.nationality, this.emirateId, this.emirateIdExpire, this.nativeLanguage, this.religion, this.profilePic, this.role, this.createdAt, this.updatedAt, this.iV, this.address, this.country, this.email, this.otp, this.deviceToken, this.deviceVoip});
+  StaffListData(
+      {this.isMobileVerified,
+        this.gender,
+        this.isSelected,
+        this.idDocument,
+        this.docDate,
+        this.deviceType,
+        this.parentId,
+        this.isDeleted,
+        this.currentStatus,
+        this.isSendActivationRequest,
+        this.isFirstVerifyActivationRequest,
+        this.profileCompletePercent,
+        this.sId,
+        this.name,
+        this.mobile,
+        this.dob,
+        this.nationality,
+        this.emirateId,
+        this.emirateIdExpire,
+        this.nativeLanguage,
+        this.religion,
+        this.profilePic,
+        this.role,
+        this.createdBy,
+        this.updatedBy,
+        this.uniqueId,
+        this.status,
+        this.createdAt,
+        this.updatedAt,
+        this.alternativeMobile,
+        this.otp,
+        this.deviceToken,
+        this.deviceVoip,
+        this.address,
+        this.bloodType,
+        this.country,
+        this.email,
+        this.maritalStatus,
+        this.state,
+        this.profileCompleteDate});
 
-  User.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
+  StaffListData.fromJson(Map<String, dynamic> json) {
     isMobileVerified = json['isMobileVerified'];
     gender = json['gender'];
     idDocument = json['idDocument'];
+    docDate = json['docDate'];
+    isSelected = json['isSelected'];
     deviceType = json['deviceType'];
     parentId = json['parentId'];
     isDeleted = json['isDeleted'];
+    currentStatus = json['currentStatus'];
+    isSendActivationRequest = json['isSendActivationRequest'];
+    isFirstVerifyActivationRequest = json['isFirstVerifyActivationRequest'];
+    profileCompletePercent = json['profileCompletePercent'];
+    sId = json['_id'];
     name = json['name'];
     mobile = json['mobile'];
     dob = json['dob'];
@@ -165,27 +134,42 @@ class User {
     nativeLanguage = json['nativeLanguage'];
     religion = json['religion'];
     profilePic = json['profilePic'];
-    role = json['role'];
+    role = json['role'] != null ? new Role.fromJson(json['role']) : null;
+    createdBy = json['createdBy'];
+    updatedBy = json['updatedBy'];
+    uniqueId = json['uniqueId'];
+    status = json['status'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
-    iV = json['__v'];
-    address = json['address'];
-    country = json['country'];
-    email = json['email'];
+    alternativeMobile = json['alternativeMobile'];
     otp = json['otp'];
     deviceToken = json['deviceToken'];
     deviceVoip = json['deviceVoip'];
+    address = json['address'];
+    bloodType = json['bloodType'];
+    country = json['country'];
+    email = json['email'];
+    maritalStatus = json['maritalStatus'];
+    state = json['state'];
+    profileCompleteDate = json['profileCompleteDate'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
     data['isMobileVerified'] = this.isMobileVerified;
     data['gender'] = this.gender;
     data['idDocument'] = this.idDocument;
+    data['docDate'] = this.docDate;
+    data['isSelected'] = this.isSelected;
     data['deviceType'] = this.deviceType;
     data['parentId'] = this.parentId;
     data['isDeleted'] = this.isDeleted;
+    data['currentStatus'] = this.currentStatus;
+    data['isSendActivationRequest'] = this.isSendActivationRequest;
+    data['isFirstVerifyActivationRequest'] =
+        this.isFirstVerifyActivationRequest;
+    data['profileCompletePercent'] = this.profileCompletePercent;
+    data['_id'] = this.sId;
     data['name'] = this.name;
     data['mobile'] = this.mobile;
     data['dob'] = this.dob;
@@ -195,112 +179,79 @@ class User {
     data['nativeLanguage'] = this.nativeLanguage;
     data['religion'] = this.religion;
     data['profilePic'] = this.profilePic;
-    data['role'] = this.role;
+    if (this.role != null) {
+      data['role'] = this.role!.toJson();
+    }
+    data['createdBy'] = this.createdBy;
+    data['updatedBy'] = this.updatedBy;
+    data['uniqueId'] = this.uniqueId;
+    data['status'] = this.status;
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
-    data['__v'] = this.iV;
-    data['address'] = this.address;
-    data['country'] = this.country;
-    data['email'] = this.email;
+    data['alternativeMobile'] = this.alternativeMobile;
     data['otp'] = this.otp;
     data['deviceToken'] = this.deviceToken;
     data['deviceVoip'] = this.deviceVoip;
+    data['address'] = this.address;
+    data['bloodType'] = this.bloodType;
+    data['country'] = this.country;
+    data['email'] = this.email;
+    data['maritalStatus'] = this.maritalStatus;
+    data['state'] = this.state;
+    data['profileCompleteDate'] = this.profileCompleteDate;
     return data;
   }
 }
 
 class Role {
-  dynamic sId;
   dynamic isDeleted;
+  dynamic sId;
   dynamic name;
   dynamic type;
   dynamic status;
   dynamic createdBy;
   dynamic createdAt;
   dynamic updatedAt;
-  dynamic iV;
+  dynamic filterType;
+  dynamic displayName;
 
-  Role({this.sId, this.isDeleted, this.name, this.type, this.status, this.createdBy, this.createdAt, this.updatedAt, this.iV});
+  Role(
+      {this.isDeleted,
+        this.sId,
+        this.name,
+        this.type,
+        this.status,
+        this.createdBy,
+        this.createdAt,
+        this.updatedAt,
+        this.filterType,
+        this.displayName});
 
   Role.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
     isDeleted = json['isDeleted'];
+    sId = json['_id'];
     name = json['name'];
     type = json['type'];
     status = json['status'];
     createdBy = json['createdBy'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
-    iV = json['__v'];
+    filterType = json['filterType'];
+    displayName = json['displayName'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
     data['isDeleted'] = this.isDeleted;
+    data['_id'] = this.sId;
     data['name'] = this.name;
     data['type'] = this.type;
     data['status'] = this.status;
     data['createdBy'] = this.createdBy;
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
-    data['__v'] = this.iV;
-    return data;
-  }
-}
-
-class Staffsubject {
-  dynamic sId;
-  dynamic school;
-  dynamic schoolStaff;
-  dynamic classes;
-  dynamic classSection;
-  dynamic subject;
-
-  Staffsubject({this.sId, this.school, this.schoolStaff, this.classes, this.classSection, this.subject});
-
-  Staffsubject.fromJson(Map<String, dynamic> json) {
-  sId = json['_id'];
-  school = json['school'];
-  schoolStaff = json['schoolStaff'];
-  classes = json['class'];
-  classSection = json['classSection'];
-  subject = json['subject'];
-  }
-
-  Map<String, dynamic> toJson() {
-  final Map<String, dynamic> data = new Map<String, dynamic>();
-  data['_id'] = this.sId;
-  data['school'] = this.school;
-  data['schoolStaff'] = this.schoolStaff;
-  data['class'] = this.classes;
-  data['classSection'] = this.classSection;
-  data['subject'] = this.subject;
-  return data;
-  }
-}
-
-class Subject {
-  dynamic sId;
-  dynamic language;
-  dynamic name;
-  dynamic status;
-
-  Subject({this.sId, this.language, this.name, this.status});
-
-  Subject.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
-    language = json['language'];
-    name = json['name'];
-    status = json['status'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['language'] = this.language;
-    data['name'] = this.name;
-    data['status'] = this.status;
+    data['filterType'] = this.filterType;
+    data['displayName'] = this.displayName;
     return data;
   }
 }

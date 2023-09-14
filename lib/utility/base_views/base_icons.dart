@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/images_icon_path.dart';
 
@@ -13,14 +15,14 @@ class BaseIcons{
       onTap: (){
         if (showDeleteReason??false) {
           BaseOverlays().showReasonDeleteDialog(
-            title: title??"Delete",
+            title: title??(translate(Get.context!).delete),
             controller: deleteReasonController??TextEditingController(),
             onProceed: onRightButtonPressed,
             formKey: formKey,
           );
         }else{
           BaseOverlays().showConfirmationDialog(
-              title: title??"Are you sure you want to delete this data?",
+              title: title??(translate(Get.context!).are_you_sure_you_want_to_delete_this_data),
               onRightButtonPressed: onRightButtonPressed??(){BaseOverlays().dismissOverlay();}
           );
         }
@@ -37,7 +39,7 @@ class BaseIcons{
     return GestureDetector(
       onTap: (){
         BaseOverlays().showConfirmationDialog(
-            title: title??"Are you sure you want to save this data?",
+            title: title??(translate(Get.context!).are_you_sure_you_want_to_save_this_data),
             onRightButtonPressed: onRightButtonPressed??(){BaseOverlays().dismissOverlay();}
         );
       },
@@ -53,7 +55,7 @@ class BaseIcons{
     return GestureDetector(
       onTap: (){
         if ((url??"").contains("pdf")) {
-          BaseOverlays().viewPdfDialog(url: url,concatBaseUrl: concatBaseUrl);
+          BaseOverlays().viewPdfDialog(url: url,concatBaseUrl: concatBaseUrl, title: title??(translate(Get.context!).uploaded_document));
         }else{
           BaseOverlays().viewPhoto(url: url,concatBaseUrl: concatBaseUrl);
         }
@@ -70,7 +72,7 @@ class BaseIcons{
     return GestureDetector(
       onTap: (){
         BaseOverlays().showConfirmationDialog(
-            title: title??"Are you sure you want to download this data?",
+            title: title??(translate(Get.context!).are_you_sure_you_want_to_download_this_data),
             onRightButtonPressed: onRightButtonPressed??(){
               BaseOverlays().dismissOverlay();
             }
@@ -88,7 +90,7 @@ class BaseIcons{
     return GestureDetector(
       onTap: (){
         BaseOverlays().showConfirmationDialog(
-            title: title??"Are you sure you want to edit this data?",
+            title: title??(translate(Get.context!).are_you_sure_you_want_to_edit_this_data),
             onRightButtonPressed: onRightButtonPressed??(){BaseOverlays().dismissOverlay();}
         );
       },
@@ -104,7 +106,7 @@ class BaseIcons{
     return GestureDetector(
       onTap: () async {
         await Clipboard.setData(ClipboardData(text: copiedData));
-        Fluttertoast.showToast(msg: "Copied");
+        Fluttertoast.showToast(msg: translate(Get.context!).copied);
       },
       child: Padding(
           padding: EdgeInsets.only(top: topMargin??0,bottom: bottomMargin??0,right: rightMargin??0,left: leftMargin??0),

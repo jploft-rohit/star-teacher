@@ -4,11 +4,12 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_tab_button.dart';
 import 'package:staff_app/utility/base_views/base_toggle_tab_bar.dart';
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/class_schedule_screen/day_schedule_view.dart';
 import 'package:staff_app/view/class_schedule_screen/week_schedule_view.dart';
+import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 import 'package:staff_app/view/today_schedule_module/controller/today_schedule_controller.dart';
 
 import '../../utility/base_views/base_school_selection.dart';
@@ -24,13 +25,18 @@ class _ClassScheduleScreenState extends State<ClassScheduleScreen> with SingleTi
   int index = 0;
   late TabController tabController;
   TodayScheduleController controller = Get.put(TodayScheduleController());
+  BaseCtrl baseCtrl = Get.find<BaseCtrl>();
+
   @override
   void initState() {
     super.initState();
     controller.type.value = "today";
+    controller.selectedSchoolId.value = baseCtrl.schoolListData.data?.data?.first.sId??"";
+    controller.schoolController.text = baseCtrl.schoolListData.data?.data?.first.name??"";
     controller.getDayData(date: formatFlutterDateTime(flutterDateTime: DateTime.now(),getDayFirst: false));
     tabController = TabController(length: 2, vsync: this)..addListener(() {
       if (!(tabController.indexIsChanging)) {
+        controller.list?.clear();
         if (tabController.index == 0) {
           controller.type.value = "today";
           controller.getDayData();
@@ -41,11 +47,13 @@ class _ClassScheduleScreenState extends State<ClassScheduleScreen> with SingleTi
       }
     });
   }
+
   @override
   void dispose() {
     tabController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -67,16 +75,16 @@ class _ClassScheduleScreenState extends State<ClassScheduleScreen> with SingleTi
                 onChanged: (val){
                   controller.schoolController.text = val.name??"";
                   controller.selectedSchoolId.value = val.sId??"";
-                  controller.getDayData();
+                  controller.getDayData(refreshType: "refresh");
                 },
               ),
               SizedBox(height: 3.h),
               Expanded(
                 child: TabBarView(
                   controller: tabController,
-                  children: [
-                  const DayScheduleView(),
-                  const WeekScheduleView(),
+                  children: const [
+                  DayScheduleView(),
+                  WeekScheduleView(),
                 ]),
               ),
             ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_image_network.dart';
@@ -15,7 +16,7 @@ import 'annual_schedule.dart';
 
 class AnnualViewCalendarScreen extends StatefulWidget {
   final int index;
-  AnnualViewCalendarScreen({Key? key, required this.index}) : super(key: key);
+  const AnnualViewCalendarScreen({Key? key, required this.index}) : super(key: key);
 
   @override
   State<AnnualViewCalendarScreen> createState() => _AnnualViewCalendarScreenState();
@@ -31,7 +32,7 @@ class _AnnualViewCalendarScreenState extends State<AnnualViewCalendarScreen> {
         title: controller.list?[widget.index].title??"",
       ),
       body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         children: [
           calendar(),
           SizedBox(height: 3.h),
@@ -40,7 +41,7 @@ class _AnnualViewCalendarScreenState extends State<AnnualViewCalendarScreen> {
             title: Text(controller.list?[widget.index].title??"",style: TextStyle(fontWeight: FontWeight.w700,color: Colors.black,fontSize: 17.sp)),
             leading: BaseImageNetwork(link: controller.list?[widget.index].icon??"",height: 2.h,width: 2.h),
             tileColor: Color(int.parse(controller.list?[widget.index].color??"")),
-              subtitle: Text("${getMonthDate(controller.list?[widget.index].startDate??"")} to ${getMonthDate(controller.list?[widget.index].endDate??"")}",style: TextStyle(color: Colors.grey.shade700,fontSize: 15.sp)),
+              subtitle: Text("${getMonthDate(controller.list?[widget.index].startDate??"")} ${translate(context).to} ${getMonthDate(controller.list?[widget.index].endDate??"")}",style: TextStyle(color: Colors.grey.shade700,fontSize: 15.sp)),
             trailing: SvgPicture.asset(calenderDateSvg),
             minLeadingWidth: 0,
           )
@@ -52,7 +53,7 @@ class _AnnualViewCalendarScreenState extends State<AnnualViewCalendarScreen> {
   calendar() {
     return Container(
       decoration: BoxDecoration(
-        color: Color(0XFFF8F8F8),
+        color: const Color(0XFFF8F8F8),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Padding(
@@ -71,33 +72,33 @@ class _AnnualViewCalendarScreenState extends State<AnnualViewCalendarScreen> {
                         borderRadius: BorderRadius.circular(50),
                       ),
                     ),
-                    SizedBox(width: 5),
+                    const SizedBox(width: 5),
                     Text(
-                      'Holiday',
+                      translate(context).holiday,
                       style: TextStyle(
-                        color: Color(0XFF7C7C7C),
+                        color: const Color(0XFF7C7C7C),
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
                   ],
                 ),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
                 Row(
                   children: [
                     Container(
                       height: 13,
                       width: 13,
                       decoration: BoxDecoration(
-                        color: Color(0xff19AD54),
+                        color: const Color(0xff19AD54),
                         borderRadius: BorderRadius.circular(50),
                       ),
                     ),
-                    SizedBox(width: 5),
+                    const SizedBox(width: 5),
                     Text(
-                      'Exam',
+                      translate(context).exam,
                       style: TextStyle(
-                        color: Color(0XFF7C7C7C),
+                        color: const Color(0XFF7C7C7C),
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
                       ),
@@ -134,7 +135,6 @@ class _AnnualViewCalendarScreenState extends State<AnnualViewCalendarScreen> {
                   // showWeekNumber: true,
                   firstDayOfWeek: 1,
                   showTrailingAndLeadingDates: true,
-
                   viewHeaderStyle: DateRangePickerViewHeaderStyle(
                     backgroundColor: Colors.transparent,
                     textStyle: TextStyle(
@@ -146,7 +146,7 @@ class _AnnualViewCalendarScreenState extends State<AnnualViewCalendarScreen> {
                   ),
                 ),
                 selectionShape: DateRangePickerSelectionShape.rectangle,
-                selectionTextStyle: TextStyle(
+                selectionTextStyle: const TextStyle(
                   color: Colors.black,
                 ),
                 onSelectionChanged:
@@ -156,7 +156,7 @@ class _AnnualViewCalendarScreenState extends State<AnnualViewCalendarScreen> {
                 monthCellStyle: DateRangePickerMonthCellStyle(
                   startRangeSelectionColor: Color(int.parse(controller.list?[widget.index].color??"")),
                   endRangeSelectionColor: Color(int.parse(controller.list?[widget.index].color??"")),
-                  todayTextStyle: TextStyle(
+                  todayTextStyle: const TextStyle(
                     color: ColorConstants.primaryColor,
                   ),
                   weekendTextStyle: const TextStyle(

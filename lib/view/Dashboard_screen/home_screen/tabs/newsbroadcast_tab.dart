@@ -9,6 +9,7 @@ import 'package:staff_app/utility/base_views/base_loader.dart';
 import 'package:staff_app/view/Dashboard_screen/dashboard_screen_ctrl.dart';
 import 'package:staff_app/view/news_screen/news_details_screen.dart';
 import 'package:staff_app/view/news_screen/news_screen.dart';
+import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 
 class NewsBroadCastTab extends StatefulWidget {
   const NewsBroadCastTab({Key? key}) : super(key: key);
@@ -20,6 +21,7 @@ class NewsBroadCastTab extends StatefulWidget {
 class _NewsBroadCastTabState extends State<NewsBroadCastTab> {
 
   DashboardScreenCtrl controller = Get.find<DashboardScreenCtrl>();
+  BaseCtrl baseCtrl = Get.find<BaseCtrl>();
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +53,8 @@ class _NewsBroadCastTabState extends State<NewsBroadCastTab> {
                 GestureDetector(
                   onTap: (){
                     Get.to(const NewsScreen())?.then((value){
-                      controller.selectedSchoolId.value = "";
-                      controller.selectedSchoolName.value = "";
+                      controller.selectedSchoolId.value = baseCtrl.schoolListData.data?.data?.first.sId??"";
+                      controller.schoolController.text = baseCtrl.schoolListData.data?.data?.first.name??"";
                       controller.selectedClassId.value = "";
                       controller.selectedClassName.value = "";
                       controller.selectedSectionId.value = "";
@@ -68,14 +70,14 @@ class _NewsBroadCastTabState extends State<NewsBroadCastTab> {
             height: 1.h,
           ),
           controller.isBroadCastLoading.value
-              ? BaseLoader()
+              ? const BaseLoader()
               : ListView.builder(
-            itemCount: (controller.list?.length??0) > 1 ? 2 : (controller.list?.length??0),
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            padding: EdgeInsets.only(bottom: 1.h),
-            itemBuilder: (context,index){
-              return GestureDetector(
+                itemCount: (controller.list?.length??0) > 1 ? 2 : (controller.list?.length??0),
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.only(bottom: 1.h),
+                itemBuilder: (context,index){
+                return GestureDetector(
                 onTap: (){
                   Get.to(NewsDetailScreen(data: controller.list![index], index: index));
                 },
@@ -100,15 +102,15 @@ class _NewsBroadCastTabState extends State<NewsBroadCastTab> {
                     children: [
                       Text(controller.list?[index].title??"", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w600, fontSize: 16.sp,color: Colors.black),),
                       SizedBox(height: 1.h),
-                      Text(controller.list?[index].message??"", style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp, color: Color(0xFF072D4B), height: 2.0),maxLines: 2,overflow: TextOverflow.ellipsis,),
+                      Text(controller.list?[index].message??"", style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp, color: const Color(0xFF072D4B), height: 2.0),maxLines: 2,overflow: TextOverflow.ellipsis,),
                       SizedBox(height: 2.h),
                       Row(
                         children: [
-                          addText(controller.list?[index].user?.name??"", 14.sp,  Color(0xFF072D4B), FontWeight.w400),
+                          addText(controller.list?[index].user?.name??"", 14.sp,  const Color(0xFF072D4B), FontWeight.w400),
                           SizedBox(
                             width: 10.w,
                           ),
-                          addText(formatBackendDate(controller.list?[index].updatedAt??""), 14.sp,  Color(0xFF072D4B), FontWeight.w400),
+                          addText(formatBackendDate(controller.list?[index].updatedAt??""), 14.sp,  const Color(0xFF072D4B), FontWeight.w400),
                         ],
                       ),
                       Visibility(
@@ -130,7 +132,7 @@ class _NewsBroadCastTabState extends State<NewsBroadCastTab> {
                                         borderRadius: BorderRadius.circular(10.0)),
                                     child:Padding(
                                       padding: const EdgeInsets.symmetric(horizontal: 60,vertical: 15),
-                                      child: addText("Agree".toUpperCase(),15.sp,BaseColors.primaryColor,FontWeight.w700),
+                                      child: addText(translate(context).agree.toUpperCase(),15.sp,BaseColors.primaryColor,FontWeight.w700),
                                     )
                                 ),
                               ),
@@ -140,7 +142,7 @@ class _NewsBroadCastTabState extends State<NewsBroadCastTab> {
                       ),
                       if(controller.list?[index].isRead.toString() != "false")
                         Center(
-                          child: BaseButton(title: "AGREED", onPressed: (){}, isActive: false, textSize: 17.sp,topMargin: 1.5.h,),
+                          child: BaseButton(title: translate(context).agreed.toUpperCase(), onPressed: (){}, isActive: false, textSize: 17.sp,topMargin: 1.5.h,),
                         ),
                     ],
                   ),

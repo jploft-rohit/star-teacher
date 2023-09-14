@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
+import 'package:staff_app/backend/custom_models/notify_authority_model.dart';
 import 'package:staff_app/backend/responses_model/base_success_response.dart';
 import 'package:staff_app/backend/responses_model/transportation_location_response.dart' as Location;
 import 'package:staff_app/backend/responses_model/transportation_response.dart';
@@ -26,7 +27,7 @@ class TransportationScreenCtrl extends GetxController{
   RxString selectedCountryCode = "971".obs;
   RxString selectedLandlineCode = "971".obs;
   RxDouble selectedRating = 4.0.obs;
-  Rx<TripData> tripData = TripData().obs;
+  Rx<TripData?> tripData = TripData().obs;
   RxList<String> statusTime = [""].obs;
   RxList<String> statusTitle = [""].obs;
   Rx<Location.TransportationLocationData?>? locationData = Location.TransportationLocationData().obs;
@@ -96,10 +97,11 @@ class TransportationScreenCtrl extends GetxController{
     final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
     var data = {
       "tripType": selectedIndex.value == 0 ? "departure" : "return",
+      "userId":userId,
     };
-    BaseAPI().get(url: ApiEndPoints().getTransportationData+userId, queryParameters: data).then((value){
+    BaseAPI().get(url: ApiEndPoints().getTransportationDataNew, queryParameters: data).then((value){
       if (value?.statusCode ==  200) {
-        tripData.value = TransportationResponse.fromJson(value?.data).data?.tripData ?? TripData();
+        tripData.value = TransportationResponse.fromJson(value?.data).data??TripData();
       } else {
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
@@ -124,9 +126,9 @@ class TransportationScreenCtrl extends GetxController{
           "building": buildingController.value.text.trim(),
           "flat": flatController.value.text.trim(),
           "landmark": landmarkController.value.text.trim(),
-          "mobileNo": "+${selectedCountryCode} ${(mobileController.value.text.trim())}",
-          "landlineNo": "+${selectedLandlineCode} ${(landlineController.value.text.trim())}",
-          "trip": tripData.value.trip?.sId??"",
+          "mobileNo": "+$selectedCountryCode ${(mobileController.value.text.trim())}",
+          "landlineNo": "+$selectedLandlineCode ${(landlineController.value.text.trim())}",
+          "trip": tripData.value?.trip?.sId??"",
           "addressType": "home",
           "flatPhoto": await dio.MultipartFile.fromFile(selectedFile?.value?.path??"", filename: selectedFile?.value?.path.split("/").last??""),
         });
@@ -143,9 +145,9 @@ class TransportationScreenCtrl extends GetxController{
           "building": buildingController.value.text.trim(),
           "flat": flatController.value.text.trim(),
           "landmark": landmarkController.value.text.trim(),
-          "mobileNo": "+${selectedCountryCode} ${(mobileController.value.text.trim())}",
-          "landlineNo": "+${selectedLandlineCode} ${(landlineController.value.text.trim())}",
-          "trip": tripData.value.trip?.sId??"",
+          "mobileNo": "+$selectedCountryCode ${(mobileController.value.text.trim())}",
+          "landlineNo": "+$selectedLandlineCode ${(landlineController.value.text.trim())}",
+          "trip": tripData.value?.trip?.sId??"",
           "addressType": "home",
         });
       }
@@ -179,9 +181,9 @@ class TransportationScreenCtrl extends GetxController{
           "building": buildingController.value.text.trim(),
           "flat": flatController.value.text.trim(),
           "landmark": landmarkController.value.text.trim(),
-          "mobileNo": "+${selectedCountryCode} ${(mobileController.value.text.trim())}",
-          "landlineNo": "+${selectedLandlineCode} ${(landlineController.value.text.trim())}",
-          "trip": tripData.value.trip?.sId??"",
+          "mobileNo": "+$selectedCountryCode ${(mobileController.value.text.trim())}",
+          "landlineNo": "+$selectedLandlineCode ${(landlineController.value.text.trim())}",
+          "trip": tripData.value?.trip?.sId??"",
           "addressType": "home",
           "flatPhoto": await dio.MultipartFile.fromFile(selectedFile?.value?.path??"", filename: selectedFile?.value?.path.split("/").last??""),
         });
@@ -198,9 +200,9 @@ class TransportationScreenCtrl extends GetxController{
           "building": buildingController.value.text.trim(),
           "flat": flatController.value.text.trim(),
           "landmark": landmarkController.value.text.trim(),
-          "mobileNo": "+${selectedCountryCode} ${(mobileController.value.text.trim())}",
-          "landlineNo": "+${selectedLandlineCode} ${(landlineController.value.text.trim())}",
-          "trip": tripData.value.trip?.sId??"",
+          "mobileNo": "+$selectedCountryCode ${(mobileController.value.text.trim())}",
+          "landlineNo": "+$selectedLandlineCode ${(landlineController.value.text.trim())}",
+          "trip": tripData.value?.trip?.sId??"",
           "addressType": "home",
         });
       }
@@ -223,7 +225,7 @@ class TransportationScreenCtrl extends GetxController{
     statusTime.clear();
     stepperIndex.value = -5;
     BaseAPI().get(url: ApiEndPoints().getLocationData, queryParameters: {
-      "tripId": tripData.value.trip?.sId??""
+      "tripId": tripData.value?.trip?.sId??""
     }).then((value){
       if (value?.statusCode ==  200) {
         locationData?.value = Location.TransportationLocationResponse.fromJson(value?.data).data ?? Location.TransportationLocationResponse().data;
@@ -275,16 +277,23 @@ class TransportationScreenCtrl extends GetxController{
     );
   }
 
-  notifyTransportAuthority() async {
+  notifyTransportAuthority({required List<NotifyAuthority> list}) async {
     final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
-    var data = {
-      "user":userId,
-      "notifyData":optionsList
+    Map<String, dynamic> data = {
+      'user': userId,
     };
+
+    data['notifyData'] = list.map((e) => {
+      'option': e.option,
+      'dayType': e.dayType,
+      'fromDate': e.fromDateApi,
+      'toDate': e.toDateApi,
+    }).toList();
 
     BaseAPI().post(url: ApiEndPoints().notifyTransportAuthority, data: data).then((value){
       if (value?.statusCode ==  200) {
-        tripData.value = TransportationResponse.fromJson(value?.data).data?.tripData ?? TripData();
+        tripData.value = TransportationResponse.fromJson(value?.data).data ?? TripData();
+        BaseOverlays().showSnackBar(message: TransportationResponse.fromJson(value?.data).message??"",title: translate(Get.context!).success);
       } else {
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
@@ -295,7 +304,7 @@ class TransportationScreenCtrl extends GetxController{
   rateBus() async {
       var data = {
         "id" : "6482ada3132b192040cec82f",
-        "bus" : tripData.value.bus?.sId??"",
+        "bus" : tripData.value?.bus?.sId??"",
         "type" : selectedIndex.value == 0 ? "departure" : "departure",
         "rating" : selectedRating.value,
         "comment" : commentCtrl.value.text.trim(),
@@ -323,14 +332,14 @@ class TransportationScreenCtrl extends GetxController{
     );
   }
 
-  sendBusNotification({required String selectedOption}) async {
-    final String userId = await BaseSharedPreference().getString(SpKeys().userId);
-    var data = {
-      "sender":userId,
-      "receiver":tripData.value.driverUser?.sId??"",
-      "type":"transportation",
-      "message":selectedOption,
-    };
+  sendBusNotification({required String selectedOption, required String id}) async {
+    // final String userId = await BaseSharedPreference().getString(SpKeys().userId);
+    dio.FormData data = dio.FormData.fromMap({
+      "status":getApiKeyForStatusOption(value: selectedOption),
+      "comment":"",
+      "lateTime":selectedOption == "Wait 5 mins" ? "wait 5 min" :"",
+      "_id":id,
+    });
     BaseAPI().post(url: ApiEndPoints().createNotification, data: data).then((value) async {
       if (value?.statusCode ==  200) {
         BaseOverlays().showOkDialog(title: "Notify Successfully", onBtnPressed: (){
@@ -344,6 +353,33 @@ class TransportationScreenCtrl extends GetxController{
     },
     );
   }
+}
+
+String getApiKeyForStatusOption({required String value}){
+  String returnValue = "";
+  switch (value) {
+    case "Wait 5 mins":
+      {
+        returnValue = "late";
+        break;
+      }
+    case "Absent Today":
+      {
+        returnValue = "absent";
+        break;
+      }
+    case "Ready":
+      {
+        returnValue = "ready";
+        break;
+      }
+    case "Going By Own Vehicle":
+      {
+        returnValue = "ownVehicle";
+        break;
+      }
+  }
+  return returnValue;
 }
 
 

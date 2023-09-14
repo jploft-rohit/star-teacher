@@ -8,7 +8,7 @@ import 'package:staff_app/storage/sp_keys.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 
 import 'package:staff_app/utility/base_views/base_colors.dart';
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/route_manager/route_name.dart';
@@ -67,9 +67,9 @@ class _ChooseLangaugeScreenState extends State<ChooseLangaugeScreen> {
                           return GestureDetector(
                             onTap: () async {
                               controller.selectedPos.value = index;
-                              Locale _locale = await setLocalePref(controller.selectedPos.value == 1 ? ENGLISH : ARABIC);
-                              print("country Code1: ${_locale.languageCode}");
-                              Get.updateLocale(_locale);
+                              Locale locale = await setLocalePref(controller.selectedPos.value == 1 ? ENGLISH : ARABIC);
+                              Get.updateLocale(locale);
+
                             },
                             child: Obx(() => Container(
                                        width: 38.w,
@@ -154,9 +154,9 @@ class _ChooseLangaugeScreenState extends State<ChooseLangaugeScreen> {
                     SizedBox(height: MediaQuery.of(context).size.height*0.07,),
                     Align(
                       alignment: Alignment.topCenter,
-                      child: BaseButton(btnType: "large",title: translate(context).continue_btn_txt,textSize: 17.sp, onPressed: (){
+                      child: BaseButton(btnType: "large",title: translate(context).continue_btn_txt,textSize: 17.sp, onPressed: () async {
+                        await BaseSharedPreference().setString(SpKeys().selectedLanguage, controller.selectedPos.value == 0 ? "ar" : "en");
                         Get.toNamed(loginScreenRoute);
-                        BaseSharedPreference().setString(SpKeys().selectedLanguage, controller.selectedPos.value == 0 ? "ar" : "en");
                       },borderRadius: 19,)
                     ),
                   ],

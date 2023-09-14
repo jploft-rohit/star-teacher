@@ -13,16 +13,16 @@ class OnlineClassResponse {
     if (json['data'] != null) {
       data = <OnlineClassRequestData>[];
       json['data'].forEach((v) {
-        data!.add(new OnlineClassRequestData.fromJson(v));
+        data!.add(OnlineClassRequestData.fromJson(v));
       });
     }
     pagination = json['pagination'] != null
-        ? new Pagination.fromJson(json['pagination'])
+        ? Pagination.fromJson(json['pagination'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['statusCode'] = this.statusCode;
     data['message'] = this.message;
     if (this.data != null) {
@@ -41,6 +41,7 @@ class OnlineClassRequestData {
   dynamic outTime;
   dynamic inTime;
   dynamic reason;
+  dynamic comment;
   dynamic meetingUrl;
   dynamic meetingFeedBackRating;
   dynamic meetingFeedBackDesc;
@@ -68,6 +69,7 @@ class OnlineClassRequestData {
   OnlineClassRequestData(
       {this.date,
         this.time,
+        this.comment,
         this.outTime,
         this.inTime,
         this.reason,
@@ -101,6 +103,7 @@ class OnlineClassRequestData {
     outTime = json['outTime'];
     inTime = json['inTime'];
     reason = json['reason'];
+    comment = json['comment'];
     meetingUrl = json['meetingUrl'];
     meetingFeedBackRating = json['meetingFeedBackRating'];
     meetingFeedBackDesc = json['meetingFeedBackDesc'];
@@ -109,12 +112,12 @@ class OnlineClassRequestData {
     sId = json['_id'];
     startDate = json['startDate'];
     endDate = json['endDate'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
     typeOfRequest = json['typeOfRequest'];
     createdBy =
-    json['createdBy'] != null ? new User.fromJson(json['createdBy']) : null;
+    json['createdBy'] != null ? User.fromJson(json['createdBy']) : null;
     updatedBy =
-    json['updatedBy'] != null ? new User.fromJson(json['updatedBy']) : null;
+    json['updatedBy'] != null ? User.fromJson(json['updatedBy']) : null;
     document = json['document'];
     status = json['status'];
     requestId = json['requestId'];
@@ -124,25 +127,26 @@ class OnlineClassRequestData {
     if (json['requestStatus'] != null) {
       requestStatus = <RequestStatus>[];
       json['requestStatus'].forEach((v) {
-        requestStatus!.add(new RequestStatus.fromJson(v));
+        requestStatus!.add(RequestStatus.fromJson(v));
       });
     }
     statusData = json['statusData'];
     reminderData = json['reminderData'];
     school =
-    json['school'] != null ? new School.fromJson(json['school']) : null;
+    json['school'] != null ? School.fromJson(json['school']) : null;
     leaveType = json['leaveType'] != null
-        ? new LeaveType.fromJson(json['leaveType'])
+        ? LeaveType.fromJson(json['leaveType'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['date'] = this.date;
     data['time'] = this.time;
     data['outTime'] = this.outTime;
     data['inTime'] = this.inTime;
     data['reason'] = this.reason;
+    data['comment'] = this.comment;
     data['meetingUrl'] = this.meetingUrl;
     data['meetingFeedBackRating'] = this.meetingFeedBackRating;
     data['meetingFeedBackDesc'] = this.meetingFeedBackDesc;
@@ -264,7 +268,7 @@ class User {
     nativeLanguage = json['nativeLanguage'];
     religion = json['religion'];
     profilePic = json['profilePic'];
-    role = json['role'] != null ? new Role.fromJson(json['role']) : null;
+    role = json['role'] != null ? Role.fromJson(json['role']) : null;
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     otp = json['otp'];
@@ -281,7 +285,7 @@ class User {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['isMobileVerified'] = this.isMobileVerified;
     data['gender'] = this.gender;
     data['idDocument'] = this.idDocument;
@@ -356,7 +360,7 @@ class Role {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['isDeleted'] = this.isDeleted;
     data['_id'] = this.sId;
     data['name'] = this.name;
@@ -403,7 +407,7 @@ class RequestStatus {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['isDeleted'] = this.isDeleted;
     data['_id'] = this.sId;
     data['name'] = this.name;
@@ -484,7 +488,7 @@ class School {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['brouchure'] = this.brouchure;
     data['isDeleted'] = this.isDeleted;
     data['_id'] = this.sId;
@@ -528,7 +532,7 @@ class LeaveType {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['isDeleted'] = this.isDeleted;
     data['_id'] = this.sId;
     data['language'] = this.language;
@@ -561,7 +565,7 @@ class Pagination {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['totalCount'] = this.totalCount;
     data['totalPages'] = this.totalPages;
     data['currentPage'] = this.currentPage;

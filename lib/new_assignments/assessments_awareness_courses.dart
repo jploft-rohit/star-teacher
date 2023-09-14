@@ -1,8 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/backend/responses_model/class_response.dart';
 import 'package:staff_app/backend/responses_model/roles_list_response.dart';
 import 'package:staff_app/new_assignments/controller/new_assignment_ctrl.dart';
@@ -38,6 +38,7 @@ class _AssessmentsAwarenessCoursesState extends State<AssessmentsAwarenessCourse
         controller.getData();
       }
     });
+
   }
 
   @override
@@ -66,7 +67,7 @@ class _AssessmentsAwarenessCoursesState extends State<AssessmentsAwarenessCourse
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CustomFilterDropDown(
-                      hintText: controller.roleController.value.text.isEmpty ? 'Role' : controller.roleController.value.text,
+                      hintText: controller.roleController.value.text.isEmpty ? 'Role' : controller.roleController.value.text.trim(),
                       item: baseCtrl.rolesListResponse.data?.map((RolesData data){
                         return DropdownMenuItem<RolesData>(
                           value: data,
@@ -74,16 +75,18 @@ class _AssessmentsAwarenessCoursesState extends State<AssessmentsAwarenessCourse
                         );
                       }).toList(),
                       onChange: (value) {
-                        controller.roleController.value.text = value.name;
-                        controller.selectedRollId.value = value.sId;
+                        controller.searchCtrl.value.clear();
+                        controller.roleController.value.text = value.name??"";
+                        controller.selectedRollId.value = value.sId??"";
                         controller.getData();
+                        setState(() {});
                       },
                       icon: classTakenSvg,
                     ),
-                    Container(
-                      child: VerticalDivider(width: 1),
+                    SizedBox(
                       height: 4.h,
                       width: 1,
+                      child: const VerticalDivider(width: 1),
                     ),
                     CustomFilterDropDown(
                       hintText: controller.classController.value.text.isEmpty ? 'Class' : controller.classController.value.text,
@@ -94,6 +97,7 @@ class _AssessmentsAwarenessCoursesState extends State<AssessmentsAwarenessCourse
                         );
                       }).toList(),
                       onChange: (value) {
+                        controller.searchCtrl.value.clear();
                         controller.classController.value.text = value.name;
                         controller.selectedClassId.value = value.sId;
                         controller.getData();
@@ -102,14 +106,15 @@ class _AssessmentsAwarenessCoursesState extends State<AssessmentsAwarenessCourse
                     )
                   ],
                 ),
-                Divider(
+                const Divider(
                   height: 1,
                   thickness: 1,
                 ),
                 FilterTextFormField(
-                  onChange: (String val) {},
-                  hintText: "Search Star,ID...",
+                  onChange: (val)=> controller.baseDebouncer.run(()=> controller.getData()),
+                  hintText: "Search Star, ID...",
                   keyBoardType: TextInputType.name,
+                  controller: controller.searchCtrl.value,
                 ),
               ],
             ),

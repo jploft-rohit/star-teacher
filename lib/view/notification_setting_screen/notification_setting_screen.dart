@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
+import 'package:staff_app/utility/base_views/base_pagination_footer.dart';
 import 'package:staff_app/utility/base_views/base_toggle_tab_bar.dart';
 
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_views/base_switch.dart';
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/notification_setting_screen/controller/notification_settings_controller.dart';
@@ -72,21 +74,45 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> w
                 child: TabBarView(
                   controller: tabController,
                     children: [
-                  Obx(()=>ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: controller.list?.length??0,
-                      itemBuilder: (context, index) {
-                        return buildTile(index);
-                      },
-                    ),
+                  Obx(()=>SmartRefresher(
+                    footer: const BasePaginationFooter(),
+                    controller: controller.refreshController,
+                    enablePullDown: enablePullToRefresh,
+                    enablePullUp: true,
+                    onLoading: (){
+                      controller.getData(refreshType: "load");
+                    },
+                    onRefresh: (){
+                      controller.getData(refreshType: "refresh");
+                    },
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: controller.list?.length??0,
+                        itemBuilder: (context, index) {
+                          return buildTile(index);
+                        },
+                      ),
                   ),
-                  Obx(()=>ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: controller.list?.length??0,
-                      itemBuilder: (context, index) {
-                        return buildTile1(index);
-                      },
-                    ),
+                  ),
+                  Obx(()=>SmartRefresher(
+                    footer: const BasePaginationFooter(),
+                    controller: controller.refreshController,
+                    enablePullDown: enablePullToRefresh,
+                    enablePullUp: true,
+                    onLoading: (){
+                      controller.getData(refreshType: "load");
+                    },
+                    onRefresh: (){
+                      controller.getData(refreshType: "refresh");
+                    },
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: controller.list?.length??0,
+                        itemBuilder: (context, index) {
+                          return buildTile1(index);
+                        },
+                      ),
+                  ),
                   )
                 ]),
               )
@@ -131,6 +157,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> w
                   switchWidth: 15,
                   onChanged: (bool value) {
                     controller.changeNotificationSetting(index: index);
+                    setState(() {});
                   },),
               ),
             ),
@@ -165,6 +192,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> w
                 switchWidth: 15,
                 onChanged: (bool value) {
                   controller.changeNotificationSetting(index: index);
+                  setState(() {});
                 },),
               ),
             ),

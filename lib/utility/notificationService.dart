@@ -36,7 +36,7 @@ class NotificationService {
       final id = DateTime.now().millisecondsSinceEpoch ~/ 1000;
       NotificationDetails notificationDetails = NotificationDetails(
           android: AndroidNotificationDetails(
-            "Star Admin",
+            "Star Teacher",
             "pushnotificationappchannel",
             icon: '@mipmap/ic_launcher',
             importance: Importance.max,
@@ -98,12 +98,46 @@ class NotificationService {
     }
   }
 
+  static void normaldisplay(int id,String title,String body) async {
+    try {
+      final id = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+      NotificationDetails notificationDetails = const NotificationDetails(
+          android: AndroidNotificationDetails(
+            "Star Teacher",
+            "pushnotificationappchannel",
+            icon: '@mipmap/ic_launcher',
+            importance: Importance.max,
+            priority: Priority.high,
+            playSound: true,
+          ),
+          iOS: DarwinNotificationDetails()
+      );
+
+      await _notificationsPlugin.show(
+        id,
+        title,
+        body,
+        notificationDetails,
+      );
+      const InitializationSettings initializationSettings =
+      InitializationSettings(
+          android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+          iOS: DarwinInitializationSettings()
+      );
+      _notificationsPlugin.initialize(initializationSettings,onDidReceiveNotificationResponse: (payload)async{
+
+      });
+    } on Exception catch (e) {
+      print(e);
+    }
+  }
+
   static void showMessage(int id,String title,String body) async {
     try {
       final id = DateTime.now().millisecondsSinceEpoch ~/ 1000;
       NotificationDetails notificationDetails = NotificationDetails(
           android: AndroidNotificationDetails(
-            "Star Admin",
+            "Star Teacher",
             "pushnotificationappchannel",
             icon: '@mipmap/ic_launcher',
             importance: Importance.max,

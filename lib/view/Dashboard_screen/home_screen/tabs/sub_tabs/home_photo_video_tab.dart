@@ -33,13 +33,13 @@ class _HomePhotoVideoTabState extends State<HomePhotoVideoTab> with AutomaticKee
       ],
     )
         : (controller.list?.length??0) == 0
-        ? BaseNoData(message: "No Media Found")
+        ? const BaseNoData(message: "No Media Found")
         : GridView.builder(
         itemCount: controller.list?.length??0,
         shrinkWrap: true,
         cacheExtent: 999999,
         padding: EdgeInsets.only(bottom: 20.h),
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         mainAxisSpacing: 1.5.h,
@@ -52,7 +52,7 @@ class _HomePhotoVideoTabState extends State<HomePhotoVideoTab> with AutomaticKee
             Get.to(StarGalleryScreen(index: index));
           },
           child: Container(
-            padding: EdgeInsets.all(2),
+            padding: const EdgeInsets.all(2),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               border: Border.all(color: BaseColors.primaryColor,width: 1),
@@ -71,8 +71,8 @@ class _HomePhotoVideoTabState extends State<HomePhotoVideoTab> with AutomaticKee
           ),
         );
       },
-    ),
-    );
+     ),
+   );
   }
   @override
   bool get wantKeepAlive => true;

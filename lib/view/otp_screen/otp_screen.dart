@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/route_manager/route_name.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/validators.dart';
@@ -65,7 +64,7 @@ class _OTPScreenState extends State<OTPScreen> {
                       SizedBox(height: 1.0.h),
                       PinCodeTextField(
                         controller: controller.otpController,
-                        textStyle: TextStyle(color: BaseColors.primaryColor),
+                        textStyle: const TextStyle(color: BaseColors.primaryColor),
                         length: 4,
                         autoFocus: true,
                         keyboardType: TextInputType.number,
@@ -109,11 +108,13 @@ class _OTPScreenState extends State<OTPScreen> {
                             text: ' ${translate(context).didnt_recive_otp}',
                             style: Style.montserratBoldStyle().copyWith(color: const Color(0xff7C7C7C), fontSize: onBoardingSubTitleTs),
                             children: [
-                              TextSpan(recognizer: TapGestureRecognizer()..onTap = (){
+                              TextSpan(
+                                recognizer: TapGestureRecognizer()..onTap = (){
                                 controller.otpController.text = "";
                                 setState(() {});
                                 loginCtrl.loginApi(isResend: true);
-                              },text: ' ${translate(context).sent_again}', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: onBoardingSubTitleTs)),
+                              },
+                                  text: ' ${translate(context).sent_again}', style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: onBoardingSubTitleTs)),
                             ],
                           ),
                         ),
@@ -122,9 +123,14 @@ class _OTPScreenState extends State<OTPScreen> {
                       Center(
                         child: BaseButton(btnType: largeButton, title: translate(context).submit_btn_txt, onPressed: (){
                           if (widget.isFromActivation??false) {
-                            controller.verifyActivationRequest(employeeId: widget.employeeId??"", mobile: widget.mobile, otp: controller.otpController.text.trim());
+                            controller.verifyActivationRequest(
+                                employeeId: widget.employeeId??"",
+                                mobile: widget.mobile,
+                                otp: controller.otpController.text.trim(),
+                                isFromActivation: widget.isFromActivation??false,
+                            );
                           }else{
-                            controller.otpApi(mobile: widget.mobile);
+                            controller.otpApi(mobile: widget.mobile, isFromActivation: widget.isFromActivation??false);
                           }
                         },borderRadius: 19),
                       ),
@@ -134,7 +140,7 @@ class _OTPScreenState extends State<OTPScreen> {
                 )
               ],
             ),
-          )
+          ),
       ),
     );
   }

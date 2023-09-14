@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/backend/responses_model/leave_type_response.dart';
-import 'package:staff_app/backend/responses_model/school_list_response.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
@@ -48,6 +47,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                 onChanged: (value) async {
                   controller.selectSchoolController.value.text = value?.name??"";
                   controller.selectedSchoolId.value = value?.sId??"";
+                  controller.list?.clear();
                   controller.get();
                 },
               ),
@@ -99,7 +99,7 @@ class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
                 ],
               ),
               SizedBox(height: 2.h),
-              LeaveRequestListTile(),
+              const LeaveRequestListTile(),
             ],
           ),
         ),

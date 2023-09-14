@@ -47,7 +47,7 @@ XFile? pFile;
       backgroundColor: Colors.black.withOpacity(0.5),
       body: Align(
         alignment: Alignment.center,
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height*0.80,
           child: Dialog(
             insetPadding: EdgeInsets.only(left: 15.sp, right: 15.sp),
@@ -60,27 +60,33 @@ XFile? pFile;
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: InkWell(
-                        onTap: (){
-                          Navigator.pop(context);
-                        },
-                        child: Icon(Icons.close, color: Colors.black,),),
-                    ),
-                    Align(
-                        alignment: Alignment.center,
-                        child: addAlignedText(widget.title, 17, ColorConstants.black, FontWeight.w600)),
-                    SizedBox(
-                      height: 2.h,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        InkWell(
+                          onTap: (){
+                            Navigator.pop(context);
+                          },
+                          child: const Icon(Icons.close, color: Colors.black),
+                        ),
+                        addAlignedText(widget.title, 17, ColorConstants.black, FontWeight.w600),
+                        InkWell(
+                          onTap: (){
+                            Navigator.pop(context);
+                          },
+                          child: const Icon(Icons.close, color: Colors.transparent),
+                        ),
+                      ],
                     ),
                     Expanded(
                       child: Center(
                         child: _isLoading
-                            ? Center(child: CircularProgressIndicator())
+                            ? const Center(child: CircularProgressIndicator())
                             : PdfViewer.openFile(pFile!.path)
                         ),
                       ),
+                    SizedBox(height: 3.h),
+                    Align(alignment: Alignment.center,child: addAlignedText(getDateFromUrl(widget.url), 14, ColorConstants.black, FontWeight.w400)),
                   ],
                 )
             ),
@@ -88,5 +94,6 @@ XFile? pFile;
         ),
       ),
     );
-  }}
+  }
+}
 

@@ -56,12 +56,12 @@ class _MCQScreenState extends State<MCQScreen> {
             ? Padding(
           padding: EdgeInsets.all(15.sp),
           child: (controller.eLibraryQuestionResponse.value?.questions?.length ?? 0) == 0
-              ? BaseNoData(message: "No Question Found!")
+              ? const BaseNoData(message: "No Question Found!")
               : PageView.builder(
                 itemCount: controller.eLibraryQuestionResponse.value?.questions?.length ?? 0,
                 controller: controller.pageController,
                 scrollDirection: Axis.horizontal,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, pageIndex) {
                 return SingleChildScrollView(
                  child: Column(
@@ -114,7 +114,7 @@ class _MCQScreenState extends State<MCQScreen> {
                       InkWell(
                         onTap: () {
                           Get.to(() => BaseVideoPlayer(
-                            videoUrl: (ApiEndPoints().imageBaseUrl + (controller.eLibraryQuestionResponse.value?.questions?[pageIndex].mediaFile ?? "")).toString(),
+                            videoUrl: ("${ApiEndPoints().concatBaseUrl}/star-backend/${controller.eLibraryQuestionResponse.value?.questions?[pageIndex].mediaFile ?? ""}").toString(),
                           ));
                         },
                         child: Stack(
@@ -122,7 +122,7 @@ class _MCQScreenState extends State<MCQScreen> {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(13),
                               child: Container(
-                                padding: EdgeInsets.all(4),
+                                padding: const EdgeInsets.all(4),
                                 decoration: BoxDecoration(
                                   color: BaseColors.black.withOpacity(0.5),
                                   borderRadius: BorderRadius.circular(13),
@@ -130,11 +130,11 @@ class _MCQScreenState extends State<MCQScreen> {
                                 //  image: videoThumbnail(controller.getThumbnail((ApiEndPoints().imageBaseUrl + (controller.eLibraryQuestionResponse.value?.questions?[pageIndex].mediaFile ?? "")).toString()))),
                                 height: 22.h,
                                 width: double.infinity,
-                                child: videoThumbnail(controller.getThumbnail((ApiEndPoints().imageBaseUrl + (controller.eLibraryQuestionResponse.value?.questions?[pageIndex].mediaFile ?? "")).toString())),
+                                child: videoThumbnail(controller.getThumbnail(("${ApiEndPoints().concatBaseUrl}/star-backend/${controller.eLibraryQuestionResponse.value?.questions?[pageIndex].mediaFile ?? ""}").toString())),
                               ),
                             ),
                             Container(
-                              padding: EdgeInsets.all(65),
+                              padding: const EdgeInsets.all(65),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(13),
                                 color: Colors.transparent,
@@ -381,9 +381,9 @@ class _MCQScreenState extends State<MCQScreen> {
                           //   });
                           // }
                           if ((controller.eLibraryQuestionResponse.value?.questions?.length ?? 0) - 1 != pageIndex) {
-                            controller.pageController.animateToPage(pageIndex + 1, duration: Duration(milliseconds: 500), curve: Curves.easeIn);
+                            controller.pageController.animateToPage(pageIndex + 1, duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
                           }else{
-                            if (widget.isViewing??false) {
+                            if (widget.isViewing??true) {
                               Get.back();
                             }else{
                               Get.back();
@@ -416,12 +416,12 @@ class _MCQScreenState extends State<MCQScreen> {
             : Padding(
              padding: EdgeInsets.all(15.sp),
              child: (controller.data.value?.questions?.length ?? 0) == 0
-              ? BaseNoData(message: "No Question Found!")
+              ? const BaseNoData(message: "No Question Found!")
               : PageView.builder(
                  itemCount: controller.data.value?.questions?.length ?? 0,
                  controller: controller.pageController,
                  scrollDirection: Axis.horizontal,
-                 physics: NeverScrollableScrollPhysics(),
+                 physics: const NeverScrollableScrollPhysics(),
                  itemBuilder: (context, pageIndex) {
                  return SingleChildScrollView(
                  child: Column(
@@ -449,11 +449,11 @@ class _MCQScreenState extends State<MCQScreen> {
                     SizedBox(height: 2.h),
                     if (controller.data.value?.questions?[pageIndex].type == 'photoWithQuestion')
                       Container(
-                        padding: EdgeInsets.all(4),
+                        padding: const EdgeInsets.all(4),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(13),
                             image: DecorationImage(
-                                image: NetworkImage(ApiEndPoints().imageBaseUrl + (controller.data.value?.questions?[pageIndex].mediaFile).toString()),
+                                image: NetworkImage("${ApiEndPoints().concatBaseUrl}/star-backend/${controller.data.value?.questions?[pageIndex].mediaFile}"),
                                 fit: BoxFit.cover),
                         ),
                         height: 22.h,
@@ -463,7 +463,7 @@ class _MCQScreenState extends State<MCQScreen> {
                       InkWell(
                         onTap: () {
                           Get.to(() => BaseVideoPlayer(
-                            videoUrl: (ApiEndPoints().imageBaseUrl + (controller.data.value?.questions?[pageIndex].mediaFile ?? "")).toString(),
+                            videoUrl: ("${ApiEndPoints().concatBaseUrl}/star-backend/${controller.data.value?.questions?[pageIndex].mediaFile ?? ""}").toString(),
                           ));
                         },
                         child: Stack(
@@ -471,7 +471,7 @@ class _MCQScreenState extends State<MCQScreen> {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(13),
                               child: Container(
-                                padding: EdgeInsets.all(4),
+                                padding: const EdgeInsets.all(4),
                                 decoration: BoxDecoration(
                                   color: BaseColors.black.withOpacity(0.5),
                                   borderRadius: BorderRadius.circular(13),
@@ -480,11 +480,11 @@ class _MCQScreenState extends State<MCQScreen> {
                                 height: 22.h,
                                 width: double.infinity,
                                 child: videoThumbnail(controller.getThumbnail(
-                                    (ApiEndPoints().imageBaseUrl + (controller.data.value?.questions?[pageIndex].mediaFile ?? "")).toString())),
+                                    ("${ApiEndPoints().concatBaseUrl}/star-backend/${controller.data.value?.questions?[pageIndex].mediaFile ?? ""}").toString())),
                               ),
                             ),
                             Container(
-                              padding: EdgeInsets.all(65),
+                              padding: const EdgeInsets.all(65),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(13),
                                 color: Colors.transparent,
@@ -728,22 +728,35 @@ class _MCQScreenState extends State<MCQScreen> {
                         title: (controller.data.value?.questions?.length ?? 0) - 1 != pageIndex ? "NEXT" : "Submit",
                         onPressed: () {
                           // if (controller.formKey.currentState?.validate()??false) {
-                            if ((controller.data.value?.questions?.length ?? 0) - 1 != pageIndex) {
-                              controller.evaluateQuestion(controller.data.value?.id ?? "", controller.data.value?.questions?[pageIndex].id ?? "", controller.data.value?.questions?[pageIndex].subtype ?? "", "false").then((value) {
+                            if (widget.isViewing??true) {
+                              controller.answerController.clear();
+                              controller.selectedOptionList.clear();
+                              if ((controller.data.value?.questions?.length ?? 0) - 1 != pageIndex) {
+                                controller.pageController.animateToPage(pageIndex + 1, duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
+                              }else{
+                                BaseOverlays().showSumitSuccessfulDialogue(context, () {
+                                  Get.back();
+                                  Get.back();
+                                });
+                              }
+                            }else{
+                              if ((controller.data.value?.questions?.length ?? 0) - 1 != pageIndex) {
+                                controller.evaluateQuestion(controller.data.value?.id ?? "", controller.data.value?.questions?[pageIndex].id ?? "", controller.data.value?.questions?[pageIndex].subtype ?? "", "false").then((value) {
                                   controller.answerController.clear();
                                   controller.selectedOptionList.clear();
-                                  controller.pageController.animateToPage(pageIndex + 1, duration: Duration(milliseconds: 500), curve: Curves.easeIn);
-                              });
-                            } else {
-                              // showCommentDialog();
-                              controller.evaluateQuestion(controller.data.value?.id ?? "", controller.data.value?.questions?[pageIndex].id ?? "", controller.data.value?.questions?[pageIndex].subtype ?? "", "true").then((value) {
+                                  controller.pageController.animateToPage(pageIndex + 1, duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
+                                });
+                              } else {
+                                // showCommentDialog();
+                                controller.evaluateQuestion(controller.data.value?.id ?? "", controller.data.value?.questions?[pageIndex].id ?? "", controller.data.value?.questions?[pageIndex].subtype ?? "", "true").then((value) {
                                   controller.answerController.clear();
                                   controller.selectedOptionList.clear();
                                   BaseOverlays().showSumitSuccessfulDialogue(context, () {
                                     Get.back();
                                     Get.back();
+                                  });
                                 });
-                              });
+                              }
                             }
                           // }
                         }
@@ -773,7 +786,7 @@ class _MCQScreenState extends State<MCQScreen> {
           // return Image.memory();
         } else {
           return Container(
-            child: Center(
+            child: const Center(
               child: CircularProgressIndicator(
                 color: Colors.white,
               ),
@@ -884,7 +897,7 @@ class _MCQScreenState extends State<MCQScreen> {
   Widget buildOptionType({required String value, required bool isSelected, required String optionCount}) {
     return Container(
       padding: EdgeInsets.all(15.sp),
-      margin: EdgeInsets.only(bottom: 10.0, left: 5.0, right: 5.0),
+      margin: const EdgeInsets.only(bottom: 10.0, left: 5.0, right: 5.0),
       decoration: BoxDecoration(
           color: isSelected ? BaseColors.primaryColorLight : BaseColors.white,
           borderRadius: BorderRadius.circular(15.0),

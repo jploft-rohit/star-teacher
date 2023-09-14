@@ -2,19 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:ui' as ui;
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/backend/responses_model/school_list_response.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
+import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
 import 'package:staff_app/utility/base_views/base_tab_bar.dart';
 import 'package:staff_app/Utility/custom_filter_dropdown.dart';
-import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/filter_textformfield.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/view/Dashboard_screen/dashboard_screen_ctrl.dart';
 import 'package:staff_app/view/chat_screen/chat_screen_ctrl.dart';
+import 'package:staff_app/view/chat_screen/group/create_group_screen.dart';
 import 'package:staff_app/view/chat_screen/views/chat_list_tile.dart';
+import 'package:staff_app/view/chat_screen/views/group_chat_list_tile.dart';
+import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 
 class ChatScreen extends StatefulWidget {
   final bool isFromBtmBar;
-  ChatScreen({Key? key, required this.isFromBtmBar}) : super(key: key);
+  const ChatScreen({Key? key, required this.isFromBtmBar}) : super(key: key);
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -26,16 +31,24 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin{
 
   ChatScreenCtrl controller = Get.put(ChatScreenCtrl());
   DashboardScreenCtrl ctrl = Get.find<DashboardScreenCtrl>();
+  BaseCtrl baseCtrl = Get.find<BaseCtrl>();
 
   @override
   void initState() {
     super.initState();
+    controller.selectedSchoolId.value = baseCtrl.schoolListData.data?.data?.first.sId??"";
+    controller.schoolController.text = baseCtrl.schoolListData.data?.data?.first.name??"";
+    controller.selectedSchoolName.value = baseCtrl.schoolListData.data?.data?.first.name??"";
+    controller.primarySelectedIndex.value = 0;
     controller.getChatHistory();
-    tabCtrl = TabController(length: 4, vsync: this)..addListener(() {
+    tabCtrl = TabController(length: 5, vsync: this)..addListener(() {
       if (!(tabCtrl.indexIsChanging)) {
         controller.primarySelectedIndex.value = tabCtrl.index;
-        controller.secondarySelectedIndex.value = 0;
-        controller.getChatHistory();
+        if (tabCtrl.index != 4) {
+          controller.getChatHistory();
+        }else{
+          controller.getGroupChatHistory();
+        }
       }
     });
   }
@@ -43,6 +56,19 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin{
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      floatingActionButton: Obx(()=>Visibility(
+          visible: controller.primarySelectedIndex.value == 4,
+          child: Padding(
+            padding: EdgeInsets.only(bottom: 10.h),
+            child: BaseFloatingActionButton(
+                onTap: () {
+                  Get.to(const CreateGroupScreen());
+                },
+                title: 'Add Group',
+            ),
+          ),
+        ),
+      ),
       appBar: BaseAppBar(
           title: "Chats",
           onBackPressed: (){
@@ -60,26 +86,43 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin{
             Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Color(0xFFCECECE), width: 1)),
+                  border: Border.all(color: const Color(0xFFCECECE), width: 1)),
               child: Column(
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                            CustomFilterDropDown(initialValue: DummyLists.initialSchool, hintText: 'School', listData: DummyLists.schoolData, onChange: (value) {
-                              setState(() {
-                                DummyLists.initialSchool=value;
-                              });
-                            },icon: classTakenSvg,
+                      Obx(()=>CustomFilterDropDown(
+                          hintText: controller.selectedSchoolName.value.isEmpty ? 'Select School' : controller.selectedSchoolName.value,
+                          item: baseCtrl.schoolListData.data?.data?.map((SchoolData data){
+                            return DropdownMenuItem<SchoolData>(
+                              value: data,
+                              child: addText(data.name??"", 15.sp, Colors.black, FontWeight.w400),
+                            );
+                          }).toList(),
+                          onChange: (value) {
+                            baseCtrl.searchController.clear();
+                            controller.selectedSchoolName.value = value.name??"";
+                            controller.selectedSchoolId.value = value.sId??"";
+                            if (tabCtrl.index != 4) {
+                              controller.getChatHistory();
+                            }else{
+                              controller.getGroupChatHistory();
+                            }
+                          },
+                          icon: classTakenSvg,
+                        ),
                       ),
                     ],
-                    mainAxisAlignment: MainAxisAlignment.start,
                   ),
-                  Divider(
+                  const Divider(
                     height: 1,
                     thickness: 1,
                   ),
-                  FilterTextFormField(onChange: (String val) {
-                  }, hintText: "Search Star,ID...", keyBoardType: TextInputType.name,
+                  FilterTextFormField(
+                    onChange: (String val) {},
+                    hintText: "Search Star,ID...",
+                    keyBoardType: TextInputType.name,
                   )
                 ],
               ),
@@ -95,17 +138,19 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin{
               child: TabBarView(
                 physics: const NeverScrollableScrollPhysics(),
                 controller: tabCtrl,
-                children: [
-                  ChatListTile(),
-                  ChatListTile(),
-                  ChatListTile(),
-                  ChatListTile(),
+                children: const [
+                  ChatListTile(secondarySelectedIndex: 0),
+                  ChatListTile(secondarySelectedIndex: 0),
+                  ChatListTile(secondarySelectedIndex: 0),
+                  ChatListTile(secondarySelectedIndex: 0),
+                  GroupChatListTile(secondarySelectedIndex: 1),
                   // ChatParentsTab(),
                   // ChatStaffTab(),
                   // ChatAdminTab()
                 ],
               ),
-            )
+            ),
+            // SizedBox(height: 2.h),
           ],
         ),
       ),
@@ -114,10 +159,10 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin{
   Widget buildTabBar() {
     return BaseTabBar(
       controller: tabCtrl,
-      tabs:  [
+      tabs:  const [
         Stack(
           alignment: Alignment.center,
-          children: const [
+          children: [
             Tab(
               text: 'Stars',
             ),
@@ -126,7 +171,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin{
         Stack(
           alignment: Alignment.center,
           children: [
-            const Tab(
+            Tab(
               text: 'Parents',
             ),
             // Align(
@@ -148,7 +193,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin{
         ),
         Stack(
           alignment: Alignment.center,
-          children: const [
+          children: [
             Tab(
               text: 'Staff',
             ),
@@ -172,7 +217,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin{
         Stack(
           alignment: Alignment.center,
           children: [
-            const Tab(
+            Tab(
               text: 'Admins',
             ),
             // Align(
@@ -190,6 +235,14 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin{
             //     ),
             //   ),
             // )
+          ],
+        ),
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            Tab(
+              text: 'Group',
+            ),
           ],
         ),
       ],

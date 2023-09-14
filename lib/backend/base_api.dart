@@ -4,6 +4,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' as X;
+import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:staff_app/backend/api_end_points.dart';
@@ -12,6 +13,7 @@ import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/storage/sp_keys.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/utility/notificationService.dart';
 
 class BaseAPI {
   late Dio _dio;
@@ -25,9 +27,9 @@ class BaseAPI {
   BaseAPI._internal() {
     _dio = Dio(
       BaseOptions(
-        baseUrl: ApiEndPoints().baseUrl,
-        connectTimeout: 60000,
-        receiveTimeout: 60000,
+        baseUrl: "${ApiEndPoints().concatBaseUrl}/star-backend/api/",
+        connectTimeout: 100000,
+        receiveTimeout: 100000,
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
@@ -42,8 +44,8 @@ class BaseAPI {
     if (await checkInternetConnection()) {
       try {
         BaseOverlays().showLoader(showLoader: showLoader??true);
-        languageCode = await BaseSharedPreference().getString(SpKeys().selectedLanguage);
-        FocusScope.of(X.Get.context!).requestFocus(new FocusNode());
+        languageCode = await BaseSharedPreference().getString(SpKeys().selectedLanguage)??"";
+        FocusScope.of(X.Get.context!).requestFocus(FocusNode());
         final String token = await BaseSharedPreference().getString(SpKeys().apiToken)??"";
         final response = await _dio.get(url, options: Options(headers: {"Authorization": "Bearer $token", "Accept-Language":languageCode}), queryParameters: queryParameters);
         BaseOverlays().dismissOverlay(showLoader: showLoader??true);
@@ -64,7 +66,7 @@ class BaseAPI {
     if (await checkInternetConnection()) {
       try {
         BaseOverlays().showLoader(showLoader: showLoader);
-        languageCode = await BaseSharedPreference().getString(SpKeys().selectedLanguage);
+        languageCode = await BaseSharedPreference().getString(SpKeys().selectedLanguage)??"";
         FocusScope.of(X.Get.context!).requestFocus(new FocusNode());
         final String token = await BaseSharedPreference().getString(SpKeys().apiToken)??"";
         final response = await _dio.post(url, data: data, options: Options(headers: headers??{"Authorization": "Bearer $token", "Accept-Language":languageCode}));
@@ -235,7 +237,7 @@ class BaseAPI {
       int previousProgress = 0;
       bool isFirstProgressEvent = true;
 
-      final response = await _singleton._dio.download(((url).contains("http")) ? (url) :  ApiEndPoints().imageBaseUrl+(url), savePath, options: Options(headers: headers),
+      final response = await _singleton._dio.download(((url).contains("http")) ? (url) :  "${ApiEndPoints().concatBaseUrl}/star-backend/$url", savePath, options: Options(headers: headers),
           onReceiveProgress: (receivedBytes, totalBytes) {
             if (isFirstProgressEvent) {
               isFirstProgressEvent = false;
@@ -250,9 +252,10 @@ class BaseAPI {
           });
 
       BaseOverlays().dismissOverlay();
-      showSnackBar(message: 'Download Completed');
-      // var res = await OpenFile.open(savePath);
-      // print(res);
+      // showSnackBar(message: 'Download Completed');
+      NotificationService.display(0, 'File Downloaded', 'The File has been downloaded successfully.',"");
+      var res = await OpenFile.open(savePath);
+      print(res);
 
       return response;
     } on DioError catch (e) {
@@ -373,7 +376,7 @@ class BaseAPI {
       // Handle response error
       log('Bad Response Error: ${e.message}');
       if (showErrorSnackbar??true) {
-        BaseOverlays().showSnackBar(message: (e.response?.data['message']));
+        BaseOverlays().showSnackBar(message: (e.response?.data['message']??"")??"");
       }
     } else if (e.type == DioErrorType.cancel) {
       // Handle cancel error

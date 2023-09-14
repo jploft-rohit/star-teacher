@@ -162,7 +162,7 @@ class ComplaintUser {
   dynamic nativeLanguage;
   dynamic religion;
   dynamic profilePic;
-  dynamic role;
+  Role? role;
   dynamic createdAt;
   dynamic updatedAt;
   dynamic iV;
@@ -228,7 +228,7 @@ class ComplaintUser {
     nativeLanguage = json['nativeLanguage'];
     religion = json['religion'];
     profilePic = json['profilePic'];
-    role = json['role'];
+    role = json['role'] != null ? Role.fromJson(json['role']) : null;
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
@@ -267,7 +267,9 @@ class ComplaintUser {
     data['nativeLanguage'] = this.nativeLanguage;
     data['religion'] = this.religion;
     data['profilePic'] = this.profilePic;
-    data['role'] = this.role;
+    if (this.role != null) {
+      data['role'] = this.role!.toJson();
+    }
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
     data['__v'] = this.iV;

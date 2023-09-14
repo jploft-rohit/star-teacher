@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
@@ -10,7 +13,6 @@ import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/Utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
-import 'package:staff_app/route_manager/route_name.dart';
 import 'package:staff_app/utility/base_views/base_detail_data.dart';
 import 'package:staff_app/utility/base_views/base_icons.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
@@ -18,7 +20,7 @@ import 'package:staff_app/view/add_family_member/add_family_member.dart';
 import 'package:staff_app/view/add_family_member/family_details_screen.dart';
 import 'package:staff_app/view/my_profile_screen/controller/my_profile_ctrl.dart';
 import 'package:staff_app/view/my_profile_screen/my_profile_view/my_profile_view.dart';
-import 'package:staff_app/view/salary_slip_screen/salary_slip_poup.dart';
+import 'package:staff_app/view/salary_slip_screen/salary_slip_screen.dart';
 
 class DetailView extends StatefulWidget {
   const DetailView({Key? key}) : super(key: key);
@@ -90,7 +92,7 @@ class _DetailViewState extends State<DetailView> {
                     BaseButton(
                       title: "Edit".toUpperCase(),
                       onPressed: (){
-                        Get.to(const MyProfileView());
+                        Get.to(const MyProfileView(editable: true));
                       },
                       btnType: smallButton,
                       textSize: 14.sp,
@@ -118,6 +120,12 @@ class _DetailViewState extends State<DetailView> {
                   bottomMargin: bottomMargin,
                   showDivider: showDivider,
                 ),
+                BaseDetailData(
+                  detailsLabel:translate(context).blood_type,
+                  detailsValue: controller.response.value.data?.bloodType??"",
+                  bottomMargin: bottomMargin,
+                  showDivider: showDivider,
+                ),
                 // BaseDetailData(
                 //     translate(context).address, controller.response.data?.address??""),
                 // SizedBox(
@@ -141,9 +149,15 @@ class _DetailViewState extends State<DetailView> {
                   bottomMargin: bottomMargin,
                   showDivider: showDivider,
                 ),
+                // BaseDetailData(
+                //   detailsLabel:translate(context).state,
+                //   detailsValue:controller.response.value.data?.state??na,
+                //   bottomMargin: bottomMargin,
+                //   showDivider: showDivider,
+                // ),
                 BaseDetailData(
-                  detailsLabel:translate(context).state,
-                  detailsValue:controller.response.value.data?.state??na,
+                  detailsLabel:translate(context).sector,
+                  detailsValue:controller.response.value.data?.sector??"N/A",
                   bottomMargin: bottomMargin,
                   showDivider: showDivider,
                 ),
@@ -154,8 +168,20 @@ class _DetailViewState extends State<DetailView> {
                   showDivider: showDivider,
                 ),
                 BaseDetailData(
+                  detailsLabel:translate(context).marital_status,
+                  detailsValue:controller.response.value.data?.maritalStatus??"",
+                  bottomMargin: bottomMargin,
+                  showDivider: showDivider,
+                ),
+                BaseDetailData(
                   detailsLabel:translate(context).emirates_ID,
                   detailsValue:controller.response.value.data?.emirateId??"",
+                  bottomMargin: bottomMargin,
+                  showDivider: showDivider,
+                ),
+                BaseDetailData(
+                  detailsLabel:"Unique ID",
+                  detailsValue:controller.response.value.data?.uniqueId??"",
                   bottomMargin: bottomMargin,
                   showDivider: showDivider,
                 ),
@@ -165,31 +191,34 @@ class _DetailViewState extends State<DetailView> {
                     bottomMargin: bottomMargin,
                     showDivider: showDivider,
                 ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 2.h),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                          child: BaseDetailData(
-                              detailsLabel:"Document",
-                              detailsValue: controller.response.value.data?.idDocument.first.split("/").last??"",
-                              bottomMargin: bottomMargin,
-                              showDivider: showDivider,
-                              rightMargin: 5.w,
-                          ),
-                      ),
-                      Row(
-                        children: [
-                          BaseIcons().view(concatBaseUrl: true,url: controller.response.value.data?.idDocument.first??""),
-                          const SizedBox(width: 10,),
-                          BaseIcons().download(onRightButtonPressed: (){
-                            BaseOverlays().dismissOverlay();
-                            downloadFile(url: controller.response.value.data?.idDocument.first??"",concatBaseUrl: true);
-                          })
-                        ],
-                      ),
-                    ],
+                Visibility(
+                  visible: (controller.response.value.data?.idDocument??[]).first.toString().isNotEmpty,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 2.h),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                            child: BaseDetailData(
+                                detailsLabel:"Document",
+                                detailsValue: controller.response.value.data?.idDocument.first.split("/").last??"",
+                                bottomMargin: bottomMargin,
+                                showDivider: showDivider,
+                                rightMargin: 5.w,
+                            ),
+                        ),
+                        Row(
+                          children: [
+                            BaseIcons().view(concatBaseUrl: true,url: controller.response.value.data?.idDocument.first??""),
+                            const SizedBox(width: 10,),
+                            BaseIcons().download(onRightButtonPressed: (){
+                              BaseOverlays().dismissOverlay();
+                              downloadFile(url: controller.response.value.data?.idDocument.first??"",concatBaseUrl: true);
+                            })
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 // Row(
@@ -228,8 +257,18 @@ class _DetailViewState extends State<DetailView> {
               backgroundColor: BaseColors.white,
               expandedCrossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                BaseDetailData(detailsLabel:translate(context).designation , detailsValue:controller.response.value.data?.jobDetails?.role??na,bottomMargin: bottomMargin,showDivider: showDivider,),
-                BaseDetailData(detailsLabel:translate(context).date_of_employment , detailsValue:controller.response.value.data?.jobDetails?.dateOfEmployment??na,bottomMargin: bottomMargin,showDivider: showDivider,),
+                BaseDetailData(
+                  detailsLabel:translate(context).designation ,
+                  detailsValue:controller.response.value.data?.jobDetails?.designation??na,
+                  bottomMargin: bottomMargin,
+                  showDivider: showDivider,
+                ),
+                BaseDetailData(
+                  detailsLabel:translate(context).date_of_employment ,
+                  detailsValue: formatBackendDate(controller.response.value.data?.jobDetails?.dateOfEmployment??""),
+                  bottomMargin: bottomMargin,
+                  showDivider: showDivider,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -248,7 +287,7 @@ class _DetailViewState extends State<DetailView> {
                                 borderRadius: BorderRadius.circular(10.0)
                             ), child: Row(
                             children: [
-                              SvgPicture.asset(jobDetailSvg,height: 16.0,),
+                              SvgPicture.asset(jobDetailSvg,height: 16),
                               const SizedBox(width: 10,),
                               Text(controller.response.value.data?.jobDetails?.jobGrade??na, style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp)),
                             ],
@@ -316,7 +355,7 @@ class _DetailViewState extends State<DetailView> {
                   children: [
                     SvgPicture.asset(classTakenSvg,height: 16.0,),
                     const SizedBox(width: 10,),
-                    Text(controller.response.value.data?.jobDetails?.school?.staffsubjects?.subject?.name??na, style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp)),
+                    Text(controller.response.value.data?.jobDetails?.subjectData?.name??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp)),
                   ],
                 ),
                 ),
@@ -326,17 +365,17 @@ class _DetailViewState extends State<DetailView> {
                     Text(translate(context).employment_certificate, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp)),
                     Row(
                       children: [
-                        GestureDetector(
-                            onTap: (){
-                              showGeneralDialog(
-                                context: context,
-                                pageBuilder:  (context, animation, secondaryAnimation) {
-                                  return OpenPdfPopup(title: translate(context).employment_certificate);
-                                },
-                              );
-                            },child: Icon(Icons.remove_red_eye_outlined,color: BaseColors.primaryColor,size: 20.sp,)),
-                        const SizedBox(width: 10,),
-                        Icon(Icons.download_for_offline,color: BaseColors.primaryColor,size: 20.sp,)
+                        BaseIcons().view(
+                          rightMargin: 1.5.w,
+                          url: controller.response.value.data?.jobDetails?.employmentCertificate??"",
+                        ),
+                        BaseIcons().download(
+                          leftMargin: 1.5.w,
+                          onRightButtonPressed: (){
+                            BaseOverlays().dismissOverlay();
+                            BaseAPI().download(controller.response.value.data?.jobDetails?.employmentCertificate??"");
+                          }
+                        ),
                       ],
                     ),
                   ],
@@ -350,17 +389,17 @@ class _DetailViewState extends State<DetailView> {
                     Text(translate(context).salary_certificate, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp)),
                     Row(
                       children: [
-                        GestureDetector(
-                            onTap: (){
-                              showGeneralDialog(
-                                context: context,
-                                pageBuilder:  (context, animation, secondaryAnimation) {
-                                  return OpenPdfPopup(title: translate(context).salary_certificate);
-                                },
-                              );
-                            },child: Icon(Icons.remove_red_eye_outlined,color: BaseColors.primaryColor,size: 20.sp,)),
-                        const SizedBox(width: 10,),
-                        Icon(Icons.download_for_offline,color: BaseColors.primaryColor,size: 20.sp,)
+                        BaseIcons().view(
+                          rightMargin: 1.5.w,
+                          url: controller.response.value.data?.jobDetails?.salaryCertificate??"",
+                        ),
+                        BaseIcons().download(
+                            leftMargin: 1.5.w,
+                            onRightButtonPressed: (){
+                              BaseOverlays().dismissOverlay();
+                              BaseAPI().download(controller.response.value.data?.jobDetails?.salaryCertificate??"");
+                            }
+                        ),
                       ],
                     ),
                   ],
@@ -374,16 +413,21 @@ class _DetailViewState extends State<DetailView> {
                     Text(translate(context).job_description, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp)),
                     Row(
                       children: [
-                        GestureDetector(onTap: (){
-                          showGeneralDialog(
-                            context: context,
-                            pageBuilder:  (context, animation, secondaryAnimation) {
-                              return OpenPdfPopup(title: translate(context).job_description);
-                            },
-                          );
-                        },child: Icon(Icons.remove_red_eye_outlined,color: BaseColors.primaryColor,size: 20.sp,)),
-                        const SizedBox(width: 10,),
-                        Icon(Icons.download_for_offline,color: BaseColors.primaryColor,size: 20.sp,)
+                        Row(
+                          children: [
+                            BaseIcons().view(
+                              rightMargin: 1.5.w,
+                              url: controller.response.value.data?.jobDetails?.jobCertificate??"",
+                            ),
+                            BaseIcons().download(
+                                leftMargin: 1.5.w,
+                                onRightButtonPressed: (){
+                                  BaseOverlays().dismissOverlay();
+                                  BaseAPI().download(controller.response.value.data?.jobDetails?.jobCertificate??"");
+                                }
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ],
@@ -393,17 +437,20 @@ class _DetailViewState extends State<DetailView> {
                 ),
                 GestureDetector(
                   onTap: (){
-                    Get.toNamed(salarySlipScreenRoute);
+                    // if (Platform.isAndroid) {
+                    //   Get.toNamed(salarySlipScreenRoute);
+                    // }
+                    Get.to(const SalarySlipScreen());
                   },
                   child:  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(translate(context).salary_slip, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp)),
-                      Icon(Icons.arrow_forward,color: BaseColors.primaryColor,size: 18.sp,)
+                      Icon(Icons.arrow_forward,color: BaseColors.primaryColor,size: 18.sp)
                     ],
                   ),
                 ),
-                const SizedBox(height: 20,),
+                const SizedBox(height: 20),
               ]),
         ),
       ),
@@ -508,13 +555,15 @@ class _DetailViewState extends State<DetailView> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          BaseDetailData(detailsLabel:translate(context).name, detailsValue: controller.familyMemberList?[index]?.fullName??na,bottomMargin: bottomMargin,showDivider: showDivider),
-                          BaseDetailData(detailsLabel:translate(context).relation, detailsValue:controller.familyMemberList?[index]?.relation??na,bottomMargin: bottomMargin,showDivider: showDivider),
-                          BaseDetailData(detailsLabel:translate(context).emirates_ID, detailsValue:controller.familyMemberList?[index]?.emirateId?.toString()??na,bottomMargin: bottomMargin,showDivider: showDivider),
-                        ],
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            BaseDetailData(detailsLabel:translate(context).name, detailsValue: controller.familyMemberList?[index]?.fullName??na,bottomMargin: bottomMargin,showDivider: showDivider),
+                            BaseDetailData(detailsLabel:translate(context).relation, detailsValue:controller.familyMemberList?[index]?.relation??na,bottomMargin: bottomMargin,showDivider: showDivider),
+                            BaseDetailData(detailsLabel:translate(context).emirates_ID, detailsValue:controller.familyMemberList?[index]?.emirateId?.toString()??na,bottomMargin: bottomMargin,showDivider: showDivider),
+                          ],
+                        ),
                       ),
                       Row(
                         children: [

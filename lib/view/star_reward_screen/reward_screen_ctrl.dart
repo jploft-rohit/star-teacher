@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/backend/responses_model/star_reward_history_response.dart';
@@ -8,8 +9,11 @@ import 'package:staff_app/backend/responses_model/star_reward_response.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/storage/sp_keys.dart';
+import 'package:staff_app/utility/base_debouncer.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:dio/dio.dart' as dio;
+
+import '../../utility/sizes.dart';
 
 class RewardScreenCtrl extends GetxController{
   RxString selectedSchoolId = "".obs;
@@ -20,6 +24,7 @@ class RewardScreenCtrl extends GetxController{
   Rx<TextEditingController> rewardTitleCtrl = TextEditingController().obs;
   Rx<TextEditingController> pointValueCtrl = TextEditingController().obs;
   final formKey = GlobalKey<FormState>();
+  final baseDebouncer = BaseDebouncer();
   /// Class
   RxString selectedClassId = "".obs;
   RxString selectedClassName = "".obs;
@@ -29,24 +34,71 @@ class RewardScreenCtrl extends GetxController{
   RxList<MyRewards>? myRewards = <MyRewards>[].obs;
   RxList<RewardsList>? rewardList = <RewardsList>[].obs;
   RxList<StarRewardHistroryData?>? starRewardHistoryList = <StarRewardHistroryData>[].obs;
+  /// Pagination
+  RxInt page = 1.obs;
+  final RefreshController refreshController = RefreshController(initialRefresh: false);
+  final RefreshController refreshController2 = RefreshController(initialRefresh: false);
 
 
 
-  getRewards(){
-    BaseAPI().get(url: "${ApiEndPoints().getStarsReward}${selectedStarId.value}").then((value){
+  getRewards({String? refreshType}){
+    if (refreshType == 'refresh' || refreshType == null) {
+      rewardList?.clear();
+      myRewards?.clear();
+      refreshController.loadComplete();
+      page.value = 1;
+    } else if (refreshType == 'load') {
+      page.value++;
+    }
+    BaseAPI().get(url: "${ApiEndPoints().getStarsReward}${selectedStarId.value}", queryParameters: {
+      "limit":apiItemLimit,
+      "page":page.value.toString()
+    },showLoader: page.value == 1).then((value){
       if (value?.statusCode ==  200) {
+        if(refreshType == 'refresh'){
+          rewardList?.clear();
+          myRewards?.clear();
+          refreshController.loadComplete();
+          refreshController.refreshCompleted();
+        }else if((StarRewardResponse.fromJson(value?.data).data?.rewards??[]).isEmpty && refreshType == 'load'){
+          refreshController.loadNoData();
+        }
+        else if(refreshType == 'load'){
+          refreshController.loadComplete();
+        }
         myRewards?.value = StarRewardResponse.fromJson(value?.data).data?.user??[];
-        rewardList?.value = StarRewardResponse.fromJson(value?.data).data?.rewards??[];
+        rewardList?.addAll(StarRewardResponse.fromJson(value?.data).data?.rewards??[]);
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }
 
-  getRewardHistory({required String id}){
-    BaseAPI().get(url: (ApiEndPoints().viewRewardHistory)+id).then((value){
+  getRewardHistory({required String id, String? refreshType}){
+    if (refreshType == 'refresh' || refreshType == null) {
+      starRewardHistoryList?.clear();
+      refreshController2.loadComplete();
+      page.value = 1;
+    } else if (refreshType == 'load') {
+      page.value++;
+    }
+    BaseAPI().get(url: (ApiEndPoints().viewRewardHistory)+id, queryParameters: {
+      "limit":apiItemLimit,
+      "page":page.value.toString()
+    },showLoader: page.value == 1).then((value){
       if (value?.statusCode ==  200) {
-        starRewardHistoryList?.value = StarRewardHistoryResponse.fromJson(value?.data).data?.reward??[];
+        // starRewardHistoryList?.value = StarRewardHistoryResponse.fromJson(value?.data).data?.reward??[];
+        if(refreshType == 'refresh'){
+          starRewardHistoryList?.clear();
+          refreshController2.loadComplete();
+          refreshController2.refreshCompleted();
+        }else if((StarRewardHistoryResponse.fromJson(value?.data).data?.reward??[]).isEmpty && refreshType == 'load'){
+          refreshController2.loadNoData();
+        }
+        else if(refreshType == 'load'){
+          refreshController2.loadComplete();
+        }
+        starRewardHistoryList?.addAll(StarRewardHistoryResponse.fromJson(value?.data).data?.reward??[]);
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
       }
@@ -123,112 +175,6 @@ class RewardScreenCtrl extends GetxController{
     });
   }
 
-  var rewardsList = [
-    {
-      'icon': 'assets/images/dance_img.svg',
-      'title': 'Dance Party',
-      'value': '25',
-    },
-    {
-      'icon': 'assets/images/candy_img.svg',
-      'title': 'Candy',
-      'value': '5',
-    },
-    {
-      'icon': 'assets/images/guitar_img.svg',
-      'title': 'Guitar Lessons',
-      'value': '30',
-    },
-    {
-      'icon': 'assets/images/high_five.svg',
-      'title': 'High Five',
-      'value': '5',
-    },
-    {
-      'icon': 'assets/images/dance_img.svg',
-      'title': 'Dance Party',
-      'value': '25',
-    },
-    {
-      'icon': 'assets/images/candy_img.svg',
-      'title': 'Candy',
-      'value': '5',
-    },
-    {
-      'icon': 'assets/images/guitar_img.svg',
-      'title': 'Guitar Lessons',
-      'value': '30',
-    },
-    {
-      'icon': 'assets/images/high_five.svg',
-      'title': 'High Five',
-      'value': '5',
-    },
-    {
-      'icon': 'assets/images/dance_img.svg',
-      'title': 'Dance Party',
-      'value': '25',
-    },
-    {
-      'icon': 'assets/images/candy_img.svg',
-      'title': 'Candy',
-      'value': '5',
-    },
-    {
-      'icon': 'assets/images/guitar_img.svg',
-      'title': 'Guitar Lessons',
-      'value': '30',
-    },
-    {
-      'icon': 'assets/images/high_five.svg',
-      'title': 'High Five',
-      'value': '5',
-    },
-    {
-      'icon': 'assets/images/dance_img.svg',
-      'title': 'Dance Party',
-      'value': '25',
-    },
-    {
-      'icon': 'assets/images/candy_img.svg',
-      'title': 'Candy',
-      'value': '5',
-    },
-    {
-      'icon': 'assets/images/guitar_img.svg',
-      'title': 'Guitar Lessons',
-      'value': '30',
-    },
-    {
-      'icon': 'assets/images/high_five.svg',
-      'title': 'High Five',
-      'value': '5',
-    },
-
-  ];
-  var rewardsList2 = [
-    {
-      'icon': 'assets/images/candy_img.svg',
-      'title': 'Candy',
-      'by': 'Guardians',
-      'time': '09:13pm',
-      'date': '10/02/2022'
-    },
-    {
-      'icon': 'assets/images/dance_img.svg',
-      'title': 'Dance Party',
-      'by': 'Parent',
-      'time': '09:13pm',
-      'date': '01/03/2022'
-    },
-    {
-      'icon': 'assets/images/guitar_img.svg',
-      'title': 'Guitar Lessons',
-      'by': 'Guardians',
-      'time': '09:13pm',
-      'date': '10/02/2022'
-    },
-  ];
   @override
   void dispose() {
     rewardTitleCtrl.value.text = "";

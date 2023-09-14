@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/backend/responses_model/base_success_response.dart';
@@ -12,6 +13,8 @@ import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:staff_app/utility/intl/src/intl/date_format.dart';
+
+import '../../../utility/sizes.dart';
 
 class TaskReminderCtrl extends GetxController{
   RxList<TaskReminderListData>? list = <TaskReminderListData>[].obs;
@@ -26,18 +29,42 @@ class TaskReminderCtrl extends GetxController{
   final formKey = GlobalKey<FormState>();
   Rx<TextEditingController> reminderInput = TextEditingController().obs;
   Rx<TextEditingController> uploadController = TextEditingController().obs;
+  /// Pagination
+  RxInt page = 1.obs;
+  final RefreshController refreshController = RefreshController(initialRefresh: false);
 
-  @override
-  void onInit() {
-    super.onInit();
-    // getTaskReminders();
-  }
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   // getTaskReminders();
+  // }
 
-  getTaskReminders(){
-    list?.value = [];
-    BaseAPI().get(url: ApiEndPoints().getAllTaskReminders).then((value){
+  getTaskReminders({String? refreshType}){
+    // list?.value = [];
+    if (refreshType == 'refresh' || refreshType == null) {
+      list?.clear();
+      refreshController.loadComplete();
+      page.value = 1;
+    } else if (refreshType == 'load') {
+      page.value++;
+    }
+    BaseAPI().get(url: ApiEndPoints().getAllTaskReminders, queryParameters: {
+      "limit":apiItemLimit,
+      "page":page.value.toString()
+    },showLoader: page.value == 1).then((value){
       if (value?.statusCode ==  200) {
-        list?.value = TaskReminderListResponse.fromJson(value?.data).data??[];
+        // list?.value = TaskReminderListResponse.fromJson(value?.data).data??[];
+        if(refreshType == 'refresh'){
+          list?.clear();
+          refreshController.loadComplete();
+          refreshController.refreshCompleted();
+        }else if((TaskReminderListResponse.fromJson(value?.data).data??[]).isEmpty && refreshType == 'load'){
+          refreshController.loadNoData();
+        }
+        else if(refreshType == 'load'){
+          refreshController.loadComplete();
+        }
+        list?.addAll(TaskReminderListResponse.fromJson(value?.data).data??[]);
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
@@ -70,7 +97,7 @@ class TaskReminderCtrl extends GetxController{
           "date":remindType.value == "specific_date" ? selectedDate.value : formatBackendDate(DateTime.now().toString()), // For Specific Date
           "forType":"mySelf",
           "scheduleId": meetingId??"",
-          "reminderType": (meetingId??"").isEmpty ? "" : "scheduleMeet",
+          "reminderType": (meetingId??"").isEmpty ? "normal" : "scheduleMeet",
         });
       }else{
         data = dio.FormData.fromMap({
@@ -81,7 +108,7 @@ class TaskReminderCtrl extends GetxController{
           "date":remindType.value == "specific_date" ? selectedDate.value : formatBackendDate(DateTime.now().toString()), // For Specific Date
           "forType":"mySelf",
           "scheduleId": meetingId??"",
-          "reminderType": (meetingId??"").isEmpty ? "" : "scheduleMeet",
+          "reminderType": (meetingId??"").isEmpty ? "normal" : "scheduleMeet",
           "document":await dio.MultipartFile.fromFile(selectedFile?.value?.path??"", filename: (selectedFile?.value?.path??"").split("/").last)
         });
       }

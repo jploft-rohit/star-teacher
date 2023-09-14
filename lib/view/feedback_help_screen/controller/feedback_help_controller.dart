@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/backend/responses_model/all_feedback_help_response.dart';
@@ -12,6 +13,7 @@ import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/storage/sp_keys.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 
 class FeedbackHelpController extends GetxController{
@@ -26,6 +28,7 @@ class FeedbackHelpController extends GetxController{
   RxString selectedSchoolId = "".obs;
   RxInt selectedTabIndex = 0.obs;
   Rx<File>? selectedFile = File("").obs;
+  final RefreshController refreshController = RefreshController(initialRefresh: false);
   final formKey = GlobalKey<FormState>();
   /// Model Class Objects
   BaseSuccessResponse baseSuccessResponse = BaseSuccessResponse();
@@ -38,9 +41,15 @@ class FeedbackHelpController extends GetxController{
   Rx<TextEditingController> uploadController = TextEditingController().obs;
   Rx<TextEditingController> deleteReasonController = TextEditingController().obs;
 
+  /// Pagination
+  RxInt page = 1.obs;
+
+
   @override
   void onInit() {
     super.onInit();
+    selectedSchoolId.value = baseCtrl.schoolListData.data?.data?.first.sId??"";
+    schoolController.value.text = baseCtrl.schoolListData.data?.data?.first.name??"";
     getData();
   }
 
@@ -78,9 +87,9 @@ class FeedbackHelpController extends GetxController{
     staffData = [];
     var data = {
       "school" : selectedSchoolId,
-      "role" : selectedRoleId
+      "roleName" : selectedRoleId
     };
-    BaseAPI().post(url: ApiEndPoints().getStaffData, data: data, showLoader: false).then((value){
+    BaseAPI().get(url: ApiEndPoints().getStaffData, queryParameters: data, showLoader: false).then((value){
       if (value?.statusCode ==  200) {
         isStaffLoading.value = false;
         staffData = StaffListResponse.fromJson(value?.data).data??[];
@@ -169,18 +178,42 @@ class FeedbackHelpController extends GetxController{
     }
   }
 
-  getData(){
-    response?.value = [];
-    BaseAPI().get(url: ApiEndPoints().getAllFeedbackHelp,queryParameters: {"type": selectedTabIndex.value == 0 ? "" : selectedTabIndex.value == 1 ? "help" : "feedback","school":selectedSchoolId.value}).then((value){
+  getData({String? type}){
+    if (type == 'refresh' || type == null) {
+      response?.value = [];
+      refreshController.loadComplete();
+      page.value = 1;
+    } else if (type == 'load') {
+      page.value++;
+    }
+    BaseAPI().get(
+        url: ApiEndPoints().getAllFeedbackHelp,
+        queryParameters: {
+          "type": selectedTabIndex.value == 0 ? "" : selectedTabIndex.value == 1 ? "help" : "feedback",
+          "school":selectedSchoolId.value,
+          "limit":apiItemLimit,
+          "page":page.value.toString()
+        },
+        showLoader: page.value == 1).then((value){
       if (value?.statusCode ==  200) {
-        response?.value = AllFeedbackHelpResponse.fromJson(value?.data).data??[];
+          if(type == 'refresh'){
+            response?.value = [];
+            refreshController.loadComplete();
+            refreshController.refreshCompleted();
+          }else if((AllFeedbackHelpResponse.fromJson(value?.data).data??[]).isEmpty && type == 'load'){
+            refreshController.loadNoData();
+          }
+          else if(type == 'load'){
+            refreshController.loadComplete();
+          }
+          response?.addAll(AllFeedbackHelpResponse.fromJson(value?.data).data??[]);
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
     });
   }
 
-  deleteItem({required String id,required int index}){
+  deleteItem({required String id, required int index}){
     BaseOverlays().dismissOverlay();
     BaseAPI().delete(url: ApiEndPoints().deleteFeedbackHelp+id).then((value){
       if (value?.statusCode ==  200) {

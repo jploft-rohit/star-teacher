@@ -6,8 +6,8 @@ import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_utility.dart';
 
 class SuccessDialogScreen extends StatefulWidget {
-  String msg;
-  SuccessDialogScreen({Key? key, required this.msg}) : super(key: key);
+  final String msg;
+  const SuccessDialogScreen({Key? key, required this.msg}) : super(key: key);
 
   @override
   State<SuccessDialogScreen> createState() => _SuccessDialogScreenState();

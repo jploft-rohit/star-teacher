@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/view/about_us/controller/about_us_controller.dart';
@@ -15,12 +16,12 @@ class _AboutUsState extends State<AboutUs> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(title: "About App"),
+      appBar: const BaseAppBar(title: "About App"),
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
           children: [
-            Obx(()=> Text(controller.aboutUsData?.value?.value??"",style: TextStyle(fontSize: 16))),
+            Obx(()=> HtmlWidget(controller.aboutUsData?.value?.value??"")),
           ],
         ),
       ),

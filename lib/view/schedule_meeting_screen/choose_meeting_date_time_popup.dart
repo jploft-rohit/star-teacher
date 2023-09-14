@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:staff_app/backend/responses_model/scheduled_meeting_response.dart';
+import 'package:staff_app/utility/base_views/base_button.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/utility/base_views/base_textformfield.dart';
 import 'package:staff_app/utility/intl/src/intl/date_format.dart';
 import 'package:staff_app/view/schedule_meeting_screen/controller/schedule_meeting_screen_ctrl.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -11,13 +14,14 @@ import 'package:staff_app/utility/base_utility.dart';
 class ChooseMeetingDateTimePopup extends StatefulWidget {
   final String title,id;
   final ScheduledMeetingData? data;
-  ChooseMeetingDateTimePopup({Key? key, required this.title, this.data, required this.id}) : super(key: key);
+  const ChooseMeetingDateTimePopup({Key? key, required this.title, this.data, required this.id}) : super(key: key);
 
   @override
   State<ChooseMeetingDateTimePopup> createState() => _ChooseMeetingDateTimePopupState();
 }
 
 class _ChooseMeetingDateTimePopupState extends State<ChooseMeetingDateTimePopup> {
+  ScheduleMeetingScreenCtrl controller = Get.find<ScheduleMeetingScreenCtrl>();
   List<Map<String, dynamic>> list = [
     {
       "title":"09:00",
@@ -61,6 +65,15 @@ class _ChooseMeetingDateTimePopupState extends State<ChooseMeetingDateTimePopup>
   ];
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.timeController.value.clear();
+      controller.selectedTime.value = "";
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black.withOpacity(0.5),
@@ -83,13 +96,13 @@ class _ChooseMeetingDateTimePopupState extends State<ChooseMeetingDateTimePopup>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(""),
+                    const Text(""),
                     Text("      ${widget.title}", style: Style.montserratBoldStyle().copyWith(fontSize: 17.sp, color: Colors.black),),
                     GestureDetector(
                       onTap: (){
                         Get.back();
                       },
-                      child: Icon(Icons.close, color: Colors.black,),)
+                      child: const Icon(Icons.close, color: Colors.black,),)
                   ],
                 ),
                 SizedBox(
@@ -117,10 +130,10 @@ class _ChooseMeetingDateTimePopupState extends State<ChooseMeetingDateTimePopup>
                         titleCentered: true,
                         titleTextStyle: Style.montserratBoldStyle().copyWith(fontSize: 17.sp, color: BaseColors.textBlackColor),
                         titleTextFormatter: (date, locale) {
-                          return "${monthList[date.month-1]}";
+                          return monthList[date.month-1];
                         },
-                        rightChevronIcon: Icon(Icons.chevron_right, color: BaseColors.primaryColor),
-                        leftChevronIcon: Icon(
+                        rightChevronIcon: const Icon(Icons.chevron_right, color: BaseColors.primaryColor),
+                        leftChevronIcon: const Icon(
                           Icons.chevron_left,
                           color: BaseColors.primaryColor,
                         ),
@@ -134,7 +147,7 @@ class _ChooseMeetingDateTimePopupState extends State<ChooseMeetingDateTimePopup>
                       onDaySelected: (DateTime selectDay, DateTime focusDay) {
                         controller.selectedDay = selectDay;
                         controller.focusedDay = focusDay;
-                        controller.dateController.value.text = "${(DateFormat('yyyy-MM-dd').format(controller.selectedDay)).toString()}";
+                        controller.dateController.value.text = formatFlutterDateTime(flutterDateTime: selectDay, getDayFirst: true);
                         controller.update();
                       },
                       selectedDayPredicate: (DateTime date) {
@@ -174,78 +187,128 @@ class _ChooseMeetingDateTimePopupState extends State<ChooseMeetingDateTimePopup>
                 SizedBox(
                   height: 1.h,
                 ),
-                GetBuilder<ScheduleMeetingScreenCtrl>(
-                  builder: (controller) {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: 4,
-                      padding: EdgeInsets.zero,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            for (var i in list) {
-                              i['isSelected'] = false;
-                            }
-                            list[index]['isSelected'] = !list[index]['isSelected'];
-                            for (var i in list) {
-                              if(i['isSelected']){
-                                controller.selectedTime.value = i['title'];
-                              }
-                            }
-                            setState(() {});
-                            if (widget.id.isEmpty) {
-                              Get.back();
-                            }else{
-                              controller.rescheduleMeeting(id: widget.id);
-                            }
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(bottom: 8.0),
-                            padding: EdgeInsets.all(14.sp),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8.0),
-                                border: Border.all(
-                                    color: BaseColors.primaryColor)
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(""),
-                                Text(list[index]['title'],
-                                  style: Style.montserratMediumStyle().copyWith(
-                                      color: BaseColors.primaryColor,
-                                      fontSize: 17.sp),
+                // GetBuilder<ScheduleMeetingScreenCtrl>(
+                //   builder: (controller) {
+                //     return ListView.builder(
+                //       shrinkWrap: true,
+                //       itemCount: 4,
+                //       padding: EdgeInsets.zero,
+                //       physics: const NeverScrollableScrollPhysics(),
+                //       itemBuilder: (context, index) {
+                //         return GestureDetector(
+                //           onTap: () {
+                //             for (var i in list) {
+                //               i['isSelected'] = false;
+                //             }
+                //             list[index]['isSelected'] = !list[index]['isSelected'];
+                //             for (var i in list) {
+                //               if(i['isSelected']){
+                //                 controller.selectedTime.value = i['title'];
+                //               }
+                //             }
+                //             setState(() {});
+                //             if (widget.id.isEmpty) {
+                //               Get.back();
+                //             }else{
+                //               controller.rescheduleMeeting(id: widget.id);
+                //             }
+                //           },
+                //           child: Container(
+                //             margin: const EdgeInsets.only(bottom: 8.0),
+                //             padding: EdgeInsets.all(14.sp),
+                //             decoration: BoxDecoration(
+                //                 borderRadius: BorderRadius.circular(8.0),
+                //                 border: Border.all(
+                //                     color: BaseColors.primaryColor)
+                //             ),
+                //             child: Row(
+                //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //               children: [
+                //                 const Text(""),
+                //                 Text(list[index]['title'],
+                //                   style: Style.montserratMediumStyle().copyWith(
+                //                       color: BaseColors.primaryColor,
+                //                       fontSize: 17.sp),
+                //                 ),
+                //                 Checkbox(
+                //                   visualDensity: const VisualDensity(vertical: -4, horizontal: -4),
+                //                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                //                   side: const BorderSide(color: Colors.transparent),
+                //                   activeColor: BaseColors.primaryColor,
+                //                   shape: RoundedRectangleBorder(
+                //                     borderRadius: BorderRadius.circular(50.0),
+                //                   ),
+                //                   value: list[index]['isSelected'],
+                //                   onChanged: (value) {
+                //                     for (var i in list) {
+                //                       i['isSelected'] = false;
+                //                     }
+                //                     list[index]['isSelected'] = !list[index]['isSelected'];
+                //                     setState((){});
+                //                     if (widget.id.isEmpty) {
+                //                       Get.back();
+                //                     }else{
+                //                       controller.rescheduleMeeting(id: widget.id);
+                //                     }
+                //                   },
+                //                 )
+                //               ],
+                //             ),
+                //           ),
+                //         );
+                //       },
+                //     );
+                //   },
+                // ),
+                Form(
+                  key: controller.selectDateFormKey,
+                  child: BaseTextFormField(
+                    controller: controller.timeController.value,
+                    hintText: "Select Time",
+                    onTap: (){
+                      showTimePicker(
+                        context: context,
+                        builder: (context, child) {
+                          return MediaQuery(
+                            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+                            child: Theme(
+                              data: Theme.of(context).copyWith(
+                                colorScheme: const ColorScheme.light(
+                                  primary: BaseColors.primaryColor,
                                 ),
-                                Checkbox(
-                                  visualDensity: VisualDensity(vertical: -4, horizontal: -4),
-                                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                  side: BorderSide(color: Colors.transparent),
-                                  activeColor: BaseColors.primaryColor,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(50.0),
-                                  ),
-                                  value: list[index]['isSelected'],
-                                  onChanged: (value) {
-                                    for (var i in list) {
-                                      i['isSelected'] = false;
-                                    }
-                                    list[index]['isSelected'] = !list[index]['isSelected'];
-                                    setState((){});
-                                    if (widget.id.isEmpty) {
-                                      Get.back();
-                                    }else{
-                                      controller.rescheduleMeeting(id: widget.id);
-                                    }
-                                  },
-                                )
-                              ],
+                              ),
+                              child: child!,
                             ),
-                          ),
-                        );
-                      },
-                    );
-                  },
+                          );
+                        },
+                        initialTime: TimeOfDay.now(),
+                      ).then((picked){
+                        if (picked != null) {
+                          controller.timeController.value.text = (picked.to12hours(context));
+                          controller.selectedTime.value = "${picked.to24hours()}:00";
+                        }
+                      });
+                    },
+                    suffixIcon: "assets/images/time_icon1.svg",
+                    validator: (val){
+                      if (controller.timeController.value.text.trim().isEmpty) {
+                        return "Please Select Time";
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                BaseButton(
+                    title: "SUBMIT",
+                    onPressed: (){
+                      if (controller.selectDateFormKey.currentState?.validate()??false) {
+                        if (widget.id.isEmpty) {
+                            Get.back();
+                          }else{
+                            controller.rescheduleMeeting(id: widget.id);
+                          }
+                      }
+                    },
                 ),
               ],
             ),

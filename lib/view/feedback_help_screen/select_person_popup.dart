@@ -37,10 +37,10 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
   void initState() {
     super.initState();
     DummyLists.initialRole = "Select Person";
-    controller.getStaffData(
-        selectedSchoolId: widget.selectedSchoolId,
-        selectedRoleId: baseCtrl.rolesListResponse.data?.first.sId??""
-    );
+    // controller.getStaffData(
+    //     selectedSchoolId: widget.selectedSchoolId,
+    //     selectedRoleId: baseCtrl.rolesListResponse.data?.first.sId??""
+    // );
   }
 
   @override
@@ -67,20 +67,20 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(""),
+                    const Text(""),
                     Text("Select Person", style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: Colors.black),),
                     GestureDetector(
                       onTap: (){
                         Get.back();
                       },
-                      child: Icon(Icons.close, color: Colors.black,),)
+                      child: const Icon(Icons.close, color: Colors.black,),)
                   ],
                 ),
                 SizedBox(
                   height: 2.h,
                 ),
                 Container(
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),border: Border.all(color: Color(0xFFCECECE),width: 1)),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),border: Border.all(color: const Color(0xFFCECECE),width: 1)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -94,7 +94,7 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                                 value: value,
                                 child: addText(value.name??"", 16.sp, Colors.black, FontWeight.w400));
                             }).toList(),
-                            onChange: (value) {selectedRoleId = value.sId??"";
+                            onChange: (value) {selectedRoleId = value.name??"";
                             setState(() {
                               DummyLists.initialRole=value.name??"";
                             });
@@ -102,7 +102,7 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                           },icon: jobDetailSvg),
                         ],
                       ),
-                      Divider(height: 1,thickness: 1,),
+                      const Divider(height: 1,thickness: 1,),
                       FilterTextFormField(onChange: (String val) {
                       }, hintText: "Search By ID...", keyBoardType: TextInputType.name,
                       ),
@@ -113,7 +113,7 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                   height: 3.h,
                 ),
                 Obx(()=> controller.isStaffLoading.value
-                    ? Center(child: SizedBox(height: 30,width: 30,child: CircularProgressIndicator()))
+                    ? const Center(child: SizedBox(height: 30,width: 30,child: CircularProgressIndicator()))
                     : ListView.builder(
                       shrinkWrap: true,
                       itemCount: controller.staffData.length,
@@ -124,8 +124,8 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                         child: GestureDetector(
                           onTap: (){
                             selectedFMOPos = index;
-                            controller.selectedPersonId.value = controller.staffData[index].user?.sId??"";
-                            controller.personController.value.text = controller.staffData[index].user?.name??"";
+                            controller.selectedPersonId.value = controller.staffData[index].sId??"";
+                            controller.personController.value.text = controller.staffData[index].name??"";
                             controller.formKey.currentState?.validate();
                             setState(() {});
                           },
@@ -143,7 +143,7 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                                 Row(
                                   children: [
                                     Container(
-                                      padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 15.sp, right: 15.sp),
+                                      padding: EdgeInsets.only(top: 10.sp, bottom: 10.sp, left: 10.sp, right: 10.sp),
                                       decoration: BoxDecoration(
                                         border: Border.all(
                                             color: BaseColors.primaryColor
@@ -154,21 +154,21 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                                       child: SvgPicture.asset(manSvg,height: 30,),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 10.sp),
+                                      padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 10.sp),
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text(controller.staffData[index].user?.name??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
+                                          Text(controller.staffData[index].name??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
                                           SizedBox(
                                             height: .5.h,
                                           ),
                                           Row(
                                             children: [
-                                              buildInfoItems("Subject", controller.staffData[index].subject?.name??""),
+                                              buildInfoItems("Role", controller.staffData[index].role?.displayName??""),
                                               SizedBox(
-                                                width: 5.w,
+                                                width: 1.w,
                                               ),
-                                              buildInfoItems("ID", controller.staffData[index].employeeId??""),
+                                              buildInfoItems("ID", controller.staffData[index].uniqueId?.toString()??""),
                                             ],
                                           ),
                                         ],
@@ -178,7 +178,7 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                                 ),
 
                                 Padding(
-                                  padding: const EdgeInsets.only(right: 10.0, left: 10.0),
+                                  padding: const EdgeInsets.only(right: 10.0, left: 0.0),
                                   child: Container(
                                     height: 20,
                                     width: 20,

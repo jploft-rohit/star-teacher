@@ -8,7 +8,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:input_with_keyboard_control/input_with_keyboard_control.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/backend/base_api.dart';
@@ -46,11 +45,52 @@ class Style{
   }
 }
 
+String getDateFromUrl(String filename) {
+  // Split the filename by '-' and remove the file extension (".jpg")
+  List<String> parts = filename.split('-');
+  if (parts.length < 2) {
+    // Return an error message if the filename does not contain at least two parts
+    return "Invalid filename format";
+  }
+
+  // Extract the milliseconds from the second part
+  String millisecondsPart = parts.last.split('.')[0];
+  int milliseconds = int.tryParse(millisecondsPart) ?? 0;
+
+  // Convert milliseconds to a DateTime object
+  DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(milliseconds);
+
+  // Format the DateTime object as "dd/MM/yyyy"
+  String formattedDate =
+      "${dateTime.day.toString().padLeft(2, '0')}/${dateTime.month.toString().padLeft(2, '0')}/${dateTime.year}";
+
+  return formattedDate;
+}
+
+
 extension TimeOfDayConverter on TimeOfDay {
   String to24hours() {
     final hour = this.hour.toString().padLeft(2, "0");
     final min = this.minute.toString().padLeft(2, "0");
     return "$hour:$min";
+  }
+}
+
+extension TimeOfDayExtensions on TimeOfDay {
+  String to12hours(BuildContext context) {
+    TimeOfDay time = replacing(hour: hourOfPeriod);
+    MaterialLocalizations localizations = MaterialLocalizations.of(context);
+
+    final StringBuffer buffer = StringBuffer();
+
+    buffer
+      ..write(time.format(context))
+      ..write(' ')
+      ..write(period == DayPeriod.am
+          ? localizations.anteMeridiemAbbreviation
+          : localizations.postMeridiemAbbreviation);
+
+    return '$buffer';
   }
 }
 
@@ -88,7 +128,7 @@ List<BoxShadow> baseContainerShadow() {
   return [
     BoxShadow(
     color: Colors.grey.withOpacity(0.8),
-    offset: Offset(
+    offset: const Offset(
       0.0,
       1.0,
     ),
@@ -127,7 +167,7 @@ Widget walletToogleButton(onTap1, isPurchases, onTap2, isEvents) {
             alignment: Alignment.topRight,
             children: [
               Container(
-                margin: EdgeInsets.only(top: 2, right: 2),
+                margin: const EdgeInsets.only(top: 2, right: 2),
                 alignment: Alignment.center,
                 height: 40,
                 decoration: BoxDecoration(
@@ -163,7 +203,7 @@ Widget walletToogleButton(onTap1, isPurchases, onTap2, isEvents) {
             alignment: Alignment.topRight,
             children: [
               Container(
-                margin: EdgeInsets.only(top: 2, right: 2),
+                margin: const EdgeInsets.only(top: 2, right: 2),
                 alignment: Alignment.center,
                 height: 40,
                 decoration: BoxDecoration(
@@ -271,7 +311,7 @@ Widget calenderDownButton(label, onTap,{required bool isFrom}) {
               ],
             ),
           ),
-          Icon(
+          const Icon(
             Icons.arrow_drop_down,
             color: Colors.black,
           )
@@ -369,7 +409,7 @@ class _DummyTextFieldState extends State<DummyTextField> {
         width: 200,
         height: 100,
         color: Colors.grey[200],
-        child: Center(
+        child: const Center(
           child: Text('Click here and type'),
         ),
       ),
@@ -403,7 +443,7 @@ showNFCDialog(BuildContext context,String image){
                     onTap: (){
                       Get.back();
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.close,
                       color: Colors.black,
                     ),
@@ -497,7 +537,7 @@ class _QRCodeScannerState extends State<QRCodeScanner> {
           controller: scanController,
           autofocus: true,
           cursorColor: Colors.green,
-          style: TextStyle(color: Colors.black),
+          style: const TextStyle(color: Colors.black),
           onValueUpdated: (value) {
             print(value);
           },
@@ -532,11 +572,12 @@ showNFCDialog1(BuildContext context,String image,{String? title}){
                     onTap: (){
                       Get.back();
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.close,
                       color: Colors.black,
                     ),
-                  ))
+                  ),
+              ),
             ],
           ),
           contentPadding: const EdgeInsets.all(10),
@@ -580,13 +621,13 @@ void showScanQrDialogue(BuildContext context, bool isShowButton,{data}) {
                               onTap: (){
                                 Get.back();
                               },
-                              child: Icon(
+                              child: const Icon(
                                 Icons.close
                               ),
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(top: 5),
+                            padding: const EdgeInsets.only(top: 5),
                             child: Center(
                               child: addAlignedText(
                                   'QR Code', 18, Colors.black, FontWeight.w700),
@@ -595,7 +636,7 @@ void showScanQrDialogue(BuildContext context, bool isShowButton,{data}) {
                         ],
                       ),
                       SizedBox(height:3.h),
-                      QrImage(
+                      QrImageView(
                         data: data.toString(),
                         version: QrVersions.auto,
                         size: 250,
@@ -626,7 +667,7 @@ Future<void> selectDate(BuildContext context) async {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
+            colorScheme: const ColorScheme.light(
               primary: BaseColors.primaryColor,
             ),
           ),
@@ -638,13 +679,34 @@ Future<void> selectDate(BuildContext context) async {
       lastDate: DateTime.now()
   ).then((picked){});
 }
+
+Future<DateTime?> selectDateNew(
+    {DateTime? initialDate, DateTime? firstDate, DateTime? lastDate}) async {
+  return await showDatePicker(
+    context: Get.context!,
+    builder: (context, child) {
+      return Theme(
+        data: Theme.of(context).copyWith(
+          colorScheme: const ColorScheme.light(
+            primary: ColorConstants.primaryColor,
+          ),
+        ),
+        child: child!,
+      );
+    },
+    initialDate: initialDate ?? DateTime.now(),
+    firstDate: firstDate ?? DateTime(1900),
+    lastDate: lastDate ?? DateTime(2050),
+  );
+}
+
 Future<void> selectTime(BuildContext context) async {
   showTimePicker(
     context: context,
     builder: (context, child) {
       return Theme(
         data: Theme.of(context).copyWith(
-          colorScheme: ColorScheme.light(
+          colorScheme: const ColorScheme.light(
             primary: ColorConstants.primaryColor,
           ),
         ),
@@ -683,10 +745,15 @@ String convertDateFormat3(String dateString1) {
   }
 }
 
-String getFormattedTime(String dateString1){
+String getFormattedTime(String dateString1,{bool? isToLocal}){
   if (dateString1.isNotEmpty && dateString1 != "null") {
     DateTime date = DateTime.parse(dateString1);
-    String formattedTime = DateFormat('hh:mm a').format(date.toLocal());
+    String formattedTime;
+    if (isToLocal??false) {
+      formattedTime = DateFormat('hh:mm a').format(date.toLocal());
+    }else{
+      formattedTime = DateFormat('hh:mm a').format(date);
+    }
     return formattedTime;
   }else{
     return "N/A";
@@ -976,6 +1043,26 @@ String getMonthDate(String dateString1) {
   return formattedDate;
 }
 
+String getDayOnly(String dateString1) {
+  if (dateString1.isNotEmpty) {
+    DateTime date = DateTime.parse(dateString1);
+    String formattedDate = DateFormat("dd").format(date);
+    return formattedDate;
+  }else{
+    return "";
+  }
+}
+
+String getMonthOnly(String dateString1) {
+  if (dateString1.isNotEmpty) {
+    DateTime date = DateTime.parse(dateString1);
+    String formattedDate = DateFormat("MMM").format(date);
+    return formattedDate;
+  }else{
+    return "";
+  }
+}
+
 String convertDateFormat7(String dateString1){
   DateTime date = DateTime.parse(dateString1);
   print("date1");
@@ -1096,7 +1183,7 @@ showMediaPickerDialogMedical(void Function(String fileName, String filePath) onP
     pageBuilder: (context, a1, a2) {
       return Dialog(
         insetPadding: EdgeInsets.symmetric(horizontal: 3.w),
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(14))),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -1104,7 +1191,7 @@ showMediaPickerDialogMedical(void Function(String fileName, String filePath) onP
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               Align(
                 alignment: Alignment.topRight,
                 child: GestureDetector(
@@ -1117,7 +1204,7 @@ showMediaPickerDialogMedical(void Function(String fileName, String filePath) onP
                   ),
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Row(
                 children: [
                   Expanded(
@@ -1135,7 +1222,7 @@ showMediaPickerDialogMedical(void Function(String fileName, String filePath) onP
                           onPickedImage(fileName, filePath);
                         }
                       },
-                      child: Column(
+                      child: const Column(
                         children: [
                           Icon(
                             Icons.camera_alt_outlined,
@@ -1163,7 +1250,7 @@ showMediaPickerDialogMedical(void Function(String fileName, String filePath) onP
                           onPickedImage(fileName, filePath);
                         }
                       },
-                      child: Column(
+                      child: const Column(
                         children: [
                           Icon(
                             Icons.photo_library_outlined,
@@ -1195,7 +1282,7 @@ showMediaPickerDialogMedical(void Function(String fileName, String filePath) onP
                           }
                         }
                       },
-                      child: Column(
+                      child: const Column(
                         children: [
                           Icon(
                             Icons.file_present_outlined,
@@ -1226,8 +1313,8 @@ showMediaPickerDialogMedical(void Function(String fileName, String filePath) onP
 
 Future<String> pickFile({List<String>? customExtensions}) async {
   String returnValue = "";
-  List<String> extensionFiltersList = customExtensions ?? ['jpg', 'pdf', 'doc', 'png', 'jpeg', 'heif'];
-  FilePickerResult? value = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['jpg', 'pdf', 'doc', 'png', 'jpeg', 'heif']);
+  List<String> extensionFiltersList = customExtensions ?? ['jpg', 'pdf', 'doc', 'png', 'jpeg', 'heif', 'mp4', 'mov'];
+  FilePickerResult? value = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['jpg', 'pdf', 'doc', 'png', 'jpeg', 'heif', 'mp4', 'mov']);
   if ((value?.files.single.path??"").isNotEmpty) {
     if (extensionFiltersList.contains((value?.files.single.path?.split(".").last??""))) {
       returnValue = (value?.files.single.path??"");
@@ -1452,26 +1539,26 @@ TextFormField addSmallEditText(
         padding: const EdgeInsets.only(right: 10),
         child: suffixIcon,
       ), // Added suffixIcon property
-      suffixIconConstraints: BoxConstraints(
+      suffixIconConstraints: const BoxConstraints(
         maxHeight: 30,
         maxWidth: 30,
       ),
       border: OutlineInputBorder(
-        borderSide: BorderSide(
+        borderSide: const BorderSide(
           color: ColorConstants.borderColor,
           width: 1.0,
         ),
         borderRadius: getBorderRadius(),
       ),
       enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(
+        borderSide: const BorderSide(
           color: ColorConstants.borderColor,
           width: 1.0,
         ),
         borderRadius: getBorderRadius(),
       ),
       focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(
+        borderSide: const BorderSide(
           color: ColorConstants.borderColor,
           width: 1.0,
         ),
@@ -1793,7 +1880,7 @@ Text addarialText(
 }
 
 underlineBorder() {
-  return UnderlineInputBorder(
+  return const UnderlineInputBorder(
     borderSide: BorderSide(
       color: ColorConstants.dividerColor2,
     ),
@@ -1801,7 +1888,7 @@ underlineBorder() {
 }
 
 outlineBorder() {
-  return OutlineInputBorder(
+  return const OutlineInputBorder(
     borderSide: BorderSide(
       color: ColorConstants.dividerColor2,
     ),
@@ -1836,6 +1923,40 @@ String getFormattedTimeInHHMMDD(String dateString) {
   String second = date.second.toString().padLeft(2, '0');
   return '$hour:$minute:$second';
 }
+
+Widget addDetailRow(title, label, icon) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Padding(
+        padding: const EdgeInsetsDirectional.only(start: 6),
+        child: addText(title, getSmallTextFontSIze(), ColorConstants.black,
+            FontWeight.w400),
+      ),
+      Container(
+        margin: const EdgeInsets.symmetric(horizontal: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        decoration: BoxDecoration(
+            color: ColorConstants.white3,
+            border: Border.all(color: ColorConstants.borderColor),
+            borderRadius: radiusAll(4)),
+        height: 40,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: addText(label, getSmallTextFontSIze() - 1,
+                  ColorConstants.black, FontWeight.w400),
+            ),
+            icon
+            // SvgPicture.asset('assets/images/tick2.svg')
+          ],
+        ),
+      ),
+    ],
+  );
+}
+
 
 Widget noRecordAvailable({String? msg, double fontSize = 15.0}) {
   return Center(
@@ -1874,7 +1995,7 @@ void showSnackBar(
       success ? Icons.check_circle_outline : Icons.error_outline,
       color: Colors.white,
     ),
-    animationDuration: Duration(milliseconds: 0),
+    animationDuration: const Duration(milliseconds: 0),
   );
 }
 
@@ -1890,7 +2011,7 @@ Future<DateTime?> selectDateMedical(
     builder: (context, child) {
       return Theme(
         data: Theme.of(context).copyWith(
-          colorScheme: ColorScheme.light(
+          colorScheme: const ColorScheme.light(
             primary: ColorConstants.primaryColor,
           ),
         ),
@@ -1927,7 +2048,7 @@ showMediaPickerDialog(
     pageBuilder: (context, a1, a2) {
       return Dialog(
         insetPadding: EdgeInsets.symmetric(horizontal: 3.w),
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(14))),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -1935,7 +2056,7 @@ showMediaPickerDialog(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               Align(
                 alignment: Alignment.topRight,
                 child: GestureDetector(
@@ -1948,7 +2069,7 @@ showMediaPickerDialog(
                   ),
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Row(
                 children: [
                   Expanded(
@@ -1966,7 +2087,7 @@ showMediaPickerDialog(
                           onPickedImage(fileName, filePath);
                         }
                       },
-                      child: Column(
+                      child: const Column(
                         children: [
                           Icon(
                             Icons.camera_alt_outlined,
@@ -1998,7 +2119,7 @@ showMediaPickerDialog(
                           }
                         }
                       },
-                      child: Column(
+                      child: const Column(
                         children: [
                           Icon(
                             Icons.photo_library_outlined,
@@ -2048,11 +2169,11 @@ void showScanQrDialogueMedical(BuildContext context, {barcode}) {
                               onTap: () {
                                 Get.back();
                               },
-                              child: Icon(Icons.close),
+                              child: const Icon(Icons.close),
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(top: 5),
+                            padding: const EdgeInsets.only(top: 5),
                             child: Center(
                               child: addAlignedText(
                                   'QR Code', 18, Colors.black, FontWeight.w700),

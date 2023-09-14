@@ -9,7 +9,7 @@ class ClassScheduleWeeklyPlanResponse {
   ClassScheduleWeeklyPlanResponse.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
       data = <ClassScheduleWeeklyPlanData>[];
-      json['data'].forEach((v) { data!.add(new ClassScheduleWeeklyPlanData.fromJson(v)); });
+      json['data'].forEach((v) { data!.add(ClassScheduleWeeklyPlanData.fromJson(v)); });
     }
     success = json['success'];
     statusCode = json['statusCode'];
@@ -17,7 +17,7 @@ class ClassScheduleWeeklyPlanResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -31,6 +31,7 @@ class ClassScheduleWeeklyPlanResponse {
 class ClassScheduleWeeklyPlanData {
   List<String>? topics;
   dynamic sId;
+  bool? isEditing;
   Class? classes;
   Class? section;
   Class? subject;
@@ -39,14 +40,15 @@ class ClassScheduleWeeklyPlanData {
   dynamic endTime;
   dynamic day; // int
 
-  ClassScheduleWeeklyPlanData({this.topics, this.sId, this.classes, this.section, this.subject, this.classType, this.startTime, this.endTime, this.day});
+  ClassScheduleWeeklyPlanData({this.isEditing, this.topics, this.sId, this.classes, this.section, this.subject, this.classType, this.startTime, this.endTime, this.day});
 
   ClassScheduleWeeklyPlanData.fromJson(Map<String, dynamic> json) {
   topics = json['topics'].cast<String>();
   sId = json['_id'];
-  classes = json['class'] != null ? new Class.fromJson(json['class']) : null;
-  section = json['section'] != null ? new Class.fromJson(json['section']) : null;
-  subject = json['subject'] != null ? new Class.fromJson(json['subject']) : null;
+  isEditing = json['isEditing'];
+  classes = json['class'] != null ? Class.fromJson(json['class']) : null;
+  section = json['section'] != null ? Class.fromJson(json['section']) : null;
+  subject = json['subject'] != null ? Class.fromJson(json['subject']) : null;
   classType = json['classType'];
   startTime = json['startTime'];
   endTime = json['endTime'];
@@ -54,9 +56,10 @@ class ClassScheduleWeeklyPlanData {
   }
 
   Map<String, dynamic> toJson() {
-  final Map<String, dynamic> data = new Map<String, dynamic>();
+  final Map<String, dynamic> data = Map<String, dynamic>();
   data['topics'] = this.topics;
   data['_id'] = this.sId;
+  data['isEditing'] = this.isEditing;
   if (this.classes != null) {
   data['class'] = this.classes!.toJson();
   }
@@ -86,7 +89,7 @@ class Class {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['_id'] = this.sId;
     data['name'] = this.name;
     return data;
@@ -109,9 +112,9 @@ class Data {
   Data.fromJson(Map<String, dynamic> json) {
   topics = json['topics'].cast<String>();
   sId = json['_id'];
-  classes = json['class'] != null ? new Class.fromJson(json['class']) : null;
-  section = json['section'] != null ? new Class.fromJson(json['section']) : null;
-  subject = json['subject'] != null ? new Class.fromJson(json['subject']) : null;
+  classes = json['class'] != null ? Class.fromJson(json['class']) : null;
+  section = json['section'] != null ? Class.fromJson(json['section']) : null;
+  subject = json['subject'] != null ? Class.fromJson(json['subject']) : null;
   classType = json['classType'];
   startTime = json['startTime'];
   endTime = json['endTime'];
@@ -119,7 +122,7 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-  final Map<String, dynamic> data = new Map<String, dynamic>();
+  final Map<String, dynamic> data = Map<String, dynamic>();
   data['topics'] = this.topics;
   data['_id'] = this.sId;
   if (this.classes != null) {

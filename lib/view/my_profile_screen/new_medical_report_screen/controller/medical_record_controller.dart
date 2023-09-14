@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/backend/responses_model/medical_record_responses/disease_model.dart';
 import 'package:staff_app/backend/responses_model/medical_record_responses/food_model.dart';
@@ -18,6 +19,7 @@ import 'package:staff_app/utility/base_views/base_loader.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 
 import '../../../../utility/base_utility.dart';
+import '../../../../utility/sizes.dart';
 
 class MedicalRecordController extends GetxController {
   final useCanteenServicesPos = 1.obs;
@@ -30,6 +32,10 @@ class MedicalRecordController extends GetxController {
   final hospitalizationValue = true.obs;
   final isSchoolCanteenAllowed = false.obs;
   final isAllergic = true.obs;
+  /// Pagination
+  RxInt page = 1.obs;
+  final RefreshController refreshController = RefreshController(initialRefresh: false);
+
   final List<String> currentlyUsingList = [
     'Braces',
     'Crutches',
@@ -167,7 +173,7 @@ class MedicalRecordController extends GetxController {
       var response = await BaseAPI().get(url: 'disease/get-all');
       diseases.value = Disease.fromJson(response?.data["data"]);
     } catch (e) {
-      log(e.toString() + 'getDiseases');
+      log('${e}getDiseases');
       BaseOverlays().showSnackBar(message: e.toString(), title: "Error");
     } finally {
       loading.value = false;
@@ -185,7 +191,7 @@ class MedicalRecordController extends GetxController {
         foodList.add(Food.fromJson(item));
       }
     } catch (e) {
-      print(e.toString() + 'food');
+      print('${e}food');
       BaseOverlays().showSnackBar(message: e.toString(), title: "Error");
       FocusScope.of(Get.context!).unfocus();
     } finally {
@@ -196,15 +202,15 @@ class MedicalRecordController extends GetxController {
 
   addOrUpdateDisease(DiseaseData? diseaseData) async {
     try {
-      final String userId = await BaseSharedPreference().getString(SpKeys().userId);
+      final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
       BaseOverlays().showLoader();
       Map<String, dynamic> data = {
         'user': userId,
         'disease': diseaseData?.sId,
         'isDisease': diseaseData?.active.toString(),
       };
-      if (diseaseData?.document != null && diseaseData!.active!) {
-        File file = File(diseaseData.document!);
+      if (diseaseData?.document != null && (diseaseData?.active??false)) {
+        File file = File(diseaseData?.document??"");
         data['diseaseDocument'] = await dio.MultipartFile.fromFile(
           file.path,
           filename: file.path.split('/').last,
@@ -216,13 +222,13 @@ class MedicalRecordController extends GetxController {
       FocusScope.of(Get.context!).unfocus();
     } catch (e) {
       Get.back();
-      print(e.toString() + 'addOrUpdateDisease');
+      print('${e}addOrUpdateDisease');
       BaseOverlays().showSnackBar(message: e.toString(), title: "Error");
     }
   }
 
   saveDiseaseDeatils() async {
-    final String userId = await BaseSharedPreference().getString(SpKeys().userId);
+    final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
     try {
       BaseOverlays().showLoader();
       await BaseAPI().get(url: 'registerStar/save_disease/${userId}');
@@ -232,22 +238,21 @@ class MedicalRecordController extends GetxController {
       getMedicalSurveyTwo();
     } catch (e) {
       // Get.back();
-      print(e.toString() + 'saveDiseaseDeatils');
+      print('${e}saveDiseaseDeatils');
       BaseOverlays().showSnackBar(message: e.toString(), title: "Error");
     }
   }
 
   getMedicalSurveyTwo() async {
-    final String userId = await BaseSharedPreference().getString(SpKeys().userId);
+    final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
     try {
-      BaseLoader();
+      const BaseLoader();
       var response = await BaseAPI().get(url:'registerStar/get_medical_survey/${userId}');
-      MedicalSurvey medicalSurvey =
-      MedicalSurvey.fromJson(response?.data["data"]);
+      MedicalSurvey medicalSurvey = MedicalSurvey.fromJson(response?.data["data"]);
       prefill(medicalSurvey);
       Get.back();
     } catch (e) {
-      print(e.toString() + 'medical');
+      print('${e}medical');
       Get.back();
       showSnackBar(message: e.toString(), success: false);
     }
@@ -255,7 +260,7 @@ class MedicalRecordController extends GetxController {
 
   addMedicalSurvey(Map<String, dynamic> data) async {
     try {
-      final String userId = await BaseSharedPreference().getString(SpKeys().userId);
+      final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
       // print(medicalSurveyId.value);
       // print(data);
       // return;
@@ -273,19 +278,44 @@ class MedicalRecordController extends GetxController {
       FocusScope.of(Get.context!).unfocus();
     } catch (e) {
       Get.back();
-      print(e.toString() + 'medical');
+      print('${e}medical');
       BaseOverlays().showSnackBar(message: e.toString(), title: "Error");
     }
   }
 
-  getMedicalRecordList() async {
-    try {
-      loading.value = true;
-      var response = await BaseAPI().get(url: 'medicalRecord/get-all');
+  getMedicalRecordList({String? refreshType}) async {
+    if (refreshType == 'refresh' || refreshType == null) {
       medicalRecordList.clear();
-      medicalRecordList.addAll((response?.data["data"] as List).map((e) => MedicalRecord.fromJson(e)).toList());
+      refreshController.loadComplete();
+      page.value = 1;
+    } else if (refreshType == 'load') {
+      page.value++;
+    }else{
+      loading.value = true;
+    }
+    try {
+      var response = await BaseAPI().get(url: 'medicalRecord/get-all',queryParameters: {
+        "limit":apiItemLimit,
+        "page":page.value.toString()
+      },showLoader: page.value == 1);
+      // medicalRecordList.clear();
+      if (response?.statusCode ==  200) {
+        if(refreshType == 'refresh'){
+          medicalRecordList.clear();
+          refreshController.loadComplete();
+          refreshController.refreshCompleted();
+        }else if(response?.data['data'].length == 0 && refreshType == 'load'){
+          refreshController.loadNoData();
+        }
+        else if(refreshType == 'load'){
+          refreshController.loadComplete();
+        }
+        medicalRecordList.addAll((response?.data["data"] as List).map((e) => MedicalRecord.fromJson(e)).toList());
+      }else{
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
+      }
     } catch (e) {
-      print(e.toString() + 'medical');
+      print('${e}medical');
       BaseOverlays().showSnackBar(message: e.toString(), title: "Error");
     } finally {
       loading.value = false;
@@ -293,9 +323,9 @@ class MedicalRecordController extends GetxController {
   }
 
   addMedicalRecord() async {
-    final String userId = await BaseSharedPreference().getString(SpKeys().userId);
+    final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
     try {
-      if (!medicalRecordFormKey.currentState!.validate()) return;
+      if (!(medicalRecordFormKey.currentState?.validate()??false)) return;
       BaseOverlays().showLoader();
       Map<String, dynamic> data = {
         'title': medicalRecordTitle.text,
@@ -319,7 +349,7 @@ class MedicalRecordController extends GetxController {
       BaseOverlays().showSnackBar(message: 'Medical record added successfully',title: translate(Get.context!).success);
       getMedicalRecordList();
     } catch (e) {
-      print(e.toString() + 'medical');
+      print('${e}medical');
       Get.back();
       Get.back();
       BaseOverlays().showSnackBar(message: e.toString(), title: "Error");
@@ -333,14 +363,14 @@ class MedicalRecordController extends GetxController {
   }
 
   getMedicalSurvey() async {
-    final String userId = await BaseSharedPreference().getString(SpKeys().userId);
+    final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
     try {
       loading(true);
       var response = await BaseAPI().get(url: 'registerStar/get_medical_survey/${userId}');
       MedicalSurvey medicalSurvey = MedicalSurvey.fromJson(response?.data["data"]);
       prefill(medicalSurvey);
     } catch (e) {
-      print(e.toString() + 'medical');
+      print('${e}medical');
     } finally {
       loading(false);
       getMedicalRecordList();
@@ -369,9 +399,9 @@ class MedicalRecordController extends GetxController {
 
       if (medicalSurvey.dieases?.infection != null) {
         for (var i = 0; i < medicalSurvey.dieases!.infection!.length; i++) {
-          if (i >= diseases.value!.infection!.length) break;
-          Infection infection = medicalSurvey.dieases!.infection![i];
-          diseases.value?.infection![i] = DiseaseData(
+          if (i >= (diseases.value?.infection?.length??0)) break;
+          Infection infection = (medicalSurvey.dieases?.infection?[i]??Infection());
+          diseases.value?.infection?[i] = DiseaseData(
             active: infection.isDisease,
             document: infection.diseaseDocument,
             name: infection.name,
@@ -381,9 +411,9 @@ class MedicalRecordController extends GetxController {
       }
 
       if (medicalSurvey.dieases?.condition != null) {
-        for (var i = 0; i < medicalSurvey.dieases!.condition!.length; i++) {
-          Infection infection = medicalSurvey.dieases!.condition![i];
-          diseases.value?.condition![i] = DiseaseData(
+        for (var i = 0; i < (medicalSurvey.dieases?.condition?.length??0); i++) {
+          Infection infection = medicalSurvey.dieases?.condition?[i]??Infection();
+          diseases.value?.condition?[i] = DiseaseData(
             active: infection.isDisease,
             document: infection.diseaseDocument,
             name: infection.name,
@@ -394,7 +424,7 @@ class MedicalRecordController extends GetxController {
 
       if (medicalSurvey.dieases?.history != null) {
         for (var i = 0; i < (medicalSurvey.dieases?.history?.length??0); i++) {
-          Infection infection = medicalSurvey.dieases!.history![i];
+          Infection infection = medicalSurvey.dieases?.history?[i]??Infection();
           diseases.value?.history?[i] = DiseaseData(
             active: infection.isDisease,
             document: infection.diseaseDocument,
@@ -404,7 +434,7 @@ class MedicalRecordController extends GetxController {
         }
       }
       if (medicalSurvey.accessories != null) {
-        selectedCurrentlyUsingList.addAll(medicalSurvey.accessories!);
+        selectedCurrentlyUsingList.addAll(medicalSurvey.accessories??[]);
       }
 
       familyHistoryController?.text = medicalSurvey.familyHistroy ?? '';
@@ -415,7 +445,7 @@ class MedicalRecordController extends GetxController {
       if (medicalSurvey.vaccinationDose != null) {
         for (var i = 0; i < medicalSurvey.vaccinationDose!.length; i++) {
           VaccinationDose vaccinationDose = VaccinationDose.fromJson(
-              decodeMapString(medicalSurvey.vaccinationDose![i]));
+              decodeMapString(medicalSurvey.vaccinationDose?[i]??""));
           int index = vaccinationDetailList
               .indexWhere((element) => element.key == vaccinationDose.key);
           if (index != -1) {
@@ -424,23 +454,21 @@ class MedicalRecordController extends GetxController {
         }
       }
 
-      childPhotoSocialMedia.value =
-          medicalSurvey.isChildPhotoSocialMedia ?? true;
-      childPhotoStarGallery.value =
-          medicalSurvey.isChildPhotoStarGallery ?? true;
+      childPhotoSocialMedia.value = medicalSurvey.isChildPhotoSocialMedia ?? true;
+      childPhotoStarGallery.value = medicalSurvey.isChildPhotoStarGallery ?? true;
       notChildPhoto.value = medicalSurvey.isNotChildPhoto ?? true;
       isSchoolCanteenAllowed.value = medicalSurvey.isAllowCanteen ?? true;
       isAllergic.value = medicalSurvey.isAllergicFood ?? true;
       if (medicalSurvey.foods != null) {
         for (var i = 0; i < medicalSurvey.foods!.length; i++) {
-          if (medicalSurvey.foods![i].isAllergic!) {
+          if (medicalSurvey.foods?[i].isAllergic??false) {
             selectedFoodList.add(foodList.firstWhere(
-                (element) => element.name == medicalSurvey.foods![i].food));
+                (element) => element.name == (medicalSurvey.foods?[i].food??"")));
           }
         }
       }
     } catch (e) {
-      print(e.toString() + 'medical 1');
+      print('${e}medical 1');
     } finally {
       loading(false);
     }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/backend/api_end_points.dart';
@@ -14,6 +15,8 @@ import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
 import 'package:staff_app/view/mcq_screen/controller/mcq_controller.dart';
 import 'package:staff_app/view/mcq_screen/create_mcq_screen.dart';
+
+import '../../../utility/sizes.dart';
 
 class ELibraryController extends GetxController{
   RxInt tabIndex = 0.obs;
@@ -33,6 +36,9 @@ class ELibraryController extends GetxController{
   /// Question 1
   Rx<TextEditingController> questionTypeCtrl = TextEditingController().obs;
   Rx<TextEditingController> subQuestionTypeCtrl = TextEditingController().obs;
+  /// Pagination
+  RxInt page = 1.obs;
+  final RefreshController refreshController = RefreshController(initialRefresh: false);
 
   RxList<AssignmentData?>? list = <AssignmentData>[].obs;
 
@@ -203,11 +209,33 @@ class ELibraryController extends GetxController{
     ],);
   }
 
-  getData(){
-    list?.clear();
-    BaseAPI().get(url: ApiEndPoints().getAssignmentsList,queryParameters: {"isPost":tabIndex.value == 0 ? false : true}).then((value){
+  getData({String? refreshType}){
+    // list?.clear();
+    if (refreshType == 'refresh' || refreshType == null) {
+      list?.clear();
+      refreshController.loadComplete();
+      page.value = 1;
+    } else if (refreshType == 'load') {
+      page.value++;
+    }
+    BaseAPI().get(url: ApiEndPoints().getAssignmentsList, queryParameters: {
+      "isPost":tabIndex.value == 0 ? false : true,
+      "limit":apiItemLimit,
+      "page":page.value.toString(),
+    },showLoader: page.value == 1).then((value){
       if (value?.statusCode ==  200) {
-        list?.value = AssignmentResponse.fromJson(value?.data).data??[];
+        // list?.value = AssignmentResponse.fromJson(value?.data).data??[];
+        if(refreshType == 'refresh'){
+          list?.clear();
+          refreshController.loadComplete();
+          refreshController.refreshCompleted();
+        }else if((AssignmentResponse.fromJson(value?.data).data??[]).isEmpty && refreshType == 'load'){
+          refreshController.loadNoData();
+        }
+        else if(refreshType == 'load'){
+          refreshController.loadComplete();
+        }
+        list?.addAll(AssignmentResponse.fromJson(value?.data).data??[]);
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
       }
@@ -228,15 +256,16 @@ class ELibraryController extends GetxController{
         if (value?.statusCode ==  200) {
           response = BaseSuccessResponse.fromJson(value?.data);
           /// todo Give Title
-          Navigator.pushReplacement(Get.context!, MaterialPageRoute(builder: (context)=> CreateMcqScreen(
-              screenType: screenType,
-              id: value?.data["data"]["_id"],
-              term: termCtrl.value.text.trim(),
-              subject: subjectCtrl.value.text.trim(),
-              assignmentType: screenType,
-              currentQuestionNumber: "1",
-              assignmentNumber: value?.data["data"]["assignmentNo"]??"",
-          )));
+          // Navigator.pushReplacement(Get.context!, MaterialPageRoute(builder: (context)=> CreateMcqScreen(
+          //     screenType: screenType,
+          //     id: value?.data["data"]["_id"],
+          //     term: termCtrl.value.text.trim(),
+          //     subject: subjectCtrl.value.text.trim(),
+          //     assignmentType: screenType,
+          //     currentQuestionNumber: "1",
+          //     assignmentNumber: value?.data["data"]["assignmentNo"]??"",
+          // )));
+          Get.back();
           BaseOverlays().showSnackBar(message: response.message??"",title: translate(Get.context!).success);
           getData();
         }else{
@@ -260,18 +289,19 @@ class ELibraryController extends GetxController{
         if (value?.statusCode ==  200) {
           response = BaseSuccessResponse.fromJson(value?.data);
           /// todo Give Title
-          Navigator.pushReplacement(Get.context!, MaterialPageRoute(builder: (context)=> CreateMcqScreen(
-            screenType: screenType,
-            id: value?.data["data"]["_id"],
-            term: termCtrl.value.text.trim(),
-            subject: subjectCtrl.value.text.trim(),
-            assignmentType: screenType,
-            currentQuestionNumber: "1",
-            assignmentNumber: value?.data["data"]["assignmentNo"]??"",
-            isUpdating:true,
-            ),
-           ),
-          );
+          // Navigator.pushReplacement(Get.context!, MaterialPageRoute(builder: (context)=> CreateMcqScreen(
+          //   screenType: screenType,
+          //   id: value?.data["data"]["_id"],
+          //   term: termCtrl.value.text.trim(),
+          //   subject: subjectCtrl.value.text.trim(),
+          //   assignmentType: screenType,
+          //   currentQuestionNumber: "1",
+          //   assignmentNumber: value?.data["data"]["assignmentNo"]??"",
+          //   isUpdating:true,
+          //   ),
+          //  ),
+          // );
+          Get.back();
           BaseOverlays().showSnackBar(message: response.message??"",title: translate(Get.context!).success);
           getData();
         }else{

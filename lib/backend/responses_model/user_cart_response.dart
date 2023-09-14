@@ -27,6 +27,7 @@ class UserCartData {
   dynamic user;
   dynamic totalAmount;
   dynamic taxAmount;
+  dynamic shippingCharges;
   dynamic tax; // Int
   List<CartProductsData>? items;
   dynamic grandTotal;
@@ -34,6 +35,7 @@ class UserCartData {
   UserCartData(
       {this.sId,
         this.user,
+        this.shippingCharges,
         this.totalAmount,
         this.taxAmount,
         this.tax,
@@ -42,6 +44,7 @@ class UserCartData {
 
   UserCartData.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
+    shippingCharges = json['shippingCharges'];
     user = json['user'];
     totalAmount = json['totalAmount'];
     taxAmount = json['taxAmount'];
@@ -59,6 +62,7 @@ class UserCartData {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['_id'] = this.sId;
     data['user'] = this.user;
+    data['shippingCharges'] = this.shippingCharges;
     data['totalAmount'] = this.totalAmount;
     data['taxAmount'] = this.taxAmount;
     data['tax'] = this.tax;

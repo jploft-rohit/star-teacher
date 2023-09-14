@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_views/base_image_network.dart';
 import 'package:staff_app/utility/base_views/base_no_data.dart';
+import 'package:staff_app/utility/base_views/base_pagination_footer.dart';
 import 'package:staff_app/view/notification_screen/bus_at_door_popup.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/view/notification_screen/clinic_visit_request.dart';
 import 'package:staff_app/view/notification_screen/controller/notification_ctrl.dart';
 import '../../utility/images_icon_path.dart';
+import '../../utility/sizes.dart';
 
 class NotificationListTile extends StatelessWidget {
   NotificationListTile({Key? key}) : super(key: key);
@@ -18,71 +21,82 @@ class NotificationListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(()=> (controller.list?.length??0) == 0
-        ? BaseNoData(message: "No Data Found")
-        : ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          padding: EdgeInsets.only(top: 15.sp),
-          itemCount: controller.list?.length??0,
-          itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: (){
-              if (controller.tabIndex.value == 1) {
-                showGeneralDialog(
-                  context: context,
-                  pageBuilder: (context, animation, secondaryAnimation) {
-                    return const BusAtDoorPopup();
-                  },
-                );
-              }else{
-                showGeneralDialog(
-                  context: context,
-                  pageBuilder: (context, animation, secondaryAnimation) {
-                    return const ClinicVisitRequest();
-                  },
-                );
-              }
-            },
-            child: Container(
-              color: Colors.white,
-              padding: EdgeInsets.only(bottom: 15.sp),
-              child: Row(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                          color: BaseColors.primaryColor
+    return Obx(()=> SmartRefresher(
+      footer: const BasePaginationFooter(),
+      controller: controller.refreshController,
+      enablePullDown: enablePullToRefresh,
+      enablePullUp: true,
+      onLoading: (){
+        controller.getData(refreshType: "load");
+      },
+      onRefresh: (){
+        controller.getData(refreshType: "refresh");
+      },
+      child: (controller.list?.length??0) == 0
+          ? const BaseNoData(message: "No Data Found")
+          : ListView.builder(
+            shrinkWrap: true,
+            padding: EdgeInsets.only(top: 15.sp),
+            itemCount: controller.list?.length??0,
+            itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: (){
+                if (controller.tabIndex.value == 1) {
+                  showGeneralDialog(
+                    context: context,
+                    pageBuilder: (context, animation, secondaryAnimation) {
+                      return const BusAtDoorPopup();
+                    },
+                  );
+                }else{
+                  showGeneralDialog(
+                    context: context,
+                    pageBuilder: (context, animation, secondaryAnimation) {
+                      return const ClinicVisitRequest();
+                    },
+                  );
+                }
+              },
+              child: Container(
+                color: Colors.white,
+                padding: EdgeInsets.only(bottom: 15.sp),
+                child: Row(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: BaseColors.primaryColor
+                        ),
+                        borderRadius: BorderRadius.circular(15.0),
                       ),
-                      borderRadius: BorderRadius.circular(15.0),
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(horizontal: 3,vertical: 3),
+                      child: BaseImageNetwork(
+                        width: 45,
+                        height: 45,
+                        borderRadius: 10,
+                        link: controller.list?[index].sender?.profilePic??"",
+                        errorWidget: SvgPicture.asset(girlSvg,height: 5.h,width: 5.h),
+                      )
                     ),
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.symmetric(horizontal: 3,vertical: 3),
-                    child: BaseImageNetwork(
-                      width: 45,
-                      height: 45,
-                      borderRadius: 10,
-                      link: controller.list?[index].sender?.profilePic??"",
-                      errorWidget: SvgPicture.asset(girlSvg,height: 5.h,width: 5.h),
-                    )
-                  ),
-                  SizedBox(width: 3.w),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(controller.list?[index].sender?.name??"N/A", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
-                      SizedBox(height: 0.5.h),
-                      Text(controller.list?[index].message??"", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
-                    ],
-                  ),
-                  const Spacer(),
-                  Text(formatBackendDate(controller.list?[index].sender?.createdAt??""), style: Style.montserratMediumStyle().copyWith(color: BaseColors.textLightGreyColor, fontSize: 14.sp),),
-                ],
+                    SizedBox(width: 3.w),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(controller.list?[index].sender?.name??"N/A", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),
+                        SizedBox(height: 0.5.h),
+                        Text(controller.list?[index].message??"", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
+                      ],
+                    ),
+                    const Spacer(),
+                    Text(formatBackendDate(controller.list?[index].sender?.createdAt??""), style: Style.montserratMediumStyle().copyWith(color: BaseColors.textLightGreyColor, fontSize: 14.sp),),
+                  ],
+                ),
               ),
-            ),
-          );
-        },
-      ),
+            );
+          },
+        ),
+    ),
     );
   }
 }

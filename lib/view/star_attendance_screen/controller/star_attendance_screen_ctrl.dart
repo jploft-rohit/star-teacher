@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/backend/responses_model/base_success_response.dart';
 import 'package:staff_app/backend/responses_model/manual_attendance_stars_list_response.dart';
 import 'package:staff_app/backend/responses_model/star_attendance_list_response.dart';
+import 'package:staff_app/utility/base_debouncer.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
+
+import '../../../utility/sizes.dart';
 
 class StarAttendanceScreenCtrl extends GetxController{
   final RxInt selectedClassType = 0.obs;
@@ -21,10 +27,16 @@ class StarAttendanceScreenCtrl extends GetxController{
   final RxString selectedSectionName = "".obs;
   final RxString selectedSectionId = "".obs;
   final RxBool isManualListChecked = false.obs;
+  RxString nfcValue = "".obs;
+  TextEditingController searchController = TextEditingController();
   RxList<String> selectedManualStudentsId = <String>[].obs;
   RxList<StarAttendanceData>? list = <StarAttendanceData>[].obs;
   RxList<StarAttendanceData>? qrSearchedList = <StarAttendanceData>[].obs;
   RxList<ManualAttendanceStarsListData>? manualList = <ManualAttendanceStarsListData>[].obs;
+  final baseDebouncer = BaseDebouncer();
+  /// Pagination
+  RxInt page = 1.obs;
+  final RefreshController refreshController = RefreshController(initialRefresh: false);
 
   List<Map<String, dynamic>> reasonList = [
     {
@@ -85,26 +97,51 @@ class StarAttendanceScreenCtrl extends GetxController{
   TabController? tabCtrl;
 
   RxBool isSelectAll = false.obs;
+  BaseCtrl baseCtrl = Get.find<BaseCtrl>();
 
   @override
   void onInit() {
     super.onInit();
+    selectedSchoolId.value = baseCtrl.schoolListData.data?.data?.first.sId??"";
+    selectedSchoolName.value = baseCtrl.schoolListData.data?.data?.first.name??"";
     getStarsAttendanceList();
   }
 
   /// Get Stars Attendance List
-  getStarsAttendanceList({bool? updateQRList}) async {
-    list?.value = [];
+  getStarsAttendanceList({bool? updateQRList, String? refreshType,}) async {
+    // list?.value = [];
+    if (refreshType == 'refresh' || refreshType == null) {
+      list?.clear();
+      refreshController.loadComplete();
+      page.value = 1;
+    } else if (refreshType == 'load') {
+      page.value++;
+    }
     var data = {
       "type": selectedClassType.value == 0 ? "classroom" : selectedClassType.value == 1 ? "online" : "hybrid",
       "attendanceType": selectedAttendanceTabIndex.value == 0 ? "present" : selectedAttendanceTabIndex.value == 1 ? "absent" : "late",
       "school":selectedSchoolId.value,
       "class":selectedClassId.value,
       "section":selectedSectionId.value,
+      "limit":apiItemLimit,
+      "page":page.value.toString(),
+      "keyword": searchController.text.trim(),
     };
-    await BaseAPI().get(url: ApiEndPoints().getStarAttendanceList,queryParameters: data).then((value){
+    await BaseAPI().get(url: ApiEndPoints().getStarAttendanceList,queryParameters: data, showLoader: page.value == 1).then((value){
       if (value?.statusCode ==  200) {
-        list?.value = StarAttendanceListResponse.fromJson(value?.data).data??[];
+        // list?.value = StarAttendanceListResponse.fromJson(value?.data).data??[];
+        if(refreshType == 'refresh'){
+          list?.clear();
+          refreshController.loadComplete();
+          refreshController.refreshCompleted();
+        }else if((StarAttendanceListResponse.fromJson(value?.data).data??[]).isEmpty && refreshType == 'load'){
+          refreshController.loadNoData();
+        }
+        else if(refreshType == 'load'){
+          refreshController.loadComplete();
+        }
+        list?.addAll(StarAttendanceListResponse.fromJson(value?.data).data??[]);
+
         if (updateQRList??false) {
           // qrSearchedList?.value = StarAttendanceListResponse.fromJson(value?.data).data??[];
           // qrSearchedList?.refresh();
@@ -135,11 +172,11 @@ class StarAttendanceScreenCtrl extends GetxController{
   getManualStarAttendanceList() async {
     manualList?.value = [];
     var data = {
-      "keyword":"",
       "classId":selectedClassId.value,
       "school":selectedSchoolId.value,
       "section":selectedSectionId.value,
       "type": "classroom",
+      "keyword": searchController.text.trim(),
     };
     await BaseAPI().post(url: ApiEndPoints().getAttendanceStarsList,data: data).then((value){
       if (value?.statusCode ==  200) {

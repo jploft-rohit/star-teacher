@@ -13,7 +13,7 @@ import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/base_school_selection.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
 import 'package:staff_app/backend/responses_model/school_list_response.dart' as SchoolData;
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/lost_or_found_screen/controller/lost_found_controller.dart';
 import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
@@ -168,11 +168,13 @@ class _CreateLostFoundState extends State<CreateLostFound> {
       controller.dateController.value.text = "28-11-2022";
       controller.whereController.value.text = "In Computer Lab";
       controller.uploadController.value.text = "doc.pdf";
+      controller.selectedFile?.value = File("");
     }else{
       controller.titleController.value.text = "";
       controller.dateController.value.text = "";
       controller.whereController.value.text = "";
       controller.uploadController.value.text = "";
+      controller.selectedFile?.value = File("");
     }
   }
 }

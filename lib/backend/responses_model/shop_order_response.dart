@@ -12,14 +12,14 @@ class ShopOrderResponse {
     if (json['data'] != null) {
       data = <ShopOrderData>[];
       json['data'].forEach((v) {
-        data!.add(new ShopOrderData.fromJson(v));
+        data!.add(ShopOrderData.fromJson(v));
       });
     }
     message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['success'] = this.success;
     data['status'] = this.status;
     if (this.data != null) {
@@ -97,10 +97,10 @@ class ShopOrderData {
     orderId = json['orderId'];
     isPreOrderClosed = json['isPreOrderClosed'];
     orderStatus = json['orderStatus'];
-    if (json['progressStatus'] != null) {
+    if (json['ProgressStatus'] != null) {
       progressStatus = <ProgressStatus>[];
-      json['progressStatus'].forEach((v) {
-        progressStatus!.add(new ProgressStatus.fromJson(v));
+      json['ProgressStatus'].forEach((v) {
+        progressStatus!.add(ProgressStatus.fromJson(v));
       });
     }
     shippingCharges = json['shippingCharges'];
@@ -122,7 +122,7 @@ class ShopOrderData {
     grandTotal = json['grandTotal'];
     iV = json['__v'];
     transaction = json['transaction'];
-    role = json['role'] != null ? new Role.fromJson(json['role']) : null;
+    role = json['role'] != null ? Role.fromJson(json['role']) : null;
     prodQuantity = json['prodQuantity'];
     cardStatus = json['cardStatus'];
     updatedBy = json['updatedBy'];
@@ -130,13 +130,13 @@ class ShopOrderData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['_id'] = this.sId;
     data['orderId'] = this.orderId;
     data['isPreOrderClosed'] = this.isPreOrderClosed;
     data['orderStatus'] = this.orderStatus;
     if (this.progressStatus != null) {
-      data['progressStatus'] =
+      data['ProgressStatus'] =
           this.progressStatus!.map((v) => v.toJson()).toList();
     }
     data['shippingCharges'] = this.shippingCharges;
@@ -188,7 +188,7 @@ class ProgressStatus {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['_id'] = this.sId;
     data['isReached'] = this.isReached;
     data['name'] = this.name;
@@ -239,7 +239,7 @@ class Role {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['_id'] = this.sId;
     data['isDeleted'] = this.isDeleted;
     data['name'] = this.name;

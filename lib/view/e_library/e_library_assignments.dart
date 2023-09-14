@@ -41,9 +41,9 @@ class _ELibraryScreenState extends State<ELibraryScreen> with SingleTickerProvid
     return DefaultTabController(
         length: 2,
         child: Scaffold(
-          floatingActionButton: BaseFloatingActionButton(title: 'Add New',onTap: (){
-            Get.to(CreateELibraryAssignment(title: widget.title??""));
-          }),
+          // floatingActionButton: BaseFloatingActionButton(title: 'Add New',onTap: (){
+          //   Get.to(CreateELibraryAssignment(title: widget.title??""));
+          // }),
           appBar: BaseAppBar(title: widget.title ?? "Awareness & Courses",
               bottomChild: BaseToggleTabBar(controller: tabController, tabs: [
                 BaseTabButton(title: "Myself", isSelected: controller.tabIndex.value==0,type: toggleLargeButton),

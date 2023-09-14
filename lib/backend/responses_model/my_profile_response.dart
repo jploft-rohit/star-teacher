@@ -8,11 +8,11 @@ class MyProfileResponse {
   MyProfileResponse.fromJson(Map<String, dynamic> json) {
     statusCode = json['statusCode'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['statusCode'] = this.statusCode;
     data['message'] = this.message;
     if (this.data != null) {
@@ -28,6 +28,8 @@ class Data {
   dynamic isMobileVerified;
   dynamic email;
   dynamic state;
+  dynamic uniqueId;
+  dynamic sector;
   dynamic maritalStatus;
   dynamic country;
   dynamic bloodType;
@@ -68,10 +70,12 @@ class Data {
   Statistics? statistics;
   List<FamilyMembers>? familyMembers;
 
-  Data({this.isDeactivateRequestData, this.nationalityId, this.country, this.state, this.email, this.bloodType, this.isSendActivationRequest,this.placesOfClass,this.designation,this.sId, this.deactivateData, this.currentStatus, this.isMobileVerified, this.gender, this.idDocument, this.deviceType, this.parentId, this.isDeleted, this.name, this.mobile, this.dob, this.nationality, this.emirateId, this.emirateIdExpire, this.nativeLanguage, this.religion, this.profilePic, this.role, this.createdAt, this.updatedAt, this.iV, this.otp, this.deviceToken, this.deviceVoip, this.schoolStaff, this.familyMembers, this.alternativeMobile, this.profileCompletePercentage, this.profileCompleteDate, this.barcode, this.jobDetails, this.statistics});
+  Data({this.uniqueId,this.maritalStatus, this.address, this.sector, this.isDeactivateRequestData, this.nationalityId, this.country, this.state, this.email, this.bloodType, this.isSendActivationRequest,this.placesOfClass,this.designation,this.sId, this.deactivateData, this.currentStatus, this.isMobileVerified, this.gender, this.idDocument, this.deviceType, this.parentId, this.isDeleted, this.name, this.mobile, this.dob, this.nationality, this.emirateId, this.emirateIdExpire, this.nativeLanguage, this.religion, this.profilePic, this.role, this.createdAt, this.updatedAt, this.iV, this.otp, this.deviceToken, this.deviceVoip, this.schoolStaff, this.familyMembers, this.alternativeMobile, this.profileCompletePercentage, this.profileCompleteDate, this.barcode, this.jobDetails, this.statistics});
 
   Data.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
+    uniqueId = json['uniqueId'];
+    sector = json['sector'];
     isDeactivateRequestData = json['isDeactivateRequestData'];
     nationalityId = json['nationalityId'];
     state = json['state'];
@@ -103,12 +107,12 @@ class Data {
     updatedAt = json['updatedAt'];
     iV = json['__v'];
     otp = json['otp'];
-    deactivateData = json['deactivateData'] != null ? new DeactivateData.fromJson(json['deactivateData']) : null;
+    deactivateData = json['deactivateData'] != null ? DeactivateData.fromJson(json['deactivateData']) : null;
     deviceToken = json['deviceToken'];
     deviceVoip = json['deviceVoip'];
     if (json['schoolStaff'] != null) {
       schoolStaff = <SchoolStaff>[];
-      json['schoolStaff'].forEach((v) { schoolStaff!.add(new SchoolStaff.fromJson(v)); });
+      json['schoolStaff'].forEach((v) { schoolStaff!.add(SchoolStaff.fromJson(v)); });
     }
     if (json['familyMembers'] != null) {
       familyMembers = <FamilyMembers>[];
@@ -118,13 +122,15 @@ class Data {
     profileCompletePercentage = json['profileCompletePercentage'];
     profileCompleteDate = json['profileCompleteDate'];
     barcode = json['barcode'];
-    jobDetails = json['jobDetails'] != null ? new SchoolStaff.fromJson(json['jobDetails']) : null;
-    statistics = json['statistics'] != null ? new Statistics.fromJson(json['statistics']) : null;
+    jobDetails = json['jobDetails'] != null ? SchoolStaff.fromJson(json['jobDetails']) : null;
+    statistics = json['statistics'] != null ? Statistics.fromJson(json['statistics']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['_id'] = this.sId;
+    data['uniqueId'] = this.uniqueId;
+    data['sector'] = this.sector;
     data['nationalityId'] = this.nationalityId;
     if (this.deactivateData != null) {
       data['deactivateData'] = this.deactivateData!.toJson();
@@ -204,15 +210,22 @@ class SchoolStaff {
   dynamic createdAt;
   dynamic updatedAt;
   dynamic iV;
+  SubjectData? subjectData;
+  List<ClassSectionList>? classSectionList;
 
-  SchoolStaff({this.sId, this.isDeleted, this.user, this.school, this.role, this.dateOfEmployment, this.designation, this.classPerWeek, this.employeeId, this.employmentCertificate, this.jobCertificate, this.jobGrade, this.jobTitle, this.salaryCertificate, this.slotNumber, this.slotType, this.studentGender, this.titleGrade, this.weekDays, this.createdAt, this.updatedAt, this.iV});
+  SchoolStaff({this.classSectionList, this.subjectData,this.sId, this.isDeleted, this.user, this.school, this.role, this.dateOfEmployment, this.designation, this.classPerWeek, this.employeeId, this.employmentCertificate, this.jobCertificate, this.jobGrade, this.jobTitle, this.salaryCertificate, this.slotNumber, this.slotType, this.studentGender, this.titleGrade, this.weekDays, this.createdAt, this.updatedAt, this.iV});
 
   SchoolStaff.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     isDeleted = json['isDeleted'];
     user = json['user'];
-    school = json['school'] != null ? new School.fromJson(json['school']) : null;
+    school = json['school'] != null ? School.fromJson(json['school']) : null;
     role = json['role'];
+    subjectData = json['subjectData'] != null ? SubjectData.fromJson(json['subjectData']) : null;
+    // if (json['classSectionList'] != null) {
+    //   classSectionList = <ClassSectionList>[];
+    //   json['classSectionList'].forEach((v) { classSectionList!.add(new ClassSectionList.fromJson(v)); });
+    // }
     dateOfEmployment = json['dateOfEmployment'];
     designation = json['designation'];
     classPerWeek = json['classPerWeek'];
@@ -230,15 +243,22 @@ class SchoolStaff {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
+    if (json['classSectionList'] != null) {
+      classSectionList = <ClassSectionList>[];
+      json['classSectionList'].forEach((v) { classSectionList!.add(new ClassSectionList.fromJson(v)); });
+    }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['_id'] = this.sId;
     data['isDeleted'] = this.isDeleted;
     data['user'] = this.user;
     if (this.school != null) {
       data['school'] = this.school!.toJson();
+    }
+    if (this.subjectData != null) {
+      data['subjectData'] = this.subjectData!.toJson();
     }
     data['role'] = this.role;
     data['dateOfEmployment'] = this.dateOfEmployment;
@@ -258,6 +278,9 @@ class SchoolStaff {
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
     data['__v'] = this.iV;
+    if (this.classSectionList != null) {
+      data['classSectionList'] = this.classSectionList!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }
@@ -295,14 +318,14 @@ class School {
     sId = json['_id'];
     isDeleted = json['isDeleted'];
     name = json['name'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
-    schoolCategory = json['schoolCategory'] != null ? new SchoolCategory.fromJson(json['schoolCategory']) : null;
-    schoolSector = json['schoolSector'] != null ? new SchoolSector.fromJson(json['schoolSector']) : null;
-    schoolArea = json['schoolArea'] != null ? new SchoolSector.fromJson(json['schoolArea']) : null;
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
+    schoolCategory = json['schoolCategory'] != null ? SchoolCategory.fromJson(json['schoolCategory']) : null;
+    schoolSector = json['schoolSector'] != null ? SchoolSector.fromJson(json['schoolSector']) : null;
+    schoolArea = json['schoolArea'] != null ? SchoolSector.fromJson(json['schoolArea']) : null;
     address = json['address'];
     language = json['language'];
     schoolId = json['schoolId'];
-    schoolType = json['schoolType'] != null ? new SchoolType.fromJson(json['schoolType']) : null;
+    schoolType = json['schoolType'] != null ? SchoolType.fromJson(json['schoolType']) : null;
     status = json['status'];
     helplineNo = json['helplineNo'];
     email = json['email'];
@@ -315,12 +338,12 @@ class School {
     updatedAt = json['updatedAt'];
     iV = json['__v'];
     updatedBy = json['updatedBy'];
-    staffsubjects = json['staffsubjects'] != null ? new Staffsubjects.fromJson(json['staffsubjects']) : null;
-    location = json['location'] != null ? new Location.fromJson(json['location']) : null;
+    staffsubjects = json['staffsubjects'] != null ? Staffsubjects.fromJson(json['staffsubjects']) : null;
+    location = json['location'] != null ? Location.fromJson(json['location']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['_id'] = this.sId;
     data['isDeleted'] = this.isDeleted;
     data['name'] = this.name;
@@ -380,17 +403,17 @@ class Staffsubjects {
   schoolStaff = json['schoolStaff'];
   if (json['class'] != null) {
   classes = <Class>[];
-  json['class'].forEach((v) { classes!.add(new Class.fromJson(v)); });
+  json['class'].forEach((v) { classes!.add(Class.fromJson(v)); });
   }
   if (json['classSection'] != null) {
   classSection = <ClassSection>[];
-  json['classSection'].forEach((v) { classSection!.add(new ClassSection.fromJson(v)); });
+  json['classSection'].forEach((v) { classSection!.add(ClassSection.fromJson(v)); });
   }
-  subject = json['subject'] != null ? new Subject.fromJson(json['subject']) : null;
+  subject = json['subject'] != null ? Subject.fromJson(json['subject']) : null;
   }
 
   Map<String, dynamic> toJson() {
-  final Map<String, dynamic> data = new Map<String, dynamic>();
+  final Map<String, dynamic> data = Map<String, dynamic>();
   data['_id'] = this.sId;
   data['school'] = this.school;
   data['schoolStaff'] = this.schoolStaff;
@@ -421,7 +444,7 @@ class Class {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['_id'] = this.sId;
     data['school'] = this.school;
     data['name'] = this.name;
@@ -449,7 +472,7 @@ class ClassSection {
   }
 
   Map<String, dynamic> toJson() {
-  final Map<String, dynamic> data = new Map<String, dynamic>();
+  final Map<String, dynamic> data = Map<String, dynamic>();
   data['_id'] = this.sId;
   data['school'] = this.school;
   data['class'] = this.classes;
@@ -476,7 +499,7 @@ class Subject {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['_id'] = this.sId;
     data['language'] = this.language;
     data['name'] = this.name;
@@ -497,7 +520,7 @@ class Location {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['type'] = this.type;
     data['coordinates'] = this.coordinates;
     return data;
@@ -532,7 +555,7 @@ class Statistics {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['pendingTask'] = this.pendingTask;
     data['unclosedComplaint'] = this.unclosedComplaint;
     data['starsEvaluationPending'] = this.starsEvaluationPending;
@@ -595,7 +618,7 @@ class FamilyMembers {
     firstName = json['firstName'];
     user = json['user'];
     gender = json['gender'];
-    location = json['location'] != null ? new Location.fromJson(json['location']) : null;
+    location = json['location'] != null ? Location.fromJson(json['location']) : null;
     createdBy = json['createdBy'];
     updatedBy = json['updatedBy'];
     status = json['status'];
@@ -605,7 +628,7 @@ class FamilyMembers {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['_id'] = this.sId;
     data['isDeleted'] = this.isDeleted;
     data['fullName'] = this.fullName;
@@ -661,7 +684,7 @@ class SchoolCategory {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['_id'] = this.sId;
     data['isDeleted'] = this.isDeleted;
     data['name'] = this.name;
@@ -691,7 +714,7 @@ class SchoolSector {
     sId = json['_id'];
     isDeleted = json['isDeleted'];
     name = json['name'];
-    location = json['location'] != null ? new Location.fromJson(json['location']) : null;
+    location = json['location'] != null ? Location.fromJson(json['location']) : null;
     status = json['status'];
     createdBy = json['createdBy'];
     createdAt = json['createdAt'];
@@ -700,7 +723,7 @@ class SchoolSector {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['_id'] = this.sId;
     data['isDeleted'] = this.isDeleted;
     data['name'] = this.name;
@@ -730,7 +753,7 @@ class SchoolType {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['_id'] = this.sId;
     data['name'] = this.name;
     data['status'] = this.status;
@@ -778,7 +801,7 @@ class User {
     dob = json['dob'];
     address = json['address'];
     locationType = json['locationType'];
-    location = json['location'] != null ? new Location.fromJson(json['location']) : null;
+    location = json['location'] != null ? Location.fromJson(json['location']) : null;
     emirateId = json['emirateId'];
     emirateIdExpire = json['emirateIdExpire'];
     createdBy = json['createdBy'];
@@ -790,7 +813,7 @@ class User {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['_id'] = this.sId;
     data['isMobileVerified'] = this.isMobileVerified;
     data['gender'] = this.gender;
@@ -839,19 +862,19 @@ class DeactivateData {
     status = json['status'];
     isDeleted = json['isDeleted'];
     sId = json['_id'];
-    deactivatedUser = json['deactivatedUser'] != null ? new DeactivatedUser.fromJson(json['deactivatedUser']) : null;
+    deactivatedUser = json['deactivatedUser'] != null ? DeactivatedUser.fromJson(json['deactivatedUser']) : null;
     dueDate = json['dueDate'];
     deactivationReason = json['deactivationReason'];
     requiredEvidance = json['requiredEvidance'];
-    deactivatedBy = json['deactivatedBy'] != null ? new DeactivatedUser.fromJson(json['deactivatedBy']) : null;
-    createdBy = json['createdBy'] != null ? new DeactivatedUser.fromJson(json['createdBy']) : null;
-    updatedBy = json['updatedBy'] != null ? new DeactivatedUser.fromJson(json['updatedBy']) : null;
+    deactivatedBy = json['deactivatedBy'] != null ? DeactivatedUser.fromJson(json['deactivatedBy']) : null;
+    createdBy = json['createdBy'] != null ? DeactivatedUser.fromJson(json['createdBy']) : null;
+    updatedBy = json['updatedBy'] != null ? DeactivatedUser.fromJson(json['updatedBy']) : null;
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['status'] = this.status;
     data['isDeleted'] = this.isDeleted;
     data['_id'] = this.sId;
@@ -934,7 +957,7 @@ class DeactivatedUser {
     nativeLanguage = json['nativeLanguage'];
     religion = json['religion'];
     profilePic = json['profilePic'];
-    role = json['role'] != null ? new RoleData.fromJson(json['role']) : null;
+    role = json['role'] != null ? RoleData.fromJson(json['role']) : null;
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     otp = json['otp'];
@@ -952,7 +975,7 @@ class DeactivatedUser {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['isMobileVerified'] = this.isMobileVerified;
     data['gender'] = this.gender;
     data['idDocument'] = this.idDocument;
@@ -1023,7 +1046,7 @@ class RoleData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['isDeleted'] = this.isDeleted;
     data['_id'] = this.sId;
     data['name'] = this.name;
@@ -1037,3 +1060,151 @@ class RoleData {
     return data;
   }
 }
+
+class SubjectData {
+  bool? isDeleted;
+  String? sId;
+  String? name;
+  String? status;
+  String? createdBy;
+  String? createdAt;
+  String? updatedAt;
+
+  SubjectData({this.isDeleted, this.sId, this.name, this.status, this.createdBy, this.createdAt, this.updatedAt});
+
+  SubjectData.fromJson(Map<String, dynamic> json) {
+    isDeleted = json['isDeleted'];
+    sId = json['_id'];
+    name = json['name'];
+    status = json['status'];
+    createdBy = json['createdBy'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['isDeleted'] = this.isDeleted;
+    data['_id'] = this.sId;
+    data['name'] = this.name;
+    data['status'] = this.status;
+    data['createdBy'] = this.createdBy;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    return data;
+  }
+}
+
+class ClassSectionList {
+  bool? isDeleted;
+  String? sId;
+  String? school;
+  String? schoolStaff;
+  String? schoolStaffUser;
+  Class? classes;
+  String? classSection;
+  String? subject;
+  String? createdBy;
+  String? updatedBy;
+  int? iV;
+  String? createdAt;
+  String? updatedAt;
+  List<SectionData>? sectionData;
+
+  ClassSectionList({this.isDeleted, this.sId, this.school, this.schoolStaff, this.schoolStaffUser, this.classes, this.classSection, this.subject, this.createdBy, this.updatedBy, this.iV, this.createdAt, this.updatedAt, this.sectionData});
+
+  ClassSectionList.fromJson(Map<String, dynamic> json) {
+  isDeleted = json['isDeleted'];
+  sId = json['_id'];
+  school = json['school'];
+  schoolStaff = json['schoolStaff'];
+  schoolStaffUser = json['schoolStaffUser'];
+  classes = json['class'] != null ? Class.fromJson(json['class']) : null;
+  classSection = json['classSection'];
+  subject = json['subject'];
+  createdBy = json['createdBy'];
+  updatedBy = json['updatedBy'];
+  iV = json['__v'];
+  createdAt = json['createdAt'];
+  updatedAt = json['updatedAt'];
+  if (json['sectionData'] != null) {
+  sectionData = <SectionData>[];
+  json['sectionData'].forEach((v) { sectionData!.add(new SectionData.fromJson(v)); });
+  }
+  }
+
+  Map<String, dynamic> toJson() {
+  final Map<String, dynamic> data = new Map<String, dynamic>();
+  data['isDeleted'] = this.isDeleted;
+  data['_id'] = this.sId;
+  data['school'] = this.school;
+  data['schoolStaff'] = this.schoolStaff;
+  data['schoolStaffUser'] = this.schoolStaffUser;
+  if (this.classes != null) {
+  data['class'] = this.classes!.toJson();
+  }
+  data['classSection'] = this.classSection;
+  data['subject'] = this.subject;
+  data['createdBy'] = this.createdBy;
+  data['updatedBy'] = this.updatedBy;
+  data['__v'] = this.iV;
+  data['createdAt'] = this.createdAt;
+  data['updatedAt'] = this.updatedAt;
+  if (this.sectionData != null) {
+  data['sectionData'] = this.sectionData!.map((v) => v.toJson()).toList();
+  }
+  return data;
+  }
+}
+
+class SectionData {
+  bool? isDeleted;
+  String? sId;
+  String? school;
+  String? schoolStaff;
+  String? schoolStaffUser;
+  String? classes;
+  ClassSection? classSection;
+  String? subject;
+  String? createdBy;
+  String? updatedBy;
+  String? createdAt;
+  String? updatedAt;
+
+  SectionData({this.isDeleted, this.sId, this.school, this.schoolStaff, this.schoolStaffUser, this.classes, this.classSection, this.subject, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt});
+
+  SectionData.fromJson(Map<String, dynamic> json) {
+  isDeleted = json['isDeleted'];
+  sId = json['_id'];
+  school = json['school'];
+  schoolStaff = json['schoolStaff'];
+  schoolStaffUser = json['schoolStaffUser'];
+  classes = json['class'];
+  classSection = json['classSection'] != null ? new ClassSection.fromJson(json['classSection']) : null;
+  subject = json['subject'];
+  createdBy = json['createdBy'];
+  updatedBy = json['updatedBy'];
+  createdAt = json['createdAt'];
+  updatedAt = json['updatedAt'];
+  }
+
+  Map<String, dynamic> toJson() {
+  final Map<String, dynamic> data = new Map<String, dynamic>();
+  data['isDeleted'] = this.isDeleted;
+  data['_id'] = this.sId;
+  data['school'] = this.school;
+  data['schoolStaff'] = this.schoolStaff;
+  data['schoolStaffUser'] = this.schoolStaffUser;
+  data['class'] = this.classes;
+  if (this.classSection != null) {
+  data['classSection'] = this.classSection!.toJson();
+  }
+  data['subject'] = this.subject;
+  data['createdBy'] = this.createdBy;
+  data['updatedBy'] = this.updatedBy;
+  data['createdAt'] = this.createdAt;
+  data['updatedAt'] = this.updatedAt;
+  return data;
+  }
+}
+

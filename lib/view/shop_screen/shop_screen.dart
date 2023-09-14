@@ -6,11 +6,12 @@ import 'package:staff_app/utility/base_views/base_school_selection.dart';
 import 'package:staff_app/utility/base_views/base_tab_button.dart';
 import 'package:staff_app/utility/base_views/base_toggle_tab_bar.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/shop_screen/shop_tabs/order_tab.dart';
 import 'package:staff_app/view/shop_screen/shop_tabs/shop_tab.dart';
 import 'package:staff_app/view/shop_screen/controller/shop_screen_ctrl.dart';
+import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 
 
 class ShopView extends StatefulWidget {
@@ -23,11 +24,14 @@ class ShopView extends StatefulWidget {
 
 class _ShopViewState extends State<ShopView> with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin{
   ShopScreenCtrl controller = Get.put(ShopScreenCtrl());
+  BaseCtrl baseCtrl = Get.find<BaseCtrl>();
   late TabController tabController;
 
   @override
   void initState() {
     super.initState();
+    controller.selectedSchoolId.value = baseCtrl.schoolListData.data?.data?.first.sId??"";
+    controller.schoolController.text = baseCtrl.schoolListData.data?.data?.first.name??"";
     controller.secondaryTabIndex.value = widget.initialTabIndex??0;
     controller.getShopCategoryListData();
     tabController = TabController(length: 2, vsync: this)..addListener(() {
@@ -81,6 +85,7 @@ class _ShopViewState extends State<ShopView> with SingleTickerProviderStateMixin
                 topMargin: 2.h,
                 controller: controller.schoolController,
                 onChanged: (val){
+                  controller.searchController.clear();
                   controller.schoolController.text = val.name??"";
                   controller.selectedSchoolId.value = val.sId??"";
                   if(tabController.index == 0){
@@ -96,7 +101,7 @@ class _ShopViewState extends State<ShopView> with SingleTickerProviderStateMixin
                   controller: tabController,
                   children: [
                   ShopTab(initialTabIndex: widget.initialTabIndex),
-                  OrderTab()
+                  const OrderTab()
                  ],
                 ),
               ),

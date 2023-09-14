@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/backend/responses_model/notebook_list_response.dart';
-import 'package:staff_app/backend/responses_model/school_list_response.dart';
 import 'package:staff_app/backend/responses_model/subjects_response.dart';
+import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_school_selection.dart';
@@ -12,11 +12,10 @@ import 'package:staff_app/utility/base_views/base_textformfield.dart';
 
 
 import 'package:staff_app/utility/base_views/base_colors.dart';
-import 'package:staff_app/Utility/custom_dropdown_widget.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/dummy_lists.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 import 'package:staff_app/view/task_or_reminder_screen/add_task_or_reminder_screen.dart';
@@ -165,7 +164,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                             Expanded(
                               child: CustomTextField(
                                 controller: controller.dateController,
-                                hintText: "dd/mm/yyyy",
+                                hintText: translate(context).dd_mm_yyyy,
                                 readOnly: true,
                                 onTap: (){
                                   showDatePicker(
@@ -173,7 +172,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                                       builder: (context, child) {
                                         return Theme(
                                           data: Theme.of(context).copyWith(
-                                            colorScheme: ColorScheme.light(
+                                            colorScheme: const ColorScheme.light(
                                               primary: BaseColors.primaryColor,
                                             ),
                                           ),
@@ -260,7 +259,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                 // CustomTextField(controller: commentController, hintText: "Comment", borderRadius: 5.0,fillColor: CustomColors.txtFieldTextColor),
                 // SizedBox(height: 2.h),
                 GestureDetector(onTap: (){
-                  Get.to(AddTaskOrReminderScreen());
+                  Get.to(const AddTaskOrReminderScreen());
                 },child: Text("Remind Me On",style: TextStyle(color: BaseColors.primaryColor,fontSize: 15.sp,fontWeight: FontWeight.w700),)),
                 SizedBox(height: 2.h),
                 BaseButton(title: widget.isUpdating ? "UPDATE" : "SUBMIT", onPressed: (){

@@ -42,7 +42,7 @@ class _CreateEarlyLeaveState extends State<CreateEarlyLeave> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: BaseAppBar(title: "${(widget.isUpdating??false)? "Edit" : "Add"} Early Leave & Permission"),
+      appBar: BaseAppBar(title: "${(widget.isUpdating??false)? translate(context).edit : translate(context).add} ${translate(context).early_leave_permission}"),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(scaffoldPadding),
@@ -62,14 +62,14 @@ class _CreateEarlyLeaveState extends State<CreateEarlyLeave> {
                   controller: controller.dateController,
                   title: translate(context).date,
                   prefixIcon: calenderDateSvg,
-                  hintText: "dd/mm/yyyy",
+                  hintText: translate(context).dd_mm_yyyy,
                   onTap: (){
                     showDatePicker(
                         context: context,
                         builder: (context, child) {
                           return Theme(
                             data: Theme.of(context).copyWith(
-                              colorScheme: ColorScheme.light(
+                              colorScheme: const ColorScheme.light(
                                 primary: BaseColors.primaryColor,
                               ),
                             ),
@@ -87,23 +87,23 @@ class _CreateEarlyLeaveState extends State<CreateEarlyLeave> {
                   },
                   validator: (val){
                     if (controller.dateController.text.trim().isEmpty) {
-                      return "Please Select Date";
+                      return translate(context).please_select_date;
                     }
                     return null;
                   },
                 ),
                 BaseTextFormField(
                   controller: controller.outTimeController,
-                  title: "Out Time",
+                  title: translate(context).out_time_without_slash,
                   prefixIcon: "assets/images/time_icon1.svg",
-                  hintText: "Time",
+                  hintText: translate(context).out_time_without_slash,
                   onTap: (){
                     showTimePicker(
                       context: context,
                       builder: (context, child) {
                         return Theme(
                           data: Theme.of(context).copyWith(
-                            colorScheme: ColorScheme.light(
+                            colorScheme: const ColorScheme.light(
                               primary: BaseColors.primaryColor,
                             ),
                           ),
@@ -120,23 +120,23 @@ class _CreateEarlyLeaveState extends State<CreateEarlyLeave> {
                   },
                   validator: (val){
                     if (controller.outTimeController.text.trim().isEmpty) {
-                      return "Please Select Out Time";
+                      return translate(context).please_select_out_time;
                     }
                     return null;
                   },
                 ),
                 BaseTextFormField(
                   controller: controller.inTimeController,
-                  title: "In Time",
+                  title: translate(context).in_time_without_slash,
                   prefixIcon: "assets/images/time_icon1.svg",
-                  hintText: "Time",
+                  hintText: translate(context).in_time_without_slash,
                   onTap: (){
                     showTimePicker(
                       context: context,
                       builder: (context, child) {
                         return Theme(
                           data: Theme.of(context).copyWith(
-                            colorScheme: ColorScheme.light(
+                            colorScheme: const ColorScheme.light(
                               primary: BaseColors.primaryColor,
                             ),
                           ),
@@ -153,7 +153,7 @@ class _CreateEarlyLeaveState extends State<CreateEarlyLeave> {
                   },
                   validator: (val){
                     if (controller.inTimeController.text.trim().isEmpty) {
-                      return "Please Select In Time";
+                      return translate(context).please_select_in_time;
                     }
                     return null;
                   },
@@ -165,7 +165,7 @@ class _CreateEarlyLeaveState extends State<CreateEarlyLeave> {
                   hintText: translate(context).type_here,
                   validator: (val){
                     if (controller.reasonController.text.trim().isEmpty) {
-                      return "Please Enter Reason";
+                      return translate(context).please_enter_reason;
                     }
                     return null;
                   },

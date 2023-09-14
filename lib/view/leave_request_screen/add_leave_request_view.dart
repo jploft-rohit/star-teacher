@@ -63,7 +63,7 @@ class _AddLeaveRequestViewState extends State<AddLeaveRequestView> {
                     title: translate(context).leave_type,
                     hintText: controller.leaveTypeController.value.text.isEmpty ? translate(context).leave_type : controller.leaveTypeController.value.text,
                     isDropDown: true,
-                    errorText: "Please select leave type",
+                    errorText: translate(context).please_select_leave_type,
                     items: controller.leaveTypeList?.map((LeaveTypeData data) {
                     return DropdownMenuItem<LeaveTypeData>(
                       value: data,
@@ -78,10 +78,10 @@ class _AddLeaveRequestViewState extends State<AddLeaveRequestView> {
                     controller: controller.startDateController.value,
                     title: "${translate(context).leave_start}:",
                     prefixIcon: calenderDateSvg,
-                    hintText: "dd/mm/yyyy",
+                    hintText: translate(context).dd_mm_yyyy,
                     validator: (val){
                       if (controller.startDateController.value.text.isEmpty) {
-                        return "Please select start date";
+                        return translate(context).please_select_start_date;
                       }
                       return null;
                     },
@@ -91,7 +91,7 @@ class _AddLeaveRequestViewState extends State<AddLeaveRequestView> {
                           builder: (context, child) {
                             return Theme(
                               data: Theme.of(context).copyWith(
-                                colorScheme: ColorScheme.light(
+                                colorScheme: const ColorScheme.light(
                                   primary: BaseColors.primaryColor,
                                 ),
                               ),
@@ -108,7 +108,7 @@ class _AddLeaveRequestViewState extends State<AddLeaveRequestView> {
                             if (endDate.isAfter(value)) {
                               controller.startDateController.value.text = formatFlutterDateTime(flutterDateTime: value,getDayFirst: true);
                             }else{
-                              baseToast(message: "\"Start Date\" can't be more than \"End Date\"");
+                              baseToast(message: "\"${translate(context).start_date}\" ${translate(context).cant_be_less_than} \"${translate(context).end_date}\"");
                             }
                           }else{
                             controller.startDateController.value.text = formatFlutterDateTime(flutterDateTime: value,getDayFirst: true);
@@ -122,10 +122,10 @@ class _AddLeaveRequestViewState extends State<AddLeaveRequestView> {
                     controller: controller.endDateController.value,
                     title: "${translate(context).leave_end}:",
                     prefixIcon: calenderDateSvg,
-                    hintText: "dd/mm/yyyy",
+                    hintText: translate(context).dd_mm_yyyy,
                     validator: (val){
                       if (controller.endDateController.value.text.isEmpty) {
-                        return "Please select end date";
+                        return translate(context).please_select_end_date;
                       }
                       return null;
                     },
@@ -135,7 +135,7 @@ class _AddLeaveRequestViewState extends State<AddLeaveRequestView> {
                           builder: (context, child) {
                             return Theme(
                               data: Theme.of(context).copyWith(
-                                colorScheme: ColorScheme.light(
+                                colorScheme: const ColorScheme.light(
                                   primary: BaseColors.primaryColor,
                                 ),
                               ),
@@ -152,7 +152,7 @@ class _AddLeaveRequestViewState extends State<AddLeaveRequestView> {
                             if (startDate.isBefore(value)) {
                               controller.endDateController.value.text = formatFlutterDateTime(flutterDateTime: value, getDayFirst: true);
                             }else{
-                              baseToast(message: "\"End Date\" can't be less than \"Start Date\"");
+                              baseToast(message: "\"${translate(context).end_date}\" ${translate(context).cant_be_less_than} \"${translate(context).start_date}\"");
                             }
                           }else{
                             controller.endDateController.value.text = formatFlutterDateTime(flutterDateTime: value, getDayFirst: true);
@@ -166,10 +166,10 @@ class _AddLeaveRequestViewState extends State<AddLeaveRequestView> {
                   BaseTextFormField(
                     controller: controller.reasonController.value,
                     title: "${translate(context).reason}:",
-                    hintText: "Type here...",
+                    hintText: translate(context).type_here,
                     validator: (val){
                       if (controller.reasonController.value.text.isEmpty) {
-                        return "Please enter reason";
+                        return translate(context).please_enter_reason;
                       }
                       return null;
                     },

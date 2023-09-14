@@ -25,13 +25,15 @@ class HomeResponse {
 class Data {
   dynamic performance;
   dynamic totalClassTaken;
+  dynamic notificationCount;
   List<TodaySchedule>? todaySchedule;
 
-  Data({this.performance, this.totalClassTaken, this.todaySchedule});
+  Data({this.notificationCount, this.performance, this.totalClassTaken, this.todaySchedule});
 
   Data.fromJson(Map<String, dynamic> json) {
     performance = json['performance'];
     totalClassTaken = json['totalClassTaken'];
+    notificationCount = json['notificationCount'];
     if (json['todaySchedule'] != null) {
       todaySchedule = <TodaySchedule>[];
       json['todaySchedule'].forEach((v) { todaySchedule!.add(new TodaySchedule.fromJson(v)); });
@@ -42,6 +44,7 @@ class Data {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['performance'] = this.performance;
     data['totalClassTaken'] = this.totalClassTaken;
+    data['notificationCount'] = this.notificationCount;
     if (this.todaySchedule != null) {
       data['todaySchedule'] = this.todaySchedule!.map((v) => v.toJson()).toList();
     }

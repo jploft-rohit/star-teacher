@@ -7,7 +7,7 @@ import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/transportation_screen/controller/transportation_screen_ctrl.dart';
@@ -197,7 +197,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                                     ),
                                     CustomTextField(
                                       controller: startDateCtrl,
-                                      hintText: "dd/mm/yyyy",
+                                      hintText: translate(context).dd_mm_yyyy,
                                       readOnly: true,
                                       onTap: (){
                                         showDatePicker(
@@ -205,7 +205,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                                             builder: (context, child) {
                                               return Theme(
                                                 data: Theme.of(context).copyWith(
-                                                  colorScheme: ColorScheme.light(
+                                                  colorScheme: const ColorScheme.light(
                                                     primary: BaseColors.primaryColor,
                                                   ),
                                                 ),
@@ -254,7 +254,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                                     ),
                                     CustomTextField(
                                       controller: endDateCtrl,
-                                      hintText: "dd/mm/yyyy",
+                                      hintText: translate(context).dd_mm_yyyy,
                                       borderRadius: 5.0,
                                       readOnly: true,
                                       onTap: (){
@@ -263,7 +263,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                                             builder: (context, child) {
                                               return Theme(
                                                 data: Theme.of(context).copyWith(
-                                                  colorScheme: ColorScheme.light(
+                                                  colorScheme: const ColorScheme.light(
                                                     primary: BaseColors.primaryColor,
                                                   ),
                                                 ),
@@ -439,7 +439,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                                     ),
                                     CustomTextField(
                                       controller: startDateCtrl1,
-                                      hintText: "dd/mm/yyyy",
+                                      hintText: translate(context).dd_mm_yyyy,
                                       borderRadius: 5.0,
                                       hintTxtSize: textFormFieldHintTs,
                                       readOnly: true,
@@ -449,7 +449,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                                             builder: (context, child) {
                                               return Theme(
                                                 data: Theme.of(context).copyWith(
-                                                  colorScheme: ColorScheme.light(
+                                                  colorScheme: const ColorScheme.light(
                                                     primary: BaseColors.primaryColor,
                                                   ),
                                                 ),
@@ -496,7 +496,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                                     ),
                                     CustomTextField(
                                       controller: endDateCtrl1,
-                                      hintText: "dd/mm/yyyy",
+                                      hintText: translate(context).dd_mm_yyyy,
                                       borderRadius: 5.0,
                                       hintTxtSize: textFormFieldHintTs,
                                       readOnly: true,
@@ -506,7 +506,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                                             builder: (context, child) {
                                               return Theme(
                                                 data: Theme.of(context).copyWith(
-                                                  colorScheme: ColorScheme.light(
+                                                  colorScheme: const ColorScheme.light(
                                                     primary: BaseColors.primaryColor,
                                                   ),
                                                 ),
@@ -547,7 +547,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                           ),
                         if(selectedFMOPos1 == 1)
                           SizedBox(height: 2.h),
-                        Divider(),
+                        const Divider(),
                       ],
                     ),
                   ),
@@ -676,7 +676,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                                     ),
                                     CustomTextField(
                                       controller: startDateCtrl2,
-                                      hintText: "dd/mm/yyyy",
+                                      hintText: translate(context).dd_mm_yyyy,
                                       borderRadius: 5.0,
                                       hintTxtSize: textFormFieldHintTs,
                                       readOnly: true,
@@ -686,7 +686,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                                             builder: (context, child) {
                                               return Theme(
                                                 data: Theme.of(context).copyWith(
-                                                  colorScheme: ColorScheme.light(
+                                                  colorScheme: const ColorScheme.light(
                                                     primary: BaseColors.primaryColor,
                                                   ),
                                                 ),
@@ -733,7 +733,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                                     ),
                                     CustomTextField(
                                       controller: endDateCtrl2,
-                                      hintText: "dd/mm/yyyy",
+                                      hintText: translate(context).dd_mm_yyyy,
                                       borderRadius: 5.0,
                                       hintTxtSize: textFormFieldHintTs,
                                       readOnly: true,
@@ -749,7 +749,7 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                                             builder: (context, child) {
                                               return Theme(
                                                 data: Theme.of(context).copyWith(
-                                                  colorScheme: ColorScheme.light(
+                                                  colorScheme: const ColorScheme.light(
                                                     primary: BaseColors.primaryColor,
                                                   ),
                                                 ),
@@ -799,11 +799,9 @@ class _NotifySchoolAdministratorPopupState extends State<NotifySchoolAdministrat
                         Get.back();
                       }
                       // Get.to(const DeactivationDetailScreen());
-                    },borderRadius: 20,),
+                    },borderRadius: 20),
                   ),
-                  SizedBox(
-                    height: 1.h,
-                  ),
+                  SizedBox(height: 1.h),
                 ],
               ),
             ),

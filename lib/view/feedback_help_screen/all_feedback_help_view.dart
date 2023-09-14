@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/constants-classes/color_constants.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -14,7 +15,8 @@ import 'dart:ui' as ui;
 import 'package:staff_app/utility/base_views/base_icons.dart';
 import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/base_views/base_pagination_footer.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/Utility/step_progress.dart';
 import 'package:staff_app/utility/custom_text_field.dart';
 import 'package:staff_app/utility/intl/intl.dart';
@@ -43,218 +45,232 @@ class _AllFeedbackHelpViewState extends State<AllFeedbackHelpView> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(()=>(controller.response?.length??0) == 0 ? BaseNoData() : ListView.builder(
-      itemCount: controller.response?.length??0,
-      shrinkWrap: true,
-      padding: EdgeInsets.only(bottom: 8.h),
-      itemBuilder: (context, index) {
-        int stepperIndex = -5;
-        controller.statusTime.value = [];
-        controller.statusTitle.value = [];
-        controller.response?[index].complaintStatus?.toList().asMap().forEach((loopIndex,element) {
-          if (element.name.toString().toLowerCase() != "rejected") {
-            controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
-            controller.statusTime.add(getFormattedTimeWithMonth(element.time??""));
-            if (element.time.toString().isNotEmpty) {
-              stepperIndex = (loopIndex+1);
-            }
-          }else{
-            if ((element.time??"").toString().isNotEmpty) {
-              controller.statusTime.value = [];
-              controller.statusTitle.value = [];
-              controller.statusTitle.add(toBeginningOfSentenceCase(controller.response?[index].complaintStatus?[0].name??"")??"");
+    return Obx(()=>SmartRefresher(
+      footer: const BasePaginationFooter(),
+      controller: controller.refreshController,
+      enablePullDown: enablePullToRefresh,
+      enablePullUp: true,
+      onLoading: (){
+        controller.getData(type: "load");
+      },
+      onRefresh: (){
+        controller.getData(type: "refresh");
+      },
+      child: (controller.response?.length??0) == 0
+          ? const BaseNoData()
+          : ListView.builder(
+            itemCount: controller.response?.length??0,
+            shrinkWrap: true,
+            padding: EdgeInsets.only(bottom: 8.h),
+            itemBuilder: (context, index) {
+            int stepperIndex = -5;
+            controller.statusTime.value = [];
+            controller.statusTitle.value = [];
+            controller.response?[index].complaintStatus?.toList().asMap().forEach((loopIndex,element) {
+            if (element.name.toString().toLowerCase() != "rejected") {
               controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
-              controller.statusTime.add(getFormattedTimeWithMonth(controller.response?[index].complaintStatus?[0].time??""));
               controller.statusTime.add(getFormattedTimeWithMonth(element.time??""));
               if (element.time.toString().isNotEmpty) {
                 stepperIndex = (loopIndex+1);
               }
+            }else{
+              if ((element.time??"").toString().isNotEmpty) {
+                controller.statusTime.value = [];
+                controller.statusTitle.value = [];
+                controller.statusTitle.add(toBeginningOfSentenceCase(controller.response?[index].complaintStatus?[0].name??"")??"");
+                controller.statusTitle.add(toBeginningOfSentenceCase(element.name??"")??"");
+                controller.statusTime.add(getFormattedTimeWithMonth(controller.response?[index].complaintStatus?[0].time??""));
+                controller.statusTime.add(getFormattedTimeWithMonth(element.time??""));
+                if (element.time.toString().isNotEmpty) {
+                  stepperIndex = (loopIndex+1);
+                }
+              }
             }
-          }
-        },
-        );
-        return Card(
-          elevation: 3,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-          child: Padding(
-            padding: EdgeInsets.all(15.sp),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Expanded(child: Text(controller.response?[index].title??"", style: TextStyle(fontSize: 16.sp, color: BaseColors.textBlackColor, fontWeight: FontWeight.w700))),
-                    Visibility(
-                      visible: (controller.response?[index].document??"").isNotEmpty,
-                      child: BaseIcons().view(
-                      url: controller.response?[index].document??"",
-                      leftMargin: 3.w,
-                      concatBaseUrl: true,
-                    )),
-                    Visibility(
-                      visible: (controller.response?[index].document??"").isNotEmpty,
-                      child: BaseIcons().download(onRightButtonPressed: (){
-                      BaseOverlays().dismissOverlay();
-                      downloadFile(url: controller.response?[index].document??"",concatBaseUrl: false);
-                    },
-                      leftMargin: 3.w,
-                    ),
-                    ),
-                    Visibility(
-                      visible: (userId) == (controller.response?[index].createdBy??""),
-                      child: BaseIcons().edit(
-                      title: "Are you sure you want to edit this ${controller.response?[index].forEnquery??""}",
-                      onRightButtonPressed: (){
+          },
+          );
+          return Card(
+            elevation: 3,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+            child: Padding(
+              padding: EdgeInsets.all(15.sp),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(child: Text(controller.response?[index].title??"", style: TextStyle(fontSize: 16.sp, color: BaseColors.textBlackColor, fontWeight: FontWeight.w700))),
+                      Visibility(
+                        visible: (controller.response?[index].document??"").isNotEmpty,
+                        child: BaseIcons().view(
+                        url: controller.response?[index].document??"",
+                        leftMargin: 3.w,
+                        concatBaseUrl: true,
+                      )),
+                      Visibility(
+                        visible: (controller.response?[index].document??"").isNotEmpty,
+                        child: BaseIcons().download(onRightButtonPressed: (){
                         BaseOverlays().dismissOverlay();
-                        Get.to(AddFeedbackView(isUpdating: true,data: controller.response?[index]));
+                        downloadFile(url: controller.response?[index].document??"",concatBaseUrl: false);
                       },
-                      leftMargin: 3.w,
-                     ),
-                    ),
-                    Visibility(
-                      visible: (userId) == (controller.response?[index].createdBy??""),
-                      child: BaseIcons().delete(
-                      title: "Are you sure you want to delete this ${controller.response?[index].forEnquery??""}",
-                      onRightButtonPressed: (){
-                        controller.deleteItem(id: controller.response?[index].sId??"", index: index);
-                      },
-                      leftMargin: 3.w,
-                      showDeleteReason: true,
-                      deleteReasonController: controller.deleteReasonController.value,
-                      formKey: controller.formKey,
+                        leftMargin: 3.w,
                       ),
-                    ),
-                  ],
-                ),
-                const Divider(),
-                BaseDetailData(
-                  prefixIcon: "assets/images/user 1.svg",
-                  detailsLabel: toBeginningOfSentenceCase(controller.response?[index].user?.role?.name)??"N/A",
-                  detailsValue: controller.response?[index].user?.name??"N/A",
-                ),
-                Row(
-                  children: [
-                    BaseDetailData(
-                      prefixIcon: "assets/images/Vector (1).svg",
-                      detailsLabel: formatBackendDate(controller.response?[index].createdAt??""),
-                      showDivider: false,
-                    ),
-                    BaseDetailData(
-                      leftMargin: 10.w,
-                      prefixIcon: "assets/images/time_icon.svg",
-                      detailsLabel: getFormattedTime(controller.response?[index].createdAt??""),
-                      showDivider: false,
-                    ),
-                  ],
-                ),
-                const Divider(),
-                BaseDetailData(
-                  prefixIcon: "assets/images/report.svg",
-                  detailsLabel: "Type",
-                  detailsValue: toBeginningOfSentenceCase(controller.response?[index].forEnquery??"")??"",
-                ),
-                BaseDetailData(
-                  prefixIcon: "assets/images/user.svg",
-                  detailsLabel: "${toBeginningOfSentenceCase(controller.response?[index].forEnquery??"")??""} For",
-                  detailsValue: controller.response?[index].person?.name??"",
-                ),
-                BaseDetailData(
-                  prefixIcon: "assets/images/report.svg",
-                  detailsLabel: "Description",
-                  detailsValue: controller.response?[index].description??"",
-                ),
-                Visibility(
-                  visible: (controller.response?[index].reply??"").isNotEmpty,
-                  child: BaseDetailData(
-                    prefixIcon: "assets/images/report.svg",
-                    detailsLabel: "Feedback",
-                    detailsValue: controller.response?[index].reply??"",
-                  ),
-                ),
-                Visibility(
-                  visible: (controller.response?[index].selfReply??"").isNotEmpty,
-                  child: BaseDetailData(
-                    prefixIcon: "assets/images/report.svg",
-                    detailsLabel: "Comment",
-                    detailsValue: controller.response?[index].selfReply??"",
-                  ),
-                ),
-                Visibility(
-                  visible: ((controller.response?[index].selfReply??"").isNotEmpty) && (stepperIndex != 3), // Resolver Commented Back
-                  child: Row(
-                    children: [
-                      Expanded(
-                          child: BaseButton(
-                            title: translate(context).accept.toUpperCase(),
-                            onPressed: (){
-                              controller.acceptItem(itemId: controller.response?[index].sId??"");
-                            },
-                            rightMargin: 1.5.w,
-                            isActive: true,
-                            removeHorizontalPadding: true,
-                            btnType: mediumLargeButton,
-                          ),
                       ),
-                      Expanded(
-                          child: BaseButton(
-                            title: translate(context).comment.toUpperCase(),
-                            onPressed: (){},
-                            leftMargin: 1.5.w,
-                            isActive: false,
-                            removeHorizontalPadding: true,
-                            btnType: mediumLargeButton,
-                          ),
+                      Visibility(
+                        visible: (userId) == (controller.response?[index].createdBy??"") && (controller.response?[index].status?.name??"").toLowerCase() != "concern solved",
+                        child: BaseIcons().edit(
+                        title: "Are you sure you want to edit this ${controller.response?[index].forEnquery??""}",
+                        onRightButtonPressed: (){
+                          BaseOverlays().dismissOverlay();
+                          Get.to(AddFeedbackView(isUpdating: true,data: controller.response?[index]));
+                        },
+                        leftMargin: 3.w,
+                       ),
+                      ),
+                      Visibility(
+                        visible: (userId) == (controller.response?[index].createdBy??"") && (controller.response?[index].status?.name??"").toLowerCase() != "concern solved",
+                        child: BaseIcons().delete(
+                        title: "Are you sure you want to delete this ${controller.response?[index].forEnquery??""}",
+                        onRightButtonPressed: (){
+                          controller.deleteItem(id: controller.response?[index].sId??"", index: index);
+                        },
+                        leftMargin: 3.w,
+                        showDeleteReason: true,
+                        deleteReasonController: controller.deleteReasonController.value,
+                        formKey: controller.formKey,
+                        ),
                       ),
                     ],
                   ),
-                ),
-                Visibility(
-                  visible: ((controller.response?[index].reply??"").isNotEmpty) && ((controller.response?[index].selfReply??"").isEmpty) && (stepperIndex != 3),
-                  child: Row(
+                  const Divider(),
+                  BaseDetailData(
+                    prefixIcon: "assets/images/user 1.svg",
+                    detailsLabel: toBeginningOfSentenceCase(controller.response?[index].user?.role?.name)??"N/A",
+                    detailsValue: controller.response?[index].user?.name??"N/A",
+                  ),
+                  Row(
                     children: [
-                      Expanded(
-                          child: BaseButton(
-                            title: translate(context).accept.toUpperCase(),
-                            onPressed: (){
-                              controller.acceptItem(itemId: controller.response?[index].sId??"");
-                            },
-                            rightMargin: 1.5.w,
-                            isActive: true,
-                            removeHorizontalPadding: true,
-                            btnType: mediumLargeButton,
-                          ),
+                      BaseDetailData(
+                        prefixIcon: "assets/images/Vector (1).svg",
+                        detailsLabel: formatBackendDate(controller.response?[index].createdAt??""),
+                        showDivider: false,
                       ),
-                      Expanded(
-                          child: BaseButton(
-                            title: translate(context).comment.toUpperCase(),
-                            onPressed: (){
-                              showCommentDialog(itemId: controller.response?[index].sId??"");
-                            },
-                            leftMargin: 1.5.w,
-                            removeHorizontalPadding: true,
-                            isActive: true,
-                            btnType: mediumLargeButton,
-                          ),
+                      BaseDetailData(
+                        leftMargin: 10.w,
+                        prefixIcon: "assets/images/time_icon.svg",
+                        detailsLabel: getFormattedTime(controller.response?[index].createdAt??""),
+                        showDivider: false,
                       ),
                     ],
                   ),
-                ),
-                SizedBox(
-                  height: 1.h,
-                ),
-                StepProgressView(
-                  width: MediaQuery.of(context).size.width,
-                  curStep: stepperIndex+1,
-                  selectedTitle: controller.response?[index].status?.name??"",
-                  color: BaseColors.primaryColor,
-                  titles: controller.statusTime,
-                  statuses: controller.statusTitle,
-                ),
-              ],
+                  const Divider(),
+                  BaseDetailData(
+                    prefixIcon: "assets/images/report.svg",
+                    detailsLabel: "Type",
+                    detailsValue: toBeginningOfSentenceCase(controller.response?[index].forEnquery??"")??"",
+                  ),
+                  BaseDetailData(
+                    prefixIcon: "assets/images/user.svg",
+                    detailsLabel: "${toBeginningOfSentenceCase(controller.response?[index].forEnquery??"")??""} For",
+                    detailsValue: controller.response?[index].person?.name??"",
+                  ),
+                  BaseDetailData(
+                    prefixIcon: "assets/images/report.svg",
+                    detailsLabel: "Description",
+                    detailsValue: controller.response?[index].description??"",
+                  ),
+                  Visibility(
+                    visible: (controller.response?[index].reply??"").isNotEmpty,
+                    child: BaseDetailData(
+                      prefixIcon: "assets/images/report.svg",
+                      detailsLabel: "Feedback",
+                      detailsValue: controller.response?[index].reply??"",
+                    ),
+                  ),
+                  Visibility(
+                    visible: (controller.response?[index].selfReply??"").isNotEmpty,
+                    child: BaseDetailData(
+                      prefixIcon: "assets/images/report.svg",
+                      detailsLabel: "Comment",
+                      detailsValue: controller.response?[index].selfReply??"",
+                    ),
+                  ),
+                  Visibility(
+                    visible: ((controller.response?[index].selfReply??"").isNotEmpty) && (stepperIndex != 3), // Resolver Commented Back
+                    child: Row(
+                      children: [
+                        Expanded(
+                            child: BaseButton(
+                              title: translate(context).accept.toUpperCase(),
+                              onPressed: (){
+                                controller.acceptItem(itemId: controller.response?[index].sId??"");
+                              },
+                              rightMargin: 1.5.w,
+                              isActive: true,
+                              removeHorizontalPadding: true,
+                              btnType: mediumLargeButton,
+                            ),
+                        ),
+                        Expanded(
+                            child: BaseButton(
+                              title: translate(context).comment.toUpperCase(),
+                              onPressed: (){},
+                              leftMargin: 1.5.w,
+                              isActive: false,
+                              removeHorizontalPadding: true,
+                              btnType: mediumLargeButton,
+                            ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Visibility(
+                    visible: ((controller.response?[index].reply??"").isNotEmpty) && ((controller.response?[index].selfReply??"").isEmpty) && (stepperIndex != 3),
+                    child: Row(
+                      children: [
+                        Expanded(
+                            child: BaseButton(
+                              title: translate(context).accept.toUpperCase(),
+                              onPressed: (){
+                                controller.acceptItem(itemId: controller.response?[index].sId??"");
+                              },
+                              rightMargin: 1.5.w,
+                              isActive: true,
+                              removeHorizontalPadding: true,
+                              btnType: mediumLargeButton,
+                            ),
+                        ),
+                        Expanded(
+                            child: BaseButton(
+                              title: translate(context).comment.toUpperCase(),
+                              onPressed: (){
+                                showCommentDialog(itemId: controller.response?[index].sId??"");
+                              },
+                              leftMargin: 1.5.w,
+                              removeHorizontalPadding: true,
+                              isActive: true,
+                              btnType: mediumLargeButton,
+                            ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 1.h,
+                  ),
+                  StepProgressView(
+                    width: MediaQuery.of(context).size.width,
+                    curStep: stepperIndex+1,
+                    selectedTitle: controller.response?[index].status?.name??"",
+                    color: BaseColors.primaryColor,
+                    titles: controller.statusTime,
+                    statuses: controller.statusTitle,
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     ),
     );
   }
@@ -280,7 +296,7 @@ class _AllFeedbackHelpViewState extends State<AllFeedbackHelpView> {
                       child: addAlignedText(
                           "Add Comment",
                           16.sp,
-                          Color(0xFF000000),
+                          const Color(0xFF000000),
                           FontWeight.w600),
                     ),
                   ),
@@ -290,7 +306,7 @@ class _AllFeedbackHelpViewState extends State<AllFeedbackHelpView> {
                       onTap: (){
                         BaseOverlays().dismissOverlay();
                       },
-                      child: Icon(Icons.close,color: Color(0xFF929292),),
+                      child: const Icon(Icons.close,color: Color(0xFF929292),),
                     ),
                   )
                 ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/backend/responses_model/class_response.dart';
 import 'package:staff_app/backend/responses_model/class_section_response.dart';
@@ -14,9 +15,12 @@ import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/constants-classes/color_constants.dart';
 import 'package:staff_app/utility/base_views/base_image_network.dart';
 import 'package:staff_app/utility/base_views/base_no_data.dart';
+import 'package:staff_app/utility/base_views/base_pagination_footer.dart';
 import 'package:staff_app/view/library_screen/notebook_screen/notebook_detail_screen.dart';
 import 'package:staff_app/view/library_screen/ctrl/notebook_ctrl.dart';
 import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
+
+import '../../../utility/sizes.dart';
 
 class NoteBookScreen extends StatefulWidget {
   const NoteBookScreen({Key? key}) : super(key: key);
@@ -33,15 +37,16 @@ class _NoteBookScreenState extends State<NoteBookScreen>{
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      controller.selectedSchoolId.value = baseCtrl.schoolListData.data?.data?.first.sId??"";
+      controller.selectedSchoolName.value = baseCtrl.schoolListData.data?.data?.first.name??"";
       /// Clearing Data
-      controller.selectedSchoolId.value = "";
-      controller.selectedSchoolName.value = "";
       controller.selectedClassId.value = "";
       controller.selectedClassName.value = "";
       controller.selectedSectionId.value = "";
       controller.selectedSectionName.value = "";
       controller.selectedStarId.value = "";
-      baseCtrl.getStarsList();
+      baseCtrl.searchController.clear();
+      baseCtrl.getStarsList(schoolId: controller.selectedSchoolId.value);
     });
   }
 
@@ -80,6 +85,7 @@ class _NoteBookScreenState extends State<NoteBookScreen>{
                             );
                           }).toList(),
                           onChange: (value) {
+                            baseCtrl.searchController.clear();
                             controller.selectedSchoolName.value = value.name;
                             controller.selectedSchoolId.value = value.sId;
                             baseCtrl.getClassList(schoolId: controller.selectedSchoolId.value);
@@ -90,7 +96,7 @@ class _NoteBookScreenState extends State<NoteBookScreen>{
                         ),
                       ],
                     ),
-                    Divider(
+                    const Divider(
                       height: 1,
                       thickness: 1,
                     ),
@@ -106,6 +112,7 @@ class _NoteBookScreenState extends State<NoteBookScreen>{
                             );
                           }).toList(),
                           onChange: (value) {
+                            baseCtrl.searchController.clear();
                             controller.selectedClassName.value = value.name;
                             controller.selectedClassId.value = value.sId;
                             baseCtrl.getClassSections(classId: controller.selectedClassId.value);
@@ -113,10 +120,10 @@ class _NoteBookScreenState extends State<NoteBookScreen>{
                           },
                           icon: classTakenSvg,
                         ),
-                        Container(
-                          child: VerticalDivider(width: 1),
+                        SizedBox(
                           height: 4.h,
                           width: 1,
+                          child: const VerticalDivider(width: 1),
                         ),
                         CustomFilterDropDown(
                           hintText: controller.selectedSectionName.value.isEmpty ? 'Select Section' : controller.selectedSectionName.value,
@@ -127,6 +134,7 @@ class _NoteBookScreenState extends State<NoteBookScreen>{
                             );
                           }).toList(),
                           onChange: (value) {
+                            baseCtrl.searchController.clear();
                             controller.selectedSectionName.value = value.name;
                             controller.selectedSectionId.value = value.sId;
                             baseCtrl.getStarsList(schoolId: controller.selectedSchoolId.value,classId: controller.selectedClassId.value,sectionId: controller.selectedSectionId.value);
@@ -135,12 +143,17 @@ class _NoteBookScreenState extends State<NoteBookScreen>{
                         )
                       ],
                     ),
-                    Divider(
+                    const Divider(
                       height: 1,
                       thickness: 1,
                     ),
                     FilterTextFormField(
-                      onChange: (String val) {},
+                      controller: baseCtrl.searchController,
+                      onChange: (val)=> controller.baseDebouncer.run(()=> baseCtrl.getStarsList(
+                          schoolId: controller.selectedSchoolId.value,
+                          sectionId: controller.selectedSectionId.value,
+                          classId: controller.selectedClassId.value,
+                      )),
                       hintText: "Search Star,ID...",
                       keyBoardType: TextInputType.name,
                     ),
@@ -151,104 +164,116 @@ class _NoteBookScreenState extends State<NoteBookScreen>{
             /// Data
             Expanded(
               child: Obx(()=>
-              (baseCtrl.starsList?.length??0) == 0
-                  ? BaseNoData()
-                  : ListView.builder(
-                    itemCount: baseCtrl.starsList?.length??0,
-                    padding: EdgeInsets.only(bottom: 12.h),
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                    return GestureDetector(
-                    onTap: (){
-                      controller.selectedStarId.value = baseCtrl.starsList?[index].user?.sId??"";
-                      Get.to(const NotebookDetailScreen());
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(15.sp),
-                      margin: const EdgeInsets.only(bottom: 10.0),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.0),
-                          border: Border.all(color: BaseColors.borderColor)
-                      ),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 20.w,
-                            height: 20.w,
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15.0),
-                                border: Border.all(color: BaseColors.primaryColor)
-                            ),
-                            child: BaseImageNetwork(
-                              link: baseCtrl.starsList?[index].user?.profilePic??"",
+              SmartRefresher(
+                footer: const BasePaginationFooter(),
+                controller: baseCtrl.refreshController,
+                enablePullDown: enablePullToRefresh,
+                enablePullUp: true,
+                onLoading: (){
+                  baseCtrl.getStarsList(refreshType: "load", schoolId: controller.selectedSchoolId.value, classId: controller.selectedClassId.value, sectionId: controller.selectedSectionId.value);
+                },
+                onRefresh: (){
+                  baseCtrl.getStarsList(refreshType: "refresh", schoolId: controller.selectedSchoolId.value, classId: controller.selectedClassId.value, sectionId: controller.selectedSectionId.value);
+                },
+                child: (baseCtrl.starsList?.length??0) == 0
+                    ? const BaseNoData()
+                    : ListView.builder(
+                      itemCount: baseCtrl.starsList?.length??0,
+                      padding: EdgeInsets.only(bottom: 12.h),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                      return GestureDetector(
+                      onTap: (){
+                        controller.selectedStarId.value = baseCtrl.starsList?[index].user?.sId??"";
+                        Get.to(const NotebookDetailScreen());
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(15.sp),
+                        margin: const EdgeInsets.only(bottom: 10),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(color: BaseColors.borderColor)
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
                               width: 20.w,
                               height: 20.w,
-                              fit: BoxFit.fill,
-                              errorWidget: SvgPicture.asset(girlSvg, height: 6.h),
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  border: Border.all(color: BaseColors.primaryColor)
+                              ),
+                              child: BaseImageNetwork(
+                                link: baseCtrl.starsList?[index].user?.profilePic??"",
+                                width: 20.w,
+                                height: 20.w,
+                                fit: BoxFit.fill,
+                                errorWidget: SvgPicture.asset(girlSvg, height: 6.h),
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            width: 3.w,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(baseCtrl.starsList?[index].user?.name??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
-                              SizedBox(
-                                height: .5.h,
-                              ),
-                              Container(
-                                width: 30.w,
-                                height: 1,
-                                color: BaseColors.borderColor,
-                              ),
-                              SizedBox(
-                                height: .5.h,
-                              ),
-                              Text("# ${baseCtrl.starsList?[index].studentId??""}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
-                              SizedBox(
-                                height: .5.h,
-                              ),
-                              Container(
-                                width: 30.w,
-                                height: 1,
-                                color: BaseColors.borderColor,
-                              ),
-                              SizedBox(
-                                height: .5.h,
-                              ),
-                              Row(
-                                children: [
-                                  Text("Last Comment Date : ", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
-                                  Text(formatBackendDate(baseCtrl.starsList?[index].lastCommentDate??""), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
-                                ],
-                              ),
-                              SizedBox(
-                                height: .5.h,
-                              ),
-                              Container(
-                                width: 30.w,
-                                height: 1,
-                                color: BaseColors.borderColor,
-                              ),
-                              SizedBox(
-                                height: .5.h,
-                              ),
-                              Row(
-                                children: [
-                                  Text("Total Notes : ", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
-                                  Text(((baseCtrl.starsList?[index].totalNotes.toString())??"0"), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
+                            SizedBox(
+                              width: 3.w,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(baseCtrl.starsList?[index].user?.name??"", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
+                                SizedBox(
+                                  height: .5.h,
+                                ),
+                                Container(
+                                  width: 30.w,
+                                  height: 1,
+                                  color: BaseColors.borderColor,
+                                ),
+                                SizedBox(
+                                  height: .5.h,
+                                ),
+                                Text("# ${baseCtrl.starsList?[index].studentId??""}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
+                                SizedBox(
+                                  height: .5.h,
+                                ),
+                                Container(
+                                  width: 30.w,
+                                  height: 1,
+                                  color: BaseColors.borderColor,
+                                ),
+                                SizedBox(
+                                  height: .5.h,
+                                ),
+                                Row(
+                                  children: [
+                                    Text("Last Comment Date : ", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
+                                    Text(formatBackendDate(baseCtrl.starsList?[index].lastcommentdate??""), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: .5.h,
+                                ),
+                                Container(
+                                  width: 30.w,
+                                  height: 1,
+                                  color: BaseColors.borderColor,
+                                ),
+                                SizedBox(
+                                  height: .5.h,
+                                ),
+                                Row(
+                                  children: [
+                                    Text("Total Notes : ", style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 14.sp),),
+                                    Text(((baseCtrl.starsList?[index].totalnotes.toString())??"0"), style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 14.sp),),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                },
-              ),
+                    );
+                  },
+                ),
+               ),
               ),
             ),
           ],
@@ -259,12 +284,14 @@ class _NoteBookScreenState extends State<NoteBookScreen>{
 }
 
 class MyBullet extends StatelessWidget{
+  const MyBullet({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return new Container(
+    return Container(
       height: 5.0,
       width: 5.0,
-      decoration: new BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.black,
       ),
     );

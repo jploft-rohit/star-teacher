@@ -11,7 +11,7 @@ import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/utility/base_views/base_tab_button.dart';
 import 'package:staff_app/utility/base_views/base_toggle_tab_bar.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/view/Dashboard_screen/dashboard_screen_ctrl.dart';
@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       selectedLanguageCode = await BaseSharedPreference().getString(SpKeys().selectedLanguage);
-      print("Selected Language Code -> "+selectedLanguageCode);
+      print("Selected Language Code -> $selectedLanguageCode");
     });
   }
 
@@ -65,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
   smoothScrollToTop() {
     scrollController.animateTo(
       0,
-      duration: Duration(microseconds: 300),
+      duration: const Duration(microseconds: 300),
       curve: Curves.ease,
     );
   }
@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
             child: Padding(
               padding: EdgeInsets.only(bottom: 9.h),
               child: BaseFloatingActionButton(onTap: () {
-                Get.to(CreateGalleryScreen());
+                Get.to(const CreateGalleryScreen());
               }, title: 'Create\nGallery',),
             ),
           ),
@@ -175,7 +175,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                     ),
                     SizedBox(height: 1.h),
                     Obx(()=> (controller.todayScheduledList?.length??0) == 0
-                        ? BaseNoData(message: "No Scheduled Class Found", topMargin: 3.h, bottomMargin: 3.h)
+                        ? BaseNoData(message: translate(context).no_scheduled_class_found, topMargin: 3.h, bottomMargin: 3.h)
                         : ListView.builder(
                            shrinkWrap: true,
                            itemCount: (controller.todayScheduledList?.length??0) > 1 ? 2 : (controller.todayScheduledList?.length??0),
@@ -195,7 +195,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                           Expanded(
                             child: GestureDetector(
                               onTap:(){
-                                Get.to(PerformanceScreen(index: 0));
+                                Get.to(const PerformanceScreen(index: 0));
                               },
                               child: Container(
                                 margin: EdgeInsets.only(right: 2.w),
@@ -244,7 +244,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                           Expanded(
                             child: GestureDetector(
                               onTap:(){
-                                Get.to(const StarEvaluationScreen());
+                                // Get.to(const StarEvaluationScreen());
                               },
                               child: Container(
                                 margin: EdgeInsets.only(left: 2.w),
@@ -276,15 +276,16 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                   child: BaseToggleTabBar(
                       controller: tabController,
                       tabs: [
-                        BaseTabButton(title: "News/Broadcast", isSelected: tabController.index == 0,type: toggleLargeButton),
-                        BaseTabButton(title: "Star Gallery", isSelected: tabController.index == 1,type: toggleLargeButton),
-                      ],bottomMargin: 2.h),
+                        BaseTabButton(title: translate(context).news_slash_broadcast, isSelected: tabController.index == 0,type: toggleLargeButton),
+                        BaseTabButton(title: translate(context).star_gallery, isSelected: tabController.index == 1,type: toggleLargeButton),
+                      ],bottomMargin: 2.h,
+                  ),
                 ),
               ];
             },
             body: TabBarView(
                 controller: tabController,
-                children: [
+                children: const [
                   NewsBroadCastTab(),
                   StarGalleryTab(),
                 ]),

@@ -22,7 +22,8 @@ import 'dart:ui' as ui;
 import '../../../packages/drop_downbutton2/src/dropdown_button2.dart';
 
 class MyProfileView extends StatefulWidget {
-  const MyProfileView({Key? key}) : super(key: key);
+  final bool? editable;
+  const MyProfileView({Key? key, this.editable}) : super(key: key);
 
   @override
   State<MyProfileView> createState() => _MyProfileViewState();
@@ -47,28 +48,30 @@ class _MyProfileViewState extends State<MyProfileView> {
                       flex: 2,
                       child: GestureDetector(
                         onTap: (){
-                          BaseOverlays().showMediaPickerDialog(onCameraClick: () async {
-                            BaseOverlays().dismissOverlay();
-                            ImagePicker picker = ImagePicker();
-                            await picker.pickImage(source: ImageSource.camera).then((value){
-                              if (value != null) {
-                                controller.selectedFile?.value = File(value.path);
-                                // controller.imageData.value = value.path.split("/").last;
-                              }
-                            },
-                            );
-                          },
-                              onGalleryClick: () async {
-                                BaseOverlays().dismissOverlay();
-                                ImagePicker picker = ImagePicker();
-                                await picker.pickImage(source: ImageSource.gallery).then((value){
-                                  if (value != null) {
-                                    controller.selectedFile?.value = File(value.path);
-                                    // controller.imageData.value = value.path.split("/").last;
-                                  }
-                                });
+                          if (widget.editable??true) {
+                            BaseOverlays().showMediaPickerDialog(onCameraClick: () async {
+                              BaseOverlays().dismissOverlay();
+                              ImagePicker picker = ImagePicker();
+                              await picker.pickImage(source: ImageSource.camera).then((value){
+                                if (value != null) {
+                                  controller.selectedFile?.value = File(value.path);
+                                  // controller.imageData.value = value.path.split("/").last;
+                                }
                               },
-                          );
+                              );
+                            },
+                                onGalleryClick: () async {
+                                  BaseOverlays().dismissOverlay();
+                                  ImagePicker picker = ImagePicker();
+                                  await picker.pickImage(source: ImageSource.gallery).then((value){
+                                    if (value != null) {
+                                      controller.selectedFile?.value = File(value.path);
+                                      // controller.imageData.value = value.path.split("/").last;
+                                    }
+                                  });
+                                },
+                            );
+                          }
                           // controller.xFile = BaseOverlays().showMediaPickerDialog();
                           // controller.imageData.value = controller.xFile?.path??"";
                         },
@@ -124,6 +127,7 @@ class _MyProfileViewState extends State<MyProfileView> {
                             children: [
                               addPrimaryColorEditText(
                                   translate(context).name,
+
                                   controller.nameCtrl, const SizedBox.shrink(),
                                   textInputType: TextInputType.name,
                                   validator: (val){
@@ -152,11 +156,14 @@ class _MyProfileViewState extends State<MyProfileView> {
                                       maxLength: 15
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 25),
-                                    child: BaseButton(removeHorizontalPadding: true,btnType: smallButton,borderRadius: 100,title: translate(context).change,textSize: 11, onPressed: () {
-                                      BaseOverlays().showOtpDialog();
-                                    }),
+                                  Visibility(
+                                    visible: widget.editable??true,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(bottom: 25),
+                                      child: BaseButton(removeHorizontalPadding: true,btnType: smallButton,borderRadius: 100,title: translate(context).change,textSize: 11, onPressed: () {
+                                        BaseOverlays().showOtpDialog();
+                                      }),
+                                    ),
                                   )
                                 ],
                               ),
@@ -182,26 +189,28 @@ class _MyProfileViewState extends State<MyProfileView> {
                               SizedBox(height: 1.h),
                               GestureDetector(
                                 onTap: (){
-                                  showDatePicker(
-                                      context: context,
-                                      builder: (context, child) {
-                                        return Theme(
-                                          data: Theme.of(context).copyWith(
-                                            colorScheme: ColorScheme.light(
-                                              primary: BaseColors.primaryColor,
+                                  if (widget.editable??true) {
+                                    showDatePicker(
+                                        context: context,
+                                        builder: (context, child) {
+                                          return Theme(
+                                            data: Theme.of(context).copyWith(
+                                              colorScheme: const ColorScheme.light(
+                                                primary: BaseColors.primaryColor,
+                                              ),
                                             ),
-                                          ),
-                                          child: child!,
-                                        );
-                                      },
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime(1600, 8),
-                                      lastDate: DateTime.now()
-                                  ).then((picked){
-                                    if (picked != null) {
-                                      controller.dobCtrl.text = formatFlutterDateTime(flutterDateTime: picked, getDayFirst: true);
-                                    }
-                                  });
+                                            child: child!,
+                                          );
+                                        },
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime(1600, 8),
+                                        lastDate: DateTime.now()
+                                    ).then((picked){
+                                      if (picked != null) {
+                                        controller.dobCtrl.text = formatFlutterDateTime(flutterDateTime: picked, getDayFirst: true);
+                                      }
+                                    });
+                                  }
                                 },
                                 child: AbsorbPointer(
                                   absorbing: true,
@@ -227,7 +236,14 @@ class _MyProfileViewState extends State<MyProfileView> {
                                   textInputType: TextInputType.streetAddress,
                                   GestureDetector(
                                       onTap: (){
-                                        Get.to(MapUiBody());
+                                        if (widget.editable??true) {
+                                          Get.to(const MapUiBody())?.then((value){
+                                            Map<String, dynamic> addressData = value;
+                                            controller.addressCtrl.text=addressData['address'];
+                                            // controller.latitudeController.value.text = addressData['latitude'].toString();
+                                            // controller.longitudeController.value.text = addressData['longtitude'].toString();
+                                          });
+                                        }
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.only(left: 7),
@@ -242,7 +258,7 @@ class _MyProfileViewState extends State<MyProfileView> {
                                   textInputType: TextInputType.streetAddress,
                               ),
                               addPrimaryColorEditText(
-                                translate(context).state, controller.stateCtrl,
+                                translate(context).sector, controller.stateCtrl,
                                 const SizedBox.shrink(),
                                 textInputType: TextInputType.streetAddress,
                               ),
@@ -252,7 +268,7 @@ class _MyProfileViewState extends State<MyProfileView> {
                               //   const SizedBox.shrink(),
                               // ),
                               /// Nationality
-                              Row(
+                              const Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(
@@ -264,73 +280,76 @@ class _MyProfileViewState extends State<MyProfileView> {
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 5),
-                              DropdownButtonHideUnderline(
-                                child: DropdownButtonFormField2<NationalityData>(
-                                  isExpanded: true,
-                                  isDense: true,
-                                  dropdownStyleData: DropdownStyleData(
-                                      offset: Offset(0, -10),
-                                      scrollPadding: EdgeInsets.symmetric(horizontal: 0),
-                                      padding: EdgeInsets.symmetric(vertical: 1.h,horizontal: 0),
-                                  ),
-                                  menuItemStyleData: MenuItemStyleData(
-                                    padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 0),
-                                  ),
-                                  iconStyleData: IconStyleData(
-                                    icon: Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 0),
-                                      child: Icon(Icons.keyboard_arrow_down_rounded,color: Colors.black,size: 25),
-                                    ),
-                                  ),
-                                  style: TextStyle(
-                                      color: BaseColors.primaryColor,
-                                      fontSize: textFormFieldHintTs,
-                                  ),
-                                  decoration: InputDecoration(
-                                    fillColor: Colors.transparent,
-                                    filled: false,
+                              const SizedBox(height: 5),
+                              IgnorePointer(
+                                ignoring: !(widget.editable??true),
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButtonFormField2<NationalityData>(
+                                    isExpanded: true,
                                     isDense: true,
-                                    labelStyle: TextStyle(color: BaseColors.primaryColor,fontSize: textFormFieldHintTs),
-                                    hintStyle: TextStyle(color: BaseColors.primaryColor,fontSize: textFormFieldHintTs),
-                                    contentPadding: EdgeInsets.only(top: 0,bottom: 0,right: 0,left: 0),
-                                    focusedBorder: InputBorder.none,
-                                    disabledBorder: InputBorder.none,
-                                    enabledBorder: InputBorder.none,
-                                    errorBorder: InputBorder.none,
-                                    focusedErrorBorder: InputBorder.none,
-                                  ),
-                                  alignment: isRTL ? Alignment.centerRight : Alignment.centerLeft,
-                                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                                  validator: (value){
-                                    if(controller.nationalityCtrl.text.isEmpty){
-                                      return "Nationality";
-                                    }
-                                    return null;
-                                  },
-                                  hint: Text(
-                                    controller.nationalityCtrl.text.trim().isEmpty
-                                        ? "Nationality"
-                                        : controller.nationalityCtrl.text.trim(),
+                                    dropdownStyleData: DropdownStyleData(
+                                        offset: const Offset(0, -10),
+                                        scrollPadding: const EdgeInsets.symmetric(horizontal: 0),
+                                        padding: EdgeInsets.symmetric(vertical: 1.h,horizontal: 0),
+                                    ),
+                                    menuItemStyleData: MenuItemStyleData(
+                                      padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 0),
+                                    ),
+                                    iconStyleData: const IconStyleData(
+                                      icon: Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: 0),
+                                        child: Icon(Icons.keyboard_arrow_down_rounded,color: Colors.black,size: 25),
+                                      ),
+                                    ),
                                     style: TextStyle(
                                         color: BaseColors.primaryColor,
-                                        fontSize: 16,
-                                      fontWeight: FontWeight.w500
-                                    ),textAlign: isRTL ? TextAlign.start : TextAlign.end),
-                                  items: controller.nationalityList?.map((data){
-                                    return DropdownMenuItem<NationalityData>(
-                                      value: data,
-                                      child: addText(data?.name??"", 16.sp, BaseColors.primaryColor, FontWeight.w600),
-                                    );
-                                  }).toList(),
-                                  onChanged: (val){
-                                    controller.selectedNationality.value = val?.sId??"";
-                                    controller.nationalityCtrl.text = val?.name??"";
-                                  },
+                                        fontSize: textFormFieldHintTs,
+                                    ),
+                                    decoration: InputDecoration(
+                                      fillColor: Colors.transparent,
+                                      filled: false,
+                                      isDense: true,
+                                      labelStyle: TextStyle(color: BaseColors.primaryColor,fontSize: textFormFieldHintTs),
+                                      hintStyle: TextStyle(color: BaseColors.primaryColor,fontSize: textFormFieldHintTs),
+                                      contentPadding: const EdgeInsets.only(top: 0,bottom: 0,right: 0,left: 0),
+                                      focusedBorder: InputBorder.none,
+                                      disabledBorder: InputBorder.none,
+                                      enabledBorder: InputBorder.none,
+                                      errorBorder: InputBorder.none,
+                                      focusedErrorBorder: InputBorder.none,
+                                    ),
+                                    alignment: isRTL ? Alignment.centerRight : Alignment.centerLeft,
+                                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                                    validator: (value){
+                                      if(controller.nationalityCtrl.text.isEmpty){
+                                        return "Nationality";
+                                      }
+                                      return null;
+                                    },
+                                    hint: Text(
+                                      controller.nationalityCtrl.text.trim().isEmpty
+                                          ? "Nationality"
+                                          : controller.nationalityCtrl.text.trim(),
+                                      style: const TextStyle(
+                                          color: BaseColors.primaryColor,
+                                          fontSize: 16,
+                                        fontWeight: FontWeight.w500
+                                      ),textAlign: isRTL ? TextAlign.start : TextAlign.end),
+                                    items: controller.nationalityList?.map((data){
+                                      return DropdownMenuItem<NationalityData>(
+                                        value: data,
+                                        child: addText(data?.name??"", 16.sp, BaseColors.primaryColor, FontWeight.w600),
+                                      );
+                                    }).toList(),
+                                    onChanged: (val){
+                                      controller.selectedNationality.value = val?.sId??"";
+                                      controller.nationalityCtrl.text = val?.name??"";
+                                    },
+                                  ),
                                 ),
                               ),
                               Divider(color: Colors.grey.shade400),
-                              SizedBox(height: 5),
+                              const SizedBox(height: 5),
                               addPrimaryColorEditText(
                                   translate(context).marital_status,
                                   controller.maritalStatusCtrl,
@@ -350,26 +369,28 @@ class _MyProfileViewState extends State<MyProfileView> {
                               ),
                               GestureDetector(
                                 onTap: (){
-                                  showDatePicker(
-                                      context: context,
-                                      builder: (context, child) {
-                                        return Theme(
-                                          data: Theme.of(context).copyWith(
-                                            colorScheme: ColorScheme.light(
-                                              primary: BaseColors.primaryColor,
+                                  if (widget.editable??true) {
+                                    showDatePicker(
+                                        context: context,
+                                        builder: (context, child) {
+                                          return Theme(
+                                            data: Theme.of(context).copyWith(
+                                              colorScheme: const ColorScheme.light(
+                                                primary: BaseColors.primaryColor,
+                                              ),
                                             ),
-                                          ),
-                                          child: child!,
-                                        );
-                                      },
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime(1600, 8),
-                                      lastDate: DateTime((DateTime.now().year+50),1,1),
-                                  ).then((picked){
-                                    if (picked != null) {
-                                      controller.expiryDateCtrl.text = formatFlutterDateTime(flutterDateTime: picked, getDayFirst: true);
-                                    }
-                                  });
+                                            child: child!,
+                                          );
+                                        },
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime(1600, 8),
+                                        lastDate: DateTime((DateTime.now().year+50),1,1),
+                                    ).then((picked){
+                                      if (picked != null) {
+                                        controller.expiryDateCtrl.text = formatFlutterDateTime(flutterDateTime: picked, getDayFirst: true);
+                                      }
+                                    });
+                                  }
                                 },
                                 child: AbsorbPointer(
                                   absorbing: true,
@@ -400,35 +421,37 @@ class _MyProfileViewState extends State<MyProfileView> {
                               ),
                               GestureDetector(
                                 onTap: (){
-                                  BaseOverlays().showMediaPickerDialog(onCameraClick: () async {
-                                    BaseOverlays().dismissOverlay();
-                                    ImagePicker picker = ImagePicker();
-                                    await picker.pickImage(source: ImageSource.camera, imageQuality: 30).then((value){
-                                      if (value != null) {
-                                        controller.selectedDocument?.value = File(value.path);
-                                        controller.uploadController.text = value.path.split("/").last;
-                                      }
-                                    },
-                                    );
-                                  },
-                                      onGalleryClick: () async {
-                                        BaseOverlays().dismissOverlay();
-                                        ImagePicker picker = ImagePicker();
-                                        await picker.pickImage(source: ImageSource.gallery, imageQuality: 30).then((value){
-                                          if (value != null) {
-                                            controller.selectedDocument?.value = File(value.path);
-                                            controller.uploadController.text = value.path.split("/").last;
-                                          }
-                                        });
+                                  if (widget.editable??true) {
+                                    BaseOverlays().showMediaPickerDialog(onCameraClick: () async {
+                                      BaseOverlays().dismissOverlay();
+                                      ImagePicker picker = ImagePicker();
+                                      await picker.pickImage(source: ImageSource.camera, imageQuality: 30).then((value){
+                                        if (value != null) {
+                                          controller.selectedDocument?.value = File(value.path);
+                                          controller.uploadController.text = value.path.split("/").last;
+                                        }
                                       },
-                                      onFilePick: (){
-                                        BaseOverlays().dismissOverlay();
-                                        pickFile().then((value) {
-                                          controller.selectedDocument?.value = File(value);
-                                          controller.uploadController.text = (value.split("/").last);
-                                        });
-                                      }
-                                  );
+                                      );
+                                    },
+                                        onGalleryClick: () async {
+                                          BaseOverlays().dismissOverlay();
+                                          ImagePicker picker = ImagePicker();
+                                          await picker.pickImage(source: ImageSource.gallery, imageQuality: 30).then((value){
+                                            if (value != null) {
+                                              controller.selectedDocument?.value = File(value.path);
+                                              controller.uploadController.text = value.path.split("/").last;
+                                            }
+                                          });
+                                        },
+                                        onFilePick: (){
+                                          BaseOverlays().dismissOverlay();
+                                          pickFile().then((value) {
+                                            controller.selectedDocument?.value = File(value);
+                                            controller.uploadController.text = (value.split("/").last);
+                                          });
+                                        }
+                                    );
+                                  }
                                 },
                                 child: AbsorbPointer(
                                   absorbing: true,
@@ -443,11 +466,14 @@ class _MyProfileViewState extends State<MyProfileView> {
                               ),
                               Text("${translate(context).upload_your_doc_till} ${myProfileController.response.value.data?.profileCompleteDate}", style: Style.montserratBoldStyle().copyWith(color: BaseColors.textRedColor, fontSize: 14.sp),),
                               SizedBox(height: 3.0.h),
-                              BaseButton(title: translate(context).save, onPressed: (){
-                                if (controller.formKey.currentState?.validate()??false) {
-                                  controller.updateProfileApi();
-                                }
-                              },btnType: largeButton),
+                              Visibility(
+                                visible: widget.editable??true,
+                                child: BaseButton(title: translate(context).save, onPressed: (){
+                                  if (controller.formKey.currentState?.validate()??false) {
+                                    controller.updateProfileApi();
+                                  }
+                                },btnType: largeButton),
+                              ),
                               SizedBox(height: 3.0.h),
                             ],
                           ),
@@ -469,6 +495,7 @@ class _MyProfileViewState extends State<MyProfileView> {
         cursorColor: BaseColors.primaryColor,
         keyboardType: textInputType ?? TextInputType.name,
         controller: controller,
+        enabled: widget.editable??true,
         maxLength: maxLength??200,
         textInputAction: TextInputAction.next,
         validator: validator,
@@ -483,15 +510,15 @@ class _MyProfileViewState extends State<MyProfileView> {
             contentPadding: EdgeInsets.zero,
             labelText: hintText,
             counterText: "",
-            counterStyle: TextStyle(fontSize: 0,color: Colors.transparent),
-            counter: SizedBox.shrink(),
+            counterStyle: const TextStyle(fontSize: 0,color: Colors.transparent),
+            counter: const SizedBox.shrink(),
             labelStyle: TextStyle(fontSize: 15.sp, color: Colors.black),
-            border: UnderlineInputBorder(borderSide: BorderSide(color: BaseColors.borderColor)),
-            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: BaseColors.borderColor)),
-            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: BaseColors.borderColor)),
-            focusedErrorBorder: UnderlineInputBorder(borderSide: BorderSide(color: BaseColors.borderColor)),
-            disabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: BaseColors.borderColor)),
-            errorBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.red)),
+            border: const UnderlineInputBorder(borderSide: BorderSide(color: BaseColors.borderColor)),
+            enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: BaseColors.borderColor)),
+            focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: BaseColors.borderColor)),
+            focusedErrorBorder: const UnderlineInputBorder(borderSide: BorderSide(color: BaseColors.borderColor)),
+            disabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: BaseColors.borderColor)),
+            errorBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.red)),
         ),
       ),
     );

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
+import 'package:staff_app/utility/base_views/base_pagination_footer.dart';
 import 'dart:ui' as ui;
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
@@ -42,13 +44,25 @@ class _DelegationScreenState extends State<DelegationScreen> {
                 },
               ),
               Expanded(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: controller.list?.length??0,
-                  itemBuilder: (context,index){
-                    return delegationRequest(index: index);
-                },
+                child: SmartRefresher(
+                  controller: controller.refreshController,
+                  enablePullDown: enablePullToRefresh,
+                  footer: const BasePaginationFooter(),
+                  enablePullUp: true,
+                  onLoading: (){
+                    controller.getData(refreshType: "load");
+                  },
+                  onRefresh: (){
+                    controller.getData(refreshType: "refresh");
+                  },
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: controller.list?.length??0,
+                    itemBuilder: (context,index){
+                      return delegationRequest(index: index);
+                  },
                ),
+                ),
               )
             ],
           ),

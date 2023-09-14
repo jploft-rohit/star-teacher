@@ -2,25 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/sizes.dart';
+import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
-import 'package:staff_app/Utility/strings.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/view/account_activation_screen/controller/account_activation_controller.dart';
-import 'package:staff_app/view/login_screen/login_screen.dart';
 
 class RulesScreen2 extends StatefulWidget {
-  const RulesScreen2({Key? key}) : super(key: key);
+  final bool? isFromActivation;
+  const RulesScreen2({Key? key, this.isFromActivation}) : super(key: key);
 
   @override
   State<RulesScreen2> createState() => _RulesScreen2State();
 }
 
 class _RulesScreen2State extends State<RulesScreen2> {
-  AccountActivationController controller = Get.find<AccountActivationController>();
+  AccountActivationController controller = Get.put(AccountActivationController());
   bool isRulesChecked = false;
 
   @override
@@ -44,7 +43,7 @@ class _RulesScreen2State extends State<RulesScreen2> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Obx(() => HtmlWidget(controller.responsibilities.value)),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -61,12 +60,12 @@ class _RulesScreen2State extends State<RulesScreen2> {
                               borderRadius: BorderRadius.circular(3),
                             ),
                             onChanged: (bool? value) {
-                              isRulesChecked = value!;
+                              isRulesChecked = value??false;
                               setState(() {});
                             },
                           ),
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         Expanded(child: Text('I have read all the terms and responsibility guidelines and I agree to all of them.', style: Style.montserratMediumStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 15.sp),),)
                       ],
                     ),
@@ -108,11 +107,10 @@ class _RulesScreen2State extends State<RulesScreen2> {
                   onTap: () {
                     if (isRulesChecked) {
                       Get.closeAllSnackbars();
-                      _showActivationDialogue(context);
+                      _showActivationDialogue(context,isFromActivation: widget.isFromActivation??false);
                     }else{
                       BaseOverlays().showSnackBar(message: "Please agree with responsibility",title: translate(Get.context!).error);
                     }
-
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 10),
@@ -135,7 +133,7 @@ class _RulesScreen2State extends State<RulesScreen2> {
     );
   }
 
-  void _showActivationDialogue(BuildContext context) {
+  void _showActivationDialogue(BuildContext context,{bool? isFromActivation}) {
     showGeneralDialog(barrierColor: Colors.black.withOpacity(0.5),
         transitionBuilder: (context, a1, a2, widget) {
           return Transform.scale(
@@ -154,10 +152,11 @@ class _RulesScreen2State extends State<RulesScreen2> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(translate(context).account_activation_popup_txt,style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp, color: BaseColors.textBlackColor, height: 1.5),textAlign: TextAlign.center,),
-                      const SizedBox(height: 20,),
+                      const SizedBox(height: 20),
                       BaseButton(btnType: mediumButton,borderRadius: 20,title: translate(context).ok.toUpperCase(), onPressed: () {
                         BaseOverlays().dismissOverlay();
-                        Get.offAll(LoginScreen());
+                        controller.updateRule2Status(isFromActivation: isFromActivation??false);
+                        // Get.offAll(const LoginScreen());
                        /* Get.offAll(DashboardScreen());*/
                         },textSize: mediumButtonTs,)
                     ],
