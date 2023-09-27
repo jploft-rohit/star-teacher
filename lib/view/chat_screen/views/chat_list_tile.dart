@@ -7,6 +7,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_icons.dart';
 import 'package:staff_app/utility/base_views/base_image_network.dart';
+import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/utility/base_views/base_pagination_footer.dart';
 import 'package:staff_app/utility/base_views/base_toggle_tab_bar.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
@@ -65,7 +66,7 @@ class _ChatListTileState extends State<ChatListTile> with SingleTickerProviderSt
       onRefresh: (){
         controller.getChatHistory(refreshType: "refresh");
       },
-      child: ListView.builder(
+      child: (controller.chatHistoryList?.length??0) == 0 ? const BaseNoData() : ListView.builder(
         itemCount: (controller.chatHistoryList?.length??0),
         shrinkWrap: true,
         // padding: EdgeInsets.only(bottom: 100),

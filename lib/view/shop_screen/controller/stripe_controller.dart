@@ -23,13 +23,13 @@ class StripeController extends GetxController{
     try {
       String payAbleAmount;
       try {
-        double amount =double.parse(amountPay);
-        int myInt=amount.toInt()*100;
+        double amount = double.parse(amountPay);
+        double myInt=amount*100;
         if(myInt<=100){
           baseToast(message: "Amount should be greater then 1");
           return false;
         }
-        payAbleAmount=myInt.toString();
+        payAbleAmount=myInt.toInt().toString();
       } catch (e) {
         baseToast(message: "Invalid Amount");
         return false;

@@ -51,10 +51,10 @@ class _AddTaskOrReminderScreenState extends State<AddTaskOrReminderScreen> {
       body: Obx(()=>Form(
         key: controller.formKey,
         child: ListView(
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15.0),
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15.0),
             children: [
               addText(translate(context).when_to_remind, 16, Colors.black, FontWeight.normal),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -75,11 +75,11 @@ class _AddTaskOrReminderScreenState extends State<AddTaskOrReminderScreen> {
                           },
                         ),
                       ),
-                      SizedBox(width: 5),
+                      const SizedBox(width: 5),
                       addText(translate(context).daily, radioButtonTitleTs, Colors.black, FontWeight.w400)
                     ],
                   ),
-                  SizedBox(width: 20),
+                  const SizedBox(width: 20),
                   Row(
                     children: [
                       SizedBox(
@@ -98,11 +98,11 @@ class _AddTaskOrReminderScreenState extends State<AddTaskOrReminderScreen> {
                           },
                         ),
                       ),
-                      SizedBox(width: 5),
+                      const SizedBox(width: 5),
                       addText(translate(context).specific_days, radioButtonTitleTs, Colors.black, FontWeight.w400)
                     ],
                   ),
-                  SizedBox(width: 20),
+                  const SizedBox(width: 20),
                   Row(
                     children: [
                       SizedBox(
@@ -122,7 +122,7 @@ class _AddTaskOrReminderScreenState extends State<AddTaskOrReminderScreen> {
                           },
                         ),
                       ),
-                      SizedBox(width: 5,),
+                      const SizedBox(width: 5),
                       addText(translate(context).specific_date, radioButtonTitleTs, Colors.black, FontWeight.w400)
                     ],
                   ),
@@ -131,11 +131,11 @@ class _AddTaskOrReminderScreenState extends State<AddTaskOrReminderScreen> {
               controller.remindType.value=="specific_days" ? Card(
                 elevation: 4.0,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
-                margin: EdgeInsets.only(top: 15),
+                margin: const EdgeInsets.only(top: 15),
                 child:  GridView.builder(
                   shrinkWrap: true,
                   physics: const ClampingScrollPhysics(),
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     mainAxisSpacing: 5,
@@ -155,8 +155,8 @@ class _AddTaskOrReminderScreenState extends State<AddTaskOrReminderScreen> {
                                 child: Checkbox(
                                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                   value: controller.selectedSpecificDays.contains((controller.specificDaysList[index])),
-                                  activeColor: Color(0xFFF7F7F7),
-                                  checkColor: Color(0xFFC19444),
+                                  activeColor: const Color(0xFFF7F7F7),
+                                  checkColor: const Color(0xFFC19444),
                                   side: MaterialStateBorderSide.resolveWith((Set<MaterialState> states) {
                                       if (states.contains(MaterialState.selected)) {
                                         return const BorderSide(color: Color(0xFFC19444));
@@ -189,7 +189,7 @@ class _AddTaskOrReminderScreenState extends State<AddTaskOrReminderScreen> {
                         ], //<Widget>[]
                       ), //R
                 ),
-              ):SizedBox.shrink(),
+              ):const SizedBox.shrink(),
               MediaQuery(
                 data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
                 child: TimePickerDialogs(
@@ -216,15 +216,15 @@ class _AddTaskOrReminderScreenState extends State<AddTaskOrReminderScreen> {
                       : DateTime.now(),
                   selectionColor: Colors.white,
                   selectedTextColor: Colors.black,
-                  monthTextStyle: TextStyle(color: Color(0xFF7E7E7E),fontSize: 10),
-                  dateTextStyle: TextStyle(color: Color(0xFF7E7E7E),fontSize: 20),
-                  dayTextStyle: TextStyle(color: Color(0xFF7E7E7E),fontSize: 10),
+                  monthTextStyle: const TextStyle(color: Color(0xFF7E7E7E),fontSize: 10),
+                  dateTextStyle: const TextStyle(color: Color(0xFF7E7E7E),fontSize: 20),
+                  dayTextStyle: const TextStyle(color: Color(0xFF7E7E7E),fontSize: 10),
                   onDateChange: (date) {
                     controller.selectedDate.value = formatBackendDate(date.toString());
                   },
                 ),
               ),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
               CustomTextField(
                 controller: controller.reminderInput.value,
                 hintText: translate(context).reminder_text,

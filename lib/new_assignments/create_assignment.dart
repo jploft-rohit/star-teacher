@@ -35,7 +35,7 @@ class _CreateAssignmentState extends State<CreateAssignment> with SingleTickerPr
   @override
   void initState() {
     super.initState();
-
+    controller.setData();
   }
 
   @override
@@ -154,7 +154,7 @@ class _CreateAssignmentState extends State<CreateAssignment> with SingleTickerPr
                           },
                           validator: (val){
                             if (controller.postDateCtrl.value.text.trim().isEmpty) {
-                              return "Please Select Post Date";
+                              return "Please Select Assign Date";
                             }
                             return null;
                           },
@@ -169,27 +169,31 @@ class _CreateAssignmentState extends State<CreateAssignment> with SingleTickerPr
                             showTimePicker(
                               context: context,
                               builder: (context, child) {
-                                return Theme(
-                                  data: Theme.of(context).copyWith(
-                                    colorScheme: const ColorScheme.light(
-                                      primary: BaseColors.primaryColor,
+                                return MediaQuery(
+                                  data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+                                  child: Theme(
+                                    data: Theme.of(context).copyWith(
+                                      colorScheme: const ColorScheme.light(
+                                        primary: BaseColors.primaryColor,
+                                      ),
                                     ),
+                                    child: child!,
                                   ),
-                                  child: child!,
                                 );
                               },
                               initialTime: TimeOfDay.now(),
                             ).then((picked){
                               if (picked != null) {
                                 print(picked.to24hours());
-                                controller.postTimeCtrl.value.text = (picked.to24hours())+(":00");
+                                controller.postTimeCtrl.value.text = (picked.to12hours(context));
+                                controller.selectedPostTimeAPI.value = "${picked.to24hours()}:00";
                               }
                             });
                           },
                           suffixIcon: "assets/images/time_icon1.svg",
                           validator: (val){
                             if (controller.postTimeCtrl.value.text.trim().isEmpty) {
-                              return "Please Select Post Time";
+                              return "Please Select Assign Time";
                             }
                             return null;
                           },
@@ -243,20 +247,24 @@ class _CreateAssignmentState extends State<CreateAssignment> with SingleTickerPr
                             showTimePicker(
                               context: context,
                               builder: (context, child) {
-                                return Theme(
-                                  data: Theme.of(context).copyWith(
-                                    colorScheme: const ColorScheme.light(
-                                      primary: BaseColors.primaryColor,
+                                return MediaQuery(
+                                  data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+                                  child: Theme(
+                                    data: Theme.of(context).copyWith(
+                                      colorScheme: const ColorScheme.light(
+                                        primary: BaseColors.primaryColor,
+                                      ),
                                     ),
+                                    child: child!,
                                   ),
-                                  child: child!,
                                 );
                               },
                               initialTime: TimeOfDay.now(),
                             ).then((picked){
                               if (picked != null) {
                                 print(picked.to24hours());
-                                controller.submitTimeCtrl.value.text = (picked.to24hours())+(":00");
+                                controller.submitTimeCtrl.value.text = picked.to12hours(context);
+                                controller.selectedSubmitTimeAPI.value = picked.to24hours()+(":00");
                               }
                             });
                           },
@@ -343,12 +351,12 @@ class _CreateAssignmentState extends State<CreateAssignment> with SingleTickerPr
                             }
                         );
                       },
-                      validator: (val){
-                        if (controller.supportDocCtrl.value.text.trim().isEmpty) {
-                          return "Please Select Support Doc";
-                        }
-                        return null;
-                      },
+                      // validator: (val){
+                      //   if (controller.supportDocCtrl.value.text.trim().isEmpty) {
+                      //     return "Please Select Support Doc";
+                      //   }
+                      //   return null;
+                      // },
                     ),
                   ),
                   Visibility(

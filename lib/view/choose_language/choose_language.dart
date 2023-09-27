@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
@@ -69,7 +68,6 @@ class _ChooseLangaugeScreenState extends State<ChooseLangaugeScreen> {
                               controller.selectedPos.value = index;
                               Locale locale = await setLocalePref(controller.selectedPos.value == 1 ? ENGLISH : ARABIC);
                               Get.updateLocale(locale);
-
                             },
                             child: Obx(() => Container(
                                        width: 38.w,

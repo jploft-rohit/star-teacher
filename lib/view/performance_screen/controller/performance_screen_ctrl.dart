@@ -37,14 +37,14 @@ class PerformanceController extends GetxController{
     BaseAPI().get(url: ApiEndPoints().getPerformance, queryParameters: {
       "rating":(selectedRatingIndex.value+1) > 0 ? (selectedRatingIndex.value+1).toString() : "",
       "role": selectedTabIndex.value == 0
-          ? "manegement"
+          ? "management"
           : selectedTabIndex.value == 1
           ? "staff"
           : selectedTabIndex.value == 2
           ? "star"
           : selectedTabIndex.value == 3
           ? "parent"
-          : "manegement",
+          : "management",
       "limit":apiItemLimit,
       "page":page.value.toString()
     },showLoader: page.value == 1).then((value){

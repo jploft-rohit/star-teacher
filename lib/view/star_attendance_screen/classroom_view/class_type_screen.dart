@@ -9,6 +9,7 @@ import 'package:staff_app/backend/responses_model/class_section_response.dart';
 import 'package:staff_app/backend/responses_model/school_list_response.dart';
 import 'package:staff_app/constants-classes/color_constants.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
+import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/base_student_filter.dart';
 import 'package:staff_app/utility/base_views/base_tab_bar.dart';
@@ -121,6 +122,10 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
                         controller.searchController.clear();
                         controller.selectedClassId.value = value?.sId??"";
                         controller.selectedClassName.value = value?.name??"";
+                        /// Clear Data
+                        controller.searchController.clear();
+                        controller.selectedSectionName.value = "";
+                        controller.selectedSectionId.value = "";
                         await baseCtrl.getClassSections(classId: controller.selectedClassId.value);
                         if (controller.selectedFMOPos.value == 2 && controller.selectedClassType.value == 0) {
                           controller.getManualStarAttendanceList();
@@ -268,7 +273,7 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
                       padding: const EdgeInsets.symmetric(horizontal: 5.0),
                       child: GestureDetector(child: SvgPicture.asset(qrCodeSvg, height: 25.sp,color: BaseColors.primaryColor,),onTap: (){
                       // showScanQrDialogue(context, true);
-                      Get.to(const ScanQrCodeScreen());
+                        Get.to(const AttendanceQRScanner());
                     }))
                   : const SizedBox.shrink(),
             ],
@@ -331,7 +336,7 @@ class _ClassTypeScreenState extends State<ClassTypeScreen> with SingleTickerProv
         Obx(()=>Visibility(
             visible: controller.selectedFMOPos.value == 2,
             child: Expanded(
-                child: ListView.builder(
+                child: (controller.manualList?.length??0) == 0 ? const BaseNoData() : ListView.builder(
                   padding: EdgeInsets.only(bottom: 2.h),
                   itemCount: controller.manualList?.length??0,
                   shrinkWrap: true,

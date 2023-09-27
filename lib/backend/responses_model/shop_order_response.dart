@@ -32,6 +32,7 @@ class ShopOrderResponse {
 
 class ShopOrderData {
   dynamic sId;
+  dynamic status;
   dynamic orderId;
   dynamic isPreOrderClosed;
   dynamic orderStatus;
@@ -64,6 +65,7 @@ class ShopOrderData {
   ShopOrderData(
       {this.sId,
         this.orderId,
+        this.status,
         this.isPreOrderClosed,
         this.orderStatus,
         this.progressStatus,
@@ -94,6 +96,7 @@ class ShopOrderData {
 
   ShopOrderData.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
+    status = json['status'];
     orderId = json['orderId'];
     isPreOrderClosed = json['isPreOrderClosed'];
     orderStatus = json['orderStatus'];
@@ -132,6 +135,7 @@ class ShopOrderData {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     data['_id'] = this.sId;
+    data['status'] = this.status;
     data['orderId'] = this.orderId;
     data['isPreOrderClosed'] = this.isPreOrderClosed;
     data['orderStatus'] = this.orderStatus;

@@ -59,13 +59,13 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> w
                 Tab(
                   child: Padding(
                     padding: EdgeInsets.only(right: isRTL ? 0 : 6, left: isRTL ? 6 : 0),
-                    child: BaseButton(title: 'School',onPressed: null,verticalPadding: 0,isActive: tabController.index == 0 ? true : false,isToggle: tabController.index == 0 ? true : false,btnType: toggleLargeButton,),
+                    child: BaseButton(title: translate(context).school,onPressed: null,verticalPadding: 0,isActive: tabController.index == 0 ? true : false,isToggle: tabController.index == 0 ? true : false,btnType: toggleLargeButton,),
                   ),
                 ),
                 Tab(
                   child: Padding(
                     padding: EdgeInsets.only(right: isRTL ? 6 : 0, left: isRTL ? 0 : 6),
-                    child: BaseButton(title: 'Transportation',onPressed: null,verticalPadding: 0,isActive: tabController.index == 1 ? true : false, isToggle: tabController.index == 1 ? true : false,btnType: toggleLargeButton,),
+                    child: BaseButton(title: translate(context).transportation,onPressed: null,verticalPadding: 0,isActive: tabController.index == 1 ? true : false, isToggle: tabController.index == 1 ? true : false,btnType: toggleLargeButton,),
                   ),
                 ),
               ]),
@@ -193,7 +193,8 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> w
                 onChanged: (bool value) {
                   controller.changeNotificationSetting(index: index);
                   setState(() {});
-                },),
+                },
+              ),
               ),
             ),
           ],

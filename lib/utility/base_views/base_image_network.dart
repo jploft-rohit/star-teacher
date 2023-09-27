@@ -3,13 +3,13 @@ import 'package:staff_app/backend/api_end_points.dart';
 
 class BaseImageNetwork extends StatelessWidget {
   final String? link;
-  final bool? concatBaseUrl;
+  final bool? concatBaseUrl, showLoader;
   final double? borderRadius;
   final BoxFit? fit;
   final Widget? errorWidget;
   final double? topMargin,bottomMargin,rightMargin,leftMargin,height,width;
   final int? cacheHeight,cacheWidth;
-  const BaseImageNetwork({Key? key, this.link, this.topMargin, this.bottomMargin, this.rightMargin, this.leftMargin, this.height, this.width, this.concatBaseUrl, this.borderRadius, this.fit, this.errorWidget, this.cacheHeight, this.cacheWidth}) : super(key: key);
+  const BaseImageNetwork({Key? key, this.link, this.topMargin, this.bottomMargin, this.rightMargin, this.leftMargin, this.height, this.width, this.concatBaseUrl, this.borderRadius, this.fit, this.errorWidget, this.cacheHeight, this.cacheWidth, this.showLoader}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +32,14 @@ class BaseImageNetwork extends StatelessWidget {
           },
           loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
             if (loadingProgress == null) return child;
-            return Center(
+            return (showLoader??true) ? Center(
               child: CircularProgressIndicator(
                 value: loadingProgress.expectedTotalBytes != null
                     ? loadingProgress.cumulativeBytesLoaded /
                     loadingProgress.expectedTotalBytes!
                     : null,
               ),
-            );
+            ) : const SizedBox.shrink();
           },
         ),
       ),

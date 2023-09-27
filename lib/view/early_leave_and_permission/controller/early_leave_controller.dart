@@ -136,8 +136,8 @@ class EarlyLeaveController extends GetxController{
       }
       BaseAPI().post(url: ApiEndPoints().createEarlyLeave, data: data).then((value) async {
         if (value?.statusCode ==  200) {
-          selectedSchoolId.value = "";
-          schoolController.clear();
+          selectedSchoolId.value = baseCtrl.schoolListData.data?.data?.first.sId??"";
+          schoolController.text = baseCtrl.schoolListData.data?.data?.first.name??"";
           Get.back();
           BaseOverlays().showSnackBar(message: await BaseSuccessResponse.fromJson(value?.data).message??"",title: translate(Get.context!).success);
           getData();

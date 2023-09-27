@@ -273,10 +273,12 @@ class Sender {
   dynamic country;
   dynamic sector;
   dynamic maritalStatus;
+  RoleData? roleData;
 
   Sender(
       {this.sId,
         this.mobile,
+        this.roleData,
         this.iV,
         this.address,
         this.createdAt,
@@ -308,6 +310,7 @@ class Sender {
     address = json['address'];
     createdAt = json['createdAt'];
     dob = json['dob'];
+    roleData = json['roleData'] != null ? new RoleData.fromJson(json['roleData']) : null;
     email = json['email'];
     emirateId = json['emirateId'];
     emirateIdExpire = json['emirateIdExpire'];
@@ -356,6 +359,53 @@ class Sender {
     data['country'] = this.country;
     data['sector'] = this.sector;
     data['maritalStatus'] = this.maritalStatus;
+    if (this.roleData != null) {
+      data['roleData'] = this.roleData!.toJson();
+    }
+    return data;
+  }
+}
+
+
+class RoleData {
+  dynamic isDeleted;
+  dynamic sId;
+  dynamic name;
+  dynamic type;
+  dynamic status;
+  dynamic createdBy;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic displayName;
+  dynamic filterType;
+
+  RoleData({this.isDeleted, this.sId, this.name, this.type, this.status, this.createdBy, this.createdAt, this.updatedAt, this.displayName, this.filterType});
+
+  RoleData.fromJson(Map<String, dynamic> json) {
+    isDeleted = json['isDeleted'];
+    sId = json['_id'];
+    name = json['name'];
+    type = json['type'];
+    status = json['status'];
+    createdBy = json['createdBy'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    displayName = json['displayName'];
+    filterType = json['filterType'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['isDeleted'] = this.isDeleted;
+    data['_id'] = this.sId;
+    data['name'] = this.name;
+    data['type'] = this.type;
+    data['status'] = this.status;
+    data['createdBy'] = this.createdBy;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    data['displayName'] = this.displayName;
+    data['filterType'] = this.filterType;
     return data;
   }
 }

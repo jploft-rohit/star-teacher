@@ -9,6 +9,7 @@ import 'package:staff_app/backend/responses_model/home_response.dart';
 import 'package:staff_app/backend/responses_model/news_broadcast_response.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 
 import '../../utility/sizes.dart';
 
@@ -18,16 +19,19 @@ class DashboardScreenCtrl extends GetxController{
   RxString totalUnReadNewsBroadcastCount = "0".obs;
   RxList<TodaySchedule>? todayScheduledList = <TodaySchedule>[].obs;
   TextEditingController schoolController = TextEditingController();
+  Rx<TextEditingController> dashboardSchoolController = TextEditingController().obs;
   RxString? numberOfClassesTaken = "0".obs;
   RxString? rationOfPerformance = "0".obs;
   RxString? notificationCount = "0".obs;
   final currentIndex = 2.obs;
+  BaseCtrl baseCtrl = Get.find<BaseCtrl>();
   RxInt selectedTabIndex = 0.obs;
   RxString isActivationRequestSent = "".obs;
   GlobalKey<CurvedNavigationBarState> bottomNavigationKey = GlobalKey();
   /// School
   RxString selectedSchoolId = "".obs;
   RxString selectedSchoolName = "".obs;
+  RxString selectedDashboardSchoolId = "".obs;
   /// Class
   RxString selectedClassId = "".obs;
   RxString selectedClassName = "".obs;
@@ -37,13 +41,6 @@ class DashboardScreenCtrl extends GetxController{
   /// Pagination
   RxInt page = 1.obs;
   final RefreshController refreshController = RefreshController(initialRefresh: false);
-
-  @override
-  void onInit() {
-    super.onInit();
-    getBroadCastData();
-    getHomeData();
-  }
 
   getBroadCastData({bool? showLoader, String? refreshType}){
     isBroadCastLoading.value = true;
@@ -55,7 +52,7 @@ class DashboardScreenCtrl extends GetxController{
       page.value++;
     }
     var bodyData = {
-      "school":selectedSchoolId.value,
+      "school":selectedDashboardSchoolId.value,
       "section":selectedSectionId.value,
       "star":"",
       "classId":selectedClassId.value,
@@ -91,7 +88,9 @@ class DashboardScreenCtrl extends GetxController{
   }
   getHomeData(){
     todayScheduledList?.clear();
-    BaseAPI().get(url: ApiEndPoints().getHomeData).then((value){
+    BaseAPI().get(url: ApiEndPoints().getHomeData, queryParameters: {
+      "school": selectedDashboardSchoolId.value
+    }).then((value){
       if (value?.statusCode ==  200) {
         todayScheduledList?.value = HomeResponse.fromJson(value?.data).data?.todaySchedule??[];
         numberOfClassesTaken?.value = HomeResponse.fromJson(value?.data).data?.totalClassTaken.toString()??"";

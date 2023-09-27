@@ -212,8 +212,8 @@ class StarAttendanceScreenCtrl extends GetxController{
     }
     await BaseAPI().post(url: ApiEndPoints().updateManualAttendanceStatus,data: data).then((value){
       if (value?.statusCode ==  200) {
+        BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"",title: "Success");
         returnValue = true;
-        BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"",title: translate(Get.context!).success);
         if ((singleStudentId??"").isEmpty) {
           isSelectAll.value = false;
           getManualStarAttendanceList();

@@ -47,7 +47,8 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.0),
-                    border: Border.all(color: BaseColors.borderColor)),
+                    border: Border.all(color: BaseColors.borderColor),
+                ),
                 child: Column(
                   children: [
                     Row(
@@ -92,24 +93,27 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
                         Column(
                           children: [
                             const SizedBox(height: 5),
-                            Container(
-                              width: 20.w,
-                              decoration: BoxDecoration(
-                                  color: BaseColors.backgroundColor,
-                                  // boxShadow: [getDeepBoxShadow()],
-                                  border: Border.all(
-                                      color: BaseColors.primaryColor,
-                                      width: 1.5,
+                            Visibility(
+                              visible: (myProfileController.response.value.data?.currentStatus??"").toString().toLowerCase() == "inactive",
+                              child: Container(
+                                width: 20.w,
+                                decoration: BoxDecoration(
+                                    color: BaseColors.backgroundColor,
+                                    // boxShadow: [getDeepBoxShadow()],
+                                    border: Border.all(
+                                        color: BaseColors.primaryColor,
+                                        width: 1.5,
+                                    ),
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 1, vertical: 4,
                                   ),
-                                  borderRadius: BorderRadius.circular(20)),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 1, vertical: 4,
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    translate(context).deactivated.toUpperCase(),
-                                    style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 12.sp),),
+                                  child: Center(
+                                    child: Text(
+                                      translate(context).deactivated.toUpperCase(),
+                                      style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 12.sp),),
+                                  ),
                                 ),
                               ),
                             ),
@@ -162,12 +166,21 @@ class _DeactivationDetailScreenState extends State<DeactivationDetailScreen> {
               Text(widget.data?.deactivationReason??"", style: Style.montserratRegularStyle().copyWith(fontSize: 13.sp, height: 1.5),),
               SizedBox(height: 2.h),
               Text(translate(context).required_evidence, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),),
-              SizedBox(
-                height: .5.h,
-              ),
-              Text(widget.data?.requiredEvidance??"", style: Style.montserratRegularStyle().copyWith(fontSize: 13.sp, height: 1.5),),
-              SizedBox(
-                height: 2.h,
+              SizedBox(height: 0.5.h),
+              Text(widget.data?.requiredEvidance??"", style: Style.montserratRegularStyle().copyWith(fontSize: 13.sp, height: 1.5)),
+              SizedBox(height: 2.h),
+              Visibility(
+                visible: (widget.data?.reason??"").toString().isNotEmpty,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(translate(context).reject_reason, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),),
+                    SizedBox(height: 0.5.h),
+                    Text(widget.data?.reason??"", style: Style.montserratRegularStyle().copyWith(fontSize: 13.sp, height: 1.5)),
+                    SizedBox(height: 2.h),
+                  ],
+                ),
               ),
               const Divider(),
               SizedBox(

@@ -41,7 +41,7 @@ class _CreateLostFoundState extends State<CreateLostFound> {
     return Scaffold(
       appBar: BaseAppBar(title: widget.isUpdating ? widget.type == "Lost" ? "Update Lost Report" : "Update Found Report" : widget.type == "Lost" ? "Report Lost" : "Report Found"),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Form(
           key: controller.formKey,
           child: Obx(()=>SingleChildScrollView(

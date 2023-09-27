@@ -196,7 +196,7 @@ class TodayScheduleController extends GetxController{
     });
     BaseAPI().post(url: ApiEndPoints().notifyAdmin, data: data).then((value){
       if (value?.statusCode ==  200) {
-        BaseOverlays().showSnackBar(message: "Notified Successfully"/*(BaseSuccessResponse.fromJson(value?.data).message??"")*/,title: "Success");
+        BaseOverlays().showSnackBar(message: (BaseSuccessResponse.fromJson(value?.data).message??""),title: "Success");
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: "Error");
       }

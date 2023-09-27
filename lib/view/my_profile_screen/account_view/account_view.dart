@@ -22,6 +22,7 @@ import 'package:staff_app/view/performance_screen/performance_screen.dart';
 import 'package:staff_app/view/request_online_classes/request_online_classes_detail.dart';
 import 'package:staff_app/view/transportation_screen/transportation_screen.dart';
 import 'package:staff_app/view/wallet/wallet_view.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 
 class AccountView extends StatefulWidget {
   const AccountView({Key? key}) : super(key: key);
@@ -95,25 +96,25 @@ class _AccountViewState extends State<AccountView> {
                 Get.to(const LocationScreen());
               } else if(index == 14){
                 Get.to(const WalletView());
-              }
-              else if(index == 15){
+              } else if(index == 15){
                 Get.to(const TransportationScreen());
               }
               else if(index == 16){
                 if ((myProfileController.response.value.data?.isDeactivateRequestData?.toString()??"") == "0") {
-                  /// History Of Sent Request
+                  /// History Of Sent Request - Listing
                   Get.to(ActivationRequestDetailScreen(
                       data: myProfileController.response.value.data?.deactivateData,
                       qrCode: myProfileController.response.value.data?.barcode??"",
                       bloodType: myProfileController.response.value.data?.bloodType??""),
                   );
                 }else{
-                  /// Send New Request For Activation
+                  /// Send New Request For Activation - Form
                   Get.to(DeactivationDetailScreen(
                       data: myProfileController.response.value.data?.deactivateData,
                       qrCode: myProfileController.response.value.data?.barcode??"",
-                      bloodType: myProfileController.response.value.data?.bloodType??""),
-                  );
+                      bloodType: myProfileController.response.value.data?.bloodType??"",
+                  ),
+                 );
                 }
               } else if(index == 17){
                 // Get.to(const WalletView());
@@ -122,6 +123,7 @@ class _AccountViewState extends State<AccountView> {
                   onRightButtonPressed: (){
                     BaseOverlays().dismissOverlay();
                     myProfileController.deleteAccount();
+                    ZegoUIKitPrebuiltCallInvitationService().uninit();
                   }
                 );
               }

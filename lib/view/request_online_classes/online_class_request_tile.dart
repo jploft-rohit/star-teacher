@@ -173,7 +173,7 @@ class _OnlineClassRequestTileState extends State<OnlineClassRequestTile> {
                       suffixWidgetsList: [
                         BaseIcons().download(onRightButtonPressed: (){
                           BaseOverlays().dismissOverlay();
-                          downloadFile(url: controller.list?[index]?.document??"",concatBaseUrl: false);
+                          downloadFile(url: controller.list?[index]?.document??"", concatBaseUrl: false);
                         },leftMargin: 2.w,rightMargin: isRTL ? 3.w : 0,
                         ),
                         BaseIcons().view(url: controller.list?[index]?.document??"",leftMargin: 2.w,rightMargin: isRTL ? 2.w : 0, concatBaseUrl: false),

@@ -58,7 +58,7 @@ class _ReasonPopupState extends State<ReasonPopup> {
                       onTap: (){
                         Get.back();
                       },
-                      child: Icon(
+                      child: const Icon(
                         Icons.close,
                         color: Colors.black,
                       ),
@@ -91,58 +91,58 @@ class _ReasonPopupState extends State<ReasonPopup> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: 8.h,
-                        child: Text("Upload\nEvidence : ", style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),)),
-                    Expanded(
-                      child: BaseTextFormField(
-                        controller: controller.uploadController.value,
-                        hintText: translate(context).upload_file_or_photo,
-                        suffixIcon: "assets/images/upload_icon.svg",
-                        onTap: (){
-                              BaseOverlays().showMediaPickerDialog(
-                                  onCameraClick: () async {
-                                BaseOverlays().dismissOverlay();
-                                ImagePicker picker = ImagePicker();
-                                await picker.pickImage(source: ImageSource.camera).then((value){
-                                  if (value != null) {
-                                    controller.selectedFile?.value = File(value.path);
-                                    controller.uploadController.value.text = value.path.split("/").last;
-                                  }
-                                 },
-                                );
-                               },
-                              onGalleryClick: () async {
-                                BaseOverlays().dismissOverlay();
-                                ImagePicker picker = ImagePicker();
-                                await picker.pickImage(source: ImageSource.gallery).then((value){
-                                  if (value != null) {
-                                    controller.selectedFile?.value = File(value.path);
-                                    controller.uploadController.value.text = value.path.split("/").last;
-                                  }
-                                });
-                              },
-                                  onFilePick: (){
-                                    BaseOverlays().dismissOverlay();
-                                    pickFile().then((value) {
-                                      controller.selectedFile?.value = File(value);
-                                      controller.uploadController.value.text = (value.split("/").last);
-                                    });
-                                  }
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 3.h),
-                Divider(),
+                // SizedBox(
+                //   height: 2.h,
+                // ),
+                // Row(
+                //   crossAxisAlignment: CrossAxisAlignment.start,
+                //   children: [
+                //     SizedBox(
+                //       width: 8.h,
+                //         child: Text("Upload\nEvidence : ", style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),)),
+                //     Expanded(
+                //       child: BaseTextFormField(
+                //         controller: controller.uploadController.value,
+                //         hintText: translate(context).upload_file_or_photo,
+                //         suffixIcon: "assets/images/upload_icon.svg",
+                //         onTap: (){
+                //               BaseOverlays().showMediaPickerDialog(
+                //                   onCameraClick: () async {
+                //                 BaseOverlays().dismissOverlay();
+                //                 ImagePicker picker = ImagePicker();
+                //                 await picker.pickImage(source: ImageSource.camera).then((value){
+                //                   if (value != null) {
+                //                     controller.selectedFile?.value = File(value.path);
+                //                     controller.uploadController.value.text = value.path.split("/").last;
+                //                   }
+                //                  },
+                //                 );
+                //                },
+                //               onGalleryClick: () async {
+                //                 BaseOverlays().dismissOverlay();
+                //                 ImagePicker picker = ImagePicker();
+                //                 await picker.pickImage(source: ImageSource.gallery).then((value){
+                //                   if (value != null) {
+                //                     controller.selectedFile?.value = File(value.path);
+                //                     controller.uploadController.value.text = value.path.split("/").last;
+                //                   }
+                //                 });
+                //               },
+                //                   onFilePick: (){
+                //                     BaseOverlays().dismissOverlay();
+                //                     pickFile().then((value) {
+                //                       controller.selectedFile?.value = File(value);
+                //                       controller.uploadController.value.text = (value.split("/").last);
+                //                     });
+                //                   }
+                //           );
+                //         },
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                // SizedBox(height: 3.h),
+                const Divider(),
                 Center(
                   child: BaseButton(btnType: mediumButton,title: translate(context).submit_btn_txt, onPressed: (){
                     if (formKey.currentState?.validate()??false) {

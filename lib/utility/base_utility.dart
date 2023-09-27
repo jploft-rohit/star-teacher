@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'dart:math';
 import 'dart:ui' as ui;
+import 'dart:ui';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -11,6 +13,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/backend/base_api.dart';
+import 'package:staff_app/new_assignments/new_assignments_screen.dart';
+import 'package:staff_app/storage/base_shared_preference.dart';
+import 'package:staff_app/storage/sp_keys.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/Utility/sizes.dart';
@@ -18,8 +23,40 @@ import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_qr.dart';
 import 'package:staff_app/utility/constant_images.dart';
 import 'package:staff_app/utility/intl/src/intl/date_format.dart';
+import 'package:staff_app/video_call_zego_utility/login_service.dart';
 import '../constants-classes/color_constants.dart';
 import 'images_icon_path.dart';
+import 'package:staff_app/view/about_us/about_us.dart';
+import 'package:staff_app/view/annual_schedule/annual_schedule.dart';
+import 'package:staff_app/view/assignments_screen/assignment_screen.dart';
+import 'package:staff_app/view/attendance_screen/attendance_screen.dart';
+import 'package:staff_app/view/cards_and_tags_screen/cards_and_tags_screen.dart';
+import 'package:staff_app/view/class_schedule_screen/class_schedule_screen.dart';
+import 'package:staff_app/view/complaints_report_screen/view/complaints_report_screen.dart';
+import 'package:staff_app/view/custody/custody_view.dart';
+import 'package:staff_app/view/delegation/delegation_screen.dart';
+import 'package:staff_app/view/early_leave_and_permission/early_leave_permission.dart';
+import 'package:staff_app/view/events/events_screen.dart';
+import 'package:staff_app/view/exam_time_table/exam_time_table_screen.dart';
+import 'package:staff_app/view/feedback_help_screen/feedback_help_screen.dart';
+import 'package:staff_app/view/leave_request_screen/leave_request_screen.dart';
+import 'package:staff_app/view/library_screen/notebook_screen/notebook_screen.dart';
+import 'package:staff_app/view/lost_or_found_screen/lost_found.dart';
+import 'package:staff_app/view/my_notes/my_notes_screen.dart';
+import 'package:staff_app/view/my_profile_screen/medical_report_view/medical_report_view.dart';
+import 'package:staff_app/view/my_profile_screen/my_profile_screen.dart';
+import 'package:staff_app/view/notification_setting_screen/notification_setting_screen.dart';
+import 'package:staff_app/view/performance_screen/performance_screen.dart';
+import 'package:staff_app/view/request_online_classes/request_online_classes_detail.dart';
+import 'package:staff_app/view/schedule_meeting_screen/schedule_meeting_screen.dart';
+import 'package:staff_app/view/shop_screen/shop_screen.dart';
+import 'package:staff_app/view/star_attendance_screen/star_attendance_screen.dart';
+import 'package:staff_app/view/star_evaluation_screen/star_evaluation_screen.dart';
+import 'package:staff_app/view/star_reward_screen/star_reward_screen.dart';
+import 'package:staff_app/view/task_or_reminder_screen/task_or_reminder_screen.dart';
+import 'package:staff_app/view/transportation_screen/transportation_location_screen.dart';
+import 'package:staff_app/view/transportation_screen/transportation_screen.dart';
+import 'package:staff_app/view/wallet/wallet_view.dart';
 
 class Style{
   static TextStyle montserratBoldStyle(){
@@ -630,7 +667,7 @@ void showScanQrDialogue(BuildContext context, bool isShowButton,{data}) {
                             padding: const EdgeInsets.only(top: 5),
                             child: Center(
                               child: addAlignedText(
-                                  'QR Code', 18, Colors.black, FontWeight.w700),
+                                  translate(Get.context!).qr_code_caps, 18, Colors.black, FontWeight.w700),
                             ),
                           ),
                         ],
@@ -643,7 +680,7 @@ void showScanQrDialogue(BuildContext context, bool isShowButton,{data}) {
                         gapless: false,
                       ),
                       SizedBox(height:1.h),
-                      if(isShowButton) BaseButton(btnType: mediumLargeButton,title: "PRINT QR", onPressed: (){},borderRadius: 20,)
+                      if(isShowButton) BaseButton(btnType: mediumLargeButton,title: translate(Get.context!).print_qr_caps, onPressed: (){},borderRadius: 20,)
                     ],
                   ),
                 ),
@@ -946,6 +983,46 @@ Future<void> downloadFile({required String url,bool? concatBaseUrl,bool? showLoa
   }
 }
 
+// Future<void> _printQrImageView() async {
+//   GlobalKey qrImageKey = GlobalKey();
+//   var qrImage = await qrImageRepaintBoundary.toImage();
+//   var byteData = await qrImage.toByteData(format: ImageByteFormat.png);
+//   var pngBytes = byteData!.buffer.asUint8List();
+//   final image = decodeImage(pngBytes)!;
+//   final jpg = encodeJpg(image, quality: 100);
+//
+//   RenderRepaintBoundary qrImageRepaintBoundary =
+//   qrImageKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+//
+//   var qrImage = await qrImageRepaintBoundary.toImage();
+//   var byteData = await qrImage.toByteData(format: ImageByteFormat.png);
+//   var pngBytes = byteData!.buffer.asUint8List();
+//
+//   final image = decodeImage(pngBytes)!;
+//
+//   final jpg = encodeJpg(image, quality: 100);
+//
+//   await Printing.layoutPdf(
+//     onLayout: (format) async {
+//       final pdf = PdfWidgets.Document();
+//       pdf.addPage(
+//         PdfWidgets.Page(
+//           build: (PdfWidgets.Context context) {
+//             return PdfWidgets.Center(
+//               child: PdfWidgets.Image(
+//                 PdfWidgets.MemoryImage(jpg),
+//               ),
+//             );
+//           },
+//         ),
+//       );
+//
+//       final Uint8List bytes = await pdf.save();
+//       return bytes;
+//     },
+//   );
+// }
+
 // Future<Response> download(String url, {Map<String, dynamic>? headers,
 // void Function(int, int)? onReceiveProgress}) async {
 // // check permission from permission handler
@@ -1063,6 +1140,18 @@ String getMonthOnly(String dateString1) {
   }
 }
 
+zegoFunction() async {
+  final String? _userID = await BaseSharedPreference().getString(SpKeys().userId)??"";
+  final String? _userName = await BaseSharedPreference().getString(SpKeys().userName)??"";
+  if (_userID != null) {
+    currentUser.id = _userID;
+    currentUser.name = _userName??"";
+  }
+  if (currentUser.id.isNotEmpty) {
+    onUserLogin();
+  }
+}
+
 String convertDateFormat7(String dateString1){
   DateTime date = DateTime.parse(dateString1);
   print("date1");
@@ -1168,7 +1257,7 @@ Widget buildDivider3() {
 
 Widget saveButton(context, onTap) {
   return BaseButton(
-    title: 'SAVE',
+    title: translate(context).save.toUpperCase(),
     onPressed: onTap,
     btnType: 'small',
     // removeHorizontalPadding: true,
@@ -1445,6 +1534,124 @@ SizedBox spacewidth(double width) {
   );
 }
 
+getKeyScreenName({String? screenKeyValue}){
+  if ((screenKeyValue??"").isNotEmpty) {
+    switch (screenKeyValue) {
+      case "classSchedule":
+        Get.to(const ClassScheduleScreen());
+        break;
+      case "attendance":
+        Get.to(const AttendanceScreen());
+        break;
+      case "performance":
+        Get.to(const PerformanceScreen(index: 0,));
+        break;
+      case "earlyLeave":
+        Get.to(const EarlyLeavePermission());
+        break;
+      case "leaveRequest":
+        Get.to(const LeaveRequestScreen());
+        break;
+      case "myStickyNotes":
+        Get.to(const MyNotesScreen());
+        break;
+      case "annualSchedule":
+        Get.to(const AnnualScheduleScreen());
+        break;
+      case "onlineClassRequest":
+        Get.to(const RequestOnlineClassesDetail());
+        break;
+      case "medicalRecord":
+        Get.to(const MedicalReportView());
+        break;
+      case "notificationScreen":
+        Get.to(const NotificationSettingScreen());
+        break;
+      case "complaintReport":
+        Get.to(const ComplaintsReportScreen());
+        break;
+      case "feedbackHelp":
+        Get.to(const FeedbackHelpScreen());
+        break;
+      case "cardsAndTags":
+        Get.to(const CardsAndTagsScreen());
+        break;
+      case "transportationLocation":
+        Get.to(const TransportationLocationScreen());
+        break;
+      case "wallet":
+        Get.to(const WalletView());
+        break;
+      case "transport":
+        Get.to(const TransportationScreen());
+        break;
+      case "myProfile":
+        Get.to(MyProfileScreen(isFromDrawer: true,index: 0));
+        break;
+      case "starAttendance":
+        Get.to(const StarAttendanceScreen());
+        break;
+      case "starEvaluation":
+        Get.to(const StarEvaluationScreen());
+        break;
+      case "assignment_awarenessCourses":
+        Get.to(const NewAssignmentScreen(title: 'Awareness & Courses'));
+        break;
+      case "assignment_worksheet":
+        Get.to(const NewAssignmentScreen(title: 'Worksheet'));
+        break;
+      case "assignment_assessment":
+        Get.to(const NewAssignmentScreen(title: 'Assessment'));
+        break;
+      case "assignment_lab":
+        Get.to(const NewAssignmentScreen(title: 'Lab'));
+        break;
+      case "eLibrary_awarenessCourses":
+        Get.to(const NewAssignmentScreen(title: 'Awareness & Courses'));
+        break;
+      case "eLibrary_worksheet":
+        Get.to(const NewAssignmentScreen(title: 'Worksheet'));
+        break;
+      case "eLibrary_assessment":
+        Get.to(const NewAssignmentScreen(title: 'Assessment'));
+        break;
+      case "eLibrary_lab":
+        Get.to(const NewAssignmentScreen(title: 'Lab'));
+        break;
+      case "shop":
+        Get.to(const ShopView(initialTabIndex: 0));
+        break;
+      case "notebook":
+        Get.to(const NoteBookScreen());
+        break;
+      case "rolesDelegation":
+        Get.to(const DelegationScreen());
+        break;
+      case "taskReminder":
+        Get.to(const TaskOrReminderScreen(isFromBtmBar: false));
+        break;
+      case "scheduleMeeting":
+        Get.to(const ScheduleMeetingScreen());
+        break;
+      case "lostAndFound":
+        Get.to(const LostAndFoundScreen());
+        break;
+      case "events":
+        Get.to(const EventsScreen());
+        break;
+      case "custody":
+        Get.to(const CustodyView());
+        break;
+      case "examTimeTable":
+        Get.to(const ExamTimeTableScreen());
+        break;
+      case "aboutUs":
+        Get.to(const AboutUs());
+        break;
+    }
+  }
+}
+
 Widget textArialUnderline(
     String text, double fontSize, Color fontColor, FontWeight fontWeight) {
   return Text(
@@ -1459,8 +1666,15 @@ Widget textArialUnderline(
   );
 }
 
-Text addOverflowText(
-    String text, double size, Color color, FontWeight fontWeight) {
+Color getValidColor({required String stringColor}) {
+  try {
+    return Color(int.parse(stringColor));
+  } catch (e) {
+    return Colors.grey.shade200;
+  }
+}
+
+Text addOverflowText(String text, double size, Color color, FontWeight fontWeight) {
   return Text(text.tr,
       overflow: TextOverflow.ellipsis,
       textScaleFactor: 1,
@@ -2176,7 +2390,7 @@ void showScanQrDialogueMedical(BuildContext context, {barcode}) {
                             padding: const EdgeInsets.only(top: 5),
                             child: Center(
                               child: addAlignedText(
-                                  'QR Code', 18, Colors.black, FontWeight.w700),
+                                  translate(context).qr_code_caps, 18, Colors.black, FontWeight.w700),
                             ),
                           ),
                         ],

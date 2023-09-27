@@ -153,23 +153,29 @@ class _TransportationLocationScreenState extends State<TransportationLocationScr
                     SizedBox(
                       height: 2.h,
                     ),
-                    Container(
-                      height: 25.h,
-                      width: 100.w,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                            color: BaseColors.primaryColor
+                    Visibility(
+                      visible: (controller.locationData?.value?.changeLocationRequestData?.flatPhoto??"").isNotEmpty,
+                      child: Container(
+                        height: 25.h,
+                        width: 100.w,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              color: BaseColors.primaryColor
+                          ),
+                          borderRadius: BorderRadius.circular(15.0),
                         ),
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      child: BaseImageNetwork(
-                        link: controller.locationData?.value?.changeLocationRequestData?.flatPhoto??"",
-                        width: double.infinity,
-                        concatBaseUrl: false,
-                        // errorWidget: SvgPicture.asset(homeSvg, fit: BoxFit.scaleDown),
+                        child: BaseImageNetwork(
+                          link: controller.locationData?.value?.changeLocationRequestData?.flatPhoto??"",
+                          width: double.infinity,
+                          concatBaseUrl: false,
+                          // errorWidget: SvgPicture.asset(homeSvg, fit: BoxFit.scaleDown),
+                        ),
                       ),
                     ),
-                    SizedBox(height: 1.h),
+                    Visibility(
+                      visible: (controller.locationData?.value?.changeLocationRequestData?.flatPhoto??"").isNotEmpty,
+                      child: SizedBox(height: 1.h),
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -177,8 +183,8 @@ class _TransportationLocationScreenState extends State<TransportationLocationScr
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             buildInfoItems(translate(context).sector, controller.locationData?.value?.changeLocationRequestData?.sector??""),
-                            SizedBox(height: .5.h),
-                            buildInfoItems(translate(context).area, controller.locationData?.value?.changeLocationRequestData?.area??""),
+                            SizedBox(height: 0.5.h),
+                            buildInfoItems(translate(context).area, controller.locationData?.value?.changeLocationRequestData?.areaForTransport?.name??""),
                           ],
                         ),
                         Row(

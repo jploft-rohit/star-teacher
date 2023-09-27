@@ -24,6 +24,7 @@ import '../../utility/sizes.dart';
 class AttendanceScreenController extends GetxController{
   final primaryTabIndex = 0.obs;
   final secondaryTabIndex = 0.obs;
+  final calendarTabIndex = 0.obs;
   Rx<EventList<Event>> absentMarkers = EventList<Event>(events: {}).obs;
   Rx<EventList<Event>> presentMarkers = EventList<Event>(events: {}).obs;
   Rx<EventList<Event>> lateMarkers = EventList<Event>(events: {}).obs;
@@ -70,15 +71,15 @@ class AttendanceScreenController extends GetxController{
       data = {
         "user": userId,
         "monthYear": formatFlutterDateTimeWithoutDate(flutterDateTime: date??selectedDate.value, getDayFirst: false),
-        "type": primaryTabIndex.value == 0 ? "classroom" : primaryTabIndex.value == 1 ? "online" : "transportation",
-        "attendanceType": secondaryTabIndex.value == 0 ? primaryTabIndex.value == 2 ? "ontime" : "present" : secondaryTabIndex.value == 1 ? primaryTabIndex.value == 2 ? "late" : "absent" : "late",
+        "type": /*primaryTabIndex.value == 0 ? "classroom" : primaryTabIndex.value == 1 ? "online"*/ /*primaryTabIndex.value == 0 ?*/ "school"/* : "transportation"*/,
+        "attendanceType": calendarTabIndex.value == 0 ? primaryTabIndex.value == 1 ? "ontime" : "present" : calendarTabIndex.value == 1 ? primaryTabIndex.value == 1 ? "late" : "absent" : "late",
       };
     }else{
       data = {
         "user": userId,
         "date": formatFlutterDateTime(flutterDateTime: selectedDate.value, getDayFirst: false),
-        "type": primaryTabIndex.value == 0 ? "classroom" : primaryTabIndex.value == 1 ? "online" : "transportation",
-        "attendanceType": secondaryTabIndex.value == 0 ? primaryTabIndex.value == 2 ? "ontime" : "present" : secondaryTabIndex.value == 1 ? primaryTabIndex.value == 2 ? "late" : "absent" : "late",
+        "type": /*primaryTabIndex.value == 0 ? "classroom" : primaryTabIndex.value == 1 ? "online"*/ primaryTabIndex.value == 0 ? "school" : "transportation",
+        "attendanceType": secondaryTabIndex.value == 0 ? primaryTabIndex.value == 1 ? "ontime" : "present" : secondaryTabIndex.value == 1 ? primaryTabIndex.value == 1 ? "late" : "absent" : "late",
         "limit":apiItemLimit,
         "page":page.value.toString()
       };

@@ -127,7 +127,6 @@ class _MyProfileViewState extends State<MyProfileView> {
                             children: [
                               addPrimaryColorEditText(
                                   translate(context).name,
-
                                   controller.nameCtrl, const SizedBox.shrink(),
                                   textInputType: TextInputType.name,
                                   validator: (val){
@@ -160,9 +159,16 @@ class _MyProfileViewState extends State<MyProfileView> {
                                     visible: widget.editable??true,
                                     child: Padding(
                                       padding: const EdgeInsets.only(bottom: 25),
-                                      child: BaseButton(removeHorizontalPadding: true,btnType: smallButton,borderRadius: 100,title: translate(context).change,textSize: 11, onPressed: () {
-                                        BaseOverlays().showOtpDialog();
-                                      }),
+                                      child: BaseButton(
+                                          removeHorizontalPadding: true,
+                                          btnType: smallButton,
+                                          borderRadius: 100,
+                                          title: translate(context).change,
+                                          textSize: 11,
+                                          onPressed: () {
+                                            BaseOverlays().showOtpDialog();
+                                          },
+                                      ),
                                     ),
                                   )
                                 ],

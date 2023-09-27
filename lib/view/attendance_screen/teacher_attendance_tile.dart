@@ -37,7 +37,7 @@ class _TeacherAttendanceTileState extends State<TeacherAttendanceTile> {
         controller.getData(refreshType: "refresh");
       },
       child: (controller.list?.length??0) == 0
-          ? const BaseNoData(message: "No Attendance Found")
+          ? BaseNoData(message: translate(context).no_attendance_found)
           : ListView.builder(
             itemCount: controller.list?.length??0,
             shrinkWrap: true,
@@ -94,7 +94,7 @@ class _TeacherAttendanceTileState extends State<TeacherAttendanceTile> {
                                 SizedBox(
                                   width: 2.w,
                                 ),
-                                buildInfoItems(translate(context).reason_given, (controller.list?[index]?.reason??"").toString()),
+                                buildInfoItems(translate(context).reason_given, (controller.list?[index]?.reason??"").toString().isNotEmpty ? "Yes" : "No"),
                               ],
                             ),
                           ),
@@ -114,7 +114,8 @@ class _TeacherAttendanceTileState extends State<TeacherAttendanceTile> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(controller.secondaryTabIndex.value == 0 ? controller.primaryTabIndex.value == 2 ? translate(context).on_time : translate(context).present : controller.secondaryTabIndex.value == 1 ? controller.primaryTabIndex.value == 2 ? translate(context).late : translate(context).absent : translate(context).late, style: Style.montserratBoldStyle().copyWith(color: controller.secondaryTabIndex.value == 0 ? BaseColors.green : Colors.white, fontSize: 16.sp)),
-                        Visibility(
+                        (controller.list?[index]?.reason??"").toString().isEmpty
+                            ? Visibility(
                           visible: controller.secondaryTabIndex.value != 0,
                           child: GestureDetector(
                             onTap: (){
@@ -139,6 +140,7 @@ class _TeacherAttendanceTileState extends State<TeacherAttendanceTile> {
                             ),
                           ),
                         )
+                            : const Text("Approved", style: TextStyle(color: Colors.white,fontSize: 12, fontWeight: FontWeight.bold))
                       ],
                     ),
                   ),

@@ -30,13 +30,15 @@ class _CartViewState extends State<CartView> {
   @override
   void initState() {
     super.initState();
-    controller.getUserCart(callGetData: false);
+    controller.getUserCart(callGetData: false, isFromCart: true);
     controller.selectedPaymentPos.value = 0;
     controller.servingPlace.text = "";
     controller.servingTime.value.text = "";
     controller.servingPlace.text = "";
     controller.fromDateController.text = "";
     controller.toDateController.text = "";
+    controller.isHomeDelivery.value = true;
+    controller.isSchoolDelivery.value = false;
   }
   @override
   Widget build(BuildContext context) {
@@ -128,8 +130,12 @@ class _CartViewState extends State<CartView> {
                 detailRow('Sub Total', "${controller.userCartData?.value?.totalAmount?.toString()??""} AED"),
                 SizedBox(height:1.h),
                 detailRow('Taxes (${controller.userCartData?.value?.tax?.toString()??""}%)', "${controller.userCartData?.value?.taxAmount?.toString()??""} AED"),
-                SizedBox(height:1.h),
-                detailRow('Shipping Charges', "${controller.userCartData?.value?.shippingCharges?.toString()??""} AED"),
+                Visibility(
+                    visible: controller.isHomeDelivery.value,
+                    child: SizedBox(height:1.h)),
+                Visibility(
+                    visible: controller.isHomeDelivery.value,
+                    child: detailRow('Shipping Charges', "${controller.userCartData?.value?.shippingCharges?.toString()??""} AED")),
                 SizedBox(height:1.h),
                 detailRow('Grand Total', '${(controller.userCartData?.value?.grandTotal?.toString()??"")} AED'),
                 SizedBox(height:3.h),
@@ -218,6 +224,8 @@ class _CartViewState extends State<CartView> {
                 //     }
                 //   },btnType: largeButton),
                 // ),
+
+
                 Center(
                     child: BaseButton(title: "CHECKOUT", onPressed: (){
                       if ((controller.cartProductsList?.length??0) != 0) {

@@ -127,8 +127,8 @@ class FeedbackHelpController extends GetxController{
         if (value?.statusCode ==  200) {
           Get.back();
           BaseOverlays().showSnackBar(message: "Updated Successfully",title: translate(Get.context!).success);
-          selectedSchoolId.value = "";
-          schoolController.value.text = "";
+          selectedSchoolId.value = baseCtrl.schoolListData.data?.data?.first.sId??"";
+          schoolController.value.text = baseCtrl.schoolListData.data?.data?.first.name??"";
           getData();
         }else{
           BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
@@ -168,8 +168,8 @@ class FeedbackHelpController extends GetxController{
         if (value?.statusCode ==  200) {
           Get.back();
           BaseOverlays().showSnackBar(message: "Created Successfully",title: translate(Get.context!).success);
-          selectedSchoolId.value = "";
-          schoolController.value.text = "";
+          selectedSchoolId.value = baseCtrl.schoolListData.data?.data?.first.sId??"";
+          schoolController.value.text = baseCtrl.schoolListData.data?.data?.first.name??"";
           getData();
         }else{
           BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);

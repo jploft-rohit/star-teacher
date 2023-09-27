@@ -111,8 +111,8 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
                                             context: context,
                                             pageBuilder: (context, animation, secondaryAnimation) {
                                               return ConfirmationDialog(msg: "Are you sure you've selected present stars?",isShowBtn: true,onTap: () async {
+                                                BaseOverlays().dismissOverlay();
                                                   await controller.updateManualAttendance(presentStatus: "1", attendanceType: "present",singleStudentId: controller.manualList?[widget.index].sId??"").then((value){
-                                                    BaseOverlays().dismissOverlay();
                                                     if (value) {
                                                       selectedRadioButton = "present";
                                                       setState(() {});
@@ -142,8 +142,8 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
                                     context: context,
                                     pageBuilder: (context, animation, secondaryAnimation) {
                                       return ConfirmationDialog(msg: "Are you sure you've selected late stars?",isShowBtn: true,onTap: () async {
+                                        BaseOverlays().dismissOverlay();
                                         await controller.updateManualAttendance(presentStatus: "0.75", attendanceType: "late",singleStudentId: controller.manualList?[widget.index].sId??"").then((value){
-                                          BaseOverlays().dismissOverlay();
                                           if (value) {
                                             selectedRadioButton = "late";
                                             setState(() {});
@@ -171,8 +171,8 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
                                             context: context,
                                             pageBuilder: (context, animation, secondaryAnimation) {
                                               return ConfirmationDialog(msg: "Are you sure you've selected late stars?",isShowBtn: true,onTap: () async {
+                                                BaseOverlays().dismissOverlay();
                                                 await controller.updateManualAttendance(presentStatus: "0.75", attendanceType: "late",singleStudentId: controller.manualList?[widget.index].sId??"").then((value){
-                                                  BaseOverlays().dismissOverlay();
                                                   if (value) {
                                                     selectedRadioButton = "late";
                                                     setState(() {});
@@ -202,8 +202,8 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
                                     context: context,
                                     pageBuilder: (context, animation, secondaryAnimation) {
                                       return ConfirmationDialog(msg: "Are you sure you've selected absent stars?",isShowBtn: true,onTap: () async {
+                                        BaseOverlays().dismissOverlay();
                                         await controller.updateManualAttendance(presentStatus: "0", attendanceType: "absent",singleStudentId: controller.manualList?[widget.index].sId??"").then((value){
-                                          BaseOverlays().dismissOverlay();
                                           if (value) {
                                             selectedRadioButton = "absent";
                                             setState(() {});
@@ -231,8 +231,8 @@ class _ManualAttendanceListTileState extends State<ManualAttendanceListTile> {
                                             context: context,
                                             pageBuilder: (context, animation, secondaryAnimation) {
                                               return ConfirmationDialog(msg: "Are you sure you've selected absent stars?",isShowBtn: true,onTap: () async {
+                                                BaseOverlays().dismissOverlay();
                                                 await controller.updateManualAttendance(presentStatus: "0", attendanceType: "absent",singleStudentId: controller.manualList?[widget.index].sId??"").then((value){
-                                                  BaseOverlays().dismissOverlay();
                                                   if (value) {
                                                     selectedRadioButton = "absent";
                                                     setState(() {});

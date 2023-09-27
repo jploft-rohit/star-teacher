@@ -26,6 +26,7 @@ class TransportationScreenCtrl extends GetxController{
   RxBool isAnonymous = false.obs;
   RxString selectedCountryCode = "971".obs;
   RxString selectedLandlineCode = "971".obs;
+  RxString selectedAreaID = "".obs;
   RxDouble selectedRating = 4.0.obs;
   Rx<TripData?> tripData = TripData().obs;
   RxList<String> statusTime = [""].obs;
@@ -64,7 +65,8 @@ class TransportationScreenCtrl extends GetxController{
       selectedFile?.value = File("");
       addressLocationController.value.text = data?.location??"";
       sectorController.value.text = data?.sector??"";
-      areaController.value.text = data?.area??"";
+      areaController.value.text = data?.areaForTransport?.name??"";
+      selectedAreaID.value = data?.areaForTransport?.sId??"";
       streetController.value.text = data?.street??"";
       buildingController.value.text = data?.building??"";
       flatController.value.text =  data?.flat??"";
@@ -120,7 +122,7 @@ class TransportationScreenCtrl extends GetxController{
           "location": addressLocationController.value.text.trim(),
           "latitude": latitudeController.value.text.trim(),
           "longitude": longitudeController.value.text.trim(),
-          "area": areaController.value.text.trim(),
+          "areaForTransport":selectedAreaID.value,
           "sector": sectorController.value.text.trim(),
           "street": streetController.value.text.trim(),
           "building": buildingController.value.text.trim(),
@@ -139,7 +141,7 @@ class TransportationScreenCtrl extends GetxController{
           "location": addressLocationController.value.text.trim(),
           "latitude": latitudeController.value.text.trim(),
           "longitude": longitudeController.value.text.trim(),
-          "area": areaController.value.text.trim(),
+          "areaForTransport":selectedAreaID.value,
           "sector": sectorController.value.text.trim(),
           "street": streetController.value.text.trim(),
           "building": buildingController.value.text.trim(),
@@ -175,7 +177,7 @@ class TransportationScreenCtrl extends GetxController{
           "location": addressLocationController.value.text.trim(),
           "latitude": latitudeController.value.text.trim(),
           "longitude": longitudeController.value.text.trim(),
-          "area": areaController.value.text.trim(),
+          "areaForTransport":selectedAreaID.value,
           "sector": sectorController.value.text.trim(),
           "street": streetController.value.text.trim(),
           "building": buildingController.value.text.trim(),
@@ -194,7 +196,7 @@ class TransportationScreenCtrl extends GetxController{
           "location": addressLocationController.value.text.trim(),
           "latitude": latitudeController.value.text.trim(),
           "longitude": longitudeController.value.text.trim(),
-          "area": areaController.value.text.trim(),
+          "areaForTransport":selectedAreaID.value,
           "sector": sectorController.value.text.trim(),
           "street": streetController.value.text.trim(),
           "building": buildingController.value.text.trim(),
@@ -282,8 +284,17 @@ class TransportationScreenCtrl extends GetxController{
     Map<String, dynamic> data = {
       'user': userId,
     };
-
-    data['notifyData'] = list.map((e) => {
+    List<NotifyAuthority> localList = list.where((element) {
+      return element.isYes ?? false;
+    }).toList();
+    List<NotifyAuthority> multipleList = localList.where((element) => element.dayType == 'multiple').toList();
+    for (var i = 0; i < multipleList.length; i++) {
+      if ((multipleList[i].fromDate?.isEmpty ?? true) ||
+          (multipleList[i].toDate?.isEmpty ?? true)) {
+        throw 'Please select from and to date';
+      }
+    }
+    data['notifyData'] = localList.map((e) => {
       'option': e.option,
       'dayType': e.dayType,
       'fromDate': e.fromDateApi,
@@ -292,7 +303,7 @@ class TransportationScreenCtrl extends GetxController{
 
     BaseAPI().post(url: ApiEndPoints().notifyTransportAuthority, data: data).then((value){
       if (value?.statusCode ==  200) {
-        tripData.value = TransportationResponse.fromJson(value?.data).data ?? TripData();
+        Get.back();
         BaseOverlays().showSnackBar(message: TransportationResponse.fromJson(value?.data).message??"",title: translate(Get.context!).success);
       } else {
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);
@@ -301,9 +312,9 @@ class TransportationScreenCtrl extends GetxController{
     );
   }
 
-  rateBus() async {
+  rateBus({required String busId}) async {
       var data = {
-        "id" : "6482ada3132b192040cec82f",
+        "id" : busId,
         "bus" : tripData.value?.bus?.sId??"",
         "type" : selectedIndex.value == 0 ? "departure" : "departure",
         "rating" : selectedRating.value,
@@ -312,12 +323,49 @@ class TransportationScreenCtrl extends GetxController{
       };
       BaseAPI().post(url: ApiEndPoints().rateBus, data: data).then((value) async {
         if (value?.statusCode ==  200) {
+          Get.back();
           BaseOverlays().showSnackBar(message: await BaseSuccessResponse.fromJson(value?.data).message??"",title: translate(Get.context!).success);
         } else {
           BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: translate(Get.context!).error);
         }
        },
       );
+  }
+
+  rateSupervisor({required String supervisorId}) async {
+    var data = {
+      "user" : supervisorId,
+      "rating" : selectedRating.value,
+      "comment" : commentCtrl.value.text.trim(),
+      "isAnonymous": isAnonymous.value
+    };
+    BaseAPI().post(url: ApiEndPoints().rateDriver, data: data).then((value) async {
+      if (value?.statusCode ==  200) {
+        Get.back();
+        BaseOverlays().showSnackBar(message: await BaseSuccessResponse.fromJson(value?.data).message??"",title: translate(Get.context!).success);
+      } else {
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: translate(Get.context!).error);
+      }
+    },
+    );
+  }
+
+  rateDriver({required String driverId}) async {
+    var data = {
+      "user" : driverId,
+      "rating" : selectedRating.value,
+      "comment" : commentCtrl.value.text.trim(),
+      "isAnonymous": isAnonymous.value
+    };
+    BaseAPI().post(url: ApiEndPoints().rateDriver, data: data).then((value) async {
+      if (value?.statusCode ==  200) {
+        Get.back();
+        BaseOverlays().showSnackBar(message: await BaseSuccessResponse.fromJson(value?.data).message??"",title: translate(Get.context!).success);
+      } else {
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: translate(Get.context!).error);
+      }
+    },
+    );
   }
 
   deleteLocation({required String id}) async {

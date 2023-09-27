@@ -42,15 +42,39 @@ class AnnualScheduleListTile extends StatelessWidget {
               onTap: () {
                 Get.to(AnnualViewCalendarScreen(index: index));
               },
-              child: ListTile(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                title: Text(controller.list?[index].title??"",style: TextStyle(fontWeight: FontWeight.w700,color: Colors.black,fontSize: 17.sp)),
-                leading: BaseImageNetwork(link: controller.list?[index].icon??"",height: 2.h,width: 2.h),
-                tileColor: Color(int.parse(controller.list?[index].color??"")),
-                subtitle: Text("${getMonthDate(controller.list?[index].startDate??"")} ${translate(context).to} ${getMonthDate(controller.list?[index].endDate??"")}",style: TextStyle(color: Colors.grey.shade700,fontSize: 15.sp)),
-                trailing: SvgPicture.asset(calenderDateSvg),
-                minLeadingWidth: 0,
-              )
+              child: Container(
+                padding: EdgeInsets.only(bottom: 2.h, top: 2.h),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: getValidColor(stringColor: controller.list?[index].color??"")
+                ),
+                child: Row(
+                  children: [
+                    Expanded(child: BaseImageNetwork(showLoader: false, link: controller.list?[index].icon??"",height: 2.h,width: 2.h)),
+                    Expanded(
+                      flex: 7,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(controller.list?[index].title??"N/A",style: TextStyle(fontWeight: FontWeight.w700,color: Colors.black,fontSize: 17.sp)),
+                          Text("${getMonthDate(controller.list?[index].startDate??"")} ${translate(context).to} ${getMonthDate(controller.list?[index].endDate??"")}",style: TextStyle(color: Colors.grey.shade700,fontSize: 15.sp)),
+                        ],
+                      ),
+                    ),
+                    Expanded(child: SvgPicture.asset(calenderDateSvg)),
+                  ],
+                ),
+              ),
+              // child: ListTile(
+              //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              //   title: Text(controller.list?[index].title??"",style: TextStyle(fontWeight: FontWeight.w700,color: Colors.black,fontSize: 17.sp)),
+              //   leading: BaseImageNetwork(showLoader: false, link: controller.list?[index].icon??"",height: 2.h,width: 2.h),
+              //   tileColor: Color(int.parse(controller.list?[index].color??"")),
+              //   subtitle: Text("${getMonthDate(controller.list?[index].startDate??"")} ${translate(context).to} ${getMonthDate(controller.list?[index].endDate??"")}",style: TextStyle(color: Colors.grey.shade700,fontSize: 15.sp)),
+              //   trailing: SvgPicture.asset(calenderDateSvg),
+              //   minLeadingWidth: 0,
+              // )
             ),
           );
         },

@@ -46,7 +46,8 @@ class LocationController extends GetxController{
       selectedFile?.value = File("");
       addressLocationController.value.text = data?.address??"";
       sectorController.value.text = data?.sector??"";
-      areaController.value.text = data?.area??"";
+      areaController.value.text = data?.areaForTransport?.name??"";
+      selectedAreaID.value = data?.areaForTransport?.sId??"";
       streetController.value.text = data?.street??"";
       buildingController.value.text = data?.buildingVilla??"";
       flatController.value.text =  data?.flatVillaNo??"";

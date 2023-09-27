@@ -92,11 +92,11 @@ class _SelectPersonPopupState extends State<SelectPersonPopup> {
                             item: baseCtrl.rolesListResponse.data?.map((RolesData value){
                               return DropdownMenuItem<dynamic>(
                                 value: value,
-                                child: addText(value.name??"", 16.sp, Colors.black, FontWeight.w400));
+                                child: addText(value.displayName??"", 16.sp, Colors.black, FontWeight.w400));
                             }).toList(),
                             onChange: (value) {selectedRoleId = value.name??"";
                             setState(() {
-                              DummyLists.initialRole=value.name??"";
+                              DummyLists.initialRole=value.displayName??"";
                             });
                             controller.getStaffData(selectedRoleId: selectedRoleId, selectedSchoolId: widget.selectedSchoolId);
                           },icon: jobDetailSvg),

@@ -77,7 +77,7 @@ class _CardsAndTagsScreenState extends State<CardsAndTagsScreen> {
                       children: [
                         buildInfoItems(translate(context).name, profileController.response.value.data?.name??""),
                         const SizedBox(height: 2),
-                        buildInfoItems(translate(context).id, "#${profileController.response.value.data?.emirateId??""}"),
+                        buildInfoItems(translate(context).id, "#${profileController.response.value.data?.uniqueId??""}"),
                         const SizedBox(height: 2),
                         buildInfoItems(translate(context).designation, profileController.response.value.data?.designation??"Teacher"),
                         const SizedBox(height: 2),

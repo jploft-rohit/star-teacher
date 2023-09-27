@@ -36,9 +36,7 @@ class _NewsBroadCastTabState extends State<NewsBroadCastTab> {
                 Row(
                   children: [
                     Text(translate(context).news_broadcast, style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp)),
-                    SizedBox(
-                      width: 2.w,
-                    ),
+                    SizedBox(width: 2.w),
                     Container(
                       height: 20.0,
                       padding: const EdgeInsets.all(3),
@@ -106,7 +104,7 @@ class _NewsBroadCastTabState extends State<NewsBroadCastTab> {
                       SizedBox(height: 2.h),
                       Row(
                         children: [
-                          addText(controller.list?[index].user?.name??"", 14.sp,  const Color(0xFF072D4B), FontWeight.w400),
+                          addText("Added by "+(controller.list?[index].sender?.roleData?.displayName??""), 14.sp,  const Color(0xFF072D4B), FontWeight.w400),
                           SizedBox(
                             width: 10.w,
                           ),

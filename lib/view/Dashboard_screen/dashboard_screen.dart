@@ -22,18 +22,36 @@ import 'package:staff_app/view/task_or_reminder_screen/task_or_reminder_screen.d
 
 import '../../Utility/sizes.dart';
 
-class DashboardScreen extends GetView<DashboardScreenCtrl>{
+
+class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
 
   @override
+  State<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> {
+  DashboardScreenCtrl controller = Get.put(DashboardScreenCtrl());
+  BaseCtrl baseCtrl = Get.find<BaseCtrl>();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await baseCtrl.callSecondInit();
+      controller.getBroadCastData();
+      controller.getHomeData();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final BaseCtrl splashCtrl = Get.put(BaseCtrl());
     final SearchScreenCtrl searchController = Get.put(SearchScreenCtrl());
-    return SafeArea(
-      bottom: Platform.isIOS?false:true,
-      top: false,
-      child: WillPopScope(
-        onWillPop: kDebugMode ? onWillPop : null,
+    return WillPopScope(
+      onWillPop: onWillPop,
+      child: SafeArea(
+        bottom: Platform.isIOS?false:true,
+        top: false,
         child: Scaffold(
           extendBody: true,
           backgroundColor: BaseColors.white,
@@ -104,14 +122,14 @@ class DashboardScreen extends GetView<DashboardScreenCtrl>{
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Text('${translate(context).task}',style: Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: bottomNavigationBarTs),),
+                      Text(translate(context).task,style: Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: bottomNavigationBarTs),),
                       Padding(
                         padding: const EdgeInsetsDirectional.only(start: 8),
-                        child: Text('${translate(context).search}',style: Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: bottomNavigationBarTs),),
+                        child: Text(translate(context).search,style: Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: bottomNavigationBarTs),),
                       ),
                       Text(translate(context).home,style: Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: bottomNavigationBarTs)),
                       Text(translate(context).chats,style: Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: bottomNavigationBarTs)),
-                      Text('${translate(context).account}',style: Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: bottomNavigationBarTs)),
+                      Text(translate(context).account,style: Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: bottomNavigationBarTs)),
                     ],
                   ),
                 ),
@@ -126,10 +144,10 @@ class DashboardScreen extends GetView<DashboardScreenCtrl>{
 
   Future<bool> onWillPop() {
     BaseOverlays().showConfirmationDialog(
-      title: translate(Get.context!).exit_app_msg,
-      onRightButtonPressed: (){
-        SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-      }
+        title: translate(Get.context!).exit_app_msg,
+        onRightButtonPressed: (){
+          SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+        }
     );
     return Future.value(true);
   }
@@ -151,6 +169,4 @@ class DashboardScreen extends GetView<DashboardScreenCtrl>{
         return const HomeScreen();
     }
   }
-
-
 }

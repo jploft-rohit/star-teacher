@@ -104,14 +104,18 @@ class _TodayScheduleTileState extends State<TodayScheduleTile> {
                                   color: BaseColors.primaryColor,
                                 ),
                               ),
-                              // child: Text('05', style:  Style.montserratRegularStyle().copyWith(color: BaseColors.primaryColor, fontSize: 15.sp),),
                               child: TimerCountdown(
                                 format: CountDownTimerFormat.minutesSeconds,
-                                timeTextStyle: TextStyle(color: BaseColors.primaryColor, fontSize: 15.sp),
+                                timeTextStyle: TextStyle(
+                                    color: BaseColors.primaryColor,
+                                    fontSize: 15.sp,
+                                ),
                                 endTime: DateTime.now().add(
-                                  const Duration(
-                                    minutes: 3,
-                                    // seconds: 60,
+                                  Duration(
+                                    minutes: int.parse(controller.todayScheduledList?[widget.index].startIn?.toString().split(":").first??"00"),
+                                    seconds: int.parse(controller.todayScheduledList?[widget.index].startIn?.toString().split(":").last??"00"),
+                                       // minutes: int.parse("06:37".split(":").first),
+                                       // seconds: int.parse("06:37".split(":").last),
                                   ),
                                 ),
                                 onEnd: () {

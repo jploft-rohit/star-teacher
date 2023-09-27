@@ -147,7 +147,7 @@ class _CreateUserLocationState extends State<CreateUserLocation> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(translate(context).area, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),),
-                            SizedBox(height: .5.h),
+                            SizedBox(height: 0.5.h),
                             BaseTextFormField(
                               controller: controller.areaController.value,
                               hintText: "Select Area",
@@ -161,9 +161,10 @@ class _CreateUserLocationState extends State<CreateUserLocation> {
                               items:  baseCtrl.areaList?.map((value) {
                                 return DropdownMenuItem<AreaListData>(
                                   value: value,
-                                  child: addText(value.name??"", 16.sp, Colors.black, FontWeight.w400),);
-                              }).toList(),
-
+                                  child: addText(value.name??"", 16.sp, Colors.black, FontWeight.w400),
+                                );
+                               },
+                              ).toList(),
                             ),
                           ],
                         ),

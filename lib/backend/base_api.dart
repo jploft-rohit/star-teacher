@@ -249,11 +249,12 @@ class BaseAPI {
             if (currentProgress - previousProgress >= 1 || currentProgress < 100) {
               previousProgress = currentProgress;
             }
-          });
+          },
+      );
 
       BaseOverlays().dismissOverlay();
       // showSnackBar(message: 'Download Completed');
-      NotificationService.display(0, 'File Downloaded', 'The File has been downloaded successfully.',"");
+      NotificationService.display(0, translate(X.Get.context!).file_downloaded, translate(X.Get.context!).the_file_has_been_downloaded_successfully,"");
       var res = await OpenFile.open(savePath);
       print(res);
 

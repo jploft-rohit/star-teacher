@@ -23,19 +23,19 @@ class TermsConditionResponse {
 }
 
 class Data {
-  bool? isReadTermCondtion;
+  bool? isReadCodeOfConduct;
   bool? isReadResponsibility;
 
-  Data({this.isReadTermCondtion, this.isReadResponsibility});
+  Data({this.isReadCodeOfConduct, this.isReadResponsibility});
 
   Data.fromJson(Map<String, dynamic> json) {
-    isReadTermCondtion = json['isReadTermCondtion'];
+    isReadCodeOfConduct = json['isReadCodeOfConduct'];
     isReadResponsibility = json['isReadResponsibility'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
-    data['isReadTermCondtion'] = this.isReadTermCondtion;
+    data['isReadCodeOfConduct'] = this.isReadCodeOfConduct;
     data['isReadResponsibility'] = this.isReadResponsibility;
     return data;
   }

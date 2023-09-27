@@ -42,6 +42,7 @@ class _ScheduleMeetingScreenState extends State<ScheduleMeetingScreen> with Sing
       ctrl.getScheduledMeetingData();
       }
     });
+    zegoFunction();
   }
 
   @override

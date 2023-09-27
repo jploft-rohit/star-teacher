@@ -47,7 +47,7 @@ class AccountActivationController extends GetxController{
 
   updateRule1Status({bool? isFromActivation}){
       final data = {
-        "isReadTermCondtion": true,
+        "isReadCodeOfConduct": true,
         "isReadResponsibility": false,
       };
       BaseAPI().post(url: ApiEndPoints().updateOnBoardingReadStatus, data: data).then((value){
@@ -64,7 +64,7 @@ class AccountActivationController extends GetxController{
 
   updateRule2Status({bool? isFromActivation}){
     final data = {
-      "isReadTermCondtion": true,
+      "isReadCodeOfConduct": true,
       "isReadResponsibility": true
     };
     BaseAPI().post(url: ApiEndPoints().updateOnBoardingReadStatus, data: data).then((value){

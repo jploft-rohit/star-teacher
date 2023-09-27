@@ -32,7 +32,6 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
   @override
   void initState() {
     super.initState();
-
     tabCtrl = TabController(length: 4, vsync: this)..addListener(() {
       if (!(tabCtrl.indexIsChanging)) {
         controller.selectedTabIndex.value = tabCtrl.index;
@@ -192,8 +191,8 @@ class _PerformanceScreenState extends State<PerformanceScreen> with TickerProvid
     return BaseTabBar(
       controller: tabCtrl,
       tabs:  [
-        Tab(
-          text: translate(context).management,
+        const Tab(
+          text: "management",
         ),
         Tab(
           text: translate(context).staff,

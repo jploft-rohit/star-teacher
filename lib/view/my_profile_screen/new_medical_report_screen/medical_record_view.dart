@@ -54,7 +54,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
       floatingActionButton: Obx(
             () => controller.selectindex.value == 2
             ? BaseFloatingActionButton(
-          title: 'Add Medical\nRecord',
+          title: translate(context).add_medical_slash_n_record,
           onTap: (() {
             controller.medicalRecordTitle.clear();
             controller.medicalRecordDescription.clear();
@@ -74,7 +74,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
             : const SizedBox.shrink(),
       ),
       backgroundColor: BaseColors.white,
-      appBar: const BaseAppBar(title: 'Medical Records'),
+      appBar: BaseAppBar(title: translate(context).medical_records),
       body: Obx(
             () => SmartRefresher(
               footer: const BasePaginationFooter(),
@@ -164,7 +164,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                       CrossAxisAlignment.end,
                                       children: [
                                         addText(
-                                            'Blood Type : ',
+                                            '${translate(context).blood_type} : ',
                                             detailLabelTs,
                                             BaseColors.black,
                                             FontWeight.w400),
@@ -190,9 +190,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                   SizedBox(height:1.h),
                                   GestureDetector(
                                     onTap: () {
-                                      showScanQrDialogueMedical(context, barcode: controller
-                                          .starProfile?.barcode ??
-                                          '');
+                                      showScanQrDialogueMedical(context, barcode: controller.starProfile?.barcode ?? '');
                                     },
                                     child: BaseQr(
                                       data: controller.starProfile?.barcode ?? '',
@@ -281,9 +279,9 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
 
     return Card(
       elevation: 2,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-          side: const BorderSide(color: BaseColors.primaryColor)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15),
+          side: const BorderSide(color: BaseColors.primaryColor),
+      ),
       clipBehavior: Clip.antiAlias,
       margin: EdgeInsets.zero,
       child: Padding(
@@ -304,7 +302,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      addText('Medical Survey', get17TextFontSIze(),
+                      addText(translate(context).medical_survey, get17TextFontSIze(),
                           BaseColors.black, FontWeight.bold),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -328,8 +326,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                     ],
                   ),
                 ),
-                Obx(
-                      () => Visibility(
+                Obx(() => Visibility(
                     visible: controller.selectindex.value == 1,
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -338,7 +335,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                           Align(
                             alignment: isRTL ? Alignment.topRight : Alignment.topLeft,
                             child: addText(
-                                'Medical History',
+                                translate(context).medical_history,
                                 getNormalTextFontSIze(),
                                 BaseColors.primaryColor,
                                 FontWeight.w700),
@@ -359,22 +356,22 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                               children: [
                                 TableRow(children: [
                                   addTextCenter(
-                                      'INFECTIOUS DISEASES',
+                                      translate(context).infectious_diseases,
                                       getSmallestTextFontSIze() + 1,
                                       BaseColors.black,
                                       FontWeight.w700),
                                   addTextCenter(
-                                      'YES',
+                                      translate(context).yes.toUpperCase(),
                                       getSmallestTextFontSIze() + 1,
                                       BaseColors.black,
                                       FontWeight.w700),
                                   addTextCenter(
-                                      'NO',
+                                      translate(context).no.toUpperCase(),
                                       getSmallestTextFontSIze() + 1,
                                       BaseColors.black,
                                       FontWeight.w700),
                                   addTextCenter(
-                                      'DETAILS',
+                                      translate(context).details.toUpperCase(),
                                       getSmallestTextFontSIze() + 1,
                                       BaseColors.black,
                                       FontWeight.w700),
@@ -519,22 +516,22 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                               children: [
                                 TableRow(children: [
                                   addText(
-                                      'DISEASE/CONDITION',
+                                      translate(context).disease_condition.toUpperCase(),
                                       getSmallestTextFontSIze() + 1,
                                       BaseColors.black,
                                       FontWeight.w700),
                                   addTextCenter(
-                                      'YES',
+                                      translate(context).yes.toUpperCase(),
                                       getSmallestTextFontSIze() + 1,
                                       BaseColors.black,
                                       FontWeight.w700),
                                   addTextCenter(
-                                      'NO',
+                                      translate(context).no.toUpperCase(),
                                       getSmallestTextFontSIze() + 1,
                                       BaseColors.black,
                                       FontWeight.w700),
                                   addTextCenter(
-                                      'DETAILS',
+                                      translate(context).details.toUpperCase(),
                                       getSmallestTextFontSIze() + 1,
                                       BaseColors.black,
                                       FontWeight.w700),
@@ -676,7 +673,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                           Align(
                             alignment: isRTL ? Alignment.topRight : Alignment.topLeft,
                             child: addText(
-                                'History of :',
+                                '${translate(context).history_of} :',
                                 getNormalTextFontSIze(),
                                 BaseColors.primaryColor,
                                 FontWeight.bold),
@@ -697,7 +694,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              addText('Currently using :', detailValueTs,
+                              addText('${translate(context).currently_using} :', detailValueTs,
                                   BaseColors.black, FontWeight.w400),
                               Expanded(
                                 child: (controller.currentlyUsingList.length) == 0 ? const BaseNoData() : ListView.builder(
@@ -717,27 +714,16 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                               child: Obx(
                                                     () => Checkbox(
                                                   materialTapTargetSize:
-                                                  MaterialTapTargetSize
-                                                      .shrinkWrap,
-                                                  value: controller
-                                                      .selectedCurrentlyUsingList
-                                                      .contains(controller
-                                                      .currentlyUsingList[
-                                                  index]),
-                                                  activeColor:
-                                                  const Color(0xFFF7F7F7),
+                                                  MaterialTapTargetSize.shrinkWrap,
+                                                  value: controller.selectedCurrentlyUsingList.contains(controller.currentlyUsingList[index]),
+                                                  activeColor: const Color(0xFFF7F7F7),
                                                   checkColor: const Color(0xFFC19444),
                                                   side: MaterialStateBorderSide.resolveWith((Set<MaterialState>states) {
-                                                      if (states.contains(
-                                                          MaterialState
-                                                              .selected)) {
+                                                      if (states.contains(MaterialState.selected)) {
                                                         return const BorderSide(
-                                                            color: Color(
-                                                                0xFFC19444));
+                                                            color: Color(0xFFC19444));
                                                       }
-                                                      return const BorderSide(
-                                                          color: Color(
-                                                              0xFFC19444));
+                                                      return const BorderSide(color: Color(0xFFC19444));
                                                     },
                                                   ),
                                                   shape: RoundedRectangleBorder(
@@ -792,7 +778,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                           Align(
                             alignment: isRTL ? Alignment.topRight : Alignment.topLeft,
                             child: addText(
-                                'Family History :',
+                                '${translate(context).family_history} :',
                                 getNormalTextFontSIze() - 1,
                                 BaseColors.primaryColor,
                                 FontWeight.w700),
@@ -801,7 +787,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                             height: 1.h,
                           ),
                           addText(
-                              'Heart Disease/Diabetes/Hypertension/Mental Disorder/Stroke/Tuberculosis. Others, specify',
+                              translate(context).heart_disease_diabetes_hypertension_mental_disorder_stroke_tuberculosis_others,
                               getSmallTextFontSIze() + 1,
                               BaseColors.black,
                               FontWeight.normal),
@@ -814,7 +800,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                             decoration: getEditTextDecoration(),
                             child: addEditText2(
                               controller.familyHistoryController,
-                              'Star’s Grand Father has Diabetes',
+                              translate(context).family_history,
                             ),
                           ),
                           SizedBox(
@@ -832,10 +818,11 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                           Align(
                             alignment: isRTL ? Alignment.topRight : Alignment.topLeft,
                             child: addText(
-                                'Medical Examination Consent',
+                                translate(context).medical_examination_consent,
                                 getNormalTextFontSIze(),
                                 BaseColors.primaryColor,
-                                FontWeight.bold),
+                                FontWeight.bold,
+                            ),
                           ),
                           buildDivider(),
                           SizedBox(
@@ -877,7 +864,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                               ),
                               Expanded(
                                 child: addText(
-                                    'I agree to attend the school examination.',
+                                    translate(context).i_agree_to_attend_the_school_examination,
                                     getNormalTextFontSIze(),
                                     BaseColors.black,
                                     FontWeight.bold),
@@ -992,10 +979,12 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                           Align(
                               alignment: isRTL ? Alignment.topRight : Alignment.topLeft,
                               child: addText(
-                                  'Medication Policy',
+                                  translate(context).medication_policy,
                                   getNormalTextFontSIze(),
                                   BaseColors.primaryColor,
-                                  FontWeight.bold)),
+                                  FontWeight.bold,
+                              ),
+                          ),
                           buildDivider(),
                           SizedBox(
                             height: 1.h,
@@ -1032,7 +1021,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                 ),
                               ),
                               addText(
-                                  'I Agree with',
+                                  translate(context).i_agree_with,
                                   getSmallTextFontSIze() + 1,
                                   BaseColors.black,
                                   FontWeight.normal),
@@ -1076,7 +1065,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                 ),
                               ),
                               addText(
-                                  'I Agree with',
+                                  translate(context).i_agree_with,
                                   getSmallTextFontSIze() + 1,
                                   BaseColors.black,
                                   FontWeight.normal),
@@ -1101,7 +1090,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 addText(
-                                    'Are you allergic to any medication?',
+                                    translate(context).are_you_allergic_to_any_medication,
                                     getNormalTextFontSIze() - 1,
                                     BaseColors.black,
                                     FontWeight.bold),
@@ -1120,10 +1109,10 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                     key: controller.medicalSurveyAllergicFormKey,
                                     child: addEditText2(
                                       controller.allergicMedicineController,
-                                      'Type here...',
+                                      translate(context).type_here,
                                       validator: (value) {
                                         if ((value??"").isEmpty) {
-                                          return 'Please enter your answer';
+                                          return translate(context).please_enter_your_answer;
                                         }
                                         return null;
                                       },
@@ -1147,10 +1136,12 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                           Align(
                               alignment: isRTL ? Alignment.topRight : Alignment.topLeft,
                               child: addText(
-                                  'Sickness Exclusion Policy',
+                                  translate(context).sickness_exclusion_policy,
                                   getNormalTextFontSIze() - 1,
                                   BaseColors.primaryColor,
-                                  FontWeight.bold)),
+                                  FontWeight.bold,
+                              ),
+                          ),
                           buildDivider(),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -1182,7 +1173,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                 ),
                               ),
                               addText(
-                                  'I Agree with',
+                                  translate(context).i_agree_with,
                                   getSmallTextFontSIze() + 1,
                                   BaseColors.black,
                                   FontWeight.normal),
@@ -1203,21 +1194,19 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                               if (controller.isMedicationPolicyChecked.value == false) {
                                 showSnackBar(
                                     success: false,
-                                    message:
-                                    'Please accept the medication policy',
+                                    message: translate(context).please_accept_the_medication_policy,
                                 );
                                 return;
                               } else if (controller.isMedicationPolicyChecked2.value == false) {
                                 showSnackBar(
                                     success: false,
-                                    message: 'Please accept the medication policy',
+                                    message: translate(context).please_accept_the_medication_policy,
                                 );
                                 return;
                               } else if (controller.isSicknessPolicyChecked.value == false) {
                                 showSnackBar(
                                     success: false,
-                                    message:
-                                    'Please accept the sickness policy');
+                                    message: translate(context).please_accept_the_sickness_policy);
                                 return;
                               } else if (!(controller.medicalSurveyAllergicFormKey.currentState?.validate() ?? false)) {
                                 return;
@@ -1501,7 +1490,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                           //   !controller.notChildPhoto.value;
                           // })),
                           const SizedBox(height: 15),
-                          addLeftText("Do you want to use School Canteen Services? "),
+                          addLeftText(translate(context).do_you_want_to_use_school_canteen_services),
                           SizedBox(height:0.8.h),
                           Obx(() => yesNoButtons(context,
                               controller.isSchoolCanteenAllowed.value, () {
@@ -1523,7 +1512,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                     vertical: 20, horizontal: 15),
                                 child: Column(
                                   children: [
-                                    addLeftText("Are you allergic to any food?"),
+                                    addLeftText(translate(context).are_you_allergic_to_any_food),
                                     SizedBox(height:1.0.h),
                                     Obx(() => yesNoButtons(context,
                                         controller.isAllergic.value, () {controller.isAllergic.value = !controller.isAllergic.value;
@@ -1647,7 +1636,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      addText('Medical Records', get17TextFontSIze(),
+                      addText(translate(context).medical_records, get17TextFontSIze(),
                           BaseColors.black, FontWeight.bold),
                       Obx(() => Icon(
                         controller.selectindex.value == 2
@@ -1703,23 +1692,23 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                                     boxShadow: kElevationToShadow[1]),
                                 child: Column(
                                   children: [
-                                    detail('Title :  ',
+                                    detail('${translate(context).title} :  ',
                                         medicalRecord.title ?? 'N/A'),
                                     buildTextSpan(
-                                      'Description : ',
+                                      '${translate(context).description} : ',
                                       medicalRecord.description ?? 'N/A',
                                     ),
                                     Visibility(
                                       visible: (medicalRecord.rejectedReason??"").toString().isNotEmpty,
                                       child: buildTextSpan(
-                                        'Reason : ',
+                                        '${translate(context).reason} : ',
                                         medicalRecord.rejectedReason ?? 'N/A',
                                       ),
                                     ),
                                     Visibility(
                                       visible: (medicalRecord.comment??"").isNotEmpty,
                                       child: buildTextSpan(
-                                        'Comment : ',
+                                        '${translate(context).comment} : ',
                                         medicalRecord.comment ?? 'N/A',
                                       ),
                                     ),
@@ -1946,7 +1935,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                   ),
                   SizedBox(width:0.5.h),
                   addText(
-                    'Yes',
+                    translate(context).yes,
                     radioButtonTitleTs,
                     BaseColors.black,
                     FontWeight.w400,
@@ -1978,7 +1967,7 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
                     ),
                   ),
                   SizedBox(width:0.5.h),
-                  addText('No', radioButtonTitleTs, BaseColors.black,
+                  addText(translate(context).no, radioButtonTitleTs, BaseColors.black,
                       FontWeight.w400)
                 ],
               ),

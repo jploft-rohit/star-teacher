@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
@@ -5,9 +7,13 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart' as toast;
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' as foundation;
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:staff_app/Utility/images_icon_path.dart';
+import 'package:staff_app/backend/api_end_points.dart';
+import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/constants-classes/color_constants.dart';
+import 'package:staff_app/packages/voice_chat_message/voice_message_package.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/storage/sp_keys.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
@@ -15,6 +21,7 @@ import 'package:staff_app/Utility/custom_text_field.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_image_network.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/utility/base_views/base_video_player.dart';
 import 'package:staff_app/video_call_zego_utility/login_service.dart';
 import 'package:staff_app/view/chat_screen/chat_screen_ctrl.dart';
 import 'package:translator/translator.dart';
@@ -28,12 +35,11 @@ class ChatingScreen extends StatefulWidget {
   State<ChatingScreen> createState() => _ChatingScreenState();
 }
 
-class _ChatingScreenState extends State<ChatingScreen> {
+class _ChatingScreenState extends State<ChatingScreen> with TickerProviderStateMixin{
   final translator = GoogleTranslator();
   ChatScreenCtrl ctrl = Get.put(ChatScreenCtrl());
   String userID = "";
   int selectedIndex = -1;
-  TextEditingController msgCtrl = TextEditingController();
 
   @override
   void initState() {
@@ -43,6 +49,11 @@ class _ChatingScreenState extends State<ChatingScreen> {
       ctrl.messageList?.clear();
       userID = await BaseSharedPreference().getString(SpKeys().userId);
       ctrl.connectSocket(receiverId: (widget.receiverId??""),schoolId: (widget.schoolId??""));
+      bool hasPermission = await Permission.microphone.isGranted;
+      if (!hasPermission) {
+        await Permission.microphone.request();
+      }
+      zegoFunction();
     });
   }
 
@@ -174,7 +185,7 @@ class _ChatingScreenState extends State<ChatingScreen> {
         body: Obx(()=>ListView.builder(
             controller: ctrl.scrollController,
             reverse: false,
-            padding: EdgeInsets.only(bottom: 2.h),
+            padding: EdgeInsets.only(bottom: 3.h),
             itemCount: (ctrl.messageList?.length??0),
             itemBuilder: (context, index1) {
               return Column(
@@ -223,20 +234,86 @@ class _ChatingScreenState extends State<ChatingScreen> {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
-                                        Text(
-                                          ctrl.messageList?[index1].chatList?[index].message??"",
-                                          style: Style.montserratMediumStyle().copyWith(
-                                            fontSize:16.sp,
-                                            color: BaseColors.textBlackColor,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                          textAlign: TextAlign.start,
+                                        Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Visibility(
+                                              visible: (ctrl.messageList?[index1].chatList?[index].type??"") == "media",
+                                              child: GestureDetector(
+                                                onTap: (){
+                                                  FocusScope.of(Get.context!).unfocus();
+                                                  BaseAPI().download(ctrl.messageList?[index1].chatList?[index].message??"");
+                                                },
+                                                child: const Icon(
+                                                  Icons.insert_drive_file_rounded,
+                                                  size: 100,
+                                                ),
+                                              ),
+                                            ),
+                                            Visibility(
+                                              visible: (ctrl.messageList?[index1].chatList?[index].type??"") == "video",
+                                              child: GestureDetector(
+                                                onTap: (){
+                                                  FocusScope.of(Get.context!).unfocus();
+                                                  Get.to(BaseVideoPlayer(videoUrl: ctrl.messageList?[index1].chatList?[index].message??""));
+                                                },
+                                                child: const Icon(
+                                                  Icons.play_circle,
+                                                  size: 60,
+                                                ),
+                                              ),
+                                            ),
+                                            Visibility(
+                                              visible: (ctrl.messageList?[index1].chatList?[index].type??"") == "image",
+                                              child: BaseImageNetwork(
+                                                link: ctrl.messageList?[index1].chatList?[index].message??"",
+                                                width: double.infinity,
+                                                height: 170,
+                                                borderRadius: 5,
+                                              ),
+                                            ),
+                                            Visibility(
+                                              visible: (ctrl.messageList?[index1].chatList?[index].type??"") == "text" || (ctrl.messageList?[index1].chatList?[index].type??"") == "media",
+                                              child: Text(
+                                                (ctrl.messageList?[index1].chatList?[index].message??"").toString().split("/").last,
+                                                style: Style.montserratMediumStyle().copyWith(
+                                                  fontSize:16.sp,
+                                                  color: BaseColors.textBlackColor,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                                textAlign: TextAlign.start,
+                                              ),
+                                            ),
+                                            Visibility(
+                                              visible: (ctrl.messageList?[index1].chatList?[index].type??"") == "audio",
+                                              child: VoiceMessage(
+                                                audioSrc: (
+                                                    (ctrl.messageList?[index1].chatList?[index].message??"").contains("http"))
+                                                    ? (ctrl.messageList?[index1].chatList?[index].message??"")
+                                                    :  "${ApiEndPoints().concatBaseUrl}/star-backend/${ctrl.messageList?[index1].chatList?[index].message??""}",
+                                                me: true,
+                                                formatDuration: (Duration duration) {
+                                                  return duration.toString().substring(2, 7);
+                                                },
+                                                meBgColor: ctrl.messageList?[index1].chatList?[index].senderId?.sId == userID
+                                                    ? ColorConstants.primaryColorLight
+                                                    : Colors.white,
+                                                meFgColor: ColorConstants.primaryColor,
+                                                mePlayIconColor: ColorConstants.white,
+                                                contactBgColor: ColorConstants.primaryColor,
+                                                contactPlayIconBgColor: ColorConstants.primaryColor,
+                                                played: false,
+                                              ),
+                                            )
+                                          ],
                                         ),
                                       ],
                                     ),
                                   ),
                                   Visibility(
-                                    visible: (ctrl.messageList?[index1].chatList?[index].senderId?.sId??"") != userID,
+                                    visible: (ctrl.messageList?[index1].chatList?[index].senderId?.sId??"") != userID && (ctrl.messageList?[index1].chatList?[index].type??"") == "text",
                                     child: GestureDetector(
                                       onTap: () async {
                                         selectedIndex = index;
@@ -293,65 +370,118 @@ class _ChatingScreenState extends State<ChatingScreen> {
               height: 10.h,
               color: Colors.white,
               padding: EdgeInsets.all(15.sp),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: CustomTextField(
-                      controller: msgCtrl,
-                      focusNode: ctrl.focusNode,
-                      hintText: "Message",
-                      borderColor: Colors.transparent,
-                      prefixIcon: const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Icon(
-                          Icons.emoji_emotions_outlined,
-                          color: BaseColors.textLightGreyColor,
-                          size: 20,
+              child: Obx(()=>Row(
+                  children: [
+                    Expanded(
+                      child: CustomTextField(
+                        controller: ctrl.msgCtrl,
+                        focusNode: ctrl.focusNode,
+                        hintText: ctrl.isRecording.value
+                            ? 'Recording ${ctrl.recordingDuration.value.toString()}'
+                            : "Message",
+                        borderColor: Colors.transparent,
+                        prefixIcon: GestureDetector(
+                          onTap: (){
+                            FocusScope.of(Get.context!).unfocus();
+                            Future.delayed(const Duration(milliseconds: 100), () {
+                              ctrl.showEmojiPicker.value = !(ctrl.showEmojiPicker.value);
+                            },
+                            );
+                          },
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10.0),
+                            child: Icon(
+                              Icons.emoji_emotions_outlined,
+                              color: BaseColors.textLightGreyColor,
+                              size: 20,
+                            ),
+                          ),
+                        ),
+                        suffixIcon: Padding(
+                          padding: const EdgeInsetsDirectional.only(end: 10),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              GestureDetector(onTap: (){
+                                BaseOverlays().showMediaPickerDialog(
+                                  onCameraClick: () async {
+                                    BaseOverlays().dismissOverlay();
+                                    ImagePicker picker = ImagePicker();
+                                    await picker.pickImage(source: ImageSource.camera).then((value){
+                                      if (value != null) {
+                                        ctrl.selectedFile?.value = File(value.path);
+                                        ctrl.getUploadedMediaUrlSingleChat(type: "image", receiverId: widget.receiverId??"");
+                                      }
+                                    },
+                                    );
+                                  },
+                                  onGalleryClick: () async {
+                                    BaseOverlays().dismissOverlay();
+                                    ImagePicker picker = ImagePicker();
+                                    await picker.pickImage(source: ImageSource.gallery).then((value) async {
+                                      if (value != null) {
+                                        ctrl.selectedFile?.value = File(value.path);
+                                        ctrl.getUploadedMediaUrlSingleChat(type: "image", receiverId: widget.receiverId??"");
+                                      }
+                                    });
+                                  },
+                                  // onFilePick: (){
+                                  //   BaseOverlays().dismissOverlay();
+                                  //   pickFile().then((value) {
+                                  //     ctrl.selectedFile?.value = File(value);
+                                  //     if ((value.split(".").last).contains("mp4")  || (value.split(".").last).contains("avi") || (value.split(".").last).contains("mkv")) {
+                                  //       ctrl.getUploadedMediaUrl(type: "video", roomId: widget.roomId, groupId: widget.groupId);
+                                  //     }else if((value.split(".").last).contains("mp3")  || (value.split(".").last).contains("wav") || (value.split(".").last).contains("ogg")){
+                                  //       ctrl.getUploadedMediaUrl(type: "audio", roomId: widget.roomId, groupId: widget.groupId);
+                                  //     }else{
+                                  //       ctrl.getUploadedMediaUrl(type: "media", roomId: widget.roomId, groupId: widget.groupId);
+                                  //     };
+                                  //   });
+                                  // }
+                                );
+                              },child: SvgPicture.asset("assets/images/gridicons_attachment.svg")),
+                              SizedBox(
+                                width: 2.w,
+                              ),
+                              GestureDetector(
+                                  onLongPress: ctrl.startRecording,
+                                  onLongPressEnd: (val){
+                                    ctrl.stopRecording(receiverId: widget.receiverId??"");
+                                  },
+                                  child: SvgPicture.asset("assets/images/Group 7724.svg")),
+                            ],
+                          ),
+                        ),
+                        fillColor: const Color(0xffF4F4F4),
+                        borderRadius: 50,
+                        hintTextColor: BaseColors.textLightGreyColor,
+                      ),
+                    ),
+                    SizedBox(width: 2.w),
+                    GestureDetector(
+                      onTap: (){
+                        if (ctrl.msgCtrl.text.trim().isNotEmpty) {
+                          ctrl.sendMessage(widget.receiverId, ctrl.msgCtrl.text.trim(), "text");
+                          ctrl.update();
+                          ctrl.msgCtrl.clear();
+                          setState(() {});
+                        }
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: BaseColors.backgroundColor,
+                            border: Border.all(color: BaseColors.primaryColor)
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 2.0),
+                          child: SvgPicture.asset("assets/images/Layer 47.svg"),
                         ),
                       ),
-                      suffixIcon: Padding(
-                        padding: const EdgeInsetsDirectional.only(end: 10.0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SvgPicture.asset("assets/images/gridicons_attachment.svg"),
-                            SizedBox(width: 2.w),
-                            SvgPicture.asset("assets/images/Group 7724.svg"),
-                          ],
-                        ),
-                      ),
-                      fillColor: const Color(0xffF4F4F4),
-                      borderRadius: 50,
-                      hintTextColor: BaseColors.textLightGreyColor,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 2.w
-                  ),
-                  GestureDetector(
-                    onTap: (){
-                      if (msgCtrl.text.trim().isNotEmpty) {
-                        ctrl.sendMessage(widget.receiverId, msgCtrl.text.trim(), "text");
-                        ctrl.update();
-                        msgCtrl.clear();
-                        setState(() {});
-
-                      }
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: BaseColors.backgroundColor,
-                          border: Border.all(color: BaseColors.primaryColor)
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 2.0),
-                        child: SvgPicture.asset("assets/images/Layer 47.svg"),
-                      ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             ),
             Obx(
@@ -360,7 +490,7 @@ class _ChatingScreenState extends State<ChatingScreen> {
                 child: SizedBox(
                     height: 250,
                     child: EmojiPicker(
-                      textEditingController: msgCtrl,
+                      textEditingController: ctrl.msgCtrl,
                       // onBackspacePressed: _onBackspacePressed,
                       config: Config(
                         columns: 7,
@@ -404,6 +534,7 @@ class _ChatingScreenState extends State<ChatingScreen> {
       ),
     );
   }
+
   void onSendCallInvitationFinished(
       String code,
       String message,

@@ -94,12 +94,14 @@ class _ShopGridItemState extends State<ShopGridItem> {
                                 if ((addedItems(controller.list?[index])??0) > 1) {
                                   controller.addItemToCart(productId: controller.list?[index]?.sId??"", quantity: -1, index: index).then((value){
                                     setState(() {});
-                                  });
+                                  },
+                                 );
                                 }else{
                                   if ((addedItems(controller.list?[index])??0) > 0) {
                                     controller.removeCartItem(productId: controller.list?[index]?.sId??"").then((value){
                                       setState(() {});
-                                    });
+                                    },
+                                   );
                                   }
                                 }
                               },child: const Icon(Icons.remove,size: 18,color: BaseColors.primaryColor)),

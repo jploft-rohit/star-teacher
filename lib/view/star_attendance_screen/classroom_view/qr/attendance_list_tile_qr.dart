@@ -8,6 +8,7 @@ import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_image_network.dart';
+import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/view/chat_screen/chating_screen.dart';
 import 'package:staff_app/view/performance_screen/performance_screen.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/change_status_popup.dart';
@@ -26,24 +27,27 @@ class _AttendanceListTileQRState extends State<AttendanceListTileQR> {
   StarAttendanceScreenCtrl controller = Get.find<StarAttendanceScreenCtrl>();
   @override
   Widget build(BuildContext context) {
-    return Obx(()=>ListView.builder(
-        itemCount: controller.qrSearchedList?.length??0,
-        shrinkWrap: true,
-        padding: EdgeInsets.symmetric(horizontal: 3.w),
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 15),
-            child: Stack(
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              alignment: Alignment.centerLeft,
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(left: 15),
-                  padding: EdgeInsets.symmetric(vertical: 5),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: (controller.qrSearchedList?[index].attendanceType??"").toLowerCase() ==  "present" ? BaseColors.green : (controller.qrSearchedList?[index].attendanceType??"").toLowerCase() ==  "absent" ? BaseColors.textRedColor : Color(0xffEC9C00))),
-                  child: IntrinsicHeight(
+    return Obx(()=>
+    (controller.qrSearchedList?.length??0) == 0
+        ? const BaseNoData(message: "No Star Found!")
+        : ListView.builder(
+      itemCount: controller.qrSearchedList?.length??0,
+      shrinkWrap: true,
+      padding: EdgeInsets.symmetric(horizontal: 3.w),
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 15),
+          child: Stack(
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            alignment: Alignment.centerLeft,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(left: 15),
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: (controller.qrSearchedList?[index].attendanceType??"").toLowerCase() ==  "present" ? BaseColors.green : (controller.qrSearchedList?[index].attendanceType??"").toLowerCase() ==  "absent" ? BaseColors.textRedColor : const Color(0xffEC9C00))),
+                child: IntrinsicHeight(
                     child: Row(
                       children: [
                         Expanded(
@@ -85,7 +89,7 @@ class _AttendanceListTileQRState extends State<AttendanceListTileQR> {
                                         child: Container(
                                           width: 12.h,
                                           height: 3.h,
-                                          margin: EdgeInsets.only(bottom: 2),
+                                          margin: const EdgeInsets.only(bottom: 2),
                                           // padding: EdgeInsets.symmetric(vertical: 0, horizontal: 4),
                                           decoration: BoxDecoration(
                                               color: BaseColors.backgroundColor,
@@ -103,7 +107,7 @@ class _AttendanceListTileQRState extends State<AttendanceListTileQR> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(toBeginningOfSentenceCase(controller.qrSearchedList?[index].attendanceType??"")??"", style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp,
-                                      color: (controller.qrSearchedList?[index].attendanceType??"").toLowerCase() ==  "present" ? BaseColors.green : (controller.qrSearchedList?[index].attendanceType??"").toLowerCase() ==  "absent" ? BaseColors.textRedColor : Color(0xffEC9C00)),),
+                                      color: (controller.qrSearchedList?[index].attendanceType??"").toLowerCase() ==  "present" ? BaseColors.green : (controller.qrSearchedList?[index].attendanceType??"").toLowerCase() ==  "absent" ? BaseColors.textRedColor : const Color(0xffEC9C00)),),
                                   SizedBox(
                                     height: 0.5.h,
                                   ),

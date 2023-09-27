@@ -105,7 +105,7 @@ class WorkSheetController extends GetxController with GetSingleTickerProviderSta
   // api function for get worksheet Questions list
   Future getWorksheetQuestionList({bool? showLoader,required String id}) async {
     isLoading1.value = true;
-    await BaseAPI().get(url: ApiEndPoints().getAssignmentQuestionList+"/${id}", showLoader: showLoader,showErrorSnackbar: false).then((value) {
+    await BaseAPI().get(url: "${ApiEndPoints().getAssignmentQuestionList}/$id", showLoader: showLoader,showErrorSnackbar: false).then((value) {
       isLoading1.value = false;
       if (value?.statusCode == 200) {
         data.value = WorksheetQuestionList.fromJson(value?.data).data;
@@ -117,7 +117,7 @@ class WorkSheetController extends GetxController with GetSingleTickerProviderSta
 
   Future getELibraryQuestion({bool? showLoader,required String id}) async {
     isLoading1.value = true;
-    await BaseAPI().get(url: ApiEndPoints().getELibraryQuestions+"/${id}", showLoader: showLoader,showErrorSnackbar: false).then((value) {
+    await BaseAPI().get(url: "${ApiEndPoints().getELibraryQuestions}/$id", showLoader: showLoader,showErrorSnackbar: false).then((value) {
       isLoading1.value = false;
       if (value?.statusCode == 200) {
         eLibraryQuestionResponse.value = ELibraryQuestionResponse.fromJson(value?.data).data;
@@ -144,7 +144,7 @@ class WorkSheetController extends GetxController with GetSingleTickerProviderSta
     if(questionType == 'multipleSelect'){
       data["multiOption[]"] = selectedOptionList;
     }
-    print("------evaluateQuestion-------->"+data.toString());
+    print("------evaluateQuestion-------->$data");
     // if (mUploadDoc.value.path != "") {
     //   data["document"] = await dio.MultipartFile.fromFile(mUploadDoc.value.path, filename: mUploadDoc.value.path.split('/').last);
     // }

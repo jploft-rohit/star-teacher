@@ -14,6 +14,7 @@ import 'package:staff_app/storage/sp_keys.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 
 import '../../../utility/sizes.dart';
 
@@ -29,26 +30,14 @@ class LostFoundController extends GetxController{
   Rx<TextEditingController> whereController = TextEditingController().obs;
   Rx<TextEditingController> uploadController = TextEditingController().obs;
   Rx<TextEditingController> schoolController = TextEditingController().obs;
+  BaseCtrl baseCtrl = Get.find<BaseCtrl>();
   /// Pagination
   RxInt page = 1.obs;
   final RefreshController refreshController = RefreshController(initialRefresh: false);
+  RxString userId = "".obs;
 
   getData({required String type, String? refreshType}) async {
-    final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
-    var data;
-    selectedSchoolId.value.isEmpty
-    ? data = {
-      "type":type,
-      "user":userId,
-      "limit":apiItemLimit,
-      "page":page.value.toString()
-    } : data = {
-      "type":type,
-      "user":userId,
-      "school":selectedSchoolId.value,
-      "limit":apiItemLimit,
-      "page":page.value.toString()
-    };
+    userId.value = await BaseSharedPreference().getString(SpKeys().userId)??"";
     if (refreshType == 'refresh' || refreshType == null) {
       list?.clear();
       refreshController.loadComplete();
@@ -56,6 +45,20 @@ class LostFoundController extends GetxController{
     } else if (refreshType == 'load') {
       page.value++;
     }
+    var data;
+    selectedSchoolId.value.isEmpty
+    ? data = {
+      "type":type,
+      // "user":userId,
+      "limit":apiItemLimit,
+      "page":page.value.toString()
+    } : data = {
+      "type":type,
+      // "user":userId,
+      "school":selectedSchoolId.value,
+      "limit":apiItemLimit,
+      "page":page.value.toString()
+    };
     BaseAPI().post(
         url: ApiEndPoints().getAllLostFound,
         data: data,
@@ -123,8 +126,8 @@ class LostFoundController extends GetxController{
           Get.back();
           baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
           BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: translate(Get.context!).success);
-          selectedSchoolId.value = "";
-          selectedSchoolName.value = "";
+          selectedSchoolId.value = baseCtrl.schoolListData.data?.data?.first.sId??"";
+          schoolController.value.text = baseCtrl.schoolListData.data?.data?.first.name??"";
           getData(type: selectedTabIndex.value == 0 ? "found" : "request");
         }else{
           BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong,title: translate(Get.context!).error);

@@ -11,13 +11,13 @@ class LostFoundListResponse {
     if (json['data'] != null) {
       data = <LostFoundData>[];
       json['data'].forEach((v) {
-        data!.add(new LostFoundData.fromJson(v));
+        data!.add(LostFoundData.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['statusCode'] = this.statusCode;
     data['message'] = this.message;
     if (this.data != null) {
@@ -67,7 +67,7 @@ class LostFoundData {
     date = json['date'];
     location = json['location'];
     school = json['school'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
     document = json['document'];
     createdBy = json['createdBy'];
     updatedBy = json['updatedBy'];
@@ -77,7 +77,7 @@ class LostFoundData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['type'] = this.type;
     data['isDeleted'] = this.isDeleted;
     data['_id'] = this.sId;
@@ -184,7 +184,7 @@ class User {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['isMobileVerified'] = this.isMobileVerified;
     data['gender'] = this.gender;
     data['idDocument'] = this.idDocument;

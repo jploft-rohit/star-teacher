@@ -17,6 +17,8 @@ import 'package:staff_app/view/attendance_screen/calender_view.dart';
 import 'package:staff_app/view/attendance_screen/tab_views/class_type_tab.dart';
 import 'package:staff_app/view/attendance_screen/tab_views/transportation_view.dart';
 
+import '../../utility/sizes.dart';
+
 class AttendanceScreen extends StatefulWidget {
   const AttendanceScreen({Key? key}) : super(key: key);
 
@@ -30,7 +32,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> with TickerProvider
   
   @override
   void initState() {
-    tabController = TabController(length: 3, vsync: this)..addListener(() {
+    tabController = TabController(length: 2, vsync: this)..addListener(() {
       if (!tabController.indexIsChanging) {
         controller.primaryTabIndex.value = tabController.index;
         controller.secondaryTabIndex.value = 0;
@@ -51,10 +53,15 @@ class _AttendanceScreenState extends State<AttendanceScreen> with TickerProvider
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(title: translate(context).attendance),
-      floatingActionButton: BaseFloatingActionButton(
-        onTap: () { Get.to(const CalenderView());},
-        title: translate(context).view_on_calendar,
-        isCalendar: true,
+      floatingActionButton: Visibility(
+        visible: controller.primaryTabIndex.value == 0,
+        child: BaseFloatingActionButton(
+          onTap: () { Get.to(const CalenderView())?.then((value) {
+            controller.getData();
+          });},
+          title: translate(context).view_on_calendar,
+          isCalendar: true,
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -112,9 +119,10 @@ class _AttendanceScreenState extends State<AttendanceScreen> with TickerProvider
               height: 1.5.h,
             ),
             BaseToggleTabBar(controller: tabController, tabs: [
-              BaseTabButton(title: translate(context).classroom, isSelected: tabController.index == 0),
-              BaseTabButton(title: translate(context).online, isSelected: tabController.index == 1),
-              BaseTabButton(title: translate(context).transportation, isSelected: tabController.index == 2)
+              // BaseTabButton(title: translate(context).classroom, isSelected: tabController.index == 0),
+              // BaseTabButton(title: translate(context).online, isSelected: tabController.index == 1),
+              BaseTabButton(title: translate(context).school, isSelected: tabController.index == 0, type: toggleLargeButton),
+              BaseTabButton(title: translate(context).transportation, isSelected: tabController.index == 1, type: toggleLargeButton)
             ]),
             SizedBox(height: 2.h),
             Expanded(
@@ -122,7 +130,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> with TickerProvider
                 controller: tabController,
                 children: const [
                   ClassTypeTab(),
-                  ClassTypeTab(),
+                  // ClassTypeTab(),
                   TransportationTab(),
                 ],
               ),

@@ -209,7 +209,7 @@ class ELibraryController extends GetxController{
     ],);
   }
 
-  getData({String? refreshType}){
+  getData({String? refreshType, String? screenKey}){
     // list?.clear();
     if (refreshType == 'refresh' || refreshType == null) {
       list?.clear();
@@ -222,6 +222,7 @@ class ELibraryController extends GetxController{
       "isPost":tabIndex.value == 0 ? false : true,
       "limit":apiItemLimit,
       "page":page.value.toString(),
+      "category":screenKey??"",
     },showLoader: page.value == 1).then((value){
       if (value?.statusCode ==  200) {
         // list?.value = AssignmentResponse.fromJson(value?.data).data??[];

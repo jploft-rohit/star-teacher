@@ -133,7 +133,7 @@ class _PurchasesViewState extends State<PurchasesView> with SingleTickerProvider
             child: TabBarView(
               controller: tabController,
                 // physics: NeverScrollableScrollPhysics(),
-                children: [
+                children: const [
                 TransactionTile(),
                 TransactionTile(),
             ]),
@@ -150,7 +150,7 @@ class _PurchasesViewState extends State<PurchasesView> with SingleTickerProvider
           builder: (context, child) {
             return Theme(
               data: Theme.of(context).copyWith(
-                colorScheme: ColorScheme.light(
+                colorScheme: const ColorScheme.light(
                   primary: BaseColors.primaryColor,
                 ),
               ),

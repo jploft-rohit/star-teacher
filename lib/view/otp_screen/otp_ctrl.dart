@@ -54,13 +54,10 @@ class OtpCtrl extends GetxController{
           if ((response.data?.message??"").isNotEmpty) {
             BaseOverlays().showSnackBar(message: response.data?.message??"",title: response.message??"");
           }
-          // Get.put(BaseCtrl());
           currentUser.id = response.data?.user?.sId??"";
           currentUser.name = response.data?.user?.name??"";
-          if(Platform.isAndroid) {
-            onUserLogin();
-          }
-        if ((response.data?.user?.isReadTermCondtion??false) == false) {
+          onUserLogin();
+        if ((response.data?.user?.isReadCodeOfConduct??false) == false) {
           if((response.data?.user?.isReadResponsibility??false) == false){
             Get.offAll(RulesScreen(isFromActivation: isFromActivation??false));
           }else{

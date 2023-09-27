@@ -117,23 +117,23 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                       Column(
                         children: [
                           const SizedBox(height: 5),
-                          Container(
-                            width: 20.w,
-                            decoration: BoxDecoration(
-                                color: BaseColors.backgroundColor,
-                                // boxShadow: [getDeepBoxShadow()],
-                                border: Border.all(
-                                    color: BaseColors.primaryColor,
-                                    width: 1.5),
-                                borderRadius: BorderRadius.circular(20)),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 4),
-                              child: Center(
-                                child: Text(
-                                    (myProfileController.response.value.data?.currentStatus??"").toString().toLowerCase() == "inactive"
-                                        ? translate(context).deactivated.toUpperCase()
-                                        : "ACTIVATED",
-                                  style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 12.sp),),
+                          Visibility(
+                            visible: (myProfileController.response.value.data?.currentStatus??"").toString().toLowerCase() == "inactive",
+                            child: Container(
+                              width: 20.w,
+                              decoration: BoxDecoration(
+                                  color: BaseColors.backgroundColor,
+                                  // boxShadow: [getDeepBoxShadow()],
+                                  border: Border.all(
+                                      color: BaseColors.primaryColor,
+                                      width: 1.5),
+                                  borderRadius: BorderRadius.circular(20)),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 4),
+                                child: Center(
+                                  child: Text(translate(context).deactivated.toUpperCase(),
+                                    style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 12.sp),),
+                                ),
                               ),
                             ),
                           ),
@@ -301,21 +301,42 @@ class _ActivationRequestDetailScreenState extends State<ActivationRequestDetailS
                         SizedBox(
                           width: 2.w,
                         ),
-                        Flexible(child: buildInfoItems(translate(context).required_evidence, controller.list?[index]?.requiredEvidance??""))
+                        Flexible(child: buildInfoItems(translate(context).required_evidence, controller.list?[index]?.requiredEvidance??"N/A"))
                       ],
                     ),
                     const Divider(),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SvgPicture.asset("assets/images/Vector (1).svg"),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        Flexible(child: buildInfoItems(translate(context).due_date, formatBackendDate(controller.list?[index]?.dueDate??"")))
-                      ],
+                    Visibility(
+                      visible: (controller.list?[index]?.comment??"").toString().isNotEmpty,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SvgPicture.asset("assets/images/report.svg"),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          Flexible(child: buildInfoItems(translate(context).comment, controller.list?[index]?.comment??""))
+                        ],
+                      ),
                     ),
-                    const Divider(),
+                    Visibility(
+                        visible: (controller.list?[index]?.comment??"").toString().isNotEmpty,
+                        child: const Divider()),
+                    Visibility(
+                      visible: (controller.list?[index]?.dueDate??"").toString().isNotEmpty,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SvgPicture.asset("assets/images/Vector (1).svg"),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          Flexible(child: buildInfoItems(translate(context).due_date, formatBackendDate(controller.list?[index]?.dueDate??"")))
+                        ],
+                      ),
+                    ),
+                    Visibility(
+                        visible: (controller.list?[index]?.dueDate??"").toString().isNotEmpty,
+                        child: const Divider()),
                     Visibility(
                       visible: (controller.list?[index]?.requestStatus?[2].time??"").toString().isNotEmpty,
                       child: Column(

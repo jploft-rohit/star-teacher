@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:ui' as ui;
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/utility/intl/intl.dart';
 import 'package:staff_app/utility/sizes.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
@@ -46,13 +49,13 @@ class _TransactionHistoryPopupState extends State<TransactionHistoryPopup> {
                         onTap: (){
                           Get.back();
                         },
-                        child: Icon(
+                        child: const Icon(
                             Icons.close
                         ),
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 5),
+                      padding: const EdgeInsets.only(top: 5),
                       child: Center(
                         child: addText(translate(context).transaction_history, 18,
                             Colors.black, FontWeight.w700),
@@ -61,126 +64,97 @@ class _TransactionHistoryPopupState extends State<TransactionHistoryPopup> {
                   ],
                 ),
                 SizedBox(height: 2.h),
-                Stack(
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  alignment: Alignment.centerRight,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 15.0),
-                      child: Stack(
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        alignment: Alignment.centerRight,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: BaseColors.greyColor),
-                            ),
-                            child: IntrinsicHeight(
-                              child: Row(
-                                children: [
-                                  controller.selectedTabIndex.value == 0 && (controller.list?[widget.index]?.productImages?.length??0) != 0
-                                      ? BaseImageNetwork(
-                                    link: controller.list?[widget.index]?.productImages?.first??"",
-                                    concatBaseUrl: false,
-                                    height: 6.h,
-                                    width: 7.h,
-                                    leftMargin: 0.6.w,
-                                    rightMargin: isRTL ? 1.1.w : 0,
-                                    borderRadius: 10,
-                                  )
-                                      : Container(
-                                    width: 10.h,
-                                    padding: const EdgeInsets.only(top: 10.0,bottom: 10.0),
-                                    decoration: BoxDecoration(
-                                        color: BaseColors.backgroundColor,
-                                        border: Border.all(color: BaseColors.primaryColor),
-                                        borderRadius: BorderRadius.circular(10)),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text(controller.list?[widget.index]?.txnAmount.toString()??"", style: Style.montserratBoldStyle().copyWith(fontSize: 20.sp, color: BaseColors.primaryColor),),
-                                        Text("AED", style: Style.montserratRegularStyle().copyWith(fontSize: 16.sp, color: BaseColors.primaryColor),),
-                                      ],
-                                    ),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: BaseColors.greyColor),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  margin: const EdgeInsets.only(bottom: 15),
+                  child: IntrinsicHeight(
+                    child: Row(
+                      children: [
+                        controller.selectedTabIndex.value == 0
+                            ? BaseImageNetwork(
+                          link: (controller.list?[widget.index]?.productImages??[]).isNotEmpty ? (controller.list?[widget.index]?.productImages?.first??"") : "",
+                          concatBaseUrl: false,
+                          height: 6.h,
+                          width: 7.h,
+                          leftMargin: 0.6.w,
+                          rightMargin: isRTL ? 1.1.w : 0,
+                          borderRadius: 10,
+                        )
+                            : Container(
+                          width: 10.h,
+                          padding: const EdgeInsets.only(top: 10.0,bottom: 10.0),
+                          margin: const EdgeInsets.only(left: 4),
+                          decoration: BoxDecoration(
+                              color: BaseColors.backgroundColor,
+                              border: Border.all(color: BaseColors.primaryColor),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(controller.list?[widget.index]?.txnAmount.toString()??"", style: Style.montserratBoldStyle().copyWith(fontSize: 20.sp, color: BaseColors.primaryColor),),
+                              Text("AED", style: Style.montserratRegularStyle().copyWith(fontSize: 16.sp, color: BaseColors.primaryColor),),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 2.w),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                controller.selectedTabIndex.value == 0
+                                    ? Text(controller.list?[widget.index]?.otherUser?.name??"", style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: BaseColors.textBlackColor))
+                                    : Text("Amount Added", style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
+                                const SizedBox(height: 4),
+                                Visibility(
+                                    visible: controller.selectedTabIndex.value == 0,
+                                    child: Text("Order ID : ${controller.list?[widget.index]?.order?.orderId?.toString()??""}", style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor, fontWeight: FontWeight.w400))),
+                                Visibility(
+                                    visible: controller.selectedTabIndex.value == 0,
+                                    child: const SizedBox(height: 4)),
+                                Text("TR No : ${controller.list?[widget.index]?.transactionNo?.toString()??""}", style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor, fontWeight: FontWeight.w400)),
+                                const SizedBox(height: 4),
+                                Visibility(
+                                  visible: controller.selectedTabIndex.value == 0,
+                                  child: Text("${controller.list?[widget.index]?.txnFor} (${(controller.list?[widget.index]?.productNames??[]).isNotEmpty ? (controller.list?[widget.index]?.productNames?.first??"") : ""})", style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
+                                ),
+                                Visibility(
+                                  visible: controller.selectedTabIndex.value == 0,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 4),
+                                    child: Text.rich(TextSpan(children: [
+                                      TextSpan(text: "${controller.list?[widget.index]?.txnAmount.toString()??"0"} AED",style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
+                                      const WidgetSpan(child: SizedBox(width: 2)),
+                                      TextSpan(text: toBeginningOfSentenceCase(controller.list?[widget.index]?.paymentType??"")??"",style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: Colors.blue,fontWeight: FontWeight.w400)),
+                                    ])),
                                   ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(width: 2.w),
-                                      Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          controller.selectedTabIndex.value == 0
-                                              ? Text(controller.list?[widget.index]?.title??"", style: Style.montserratBoldStyle().copyWith(fontSize: 14.sp, color: BaseColors.textBlackColor))
-                                              : Text("Amount Added", style: Style.montserratBoldStyle().copyWith(fontSize: 16.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
-                                          const SizedBox(height: 4),
-                                          controller.selectedTabIndex.value == 0
-                                              ? Text('#${controller.list?[widget.index]?.txnId??""}', style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.primaryColor))
-                                              : Text('TR No : ${controller.list?[widget.index]?.txnId??""}', style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp)),
-                                          Visibility(
-                                            visible: controller.selectedTabIndex.value == 0,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(top: 3),
-                                              child: Text(controller.list?[widget.index]?.description??"", style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
-                                            ),
-                                          ),
-                                          Visibility(
-                                            visible: controller.selectedTabIndex.value == 0,
-                                            child: Padding(
-                                              padding: EdgeInsets.only(top: 4),
-                                              child: Text.rich(TextSpan(children: [
-                                                TextSpan(text: "${controller.list?[widget.index]?.txnAmount.toString()??"0"} AED",style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
-                                                const WidgetSpan(child: SizedBox(width: 2)),
-                                                TextSpan(text: "Sent",style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: Colors.blue,fontWeight: FontWeight.w400)),
-                                              ])),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  const Spacer(),
-                                  Padding(
-                                    padding: EdgeInsets.only(right: isRTL ? 0 : 35,top: 2, left: isRTL ? 10 : 0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(formatBackendDate(controller.list?[widget.index]?.createdAt??""), style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
-                                        const SizedBox(height: 8),
-                                        Text(getFormattedTime(controller.list?[widget.index]?.createdAt??""), style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                        // const Spacer(),
+                        Padding(
+                          padding: EdgeInsets.only(right: isRTL ? 0 : 10,top: 2, left: isRTL ? 10 : 0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(formatBackendDate(controller.list?[widget.index]?.createdAt??""), style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
+                              const SizedBox(height: 8),
+                              Text(getFormattedTime(controller.list?[widget.index]?.createdAt??""), style: Style.montserratBoldStyle().copyWith(fontSize: 13.sp, color: BaseColors.textBlackColor,fontWeight: FontWeight.w400)),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(left: 3.0),
-                    //   child: GestureDetector(
-                    //     onTap: (){
-                    //     },
-                    //     child: Container(
-                    //       padding: const EdgeInsets.all(3),
-                    //       decoration: BoxDecoration(
-                    //           color: Colors.white,
-                    //           shape: BoxShape.circle,
-                    //           boxShadow: [
-                    //             getBoxShadow()
-                    //           ]
-                    //       ),
-                    //       child: SvgPicture.asset(starSvg, height: 18.sp,),
-                    //     ),
-                    //   ),
-                    // ),
-                  ],
+                  ),
                 ),
                 SizedBox(height: 2.h),
                 Padding(
@@ -205,6 +179,7 @@ class _TransactionHistoryPopupState extends State<TransactionHistoryPopup> {
                           borderRadius: 20,
                           onPressed: (){
                             Get.back();
+                            downloadFile(url: controller.list?[widget.index]?.reciept??"");
                           },
                         ),
                       ),

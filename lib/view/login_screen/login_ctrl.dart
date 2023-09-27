@@ -17,7 +17,7 @@ import 'package:staff_app/view/otp_screen/otp_screen.dart';
 
 class LoginCtrl extends GetxController{
 
-  final formKey = GlobalKey<FormState>();
+
   RxBool isLocalAuth = false.obs;
   TextEditingController mobileCtrl = TextEditingController();
   LoginResponse response = LoginResponse();
@@ -25,7 +25,6 @@ class LoginCtrl extends GetxController{
 
   loginApi({bool? isResend}){
     FocusScope.of(Get.context!).requestFocus(FocusNode());
-    if (formKey.currentState?.validate()??false) {
       Map<String, dynamic> data = {
         "mobile": "+$selectedCountryCode ${(mobileCtrl.text.trim())}",
         "role" : "staff"
@@ -39,7 +38,6 @@ class LoginCtrl extends GetxController{
             Get.to(OTPScreen(mobile: "+$selectedCountryCode ${(mobileCtrl.text.trim())}", isFromActivation: false));
         }
       });
-    }
   }
 
   localAuthEnable() async {
@@ -48,7 +46,14 @@ class LoginCtrl extends GetxController{
       final LocalAuthentication auth = LocalAuthentication();
       final List<BiometricType> availableBiometrics = await auth.getAvailableBiometrics();
         if (availableBiometrics.isNotEmpty) {
-          final bool didAuthenticate = await auth.authenticate(localizedReason: translate(Get.context!).local_auth_message);
+          final bool didAuthenticate = await auth.authenticate(
+            localizedReason: translate(Get.context!).local_auth_message,
+            options: const AuthenticationOptions(
+              stickyAuth: true,
+              useErrorDialogs: true,
+              biometricOnly: false,
+            ),
+          );
           if (!didAuthenticate) {
             showSnackBar(
               message: translate(Get.context!).authentication_failed,

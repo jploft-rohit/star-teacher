@@ -161,7 +161,7 @@ class ShopScreenCtrl extends GetxController{
   //   }
   // }
 
-  getUserCart({bool? callGetData}) async {
+  getUserCart({bool? callGetData, bool? isFromCart}) async {
     final String userId = await BaseSharedPreference().getString(SpKeys().userId);
     var data = {
       "type": secondaryTabIndex.value == 0 ? "STATIONARY" : secondaryTabIndex.value == 1 ? "STARS_STORE" : "CANTEEN",
@@ -170,6 +170,9 @@ class ShopScreenCtrl extends GetxController{
       if (value?.statusCode ==  200) {
         userCartData?.value = UserCartResponse.fromJson(value?.data).data;
         cartProductsList?.value = UserCartResponse.fromJson(value?.data).data?.items ?? [];
+        if (isFromCart??false) {
+          userCartData?.value?.grandTotal = ((double.parse(userCartData?.value?.grandTotal?.toString()??"0.0")) + (double.parse(userCartData?.value?.shippingCharges?.toString()??"0.0"))).toString();
+        }
         if (callGetData??true) {
           getData();
         }
@@ -402,14 +405,21 @@ class ShopScreenCtrl extends GetxController{
     isPreOrderSelected.value = true;
   }
 
-  var isHomeDelivery = true.obs;
-  var isSchoolDelivery = false.obs;
+  RxBool isHomeDelivery = true.obs;
+  RxBool isSchoolDelivery = false.obs;
   schoolDelivertSelected() {
+    if (isSchoolDelivery.value == false) {
+      userCartData?.value?.grandTotal = ((double.parse(userCartData?.value?.grandTotal?.toString()??"0.0")) - (double.parse(userCartData?.value?.shippingCharges?.toString()??"0.0"))).toString();
+    }
     isHomeDelivery.value = false;
     isSchoolDelivery.value = true;
   }
   homeDelivertSelected() {
+    if (isHomeDelivery.value == false) {
+      userCartData?.value?.grandTotal = ((double.parse(userCartData?.value?.grandTotal?.toString()??"0.0")) + (double.parse(userCartData?.value?.shippingCharges?.toString()??"0.0"))).toString();
+    }
     isHomeDelivery.value = true;
     isSchoolDelivery.value = false;
+
   }
 }

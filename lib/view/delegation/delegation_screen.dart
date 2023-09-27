@@ -5,6 +5,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
+import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/utility/base_views/base_pagination_footer.dart';
 import 'dart:ui' as ui;
 import 'package:staff_app/utility/sizes.dart';
@@ -55,13 +56,13 @@ class _DelegationScreenState extends State<DelegationScreen> {
                   onRefresh: (){
                     controller.getData(refreshType: "refresh");
                   },
-                  child: ListView.builder(
+                  child: (controller.list?.length??0) == 0 ? const BaseNoData() : ListView.builder(
                     shrinkWrap: true,
                     itemCount: controller.list?.length??0,
                     itemBuilder: (context,index){
                       return delegationRequest(index: index);
-                  },
-               ),
+                      },
+                  ),
                 ),
               )
             ],
@@ -92,7 +93,7 @@ class _DelegationScreenState extends State<DelegationScreen> {
               children: [
                 SvgPicture.asset("assets/images/profile.svg",height: 2.1.h),
                 SizedBox(width: 2.w),
-                Flexible(child: buildInfoItems("Requested From", controller.list?[index]?.whoWillServe?.name??""))
+                Flexible(child: buildInfoItems("Requested From", controller.list?[index]?.assistingWhom?.name??""))
               ],
             ),
             const Divider(),
@@ -101,7 +102,7 @@ class _DelegationScreenState extends State<DelegationScreen> {
               children: [
                 SvgPicture.asset("assets/images/profile.svg",height: 2.1.h),
                 SizedBox(width: 2.w),
-                Flexible(child: buildInfoItems(translate(context).requested_to, controller.list?[index]?.assistingWhom?.name??""))
+                Flexible(child: buildInfoItems(translate(context).requested_to, controller.list?[index]?.whoWillServe?.name??""))
               ],
             ),
             const Divider(),
@@ -176,10 +177,10 @@ class _DelegationScreenState extends State<DelegationScreen> {
             ),
             const Divider(),
             Visibility(
-                visible: ((controller.list?[index]?.status?.name??"").toLowerCase()) == "request raised",
+                visible: ((controller.list?[index]?.status?.name??"").toLowerCase()) == "request raised" || ((controller.list?[index]?.status?.name??"").toLowerCase()) == "reviewed",
                 child: SizedBox(height: 3.h)),
             Visibility(
-              visible: ((controller.list?[index]?.status?.name??"").toLowerCase()) == "request raised",
+              visible: ((controller.list?[index]?.status?.name??"").toLowerCase()) == "request raised" || ((controller.list?[index]?.status?.name??"").toLowerCase()) == "reviewed",
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.w),
                 child: Row(
@@ -245,7 +246,7 @@ class _DelegationScreenState extends State<DelegationScreen> {
               ),
             ),
             Visibility(
-              visible: ((controller.list?[index]?.status?.name??"").toLowerCase()) == "request raised",
+              visible: ((controller.list?[index]?.status?.name??"").toLowerCase()) == "request raised" || ((controller.list?[index]?.status?.name??"").toLowerCase()) == "reviewed",
               child: SizedBox(
                 height: 2.h,
               ),

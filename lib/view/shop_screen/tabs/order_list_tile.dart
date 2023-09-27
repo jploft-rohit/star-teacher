@@ -48,12 +48,12 @@ class _OrderListTileState extends State<OrderListTile> {
           itemCount: controller.shopOrdersList?.length??0,
           padding: EdgeInsets.zero,
           itemBuilder: (context, index) {
-            controller.statusTime.value = [];
-            controller.statusTitle.value = [];
             // controller.shopOrdersList?[index]?.progressStatus?.toList().asMap().forEach((loopIndex,element) {
             //   controller.statusTime[loopIndex] = (getFormattedTimeWithMonth(element.timestamp??""));
             //   stepperIndex = loopIndex;
             // });
+            controller.statusTime.value = [];
+            controller.statusTitle.value = [];
             int stepperIndex = 1;
             controller.shopOrdersList?[index]?.progressStatus?.toList().asMap().forEach((loopIndex,element) {
               if (element.name.toString().toLowerCase() != "rejected" && element.name.toString().toLowerCase() != "cancelled" && element.name.toString().toLowerCase() != "returned") {
@@ -128,7 +128,7 @@ class _OrderListTileState extends State<OrderListTile> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -154,7 +154,7 @@ class _OrderListTileState extends State<OrderListTile> {
                     //       }),
                     // ),
                     Visibility(
-                      visible: (stepperIndex) != 2,
+                      visible: (stepperIndex) != 2 && (controller.shopOrdersList?[index]?.status??"").toString().toUpperCase() != "CANCELLED",
                       child: BaseButton(
                           title: "Cancel",
                           btnType: smallButton,
@@ -187,7 +187,6 @@ class _OrderListTileState extends State<OrderListTile> {
                   ],
                 ),
               )
-
             ],
           ),
           const Divider(),

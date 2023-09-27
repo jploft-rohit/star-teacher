@@ -52,12 +52,12 @@ class SearchScreenCtrl extends GetxController{
     /// Profile
     SearchList(title: translate(Get.context!).class_schedule, onTap: (){Get.to(const ClassScheduleScreen());}),
     SearchList(title: translate(Get.context!).attendance, onTap: (){Get.to(const AttendanceScreen());}),
-    SearchList(title: translate(Get.context!).performance, onTap: (){Get.to(PerformanceScreen(index: 0));}),
+    SearchList(title: translate(Get.context!).performance, onTap: (){Get.to(const PerformanceScreen(index: 0));}),
     SearchList(title: "Early Leave & Permission", onTap: (){Get.to(const EarlyLeavePermission());}),
     SearchList(title: translate(Get.context!).leave_request, onTap: (){Get.to(const LeaveRequestScreen());}),
-    SearchList(title: "My Notes", onTap: (){Get.to(MyNotesScreen());}),
-    SearchList(title: "Annual Schedule", onTap: (){Get.to(AnnualScheduleScreen());}),
-    SearchList(title: translate(Get.context!).online_class_request, onTap: (){Get.to(RequestOnlineClassesDetail());}),
+    SearchList(title: "My Notes", onTap: (){Get.to(const MyNotesScreen());}),
+    SearchList(title: "Annual Schedule", onTap: (){Get.to(const AnnualScheduleScreen());}),
+    SearchList(title: translate(Get.context!).online_class_request, onTap: (){Get.to(const RequestOnlineClassesDetail());}),
     SearchList(title: translate(Get.context!).medical_records, onTap: (){Get.to(const MedicalReportView());}),
     SearchList(title: translate(Get.context!).notification_settings, onTap: (){Get.to(const NotificationSettingScreen());}),
     SearchList(title: translate(Get.context!).complaints_reports, onTap: (){Get.to(const ComplaintsReportScreen());}),
@@ -86,7 +86,7 @@ class SearchScreenCtrl extends GetxController{
     SearchList(title: "E-Library - Assessment", onTap: (){Get.to(const ELibraryScreen(title: "Assessment",));}),
     SearchList(title: "E-Library - Lab", onTap: (){Get.to(const ELibraryScreen(title: "Lab",));}),
     SearchList(title: "Shop", onTap: (){Get.to(const ShopView());}),
-    SearchList(title: "Task & Reminders", onTap: (){Get.to(TaskOrReminderScreen(isFromBtmBar: false,));}),
+    SearchList(title: "Task & Reminders", onTap: (){Get.to(const TaskOrReminderScreen(isFromBtmBar: false));}),
     SearchList(title: "Schedule Meeting", onTap: (){Get.to(const ScheduleMeetingScreen());}),
     SearchList(title: "Lost & Found", onTap: (){Get.to(const LostAndFoundScreen());}),
     SearchList(title: "Help & Feedback", onTap: (){Get.to(const FeedbackHelpScreen());}),
@@ -99,7 +99,7 @@ class SearchScreenCtrl extends GetxController{
       BaseOverlays().showLoader();
       Future.delayed(const Duration(seconds: 2), () async {
         await BaseSharedPreference().clearLoginSession();
-        Get.offAll(LoginScreen());
+        Get.offAll(const LoginScreen());
       });
     }),
   ];

@@ -37,8 +37,8 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
               SizedBox(height: 3.h,),
               Row(
                 children: [
-                  addText(widget.data.user?.name??"", 15, const Color(0xFF072D4B).withOpacity(0.4), FontWeight.w400),
-                  SizedBox(width: 3.w  ,),
+                  addText("Added by "+(controller.list?[widget.index].sender?.roleData?.displayName??""), 15, const Color(0xFF072D4B).withOpacity(0.4), FontWeight.w400),
+                  SizedBox(width: 3.w),
                   addText(formatBackendDate(widget.data.updatedAt??""), 15, const Color(0xFF072D4B).withOpacity(0.4), FontWeight.w400),
                 ],
               ),

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,6 +13,7 @@ import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/storage/sp_keys.dart';
 import 'package:staff_app/route_manager/route_name.dart';
+import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/view/account_activation_screen/rules_screen.dart';
 import 'package:staff_app/view/account_activation_screen/rules_screen2.dart';
 
@@ -27,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 2), () async {
+    Future.delayed(const Duration(seconds: 0), () async {
       Locale locale = await setLocalePref(await BaseSharedPreference().getString(SpKeys().selectedLanguage)??"en");
       Get.updateLocale(locale);
       initializeDateFormatting();
@@ -36,14 +39,22 @@ class _SplashScreenState extends State<SplashScreen> {
         if (isLocalAuth == true) {
           final LocalAuthentication auth = LocalAuthentication();
           try {
-            final bool didAuthenticate = await auth.authenticate(localizedReason: translate(Get.context!).local_auth_message);
+            final bool didAuthenticate = await auth.authenticate(
+              localizedReason: translate(Get.context!).local_auth_message,
+              options: const AuthenticationOptions(
+                stickyAuth: true,
+                useErrorDialogs: true,
+                biometricOnly: false,
+              ),
+            );
             if (didAuthenticate) {
+              BaseOverlays().showSnackBar(message: "Authorized", title: "Success");
               await checkTermsStatus();
             }else{
-              SystemNavigator.pop();
+              exit(0);
             }
           } on PlatformException {
-            SystemNavigator.pop();
+            exit(0);
           }
         }else{
           await checkTermsStatus();
@@ -88,7 +99,7 @@ class _SplashScreenState extends State<SplashScreen> {
     FocusScope.of(Get.context!).requestFocus(FocusNode());
       await BaseAPI().get(url: ApiEndPoints().getTermsConditionStatus, showLoader: false).then((value){
         if (value?.statusCode == 200) {
-          if ((TermsConditionResponse.fromJson(value?.data).data?.isReadTermCondtion??false) == false) {
+          if ((TermsConditionResponse.fromJson(value?.data).data?.isReadCodeOfConduct??false) == false) {
             if((TermsConditionResponse.fromJson(value?.data).data?.isReadResponsibility??false) == false){
               Get.offAll(const RulesScreen(isFromActivation: false));
             }else{

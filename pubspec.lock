@@ -949,6 +949,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.18.1"
+  is_lock_screen2:
+    dependency: transitive
+    description:
+      name: is_lock_screen2
+      sha256: "1e863afcddc2055a786ed7004492a24b88f98378c9c47e20ed5506cf447d4cb1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   js:
     dependency: transitive
     description:
@@ -1373,6 +1381,54 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.0"
+  record:
+    dependency: "direct main"
+    description:
+      name: record
+      sha256: f703397f5a60d9b2b655b3acc94ba079b2d9a67dc0725bdb90ef2fee2441ebf7
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.4.4"
+  record_linux:
+    dependency: transitive
+    description:
+      name: record_linux
+      sha256: "348db92c4ec1b67b1b85d791381c8c99d7c6908de141e7c9edc20dad399b15ce"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.1"
+  record_macos:
+    dependency: transitive
+    description:
+      name: record_macos
+      sha256: d1d0199d1395f05e218207e8cacd03eb9dc9e256ddfe2cfcbbb90e8edea06057
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.2"
+  record_platform_interface:
+    dependency: transitive
+    description:
+      name: record_platform_interface
+      sha256: "7a2d4ce7ac3752505157e416e4e0d666a54b1d5d8601701b7e7e5e30bec181b4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.0"
+  record_web:
+    dependency: transitive
+    description:
+      name: record_web
+      sha256: "219ffb4ca59b4338117857db56d3ffadbde3169bcaf1136f5f4d4656f4a2372d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.0"
+  record_windows:
+    dependency: transitive
+    description:
+      name: record_windows
+      sha256: "42d545155a26b20d74f5107648dbb3382dbbc84dc3f1adc767040359e57a1345"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.7.1"
   responsive_sizer:
     dependency: "direct main"
     description:
@@ -1934,42 +1990,42 @@ packages:
     dependency: transitive
     description:
       name: zego_plugin_adapter
-      sha256: b80303fe2e628542a32ec6ef4be2fb316cffe0f9ca58963b4f2907e223308c17
+      sha256: "05eb863ed4aa71be79e77cb6169fb26315959c59a33350fa070286d83e37697a"
       url: "https://pub.dev"
     source: hosted
-    version: "2.5.1"
+    version: "2.7.1"
   zego_uikit:
     dependency: "direct main"
     description:
       name: zego_uikit
-      sha256: "92394db251c368d615eaa71a2fe8e1e316183e4c08a0a824cfc125b7b8de0d78"
+      sha256: "66266f0587af4b10d73e80bd0e1682d85a49a553692b7b3feb603bbbffa2aad4"
       url: "https://pub.dev"
     source: hosted
-    version: "2.9.3"
+    version: "2.12.2"
   zego_uikit_prebuilt_call:
     dependency: "direct main"
     description:
       name: zego_uikit_prebuilt_call
-      sha256: "82abda6ca4743c20c0c554415ddb4d3bbc27f44305b96a9aab96bb35b7290ba1"
+      sha256: ae582968fec6985bb09817e67d815052b55be1a6ce45e357c69e07162733df2c
       url: "https://pub.dev"
     source: hosted
-    version: "3.12.3"
+    version: "3.15.1"
   zego_uikit_signaling_plugin:
     dependency: "direct main"
     description:
       name: zego_uikit_signaling_plugin
-      sha256: "6edb95cd5c03109739a949f2cc6b7c1f27f06f6f873cc49cffde1f2d07db4e56"
+      sha256: "49974bdc0cebc83b908686b378c3b85c4a758c99a0e1e9277e6ffe285929b72b"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.2"
+    version: "2.5.2"
   zego_zim:
     dependency: transitive
     description:
       name: zego_zim
-      sha256: "0441d537977e29fa8d6727ee4efea5d12eac82e41e9311158e437ebd066d6b3b"
+      sha256: "7389d1b1a86853a0d583a78a2db815456c1ba572c0ddce581f5ede3e5ed60205"
       url: "https://pub.dev"
     source: hosted
-    version: "2.9.0"
+    version: "2.10.0+4"
   zego_zpns:
     dependency: transitive
     description:

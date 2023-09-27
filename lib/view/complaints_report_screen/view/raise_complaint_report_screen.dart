@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -46,7 +45,7 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
       key: controller.formKey,
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: BaseAppBar(title: "${widget.isUpdating ? "Update" : "Raise"} Complaint & report"),
+        appBar: BaseAppBar(title: "${widget.isUpdating ? translate(context).update : translate(context).raise} ${translate(context).complaint_and_report}"),
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(scaffoldPadding),
@@ -63,14 +62,15 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                       controller.typeController.value.text = "";
                       controller.selectSchoolController.value.text = value?.name??"";
                       await baseCtrl.getComplaintTypeData(initialSchoolId: value?.sId??"");
-                      setState(() {print("Set State Called");});
+                      setState(() {});
                     },
-                  )),
+                  ),
+                ),
                 Obx(()=>BaseTextFormField(
                   controller: controller.complaintOrReportController.value,
-                  hintText: controller.complaintOrReportController.value.text.isEmpty ? "Select complaint or report" : controller.complaintOrReportController.value.text.trim(),
+                  hintText: controller.complaintOrReportController.value.text.isEmpty ? translate(context).select_complaint_or_report : controller.complaintOrReportController.value.text.trim(),
                   isDropDown: true,
-                  errorText: "Please select type",
+                  errorText: translate(context).please_select_type,
                   onChanged: (newValue){
                     setState(() {
                       controller.complaintOrReportController.value.text = newValue.toString();
@@ -84,14 +84,14 @@ class _RaiseComplaintReportScreenState extends State<RaiseComplaintReportScreen>
                 ),
                 Obx(()=>BaseTextFormField(
                     controller: controller.personController.value,
-                    hintText: "Select person",
+                    hintText: translate(context).select_person,
                     suffixIcon: "assets/images/ic_down.svg",
                     onTap: (){
                       if ((controller.selectedSchoolId.value).isNotEmpty) {
                         showGeneralDialog(
                           context: context,
                           pageBuilder: (context, animation, secondaryAnimation) {
-                            return SelectPersonPopup(selectedSchoolId: controller.selectedSchoolId.value,);
+                            return SelectPersonPopup(selectedSchoolId: controller.selectedSchoolId.value);
                           },
                         );
                       }else{

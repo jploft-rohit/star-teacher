@@ -6,9 +6,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' as foundation;
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/backend/api_end_points.dart';
 import 'package:staff_app/backend/base_api.dart';
 import 'package:staff_app/constants-classes/color_constants.dart';
+import 'package:staff_app/packages/voice_chat_message/voice_message_package.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/storage/sp_keys.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
@@ -31,7 +34,7 @@ class GroupChattingScreen extends StatefulWidget {
   State<GroupChattingScreen> createState() => _GroupChattingScreenState();
 }
 
-class _GroupChattingScreenState extends State<GroupChattingScreen> {
+class _GroupChattingScreenState extends State<GroupChattingScreen> with TickerProviderStateMixin{
   final translator = GoogleTranslator();
   ChatScreenCtrl ctrl = Get.put(ChatScreenCtrl());
   String userID = "";
@@ -45,6 +48,10 @@ class _GroupChattingScreenState extends State<GroupChattingScreen> {
       ctrl.messageList?.clear();
       userID = await BaseSharedPreference().getString(SpKeys().userId);
       ctrl.connectGroupSocket(reqRoomId: widget.roomId??"");
+      bool hasPermission = await Permission.microphone.isGranted;
+      if (!hasPermission) {
+        await Permission.microphone.request();
+      }
     });
   }
 
@@ -261,7 +268,7 @@ class _GroupChattingScreenState extends State<GroupChattingScreen> {
                                           ),
                                         ),
                                         Visibility(
-                                          visible: (ctrl.messageList?[index1].chatList?[index].type??"") == "text" || (ctrl.messageList?[index1].chatList?[index].type??"") == "media",
+                                          visible: (ctrl.messageList?[index1].chatList?[index].type??"") == "text",
                                           child: Text(
                                             (ctrl.messageList?[index1].chatList?[index].message??"").toString().split("/").last,
                                             style: Style.montserratMediumStyle().copyWith(
@@ -272,11 +279,32 @@ class _GroupChattingScreenState extends State<GroupChattingScreen> {
                                             textAlign: TextAlign.start,
                                           ),
                                         ),
+                                        Visibility(
+                                          visible: (ctrl.messageList?[index1].chatList?[index].type??"") == "audio",
+                                          child: VoiceMessage(
+                                            audioSrc: (
+                                                (ctrl.messageList?[index1].chatList?[index].message??"").contains("http"))
+                                                ? (ctrl.messageList?[index1].chatList?[index].message??"")
+                                                :  "${ApiEndPoints().concatBaseUrl}/star-backend/${ctrl.messageList?[index1].chatList?[index].message??""}",
+                                            me: true,
+                                            formatDuration: (Duration duration) {
+                                              return duration.toString().substring(2, 7);
+                                            },
+                                            meBgColor: ctrl.messageList?[index1].chatList?[index].senderId?.sId == userID
+                                                ? ColorConstants.primaryColorLight
+                                                : Colors.white,
+                                            meFgColor: ColorConstants.primaryColor,
+                                            mePlayIconColor: ColorConstants.white,
+                                            contactBgColor: ColorConstants.primaryColor,
+                                            contactPlayIconBgColor: ColorConstants.primaryColor,
+                                            played: false,
+                                          ),
+                                        )
                                       ],
                                     ),
                                   ),
                                   Visibility(
-                                    visible: (ctrl.messageList?[index1].chatList?[index].senderId?.sId??"") != userID,
+                                    visible: (ctrl.messageList?[index1].chatList?[index].senderId?.sId??"") != userID && (ctrl.messageList?[index1].chatList?[index].type??"") == "text",
                                     child: GestureDetector(
                                       onTap: () async {
                                         selectedIndex = index;
@@ -331,112 +359,119 @@ class _GroupChattingScreenState extends State<GroupChattingScreen> {
               height: 10.h,
               color: Colors.white,
               padding: EdgeInsets.all(15.sp),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: CustomTextField(
-                      controller: msgCtrl,
-                      hintText: "Message",
-                      focusNode: ctrl.focusNode,
-                      borderColor: Colors.transparent,
-                      prefixIcon: GestureDetector(
-                        onTap: (){
-                          FocusScope.of(Get.context!).unfocus();
-                          Future.delayed(const Duration(milliseconds: 100), () {
-                                ctrl.showEmojiPicker.value = !(ctrl.showEmojiPicker.value);
-                              },
-                          );
-                        },
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Icon(
-                            Icons.emoji_emotions_outlined,
-                            color: BaseColors.textLightGreyColor,
-                            size: 20,
+              child: Obx(()=>Row(
+                  children: [
+                    Expanded(
+                      child: CustomTextField(
+                        controller: msgCtrl,
+                        hintText: ctrl.isRecording.value
+                            ? 'Recording ${ctrl.recordingDuration.value.toString()}'
+                            : "Message",
+                        focusNode: ctrl.focusNode,
+                        borderColor: Colors.transparent,
+                        prefixIcon: GestureDetector(
+                          onTap: (){
+                            FocusScope.of(Get.context!).unfocus();
+                            Future.delayed(const Duration(milliseconds: 100), () {
+                                  ctrl.showEmojiPicker.value = !(ctrl.showEmojiPicker.value);
+                                },
+                            );
+                          },
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10.0),
+                            child: Icon(
+                              Icons.emoji_emotions_outlined,
+                              color: BaseColors.textLightGreyColor,
+                              size: 20,
+                            ),
                           ),
                         ),
-                      ),
-                      suffixIcon: Padding(
-                        padding: const EdgeInsetsDirectional.only(end: 10),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            GestureDetector(onTap: (){
-                              BaseOverlays().showMediaPickerDialog(
-                                  onCameraClick: () async {
-                                    BaseOverlays().dismissOverlay();
-                                    ImagePicker picker = ImagePicker();
-                                    await picker.pickImage(source: ImageSource.camera).then((value){
-                                      if (value != null) {
-                                        ctrl.selectedFile?.value = File(value.path);
-                                        ctrl.getUploadedMediaUrl(type: "image", roomId: widget.roomId, groupId: widget.groupId);
-                                      }
+                        suffixIcon: Padding(
+                          padding: const EdgeInsetsDirectional.only(end: 10),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              GestureDetector(onTap: (){
+                                BaseOverlays().showMediaPickerDialog(
+                                    onCameraClick: () async {
+                                      BaseOverlays().dismissOverlay();
+                                      ImagePicker picker = ImagePicker();
+                                      await picker.pickImage(source: ImageSource.camera).then((value){
+                                        if (value != null) {
+                                          ctrl.selectedFile?.value = File(value.path);
+                                          ctrl.getUploadedMediaUrl(type: "image", roomId: widget.roomId, groupId: widget.groupId);
+                                        }
+                                      },
+                                      );
                                     },
-                                    );
+                                    onGalleryClick: () async {
+                                      BaseOverlays().dismissOverlay();
+                                      ImagePicker picker = ImagePicker();
+                                      await picker.pickImage(source: ImageSource.gallery).then((value) async {
+                                        if (value != null) {
+                                          ctrl.selectedFile?.value = File(value.path);
+                                          ctrl.getUploadedMediaUrl(type: "image", roomId: widget.roomId, groupId: widget.groupId);
+                                        }
+                                      });
+                                    },
+                                    // onFilePick: (){
+                                    //   BaseOverlays().dismissOverlay();
+                                    //   pickFile().then((value) {
+                                    //     ctrl.selectedFile?.value = File(value);
+                                    //     if ((value.split(".").last).contains("mp4")  || (value.split(".").last).contains("avi") || (value.split(".").last).contains("mkv")) {
+                                    //       ctrl.getUploadedMediaUrl(type: "video", roomId: widget.roomId, groupId: widget.groupId);
+                                    //     }else if((value.split(".").last).contains("mp3")  || (value.split(".").last).contains("wav") || (value.split(".").last).contains("ogg")){
+                                    //       ctrl.getUploadedMediaUrl(type: "audio", roomId: widget.roomId, groupId: widget.groupId);
+                                    //     }else{
+                                    //       ctrl.getUploadedMediaUrl(type: "media", roomId: widget.roomId, groupId: widget.groupId);
+                                    //     };
+                                    //   });
+                                    // }
+                                );
+                              },child: SvgPicture.asset("assets/images/gridicons_attachment.svg")),
+                              SizedBox(width: 2.w),
+                              GestureDetector(
+                                  onLongPress: ctrl.startRecording,
+                                  onLongPressEnd: (val){
+                                    ctrl.stopRecording(roomId: widget.roomId??"", groupId: widget.groupId??"", isGroup: true,);
                                   },
-                                  onGalleryClick: () async {
-                                    BaseOverlays().dismissOverlay();
-                                    ImagePicker picker = ImagePicker();
-                                    await picker.pickImage(source: ImageSource.gallery).then((value) async {
-                                      if (value != null) {
-                                        ctrl.selectedFile?.value = File(value.path);
-                                        ctrl.getUploadedMediaUrl(type: "image", roomId: widget.roomId, groupId: widget.groupId);
-                                      }
-                                    });
-                                  },
-                                  onFilePick: (){
-                                    BaseOverlays().dismissOverlay();
-                                    pickFile().then((value) {
-                                      ctrl.selectedFile?.value = File(value);
-                                      if ((value.split(".").last).contains("mp4")  || (value.split(".").last).contains("avi") || (value.split(".").last).contains("mkv")) {
-                                        ctrl.getUploadedMediaUrl(type: "video", roomId: widget.roomId, groupId: widget.groupId);
-                                      }else if((value.split(".").last).contains("mp3")  || (value.split(".").last).contains("wav") || (value.split(".").last).contains("ogg")){
-                                        ctrl.getUploadedMediaUrl(type: "audio", roomId: widget.roomId, groupId: widget.groupId);
-                                      }else{
-                                        ctrl.getUploadedMediaUrl(type: "media", roomId: widget.roomId, groupId: widget.groupId);
-                                      };
-                                    });
-                                  }
-                              );
-                            },child: SvgPicture.asset("assets/images/gridicons_attachment.svg")),
-                            SizedBox(
-                              width: 2.w,
-                            ),
-                            SvgPicture.asset("assets/images/Group 7724.svg"),
-                          ],
+                                  child: SvgPicture.asset("assets/images/Group 7724.svg"),
+                              ),
+                            ],
+                          ),
+                        ),
+                        fillColor: const Color(0xffF4F4F4),
+                        borderRadius: 50,
+                        hintTextColor: BaseColors.textLightGreyColor,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 2.w,
+                    ),
+                    GestureDetector(
+                      onTap: (){
+                        if (msgCtrl.text.trim().isNotEmpty) {
+                          ctrl.sendGroupMessage(roomId: widget.roomId,message: msgCtrl.text.trim(), groupId: widget.groupId);
+                          ctrl.update();
+                          msgCtrl.clear();
+                          setState(() {});
+                        }
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: BaseColors.backgroundColor,
+                            border: Border.all(color: BaseColors.primaryColor)
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 2.0),
+                          child: SvgPicture.asset("assets/images/Layer 47.svg"),
                         ),
                       ),
-                      fillColor: const Color(0xffF4F4F4),
-                      borderRadius: 50,
-                      hintTextColor: BaseColors.textLightGreyColor,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 2.w,
-                  ),
-                  GestureDetector(
-                    onTap: (){
-                      if (msgCtrl.text.trim().isNotEmpty) {
-                        ctrl.sendGroupMessage(roomId: widget.roomId,message: msgCtrl.text.trim(), groupId: widget.groupId);
-                        ctrl.update();
-                        msgCtrl.clear();
-                        setState(() {});
-                      }
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: BaseColors.backgroundColor,
-                          border: Border.all(color: BaseColors.primaryColor)
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 2.0),
-                        child: SvgPicture.asset("assets/images/Layer 47.svg"),
-                      ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             ),
             Obx(

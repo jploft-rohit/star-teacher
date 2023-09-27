@@ -25,7 +25,7 @@ class _WalletViewState extends State<WalletView> {
       appBar: BaseAppBar(title: translate(context).wallet),
       body: Padding(
         padding: EdgeInsets.all(scaffoldPadding),
-        child: PurchasesView()
+        child: const PurchasesView()
       ),
     );
   }

@@ -254,21 +254,27 @@ class _TransportationScreenState extends State<TransportationScreen> with Single
                   Flexible(
                     flex: 1,
                     child: BaseButton(title: translate(context).driver.toUpperCase(), onPressed: (){
-                      Get.to(RatingScreen(title: "Driver"));
+                      if ((controller.tripData.value?.driverUser?.sId??"").isNotEmpty) {
+                        Get.to(RatingScreen(title: "Driver", id: controller.tripData.value?.driverUser?.sId??"",));
+                      }
                     }, textSize: 15.sp),
                   ),
                   SizedBox(width: 1.w),
                   Flexible(
                     flex: 1,
                     child: BaseButton(title: translate(context).bus.toUpperCase(), onPressed: (){
-                      Get.to(RatingScreen(title: "Bus"));
+                      if ((controller.tripData.value?.bus?.sId??"").isNotEmpty) {
+                        Get.to(RatingScreen(title: "Bus", id: controller.tripData.value?.bus?.sId??""));
+                      }
                     }, textSize: 15.sp),
                   ),
                   SizedBox(width: 1.w),
                   Flexible(
                     flex: 1,
                     child: BaseButton(title: translate(context).supervisor.toUpperCase(), onPressed: (){
-                      Get.to(RatingScreen(title: "Supervisor"));
+                      if ((controller.tripData.value?.supervisorUser?.sId??"").isNotEmpty) {
+                        Get.to(RatingScreen(title: "Supervisor", id: controller.tripData.value?.supervisorUser?.sId??"",));
+                      }
                     },textSize: 15.sp,removeHorizontalPadding: true),
                   ),
                 ],

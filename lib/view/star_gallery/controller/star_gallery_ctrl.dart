@@ -16,10 +16,13 @@ import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/storage/sp_keys.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/view/Dashboard_screen/dashboard_screen_ctrl.dart';
+import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 
 class StarGalleryCtrl extends GetxController{
 
   RxList<StarGalleryData>? list = <StarGalleryData>[].obs;
+  DashboardScreenCtrl dashboardScreenCtrl = Get.find<DashboardScreenCtrl>();
   RxBool isGalleryLoading = false.obs;
   RxInt selectedTabIndex = 0.obs;
   Rx<XFile>? image1 = XFile("").obs;
@@ -35,9 +38,11 @@ class StarGalleryCtrl extends GetxController{
   Rx<TextEditingController> uploadController = TextEditingController().obs;
   Rx<TextEditingController> classController = TextEditingController().obs;
   Rx<TextEditingController> classSectionController = TextEditingController().obs;
+  Rx<TextEditingController> schoolController = TextEditingController().obs;
   RxList<StarGalleryCategoryData>? starGalleryCategoryList = <StarGalleryCategoryData>[].obs;
   /// Pagination
   RxInt page = 1.obs;
+  RxString selectedSchoolID = "".obs;
   final RefreshController refreshController = RefreshController(initialRefresh: false);
 
   getData({required String type,required bool? showLoader, String? refreshType}) async {
@@ -50,6 +55,7 @@ class StarGalleryCtrl extends GetxController{
       page.value++;
     }
     await BaseAPI().get(url: ApiEndPoints().getStarGallery,queryParameters: type.isNotEmpty ? {
+      "school": dashboardScreenCtrl.selectedDashboardSchoolId.value,
       "type": type,
       "limit":apiItemLimit,
       "page":page.value.toString()
@@ -96,6 +102,7 @@ class StarGalleryCtrl extends GetxController{
               "class": selectedClass.value.sId.toString(),
               "section": selectedClassSection.value.sId.toString(),
               "title": titleController.value.text.trim(),
+              "school": selectedSchoolID.value,
             });
             for (var file in imagesList??[]) {
               data.files.addAll([

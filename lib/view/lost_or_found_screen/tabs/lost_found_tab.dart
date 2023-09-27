@@ -79,7 +79,7 @@ class _LostFoundTabState extends State<LostFoundTab> {
                       ),
                       SizedBox(height: 1.5.h),
                       Visibility(
-                        visible: controller.selectedTabIndex.value == 0,
+                        visible: controller.selectedTabIndex.value == 0 && controller.list?[index].createdBy != controller.userId.value,
                         child: Center(
                           child: BaseButton(
                             title: "Request for Return",

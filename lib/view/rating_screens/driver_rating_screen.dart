@@ -18,8 +18,8 @@ import 'package:staff_app/view/rating_screens/rating_screen_ctrl.dart';
 import 'package:staff_app/view/transportation_screen/controller/transportation_screen_ctrl.dart';
 
 class RatingScreen extends StatefulWidget {
-  final String title;
-  RatingScreen({Key? key, required this.title}) : super(key: key);
+  final String title, id;
+  const RatingScreen({Key? key, required this.title, required this.id}) : super(key: key);
 
   @override
   State<RatingScreen> createState() => _RatingScreenState();
@@ -28,8 +28,15 @@ class RatingScreen extends StatefulWidget {
 class _RatingScreenState extends State<RatingScreen> {
   TransportationScreenCtrl controller = Get.find<TransportationScreenCtrl>();
   RatingScreenCtrl ctrl = Get.put(RatingScreenCtrl());
-
   String? selectUserType;
+
+  @override
+  void initState() {
+    super.initState();
+    controller.selectedRating.value = 4.0;
+    controller.commentCtrl.value.text = "";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -214,14 +221,26 @@ class _RatingScreenState extends State<RatingScreen> {
                 onPressed: () {
                   if (controller.selectedRating.value < 3.0) {
                     if (controller.formKey.currentState?.validate()??false) {
-                        controller.rateBus();
+                        if (widget.title == "Bus") {
+                          controller.rateBus(busId: '');
+                        }else if (widget.title == "Driver") {
+                          controller.rateDriver(driverId: '');
+                        }else{
+                          controller.rateSupervisor(supervisorId: '');
+                        }
                     }
                   }else{
                     BaseOverlays().showConfirmationDialog(
                         title: "Are you sure you want to send this feedback?",
                         onRightButtonPressed: (){
                           Get.back();
-                          controller.rateBus();
+                          if (widget.title == "Bus") {
+                            controller.rateBus(busId: widget.id);
+                          }else if (widget.title == "Driver") {
+                            controller.rateDriver(driverId: widget.id);
+                          }else{
+                            controller.rateSupervisor(supervisorId: widget.id);
+                          }
                         }
                     );
                   }

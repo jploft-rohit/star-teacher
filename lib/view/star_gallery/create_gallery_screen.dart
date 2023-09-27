@@ -13,6 +13,7 @@ import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/utility/base_views/base_school_selection.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
 import 'package:staff_app/Utility/custom_filter_dropdown.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
@@ -39,12 +40,14 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
   @override
   void initState() {
     super.initState();
+    // controller.selectedSchoolID.value = baseCtrl.schoolListData.data?.data?.first.sId??"";
+    // controller.schoolController.value.text = baseCtrl.schoolListData.data?.data?.first.name??"";
     controller.getGalleryCategory();
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(title: "Star Gallery"),
+      appBar: const BaseAppBar(title: "Star Gallery"),
       body: Form(
         key: controller.formKey,
         child: SingleChildScrollView(
@@ -52,6 +55,13 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
             padding: EdgeInsets.all(scaffoldPadding),
             child: Obx(()=>Column(
                 children: [
+                  BaseSchoolDropDown(
+                    controller: controller.schoolController.value,
+                    onChanged: (value) async {
+                      controller.schoolController.value.text = value?.name??"";
+                      controller.selectedSchoolID.value = value?.sId??"";
+                    },
+                  ),
                   BaseTextFormField(
                     hintText: controller.selectedCategoryId.value.isEmpty ? "Select Category" : controller.selectedCategoryId.value,
                     controller: controller.galleryCategoryController.value,
@@ -59,7 +69,12 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
                     items: controller.starGalleryCategoryList?.map((value){
                       return DropdownMenuItem<StarGalleryCategoryData>(
                         value: value,
-                        child: addText(value.title??"", 15.sp, Colors.black, FontWeight.w400),
+                        child: addText(
+                            value.title??"",
+                            15.sp,
+                            Colors.black,
+                            FontWeight.w400,
+                        ),
                       );
                     }).toList(),
                     onChanged: (val){
@@ -95,12 +110,12 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
                           },
                           icon: classTakenSvg,
                         ),
-                        Container(
-                          child: VerticalDivider(
-                            width: 1,
-                          ),
+                        SizedBox(
                           height: 5.5.h,
                           width: 2,
+                          child: const VerticalDivider(
+                            width: 1,
+                          ),
                         ),
                         CustomFilterDropDown(
                           hintText: controller.selectedClassSection.value.name.toString().isEmpty ? 'Section' : controller.selectedClassSection.value.name??"Section",
@@ -221,7 +236,7 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
                       Expanded(
                           child: Container(
                             height: 110,
-                            padding: EdgeInsets.all(5),
+                            padding: const EdgeInsets.all(5),
                             decoration: BoxDecoration(
                               border: Border.all(color: ColorConstants.primaryColor),
                               borderRadius: BorderRadius.circular(20),
@@ -235,7 +250,7 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
                                       child: SvgPicture.asset("assets/images/school.svg",height: 70,width: 70,fit: BoxFit.scaleDown),
                                       )
                                     : mediaType1 == "video"
-                                    ? Icon(Icons.play_circle_outline, size: 40)
+                                    ? const Icon(Icons.play_circle_outline, size: 40)
                                     : Image.file(File(controller.image1?.value.path??"")),
                                 Visibility(
                                   visible: (controller.image1?.value.path??"").isNotEmpty,
@@ -243,7 +258,7 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
                                     onTap: (){
                                       controller.image1?.value = XFile("");
                                     },
-                                    child: Align(
+                                    child: const Align(
                                       alignment: AlignmentDirectional.topEnd,
                                       child: Icon(Icons.close,size: 20,color: Color(0xFF929292)),
                                     ),
@@ -253,11 +268,11 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
                             ),
                           ),
                         ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Expanded(
                           child: Container(
                             height: 110,
-                            padding: EdgeInsets.all(5),
+                            padding: const EdgeInsets.all(5),
                             decoration: BoxDecoration(
                               border: Border.all(color: ColorConstants.primaryColor,),borderRadius: BorderRadius.circular(20),
                             ),
@@ -270,7 +285,7 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
                                     child: SvgPicture.asset("assets/images/school.svg",height: 70,width: 70,fit: BoxFit.scaleDown),
                                     )
                                     : mediaType2 == "video"
-                                      ? Icon(Icons.play_circle_outline, size: 40)
+                                      ? const Icon(Icons.play_circle_outline, size: 40)
                                       : Image.file(File(controller.image2?.value.path??"")),
                                 Visibility(
                                   visible: (controller.image2?.value.path??"").isNotEmpty,
@@ -278,7 +293,7 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
                                     onTap: (){
                                       controller.image2?.value = XFile("");
                                     },
-                                    child: Align(
+                                    child: const Align(
                                       alignment: AlignmentDirectional.topEnd,
                                       child: Icon(Icons.close,size: 20,color: Color(0xFF929292),),
                                     ),
@@ -287,11 +302,11 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
                               ],
                             ),
                           )),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Expanded(
                           child: Container(
                             height: 110,
-                            padding: EdgeInsets.all(5),
+                            padding: const EdgeInsets.all(5),
                             decoration: BoxDecoration(
                               border: Border.all(color: ColorConstants.primaryColor,),borderRadius: BorderRadius.circular(20),
                             ),
@@ -304,7 +319,7 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
                                     child: SvgPicture.asset("assets/images/school.svg",height: 70,width: 70,fit: BoxFit.scaleDown,),
                                 )
                                     : mediaType3 == "video"
-                                      ? Icon(Icons.play_circle_outline, size: 40)
+                                      ? const Icon(Icons.play_circle_outline, size: 40)
                                       : Image.file(File(controller.image3?.value.path??"")),
                                 Visibility(
                                   visible: (controller.image3?.value.path??"").isNotEmpty,
@@ -312,7 +327,7 @@ class _CreateGalleryScreenState extends State<CreateGalleryScreen> {
                                     onTap: (){
                                       controller.image3?.value = XFile("");
                                     },
-                                    child: Align(
+                                    child: const Align(
                                       alignment: AlignmentDirectional.topEnd,
                                       child: Icon(Icons.close,size: 20,color: Color(0xFF929292),),
                                     ),

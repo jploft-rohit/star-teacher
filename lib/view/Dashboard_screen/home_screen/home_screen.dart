@@ -8,6 +8,7 @@ import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_colors.dart';
 import 'package:staff_app/utility/base_views/base_floating_action_button.dart';
 import 'package:staff_app/utility/base_views/base_no_data.dart';
+import 'package:staff_app/utility/base_views/base_school_selection.dart';
 import 'package:staff_app/utility/base_views/base_tab_button.dart';
 import 'package:staff_app/utility/base_views/base_toggle_tab_bar.dart';
 import 'package:staff_app/Utility/images_icon_path.dart';
@@ -21,7 +22,7 @@ import 'package:staff_app/view/Dashboard_screen/today_schedule_tile.dart';
 import 'package:staff_app/view/drawer_screen/drawer_screen.dart';
 import 'package:staff_app/view/library_screen/notebook_screen/notebook_screen.dart';
 import 'package:staff_app/view/performance_screen/performance_screen.dart';
-import 'package:staff_app/view/star_evaluation_screen/star_evaluation_screen.dart';
+import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 import 'package:staff_app/view/star_gallery/create_gallery_screen.dart';
 import 'package:staff_app/view/today_schedule_module/today_schedule_screen.dart';
 
@@ -36,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
 
   final GlobalKey<ScaffoldState> _key = GlobalKey();
   DashboardScreenCtrl controller = Get.find<DashboardScreenCtrl>();
+  BaseCtrl baseCtrl = Get.find<BaseCtrl>();
   late TabController tabController;
   late ScrollController scrollController;
   bool? fixedScroll;
@@ -102,6 +104,19 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
               return [
                 SliverToBoxAdapter(child: Column(
                   children: [
+                    GetBuilder<DashboardScreenCtrl>(
+                      builder: (controller) {
+                        return BaseSchoolDropDown(
+                          controller: controller.dashboardSchoolController.value,
+                          onChanged: (value) async {
+                            controller.dashboardSchoolController.value.text = value?.name??"";
+                            controller.selectedDashboardSchoolId.value = value?.sId??"";
+                            controller.getHomeData();
+                            controller.getBroadCastData(showLoader: false);
+                          },
+                        );
+                      },
+                    ),
                     Container(
                       height: 35,
                       decoration: BoxDecoration(

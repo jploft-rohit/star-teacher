@@ -29,6 +29,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   LoginCtrl controller = Get.find<LoginCtrl>();
   bool? canAuthenticate;
+  final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -43,141 +44,143 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(()=>Form(
-        key: controller.formKey,
-        child: Scaffold(
-          backgroundColor: Colors.white,
-          body: SafeArea(
-              bottom: false,
-              child: Stack(
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height*0.17,
-                    alignment: Alignment.center,
-                    color: BaseColors.backgroundColor,
-                    child: Text(translate(context).login, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: onBoardingHeadingTs,fontWeight: FontWeight.w500),),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.15),
-                    decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.only(topLeft: Radius.circular(25),
-                          topRight: Radius.circular(25),
-                        ),
-                        color: Colors.white
+    return Obx(()=>Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+          bottom: false,
+          child: Stack(
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height*0.17,
+                alignment: Alignment.center,
+                color: BaseColors.backgroundColor,
+                child: Text(translate(context).login, style: Style.montserratMediumStyle().copyWith(color: BaseColors.primaryColor, fontSize: onBoardingHeadingTs,fontWeight: FontWeight.w500),),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.15),
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25),
                     ),
-                    padding: const EdgeInsets.all(25),
-                    child: ListView(
-                      shrinkWrap: true,
-                      children: [
-                        SizedBox(height: 2.5.h),
-                        Text(translate(context).welcome,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: onBoardingTitleTs,fontWeight: FontWeight.w700),),
-                        SizedBox(height: 0.1.h),
-                        Text(translate(context).please_login_to_your_account,style: Style.montserratRegularStyle().copyWith(color: const Color(0xff6B6B6B), fontSize: 16.sp),),
-                        SizedBox(height: 8.h),
-                        CustomTextField(
-                          controller: controller.mobileCtrl,
-                          hintText: "",
-                          textInputType: TextInputType.phone,
-                          fillColor: const Color(0xffFCFCFC),
-                          borderRadius: 5,
-                          maxLength: 15,
-                          validator: Validators().mobileValidator,
-                          prefixIcon: GestureDetector(
-                            onTap: (){
-                              showCountryPicker(
-                                context: context,
-                                favorite: ["AE"],
-                                showPhoneCode: true, // optional. Shows phone code before the country name.
-                                onSelect: (Country country) {
-                                  controller.selectedCountryCode.value = country.phoneCode;
-                                  print('Select country: ${country.phoneCode}');
-                                  setState(() {});
-                                },
-                              );
-                            },
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                SizedBox(width: 2.w),
-                                Text("+${controller.selectedCountryCode.value}"),
-                                const Icon(Icons.arrow_drop_down_rounded,color: Colors.grey,),
-                                Container(height: 20,width: 1,color: Colors.grey),
-                                SizedBox(width: 2.w),
-                                SvgPicture.asset(mobileSvg),
-                              ],
-                            ),
+                    color: Colors.white
+                ),
+                padding: const EdgeInsets.all(25),
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    SizedBox(height: 2.5.h),
+                    Text(translate(context).welcome,style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: onBoardingTitleTs,fontWeight: FontWeight.w700),),
+                    SizedBox(height: 0.1.h),
+                    Text(translate(context).please_login_to_your_account,style: Style.montserratRegularStyle().copyWith(color: const Color(0xff6B6B6B), fontSize: 16.sp),),
+                    SizedBox(height: 8.h),
+                    Form(
+                      key: formKey,
+                      child: CustomTextField(
+                        controller: controller.mobileCtrl,
+                        hintText: "",
+                        textInputType: TextInputType.phone,
+                        fillColor: const Color(0xffFCFCFC),
+                        borderRadius: 5,
+                        maxLength: 15,
+                        validator: Validators().mobileValidator,
+                        prefixIcon: GestureDetector(
+                          onTap: (){
+                            showCountryPicker(
+                              context: context,
+                              favorite: ["AE"],
+                              showPhoneCode: true, // optional. Shows phone code before the country name.
+                              onSelect: (Country country) {
+                                controller.selectedCountryCode.value = country.phoneCode;
+                                print('Select country: ${country.phoneCode}');
+                                setState(() {});
+                              },
+                            );
+                          },
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SizedBox(width: 2.w),
+                              Text("+${controller.selectedCountryCode.value}"),
+                              const Icon(Icons.arrow_drop_down_rounded,color: Colors.grey,),
+                              Container(height: 20,width: 1,color: Colors.grey),
+                              SizedBox(width: 2.w),
+                              SvgPicture.asset(mobileSvg),
+                            ],
                           ),
                         ),
-                        SizedBox(height: 4.h),
-                        Center(
-                          child: BaseButton(btnType: largeButton,title: translate(context).sent_otp_btn_txt, onPressed: (){
-                            controller.loginApi();
-                          },borderRadius: 19),
-                        ),
-                        Visibility(
-                          visible: (!controller.isLocalAuth.value) && (canAuthenticate??false),
-                          child: GestureDetector(
-                            onTap: (){
-                              controller.localAuthEnable();
-                            },
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
+                      ),
+                    ),
+                    SizedBox(height: 4.h),
+                    Center(
+                      child: BaseButton(btnType: largeButton,title: translate(context).sent_otp_btn_txt, onPressed: (){
+                        if (formKey.currentState?.validate()??false) {
+                          controller.loginApi();
+                        }
+                      },borderRadius: 19),
+                    ),
+                    Visibility(
+                      visible: (!controller.isLocalAuth.value) && (canAuthenticate??false),
+                      child: GestureDetector(
+                        onTap: (){
+                          controller.localAuthEnable();
+                        },
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(height: 10.h),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                SizedBox(height: 10.h),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Text("- - - - - - - - - - - -    "),
-                                    Text(translate(context).or.toUpperCase(), style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp),),
-                                    const Text("    - - - - - - - - - - - -"),
-                                  ],
-                                ),
-                                SizedBox(height: 7.h),
-                                GestureDetector(
-                                  onTap: (){
-                                    controller.localAuthEnable();
-                                  },
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SvgPicture.asset(Platform.isAndroid ? fingerprintScanSvg : faceScanSvg,height: 9.h,width: 9.h),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 5.h),
+                                const Text("- - - - - - - - - - - -    "),
+                                Text(translate(context).or.toUpperCase(), style: Style.montserratBoldStyle().copyWith(fontSize: 18.sp),),
+                                const Text("    - - - - - - - - - - - -"),
                               ],
                             ),
-                          ),
+                            SizedBox(height: 7.h),
+                            GestureDetector(
+                              onTap: (){
+                                controller.localAuthEnable();
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(Platform.isAndroid ? fingerprintScanSvg : faceScanSvg,height: 9.h,width: 9.h),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 5.h),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      bottomSheet: Container(
+        height: 10.h,
+        color: Colors.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            RichText(
+              text: TextSpan(
+                text: '${translate(context).dont_have_account} ',
+                style: Style.montserratBoldStyle().copyWith(color: const Color(0xff7C7C7C), fontSize: 16.sp),
+                children: <TextSpan>[
+                  TextSpan(text: translate(context).activate_account, style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp), recognizer: TapGestureRecognizer()..onTap = (){
+                    Get.to(const AccountActivationScreen());
+                  }),
                 ],
               ),
             ),
-          bottomSheet: Container(
-            height: 10.h,
-            color: Colors.white,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                RichText(
-                  text: TextSpan(
-                    text: '${translate(context).dont_have_account} ',
-                    style: Style.montserratBoldStyle().copyWith(color: const Color(0xff7C7C7C), fontSize: 16.sp),
-                    children: <TextSpan>[
-                      TextSpan(text: translate(context).activate_account, style: Style.montserratBoldStyle().copyWith(color: BaseColors.primaryColor, fontSize: 16.sp), recognizer: TapGestureRecognizer()..onTap = (){
-                        Get.to(const AccountActivationScreen());
-                      }),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+          ],
         ),
       ),
+    ),
     );
   }
 }

@@ -45,8 +45,8 @@ class _HomePhotoVideoTabState extends State<HomePhotoVideoTab> with AutomaticKee
         mainAxisSpacing: 1.5.h,
         crossAxisSpacing: 1.h,
         mainAxisExtent: 17.h,
-      ),
-      itemBuilder: (context,index){
+        ),
+        itemBuilder: (context,index){
         return GestureDetector(
           onTap: (){
             Get.to(StarGalleryScreen(index: index));

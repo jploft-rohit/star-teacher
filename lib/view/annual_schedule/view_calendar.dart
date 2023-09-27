@@ -40,8 +40,8 @@ class _AnnualViewCalendarScreenState extends State<AnnualViewCalendarScreen> {
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             title: Text(controller.list?[widget.index].title??"",style: TextStyle(fontWeight: FontWeight.w700,color: Colors.black,fontSize: 17.sp)),
             leading: BaseImageNetwork(link: controller.list?[widget.index].icon??"",height: 2.h,width: 2.h),
-            tileColor: Color(int.parse(controller.list?[widget.index].color??"")),
-              subtitle: Text("${getMonthDate(controller.list?[widget.index].startDate??"")} ${translate(context).to} ${getMonthDate(controller.list?[widget.index].endDate??"")}",style: TextStyle(color: Colors.grey.shade700,fontSize: 15.sp)),
+            tileColor: getValidColor(stringColor: controller.list?[widget.index].color??""),
+            subtitle: Text("${getMonthDate(controller.list?[widget.index].startDate??"")} ${translate(context).to} ${getMonthDate(controller.list?[widget.index].endDate??"")}",style: TextStyle(color: Colors.grey.shade700,fontSize: 15.sp)),
             trailing: SvgPicture.asset(calenderDateSvg),
             minLeadingWidth: 0,
           )

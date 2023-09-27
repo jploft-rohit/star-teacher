@@ -190,17 +190,17 @@ class MapUiBodyState extends State<MapUiBody> {
               height: 100,
               child: Padding(
                 padding:
-                EdgeInsets.only(top: 15, bottom: 20, left: 20, right: 20),
+                const EdgeInsets.only(top: 15, bottom: 20, left: 20, right: 20),
                 child: GooglePlaceAutoCompleteTextField(
                     textEditingController: _locationController,
                     textStyle: Theme.of(context).textTheme.bodySmall
                         ?.copyWith(fontSize: 100.w / 30) ??
                         const TextStyle(),
-                    googleAPIKey: "AIzaSyDPKbUbuYTrDlGMxf41rUjFJ-5QKghdh2c",
+                    googleAPIKey: "AIzaSyCKM6nu9hXYksgFuz1flo2zQtPRC_lw7NM",
                     inputDecoration: InputDecoration(
                       // contentPadding: EdgeInsets.symmetric(horizontal: 8.0),
                       enabled: true,
-                      border: OutlineInputBorder(
+                      border: const OutlineInputBorder(
                           borderSide: BorderSide(
                               color: BaseColors.primaryColor, width: 1)),
                       fillColor: Colors.white,
@@ -223,8 +223,8 @@ class MapUiBodyState extends State<MapUiBody> {
                     true, // if you required coordinates from place detail
                     getPlaceDetailWithLatLng: (Prediction prediction) async {
                       // this method will return latlng with place detail
-                      print("placeDetails" + prediction.lng.toString());
-                      print("placeDetails" + prediction.lat.toString());
+                      print("placeDetails${prediction.lng}");
+                      print("placeDetails${prediction.lat}");
                       // _lat=double.parse(prediction.lat.toString());
                       // _long=double.parse(prediction.lng.toString());
                       setState(() {});

@@ -66,6 +66,7 @@ class TodaySchedule {
   SchoolStaffUser? schoolStaffUser;
   dynamic date;
   dynamic startTime;
+  dynamic startIn;
   dynamic endTime;
   dynamic startDateTimeStamp;
   dynamic endDateTimeStamp;
@@ -79,12 +80,13 @@ class TodaySchedule {
   dynamic iV;
   dynamic slot;
 
-  TodaySchedule({this.topics, this.isDeleted, this.sId, this.classType, this.school, this.subject, this.batch, this.classes, this.section, this.schoolStaff, this.schoolStaffUser, this.date, this.startTime, this.endTime, this.startDateTimeStamp, this.endDateTimeStamp, this.day, this.status, this.completeDateTime, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.iV, this.slot});
+  TodaySchedule({this.startIn, this.topics, this.isDeleted, this.sId, this.classType, this.school, this.subject, this.batch, this.classes, this.section, this.schoolStaff, this.schoolStaffUser, this.date, this.startTime, this.endTime, this.startDateTimeStamp, this.endDateTimeStamp, this.day, this.status, this.completeDateTime, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.iV, this.slot});
 
   TodaySchedule.fromJson(Map<String, dynamic> json) {
   topics = json['topics'].cast<String>();
   isDeleted = json['isDeleted'];
   sId = json['_id'];
+  startIn = json['startIn'];
   classType = json['classType'];
   school = json['school'] != null ? new School.fromJson(json['school']) : null;
   subject = json['subject'] != null ? new Subject.fromJson(json['subject']) : null;
@@ -114,6 +116,7 @@ class TodaySchedule {
   data['topics'] = this.topics;
   data['isDeleted'] = this.isDeleted;
   data['_id'] = this.sId;
+  data['startIn'] = this.startIn;
   data['classType'] = this.classType;
   if (this.school != null) {
   data['school'] = this.school!.toJson();

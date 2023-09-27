@@ -21,8 +21,8 @@ import 'package:staff_app/view/e_library/create_e_library_assignment.dart';
 import '../assignments_screen/assignment_submission_screen.dart';
 
 class ELibraryListTile extends StatefulWidget {
-  final String title;
-  const ELibraryListTile({Key? key, required this.title}) : super(key: key);
+  final String title, screenKey;
+  const ELibraryListTile({Key? key, required this.title, required this.screenKey}) : super(key: key);
 
   @override
   State<ELibraryListTile> createState() => _ELibraryListTileState();
@@ -37,7 +37,7 @@ class _ELibraryListTileState extends State<ELibraryListTile> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      userId = await BaseSharedPreference().getString(SpKeys().userId);
+      userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
     });
   }
 
@@ -49,10 +49,10 @@ class _ELibraryListTileState extends State<ELibraryListTile> {
       enablePullDown: enablePullToRefresh,
       enablePullUp: true,
       onLoading: (){
-        controller.getData(refreshType: "load");
+        controller.getData(refreshType: "load", screenKey: widget.screenKey);
       },
       onRefresh: (){
-        controller.getData(refreshType: "refresh");
+        controller.getData(refreshType: "refresh", screenKey: widget.screenKey);
       },
       child: (controller.list?.length??0) == 0
           ? const BaseNoData(message: "No Record Found")
@@ -99,7 +99,7 @@ class _ELibraryListTileState extends State<ELibraryListTile> {
                           controller.deleteAssignment(id: controller.list?[index]?.sId??"", index: index);
                         },
                         /// On Save
-                        showSaveIcon: controller.tabIndex.value == 1,
+                        showSaveIcon: /*controller.tabIndex.value == 1*/false,
                         onSaveProceed: (){
                           controller.saveAssignment(id: controller.list?[index]?.sId??"");
                         },
@@ -107,6 +107,15 @@ class _ELibraryListTileState extends State<ELibraryListTile> {
                       const Divider(),
                       BaseDetailData(detailsLabel: "Assignment Number",detailsValue: controller.list?[index]?.assignmentNo.toString()??"",prefixIcon: "assets/images/report.svg"),
                       BaseDetailData(detailsLabel: "Assignment Type",detailsValue: (controller.list?[index]?.category??"") == "awarenessCourses" ? "Awareness & courses" : (controller.list?[index]?.category??""), prefixIcon: "assets/images/report.svg"),
+                      BaseDetailData(detailsLabel: "Subject",detailsValue: controller.list?[index]?.subject?.name?.toString()??"",prefixIcon: "assets/images/report.svg"),
+                      BaseDetailData(detailsLabel: "Class",detailsValue: controller.list?[index]?.classes?.name?.toString()??"",prefixIcon: "assets/images/report.svg"),
+                      BaseDetailData(detailsLabel: "Term",detailsValue: controller.list?[index]?.term?.toString()??"",prefixIcon: "assets/images/report.svg"),
+                      Visibility(
+                          visible: widget.title == "Assessment" || widget.title == "Lab",
+                          child: BaseDetailData(detailsLabel: "Total Questions",detailsValue: controller.list?[index]?.totalQuestions?.toString()??"0",prefixIcon: "assets/images/report.svg")),
+                      Visibility(
+                          visible: widget.title == "Assessment" || widget.title == "Lab",
+                          child: BaseDetailData(detailsLabel: "Total Marks",detailsValue: controller.list?[index]?.totalMarks?.toString()??"0",prefixIcon: "assets/images/report.svg")),
                       // Visibility(visible: controller.tabIndex == 1, child: BaseDetailData(detailsLabel: "Assignment To",detailsValue: "Rashid Khan (Nurse)",prefixIcon: "assets/images/family_img.svg")),
                       // Row(
                       //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -121,7 +130,7 @@ class _ELibraryListTileState extends State<ELibraryListTile> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           BaseDetailData(showDivider: false,detailsLabel: "${controller.tabIndex.value == 0 ? "Submit" : "Post"} Date",detailsValue: formatBackendDate(controller.list?[index]?.updatedAt??""),prefixIcon: "assets/images/Vector (1).svg"),
-                          Container(height: 20.0,width: 1, color: BaseColors.borderColor),
+                          Container(height: 20,width: 1, color: BaseColors.borderColor),
                           BaseDetailData(showDivider: false,detailsLabel: "${controller.tabIndex.value == 0 ? "Submit" : "Post"} Time",detailsValue: getFormattedTime(controller.list?[index]?.updatedAt??""),prefixIcon: "assets/images/time_icon.svg"),
                         ],
                       ),
@@ -139,15 +148,19 @@ class _ELibraryListTileState extends State<ELibraryListTile> {
                       //   ],
                       // ),
                       // Divider(),
-                      Text("https://website.com",style: TextStyle(fontWeight: FontWeight.w700,color: BaseColors.primaryColor,fontSize: 15.sp)),
-                      const Divider(),
+                      Visibility(
+                          visible: (controller.list?[index]?.link??"").toString().isNotEmpty,
+                          child: Text(controller.list?[index]?.link??"",style: TextStyle(fontWeight: FontWeight.w700,color: BaseColors.primaryColor,fontSize: 15.sp))),
+                      Visibility(
+                          visible: (controller.list?[index]?.link??"").toString().isNotEmpty,
+                          child: const Divider()),
                       SizedBox(height: 1.h),
                       Visibility(
                         visible: (controller.list?[index]?.createdBy??"") == userId,
                         child: Row(
                           children: [
                             Expanded(
-                              child: BaseButton(removeHorizontalPadding: true,leftMargin: 2.w,title: controller.tabIndex == 1 ? widget.title == "Assessment" || widget.title == "Lab" ? "STOP POST IN E-LIBRARY" : "STOP POST IN E-LIBRARY" : widget.title == "Assessment" || widget.title == "Lab" ? "POST IN E-LIBRARY" : "POST IN E-LIBRARY",
+                              child: BaseButton(removeHorizontalPadding: true,leftMargin: 2.w,title: controller.tabIndex.value == 1 ? widget.title == "Assessment" || widget.title == "Lab" ? "STOP POST IN E-LIBRARY" : "STOP POST IN E-LIBRARY" : widget.title == "Assessment" || widget.title == "Lab" ? "POST IN E-LIBRARY" : "POST IN E-LIBRARY",
                                 onPressed: (){
                                   controller.postAssignment(id: controller.list?[index]?.sId??"", index: index);
                                 },
@@ -158,7 +171,7 @@ class _ELibraryListTileState extends State<ELibraryListTile> {
                         ),
                       ),
                       Visibility(
-                        visible: controller.tabIndex == 0,
+                        visible: controller.tabIndex.value == 0,
                         child: SizedBox(
                           height: 2.h,
                         ),

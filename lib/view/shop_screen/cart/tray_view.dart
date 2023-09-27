@@ -70,7 +70,7 @@ class _TrayViewState extends State<TrayView> {
                   ),
                   SizedBox(height: 2.h),
                   (controller.cartProductsList?.length??0) == 0
-                      ? BaseNoData(message: "No Products Added")
+                      ? const BaseNoData(message: "No Products Added")
                       : ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     padding: EdgeInsets.zero,
@@ -129,7 +129,7 @@ class _TrayViewState extends State<TrayView> {
                             builder: (context, child) {
                               return Theme(
                                 data: Theme.of(context).copyWith(
-                                  colorScheme: ColorScheme.light(
+                                  colorScheme: const ColorScheme.light(
                                     primary: BaseColors.primaryColor,
                                   ),
                                 ),
@@ -175,7 +175,7 @@ class _TrayViewState extends State<TrayView> {
                             builder: (context, child) {
                               return Theme(
                                 data: Theme.of(context).copyWith(
-                                  colorScheme: ColorScheme.light(
+                                  colorScheme: const ColorScheme.light(
                                     primary: BaseColors.primaryColor,
                                   ),
                                 ),
@@ -353,7 +353,7 @@ class _TrayViewState extends State<TrayView> {
                           builder: (context, child) {
                             return Theme(
                               data: Theme.of(context).copyWith(
-                                colorScheme: ColorScheme.light(
+                                colorScheme: const ColorScheme.light(
                                   primary: BaseColors.primaryColor,
                                 ),
                               ),
@@ -390,6 +390,23 @@ class _TrayViewState extends State<TrayView> {
                       },
                     ),
                   ),
+                  // BaseTextFormField(
+                  //   controller: controller.deliveryTime.value,
+                  //   title: "Delivery Time",
+                  //   hintText: "Select Delivery Time",
+                  //   items: DummyLists().servingTime.map((value) {
+                  //     return DropdownMenuItem(
+                  //         value: value,
+                  //         child: addText(value, 16.sp, Colors.black, FontWeight.w400));
+                  //   }).toList(),
+                  //   validator: (val){
+                  //     if (deliveryTime) {
+                  //       return "Please Select Delivery Time";
+                  //     }else{
+                  //       return null;
+                  //     }
+                  //   },
+                  // ),
                   SizedBox(
                     height: 1.h,
                   ),
@@ -436,7 +453,7 @@ class _TrayViewState extends State<TrayView> {
                                             color: controller.selectedPaymentPos.value == index
                                                 ? BaseColors.primaryColor
                                                 : BaseColors.greyColor),
-                                        child: Icon(
+                                        child: const Icon(
                                           Icons.check,
                                           color: BaseColors.white,
                                           size: 14,

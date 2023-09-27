@@ -70,6 +70,7 @@ class StarRatingController extends GetxController{
       "isSelected":false.obs,
     },
   ].obs;
+
   List<Map<String, dynamic>> ratingList = <Map<String, dynamic>>[
     {
       "rating":2,
@@ -117,6 +118,7 @@ class StarRatingController extends GetxController{
       "title":"Outside time",
     },
   ];
+
   final selectedIndex = 0.obs;
 
   rateStar({required String title}) async {

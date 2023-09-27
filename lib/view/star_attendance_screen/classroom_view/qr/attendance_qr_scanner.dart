@@ -81,7 +81,7 @@ class _AttendanceQRScannerState extends State<AttendanceQRScanner> {
                   Container(
                     height: 240,
                     width: 230,
-                    margin: EdgeInsets.all(5),
+                    margin: const EdgeInsets.all(5),
                     child: scanned
                         ? GestureDetector(
                       onTap: (){
@@ -99,7 +99,7 @@ class _AttendanceQRScannerState extends State<AttendanceQRScanner> {
                             color: Colors.black,
                             borderRadius: BorderRadius.circular(30)
                           ),
-                          child: Text("Scan Again",style: TextStyle(color: Colors.white),),
+                          child: const Text("Scan Again",style: TextStyle(color: Colors.white),),
                           ),
                         )
                         : QRView(
@@ -117,7 +117,7 @@ class _AttendanceQRScannerState extends State<AttendanceQRScanner> {
                 ],
               ),
               SizedBox(height: 5.0.h),
-              AttendanceListTileQR(),
+              const AttendanceListTileQR(),
               // SizedBox(height: 40.h,),
             ],
           ),

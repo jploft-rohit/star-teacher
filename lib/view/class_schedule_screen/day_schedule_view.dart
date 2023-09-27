@@ -35,7 +35,8 @@ class _DayScheduleViewState extends State<DayScheduleView> {
               child: Icon(Icons.arrow_back_ios,color: BaseColors.primaryColor,size: 22,),
             ),onTap: (){
               controller.goToPreviousDate();
-            },),
+            },
+            ),
             addText(convertDateFormat7(controller.selectedDate.value.toLocal().toString()), 16, Colors.black, FontWeight.w700),
             GestureDetector(child: const Padding(
               padding: EdgeInsets.only(right: 6,top: 6,bottom: 6,left: 20),

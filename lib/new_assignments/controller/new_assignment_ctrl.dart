@@ -14,6 +14,7 @@ import 'package:staff_app/backend/responses_model/staff_list_response.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_debouncer.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 
 import '../../utility/sizes.dart';
 
@@ -40,6 +41,8 @@ class NewAssignmentCtrl extends GetxController{
   List<StaffListData> staffData = [];
   final formKey = GlobalKey<FormState>();
   RxString selectedPersonId = "".obs;
+  RxString selectedPostTimeAPI = "".obs;
+  RxString selectedSubmitTimeAPI = "".obs;
   RxInt primaryTabIndex = 0.obs;
   RxInt secondaryTabIndex = 0.obs;
   RxString assessmentType = "".obs;
@@ -51,6 +54,7 @@ class NewAssignmentCtrl extends GetxController{
   /// Pagination
   RxInt page = 1.obs;
   final RefreshController refreshController = RefreshController(initialRefresh: false);
+  BaseCtrl baseCtrl = Get.find<BaseCtrl>();
 
 
   getData({String? keyword, String? refreshType}) async {
@@ -94,6 +98,7 @@ class NewAssignmentCtrl extends GetxController{
 
   setData({bool? isUpdating, AssignedAssignmentData? data}){
     if(isUpdating??false){
+      titleController.value.text = data?.title??"";
       schoolCtrl.value.text = data?.school?.name??"";
       selectedSchoolId.value = data?.school?.sId??"";
       assignmentNumberCtrl.value.text = data?.assignmentNo??"";
@@ -109,6 +114,7 @@ class NewAssignmentCtrl extends GetxController{
       linkCtrl.value.text = data?.link??"";
       uploadController.value.text = data?.supportDoc??"";
     } else {
+      titleController.value.text = "";
       assignmentNumberCtrl.value.text = "";
       assignmentTypeCtrl.value.text = "";
       assignmentToCtrl.value.text = "";
@@ -121,6 +127,8 @@ class NewAssignmentCtrl extends GetxController{
       supportDocCtrl.value.text = "";
       linkCtrl.value.text = "";
       uploadController.value.text = "";
+      selectedSchoolId.value = baseCtrl.schoolListData.data?.data?.first.sId??"";
+      schoolCtrl.value.text = baseCtrl.schoolListData.data?.data?.first.name??"";
     }
   }
 
@@ -167,9 +175,9 @@ class NewAssignmentCtrl extends GetxController{
           "type":assessmentType.value == "worksheet" ? assessmentType.value.toLowerCase : (assignmentTypeCtrl.value.text.trim()) == "Awareness & courses" ? "awarenessCourses" : (assignmentTypeCtrl.value.text.trim()).toLowerCase(),
           "assignTo[]":selectedPersonId.value,
           "postDate":postDateCtrl.value.text.trim(),
-          "postTime":postTimeCtrl.value.text.trim(),
+          "postTime":selectedPostTimeAPI.value,
           "submitDate":submitDateCtrl.value.text.trim(),
-          "submitTime":submitTimeCtrl.value.text.trim(),
+          "submitTime":selectedSubmitTimeAPI.value,
           "dueDate":dueDateCtrl.value.text.trim(),
           "link":linkCtrl.value.text.trim(),
           "description":descriptionController.value.text.trim(),
@@ -187,19 +195,20 @@ class NewAssignmentCtrl extends GetxController{
               : (assignmentTypeCtrl.value.text.trim()).toLowerCase(),
           "assignTo[]":selectedPersonId.value,
           "postDate":postDateCtrl.value.text.trim(),
-          "postTime":postTimeCtrl.value.text.trim(),
+          "postTime":selectedPostTimeAPI.value,
           "submitDate":submitDateCtrl.value.text.trim(),
-          "submitTime":submitTimeCtrl.value.text.trim(),
+          "submitTime":selectedSubmitTimeAPI.value,
           "dueDate":dueDateCtrl.value.text.trim(),
           "link":linkCtrl.value.text.isEmpty ? "  " : linkCtrl.value.text.trim(),
           "description":descriptionController.value.text.trim(),
         });
       }
-      BaseAPI().post(url: ApiEndPoints().assignAssignment, data: data).then((value){
+      BaseAPI().post(url: ApiEndPoints().assignAssignment, data: data).then(
+            (value){
         if (value?.statusCode ==  200) {
           selectedRollId.value = "";
-          selectedSchoolId.value = "";
-          selectedClassId.value = "";
+          selectedSchoolId.value = baseCtrl.schoolListData.data?.data?.first.sId??"";
+          schoolCtrl.value.text = baseCtrl.schoolListData.data?.data?.first.name??"";
           Get.back();
           BaseOverlays().showSnackBar(message: BaseSuccessResponse.fromJson(value?.data).message??"", title: translate(Get.context!).success);
           getData();

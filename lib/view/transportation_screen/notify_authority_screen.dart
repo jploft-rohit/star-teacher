@@ -46,7 +46,7 @@ class _NotifyAuthorityForBusScreenState extends State<NotifyAuthorityForBusScree
         NotifyAuthority(
           option: 'I will be absent today.',
           dayType: 'today',
-          isYes: false,
+          isYes: true,
         ),
         NotifyAuthority(
           option: 'Going to school by my own vehicle.',
@@ -56,6 +56,7 @@ class _NotifyAuthorityForBusScreenState extends State<NotifyAuthorityForBusScree
         NotifyAuthority(
           option: 'Returning home by my own vehicle.',
           dayType: 'today',
+          isYes: false,
         ),
       ],
     );
@@ -138,10 +139,10 @@ class _NotifyAuthorityForBusScreenState extends State<NotifyAuthorityForBusScree
                 height: 3.h,
               ),
               Center(child: BaseButton(title: "SUBMIT", onPressed: (){
-                if (list.isNotEmpty) {
-                  showNotifyAuthorityDialogue();
-                }else{
+                if (list.where((element) => element.isYes ?? false).toList().isEmpty) {
                   baseToast(message: "Please Select At Least 1 Option");
+                }else{
+                  showNotifyAuthorityDialogue();
                 }
               },btnType: largeButton))
             ],
@@ -237,8 +238,7 @@ class _NotifyAuthorityForBusScreenState extends State<NotifyAuthorityForBusScree
               opacity: a1.value,
               child: AlertDialog(
                 insetPadding: const EdgeInsets.symmetric(horizontal: 10),
-                shape:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(16.0)),
+                shape: OutlineInputBorder(borderRadius: BorderRadius.circular(16.0)),
                 content: SizedBox(
                   width: 100.w,
                   child: Padding(
@@ -394,16 +394,30 @@ class _NotifyAuthorityForBusScreenState extends State<NotifyAuthorityForBusScree
                                                       lastDate: DateTime((DateTime.now().year+50),1,1),
                                                   ).then((dateTime) {
                                                     if (dateTime != null) {
-                                                      notifyAuthority.fromDate = getFormattedDate(
-                                                        dateTime.toString(),
-                                                        seperator: '/',
-                                                        reverse: false,
-                                                      );
-                                                      notifyAuthority.fromDateApi = getFormattedDate(
-                                                        dateTime.toString(),
-                                                        seperator: '/',
-                                                        reverse: true,
-                                                      );
+                                                      if ((notifyAuthority.toDate??"").isNotEmpty) {
+                                                        DateTime endDate = DateTime.parse(flipDate(date: notifyAuthority.toDate??""));
+                                                        if (endDate.isAfter(dateTime)) {
+                                                          notifyAuthority.fromDate = formatFlutterDateTime(
+                                                            flutterDateTime: dateTime,
+                                                            getDayFirst: true
+                                                          );
+                                                          notifyAuthority.fromDateApi = formatFlutterDateTime(
+                                                              flutterDateTime: dateTime,
+                                                              getDayFirst: false
+                                                          );
+                                                        }else{
+                                                          baseToast(message: "\"From Date\" ${translate(context).cant_be_less_than} \"To Date\"");
+                                                        }
+                                                      }else{
+                                                        notifyAuthority.fromDate = formatFlutterDateTime(
+                                                            flutterDateTime: dateTime,
+                                                            getDayFirst: true
+                                                        );
+                                                        notifyAuthority.fromDateApi = formatFlutterDateTime(
+                                                            flutterDateTime: dateTime,
+                                                            getDayFirst: false
+                                                        );
+                                                      }
                                                       int index = list.indexWhere((element) =>
                                                       element.option == notifyAuthority.option);
                                                       list[index] = notifyAuthority;
@@ -432,16 +446,30 @@ class _NotifyAuthorityForBusScreenState extends State<NotifyAuthorityForBusScree
                                                     lastDate: DateTime((DateTime.now().year+50),1,1),
                                                   ).then((dateTime) {
                                                     if (dateTime != null) {
-                                                      notifyAuthority.toDate = getFormattedDate(
-                                                            dateTime.toString(),
-                                                            seperator: '/',
-                                                            reverse: false,
+                                                      if ((notifyAuthority.fromDate??"").isNotEmpty) {
+                                                        DateTime endDate = DateTime.parse(flipDate(date: notifyAuthority.fromDate??""));
+                                                        if (endDate.isBefore(dateTime)) {
+                                                          notifyAuthority.toDate = formatFlutterDateTime(
+                                                              flutterDateTime: dateTime,
+                                                              getDayFirst: true
                                                           );
-                                                      notifyAuthority.toDateApi = getFormattedDate(
-                                                        dateTime.toString(),
-                                                        seperator: '/',
-                                                        reverse: true,
-                                                      );
+                                                          notifyAuthority.toDateApi = formatFlutterDateTime(
+                                                              flutterDateTime: dateTime,
+                                                              getDayFirst: false
+                                                          );
+                                                        }else{
+                                                          baseToast(message: "\"To Date\" ${translate(context).cant_be_less_than} \"To Date\"");
+                                                        }
+                                                      }else{
+                                                        notifyAuthority.toDate = formatFlutterDateTime(
+                                                            flutterDateTime: dateTime,
+                                                            getDayFirst: true
+                                                        );
+                                                        notifyAuthority.toDateApi = formatFlutterDateTime(
+                                                            flutterDateTime: dateTime,
+                                                            getDayFirst: false
+                                                        );
+                                                      }
                                                       int index = list.indexWhere((element) =>
                                                       element.option == notifyAuthority.option);
                                                       list[index] = notifyAuthority;

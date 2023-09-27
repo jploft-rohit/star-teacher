@@ -16,6 +16,7 @@ import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/storage/sp_keys.dart';
 import 'package:staff_app/utility/base_debouncer.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
+import 'package:staff_app/view/Dashboard_screen/dashboard_screen_ctrl.dart';
 
 import '../../../utility/sizes.dart';
 
@@ -29,7 +30,6 @@ class BaseCtrl extends GetxController{
   RxList<SubjectsData>? subjectsList = <SubjectsData>[].obs;
   RxList<ClassSectionData>? classSectionList = <ClassSectionData>[].obs;
   RxList<AreaListData>? areaList = <AreaListData>[].obs;
-
   TextEditingController searchController = TextEditingController();
   final baseDebouncer = BaseDebouncer();
   /// Pagination
@@ -46,9 +46,7 @@ class BaseCtrl extends GetxController{
       print("User Id -----> $userId");
       if ((token).isNotEmpty) {
         getRolesList(showLoader: false);
-        await getSchoolData(showLoader: false);
-        getStarsList(showLoader: false);
-        await getClassList(showLoader: false);
+        await getStarsList(showLoader: false);
         getSubjects();
         await getAreaList(showLoader: false);
       }
@@ -56,12 +54,21 @@ class BaseCtrl extends GetxController{
    );
   }
 
+  callSecondInit() async {
+    await getSchoolData(showLoader: false);
+    getClassList(showLoader: false);
+  }
+
   getSchoolData({bool? showLoader}) async {
+    DashboardScreenCtrl dashboardScreenCtrl = Get.find<DashboardScreenCtrl>();
     schoolListData = SchoolListResponse();
     final String userId = await BaseSharedPreference().getString(SpKeys().userId)??"";
-    BaseAPI().get(url: ApiEndPoints().getSchoolList, showLoader: showLoader??true, queryParameters: {"user": userId}).then((value){
+    await BaseAPI().get(url: ApiEndPoints().getSchoolList, showLoader: showLoader??true, queryParameters: {"user": userId}).then((value){
       if (value?.statusCode ==  200) {
         schoolListData = SchoolListResponse.fromJson(value?.data);
+        dashboardScreenCtrl.selectedDashboardSchoolId.value = schoolListData.data?.data?.first.sId??"";
+        dashboardScreenCtrl.dashboardSchoolController.value.text = schoolListData.data?.data?.first.name??"";
+        dashboardScreenCtrl.update();
         BaseSharedPreference().setString(SpKeys().firstSchool, schoolListData.data?.data?.first.sId??"");
         getComplaintTypeData(showLoader: false, initialSchoolId: schoolListData.data?.data?.first.sId??"");
       }else{
@@ -143,7 +150,7 @@ class BaseCtrl extends GetxController{
 
   getClassList({bool? showLoader,String? schoolId}) async {
     classList?.clear();
-    BaseAPI().get(url: ApiEndPoints().getClassList, showLoader: showLoader,queryParameters: {"schoolid":schoolId??""}).then((value){
+    BaseAPI().get(url: ApiEndPoints().getClassList, showLoader: showLoader,queryParameters: {"schoolid":schoolId??(schoolListData.data?.data?.first.sId??"")}).then((value){
       if (value?.statusCode ==  200) {
         classList?.value = ClassResponse.fromJson(value?.data).data?.data??[];
       } else{

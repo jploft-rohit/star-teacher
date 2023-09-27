@@ -49,8 +49,8 @@ class AnnualScheduleData {
   dynamic color;
   dynamic icon;
 
-  AnnualScheduleData(
-      {this.forUser,
+  AnnualScheduleData({
+        this.forUser,
         this.type,
         this.sId,
         this.school,
@@ -61,7 +61,8 @@ class AnnualScheduleData {
         this.createdAt,
         this.updatedAt,
         this.color,
-        this.icon});
+        this.icon,
+  });
 
   AnnualScheduleData.fromJson(Map<String, dynamic> json) {
     forUser = json['forUser'];

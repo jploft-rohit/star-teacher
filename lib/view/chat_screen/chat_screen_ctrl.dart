@@ -1,9 +1,14 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:record/record.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'package:staff_app/Utility/base_utility.dart';
 import 'package:staff_app/backend/api_end_points.dart';
@@ -28,6 +33,7 @@ class ChatScreenCtrl extends GetxController{
   RxBool isStaffLoading = false.obs;
   RxInt primarySelectedIndex = 0.obs;
   RxInt secondarySelectedIndex = 0.obs;
+  TextEditingController msgCtrl = TextEditingController();
   RxBool isInitialLoading = true.obs;
   RxString selectedRoleId = "".obs;
   RxString selectedRoleName = "".obs;
@@ -48,6 +54,10 @@ class ChatScreenCtrl extends GetxController{
   RxString selectedSchoolName = "".obs;
   RxList<ChatHistoryData?>? chatHistoryList = <ChatHistoryData>[].obs;
   RxList<GroupDataList>? groupData = <GroupDataList>[].obs;
+  final record = Record();
+  final isRecording = false.obs;
+  final recordingDuration = 0.obs;
+  Timer? timer;
   /// Pagination
   RxInt page = 1.obs;
   final RefreshController refreshController = RefreshController(initialRefresh: false);
@@ -69,6 +79,67 @@ class ChatScreenCtrl extends GetxController{
           duration: const Duration(milliseconds: 100), curve: Curves.easeInOut);
     });
   }
+
+  Future<void> startRecording() async {
+    try {
+      bool hasPermission = await Permission.microphone.isGranted;
+      if (!hasPermission) {
+        await Permission.microphone.request();
+        return;
+      }
+      await record.hasPermission();
+      if (await record.hasPermission()) {
+        print('recording started');
+        msgCtrl.clear();
+        recordingDuration.value = 0;
+        timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+          recordingDuration.value++;
+        });
+        isRecording.value = true;
+        await record.start(
+          path: Platform.isAndroid
+              ? '${(await getApplicationDocumentsDirectory()).path}/my_audio.mp3'
+              : '${(await getDownloadsDirectory())!.path}/my_audio.mp3',
+        );
+        // timer?.cancel();
+      } else {
+        showSnackBar(
+            message: "Please Allow Microphone Permission",
+            success: false);
+      }
+    } catch (e) {
+      log(e.toString());
+      showSnackBar(message: e.toString(), success: false);
+    }
+  }
+
+  Future<void> stopRecording({String? receiverId, String? roomId, String? groupId, bool? isGroup}) async {
+    try {
+      timer?.cancel();
+      if (recordingDuration.value < 3) {
+        isRecording.value = false;
+        recordingDuration.value = 0;
+        // showSnackBar(message: 'Recording duration should be atleast 1 second', success: false);
+        return;
+      }
+      print('recording stopped');
+      var result = await record.stop();
+      isRecording.value = false;
+      log(result.toString());
+      File file = File(result.toString());
+      // rename file to mp3
+      File newFile = file;
+      selectedFile?.value = newFile;
+      if (isGroup??false) {
+        getUploadedMediaUrl(type: 'audio', roomId: roomId??"", groupId: groupId??"");
+      }else{
+        getUploadedMediaUrlSingleChat(type: 'audio', receiverId: receiverId??"");
+      }
+    } catch (e) {
+      showSnackBar(message: e.toString(), success: false);
+    }
+  }
+
 
   setData({ChatHistoryData? data}){
     if (data != null) {
@@ -476,6 +547,23 @@ class ChatScreenCtrl extends GetxController{
     await BaseAPI().post(url: (ApiEndPoints().getUploadedMediaUrl), data: data).then((value){
       if (value?.statusCode ==  200) {
         sendGroupMessage(message: (value?.data["data"]??""), type: type, roomId: roomId, groupId: groupId);
+      }else{
+        BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: "Error");
+      }
+    });
+  }
+
+  getUploadedMediaUrlSingleChat({required String type, required String receiverId}) async {
+    dio.FormData data = dio.FormData.fromMap({
+      "media": await dio.MultipartFile.fromFile(
+        selectedFile?.value.path ?? "",
+        filename: selectedFile?.value.path.split("/").last??"",
+      ),
+    });
+    await BaseAPI().post(url: (ApiEndPoints().getUploadedMediaUrl), data: data).then((value){
+      if (value?.statusCode ==  200) {
+        // sendGroupMessage(message: (value?.data["data"]??""), type: type, roomId: roomId, groupId: groupId);
+        sendMessage(receiverId, (value?.data["data"]??""), type);
       }else{
         BaseOverlays().showSnackBar(message: translate(Get.context!).something_went_wrong, title: "Error");
       }

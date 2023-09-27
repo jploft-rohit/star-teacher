@@ -9,6 +9,7 @@ import 'package:staff_app/Utility/images_icon_path.dart';
 import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_image_network.dart';
+import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/utility/base_views/base_pagination_footer.dart';
 import 'package:staff_app/view/chat_screen/chating_screen.dart';
 import 'package:staff_app/view/star_attendance_screen/classroom_view/change_status_popup.dart';
@@ -39,7 +40,7 @@ class _AttendanceListTileState extends State<AttendanceListTile> {
       onRefresh: (){
         controller.getStarsAttendanceList(refreshType: "refresh");
       },
-      child: ListView.builder(
+      child: (controller.list?.length??0) == 0 ? const BaseNoData() : ListView.builder(
           itemCount: controller.list?.length??0,
           shrinkWrap: true,
           itemBuilder: (context, index) {

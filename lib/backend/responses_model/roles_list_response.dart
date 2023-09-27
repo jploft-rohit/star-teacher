@@ -50,10 +50,12 @@ class RolesData {
   dynamic createdBy;
   dynamic createdAt;
   dynamic updatedAt;
+  dynamic displayName;
 
   RolesData(
       {this.sId,
         this.name,
+        this.displayName,
         this.type,
         this.status,
         this.createdBy,
@@ -62,6 +64,7 @@ class RolesData {
 
   RolesData.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
+    displayName = json['displayName'];
     name = json['name'];
     type = json['type'];
     status = json['status'];
@@ -73,6 +76,7 @@ class RolesData {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['_id'] = this.sId;
+    data['displayName'] = this.displayName;
     data['name'] = this.name;
     data['type'] = this.type;
     data['status'] = this.status;

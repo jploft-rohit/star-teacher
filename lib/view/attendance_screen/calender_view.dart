@@ -32,15 +32,14 @@ class _CalenderViewState extends State<CalenderView> with SingleTickerProviderSt
   @override
   void initState() {
     super.initState();
-
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       controller.selectedDate.value = DateTime.now();
-      controller.secondaryTabIndex.value = 0;
+      controller.calendarTabIndex.value = controller.secondaryTabIndex.value;
       await controller.getData(getMonthData: true);
     });
-    tabController = TabController(length: 3, vsync: this)..addListener(() {
+    tabController = TabController(length: 3, vsync: this, initialIndex: controller.calendarTabIndex.value)..addListener(() {
       if (!(tabController.indexIsChanging)) {
-        controller.secondaryTabIndex.value = tabController.index;
+        controller.calendarTabIndex.value = tabController.index;
         WidgetsBinding.instance.addPostFrameCallback((_) async {
           await controller.getData(getMonthData: true);
         });

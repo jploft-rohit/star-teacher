@@ -71,12 +71,12 @@ class _AssessmentsAwarenessCoursesState extends State<AssessmentsAwarenessCourse
                       item: baseCtrl.rolesListResponse.data?.map((RolesData data){
                         return DropdownMenuItem<RolesData>(
                           value: data,
-                          child: addText(data.name??"", 15.sp, Colors.black, FontWeight.w400),
+                          child: addText(data.displayName??"", 15.sp, Colors.black, FontWeight.w400),
                         );
                       }).toList(),
                       onChange: (value) {
                         controller.searchCtrl.value.clear();
-                        controller.roleController.value.text = value.name??"";
+                        controller.roleController.value.text = value.displayName??"";
                         controller.selectedRollId.value = value.sId??"";
                         controller.getData();
                         setState(() {});

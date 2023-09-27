@@ -48,11 +48,17 @@ class AssignmentData {
   dynamic updatedAt;
   dynamic assignmentNo;
   dynamic deleteReason;
+  dynamic link;
+  dynamic totalMarks;
+  dynamic totalQuestions;
 
-  AssignmentData({this.isPost, this.saveList, this.isDeleted, this.sId, this.category, this.title, this.subject, this.classes, this.term, this.user, this.status, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.assignmentNo, this.deleteReason});
+  AssignmentData({this.totalMarks, this.totalQuestions, this.link, this.isPost, this.saveList, this.isDeleted, this.sId, this.category, this.title, this.subject, this.classes, this.term, this.user, this.status, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.assignmentNo, this.deleteReason});
 
   AssignmentData.fromJson(Map<String, dynamic> json) {
   isPost = json['isPost'];
+  link = json['link'];
+  totalMarks = json['totalMarks'];
+  totalQuestions = json['totalQuestions'];
   saveList = json['saveList'].cast<String>();
   isDeleted = json['isDeleted'];
   sId = json['_id'];
@@ -77,6 +83,9 @@ class AssignmentData {
   data['saveList'] = this.saveList;
   data['isDeleted'] = this.isDeleted;
   data['_id'] = this.sId;
+  data['totalMarks'] = this.totalMarks;
+  data['totalQuestions'] = this.totalQuestions;
+  data['link'] = this.link;
   data['category'] = this.category;
   data['title'] = this.title;
   if (this.subject != null) {

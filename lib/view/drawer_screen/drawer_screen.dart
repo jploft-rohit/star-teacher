@@ -176,34 +176,32 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 buildExpensionTile("E-Library", [
                   GestureDetector(
                     onTap: (){
-                      Get.to(const ELibraryScreen(title: "Awareness & Courses"));
+                      Get.to(const ELibraryScreen(title: "Awareness & Courses", screenKey: "awarenessCourses",));
                     },
                     child: buildTile("Awareness & Courses"),
                   ),
                   GestureDetector(
                     onTap: (){
-                      Get.to(const ELibraryScreen(title: "Worksheet",));
+                      Get.to(const ELibraryScreen(title: "Worksheet", screenKey: "worksheet",));
                     },
                     child: buildTile("Worksheet"),
                   ),
                   GestureDetector(
                     onTap: (){
                       /// New
-                      Get.to(const ELibraryScreen(title: "Assessment",));
+                      Get.to(const ELibraryScreen(title: "Assessment", screenKey: "assessment"));
                     },
                     child: buildTile("Assessment"),
                   ),
                   GestureDetector(
                     onTap: (){
                       /// New
-                      Get.to(const ELibraryScreen(title: "Lab",));
+                      Get.to(const ELibraryScreen(title: "Lab", screenKey: "lab",));
                     },
                     child: buildTile("Lab"),
                   ),
                 ]),
-                SizedBox(
-                  height: 2.h,
-                ),
+                SizedBox(height: 2.h),
                 GestureDetector(
                   onTap: (){
                     Get.to(const ShopView(initialTabIndex: 0,));
@@ -218,7 +216,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   onTap: (){
                     Get.to(const TaskOrReminderScreen(isFromBtmBar: false,));
                   },
-                  child: buildTile1(translate(context).tasks_reminders)),
+                  child: buildTile1(translate(context).tasks_reminders),
+                ),
                 // GestureDetector(
                 //   onTap: (){
                 //     Get.to(ComplaintsReportScreen());
@@ -228,7 +227,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   onTap: (){
                     Get.to(const ScheduleMeetingScreen());
                   },
-                  child: buildTile1(translate(context).schedule_meeting),),
+                  child: buildTile1(translate(context).schedule_meeting),
+                ),
                 GestureDetector(
                   onTap: (){
                     Get.to(const LostAndFoundScreen());

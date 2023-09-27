@@ -119,6 +119,8 @@ class ScheduleMeetingScreenCtrl extends GetxController{
         BaseSuccessResponse baseSuccessResponse = BaseSuccessResponse();
         BaseAPI().post(url: ApiEndPoints().scheduleNewMeeting,data: data).then((value){
           if (value?.statusCode ==  200) {
+            selectedSchoolId.value = baseCtrl.schoolListData.data?.data?.first.sId??"";
+            schoolController.value.text = baseCtrl.schoolListData.data?.data?.first.name??"";
             Get.back();
             baseSuccessResponse = BaseSuccessResponse.fromJson(value?.data);
             BaseOverlays().showSnackBar(message: baseSuccessResponse.message??"",title: translate(Get.context!).success);

@@ -9,7 +9,7 @@ class ApiEndPoints {
   final String finalServer = 'https://www.stars-ai.com:4000/star-backend/api/';
   final String testingServerForClient = 'https://stars.tasksplan.com:5000/star-backend/api/'; //https://stars.tasksplan.com:5000/
 
-  final String concatBaseUrl = 'https://stars.tasksplan.com:5000';
+  final String concatBaseUrl = 'https://stars.tasksplan.com:4000';
 
   /// OnBoarding EndPoints
   final String loginNewUser = "auth/send-otp";
@@ -201,6 +201,7 @@ class ApiEndPoints {
 
   /// Rating
   final String rateBus = "transport/rate_bus";
+  final String rateDriver = "teacherRating/add";
 
   /// Exam Time Table
   final String getExamTimeTable = "exam-timetable/getExamTimetableApp";

@@ -12,10 +12,12 @@ import 'package:staff_app/route_manager/route_manager.dart' as route;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:staff_app/storage/base_shared_preference.dart';
 import 'package:staff_app/storage/sp_keys.dart';
+import 'package:staff_app/utility/base_utility.dart';
 import 'package:staff_app/utility/notificationService.dart';
 import 'package:staff_app/video_call_zego_utility/login_service.dart';
 import 'package:staff_app/view/login_screen/login_ctrl.dart';
 import 'package:staff_app/view/my_profile_screen/controller/my_profile_ctrl.dart';
+import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 import 'route_manager/route_name.dart';
@@ -45,13 +47,13 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  Get.lazyPut(()=>DashboardScreenCtrl(), fenix: true);
+  Get.lazyPut(()=>BaseCtrl(), fenix: true);
   Get.lazyPut(()=>LoginCtrl(), fenix: true);
-  final String? _userID = await BaseSharedPreference().getString(SpKeys().userId)??"";
-  final String? _userName = await BaseSharedPreference().getString(SpKeys().userName)??"";
-  if (_userID != null) {
-    currentUser.id = _userID;
-    currentUser.name = _userName??"";
+  final String? userID = await BaseSharedPreference().getString(SpKeys().userId)??"";
+  final String? userName = await BaseSharedPreference().getString(SpKeys().userName)??"";
+  if (userID != null) {
+    currentUser.id = userID;
+    currentUser.name = userName??"";
   }
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   // if(Platform.isAndroid)
@@ -104,12 +106,9 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    if(Platform.isAndroid)
-    {
-      initFirebase();
-      if (currentUser.id.isNotEmpty) {
-        onUserLogin();
-      }
+    initFirebase();
+    if (currentUser.id.isNotEmpty) {
+      onUserLogin();
     }
   }
 
@@ -125,8 +124,7 @@ class _MyAppState extends State<MyApp> {
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       log(message.toString());
-      print(
-          'Message title: ${message.notification?.title}, body: ${message.notification?.body}, data: ${message.data}');
+      print('Message title: ${message.notification?.title}, body: ${message.notification?.body}, data: ${message.data}');
       NotificationService.normaldisplay(1, message.notification!.title.toString(), message.notification!.body.toString());
     });
   }

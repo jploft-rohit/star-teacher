@@ -124,7 +124,7 @@ class _ComplaintsListTileState extends State<ComplaintsListTile> {
                       Visibility(
                         visible: userId == (controller.response?[index].createdBy??"") && (controller.response?[index].status?.name??"").toLowerCase() != "concern solved",
                         child: BaseIcons().edit(
-                        title: "Are you sure you want to edit this ${controller.response?[index].forEnquery??""}",
+                        title: "${translate(context).are_you_sure_you_want_to_edit_this} ${controller.response?[index].forEnquery??""}",
                         onRightButtonPressed: (){
                           BaseOverlays().dismissOverlay();
                           Get.to(RaiseComplaintReportScreen(isUpdating: true, data: controller.response?[index]));
@@ -137,7 +137,7 @@ class _ComplaintsListTileState extends State<ComplaintsListTile> {
                       Visibility(
                           visible: userId == (controller.response?[index].createdBy??"") && (controller.response?[index].status?.name??"").toLowerCase() != "concern solved",
                           child: BaseIcons().delete(
-                            title: "Are you sure you want to delete this ${controller.response?[index].forEnquery??""}",
+                            title: "${translate(context).are_you_sure_you_want_to_delete_this} ${controller.response?[index].forEnquery??""}",
                             onRightButtonPressed: (){
                               controller.deleteItem(id: controller.response?[index].sId??"", index: index);
                             },
@@ -176,34 +176,34 @@ class _ComplaintsListTileState extends State<ComplaintsListTile> {
                   const Divider(),
                   BaseDetailData(
                     prefixIcon: "assets/images/report.svg",
-                    detailsLabel: "Type",
+                    detailsLabel: translate(context).type,
                     detailsValue: toBeginningOfSentenceCase(controller.response?[index].forEnquery??"")??"",
                   ),
                   BaseDetailData(
                     prefixIcon: "assets/images/user.svg",
-                    detailsLabel: "Complaint On",
+                    detailsLabel: translate(context).complaint_on,
                     detailsValue: toBeginningOfSentenceCase(controller.response?[index].complaintUser?.role?.displayName??"")??"",
                   ),
                   BaseDetailData(
                     prefixIcon: "assets/images/user.svg",
-                    detailsLabel: "Person",
+                    detailsLabel: translate(context).person,
                     detailsValue: controller.response?[index].complaintUser?.name??"",
                   ),
                   BaseDetailData(
                     prefixIcon: "assets/images/report.svg",
-                    detailsLabel: "${toBeginningOfSentenceCase(controller.response?[index].forEnquery??"")} Type",
+                    detailsLabel: "${toBeginningOfSentenceCase(controller.response?[index].forEnquery??"")} ${translate(context).type}",
                     detailsValue: controller.response?[index].complaintType?.name??"",
                   ),
                   BaseDetailData(
                     prefixIcon: "assets/images/report.svg",
-                    detailsLabel: "Description",
+                    detailsLabel: translate(context).description,
                     detailsValue: controller.response?[index].description??"",
                   ),
                   Visibility(
                     visible: (controller.response?[index].resolverComment??"").isNotEmpty,
                     child: BaseDetailData(
                       prefixIcon: "assets/images/report.svg",
-                      detailsLabel: "Feedback",
+                      detailsLabel: translate(context).feedback,
                       detailsValue: controller.response?[index].resolverComment??"",
                     ),
                   ),
@@ -211,7 +211,7 @@ class _ComplaintsListTileState extends State<ComplaintsListTile> {
                     visible: (controller.response?[index].selfComment??"").isNotEmpty,
                     child: BaseDetailData(
                       prefixIcon: "assets/images/report.svg",
-                      detailsLabel: "Comment",
+                      detailsLabel: translate(context).comment,
                       detailsValue: controller.response?[index].selfComment??"",
                     ),
                   ),
@@ -344,7 +344,7 @@ showCommentDialog({itemId}){
                   children: [
                     CustomTextField(
                       controller: commentController,
-                      hintText: "Comment",maxLine: 4,
+                      hintText: translate(context).comment,maxLine: 4,
                       validator: (val){
                         if ((val??"").isEmpty) {
                           return "Please enter comment";
@@ -355,7 +355,7 @@ showCommentDialog({itemId}){
                     SizedBox(height: 2.h ,),
                     Align(
                         alignment: Alignment.topCenter,
-                        child: BaseButton(title: 'SUBMIT', onPressed: () {
+                        child: BaseButton(title: translate(context).submit_btn_txt, onPressed: () {
                           if (formKey.currentState?.validate()??false) {
                             controller.sendCommentComplaintReport(itemId: itemId, comment: commentController.text.trim());
                           }

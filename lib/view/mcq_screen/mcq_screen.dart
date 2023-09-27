@@ -133,18 +133,18 @@ class _MCQScreenState extends State<MCQScreen> {
                                 child: videoThumbnail(controller.getThumbnail(("${ApiEndPoints().concatBaseUrl}/star-backend/${controller.eLibraryQuestionResponse.value?.questions?[pageIndex].mediaFile ?? ""}").toString())),
                               ),
                             ),
-                            Container(
-                              padding: const EdgeInsets.all(65),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(13),
-                                color: Colors.transparent,
-                              ),
-                              height: 22.h,
-                              width: double.infinity,
-                              child: SvgPicture.asset(
-                                'assets/icon/play.svg',
-                              ),
-                            ),
+                            // Container(
+                            //   padding: const EdgeInsets.all(65),
+                            //   decoration: BoxDecoration(
+                            //     borderRadius: BorderRadius.circular(13),
+                            //     color: Colors.transparent,
+                            //   ),
+                            //   height: 22.h,
+                            //   width: double.infinity,
+                            //   child: SvgPicture.asset(
+                            //     'assets/images/ic_play.svg',
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),
@@ -181,6 +181,7 @@ class _MCQScreenState extends State<MCQScreen> {
                                   controller.selectedOptionList.clear();
                                   controller.selectedOptionList.add("option1");
                                   setState(() {});
+                                  controller.tts.speak(controller.eLibraryQuestionResponse.value?.questions?[pageIndex].option1?.text??"");
                                 },
                                 child: buildOptionType(
                                     value: controller.eLibraryQuestionResponse.value?.questions?[pageIndex].option1?.text ?? "",
@@ -192,6 +193,7 @@ class _MCQScreenState extends State<MCQScreen> {
                                 controller.selectedOptionList.clear();
                                 controller.selectedOptionList.add("option2");
                                 setState(() {});
+                                controller.tts.speak(controller.eLibraryQuestionResponse.value?.questions?[pageIndex].option2?.text??"");
                               },
                               child: buildOptionType(
                                   value: controller.eLibraryQuestionResponse.value?.questions?[pageIndex].option2?.text ?? "",
@@ -204,6 +206,7 @@ class _MCQScreenState extends State<MCQScreen> {
                                 controller.selectedOptionList.clear();
                                 controller.selectedOptionList.add("option3");
                                 setState(() {});
+                                controller.tts.speak(controller.eLibraryQuestionResponse.value?.questions?[pageIndex].option3?.text??"");
                               },
                               child: buildOptionType(
                                   value: controller.eLibraryQuestionResponse.value?.questions?[pageIndex].option3?.text ?? "",
@@ -216,6 +219,7 @@ class _MCQScreenState extends State<MCQScreen> {
                                 controller.selectedOptionList.clear();
                                 controller.selectedOptionList.add("option4");
                                 setState(() {});
+                                controller.tts.speak(controller.eLibraryQuestionResponse.value?.questions?[pageIndex].option4?.text??"");
                               },
                               child: buildOptionType(
                                   value: controller.eLibraryQuestionResponse.value?.questions?[pageIndex].option4?.text ?? "",
@@ -228,6 +232,7 @@ class _MCQScreenState extends State<MCQScreen> {
                                 controller.selectedOptionList.clear();
                                 controller.selectedOptionList.add("option5");
                                 setState(() {});
+                                controller.tts.speak(controller.eLibraryQuestionResponse.value?.questions?[pageIndex].option5?.text??"");
                               },
                               child: buildOptionType(
                                   value: controller.eLibraryQuestionResponse.value?.questions?[pageIndex].option5?.text ?? "",
@@ -240,6 +245,7 @@ class _MCQScreenState extends State<MCQScreen> {
                                 controller.selectedOptionList.clear();
                                 controller.selectedOptionList.add("option6");
                                 setState(() {});
+                                controller.tts.speak(controller.eLibraryQuestionResponse.value?.questions?[pageIndex].option6?.text??"");
                               },
                               child: buildOptionType(
                                   value: controller.eLibraryQuestionResponse.value?.questions?[pageIndex].option6?.text ?? "",
@@ -280,6 +286,7 @@ class _MCQScreenState extends State<MCQScreen> {
                                   } else {
                                     controller.selectedOptionList.add("option1");
                                   }
+                                  controller.tts.speak(controller.eLibraryQuestionResponse.value?.questions?[pageIndex].option1?.text??"");
                                   setState(() {});
                                 },
                                 child: buildOptionType(
@@ -294,6 +301,7 @@ class _MCQScreenState extends State<MCQScreen> {
                                 } else {
                                   controller.selectedOptionList.add("option2");
                                 }
+                                controller.tts.speak(controller.eLibraryQuestionResponse.value?.questions?[pageIndex].option2?.text??"");
                                 setState(() {});
                               },
                               child: buildOptionType(
@@ -309,6 +317,7 @@ class _MCQScreenState extends State<MCQScreen> {
                                 } else {
                                   controller.selectedOptionList.add("option3");
                                 }
+                                controller.tts.speak(controller.eLibraryQuestionResponse.value?.questions?[pageIndex].option3?.text??"");
                                 setState(() {});
                               },
                               child: buildOptionType(
@@ -324,6 +333,7 @@ class _MCQScreenState extends State<MCQScreen> {
                                 } else {
                                   controller.selectedOptionList.add("option4");
                                 }
+                                controller.tts.speak(controller.eLibraryQuestionResponse.value?.questions?[pageIndex].option4?.text??"");
                                 setState(() {});
                               },
                               child: buildOptionType(
@@ -340,6 +350,7 @@ class _MCQScreenState extends State<MCQScreen> {
                                   controller.selectedOptionList.add("option5");
                                 }
                                 setState(() {});
+                                controller.tts.speak(controller.eLibraryQuestionResponse.value?.questions?[pageIndex].option5?.text??"");
                               },
                               child: buildOptionType(
                                   value: controller.eLibraryQuestionResponse.value?.questions?[pageIndex].option5?.text ?? "",
@@ -355,6 +366,7 @@ class _MCQScreenState extends State<MCQScreen> {
                                   controller.selectedOptionList.add("option6");
                                 }
                                 setState(() {});
+                                controller.tts.speak(controller.eLibraryQuestionResponse.value?.questions?[pageIndex].option6?.text??"");
                               },
                               child: buildOptionType(
                                   value: controller.eLibraryQuestionResponse.value?.questions?[pageIndex].option6?.text ?? "",
@@ -483,18 +495,18 @@ class _MCQScreenState extends State<MCQScreen> {
                                     ("${ApiEndPoints().concatBaseUrl}/star-backend/${controller.data.value?.questions?[pageIndex].mediaFile ?? ""}").toString())),
                               ),
                             ),
-                            Container(
-                              padding: const EdgeInsets.all(65),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(13),
-                                color: Colors.transparent,
-                              ),
-                              height: 22.h,
-                              width: double.infinity,
-                              child: SvgPicture.asset(
-                                'assets/icon/play.svg',
-                              ),
-                            ),
+                            // Container(
+                            //   padding: const EdgeInsets.all(65),
+                            //   decoration: BoxDecoration(
+                            //     borderRadius: BorderRadius.circular(13),
+                            //     color: Colors.transparent,
+                            //   ),
+                            //   height: 22.h,
+                            //   width: double.infinity,
+                            //   child: SvgPicture.asset(
+                            //     'assets/images/ic_play.svg',
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),
@@ -537,6 +549,7 @@ class _MCQScreenState extends State<MCQScreen> {
                                   controller.selectedOptionList.clear();
                                   controller.selectedOptionList.add("option1");
                                   setState(() {});
+                                  controller.tts.speak(controller.data.value?.questions?[pageIndex].option1?.text??"");
                                 },
                                 child: buildOptionType(
                                     value: controller.data.value?.questions?[pageIndex].option1?.text ?? "",
@@ -548,6 +561,7 @@ class _MCQScreenState extends State<MCQScreen> {
                                 controller.selectedOptionList.clear();
                                 controller.selectedOptionList.add("option2");
                                 setState(() {});
+                                controller.tts.speak(controller.data.value?.questions?[pageIndex].option2?.text??"");
                               },
                               child: buildOptionType(
                                   value: controller.data.value?.questions?[pageIndex].option2?.text ?? "",
@@ -560,6 +574,7 @@ class _MCQScreenState extends State<MCQScreen> {
                                 controller.selectedOptionList.clear();
                                 controller.selectedOptionList.add("option3");
                                 setState(() {});
+                                controller.tts.speak(controller.data.value?.questions?[pageIndex].option3?.text??"");
                               },
                               child: buildOptionType(
                                   value: controller.data.value?.questions?[pageIndex].option3?.text ?? "",
@@ -572,6 +587,7 @@ class _MCQScreenState extends State<MCQScreen> {
                                 controller.selectedOptionList.clear();
                                 controller.selectedOptionList.add("option4");
                                 setState(() {});
+                                controller.tts.speak(controller.data.value?.questions?[pageIndex].option4?.text??"");
                               },
                               child: buildOptionType(
                                   value: controller.data.value?.questions?[pageIndex].option4?.text ?? "",
@@ -584,6 +600,7 @@ class _MCQScreenState extends State<MCQScreen> {
                                 controller.selectedOptionList.clear();
                                 controller.selectedOptionList.add("option5");
                                 setState(() {});
+                                controller.tts.speak(controller.data.value?.questions?[pageIndex].option5?.text??"");
                               },
                               child: buildOptionType(
                                   value: controller.data.value?.questions?[pageIndex].option5?.text ?? "",
@@ -596,6 +613,7 @@ class _MCQScreenState extends State<MCQScreen> {
                                 controller.selectedOptionList.clear();
                                 controller.selectedOptionList.add("option6");
                                 setState(() {});
+                                controller.tts.speak(controller.data.value?.questions?[pageIndex].option6?.text??"");
                               },
                               child: buildOptionType(
                                   value: controller.data.value?.questions?[pageIndex].option6?.text ?? "",
@@ -637,6 +655,7 @@ class _MCQScreenState extends State<MCQScreen> {
                                     controller.selectedOptionList.add("option1");
                                   }
                                   setState(() {});
+                                  controller.tts.speak(controller.data.value?.questions?[pageIndex].option1?.text??"");
                                 },
                                 child: buildOptionType(
                                     value: controller.data.value?.questions?[pageIndex].option1?.text ?? "",
@@ -651,6 +670,7 @@ class _MCQScreenState extends State<MCQScreen> {
                                   controller.selectedOptionList.add("option2");
                                 }
                                 setState(() {});
+                                controller.tts.speak(controller.data.value?.questions?[pageIndex].option2?.text??"");
                               },
                               child: buildOptionType(
                                   value: controller.data.value?.questions?[pageIndex].option2?.text ?? "",
@@ -666,6 +686,7 @@ class _MCQScreenState extends State<MCQScreen> {
                                   controller.selectedOptionList.add("option3");
                                 }
                                 setState(() {});
+                                controller.tts.speak(controller.data.value?.questions?[pageIndex].option3?.text??"");
                               },
                               child: buildOptionType(
                                   value: controller.data.value?.questions?[pageIndex].option3?.text ?? "",
@@ -681,6 +702,7 @@ class _MCQScreenState extends State<MCQScreen> {
                                   controller.selectedOptionList.add("option4");
                                 }
                                 setState(() {});
+                                controller.tts.speak(controller.data.value?.questions?[pageIndex].option4?.text??"");
                               },
                               child: buildOptionType(
                                   value: controller.data.value?.questions?[pageIndex].option4?.text ?? "",
@@ -696,6 +718,7 @@ class _MCQScreenState extends State<MCQScreen> {
                                   controller.selectedOptionList.add("option5");
                                 }
                                 setState(() {});
+                                controller.tts.speak(controller.data.value?.questions?[pageIndex].option5?.text??"");
                               },
                               child: buildOptionType(
                                   value: controller.data.value?.questions?[pageIndex].option5?.text ?? "",
@@ -711,6 +734,7 @@ class _MCQScreenState extends State<MCQScreen> {
                                   controller.selectedOptionList.add("option6");
                                 }
                                 setState(() {});
+                                controller.tts.speak(controller.data.value?.questions?[pageIndex].option6?.text??"");
                               },
                               child: buildOptionType(
                                   value: controller.data.value?.questions?[pageIndex].option6?.text ?? "",
@@ -773,33 +797,23 @@ class _MCQScreenState extends State<MCQScreen> {
   }
 
   Widget videoThumbnail(url) {
-    return FutureBuilder(
-      future: getThumbnail(url),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Image.file(
-            File(snapshot.data.toString()),
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          );
-          // return Image.memory();
-        } else {
-          return Container(
-            child: const Center(
-              child: CircularProgressIndicator(
-                color: Colors.white,
-              ),
-            ),
-          );
-        }
-      },
+    return Container(
+      padding: const EdgeInsets.all(65),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(13),
+        color: Colors.transparent,
+      ),
+      height: 22.h,
+      width: double.infinity,
+      child: SvgPicture.asset(
+        'assets/images/ic_play.svg',
+      ),
     );
   }
 
   getThumbnail(url) async {
     final fileName = await VideoThumbnail.thumbnailFile(
-      video: "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4",
+      video: url,
       thumbnailPath: (await getTemporaryDirectory()).path,
       imageFormat: ImageFormat.WEBP,
       quality: 100,

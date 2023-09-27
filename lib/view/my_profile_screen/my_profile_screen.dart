@@ -104,7 +104,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> with SingleTickerProv
                         children: [
                           Text(controller.response.value.data?.name??na, style: Style.montserratBoldStyle().copyWith(color: BaseColors.textBlackColor, fontSize: 17.sp)),
                           SizedBox(height: 0.5.h),
-                          BaseDetailData(bottomMargin: 1.5.h, showDivider: false, detailsLabel: translate(context).designation,detailsValue: controller.response.value.data?.designation??(translate(context).teacher)),
+                          BaseDetailData(bottomMargin: 0.5.h, showDivider: false, detailsLabel: translate(context).designation,detailsValue: controller.response.value.data?.designation??(translate(context).teacher)),
+                          BaseDetailData(showDivider: false, detailsLabel: "Unique ID",detailsValue: controller.response.value.data?.uniqueId??"N/A"),
                         ],
                       ),
                     ),

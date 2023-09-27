@@ -850,18 +850,20 @@ class DeactivateData {
   dynamic dueDate;
   dynamic deactivationReason;
   dynamic requiredEvidance;
+  dynamic reason;
   DeactivatedUser? deactivatedBy;
   DeactivatedUser? createdBy;
   DeactivatedUser? updatedBy;
   dynamic createdAt;
   dynamic updatedAt;
 
-  DeactivateData({this.status, this.isDeleted, this.sId, this.deactivatedUser, this.dueDate, this.deactivationReason, this.requiredEvidance, this.deactivatedBy, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt});
+  DeactivateData({this.reason ,this.status, this.isDeleted, this.sId, this.deactivatedUser, this.dueDate, this.deactivationReason, this.requiredEvidance, this.deactivatedBy, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt});
 
   DeactivateData.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     isDeleted = json['isDeleted'];
     sId = json['_id'];
+    reason = json['reason'];
     deactivatedUser = json['deactivatedUser'] != null ? DeactivatedUser.fromJson(json['deactivatedUser']) : null;
     dueDate = json['dueDate'];
     deactivationReason = json['deactivationReason'];
@@ -878,6 +880,7 @@ class DeactivateData {
     data['status'] = this.status;
     data['isDeleted'] = this.isDeleted;
     data['_id'] = this.sId;
+    data['reason'] = this.reason;
     if (this.deactivatedUser != null) {
       data['deactivatedUser'] = this.deactivatedUser!.toJson();
     }

@@ -22,6 +22,7 @@ import 'package:staff_app/utility/base_views/base_no_data.dart';
 import 'package:staff_app/utility/base_views/base_pagination_footer.dart';
 import 'package:staff_app/utility/base_views/base_school_selection.dart';
 import 'package:staff_app/view/Dashboard_screen/dashboard_screen_ctrl.dart';
+import 'package:staff_app/view/news_screen/controller/news_controller.dart';
 import 'package:staff_app/view/news_screen/news_details_screen.dart';
 import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 
@@ -35,25 +36,8 @@ class NewsScreen extends StatefulWidget {
 }
 
 class _NewsScreenState extends State<NewsScreen> {
-  final DashboardScreenCtrl controller = Get.find<DashboardScreenCtrl>();
-  BaseCtrl baseCtrl = Get.put(BaseCtrl());
+  final NewsController controller = Get.put(NewsController());
 
-  @override
-  void initState() {
-    super.initState();
-    controller.selectedSchoolId.value = baseCtrl.schoolListData.data?.data?.first.sId??"";
-    controller.schoolController.text = baseCtrl.schoolListData.data?.data?.first.name??"";
-    controller.selectedClassId.value = "";
-    controller.selectedClassName.value = "";
-    controller.selectedSectionId.value = "";
-    controller.selectedSectionName.value = "";
-    // controller.getBroadCastData(showLoader: true);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -150,9 +134,8 @@ class _NewsScreenState extends State<NewsScreen> {
               topMargin: 2.h,
               controller: controller.schoolController,
               onChanged: (value) async {
-                controller.selectedSchoolName.value = value.name??"";
+                controller.schoolController.text = value.name??"";
                 controller.selectedSchoolId.value = value.sId??"";
-                await baseCtrl.getClassList(schoolId: controller.selectedSchoolId.value);
                 controller.getBroadCastData();
               },
             ),
@@ -200,16 +183,14 @@ class _NewsScreenState extends State<NewsScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(controller.list?[index].title??"", style: Style.montserratMediumStyle().copyWith(fontWeight: FontWeight.w500, fontSize: 16.sp),),
-                                  SizedBox(
-                                    height: 1.h,
-                                  ),
+                                  SizedBox(height: 1.h),
                                   Text(controller.list?[index].message??"", style: Style.montserratRegularStyle().copyWith(fontSize: 14.sp, color: const Color(0xff072D4B), height: 2.0),),
                                   SizedBox(
                                     height: 2.h,
                                   ),
                                   Row(
                                     children: [
-                                      addText(controller.list?[index].user?.name??"", 13.sp, Colors.grey, FontWeight.w400),
+                                      addText("Added by "+(controller.list?[index].sender?.roleData?.displayName??""), 13.sp, Colors.grey, FontWeight.w400),
                                       SizedBox(
                                         width: 10.w,
                                       ),

@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:staff_app/backend/responses_model/area_list_response.dart';
 import 'package:staff_app/backend/responses_model/transportation_location_response.dart';
 import 'package:staff_app/utility/base_views/base_app_bar.dart';
 import 'package:staff_app/utility/base_views/base_button.dart';
@@ -21,6 +22,7 @@ import 'package:staff_app/language_classes/language_constants.dart';
 import 'package:staff_app/utility/base_views/base_overlays.dart';
 import 'package:staff_app/utility/base_views/base_textformfield.dart';
 import 'package:staff_app/utility/google_map.dart';
+import 'package:staff_app/view/splash_screen/controller/base_ctrl.dart';
 import 'package:staff_app/view/transportation_screen/controller/transportation_screen_ctrl.dart';
 
 class ChangeAddressScreen extends StatefulWidget {
@@ -35,6 +37,7 @@ class ChangeAddressScreen extends StatefulWidget {
 class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
 
   TransportationScreenCtrl controller = Get.find<TransportationScreenCtrl>();
+  BaseCtrl baseCtrl = Get.find<BaseCtrl>();
   String? longtitude, latitude;
 
   @override
@@ -74,8 +77,8 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                           hintText: translate(context).type_your_location,
                           hintTxtSize: 14.sp,
                           onTap: (){
-                              FocusScope.of(Get.context!).requestFocus(new FocusNode());
-                              Get.to(MapUiBody())?.then((value){
+                              FocusScope.of(Get.context!).requestFocus(FocusNode());
+                              Get.to(const MapUiBody())?.then((value){
                                 Map<String, dynamic> addressData = value;
                                 controller.addressLocationController.value.text=addressData['address'];
                                 controller.latitudeController.value.text = addressData['latitude'].toString();
@@ -94,8 +97,8 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                       ),
                       GestureDetector(
                         onTap: (){
-                            FocusScope.of(Get.context!).requestFocus(new FocusNode());
-                            Get.to(MapUiBody())?.then((value){
+                            FocusScope.of(Get.context!).requestFocus(FocusNode());
+                            Get.to(const MapUiBody())?.then((value){
                               Map<String, dynamic> addressData = value;
                               controller.addressLocationController.value.text=addressData['address'];
                               controller.latitudeController.value.text = addressData['latitude'].toString();
@@ -127,13 +130,10 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                             SizedBox(
                               height: .5.h,
                             ),
-                            CustomTextField(
-                              hintTextColor: Colors.grey.shade500,
-                              fillColor: BaseColors.txtFieldTextColor,
+                            BaseTextFormField(
                               controller: controller.sectorController.value,
-                              hintText: "Dubai",
-                              textInputType: TextInputType.streetAddress,
-                              borderRadius: 3.0,
+                              hintText: "Enter Sector",
+                              keyboardType: TextInputType.streetAddress,
                               validator: (val){
                                 if(controller.sectorController.value.text.isEmpty){
                                   return "Please Enter Sector Name";
@@ -152,26 +152,28 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                           children: [
                             Text(translate(context).area, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),),
                             SizedBox(height: .5.h),
-                            CustomTextField(
-                              hintTextColor: Colors.grey.shade500,
-                              fillColor: BaseColors.txtFieldTextColor,
+                            BaseTextFormField(
                               controller: controller.areaController.value,
-                              hintText: "Jumeriah",
-                              textInputType: TextInputType.streetAddress,
-                              borderRadius: 3.0,
-                              validator: (val){
-                                if(controller.areaController.value.text.isEmpty){
-                                  return "Please Enter Area Name";
-                                }
-                                return null;
+                              hintText: "Select Area",
+                              isDropDown: true,
+                              errorText: "Please Select Area",
+                              onChanged: (value){
+                                controller.areaController.value.text = value?.name??"";
+                                controller.selectedAreaID.value = value?.sId??"";
+                                setState(() {});
                               },
+                              items:  baseCtrl.areaList?.map((value) {
+                                return DropdownMenuItem<AreaListData>(
+                                  value: value,
+                                  child: addText(value.name??"", 16.sp, Colors.black, FontWeight.w400),);
+                              }).toList(),
+
                             ),
                           ],
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 3.h),
                   Row(
                     children: [
                       Flexible(
@@ -181,13 +183,10 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                           children: [
                             Text(translate(context).street, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),),
                             SizedBox(height: .5.h),
-                            CustomTextField(
-                              hintTextColor: Colors.grey.shade500,
-                              fillColor: BaseColors.txtFieldTextColor,
+                            BaseTextFormField(
                               controller: controller.streetController.value,
-                              textInputType: TextInputType.streetAddress,
-                              hintText: "53 B",
-                              borderRadius: 3.0,
+                              keyboardType: TextInputType.streetAddress,
+                              hintText: "Enter Street",
                               validator: (val){
                                 if(controller.streetController.value.text.isEmpty){
                                   return "Please Enter Street Name";
@@ -206,13 +205,10 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                           children: [
                             Text(translate(context).building_villa, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),),
                             SizedBox(height: .5.h),
-                            CustomTextField(
-                              hintTextColor: Colors.grey.shade500,
-                              fillColor: BaseColors.txtFieldTextColor,
+                            BaseTextFormField(
                               controller: controller.buildingController.value,
-                              hintText: "KM Tower A",
-                              textInputType: TextInputType.streetAddress,
-                              borderRadius: 3.0,
+                              hintText: "Enter Building Name",
+                              keyboardType: TextInputType.streetAddress,
                               validator: (val){
                                 if(controller.buildingController.value.text.isEmpty){
                                   return "Please Enter Building Name";
@@ -225,7 +221,6 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 3.h),
                   Row(
                     children: [
                       Flexible(
@@ -235,13 +230,10 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                           children: [
                             Text(translate(context).flat_villa_no, style: Style.montserratBoldStyle().copyWith(fontSize: 15.sp),),
                             SizedBox(height: .5.h),
-                            CustomTextField(
-                              hintTextColor: Colors.grey.shade500,
-                              fillColor: BaseColors.txtFieldTextColor,
+                            BaseTextFormField(
                               controller: controller.flatController.value,
-                              hintText: "#123456",
-                              textInputType: TextInputType.streetAddress,
-                              borderRadius: 3.0,
+                              hintText: "Enter Flat",
+                              keyboardType: TextInputType.streetAddress,
                               validator: (val){
                                 if(controller.flatController.value.text.isEmpty){
                                   return "Please Enter Flat Name";
@@ -264,13 +256,10 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                             SizedBox(
                               height: .5.h,
                             ),
-                            CustomTextField(
-                              hintTextColor: Colors.grey.shade500,
-                              fillColor: BaseColors.txtFieldTextColor,
+                            BaseTextFormField(
                               controller: controller.landmarkController.value,
-                              hintText: "Jumeriah",
-                              borderRadius: 3.0,
-                              textInputType: TextInputType.streetAddress,
+                              hintText: "Enter Landmark",
+                              keyboardType: TextInputType.streetAddress,
                               validator: (val){
                                 if(controller.landmarkController.value.text.isEmpty){
                                   return "Please Enter Landmark Name";
@@ -282,9 +271,6 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                         ),
                       ),
                     ],
-                  ),
-                  SizedBox(
-                    height: 3.h,
                   ),
                   Row(
                     children: [
@@ -299,7 +285,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                               hintTextColor: Colors.grey.shade500,
                               fillColor: BaseColors.txtFieldTextColor,
                               controller: controller.mobileController.value,
-                              hintText: "0503664321",
+                              hintText: "Enter Mobile",
                               textInputFormatter: [FilteringTextInputFormatter.digitsOnly],
                               borderRadius: 3.0,
                               textInputType: TextInputType.phone,
@@ -326,8 +312,8 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     SizedBox(width: 2.w),
-                                    Text("+"+(controller.selectedCountryCode.value),style: TextStyle(fontSize: textFormFieldHintTs)),
-                                    Icon(Icons.arrow_drop_down_rounded, color: Colors.grey),
+                                    Text("+${controller.selectedCountryCode.value}",style: TextStyle(fontSize: textFormFieldHintTs)),
+                                    const Icon(Icons.arrow_drop_down_rounded, color: Colors.grey),
                                   ],
                                 ),
                               ),
@@ -347,7 +333,7 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                               hintTextColor: Colors.grey.shade500,
                               fillColor: BaseColors.txtFieldTextColor,
                               controller: controller.landlineController.value,
-                              hintText: "043674882",
+                              hintText: "Enter Landline",
                               borderRadius: 3.0,
                               textInputType: TextInputType.phone,
                               textInputFormatter: [FilteringTextInputFormatter.digitsOnly],
@@ -374,8 +360,8 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     SizedBox(width: 2.w),
-                                    Text("+"+(controller.selectedLandlineCode.value),style: TextStyle(fontSize: textFormFieldHintTs)),
-                                    Icon(Icons.arrow_drop_down_rounded, color: Colors.grey),
+                                    Text("+${controller.selectedLandlineCode.value}",style: TextStyle(fontSize: textFormFieldHintTs)),
+                                    const Icon(Icons.arrow_drop_down_rounded, color: Colors.grey),
                                   ],
                                 ),
                               ),
@@ -421,8 +407,8 @@ class _ChangeAddressScreenState extends State<ChangeAddressScreen> {
                           );
                         },
                       ),
-                      SizedBox(height: 0.5.h),
-                      Text("${translate(context).photo_uploaded} 132KB", style: TextStyle(color: Color(0xff1C6BA4),fontSize: 13.sp),),
+                      // SizedBox(height: 0.5.h),
+                      // Text("${translate(context).photo_uploaded} 132KB", style: TextStyle(color: Color(0xff1C6BA4),fontSize: 13.sp),),
                       SizedBox(height: 5.h),
                       Center(child: BaseButton(title: translate(context).send_request, onPressed: (){
                         if (widget.isUpdating??false) {

@@ -106,18 +106,18 @@ class _NewAssignmentListTileState extends State<NewAssignmentListTile> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          BaseDetailData(showDivider: false,detailsLabel: "Submit Date",detailsValue: formatBackendDate(controller.list?[index]?.submitDate??""),prefixIcon: "assets/images/Vector (1).svg"),
+                          BaseDetailData(showDivider: false,detailsLabel: "Assigned Date",detailsValue: formatBackendDate(controller.list?[index]?.postDate??""),prefixIcon: "assets/images/Vector (1).svg"),
                           Container(height: 20.0,width: 1, color: BaseColors.borderColor),
-                          BaseDetailData(showDivider: false,detailsLabel: "Submit Time",detailsValue: getFormattedTime(controller.list?[index]?.submitTime??""),prefixIcon: "assets/images/time_icon.svg"),
+                          BaseDetailData(showDivider: false,detailsLabel: "Assigned Time",detailsValue: getFormattedTime(controller.list?[index]?.postTime??""),prefixIcon: "assets/images/time_icon.svg"),
                         ],
                       ),
                       const Divider(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          BaseDetailData(showDivider: false,detailsLabel: "Assigned Date",detailsValue: formatBackendDate(controller.list?[index]?.createdAt??""),prefixIcon: "assets/images/time_icon.svg"),
+                          BaseDetailData(showDivider: false,detailsLabel: "Submit Date",detailsValue: formatBackendDate(controller.list?[index]?.submitDate??""),prefixIcon: "assets/images/Vector (1).svg"),
                           Container(height: 20.0,width: 1, color: BaseColors.borderColor),
-                          BaseDetailData(showDivider: false,detailsLabel: "Assigned Time",detailsValue: getFormattedTime(controller.list?[index]?.createdAt??""),prefixIcon: "assets/images/time_icon.svg"),
+                          BaseDetailData(showDivider: false,detailsLabel: "Submit Time",detailsValue: getFormattedTime(controller.list?[index]?.submitTime??""),prefixIcon: "assets/images/time_icon.svg"),
                         ],
                       ),
                       const Divider(),
@@ -146,16 +146,15 @@ class _NewAssignmentListTileState extends State<NewAssignmentListTile> {
                         visible: (widget.title.toLowerCase()) != "worksheet",
                         child: Visibility(
                           visible: ((controller.list?[index]?.assignTo?.idDocument)?.length??0) != 0,
-                            child: const Divider()),
+                            child: const Divider(),
+                        ),
                       ),
                       Visibility(
-                        visible: (widget.title.toLowerCase()) != "worksheet",
-                        child: Visibility(
-                            visible: (controller.list?[index]?.link??"").toString().isNotEmpty,
-                            child: Text(controller.list?[index]?.link??"",style: TextStyle(fontWeight: FontWeight.w700,color: BaseColors.primaryColor,fontSize: 15.sp))),
+                        visible: (widget.title.toLowerCase()) != "worksheet" && (controller.list?[index]?.link??"").toString().isNotEmpty,
+                        child: Text(controller.list?[index]?.link??"",style: TextStyle(fontWeight: FontWeight.w700,color: BaseColors.primaryColor,fontSize: 15.sp)),
                       ),
                       Visibility(
-                        visible: (widget.title.toLowerCase()) == "worksheet",
+                        visible: (widget.title.toLowerCase()) == "worksheet" && (controller.list?[index]?.description??"").toString().isNotEmpty,
                           child: BaseDetailData(detailsLabel: "Description",
                               detailsValue: controller.list?[index]?.description??"N/A",
                               prefixIcon: "assets/images/Vector (1).svg",

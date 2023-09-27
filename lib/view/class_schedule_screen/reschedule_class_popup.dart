@@ -372,11 +372,11 @@ class _RescheduleClassPopupState extends State<RescheduleClassPopup> {
                   ),
                 SizedBox(height: 3.h),
                 Center(
-                  child: BaseButton(borderRadius: 100,btnType: mediumButton,title: "SUBMIT", onPressed: (){
-                    if (controller.selectedRescheduleDate.value != "Select Date") {
-                      if (controller.selectedInTime.value != "Select In Time") {
-                        if (controller.selectedOutTime.value != "Select Out Time") {
-                          if (controller.selectedTeacherName.value != "Select Teacher") {
+                  child: BaseButton(borderRadius: 100,btnType: mediumButton,title: translate(context).submit_btn_txt, onPressed: (){
+                    if (controller.selectedRescheduleDate.value != translate(context).select_date) {
+                      if (controller.selectedInTime.value != translate(context).select_in_time) {
+                        if (controller.selectedOutTime.value != translate(context).select_out_time) {
+                          if (controller.selectedTeacherName.value != translate(context).select_teacher) {
                             BaseOverlays().dismissOverlay();
                               controller.notifyAdminClassSchedule(
                                 reason: widget.reason,
@@ -388,16 +388,16 @@ class _RescheduleClassPopupState extends State<RescheduleClassPopup> {
                                 // outTime: ,
                               );
                           }else{
-                            baseToast(message: "Please Select Teacher");
+                            baseToast(message: translate(context).please_select_teacher);
                           }
                         }else{
-                          baseToast(message: "Please Select Out Time");
+                          baseToast(message: translate(context).please_select_out_time);
                         }
                       }else{
-                        baseToast(message: "Please Select In Time");
+                        baseToast(message: translate(context).please_select_in_time);
                       }
                     }else{
-                      baseToast(message: "Please Select Date");
+                      baseToast(message: translate(context).please_select_date);
                     }
                   }),
                 ),
